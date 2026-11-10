@@ -63,7 +63,7 @@ export class NotFound
 
 export interface CreateReferralPartnerRequest {
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface CreateReferralPartnerResponse {
   /** The caller's referral link -- businesses that sign up through it are attributed to the caller. */
@@ -404,7 +404,7 @@ export type GetPartnerLeaderboardRequestPeriod =
   | "all_time";
 export interface GetPartnerLeaderboardRequest {
   /** Time window for the rankings. `day`, `month`, and `year` count earnings since the start of the current calendar day, month, or year; `last_30_days` counts earnings over the trailing 30 days; `all_time` ranks lifetime earnings. */
-  period?: GetPartnerLeaderboardRequestPeriod | (string & {});
+  period?: GetPartnerLeaderboardRequestPeriod | (string & {}) | undefined;
 }
 /** The user's profile picture. Present only on the caller's own entry. */
 export type GetPartnerLeaderboardResponseLeadersItemUserProfilePicture =
@@ -416,13 +416,13 @@ export interface GetPartnerLeaderboardResponseLeadersItemUser {
   /** The country where the referrer is located, derived from their IP address. Null if location sharing is disabled. */
   country: string | null;
   /** User ID, prefixed `user_`. Present only on the caller's own entry. */
-  id?: string;
+  id?: string | undefined;
   /** The user's display name. Present only on the caller's own entry. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The user's profile picture. Present only on the caller's own entry. */
-  profile_picture?: GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
+  profile_picture?: GetPartnerBusinessResponseBlueprintPartnerProfilePicture | undefined;
   /** The user's unique username. Present only on the caller's own entry. */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetPartnerLeaderboardResponseLeadersItem {
   /** When the referrer's earliest partner business became active. */
@@ -478,25 +478,25 @@ export interface ListPartnerBusinessEarningsRequest {
   /** The partner business ID (a coma_ identifier). */
   id: string;
   /** Filter by earning status. */
-  status?: ListPartnerBusinessEarningsRequestStatus | (string & {});
+  status?: ListPartnerBusinessEarningsRequestStatus | (string & {}) | undefined;
   /** Filter to earnings from these income sources. Repeat the parameter for each one (income_source=sales&income_source=ad_spend). */
-  income_source?: ListPartnerBusinessEarningsRequestIncomeSourceList;
+  income_source?: ListPartnerBusinessEarningsRequestIncomeSourceList | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The field to sort earnings by. */
-  order?: ListPartnerBusinessEarningsRequestOrder | (string & {});
+  order?: ListPartnerBusinessEarningsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListPartnerBusinessEarningsRequestDirection | (string & {});
+  direction?: ListPartnerBusinessEarningsRequestDirection | (string & {}) | undefined;
   /** Only return earnings created before this timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only return earnings created after this timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
 }
 /** Referred account. */
 export interface ListPartnerBusinessEarningsResponseDataItemAccount {
@@ -660,33 +660,33 @@ export type ListPartnerBusinessesRequestDirection = "asc" | "desc";
 export type ListPartnerBusinessesRequestTier = "first" | "second" | "blueprint";
 export interface ListPartnerBusinessesRequest {
   /** Filter by referral status. */
-  status?: ListPartnerBusinessesRequestStatus | (string & {});
+  status?: ListPartnerBusinessesRequestStatus | (string & {}) | undefined;
   /** When true, only businesses with pending or completed earnings paid to the caller. */
-  has_earnings?: boolean;
+  has_earnings?: boolean | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The field to sort partner businesses by. */
-  order?: ListPartnerBusinessesRequestOrder | (string & {});
+  order?: ListPartnerBusinessesRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListPartnerBusinessesRequestDirection | (string & {});
+  direction?: ListPartnerBusinessesRequestDirection | (string & {}) | undefined;
   /** Only return partner businesses created before this timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only return partner businesses created after this timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Filter to referrals attributed to this user. For first-tier referrals, this is the referred account owner; for second-tier referrals, this is the partner you recruited. */
-  referred_user_id?: string;
+  referred_user_id?: string | undefined;
   /** Filter by the referred user's exact username. Ignored when `referred_user_id` is present. */
-  referred_username?: string;
+  referred_username?: string | undefined;
   /** Filter to referrals from a single tier: first, second, or blueprint. */
-  tier?: ListPartnerBusinessesRequestTier | (string & {});
+  tier?: ListPartnerBusinessesRequestTier | (string & {}) | undefined;
   /** Case-insensitive business-name prefix, or an exact `biz_` account ID. Surrounding whitespace is ignored; blank values apply no filter. */
-  business_prefix_query?: string;
+  business_prefix_query?: string | undefined;
 }
 /** Referred account. */
 export type ListPartnerBusinessesResponseDataItemAccount =
@@ -762,19 +762,19 @@ export interface ListPartnerBusinessesResponse {
 }
 export interface ListReferredUsersRequest {
   /** Search referred users by name or username. */
-  query?: string;
+  query?: string | undefined;
   /** When true, only referred users who brought at least one business onto Whop. */
-  has_businesses?: boolean;
+  has_businesses?: boolean | undefined;
   /** When true, only referred users with at least one business that has generated earnings. */
-  has_earning_businesses?: boolean;
+  has_earning_businesses?: boolean | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface Money {
   /** The amount in major units, as an exact decimal string -- `"10.00"` is ten dollars. A string so no float rounds it in transit. */
@@ -787,16 +787,16 @@ export interface Money {
   display_decimals: number;
 }
 export interface ListReferredUsersResponseDataItemUserProfilePicture {
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface ListReferredUsersResponseDataItemUser {
-  city?: string | null;
-  country?: string | null;
+  city?: string | null | undefined;
+  country?: string | null | undefined;
   /** The referred user's email address, so a partner can follow up with someone they brought onto Whop. Requires the `partner:email:read` scope; `null` without it, or while the account has no reachable address of its own. */
   email: string | null;
   id: string;
-  name?: string | null;
-  profile_picture?: ListReferredUsersResponseDataItemUserProfilePicture;
+  name?: string | null | undefined;
+  profile_picture?: ListReferredUsersResponseDataItemUserProfilePicture | undefined;
   username: string;
 }
 export interface ListReferredUsersResponseDataItem {

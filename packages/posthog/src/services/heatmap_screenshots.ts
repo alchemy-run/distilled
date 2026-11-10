@@ -48,7 +48,7 @@ export interface GetHeatmapScreenshotsContentRequest {
   /** A UUID string identifying this saved heatmap. */
   id: string;
   /** Viewport width (CSS pixels) to fetch. Defaults to 1024. If no exact render exists for this width the closest available one is returned. */
-  width?: number;
+  width?: number | undefined;
 }
 export interface GetHeatmapScreenshotsContentResponse {}
 export type GetHeatmapScreenshotsContentError = Forbidden | NotFound | PosthogOpError;

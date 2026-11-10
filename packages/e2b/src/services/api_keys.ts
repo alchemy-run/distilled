@@ -55,9 +55,9 @@ export interface CreatedTeamAPIKey {
   name: string;
   /** Timestamp of API key creation */
   createdAt: string;
-  createdBy?: TeamUser | null;
+  createdBy?: TeamUser | null | undefined;
   /** Last time this API key was used */
-  lastUsed?: string | null;
+  lastUsed?: string | null | undefined;
 }
 export interface DeleteApiKeyRequest {
   apiKeyID: string;
@@ -72,9 +72,9 @@ export interface TeamAPIKey {
   mask: IdentifierMaskingDetails;
   /** Timestamp of API key creation */
   createdAt: string;
-  createdBy?: TeamUser | null;
+  createdBy?: TeamUser | null | undefined;
   /** Last time this API key was used */
-  lastUsed?: string | null;
+  lastUsed?: string | null | undefined;
 }
 export type ListApiKeysResponseBodyList = Array<TeamAPIKey>;
 export type ListApiKeysResponse = ListApiKeysResponseBodyList;

@@ -59,35 +59,35 @@ export interface CreateRuleRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateRuleRequestRegionId | (string & {});
   /** A description for the rule. */
-  description?: string;
+  description?: string | undefined;
   /** The direction of the traffic, typically "ingress" or "egress". */
-  direction?: string;
+  direction?: string | undefined;
   /** Specifies the bound of the rule. */
-  etherType?: string;
+  etherType?: string | undefined;
   /** The ID of the product, similar to a project ID. */
   instanceId: string;
   /** Position in the list. */
-  offset?: number;
+  offset?: number | undefined;
   /** The Port range to which the rule applies. */
-  portRange?: string;
+  portRange?: string | undefined;
   /** The source service (e.g., Load Balancer, Redis). */
   product: string;
   /** The network protocol (e.g., "TCP", "UDP", "ICMP"). */
-  protocol?: string;
+  protocol?: string | undefined;
   /** The ID of the Group. */
-  remoteSecurityGroupId?: string;
+  remoteSecurityGroupId?: string | undefined;
   /** The ID of the Group. */
-  securityGroupId?: string;
+  securityGroupId?: string | undefined;
   /** The IP (CIDR) to which the rule applies. */
   sourceIP: string;
   /** Indicates whether the security group rule is stateful or stateless (used only for security groups, default value for them will be true). */
-  stateful?: boolean;
-  /** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
+  stateful?: boolean | undefined;
+  /** The type of the rule (e.g., "ACL", "SecurityRule"). */
   type: string;
 }
 export interface CreateRuleResponse {
   /** Represents the uuid of the created rule */
-  refId?: string;
+  refId?: string | undefined;
 }
 export type DeleteRuleRequestRegionId = "eu01" | "eu02";
 export interface DeleteRuleRequest {
@@ -100,7 +100,7 @@ export interface DeleteRuleRequest {
 }
 export interface DeleteRuleResponse {
   /** Represents if the call was successfully made */
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export type GetRuleRequestRegionId = "eu01" | "eu02";
 export interface GetRuleRequest {
@@ -119,39 +119,40 @@ export type RuleResponseStatus =
   | "Updating"
   | "Deleting"
   | "Creating";
-/** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
-export type RuleResponseType = "ACL" | "PublicIP" | "SecurityRule" | "SecurityGroup";
+/** The type of the rule (e.g., "ACL", "SecurityRule"). */
+export type RuleResponseType = "ACL" | "SecurityRule" | "SecurityGroup";
 export interface RuleResponse {
-  description?: string;
+  description?: string | undefined;
   destination: string;
-  direction?: string;
-  errorMessage?: string;
-  etherType?: string;
+  direction?: string | undefined;
+  errorMessage?: string | undefined;
+  etherType?: string | undefined;
   instanceId: string;
-  instanceName?: string;
-  ipRange?: string;
-  offset?: number;
-  portRange?: string;
+  instanceName?: string | undefined;
+  ipRange?: string | undefined;
+  offset?: number | undefined;
+  portRange?: string | undefined;
   product: string;
-  protocol?: string;
-  refId?: string;
-  region?: string;
-  remoteSecurityGroupId?: string;
-  securityGroupId?: string;
+  protocol?: string | undefined;
+  refId?: string | undefined;
+  region?: string | undefined;
+  remoteSecurityGroupId?: string | undefined;
+  remoteSecurityGroupName?: string | undefined;
+  securityGroupId?: string | undefined;
   sourceIP: string;
-  stateful?: boolean;
+  stateful?: boolean | undefined;
   /** The current state of the resource. */
   status: RuleResponseStatus;
-  /** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
+  /** The type of the rule (e.g., "ACL", "SecurityRule"). */
   type: RuleResponseType;
 }
 export interface ListFolderContainersRequest {
   /** The STACKIT portal folder UUID */
   folderId: string;
   /** The maximum number of items to return in the response. If maximum is exceeded, maximum is used. */
-  limit?: number;
+  limit?: number | undefined;
   /** A pagination cursor that represents a position in the dataset. If given, results will be returned from the item after the cursor. If not given, results will be returned from the beginning. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ContainerResponse {
   id: string;
@@ -168,9 +169,9 @@ export interface ListOrganizationContainersRequest {
   /** The STACKIT portal organization UUID */
   organizationId: string;
   /** The maximum number of items to return in the response. If maximum is exceeded, maximum is used. */
-  limit?: number;
+  limit?: number | undefined;
   /** A pagination cursor that represents a position in the dataset. If given, results will be returned from the item after the cursor. If not given, results will be returned from the beginning. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListProviderOptionsRequestRegionId = "eu01" | "eu02";
 export interface ListProviderOptionsRequest {
@@ -202,36 +203,36 @@ export interface ListRulesRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: ListRulesRequestRegionId | (string & {});
   /** The UUID of the group. */
-  securityGroupId?: string;
+  securityGroupId?: string | undefined;
   /** The product service (e.g., Load Balancer, Redis). */
-  product?: string;
+  product?: string | undefined;
   /** The ID of the source, similar to a project ID but for the product service instance. */
-  instanceId?: string;
-  /** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
-  type?: string;
+  instanceId?: string | undefined;
+  /** The type of the rule (e.g., "ACL", "SecurityRule"). */
+  type?: string | undefined;
   /** The IP for the rule. */
-  sourceIP?: string;
+  sourceIP?: string | undefined;
   /** The port range for the rule. */
-  portRange?: string;
+  portRange?: string | undefined;
   /** The protocol for the rule (e.g., "tcp", "udp"). */
-  protocol?: string;
+  protocol?: string | undefined;
   /** The direction of the rule (e.g., "ingress", "egress"). */
-  direction?: ListRulesRequestDirection | (string & {});
+  direction?: ListRulesRequestDirection | (string & {}) | undefined;
   /** The ether type for the rule. */
-  etherType?: string;
+  etherType?: string | undefined;
   /** The field to sort the response by. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** The order to sort the response by. */
-  sortOrder?: ListRulesRequestSortOrder | (string & {});
+  sortOrder?: ListRulesRequestSortOrder | (string & {}) | undefined;
   /** The maximum number of items to return in the response. If maximum is exceeded, maximum is used. */
-  limit?: number;
+  limit?: number | undefined;
   /** A pagination cursor that represents a position in the dataset. If given, results will be returned from the item after the cursor. If not given, results will be returned from the beginning. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListRulesResponseErrorsList = Array<string>;
 export type ListRulesResponseRulesList = Array<RuleResponse>;
 export interface ListRulesResponse {
-  errors?: ListRulesResponseErrorsList;
+  errors?: ListRulesResponseErrorsList | undefined;
   rules: ListRulesResponseRulesList;
 }
 export type UpdateRuleRequestRegionId = "eu01" | "eu02";
@@ -243,21 +244,21 @@ export interface UpdateRuleRequest {
   /** The STACKIT security rule UUID. */
   ruleId: string;
   /** The direction of the traffic, typically "ingress" or "egress". */
-  direction?: string;
+  direction?: string | undefined;
   /** Specifies the bound of the rule. */
-  etherType?: string;
+  etherType?: string | undefined;
   /** The Port range to which the rule applies. */
-  portRange?: string;
+  portRange?: string | undefined;
   /** The network protocol (e.g., "TCP", "UDP", "ICMP"). */
-  protocol?: string;
+  protocol?: string | undefined;
   /** The ID of the Group. */
-  securityGroupId?: string;
+  securityGroupId?: string | undefined;
   /** The IP (CIDR) to which the rule applies. */
   sourceIP: string;
 }
 export interface UpdateRuleResponse {
   /** Represents the uuid of the updated rule */
-  refId?: string;
+  refId?: string | undefined;
 }
 export type CreateRuleError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Create rule for a project Returns the created rule for a specific project */
@@ -526,6 +527,7 @@ function __c5(j: number): any {
           refId: S.optional(S.String),
           region: S.optional(S.String),
           remoteSecurityGroupId: S.optional(S.String),
+          remoteSecurityGroupName: S.optional(S.String),
           securityGroupId: S.optional(S.String),
           sourceIP: S.String,
           stateful: S.optional(S.Boolean),

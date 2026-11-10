@@ -24,10 +24,10 @@ const TELEMETRY = {
 } as const;
 
 export interface AttemptAwaitRequest {
-  attemptToken?: string;
-  requestedAt?: number;
+  attemptToken?: string | undefined;
+  requestedAt?: number | undefined;
   /** Used for waypoints. */
-  timeoutSecs?: number;
+  timeoutSecs?: number | undefined;
 }
 /** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
@@ -56,9 +56,9 @@ export interface GenericResult {
   /** Pickled traceback object. */
   tbLineCache: string;
   /** Pickled line cache for traceback object. */
-  data?: string;
+  data?: string | undefined;
   /** Inline data of the result. */
-  dataBlobId?: string;
+  dataBlobId?: string | undefined;
   /** Blob ID for large data. */
   propagationReason: string;
 }
@@ -70,7 +70,7 @@ export type DataFormat =
   | "DATA_FORMAT_GENERATOR_DONE"
   | "DATA_FORMAT_CBOR";
 export interface FunctionGetOutputsItem {
-  result?: GenericResult;
+  result?: GenericResult | undefined;
   idx: number;
   inputId: string;
   dataFormat: DataFormat;
@@ -82,47 +82,47 @@ export interface FunctionGetOutputsItem {
   fcTraceTag: string;
 }
 export interface AttemptAwaitResponse {
-  output?: FunctionGetOutputsItem;
+  output?: FunctionGetOutputsItem | undefined;
 }
 export interface FunctionInput {
   /** serialized (args, kwargs). */
-  args?: string;
-  argsBlobId?: string;
-  finalInput?: boolean;
-  dataFormat?: DataFormat | (string & {});
+  args?: string | undefined;
+  argsBlobId?: string | undefined;
+  finalInput?: boolean | undefined;
+  dataFormat?: DataFormat | (string & {}) | undefined;
   /** For args_oneof. */
-  methodName?: string;
+  methodName?: string | undefined;
 }
 export type BlobUploadResultOutcome = "OUTCOME_UNSPECIFIED" | "OUTCOME_SUCCESS" | "OUTCOME_FAILURE";
 export interface BlobUploadResult {
-  blobId?: string;
+  blobId?: string | undefined;
   /** The blob id (from BlobCreateResponse) that this upload attempt targeted. */
-  outcome?: BlobUploadResultOutcome | (string & {});
-  throughputBytesS?: string;
+  outcome?: BlobUploadResultOutcome | (string & {}) | undefined;
+  throughputBytesS?: string | undefined;
 }
 export type BlobUploadResultList = Array<BlobUploadResult>;
 export interface FunctionPutInputsItem {
-  idx?: number;
-  input?: FunctionInput;
-  r2Failed?: boolean;
+  idx?: number | undefined;
+  input?: FunctionInput | undefined;
+  r2Failed?: boolean | undefined;
   /** r2_latency_ms */
-  r2ThroughputBytesS?: string;
-  blobUploadResults?: BlobUploadResultList;
+  r2ThroughputBytesS?: string | undefined;
+  blobUploadResults?: BlobUploadResultList | undefined;
 }
 export interface RetryAttemptRequest {
-  functionId?: string;
-  parentInputId?: string;
-  input?: FunctionPutInputsItem;
-  attemptToken?: string;
+  functionId?: string | undefined;
+  parentInputId?: string | undefined;
+  input?: FunctionPutInputsItem | undefined;
+  attemptToken?: string | undefined;
 }
 export interface RetryAttemptResponse {
   attemptToken: string;
 }
 export interface StartAttemptRequest {
-  functionId?: string;
-  parentInputId?: string;
-  input?: FunctionPutInputsItem;
-  proxied?: boolean;
+  functionId?: string | undefined;
+  parentInputId?: string | undefined;
+  input?: FunctionPutInputsItem | undefined;
+  proxied?: boolean | undefined;
 }
 export interface FunctionRetryPolicy {
   backoffCoefficient: number;
@@ -133,7 +133,7 @@ export interface FunctionRetryPolicy {
 }
 export interface StartAttemptResponse {
   attemptToken: string;
-  retryPolicy?: FunctionRetryPolicy;
+  retryPolicy?: FunctionRetryPolicy | undefined;
 }
 export type AttemptAwaitError = ModalOpError;
 /** Input Plane */

@@ -445,7 +445,7 @@ export type SecondaryGids = number[];
 export interface PosixUser {
   Uid: number;
   Gid: number;
-  SecondaryGids?: number[];
+  SecondaryGids?: number[] | undefined;
 }
 export type Path = string;
 export type OwnerUid = number;
@@ -457,15 +457,15 @@ export interface CreationInfo {
   Permissions: string;
 }
 export interface RootDirectory {
-  Path?: string;
-  CreationInfo?: CreationInfo;
+  Path?: string | undefined;
+  CreationInfo?: CreationInfo | undefined;
 }
 export interface CreateAccessPointRequest {
   ClientToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   FileSystemId: string;
-  PosixUser?: PosixUser;
-  RootDirectory?: RootDirectory;
+  PosixUser?: PosixUser | undefined;
+  RootDirectory?: RootDirectory | undefined;
 }
 export type Name = string;
 export type AccessPointId = string;
@@ -480,16 +480,16 @@ export type LifeCycleState =
   | "error"
   | (string & {});
 export interface AccessPointDescription {
-  ClientToken?: string;
-  Name?: string;
-  Tags?: Tag[];
-  AccessPointId?: string;
-  AccessPointArn?: string;
-  FileSystemId?: string;
-  PosixUser?: PosixUser;
-  RootDirectory?: RootDirectory;
-  OwnerId?: string;
-  LifeCycleState?: LifeCycleState;
+  ClientToken?: string | undefined;
+  Name?: string | undefined;
+  Tags?: Tag[] | undefined;
+  AccessPointId?: string | undefined;
+  AccessPointArn?: string | undefined;
+  FileSystemId?: string | undefined;
+  PosixUser?: PosixUser | undefined;
+  RootDirectory?: RootDirectory | undefined;
+  OwnerId?: string | undefined;
+  LifeCycleState?: LifeCycleState | undefined;
 }
 export type CreationToken = string;
 export type PerformanceMode = "generalPurpose" | "maxIO" | (string & {});
@@ -501,14 +501,14 @@ export type AvailabilityZoneName = string;
 export type Backup = boolean;
 export interface CreateFileSystemRequest {
   CreationToken: string;
-  PerformanceMode?: PerformanceMode;
-  Encrypted?: boolean;
-  KmsKeyId?: string;
-  ThroughputMode?: ThroughputMode;
-  ProvisionedThroughputInMibps?: number;
-  AvailabilityZoneName?: string;
-  Backup?: boolean;
-  Tags?: Tag[];
+  PerformanceMode?: PerformanceMode | undefined;
+  Encrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  ThroughputMode?: ThroughputMode | undefined;
+  ProvisionedThroughputInMibps?: number | undefined;
+  AvailabilityZoneName?: string | undefined;
+  Backup?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type FileSystemArn = string;
 export type MountTargetCount = number;
@@ -516,35 +516,35 @@ export type FileSystemSizeValue = number;
 export type FileSystemNullableSizeValue = number;
 export interface FileSystemSize {
   Value: number;
-  Timestamp?: Date;
-  ValueInIA?: number;
-  ValueInStandard?: number;
-  ValueInArchive?: number;
+  Timestamp?: Date | undefined;
+  ValueInIA?: number | undefined;
+  ValueInStandard?: number | undefined;
+  ValueInArchive?: number | undefined;
 }
 export type AvailabilityZoneId = string;
 export type ReplicationOverwriteProtection = "ENABLED" | "DISABLED" | "REPLICATING" | (string & {});
 export interface FileSystemProtectionDescription {
-  ReplicationOverwriteProtection?: ReplicationOverwriteProtection;
+  ReplicationOverwriteProtection?: ReplicationOverwriteProtection | undefined;
 }
 export interface FileSystemDescription {
   OwnerId: string;
   CreationToken: string;
   FileSystemId: string;
-  FileSystemArn?: string;
+  FileSystemArn?: string | undefined;
   CreationTime: Date;
   LifeCycleState: LifeCycleState;
-  Name?: string;
+  Name?: string | undefined;
   NumberOfMountTargets: number;
   SizeInBytes: FileSystemSize;
   PerformanceMode: PerformanceMode;
-  Encrypted?: boolean;
-  KmsKeyId?: string;
-  ThroughputMode?: ThroughputMode;
-  ProvisionedThroughputInMibps?: number;
-  AvailabilityZoneName?: string;
-  AvailabilityZoneId?: string;
+  Encrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  ThroughputMode?: ThroughputMode | undefined;
+  ProvisionedThroughputInMibps?: number | undefined;
+  AvailabilityZoneName?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
   Tags: Tag[];
-  FileSystemProtection?: FileSystemProtectionDescription;
+  FileSystemProtection?: FileSystemProtectionDescription | undefined;
 }
 export type SubnetId = string;
 export type IpAddress = string;
@@ -555,35 +555,35 @@ export type SecurityGroups = string[];
 export interface CreateMountTargetRequest {
   FileSystemId: string;
   SubnetId: string;
-  IpAddress?: string;
-  Ipv6Address?: string;
-  IpAddressType?: IpAddressType;
-  SecurityGroups?: string[];
+  IpAddress?: string | undefined;
+  Ipv6Address?: string | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  SecurityGroups?: string[] | undefined;
 }
 export type MountTargetId = string;
 export type NetworkInterfaceId = string;
 export type VpcId = string;
 export interface MountTargetDescription {
-  OwnerId?: string;
+  OwnerId?: string | undefined;
   MountTargetId: string;
   FileSystemId: string;
   SubnetId: string;
   LifeCycleState: LifeCycleState;
-  IpAddress?: string;
-  Ipv6Address?: string;
-  NetworkInterfaceId?: string;
-  AvailabilityZoneId?: string;
-  AvailabilityZoneName?: string;
-  VpcId?: string;
+  IpAddress?: string | undefined;
+  Ipv6Address?: string | undefined;
+  NetworkInterfaceId?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  AvailabilityZoneName?: string | undefined;
+  VpcId?: string | undefined;
 }
 export type RegionName = string;
 export type RoleArn = string;
 export interface DestinationToCreate {
-  Region?: string;
-  AvailabilityZoneName?: string;
-  KmsKeyId?: string;
-  FileSystemId?: string;
-  RoleArn?: string;
+  Region?: string | undefined;
+  AvailabilityZoneName?: string | undefined;
+  KmsKeyId?: string | undefined;
+  FileSystemId?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export type DestinationsToCreate = DestinationToCreate[];
 export interface CreateReplicationConfigurationRequest {
@@ -603,10 +603,10 @@ export interface Destination {
   Status: ReplicationStatus;
   FileSystemId: string;
   Region: string;
-  LastReplicatedTimestamp?: Date;
-  OwnerId?: string;
-  StatusMessage?: string;
-  RoleArn?: string;
+  LastReplicatedTimestamp?: Date | undefined;
+  OwnerId?: string | undefined;
+  StatusMessage?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export type Destinations = Destination[];
 export interface ReplicationConfigurationDescription {
@@ -616,7 +616,7 @@ export interface ReplicationConfigurationDescription {
   OriginalSourceFileSystemArn: string;
   CreationTime: Date;
   Destinations: Destination[];
-  SourceFileSystemOwnerId?: string;
+  SourceFileSystemOwnerId?: string | undefined;
 }
 export interface CreateTagsRequest {
   FileSystemId: string;
@@ -642,7 +642,7 @@ export interface DeleteMountTargetResponse {}
 export type DeletionMode = "ALL_CONFIGURATIONS" | "LOCAL_CONFIGURATION_ONLY" | (string & {});
 export interface DeleteReplicationConfigurationRequest {
   SourceFileSystemId: string;
-  DeletionMode?: DeletionMode;
+  DeletionMode?: DeletionMode | undefined;
 }
 export interface DeleteReplicationConfigurationResponse {}
 export type TagKeys = string[];
@@ -654,30 +654,30 @@ export interface DeleteTagsResponse {}
 export type MaxResults = number;
 export type Token = string;
 export interface DescribeAccessPointsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  AccessPointId?: string;
-  FileSystemId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccessPointId?: string | undefined;
+  FileSystemId?: string | undefined;
 }
 export type AccessPointDescriptions = AccessPointDescription[];
 export interface DescribeAccessPointsResponse {
-  AccessPoints?: AccessPointDescription[];
-  NextToken?: string;
+  AccessPoints?: AccessPointDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeAccountPreferencesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ResourceIdType = "LONG_ID" | "SHORT_ID" | (string & {});
 export type Resource = "FILE_SYSTEM" | "MOUNT_TARGET" | (string & {});
 export type Resources = Resource[];
 export interface ResourceIdPreference {
-  ResourceIdType?: ResourceIdType;
-  Resources?: Resource[];
+  ResourceIdType?: ResourceIdType | undefined;
+  Resources?: Resource[] | undefined;
 }
 export interface DescribeAccountPreferencesResponse {
-  ResourceIdPreference?: ResourceIdPreference;
-  NextToken?: string;
+  ResourceIdPreference?: ResourceIdPreference | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeBackupPolicyRequest {
   FileSystemId: string;
@@ -687,29 +687,29 @@ export interface BackupPolicy {
   Status: Status;
 }
 export interface BackupPolicyDescription {
-  BackupPolicy?: BackupPolicy;
+  BackupPolicy?: BackupPolicy | undefined;
 }
 export interface DescribeFileSystemPolicyRequest {
   FileSystemId: string;
 }
 export type Policy = string;
 export interface FileSystemPolicyDescription {
-  FileSystemId?: string;
-  Policy?: string;
+  FileSystemId?: string | undefined;
+  Policy?: string | undefined;
 }
 export type MaxItems = number;
 export type Marker = string;
 export interface DescribeFileSystemsRequest {
-  MaxItems?: number;
-  Marker?: string;
-  CreationToken?: string;
-  FileSystemId?: string;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
+  CreationToken?: string | undefined;
+  FileSystemId?: string | undefined;
 }
 export type FileSystemDescriptions = FileSystemDescription[];
 export interface DescribeFileSystemsResponse {
-  Marker?: string;
-  FileSystems?: FileSystemDescription[];
-  NextMarker?: string;
+  Marker?: string | undefined;
+  FileSystems?: FileSystemDescription[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface DescribeLifecycleConfigurationRequest {
   FileSystemId: string;
@@ -738,26 +738,26 @@ export type TransitionToArchiveRules =
   | "AFTER_365_DAYS"
   | (string & {});
 export interface LifecyclePolicy {
-  TransitionToIA?: TransitionToIARules;
-  TransitionToPrimaryStorageClass?: TransitionToPrimaryStorageClassRules;
-  TransitionToArchive?: TransitionToArchiveRules;
+  TransitionToIA?: TransitionToIARules | undefined;
+  TransitionToPrimaryStorageClass?: TransitionToPrimaryStorageClassRules | undefined;
+  TransitionToArchive?: TransitionToArchiveRules | undefined;
 }
 export type LifecyclePolicies = LifecyclePolicy[];
 export interface LifecycleConfigurationDescription {
-  LifecyclePolicies?: LifecyclePolicy[];
+  LifecyclePolicies?: LifecyclePolicy[] | undefined;
 }
 export interface DescribeMountTargetsRequest {
-  MaxItems?: number;
-  Marker?: string;
-  FileSystemId?: string;
-  MountTargetId?: string;
-  AccessPointId?: string;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
+  FileSystemId?: string | undefined;
+  MountTargetId?: string | undefined;
+  AccessPointId?: string | undefined;
 }
 export type MountTargetDescriptions = MountTargetDescription[];
 export interface DescribeMountTargetsResponse {
-  Marker?: string;
-  MountTargets?: MountTargetDescription[];
-  NextMarker?: string;
+  Marker?: string | undefined;
+  MountTargets?: MountTargetDescription[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface DescribeMountTargetSecurityGroupsRequest {
   MountTargetId: string;
@@ -766,45 +766,45 @@ export interface DescribeMountTargetSecurityGroupsResponse {
   SecurityGroups: string[];
 }
 export interface DescribeReplicationConfigurationsRequest {
-  FileSystemId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  FileSystemId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ReplicationConfigurationDescriptions = ReplicationConfigurationDescription[];
 export interface DescribeReplicationConfigurationsResponse {
-  Replications?: ReplicationConfigurationDescription[];
-  NextToken?: string;
+  Replications?: ReplicationConfigurationDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeTagsRequest {
-  MaxItems?: number;
-  Marker?: string;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
   FileSystemId: string;
 }
 export interface DescribeTagsResponse {
-  Marker?: string;
+  Marker?: string | undefined;
   Tags: Tag[];
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export type ResourceId = string;
 export interface ListTagsForResourceRequest {
   ResourceId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ModifyMountTargetSecurityGroupsRequest {
   MountTargetId: string;
-  SecurityGroups?: string[];
+  SecurityGroups?: string[] | undefined;
 }
 export interface ModifyMountTargetSecurityGroupsResponse {}
 export interface PutAccountPreferencesRequest {
   ResourceIdType: ResourceIdType;
 }
 export interface PutAccountPreferencesResponse {
-  ResourceIdPreference?: ResourceIdPreference;
+  ResourceIdPreference?: ResourceIdPreference | undefined;
 }
 export interface PutBackupPolicyRequest {
   FileSystemId: string;
@@ -814,7 +814,7 @@ export type BypassPolicyLockoutSafetyCheck = boolean;
 export interface PutFileSystemPolicyRequest {
   FileSystemId: string;
   Policy: string;
-  BypassPolicyLockoutSafetyCheck?: boolean;
+  BypassPolicyLockoutSafetyCheck?: boolean | undefined;
 }
 export interface PutLifecycleConfigurationRequest {
   FileSystemId: string;
@@ -832,12 +832,12 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateFileSystemRequest {
   FileSystemId: string;
-  ThroughputMode?: ThroughputMode;
-  ProvisionedThroughputInMibps?: number;
+  ThroughputMode?: ThroughputMode | undefined;
+  ProvisionedThroughputInMibps?: number | undefined;
 }
 export interface UpdateFileSystemProtectionRequest {
   FileSystemId: string;
-  ReplicationOverwriteProtection?: ReplicationOverwriteProtection;
+  ReplicationOverwriteProtection?: ReplicationOverwriteProtection | undefined;
 }
 export type ErrorCode = string;
 export type ErrorMessage = string;

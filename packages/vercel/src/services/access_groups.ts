@@ -68,14 +68,14 @@ export type CreateAccessGroupRequestProjectsList = Array<CreateAccessGroupReques
 export type CreateAccessGroupRequestMembersToAddList = Array<string>;
 export interface CreateAccessGroupRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The name of the access group */
   name: string;
-  projects?: CreateAccessGroupRequestProjectsList;
+  projects?: CreateAccessGroupRequestProjectsList | undefined;
   /** List of members to add to the access group. */
-  membersToAdd?: CreateAccessGroupRequestMembersToAddList;
+  membersToAdd?: CreateAccessGroupRequestMembersToAddList | undefined;
 }
 export type CreateAccessGroupResponseEntitlementsItem = "v0";
 export type CreateAccessGroupResponseEntitlementsList =
@@ -97,9 +97,9 @@ export interface CreateAccessGroupResponse {
   /** ID of the team that this access group belongs to. */
   teamId: string;
   /** Permissions that the team has in the access group. */
-  teamPermissions?: CreateAccessGroupResponseTeamPermissionsList;
+  teamPermissions?: CreateAccessGroupResponseTeamPermissionsList | undefined;
   /** Roles that the team has in the access group. */
-  teamRoles?: CreateAccessGroupResponseTeamRolesList;
+  teamRoles?: CreateAccessGroupResponseTeamRolesList | undefined;
   /** Timestamp in milliseconds when the access group was last updated. */
   updatedAt: string;
 }
@@ -108,9 +108,9 @@ export type CreateAccessGroupProjectRequestRole = "ADMIN" | "PROJECT_VIEWER" | "
 export interface CreateAccessGroupProjectRequest {
   accessGroupIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The ID of the project. */
   projectId: string;
   /** The project role that will be added to this Access Group. */
@@ -132,33 +132,33 @@ export interface CreateAccessGroupProjectResponse {
 export interface DeleteAccessGroupRequest {
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteAccessGroupResponse {}
 export interface DeleteAccessGroupProjectRequest {
   accessGroupIdOrName: string;
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteAccessGroupProjectResponse {}
 export interface ListAccessGroupMembersRequest {
   /** The ID or name of the Access Group. */
   idOrName: string;
   /** Limit how many access group members should be returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Continuation cursor to retrieve the next page of results. */
-  next?: string;
+  next?: string | undefined;
   /** Search project members by their name, username, and email. */
-  search?: string;
+  search?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListAccessGroupMembersResponseMembersItemTeamRole =
   | "BILLING"
@@ -170,10 +170,10 @@ export type ListAccessGroupMembersResponseMembersItemTeamRole =
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
 export interface ListAccessGroupMembersResponseMembersItem {
-  avatar?: string;
-  createdAt?: string;
+  avatar?: string | undefined;
+  createdAt?: string | undefined;
   email: string;
-  name?: string;
+  name?: string | undefined;
   teamRole: ListAccessGroupMembersResponseMembersItemTeamRole;
   uid: string;
   username: string;
@@ -192,19 +192,19 @@ export interface ListAccessGroupProjectsRequest {
   /** The ID or name of the Access Group. */
   idOrName: string;
   /** Limit how many access group projects should be returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Continuation cursor to retrieve the next page of results. */
-  next?: string;
+  next?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListAccessGroupProjectsResponsePagination = ListAccessGroupMembersResponsePagination;
 export interface ListAccessGroupProjectsResponseProjectsItemProject {
-  framework?: string | null;
-  latestDeploymentId?: string;
-  name?: string;
+  framework?: string | null | undefined;
+  latestDeploymentId?: string | undefined;
+  name?: string | undefined;
 }
 export type ListAccessGroupProjectsResponseProjectsItemRole =
   | "ADMIN"
@@ -226,21 +226,21 @@ export interface ListAccessGroupProjectsResponse {
 }
 export interface ListAccessGroupsRequest {
   /** Filter access groups by project. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Search for access groups by name. */
-  search?: string;
+  search?: string | undefined;
   /** Number of members to include in the response. */
-  membersLimit?: number;
+  membersLimit?: number | undefined;
   /** Number of projects to include in the response. */
-  projectsLimit?: number;
+  projectsLimit?: number | undefined;
   /** Limit how many access group should be returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Continuation cursor to retrieve the next page of results. */
-  next?: string;
+  next?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListAccessGroupsResponseBodyCase1AccessGroupsItemEntitlementsList = Array<string>;
 export type ListAccessGroupsResponseBodyCase1AccessGroupsItemMembersList = Array<string>;
@@ -253,21 +253,23 @@ export interface ListAccessGroupsResponseBodyCase1AccessGroupsItem {
   accessGroupId: string;
   /** Timestamp in milliseconds when the access group was created. */
   createdAt: string;
-  entitlements?: ListAccessGroupsResponseBodyCase1AccessGroupsItemEntitlementsList;
+  entitlements?: ListAccessGroupsResponseBodyCase1AccessGroupsItemEntitlementsList | undefined;
   isDsyncManaged: boolean;
-  members?: ListAccessGroupsResponseBodyCase1AccessGroupsItemMembersList;
+  members?: ListAccessGroupsResponseBodyCase1AccessGroupsItemMembersList | undefined;
   /** Number of members in the access group. */
   membersCount: number;
   /** The name of this access group. */
   name: string;
-  projects?: ListAccessGroupsResponseBodyCase1AccessGroupsItemProjectsList;
+  projects?: ListAccessGroupsResponseBodyCase1AccessGroupsItemProjectsList | undefined;
   /** Number of projects in the access group. */
   projectsCount: number;
   /** ID of the team that this access group belongs to. */
   teamId: string;
-  teamPermissions?: ListAccessGroupsResponseBodyCase1AccessGroupsItemTeamPermissionsList;
+  teamPermissions?:
+    | ListAccessGroupsResponseBodyCase1AccessGroupsItemTeamPermissionsList
+    | undefined;
   /** Roles that the team has in the access group. */
-  teamRoles?: ListAccessGroupsResponseBodyCase1AccessGroupsItemTeamRolesList;
+  teamRoles?: ListAccessGroupsResponseBodyCase1AccessGroupsItemTeamRolesList | undefined;
   /** Timestamp in milliseconds when the access group was last updated. */
   updatedAt: string;
 }
@@ -283,9 +285,9 @@ export type ListAccessGroupsResponse = ListAccessGroupsResponseBody;
 export interface ReadAccessGroupRequest {
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ReadAccessGroupResponseEntitlementsItem = "v0";
 export type ReadAccessGroupResponseEntitlementsList =
@@ -319,7 +321,7 @@ export interface ReadAccessGroupResponse {
   accessGroupId: string;
   /** Timestamp in milliseconds when the access group was created. */
   createdAt: string;
-  entitlements?: ReadAccessGroupResponseEntitlementsList;
+  entitlements?: ReadAccessGroupResponseEntitlementsList | undefined;
   isDsyncManaged: boolean;
   /** Number of members in the access group. */
   membersCount: number;
@@ -329,9 +331,9 @@ export interface ReadAccessGroupResponse {
   projectsCount: number;
   /** ID of the team that this access group belongs to. */
   teamId: string;
-  teamPermissions?: ReadAccessGroupResponseTeamPermissionsList;
+  teamPermissions?: ReadAccessGroupResponseTeamPermissionsList | undefined;
   /** Roles that the team has in the access group. */
-  teamRoles?: ReadAccessGroupResponseTeamRolesList;
+  teamRoles?: ReadAccessGroupResponseTeamRolesList | undefined;
   /** Timestamp in milliseconds when the access group was last updated. */
   updatedAt: string;
 }
@@ -339,9 +341,9 @@ export interface ReadAccessGroupProjectRequest {
   accessGroupIdOrName: string;
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ReadAccessGroupProjectResponseRole =
   | "ADMIN"
@@ -375,16 +377,16 @@ export type UpdateAccessGroupRequestMembersToRemoveList = Array<string>;
 export interface UpdateAccessGroupRequest {
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The name of the access group */
-  name?: string;
-  projects?: UpdateAccessGroupRequestProjectsList;
+  name?: string | undefined;
+  projects?: UpdateAccessGroupRequestProjectsList | undefined;
   /** List of members to add to the access group. */
-  membersToAdd?: UpdateAccessGroupRequestMembersToAddList;
+  membersToAdd?: UpdateAccessGroupRequestMembersToAddList | undefined;
   /** List of members to remove from the access group. */
-  membersToRemove?: UpdateAccessGroupRequestMembersToRemoveList;
+  membersToRemove?: UpdateAccessGroupRequestMembersToRemoveList | undefined;
 }
 export type UpdateAccessGroupResponseEntitlementsItem = "v0";
 export type UpdateAccessGroupResponseEntitlementsList =
@@ -408,9 +410,9 @@ export interface UpdateAccessGroupResponse {
   /** ID of the team that this access group belongs to. */
   teamId: string;
   /** Permissions that the team has in the access group. */
-  teamPermissions?: UpdateAccessGroupResponseTeamPermissionsList;
+  teamPermissions?: UpdateAccessGroupResponseTeamPermissionsList | undefined;
   /** Roles that the team has in the access group. */
-  teamRoles?: UpdateAccessGroupResponseTeamRolesList;
+  teamRoles?: UpdateAccessGroupResponseTeamRolesList | undefined;
   /** Timestamp in milliseconds when the access group was last updated. */
   updatedAt: string;
 }
@@ -420,9 +422,9 @@ export interface UpdateAccessGroupProjectRequest {
   accessGroupIdOrName: string;
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The project role that will be added to this Access Group. */
   role: UpdateAccessGroupProjectRequestRole | (string & {});
 }

@@ -169,23 +169,23 @@ export interface BatchGetIncidentFindingsInput {
 }
 export interface CodeDeployDeployment {
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date | undefined;
   deploymentGroupArn: string;
   deploymentId: string;
 }
 export interface CloudFormationStackUpdate {
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date | undefined;
   stackArn: string;
 }
 export type FindingDetails =
-  | { codeDeployDeployment: CodeDeployDeployment; cloudFormationStackUpdate?: never }
-  | { codeDeployDeployment?: never; cloudFormationStackUpdate: CloudFormationStackUpdate };
+  | { codeDeployDeployment: CodeDeployDeployment; cloudFormationStackUpdate?: undefined }
+  | { codeDeployDeployment?: undefined; cloudFormationStackUpdate: CloudFormationStackUpdate };
 export interface Finding {
   id: string;
   creationTime: Date;
   lastModifiedTime: Date;
-  details?: FindingDetails;
+  details?: FindingDetails | undefined;
 }
 export type FindingList = Finding[];
 export interface BatchGetIncidentFindingsError_ {
@@ -201,7 +201,7 @@ export interface BatchGetIncidentFindingsOutput {
 export type RegionName = string;
 export type SseKmsKey = string;
 export interface RegionMapInputValue {
-  sseKmsKeyId?: string;
+  sseKmsKeyId?: string | undefined;
 }
 export type RegionMapInput = { [key: string]: RegionMapInputValue | undefined };
 export type ClientToken = string;
@@ -210,8 +210,8 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateReplicationSetInput {
   regions: { [key: string]: RegionMapInputValue | undefined };
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateReplicationSetOutput {
   arn: string;
@@ -227,17 +227,17 @@ export type NotificationTargetSet = NotificationTargetItem[];
 export interface IncidentTemplate {
   title: string;
   impact: number;
-  summary?: string;
-  dedupeString?: string;
-  notificationTargets?: NotificationTargetItem[];
-  incidentTags?: { [key: string]: string | undefined };
+  summary?: string | undefined;
+  dedupeString?: string | undefined;
+  notificationTargets?: NotificationTargetItem[] | undefined;
+  incidentTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface EmptyChatChannel {}
 export type SnsArn = string;
 export type ChatbotSnsConfigurationSet = string[];
 export type ChatChannel =
-  | { empty: EmptyChatChannel; chatbotSns?: never }
-  | { empty?: never; chatbotSns: string[] };
+  | { empty: EmptyChatChannel; chatbotSns?: undefined }
+  | { empty?: undefined; chatbotSns: string[] };
 export type SsmContactsArn = string;
 export type EngagementSet = string[];
 export type RoleArn = string;
@@ -250,10 +250,10 @@ export type DynamicSsmParameters = { [key: string]: DynamicSsmParameterValue | u
 export interface SsmAutomation {
   roleArn: string;
   documentName: string;
-  documentVersion?: string;
-  targetAccount?: string;
-  parameters?: { [key: string]: string[] | undefined };
-  dynamicParameters?: { [key: string]: DynamicSsmParameterValue | undefined };
+  documentVersion?: string | undefined;
+  targetAccount?: string | undefined;
+  parameters?: { [key: string]: string[] | undefined } | undefined;
+  dynamicParameters?: { [key: string]: DynamicSsmParameterValue | undefined } | undefined;
 }
 export type Action = { ssmAutomation: SsmAutomation };
 export type ActionsList = Action[];
@@ -268,15 +268,15 @@ export interface PagerDutyConfiguration {
 export type Integration = { pagerDutyConfiguration: PagerDutyConfiguration };
 export type Integrations = Integration[];
 export interface CreateResponsePlanInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
-  displayName?: string;
+  displayName?: string | undefined;
   incidentTemplate: IncidentTemplate;
-  chatChannel?: ChatChannel;
-  engagements?: string[];
-  actions?: Action[];
-  tags?: { [key: string]: string | undefined };
-  integrations?: Integration[];
+  chatChannel?: ChatChannel | undefined;
+  engagements?: string[] | undefined;
+  actions?: Action[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  integrations?: Integration[] | undefined;
 }
 export interface CreateResponsePlanOutput {
   arn: string;
@@ -285,16 +285,16 @@ export type TimelineEventType = string;
 export type EventData = string;
 export type GeneratedId = string;
 export type EventReference =
-  | { resource: string; relatedItemId?: never }
-  | { resource?: never; relatedItemId: string };
+  | { resource: string; relatedItemId?: undefined }
+  | { resource?: undefined; relatedItemId: string };
 export type EventReferenceList = EventReference[];
 export interface CreateTimelineEventInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   incidentRecordArn: string;
   eventTime: Date;
   eventType: string;
   eventData: string;
-  eventReferences?: EventReference[];
+  eventReferences?: EventReference[] | undefined;
 }
 export type UUID = string;
 export interface CreateTimelineEventOutput {
@@ -334,25 +334,25 @@ export type ServicePrincipal = string;
 export type IncidentSource = string;
 export interface IncidentRecordSource {
   createdBy: string;
-  invokedBy?: string;
-  resourceArn?: string;
+  invokedBy?: string | undefined;
+  resourceArn?: string | undefined;
   source: string;
 }
 export interface IncidentRecord {
   arn: string;
   title: string;
-  summary?: string;
+  summary?: string | undefined;
   status: string;
   impact: number;
   creationTime: Date;
-  resolvedTime?: Date;
+  resolvedTime?: Date | undefined;
   lastModifiedTime: Date;
   lastModifiedBy: string;
-  automationExecutions?: AutomationExecution[];
+  automationExecutions?: AutomationExecution[] | undefined;
   incidentRecordSource: IncidentRecordSource;
   dedupeString: string;
-  chatChannel?: ChatChannel;
-  notificationTargets?: NotificationTargetItem[];
+  chatChannel?: ChatChannel | undefined;
+  notificationTargets?: NotificationTargetItem[] | undefined;
 }
 export interface GetIncidentRecordOutput {
   incidentRecord: IncidentRecord;
@@ -362,15 +362,15 @@ export interface GetReplicationSetInput {
 }
 export type RegionStatus = string;
 export interface RegionInfo {
-  sseKmsKeyId?: string;
+  sseKmsKeyId?: string | undefined;
   status: string;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   statusUpdateDateTime: Date;
 }
 export type RegionInfoMap = { [key: string]: RegionInfo | undefined };
 export type ReplicationSetStatus = string;
 export interface ReplicationSet {
-  arn?: string;
+  arn?: string | undefined;
   regionMap: { [key: string]: RegionInfo | undefined };
   status: string;
   deletionProtected: boolean;
@@ -386,8 +386,8 @@ export type MaxResults = number;
 export type NextToken = string;
 export interface GetResourcePoliciesInput {
   resourceArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type Policy = string;
 export interface ResourcePolicy {
@@ -398,7 +398,7 @@ export interface ResourcePolicy {
 export type ResourcePolicyList = ResourcePolicy[];
 export interface GetResourcePoliciesOutput {
   resourcePolicies: ResourcePolicy[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetResponsePlanInput {
   arn: string;
@@ -406,12 +406,12 @@ export interface GetResponsePlanInput {
 export interface GetResponsePlanOutput {
   arn: string;
   name: string;
-  displayName?: string;
+  displayName?: string | undefined;
   incidentTemplate: IncidentTemplate;
-  chatChannel?: ChatChannel;
-  engagements?: string[];
-  actions?: Action[];
-  integrations?: Integration[];
+  chatChannel?: ChatChannel | undefined;
+  engagements?: string[] | undefined;
+  actions?: Action[] | undefined;
+  integrations?: Integration[] | undefined;
 }
 export interface GetTimelineEventInput {
   incidentRecordArn: string;
@@ -424,15 +424,15 @@ export interface TimelineEvent {
   eventUpdatedTime: Date;
   eventType: string;
   eventData: string;
-  eventReferences?: EventReference[];
+  eventReferences?: EventReference[] | undefined;
 }
 export interface GetTimelineEventOutput {
   event: TimelineEvent;
 }
 export interface ListIncidentFindingsInput {
   incidentRecordArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FindingSummary {
   id: string;
@@ -441,26 +441,26 @@ export interface FindingSummary {
 export type FindingSummaryList = FindingSummary[];
 export interface ListIncidentFindingsOutput {
   findings: FindingSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type StringList = string[];
 export type IntegerList = number[];
 export type AttributeValueList =
-  | { stringValues: string[]; integerValues?: never }
-  | { stringValues?: never; integerValues: number[] };
+  | { stringValues: string[]; integerValues?: undefined }
+  | { stringValues?: undefined; integerValues: number[] };
 export type Condition =
-  | { before: Date; after?: never; equals?: never }
-  | { before?: never; after: Date; equals?: never }
-  | { before?: never; after?: never; equals: AttributeValueList };
+  | { before: Date; after?: undefined; equals?: undefined }
+  | { before?: undefined; after: Date; equals?: undefined }
+  | { before?: undefined; after?: undefined; equals: AttributeValueList };
 export interface Filter {
   key: string;
   condition: Condition;
 }
 export type FilterList = Filter[];
 export interface ListIncidentRecordsInput {
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface IncidentRecordSummary {
   arn: string;
@@ -468,34 +468,49 @@ export interface IncidentRecordSummary {
   status: string;
   impact: number;
   creationTime: Date;
-  resolvedTime?: Date;
+  resolvedTime?: Date | undefined;
   incidentRecordSource: IncidentRecordSource;
 }
 export type IncidentRecordSummaryList = IncidentRecordSummary[];
 export interface ListIncidentRecordsOutput {
   incidentRecordSummaries: IncidentRecordSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListRelatedItemsInput {
   incidentRecordArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type Url = string;
 export type MetricDefinition = string;
 export interface PagerDutyIncidentDetail {
   id: string;
-  autoResolve?: boolean;
-  secretId?: string;
+  autoResolve?: boolean | undefined;
+  secretId?: string | undefined;
 }
 export type ItemValue =
-  | { arn: string; url?: never; metricDefinition?: never; pagerDutyIncidentDetail?: never }
-  | { arn?: never; url: string; metricDefinition?: never; pagerDutyIncidentDetail?: never }
-  | { arn?: never; url?: never; metricDefinition: string; pagerDutyIncidentDetail?: never }
   | {
-      arn?: never;
-      url?: never;
-      metricDefinition?: never;
+      arn: string;
+      url?: undefined;
+      metricDefinition?: undefined;
+      pagerDutyIncidentDetail?: undefined;
+    }
+  | {
+      arn?: undefined;
+      url: string;
+      metricDefinition?: undefined;
+      pagerDutyIncidentDetail?: undefined;
+    }
+  | {
+      arn?: undefined;
+      url?: undefined;
+      metricDefinition: string;
+      pagerDutyIncidentDetail?: undefined;
+    }
+  | {
+      arn?: undefined;
+      url?: undefined;
+      metricDefinition?: undefined;
       pagerDutyIncidentDetail: PagerDutyIncidentDetail;
     };
 export type ItemType = string;
@@ -505,36 +520,36 @@ export interface ItemIdentifier {
 }
 export interface RelatedItem {
   identifier: ItemIdentifier;
-  title?: string;
-  generatedId?: string;
+  title?: string | undefined;
+  generatedId?: string | undefined;
 }
 export type RelatedItemList = RelatedItem[];
 export interface ListRelatedItemsOutput {
   relatedItems: RelatedItem[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListReplicationSetsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ReplicationSetArnList = string[];
 export interface ListReplicationSetsOutput {
   replicationSetArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListResponsePlansInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ResponsePlanSummary {
   arn: string;
   name: string;
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type ResponsePlanSummaryList = ResponsePlanSummary[];
 export interface ListResponsePlansOutput {
   responsePlanSummaries: ResponsePlanSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -546,11 +561,11 @@ export type TimelineEventSort = string;
 export type SortOrder = string;
 export interface ListTimelineEventsInput {
   incidentRecordArn: string;
-  filters?: Filter[];
-  sortBy?: string;
-  sortOrder?: string;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: Filter[] | undefined;
+  sortBy?: string | undefined;
+  sortOrder?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EventSummary {
   incidentRecordArn: string;
@@ -558,12 +573,12 @@ export interface EventSummary {
   eventTime: Date;
   eventUpdatedTime: Date;
   eventType: string;
-  eventReferences?: EventReference[];
+  eventReferences?: EventReference[] | undefined;
 }
 export type EventSummaryList = EventSummary[];
 export interface ListTimelineEventsOutput {
   eventSummaries: EventSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PutResourcePolicyInput {
   resourceArn: string;
@@ -575,17 +590,17 @@ export interface PutResourcePolicyOutput {
 export type RawData = string;
 export interface TriggerDetails {
   source: string;
-  triggerArn?: string;
+  triggerArn?: string | undefined;
   timestamp: Date;
-  rawData?: string;
+  rawData?: string | undefined;
 }
 export interface StartIncidentInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   responsePlanArn: string;
-  title?: string;
-  impact?: number;
-  triggerDetails?: TriggerDetails;
-  relatedItems?: RelatedItem[];
+  title?: string | undefined;
+  impact?: number | undefined;
+  triggerDetails?: TriggerDetails | undefined;
+  relatedItems?: RelatedItem[] | undefined;
 }
 export interface StartIncidentOutput {
   incidentRecordArn: string;
@@ -604,71 +619,71 @@ export interface UntagResourceResponse {}
 export interface UpdateDeletionProtectionInput {
   arn: string;
   deletionProtected: boolean;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateDeletionProtectionOutput {}
 export interface UpdateIncidentRecordInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   arn: string;
-  title?: string;
-  summary?: string;
-  impact?: number;
-  status?: string;
-  chatChannel?: ChatChannel;
-  notificationTargets?: NotificationTargetItem[];
+  title?: string | undefined;
+  summary?: string | undefined;
+  impact?: number | undefined;
+  status?: string | undefined;
+  chatChannel?: ChatChannel | undefined;
+  notificationTargets?: NotificationTargetItem[] | undefined;
 }
 export interface UpdateIncidentRecordOutput {}
 export type RelatedItemsUpdate =
-  | { itemToAdd: RelatedItem; itemToRemove?: never }
-  | { itemToAdd?: never; itemToRemove: ItemIdentifier };
+  | { itemToAdd: RelatedItem; itemToRemove?: undefined }
+  | { itemToAdd?: undefined; itemToRemove: ItemIdentifier };
 export interface UpdateRelatedItemsInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   incidentRecordArn: string;
   relatedItemsUpdate: RelatedItemsUpdate;
 }
 export interface UpdateRelatedItemsOutput {}
 export interface AddRegionAction {
   regionName: string;
-  sseKmsKeyId?: string;
+  sseKmsKeyId?: string | undefined;
 }
 export interface DeleteRegionAction {
   regionName: string;
 }
 export type UpdateReplicationSetAction =
-  | { addRegionAction: AddRegionAction; deleteRegionAction?: never }
-  | { addRegionAction?: never; deleteRegionAction: DeleteRegionAction };
+  | { addRegionAction: AddRegionAction; deleteRegionAction?: undefined }
+  | { addRegionAction?: undefined; deleteRegionAction: DeleteRegionAction };
 export type UpdateActionList = UpdateReplicationSetAction[];
 export interface UpdateReplicationSetInput {
   arn: string;
   actions: UpdateReplicationSetAction[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateReplicationSetOutput {}
 export type TagMapUpdate = { [key: string]: string | undefined };
 export interface UpdateResponsePlanInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   arn: string;
-  displayName?: string;
-  incidentTemplateTitle?: string;
-  incidentTemplateImpact?: number;
-  incidentTemplateSummary?: string;
-  incidentTemplateDedupeString?: string;
-  incidentTemplateNotificationTargets?: NotificationTargetItem[];
-  chatChannel?: ChatChannel;
-  engagements?: string[];
-  actions?: Action[];
-  incidentTemplateTags?: { [key: string]: string | undefined };
-  integrations?: Integration[];
+  displayName?: string | undefined;
+  incidentTemplateTitle?: string | undefined;
+  incidentTemplateImpact?: number | undefined;
+  incidentTemplateSummary?: string | undefined;
+  incidentTemplateDedupeString?: string | undefined;
+  incidentTemplateNotificationTargets?: NotificationTargetItem[] | undefined;
+  chatChannel?: ChatChannel | undefined;
+  engagements?: string[] | undefined;
+  actions?: Action[] | undefined;
+  incidentTemplateTags?: { [key: string]: string | undefined } | undefined;
+  integrations?: Integration[] | undefined;
 }
 export interface UpdateResponsePlanOutput {}
 export interface UpdateTimelineEventInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   incidentRecordArn: string;
   eventId: string;
-  eventTime?: Date;
-  eventType?: string;
-  eventData?: string;
-  eventReferences?: EventReference[];
+  eventTime?: Date | undefined;
+  eventType?: string | undefined;
+  eventData?: string | undefined;
+  eventReferences?: EventReference[] | undefined;
 }
 export interface UpdateTimelineEventOutput {}
 export type ExceptionMessage = string;

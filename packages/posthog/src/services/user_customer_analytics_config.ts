@@ -38,12 +38,12 @@ export interface GetUserCustomerAnalyticsConfigRequest {
   project_id: string;
   id: string;
 }
-/** * `custom_property` - Custom property * `relationship` - Relationship */
-export type AccountPropertyPinKindEnum = "custom_property" | "relationship";
+/** * `custom_property` - Custom property * `relationship` - Relationship * `account_field` - Account field */
+export type AccountPropertyPinKindEnum = "custom_property" | "relationship" | "account_field";
 export interface PinnedAccountProperty {
-  /** Definition type for this pinned account property. * `custom_property` - Custom property * `relationship` - Relationship */
+  /** Type of this pinned account property: a custom property, a relationship, or a built-in account field. * `custom_property` - Custom property * `relationship` - Relationship * `account_field` - Account field */
   kind: AccountPropertyPinKindEnum | (string & {});
-  /** Team-scoped custom property or relationship definition UUID. */
+  /** Team-scoped custom property or relationship definition UUID. For an account_field pin, the account field name, such as stripe_customer_id. */
   id: string;
 }
 /** Account properties pinned in sidebar display order. */
@@ -83,22 +83,24 @@ export type UpdateUserCustomerAnalyticsConfigPartialRequestPinnedPropertiesList 
   Array<PinnedAccountProperty>;
 export interface TaskDigestPreferencesUpdate {
   /** Whether the task digest email is sent to this user. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Time of day to send the digest, as HH:MM in the project timezone. */
-  send_time?: string;
+  send_time?: string | undefined;
   /** How often the digest is sent. * `weekdays` - Weekdays * `every_day` - Every day */
-  cadence?: TaskDigestCadenceEnum | (string & {});
+  cadence?: TaskDigestCadenceEnum | (string & {}) | undefined;
 }
 export interface UpdateUserCustomerAnalyticsConfigPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Complete ordered list of account properties to pin. Omit to keep the current pins; pass an empty list to clear them. */
-  pinned_properties?: UpdateUserCustomerAnalyticsConfigPartialRequestPinnedPropertiesList;
+  pinned_properties?:
+    | UpdateUserCustomerAnalyticsConfigPartialRequestPinnedPropertiesList
+    | undefined;
   /** Task digest email preferences to change. Omit the object to keep them all; omit a field inside it to keep that one. */
-  task_digest?: TaskDigestPreferencesUpdate;
+  task_digest?: TaskDigestPreferencesUpdate | undefined;
   /** Complete personal account tab configuration. Omit to keep it unchanged. */
-  account_detail_tabs?: AccountDetailTabsConfig;
+  account_detail_tabs?: AccountDetailTabsConfig | undefined;
 }
 export type GetUserCustomerAnalyticsConfigError = PosthogOpError;
 /** Get account sidebar configuration Get the requesting user's account sidebar and task digest configuration for this project. Project defaults are returned until the user saves a personal pinned-property selection. */
@@ -118,7 +120,7 @@ export const getUserCustomerAnalyticsConfig: API.OperationMethod<
 }));
 
 export type UpdateUserCustomerAnalyticsConfigPartialError = BadRequest | PosthogOpError;
-/** Update account sidebar configuration Replace the requesting user's ordered account sidebar properties when pinned_properties is provided, and change the task digest email preferences when task_digest is provided. Anything omitted keeps its current value. At most 50 account custom properties and relationships can be pinned. */
+/** Update account sidebar configuration Replace the requesting user's ordered account sidebar properties when pinned_properties is provided, and change the task digest email preferences when task_digest is provided. Anything omitted keeps its current value. At most 50 account custom properties, relationships, and account fields can be pinned. */
 export const updateUserCustomerAnalyticsConfigPartial: API.OperationMethod<
   UpdateUserCustomerAnalyticsConfigPartialRequest,
   UserCustomerAnalyticsConfig2,

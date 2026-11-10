@@ -80,17 +80,17 @@ export interface CancelJobResponseCreatedBy {
   name: string;
 }
 export interface CancelJobResponseDurations {
-  schedulingSecs?: number;
-  runningSecs?: number;
-  totalSecs?: number;
+  schedulingSecs?: number | undefined;
+  runningSecs?: number | undefined;
+  totalSecs?: number | undefined;
 }
 export interface CancelJobResponseVolumesItem {
   type: string;
   source: string;
   mountPath: string;
-  revision?: string;
-  readOnly?: boolean;
-  path?: string;
+  revision?: string | undefined;
+  readOnly?: boolean | undefined;
+  path?: string | undefined;
 }
 export type CancelJobResponseVolumesList = Array<CancelJobResponseVolumesItem>;
 export type CancelJobResponseExposePortsList = Array<number>;
@@ -100,7 +100,7 @@ export type CancelJobResponseExposePortsPublicList = Array<number>;
 export interface CancelJobResponseExpose {
   ports: CancelJobResponseExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: CancelJobResponseExposePortsPublicList;
+  portsPublic?: CancelJobResponseExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type CancelJobResponseNetworkAliasesList = Array<string>;
@@ -123,7 +123,7 @@ export interface CancelJobResponseResourceGroup {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  numUsers?: number;
+  numUsers?: number | undefined;
 }
 export type CancelJobResponseInitiatorCase0Type = "user" | "org";
 export interface CancelJobResponseInitiatorCase0 {
@@ -162,54 +162,54 @@ export type CancelJobResponseStatusExposeUrlsList = Array<string>;
 export interface CancelJobResponseStatus {
   stage: CancelJobResponseStatusStage;
   message: string | null;
-  cancelReason?: CancelJobResponseStatusCancelReason;
-  failureCount?: number;
+  cancelReason?: CancelJobResponseStatusCancelReason | undefined;
+  failureCount?: number | undefined;
   /** One reachable URL per port declared in `expose.ports`, in the same order (e.g. `https://<job_id>--8000.hf.jobs`). Absent when the job is not exposed. */
-  exposeUrls?: CancelJobResponseStatusExposeUrlsList;
+  exposeUrls?: CancelJobResponseStatusExposeUrlsList | undefined;
   /** SSH endpoint for the job (e.g. `ssh://<job_id>@ssh.hf.jobs`). Only present when `ssh.enabled`. */
-  sshUrl?: string;
+  sshUrl?: string | undefined;
 }
 export type CancelJobResponseSecretsList = Array<string>;
 export type CancelJobResponseLabelsMap = { [key: string]: string | undefined };
 export type CancelJobResponseHfTokenTokenRole = "read" | "write" | "fineGrained";
 export interface CancelJobResponseHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: CancelJobResponseHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: CancelJobResponseHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface CancelJobResponse {
   id: string;
   createdAt: string;
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: CancelJobResponseEnvironmentMap;
-  command?: CancelJobResponseCommandList;
-  arguments?: CancelJobResponseArgumentsList;
-  arch?: CancelJobResponseArch;
+  command?: CancelJobResponseCommandList | undefined;
+  arguments?: CancelJobResponseArgumentsList | undefined;
+  arch?: CancelJobResponseArch | undefined;
   flavor: CancelJobResponseFlavor;
   createdBy: CancelJobResponseCreatedBy;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: CancelJobResponseVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: CancelJobResponseVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: CancelJobResponseExpose;
+  expose?: CancelJobResponseExpose | undefined;
   /** Network group the job belongs to. */
-  network?: CancelJobResponseNetwork;
+  network?: CancelJobResponseNetwork | undefined;
   type: string;
   owner: CancelJobResponseOwner;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  initiator?: CancelJobResponseInitiator;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  initiator?: CancelJobResponseInitiator | undefined;
   status: CancelJobResponseStatus;
-  secrets?: CancelJobResponseSecretsList;
-  labels?: CancelJobResponseLabelsMap;
-  hfToken?: CancelJobResponseHfToken;
+  secrets?: CancelJobResponseSecretsList | undefined;
+  labels?: CancelJobResponseLabelsMap | undefined;
+  hfToken?: CancelJobResponseHfToken | undefined;
 }
 export type CheckJobAccessRequestPerms = "read" | "write";
 export interface CheckJobAccessRequest {
@@ -252,7 +252,7 @@ export type CountJobsRequestStageCase1List = Array<CountJobsRequestStageCase1Ite
 export type CountJobsRequestStage = CountJobsRequestStageCase0 | CountJobsRequestStageCase1List;
 export interface CountJobsRequest {
   namespace: string;
-  stage?: CountJobsRequestStage;
+  stage?: CountJobsRequestStage | undefined;
 }
 export interface CountJobsResponse {
   count: number;
@@ -308,11 +308,11 @@ export interface CreateScheduledJobRequestJobSpecCase0VolumesItem {
   /** Mount path inside the container, e.g. '/data' */
   mountPath: string;
   /** Git revision (only for repos, defaults to 'main') */
-  revision?: string;
+  revision?: string | undefined;
   /** Read-only mount (true for repos, false default for buckets) */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
-  path?: string;
+  path?: string | undefined;
 }
 /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
 export type CreateScheduledJobRequestJobSpecCase0VolumesList =
@@ -324,11 +324,11 @@ export type CreateScheduledJobRequestJobSpecCase0ExposePortsPublicList = Array<n
 export interface CreateScheduledJobRequestJobSpecCase0Expose {
   ports: CreateScheduledJobRequestJobSpecCase0ExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: CreateScheduledJobRequestJobSpecCase0ExposePortsPublicList;
+  portsPublic?: CreateScheduledJobRequestJobSpecCase0ExposePortsPublicList | undefined;
 }
 /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
 export interface CreateScheduledJobRequestJobSpecCase0Ssh {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type CreateScheduledJobRequestJobSpecCase0NetworkAliasesList = Array<string>;
@@ -337,31 +337,31 @@ export interface CreateScheduledJobRequestJobSpecCase0Network {
   /** Group name, scoped to the job's owner and resource group. */
   group: string;
   /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
-  aliases?: CreateScheduledJobRequestJobSpecCase0NetworkAliasesList;
+  aliases?: CreateScheduledJobRequestJobSpecCase0NetworkAliasesList | undefined;
 }
 export interface CreateScheduledJobRequestJobSpecCase0 {
   spaceId: unknown;
-  dockerImage?: string;
-  arguments?: CreateScheduledJobRequestJobSpecCase0ArgumentsList;
-  command?: CreateScheduledJobRequestJobSpecCase0CommandList;
-  environment?: CreateScheduledJobRequestJobSpecCase0EnvironmentMap;
-  secrets?: CreateScheduledJobRequestJobSpecCase0SecretsMap;
+  dockerImage?: string | undefined;
+  arguments?: CreateScheduledJobRequestJobSpecCase0ArgumentsList | undefined;
+  command?: CreateScheduledJobRequestJobSpecCase0CommandList | undefined;
+  environment?: CreateScheduledJobRequestJobSpecCase0EnvironmentMap | undefined;
+  secrets?: CreateScheduledJobRequestJobSpecCase0SecretsMap | undefined;
   flavor: CreateScheduledJobRequestJobSpecCase0Flavor | (string & {});
-  arch?: CreateScheduledJobRequestJobSpecCase0Arch | (string & {});
-  timeoutSeconds?: number | null;
+  arch?: CreateScheduledJobRequestJobSpecCase0Arch | (string & {}) | undefined;
+  timeoutSeconds?: number | null | undefined;
   /** Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails. */
-  attempts?: number;
+  attempts?: number | undefined;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: CreateScheduledJobRequestJobSpecCase0LabelsMap;
+  labels?: CreateScheduledJobRequestJobSpecCase0LabelsMap | undefined;
   /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
-  volumes?: CreateScheduledJobRequestJobSpecCase0VolumesList;
+  volumes?: CreateScheduledJobRequestJobSpecCase0VolumesList | undefined;
   /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
-  expose?: CreateScheduledJobRequestJobSpecCase0Expose;
+  expose?: CreateScheduledJobRequestJobSpecCase0Expose | undefined;
   /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
-  ssh?: CreateScheduledJobRequestJobSpecCase0Ssh;
+  ssh?: CreateScheduledJobRequestJobSpecCase0Ssh | undefined;
   /** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
-  network?: CreateScheduledJobRequestJobSpecCase0Network;
-  resourceGroupId?: string;
+  network?: CreateScheduledJobRequestJobSpecCase0Network | undefined;
+  resourceGroupId?: string | undefined;
 }
 export type CreateScheduledJobRequestJobSpecCase1ArgumentsList = Array<string>;
 export type CreateScheduledJobRequestJobSpecCase1CommandList = Array<string>;
@@ -414,11 +414,11 @@ export interface CreateScheduledJobRequestJobSpecCase1VolumesItem {
   /** Mount path inside the container, e.g. '/data' */
   mountPath: string;
   /** Git revision (only for repos, defaults to 'main') */
-  revision?: string;
+  revision?: string | undefined;
   /** Read-only mount (true for repos, false default for buckets) */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
-  path?: string;
+  path?: string | undefined;
 }
 /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
 export type CreateScheduledJobRequestJobSpecCase1VolumesList =
@@ -430,7 +430,7 @@ export type CreateScheduledJobRequestJobSpecCase1ExposePortsPublicList = Array<n
 export interface CreateScheduledJobRequestJobSpecCase1Expose {
   ports: CreateScheduledJobRequestJobSpecCase1ExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: CreateScheduledJobRequestJobSpecCase1ExposePortsPublicList;
+  portsPublic?: CreateScheduledJobRequestJobSpecCase1ExposePortsPublicList | undefined;
 }
 /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
 export type CreateScheduledJobRequestJobSpecCase1Ssh = CreateScheduledJobRequestJobSpecCase0Ssh;
@@ -441,31 +441,31 @@ export interface CreateScheduledJobRequestJobSpecCase1Network {
   /** Group name, scoped to the job's owner and resource group. */
   group: string;
   /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
-  aliases?: CreateScheduledJobRequestJobSpecCase1NetworkAliasesList;
+  aliases?: CreateScheduledJobRequestJobSpecCase1NetworkAliasesList | undefined;
 }
 export interface CreateScheduledJobRequestJobSpecCase1 {
-  spaceId?: string;
+  spaceId?: string | undefined;
   dockerImage: unknown;
-  arguments?: CreateScheduledJobRequestJobSpecCase1ArgumentsList;
-  command?: CreateScheduledJobRequestJobSpecCase1CommandList;
-  environment?: CreateScheduledJobRequestJobSpecCase1EnvironmentMap;
-  secrets?: CreateScheduledJobRequestJobSpecCase1SecretsMap;
+  arguments?: CreateScheduledJobRequestJobSpecCase1ArgumentsList | undefined;
+  command?: CreateScheduledJobRequestJobSpecCase1CommandList | undefined;
+  environment?: CreateScheduledJobRequestJobSpecCase1EnvironmentMap | undefined;
+  secrets?: CreateScheduledJobRequestJobSpecCase1SecretsMap | undefined;
   flavor: CreateScheduledJobRequestJobSpecCase1Flavor | (string & {});
-  arch?: CreateScheduledJobRequestJobSpecCase1Arch | (string & {});
-  timeoutSeconds?: number | null;
+  arch?: CreateScheduledJobRequestJobSpecCase1Arch | (string & {}) | undefined;
+  timeoutSeconds?: number | null | undefined;
   /** Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails. */
-  attempts?: number;
+  attempts?: number | undefined;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: CreateScheduledJobRequestJobSpecCase1LabelsMap;
+  labels?: CreateScheduledJobRequestJobSpecCase1LabelsMap | undefined;
   /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
-  volumes?: CreateScheduledJobRequestJobSpecCase1VolumesList;
+  volumes?: CreateScheduledJobRequestJobSpecCase1VolumesList | undefined;
   /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
-  expose?: CreateScheduledJobRequestJobSpecCase1Expose;
+  expose?: CreateScheduledJobRequestJobSpecCase1Expose | undefined;
   /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
-  ssh?: CreateScheduledJobRequestJobSpecCase0Ssh;
+  ssh?: CreateScheduledJobRequestJobSpecCase0Ssh | undefined;
   /** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
-  network?: CreateScheduledJobRequestJobSpecCase1Network;
-  resourceGroupId?: string;
+  network?: CreateScheduledJobRequestJobSpecCase1Network | undefined;
+  resourceGroupId?: string | undefined;
 }
 export type CreateScheduledJobRequestJobSpec =
   | CreateScheduledJobRequestJobSpecCase0
@@ -476,9 +476,9 @@ export interface CreateScheduledJobRequest {
   /** CRON schedule expression (e.g., '0 9 * * 1' for 9 AM every Monday). */
   schedule: string;
   /** Whether the scheduled job is suspended (paused) */
-  suspend?: boolean;
+  suspend?: boolean | undefined;
   /** Whether multiple instances of this job can run concurrently */
-  concurrency?: boolean;
+  concurrency?: boolean | undefined;
 }
 export interface CreateScheduledJobResponseStatusLastJob {
   id: string;
@@ -548,7 +548,7 @@ export type CreateScheduledJobResponseJobSpecExposePortsPublicList = Array<numbe
 export interface CreateScheduledJobResponseJobSpecExpose {
   ports: CreateScheduledJobResponseJobSpecExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: CreateScheduledJobResponseJobSpecExposePortsPublicList;
+  portsPublic?: CreateScheduledJobResponseJobSpecExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type CreateScheduledJobResponseJobSpecNetworkAliasesList = Array<string>;
@@ -565,47 +565,47 @@ export type CreateScheduledJobResponseJobSpecLabelsMap = { [key: string]: string
 export type CreateScheduledJobResponseJobSpecHfTokenTokenRole = "read" | "write" | "fineGrained";
 export interface CreateScheduledJobResponseJobSpecHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: CreateScheduledJobResponseJobSpecHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: CreateScheduledJobResponseJobSpecHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface CreateScheduledJobResponseJobSpec {
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: CreateScheduledJobResponseJobSpecEnvironmentMap;
-  command?: CreateScheduledJobResponseJobSpecCommandList;
-  arguments?: CreateScheduledJobResponseJobSpecArgumentsList;
-  arch?: CreateScheduledJobResponseJobSpecArch;
+  command?: CreateScheduledJobResponseJobSpecCommandList | undefined;
+  arguments?: CreateScheduledJobResponseJobSpecArgumentsList | undefined;
+  arch?: CreateScheduledJobResponseJobSpecArch | undefined;
   flavor: CreateScheduledJobResponseJobSpecFlavor;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: CreateScheduledJobResponseJobSpecVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: CreateScheduledJobResponseJobSpecVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: CreateScheduledJobResponseJobSpecExpose;
+  expose?: CreateScheduledJobResponseJobSpecExpose | undefined;
   /** Network group the job belongs to. */
-  network?: CreateScheduledJobResponseJobSpecNetwork;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  secrets?: CreateScheduledJobResponseJobSpecSecretsList;
-  labels?: CreateScheduledJobResponseJobSpecLabelsMap;
-  hfToken?: CreateScheduledJobResponseJobSpecHfToken;
+  network?: CreateScheduledJobResponseJobSpecNetwork | undefined;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  secrets?: CreateScheduledJobResponseJobSpecSecretsList | undefined;
+  labels?: CreateScheduledJobResponseJobSpecLabelsMap | undefined;
+  hfToken?: CreateScheduledJobResponseJobSpecHfToken | undefined;
 }
 export interface CreateScheduledJobResponse {
   id: string;
   createdAt: string;
   schedule: string;
   suspend: boolean;
-  suspendReason?: string;
+  suspendReason?: string | undefined;
   concurrency: boolean;
   status: CreateScheduledJobResponseStatus;
   type: string;
   owner: CreateScheduledJobResponseOwner;
-  initiator?: CreateScheduledJobResponseInitiator;
+  initiator?: CreateScheduledJobResponseInitiator | undefined;
   jobSpec: CreateScheduledJobResponseJobSpec;
 }
 export interface DeleteScheduledJobRequest {
@@ -662,7 +662,7 @@ export type DuplicateJobResponseExposePortsPublicList = Array<number>;
 export interface DuplicateJobResponseExpose {
   ports: DuplicateJobResponseExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: DuplicateJobResponseExposePortsPublicList;
+  portsPublic?: DuplicateJobResponseExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type DuplicateJobResponseNetworkAliasesList = Array<string>;
@@ -718,54 +718,54 @@ export type DuplicateJobResponseStatusExposeUrlsList = Array<string>;
 export interface DuplicateJobResponseStatus {
   stage: DuplicateJobResponseStatusStage;
   message: string | null;
-  cancelReason?: DuplicateJobResponseStatusCancelReason;
-  failureCount?: number;
+  cancelReason?: DuplicateJobResponseStatusCancelReason | undefined;
+  failureCount?: number | undefined;
   /** One reachable URL per port declared in `expose.ports`, in the same order (e.g. `https://<job_id>--8000.hf.jobs`). Absent when the job is not exposed. */
-  exposeUrls?: DuplicateJobResponseStatusExposeUrlsList;
+  exposeUrls?: DuplicateJobResponseStatusExposeUrlsList | undefined;
   /** SSH endpoint for the job (e.g. `ssh://<job_id>@ssh.hf.jobs`). Only present when `ssh.enabled`. */
-  sshUrl?: string;
+  sshUrl?: string | undefined;
 }
 export type DuplicateJobResponseSecretsList = Array<string>;
 export type DuplicateJobResponseLabelsMap = { [key: string]: string | undefined };
 export type DuplicateJobResponseHfTokenTokenRole = "read" | "write" | "fineGrained";
 export interface DuplicateJobResponseHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: DuplicateJobResponseHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: DuplicateJobResponseHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface DuplicateJobResponse {
   id: string;
   createdAt: string;
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: DuplicateJobResponseEnvironmentMap;
-  command?: DuplicateJobResponseCommandList;
-  arguments?: DuplicateJobResponseArgumentsList;
-  arch?: DuplicateJobResponseArch;
+  command?: DuplicateJobResponseCommandList | undefined;
+  arguments?: DuplicateJobResponseArgumentsList | undefined;
+  arch?: DuplicateJobResponseArch | undefined;
   flavor: DuplicateJobResponseFlavor;
   createdBy: CancelJobResponseCreatedBy;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: DuplicateJobResponseVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: DuplicateJobResponseVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: DuplicateJobResponseExpose;
+  expose?: DuplicateJobResponseExpose | undefined;
   /** Network group the job belongs to. */
-  network?: DuplicateJobResponseNetwork;
+  network?: DuplicateJobResponseNetwork | undefined;
   type: string;
   owner: DuplicateJobResponseOwner;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  initiator?: DuplicateJobResponseInitiator;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  initiator?: DuplicateJobResponseInitiator | undefined;
   status: DuplicateJobResponseStatus;
-  secrets?: DuplicateJobResponseSecretsList;
-  labels?: DuplicateJobResponseLabelsMap;
-  hfToken?: DuplicateJobResponseHfToken;
+  secrets?: DuplicateJobResponseSecretsList | undefined;
+  labels?: DuplicateJobResponseLabelsMap | undefined;
+  hfToken?: DuplicateJobResponseHfToken | undefined;
 }
 export interface GetJobRequest {
   namespace: string;
@@ -816,7 +816,7 @@ export type GetJobResponseExposePortsPublicList = Array<number>;
 export interface GetJobResponseExpose {
   ports: GetJobResponseExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: GetJobResponseExposePortsPublicList;
+  portsPublic?: GetJobResponseExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type GetJobResponseNetworkAliasesList = Array<string>;
@@ -870,54 +870,54 @@ export type GetJobResponseStatusExposeUrlsList = Array<string>;
 export interface GetJobResponseStatus {
   stage: GetJobResponseStatusStage;
   message: string | null;
-  cancelReason?: GetJobResponseStatusCancelReason;
-  failureCount?: number;
+  cancelReason?: GetJobResponseStatusCancelReason | undefined;
+  failureCount?: number | undefined;
   /** One reachable URL per port declared in `expose.ports`, in the same order (e.g. `https://<job_id>--8000.hf.jobs`). Absent when the job is not exposed. */
-  exposeUrls?: GetJobResponseStatusExposeUrlsList;
+  exposeUrls?: GetJobResponseStatusExposeUrlsList | undefined;
   /** SSH endpoint for the job (e.g. `ssh://<job_id>@ssh.hf.jobs`). Only present when `ssh.enabled`. */
-  sshUrl?: string;
+  sshUrl?: string | undefined;
 }
 export type GetJobResponseSecretsList = Array<string>;
 export type GetJobResponseLabelsMap = { [key: string]: string | undefined };
 export type GetJobResponseHfTokenTokenRole = "read" | "write" | "fineGrained";
 export interface GetJobResponseHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: GetJobResponseHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: GetJobResponseHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface GetJobResponse {
   id: string;
   createdAt: string;
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: GetJobResponseEnvironmentMap;
-  command?: GetJobResponseCommandList;
-  arguments?: GetJobResponseArgumentsList;
-  arch?: GetJobResponseArch;
+  command?: GetJobResponseCommandList | undefined;
+  arguments?: GetJobResponseArgumentsList | undefined;
+  arch?: GetJobResponseArch | undefined;
   flavor: GetJobResponseFlavor;
   createdBy: CancelJobResponseCreatedBy;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: GetJobResponseVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: GetJobResponseVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: GetJobResponseExpose;
+  expose?: GetJobResponseExpose | undefined;
   /** Network group the job belongs to. */
-  network?: GetJobResponseNetwork;
+  network?: GetJobResponseNetwork | undefined;
   type: string;
   owner: GetJobResponseOwner;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  initiator?: GetJobResponseInitiator;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  initiator?: GetJobResponseInitiator | undefined;
   status: GetJobResponseStatus;
-  secrets?: GetJobResponseSecretsList;
-  labels?: GetJobResponseLabelsMap;
-  hfToken?: GetJobResponseHfToken;
+  secrets?: GetJobResponseSecretsList | undefined;
+  labels?: GetJobResponseLabelsMap | undefined;
+  hfToken?: GetJobResponseHfToken | undefined;
 }
 export interface GetJobHardwareRequest {}
 export type GetJobHardwareResponseBodyItemAcceleratorType = "gpu" | "neuron";
@@ -1008,7 +1008,7 @@ export type GetScheduledJobResponseJobSpecExposePortsPublicList = Array<number>;
 export interface GetScheduledJobResponseJobSpecExpose {
   ports: GetScheduledJobResponseJobSpecExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: GetScheduledJobResponseJobSpecExposePortsPublicList;
+  portsPublic?: GetScheduledJobResponseJobSpecExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type GetScheduledJobResponseJobSpecNetworkAliasesList = Array<string>;
@@ -1025,47 +1025,47 @@ export type GetScheduledJobResponseJobSpecLabelsMap = { [key: string]: string | 
 export type GetScheduledJobResponseJobSpecHfTokenTokenRole = "read" | "write" | "fineGrained";
 export interface GetScheduledJobResponseJobSpecHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: GetScheduledJobResponseJobSpecHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: GetScheduledJobResponseJobSpecHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface GetScheduledJobResponseJobSpec {
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: GetScheduledJobResponseJobSpecEnvironmentMap;
-  command?: GetScheduledJobResponseJobSpecCommandList;
-  arguments?: GetScheduledJobResponseJobSpecArgumentsList;
-  arch?: GetScheduledJobResponseJobSpecArch;
+  command?: GetScheduledJobResponseJobSpecCommandList | undefined;
+  arguments?: GetScheduledJobResponseJobSpecArgumentsList | undefined;
+  arch?: GetScheduledJobResponseJobSpecArch | undefined;
   flavor: GetScheduledJobResponseJobSpecFlavor;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: GetScheduledJobResponseJobSpecVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: GetScheduledJobResponseJobSpecVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: GetScheduledJobResponseJobSpecExpose;
+  expose?: GetScheduledJobResponseJobSpecExpose | undefined;
   /** Network group the job belongs to. */
-  network?: GetScheduledJobResponseJobSpecNetwork;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  secrets?: GetScheduledJobResponseJobSpecSecretsList;
-  labels?: GetScheduledJobResponseJobSpecLabelsMap;
-  hfToken?: GetScheduledJobResponseJobSpecHfToken;
+  network?: GetScheduledJobResponseJobSpecNetwork | undefined;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  secrets?: GetScheduledJobResponseJobSpecSecretsList | undefined;
+  labels?: GetScheduledJobResponseJobSpecLabelsMap | undefined;
+  hfToken?: GetScheduledJobResponseJobSpecHfToken | undefined;
 }
 export interface GetScheduledJobResponse {
   id: string;
   createdAt: string;
   schedule: string;
   suspend: boolean;
-  suspendReason?: string;
+  suspendReason?: string | undefined;
   concurrency: boolean;
   status: CreateScheduledJobResponseStatus;
   type: string;
   owner: GetScheduledJobResponseOwner;
-  initiator?: GetScheduledJobResponseInitiator;
+  initiator?: GetScheduledJobResponseInitiator | undefined;
   jobSpec: GetScheduledJobResponseJobSpec;
 }
 export type ListJobsRequestLabelCase1List = Array<string>;
@@ -1090,9 +1090,9 @@ export type ListJobsRequestStageCase1List = Array<ListJobsRequestStageCase1Item 
 export type ListJobsRequestStage = ListJobsRequestStageCase0 | ListJobsRequestStageCase1List;
 export interface ListJobsRequest {
   namespace: string;
-  label?: ListJobsRequestLabel;
-  stage?: ListJobsRequestStage;
-  cursor?: string;
+  label?: ListJobsRequestLabel | undefined;
+  stage?: ListJobsRequestStage | undefined;
+  cursor?: string | undefined;
 }
 export type ListJobsResponseBodyItemEnvironmentMap = { [key: string]: string | undefined };
 export type ListJobsResponseBodyItemCommandList = Array<string>;
@@ -1139,7 +1139,7 @@ export type ListJobsResponseBodyItemExposePortsPublicList = Array<number>;
 export interface ListJobsResponseBodyItemExpose {
   ports: ListJobsResponseBodyItemExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: ListJobsResponseBodyItemExposePortsPublicList;
+  portsPublic?: ListJobsResponseBodyItemExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type ListJobsResponseBodyItemNetworkAliasesList = Array<string>;
@@ -1195,60 +1195,60 @@ export type ListJobsResponseBodyItemStatusExposeUrlsList = Array<string>;
 export interface ListJobsResponseBodyItemStatus {
   stage: ListJobsResponseBodyItemStatusStage;
   message: string | null;
-  cancelReason?: ListJobsResponseBodyItemStatusCancelReason;
-  failureCount?: number;
+  cancelReason?: ListJobsResponseBodyItemStatusCancelReason | undefined;
+  failureCount?: number | undefined;
   /** One reachable URL per port declared in `expose.ports`, in the same order (e.g. `https://<job_id>--8000.hf.jobs`). Absent when the job is not exposed. */
-  exposeUrls?: ListJobsResponseBodyItemStatusExposeUrlsList;
+  exposeUrls?: ListJobsResponseBodyItemStatusExposeUrlsList | undefined;
   /** SSH endpoint for the job (e.g. `ssh://<job_id>@ssh.hf.jobs`). Only present when `ssh.enabled`. */
-  sshUrl?: string;
+  sshUrl?: string | undefined;
 }
 export type ListJobsResponseBodyItemSecretsList = Array<string>;
 export type ListJobsResponseBodyItemLabelsMap = { [key: string]: string | undefined };
 export type ListJobsResponseBodyItemHfTokenTokenRole = "read" | "write" | "fineGrained";
 export interface ListJobsResponseBodyItemHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: ListJobsResponseBodyItemHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: ListJobsResponseBodyItemHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface ListJobsResponseBodyItem {
   id: string;
   createdAt: string;
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: ListJobsResponseBodyItemEnvironmentMap;
-  command?: ListJobsResponseBodyItemCommandList;
-  arguments?: ListJobsResponseBodyItemArgumentsList;
-  arch?: ListJobsResponseBodyItemArch;
+  command?: ListJobsResponseBodyItemCommandList | undefined;
+  arguments?: ListJobsResponseBodyItemArgumentsList | undefined;
+  arch?: ListJobsResponseBodyItemArch | undefined;
   flavor: ListJobsResponseBodyItemFlavor;
   createdBy: CancelJobResponseCreatedBy;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: ListJobsResponseBodyItemVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: ListJobsResponseBodyItemVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: ListJobsResponseBodyItemExpose;
+  expose?: ListJobsResponseBodyItemExpose | undefined;
   /** Network group the job belongs to. */
-  network?: ListJobsResponseBodyItemNetwork;
+  network?: ListJobsResponseBodyItemNetwork | undefined;
   type: string;
   owner: ListJobsResponseBodyItemOwner;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  initiator?: ListJobsResponseBodyItemInitiator;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  initiator?: ListJobsResponseBodyItemInitiator | undefined;
   status: ListJobsResponseBodyItemStatus;
-  secrets?: ListJobsResponseBodyItemSecretsList;
-  labels?: ListJobsResponseBodyItemLabelsMap;
-  hfToken?: ListJobsResponseBodyItemHfToken;
+  secrets?: ListJobsResponseBodyItemSecretsList | undefined;
+  labels?: ListJobsResponseBodyItemLabelsMap | undefined;
+  hfToken?: ListJobsResponseBodyItemHfToken | undefined;
 }
 export type ListJobsResponseBodyList = Array<ListJobsResponseBodyItem>;
 export type ListJobsResponse = ListJobsResponseBodyList;
 export interface ListScheduledJobsRequest {
   namespace: string;
-  label?: string;
+  label?: string | undefined;
 }
 export type ListScheduledJobsResponseBodyItemStatusLastJob =
   CreateScheduledJobResponseStatusLastJob;
@@ -1316,7 +1316,7 @@ export type ListScheduledJobsResponseBodyItemJobSpecExposePortsPublicList = Arra
 export interface ListScheduledJobsResponseBodyItemJobSpecExpose {
   ports: ListScheduledJobsResponseBodyItemJobSpecExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: ListScheduledJobsResponseBodyItemJobSpecExposePortsPublicList;
+  portsPublic?: ListScheduledJobsResponseBodyItemJobSpecExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type ListScheduledJobsResponseBodyItemJobSpecNetworkAliasesList = Array<string>;
@@ -1338,47 +1338,47 @@ export type ListScheduledJobsResponseBodyItemJobSpecHfTokenTokenRole =
   | "fineGrained";
 export interface ListScheduledJobsResponseBodyItemJobSpecHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: ListScheduledJobsResponseBodyItemJobSpecHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: ListScheduledJobsResponseBodyItemJobSpecHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface ListScheduledJobsResponseBodyItemJobSpec {
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: ListScheduledJobsResponseBodyItemJobSpecEnvironmentMap;
-  command?: ListScheduledJobsResponseBodyItemJobSpecCommandList;
-  arguments?: ListScheduledJobsResponseBodyItemJobSpecArgumentsList;
-  arch?: ListScheduledJobsResponseBodyItemJobSpecArch;
+  command?: ListScheduledJobsResponseBodyItemJobSpecCommandList | undefined;
+  arguments?: ListScheduledJobsResponseBodyItemJobSpecArgumentsList | undefined;
+  arch?: ListScheduledJobsResponseBodyItemJobSpecArch | undefined;
   flavor: ListScheduledJobsResponseBodyItemJobSpecFlavor;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: ListScheduledJobsResponseBodyItemJobSpecVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: ListScheduledJobsResponseBodyItemJobSpecVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: ListScheduledJobsResponseBodyItemJobSpecExpose;
+  expose?: ListScheduledJobsResponseBodyItemJobSpecExpose | undefined;
   /** Network group the job belongs to. */
-  network?: ListScheduledJobsResponseBodyItemJobSpecNetwork;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  secrets?: ListScheduledJobsResponseBodyItemJobSpecSecretsList;
-  labels?: ListScheduledJobsResponseBodyItemJobSpecLabelsMap;
-  hfToken?: ListScheduledJobsResponseBodyItemJobSpecHfToken;
+  network?: ListScheduledJobsResponseBodyItemJobSpecNetwork | undefined;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  secrets?: ListScheduledJobsResponseBodyItemJobSpecSecretsList | undefined;
+  labels?: ListScheduledJobsResponseBodyItemJobSpecLabelsMap | undefined;
+  hfToken?: ListScheduledJobsResponseBodyItemJobSpecHfToken | undefined;
 }
 export interface ListScheduledJobsResponseBodyItem {
   id: string;
   createdAt: string;
   schedule: string;
   suspend: boolean;
-  suspendReason?: string;
+  suspendReason?: string | undefined;
   concurrency: boolean;
   status: CreateScheduledJobResponseStatus;
   type: string;
   owner: ListScheduledJobsResponseBodyItemOwner;
-  initiator?: ListScheduledJobsResponseBodyItemInitiator;
+  initiator?: ListScheduledJobsResponseBodyItemInitiator | undefined;
   jobSpec: ListScheduledJobsResponseBodyItemJobSpec;
 }
 export type ListScheduledJobsResponseBodyList = Array<ListScheduledJobsResponseBodyItem>;
@@ -1437,7 +1437,7 @@ export type RunJobResponseExposePortsPublicList = Array<number>;
 export interface RunJobResponseExpose {
   ports: RunJobResponseExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: RunJobResponseExposePortsPublicList;
+  portsPublic?: RunJobResponseExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type RunJobResponseNetworkAliasesList = Array<string>;
@@ -1491,54 +1491,54 @@ export type RunJobResponseStatusExposeUrlsList = Array<string>;
 export interface RunJobResponseStatus {
   stage: RunJobResponseStatusStage;
   message: string | null;
-  cancelReason?: RunJobResponseStatusCancelReason;
-  failureCount?: number;
+  cancelReason?: RunJobResponseStatusCancelReason | undefined;
+  failureCount?: number | undefined;
   /** One reachable URL per port declared in `expose.ports`, in the same order (e.g. `https://<job_id>--8000.hf.jobs`). Absent when the job is not exposed. */
-  exposeUrls?: RunJobResponseStatusExposeUrlsList;
+  exposeUrls?: RunJobResponseStatusExposeUrlsList | undefined;
   /** SSH endpoint for the job (e.g. `ssh://<job_id>@ssh.hf.jobs`). Only present when `ssh.enabled`. */
-  sshUrl?: string;
+  sshUrl?: string | undefined;
 }
 export type RunJobResponseSecretsList = Array<string>;
 export type RunJobResponseLabelsMap = { [key: string]: string | undefined };
 export type RunJobResponseHfTokenTokenRole = "read" | "write" | "fineGrained";
 export interface RunJobResponseHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: RunJobResponseHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: RunJobResponseHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface RunJobResponse {
   id: string;
   createdAt: string;
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: RunJobResponseEnvironmentMap;
-  command?: RunJobResponseCommandList;
-  arguments?: RunJobResponseArgumentsList;
-  arch?: RunJobResponseArch;
+  command?: RunJobResponseCommandList | undefined;
+  arguments?: RunJobResponseArgumentsList | undefined;
+  arch?: RunJobResponseArch | undefined;
   flavor: RunJobResponseFlavor;
   createdBy: CancelJobResponseCreatedBy;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: RunJobResponseVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: RunJobResponseVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: RunJobResponseExpose;
+  expose?: RunJobResponseExpose | undefined;
   /** Network group the job belongs to. */
-  network?: RunJobResponseNetwork;
+  network?: RunJobResponseNetwork | undefined;
   type: string;
   owner: RunJobResponseOwner;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  initiator?: RunJobResponseInitiator;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  initiator?: RunJobResponseInitiator | undefined;
   status: RunJobResponseStatus;
-  secrets?: RunJobResponseSecretsList;
-  labels?: RunJobResponseLabelsMap;
-  hfToken?: RunJobResponseHfToken;
+  secrets?: RunJobResponseSecretsList | undefined;
+  labels?: RunJobResponseLabelsMap | undefined;
+  hfToken?: RunJobResponseHfToken | undefined;
 }
 export type StartJobRequestBodyCase0ArgumentsList = Array<string>;
 export type StartJobRequestBodyCase0CommandList = Array<string>;
@@ -1585,11 +1585,11 @@ export interface StartJobRequestBodyCase0VolumesItem {
   /** Mount path inside the container, e.g. '/data' */
   mountPath: string;
   /** Git revision (only for repos, defaults to 'main') */
-  revision?: string;
+  revision?: string | undefined;
   /** Read-only mount (true for repos, false default for buckets) */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
-  path?: string;
+  path?: string | undefined;
 }
 /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
 export type StartJobRequestBodyCase0VolumesList = Array<StartJobRequestBodyCase0VolumesItem>;
@@ -1600,7 +1600,7 @@ export type StartJobRequestBodyCase0ExposePortsPublicList = Array<number>;
 export interface StartJobRequestBodyCase0Expose {
   ports: StartJobRequestBodyCase0ExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: StartJobRequestBodyCase0ExposePortsPublicList;
+  portsPublic?: StartJobRequestBodyCase0ExposePortsPublicList | undefined;
 }
 /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
 export type StartJobRequestBodyCase0Ssh = CreateScheduledJobRequestJobSpecCase0Ssh;
@@ -1611,31 +1611,31 @@ export interface StartJobRequestBodyCase0Network {
   /** Group name, scoped to the job's owner and resource group. */
   group: string;
   /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
-  aliases?: StartJobRequestBodyCase0NetworkAliasesList;
+  aliases?: StartJobRequestBodyCase0NetworkAliasesList | undefined;
 }
 export interface StartJobRequestBodyCase0 {
   spaceId: unknown;
-  dockerImage?: string;
-  arguments?: StartJobRequestBodyCase0ArgumentsList;
-  command?: StartJobRequestBodyCase0CommandList;
-  environment?: StartJobRequestBodyCase0EnvironmentMap;
-  secrets?: StartJobRequestBodyCase0SecretsMap;
+  dockerImage?: string | undefined;
+  arguments?: StartJobRequestBodyCase0ArgumentsList | undefined;
+  command?: StartJobRequestBodyCase0CommandList | undefined;
+  environment?: StartJobRequestBodyCase0EnvironmentMap | undefined;
+  secrets?: StartJobRequestBodyCase0SecretsMap | undefined;
   flavor: StartJobRequestBodyCase0Flavor | (string & {});
-  arch?: StartJobRequestBodyCase0Arch | (string & {});
-  timeoutSeconds?: number | null;
+  arch?: StartJobRequestBodyCase0Arch | (string & {}) | undefined;
+  timeoutSeconds?: number | null | undefined;
   /** Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails. */
-  attempts?: number;
+  attempts?: number | undefined;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: StartJobRequestBodyCase0LabelsMap;
+  labels?: StartJobRequestBodyCase0LabelsMap | undefined;
   /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
-  volumes?: StartJobRequestBodyCase0VolumesList;
+  volumes?: StartJobRequestBodyCase0VolumesList | undefined;
   /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
-  expose?: StartJobRequestBodyCase0Expose;
+  expose?: StartJobRequestBodyCase0Expose | undefined;
   /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
-  ssh?: CreateScheduledJobRequestJobSpecCase0Ssh;
+  ssh?: CreateScheduledJobRequestJobSpecCase0Ssh | undefined;
   /** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
-  network?: StartJobRequestBodyCase0Network;
-  resourceGroupId?: string;
+  network?: StartJobRequestBodyCase0Network | undefined;
+  resourceGroupId?: string | undefined;
 }
 export type StartJobRequestBodyCase1ArgumentsList = Array<string>;
 export type StartJobRequestBodyCase1CommandList = Array<string>;
@@ -1682,11 +1682,11 @@ export interface StartJobRequestBodyCase1VolumesItem {
   /** Mount path inside the container, e.g. '/data' */
   mountPath: string;
   /** Git revision (only for repos, defaults to 'main') */
-  revision?: string;
+  revision?: string | undefined;
   /** Read-only mount (true for repos, false default for buckets) */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
-  path?: string;
+  path?: string | undefined;
 }
 /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
 export type StartJobRequestBodyCase1VolumesList = Array<StartJobRequestBodyCase1VolumesItem>;
@@ -1697,7 +1697,7 @@ export type StartJobRequestBodyCase1ExposePortsPublicList = Array<number>;
 export interface StartJobRequestBodyCase1Expose {
   ports: StartJobRequestBodyCase1ExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: StartJobRequestBodyCase1ExposePortsPublicList;
+  portsPublic?: StartJobRequestBodyCase1ExposePortsPublicList | undefined;
 }
 /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
 export type StartJobRequestBodyCase1Ssh = CreateScheduledJobRequestJobSpecCase0Ssh;
@@ -1708,36 +1708,36 @@ export interface StartJobRequestBodyCase1Network {
   /** Group name, scoped to the job's owner and resource group. */
   group: string;
   /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
-  aliases?: StartJobRequestBodyCase1NetworkAliasesList;
+  aliases?: StartJobRequestBodyCase1NetworkAliasesList | undefined;
 }
 export interface StartJobRequestBodyCase1 {
-  spaceId?: string;
+  spaceId?: string | undefined;
   dockerImage: unknown;
-  arguments?: StartJobRequestBodyCase1ArgumentsList;
-  command?: StartJobRequestBodyCase1CommandList;
-  environment?: StartJobRequestBodyCase1EnvironmentMap;
-  secrets?: StartJobRequestBodyCase1SecretsMap;
+  arguments?: StartJobRequestBodyCase1ArgumentsList | undefined;
+  command?: StartJobRequestBodyCase1CommandList | undefined;
+  environment?: StartJobRequestBodyCase1EnvironmentMap | undefined;
+  secrets?: StartJobRequestBodyCase1SecretsMap | undefined;
   flavor: StartJobRequestBodyCase1Flavor | (string & {});
-  arch?: StartJobRequestBodyCase1Arch | (string & {});
-  timeoutSeconds?: number | null;
+  arch?: StartJobRequestBodyCase1Arch | (string & {}) | undefined;
+  timeoutSeconds?: number | null | undefined;
   /** Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails. */
-  attempts?: number;
+  attempts?: number | undefined;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: StartJobRequestBodyCase1LabelsMap;
+  labels?: StartJobRequestBodyCase1LabelsMap | undefined;
   /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
-  volumes?: StartJobRequestBodyCase1VolumesList;
+  volumes?: StartJobRequestBodyCase1VolumesList | undefined;
   /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
-  expose?: StartJobRequestBodyCase1Expose;
+  expose?: StartJobRequestBodyCase1Expose | undefined;
   /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
-  ssh?: CreateScheduledJobRequestJobSpecCase0Ssh;
+  ssh?: CreateScheduledJobRequestJobSpecCase0Ssh | undefined;
   /** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
-  network?: StartJobRequestBodyCase1Network;
-  resourceGroupId?: string;
+  network?: StartJobRequestBodyCase1Network | undefined;
+  resourceGroupId?: string | undefined;
 }
 export type StartJobRequestBody = StartJobRequestBodyCase0 | StartJobRequestBodyCase1;
 export interface StartJobRequest {
   namespace: string;
-  body?: StartJobRequestBody;
+  body?: StartJobRequestBody | undefined;
 }
 export type StartJobResponseEnvironmentMap = { [key: string]: string | undefined };
 export type StartJobResponseCommandList = Array<string>;
@@ -1784,7 +1784,7 @@ export type StartJobResponseExposePortsPublicList = Array<number>;
 export interface StartJobResponseExpose {
   ports: StartJobResponseExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: StartJobResponseExposePortsPublicList;
+  portsPublic?: StartJobResponseExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type StartJobResponseNetworkAliasesList = Array<string>;
@@ -1838,54 +1838,54 @@ export type StartJobResponseStatusExposeUrlsList = Array<string>;
 export interface StartJobResponseStatus {
   stage: StartJobResponseStatusStage;
   message: string | null;
-  cancelReason?: StartJobResponseStatusCancelReason;
-  failureCount?: number;
+  cancelReason?: StartJobResponseStatusCancelReason | undefined;
+  failureCount?: number | undefined;
   /** One reachable URL per port declared in `expose.ports`, in the same order (e.g. `https://<job_id>--8000.hf.jobs`). Absent when the job is not exposed. */
-  exposeUrls?: StartJobResponseStatusExposeUrlsList;
+  exposeUrls?: StartJobResponseStatusExposeUrlsList | undefined;
   /** SSH endpoint for the job (e.g. `ssh://<job_id>@ssh.hf.jobs`). Only present when `ssh.enabled`. */
-  sshUrl?: string;
+  sshUrl?: string | undefined;
 }
 export type StartJobResponseSecretsList = Array<string>;
 export type StartJobResponseLabelsMap = { [key: string]: string | undefined };
 export type StartJobResponseHfTokenTokenRole = "read" | "write" | "fineGrained";
 export interface StartJobResponseHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: StartJobResponseHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: StartJobResponseHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface StartJobResponse {
   id: string;
   createdAt: string;
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: StartJobResponseEnvironmentMap;
-  command?: StartJobResponseCommandList;
-  arguments?: StartJobResponseArgumentsList;
-  arch?: StartJobResponseArch;
+  command?: StartJobResponseCommandList | undefined;
+  arguments?: StartJobResponseArgumentsList | undefined;
+  arch?: StartJobResponseArch | undefined;
   flavor: StartJobResponseFlavor;
   createdBy: CancelJobResponseCreatedBy;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: StartJobResponseVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: StartJobResponseVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: StartJobResponseExpose;
+  expose?: StartJobResponseExpose | undefined;
   /** Network group the job belongs to. */
-  network?: StartJobResponseNetwork;
+  network?: StartJobResponseNetwork | undefined;
   type: string;
   owner: StartJobResponseOwner;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  initiator?: StartJobResponseInitiator;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  initiator?: StartJobResponseInitiator | undefined;
   status: StartJobResponseStatus;
-  secrets?: StartJobResponseSecretsList;
-  labels?: StartJobResponseLabelsMap;
-  hfToken?: StartJobResponseHfToken;
+  secrets?: StartJobResponseSecretsList | undefined;
+  labels?: StartJobResponseLabelsMap | undefined;
+  hfToken?: StartJobResponseHfToken | undefined;
 }
 export interface StreamJobEventsRequest {
   namespace: string;
@@ -1895,7 +1895,7 @@ export interface StreamJobEventsResponse {}
 export interface StreamJobLogsRequest {
   namespace: string;
   jobId: string;
-  tail?: number;
+  tail?: number | undefined;
 }
 export interface StreamJobLogsResponse {}
 export interface StreamJobMetricsRequest {
@@ -1916,7 +1916,7 @@ export interface UpdateJobExposedPortsRequest {
   jobId: string;
   ports: UpdateJobExposedPortsRequestPortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: UpdateJobExposedPortsRequestPortsPublicList;
+  portsPublic?: UpdateJobExposedPortsRequestPortsPublicList | undefined;
 }
 export type UpdateJobExposedPortsResponseEnvironmentMap = { [key: string]: string | undefined };
 export type UpdateJobExposedPortsResponseCommandList = Array<string>;
@@ -1963,7 +1963,7 @@ export type UpdateJobExposedPortsResponseExposePortsPublicList = Array<number>;
 export interface UpdateJobExposedPortsResponseExpose {
   ports: UpdateJobExposedPortsResponseExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: UpdateJobExposedPortsResponseExposePortsPublicList;
+  portsPublic?: UpdateJobExposedPortsResponseExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type UpdateJobExposedPortsResponseNetworkAliasesList = Array<string>;
@@ -2019,54 +2019,54 @@ export type UpdateJobExposedPortsResponseStatusExposeUrlsList = Array<string>;
 export interface UpdateJobExposedPortsResponseStatus {
   stage: UpdateJobExposedPortsResponseStatusStage;
   message: string | null;
-  cancelReason?: UpdateJobExposedPortsResponseStatusCancelReason;
-  failureCount?: number;
+  cancelReason?: UpdateJobExposedPortsResponseStatusCancelReason | undefined;
+  failureCount?: number | undefined;
   /** One reachable URL per port declared in `expose.ports`, in the same order (e.g. `https://<job_id>--8000.hf.jobs`). Absent when the job is not exposed. */
-  exposeUrls?: UpdateJobExposedPortsResponseStatusExposeUrlsList;
+  exposeUrls?: UpdateJobExposedPortsResponseStatusExposeUrlsList | undefined;
   /** SSH endpoint for the job (e.g. `ssh://<job_id>@ssh.hf.jobs`). Only present when `ssh.enabled`. */
-  sshUrl?: string;
+  sshUrl?: string | undefined;
 }
 export type UpdateJobExposedPortsResponseSecretsList = Array<string>;
 export type UpdateJobExposedPortsResponseLabelsMap = { [key: string]: string | undefined };
 export type UpdateJobExposedPortsResponseHfTokenTokenRole = "read" | "write" | "fineGrained";
 export interface UpdateJobExposedPortsResponseHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: UpdateJobExposedPortsResponseHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: UpdateJobExposedPortsResponseHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface UpdateJobExposedPortsResponse {
   id: string;
   createdAt: string;
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: UpdateJobExposedPortsResponseEnvironmentMap;
-  command?: UpdateJobExposedPortsResponseCommandList;
-  arguments?: UpdateJobExposedPortsResponseArgumentsList;
-  arch?: UpdateJobExposedPortsResponseArch;
+  command?: UpdateJobExposedPortsResponseCommandList | undefined;
+  arguments?: UpdateJobExposedPortsResponseArgumentsList | undefined;
+  arch?: UpdateJobExposedPortsResponseArch | undefined;
   flavor: UpdateJobExposedPortsResponseFlavor;
   createdBy: CancelJobResponseCreatedBy;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: UpdateJobExposedPortsResponseVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: UpdateJobExposedPortsResponseVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: UpdateJobExposedPortsResponseExpose;
+  expose?: UpdateJobExposedPortsResponseExpose | undefined;
   /** Network group the job belongs to. */
-  network?: UpdateJobExposedPortsResponseNetwork;
+  network?: UpdateJobExposedPortsResponseNetwork | undefined;
   type: string;
   owner: UpdateJobExposedPortsResponseOwner;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  initiator?: UpdateJobExposedPortsResponseInitiator;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  initiator?: UpdateJobExposedPortsResponseInitiator | undefined;
   status: UpdateJobExposedPortsResponseStatus;
-  secrets?: UpdateJobExposedPortsResponseSecretsList;
-  labels?: UpdateJobExposedPortsResponseLabelsMap;
-  hfToken?: UpdateJobExposedPortsResponseHfToken;
+  secrets?: UpdateJobExposedPortsResponseSecretsList | undefined;
+  labels?: UpdateJobExposedPortsResponseLabelsMap | undefined;
+  hfToken?: UpdateJobExposedPortsResponseHfToken | undefined;
 }
 /** The new labels to set on the job. Replaces all existing labels. */
 export type UpdateJobLabelsRequestLabelsMap = { [key: string]: string | undefined };
@@ -2121,7 +2121,7 @@ export type UpdateJobLabelsResponseExposePortsPublicList = Array<number>;
 export interface UpdateJobLabelsResponseExpose {
   ports: UpdateJobLabelsResponseExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: UpdateJobLabelsResponseExposePortsPublicList;
+  portsPublic?: UpdateJobLabelsResponseExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type UpdateJobLabelsResponseNetworkAliasesList = Array<string>;
@@ -2177,54 +2177,54 @@ export type UpdateJobLabelsResponseStatusExposeUrlsList = Array<string>;
 export interface UpdateJobLabelsResponseStatus {
   stage: UpdateJobLabelsResponseStatusStage;
   message: string | null;
-  cancelReason?: UpdateJobLabelsResponseStatusCancelReason;
-  failureCount?: number;
+  cancelReason?: UpdateJobLabelsResponseStatusCancelReason | undefined;
+  failureCount?: number | undefined;
   /** One reachable URL per port declared in `expose.ports`, in the same order (e.g. `https://<job_id>--8000.hf.jobs`). Absent when the job is not exposed. */
-  exposeUrls?: UpdateJobLabelsResponseStatusExposeUrlsList;
+  exposeUrls?: UpdateJobLabelsResponseStatusExposeUrlsList | undefined;
   /** SSH endpoint for the job (e.g. `ssh://<job_id>@ssh.hf.jobs`). Only present when `ssh.enabled`. */
-  sshUrl?: string;
+  sshUrl?: string | undefined;
 }
 export type UpdateJobLabelsResponseSecretsList = Array<string>;
 export type UpdateJobLabelsResponseLabelsMap = { [key: string]: string | undefined };
 export type UpdateJobLabelsResponseHfTokenTokenRole = "read" | "write" | "fineGrained";
 export interface UpdateJobLabelsResponseHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: UpdateJobLabelsResponseHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: UpdateJobLabelsResponseHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface UpdateJobLabelsResponse {
   id: string;
   createdAt: string;
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: UpdateJobLabelsResponseEnvironmentMap;
-  command?: UpdateJobLabelsResponseCommandList;
-  arguments?: UpdateJobLabelsResponseArgumentsList;
-  arch?: UpdateJobLabelsResponseArch;
+  command?: UpdateJobLabelsResponseCommandList | undefined;
+  arguments?: UpdateJobLabelsResponseArgumentsList | undefined;
+  arch?: UpdateJobLabelsResponseArch | undefined;
   flavor: UpdateJobLabelsResponseFlavor;
   createdBy: CancelJobResponseCreatedBy;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: UpdateJobLabelsResponseVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: UpdateJobLabelsResponseVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: UpdateJobLabelsResponseExpose;
+  expose?: UpdateJobLabelsResponseExpose | undefined;
   /** Network group the job belongs to. */
-  network?: UpdateJobLabelsResponseNetwork;
+  network?: UpdateJobLabelsResponseNetwork | undefined;
   type: string;
   owner: UpdateJobLabelsResponseOwner;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  initiator?: UpdateJobLabelsResponseInitiator;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  initiator?: UpdateJobLabelsResponseInitiator | undefined;
   status: UpdateJobLabelsResponseStatus;
-  secrets?: UpdateJobLabelsResponseSecretsList;
-  labels?: UpdateJobLabelsResponseLabelsMap;
-  hfToken?: UpdateJobLabelsResponseHfToken;
+  secrets?: UpdateJobLabelsResponseSecretsList | undefined;
+  labels?: UpdateJobLabelsResponseLabelsMap | undefined;
+  hfToken?: UpdateJobLabelsResponseHfToken | undefined;
 }
 export interface UpdateJobScheduleRequest {
   namespace: string;
@@ -2294,7 +2294,7 @@ export type UpdateJobScheduleResponseJobSpecExposePortsPublicList = Array<number
 export interface UpdateJobScheduleResponseJobSpecExpose {
   ports: UpdateJobScheduleResponseJobSpecExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: UpdateJobScheduleResponseJobSpecExposePortsPublicList;
+  portsPublic?: UpdateJobScheduleResponseJobSpecExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type UpdateJobScheduleResponseJobSpecNetworkAliasesList = Array<string>;
@@ -2311,47 +2311,47 @@ export type UpdateJobScheduleResponseJobSpecLabelsMap = { [key: string]: string 
 export type UpdateJobScheduleResponseJobSpecHfTokenTokenRole = "read" | "write" | "fineGrained";
 export interface UpdateJobScheduleResponseJobSpecHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: UpdateJobScheduleResponseJobSpecHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: UpdateJobScheduleResponseJobSpecHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface UpdateJobScheduleResponseJobSpec {
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: UpdateJobScheduleResponseJobSpecEnvironmentMap;
-  command?: UpdateJobScheduleResponseJobSpecCommandList;
-  arguments?: UpdateJobScheduleResponseJobSpecArgumentsList;
-  arch?: UpdateJobScheduleResponseJobSpecArch;
+  command?: UpdateJobScheduleResponseJobSpecCommandList | undefined;
+  arguments?: UpdateJobScheduleResponseJobSpecArgumentsList | undefined;
+  arch?: UpdateJobScheduleResponseJobSpecArch | undefined;
   flavor: UpdateJobScheduleResponseJobSpecFlavor;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: UpdateJobScheduleResponseJobSpecVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: UpdateJobScheduleResponseJobSpecVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: UpdateJobScheduleResponseJobSpecExpose;
+  expose?: UpdateJobScheduleResponseJobSpecExpose | undefined;
   /** Network group the job belongs to. */
-  network?: UpdateJobScheduleResponseJobSpecNetwork;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  secrets?: UpdateJobScheduleResponseJobSpecSecretsList;
-  labels?: UpdateJobScheduleResponseJobSpecLabelsMap;
-  hfToken?: UpdateJobScheduleResponseJobSpecHfToken;
+  network?: UpdateJobScheduleResponseJobSpecNetwork | undefined;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  secrets?: UpdateJobScheduleResponseJobSpecSecretsList | undefined;
+  labels?: UpdateJobScheduleResponseJobSpecLabelsMap | undefined;
+  hfToken?: UpdateJobScheduleResponseJobSpecHfToken | undefined;
 }
 export interface UpdateJobScheduleResponse {
   id: string;
   createdAt: string;
   schedule: string;
   suspend: boolean;
-  suspendReason?: string;
+  suspendReason?: string | undefined;
   concurrency: boolean;
   status: CreateScheduledJobResponseStatus;
   type: string;
   owner: UpdateJobScheduleResponseOwner;
-  initiator?: UpdateJobScheduleResponseInitiator;
+  initiator?: UpdateJobScheduleResponseInitiator | undefined;
   jobSpec: UpdateJobScheduleResponseJobSpec;
 }
 /** The new labels to set on the job. Replaces all existing labels. */
@@ -2427,7 +2427,7 @@ export type UpdateScheduledJobLabelsResponseJobSpecExposePortsPublicList = Array
 export interface UpdateScheduledJobLabelsResponseJobSpecExpose {
   ports: UpdateScheduledJobLabelsResponseJobSpecExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: UpdateScheduledJobLabelsResponseJobSpecExposePortsPublicList;
+  portsPublic?: UpdateScheduledJobLabelsResponseJobSpecExposePortsPublicList | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type UpdateScheduledJobLabelsResponseJobSpecNetworkAliasesList = Array<string>;
@@ -2449,47 +2449,47 @@ export type UpdateScheduledJobLabelsResponseJobSpecHfTokenTokenRole =
   | "fineGrained";
 export interface UpdateScheduledJobLabelsResponseJobSpecHfToken {
   ownerName: string;
-  orgName?: string;
-  tokenRole?: UpdateScheduledJobLabelsResponseJobSpecHfTokenTokenRole;
+  orgName?: string | undefined;
+  tokenRole?: UpdateScheduledJobLabelsResponseJobSpecHfTokenTokenRole | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
-  tokenId?: string;
-  settingsUrl?: string;
+  tokenId?: string | undefined;
+  settingsUrl?: string | undefined;
 }
 export interface UpdateScheduledJobLabelsResponseJobSpec {
-  spaceId?: string;
-  dockerImage?: string;
-  timeout?: number;
+  spaceId?: string | undefined;
+  dockerImage?: string | undefined;
+  timeout?: number | undefined;
   environment: UpdateScheduledJobLabelsResponseJobSpecEnvironmentMap;
-  command?: UpdateScheduledJobLabelsResponseJobSpecCommandList;
-  arguments?: UpdateScheduledJobLabelsResponseJobSpecArgumentsList;
-  arch?: UpdateScheduledJobLabelsResponseJobSpecArch;
+  command?: UpdateScheduledJobLabelsResponseJobSpecCommandList | undefined;
+  arguments?: UpdateScheduledJobLabelsResponseJobSpecArgumentsList | undefined;
+  arch?: UpdateScheduledJobLabelsResponseJobSpecArch | undefined;
   flavor: UpdateScheduledJobLabelsResponseJobSpecFlavor;
-  resourceGroupId?: string;
-  retry?: number;
-  startedAt?: string;
-  finishedAt?: string;
-  durations?: CancelJobResponseDurations;
-  volumes?: UpdateScheduledJobLabelsResponseJobSpecVolumesList;
+  resourceGroupId?: string | undefined;
+  retry?: number | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  durations?: CancelJobResponseDurations | undefined;
+  volumes?: UpdateScheduledJobLabelsResponseJobSpecVolumesList | undefined;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
-  expose?: UpdateScheduledJobLabelsResponseJobSpecExpose;
+  expose?: UpdateScheduledJobLabelsResponseJobSpecExpose | undefined;
   /** Network group the job belongs to. */
-  network?: UpdateScheduledJobLabelsResponseJobSpecNetwork;
-  resourceGroup?: CancelJobResponseResourceGroup;
-  secrets?: UpdateScheduledJobLabelsResponseJobSpecSecretsList;
-  labels?: UpdateScheduledJobLabelsResponseJobSpecLabelsMap;
-  hfToken?: UpdateScheduledJobLabelsResponseJobSpecHfToken;
+  network?: UpdateScheduledJobLabelsResponseJobSpecNetwork | undefined;
+  resourceGroup?: CancelJobResponseResourceGroup | undefined;
+  secrets?: UpdateScheduledJobLabelsResponseJobSpecSecretsList | undefined;
+  labels?: UpdateScheduledJobLabelsResponseJobSpecLabelsMap | undefined;
+  hfToken?: UpdateScheduledJobLabelsResponseJobSpecHfToken | undefined;
 }
 export interface UpdateScheduledJobLabelsResponse {
   id: string;
   createdAt: string;
   schedule: string;
   suspend: boolean;
-  suspendReason?: string;
+  suspendReason?: string | undefined;
   concurrency: boolean;
   status: CreateScheduledJobResponseStatus;
   type: string;
   owner: UpdateScheduledJobLabelsResponseOwner;
-  initiator?: UpdateScheduledJobLabelsResponseInitiator;
+  initiator?: UpdateScheduledJobLabelsResponseInitiator | undefined;
   jobSpec: UpdateScheduledJobLabelsResponseJobSpec;
 }
 export type CancelJobError = HuggingFaceOpError;

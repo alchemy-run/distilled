@@ -184,7 +184,7 @@ export interface CancelQueryRequest {
   QueryId: string;
 }
 export interface CancelQueryResponse {
-  CancellationMessage?: string;
+  CancellationMessage?: string | undefined;
 }
 export type ScheduledQueryName = string;
 export type QueryString = string | redacted.Redacted<string>;
@@ -216,12 +216,12 @@ export type ScalarMeasureValueType =
   | (string & {});
 export interface MultiMeasureAttributeMapping {
   SourceColumn: string;
-  TargetMultiMeasureAttributeName?: string;
+  TargetMultiMeasureAttributeName?: string | undefined;
   MeasureValueType: ScalarMeasureValueType;
 }
 export type MultiMeasureAttributeMappingList = MultiMeasureAttributeMapping[];
 export interface MultiMeasureMappings {
-  TargetMultiMeasureName?: string;
+  TargetMultiMeasureName?: string | undefined;
   MultiMeasureAttributeMappings: MultiMeasureAttributeMapping[];
 }
 export type MeasureValueType =
@@ -232,11 +232,11 @@ export type MeasureValueType =
   | "MULTI"
   | (string & {});
 export interface MixedMeasureMapping {
-  MeasureName?: string;
-  SourceColumn?: string;
-  TargetMeasureName?: string;
+  MeasureName?: string | undefined;
+  SourceColumn?: string | undefined;
+  TargetMeasureName?: string | undefined;
   MeasureValueType: MeasureValueType;
-  MultiMeasureAttributeMappings?: MultiMeasureAttributeMapping[];
+  MultiMeasureAttributeMappings?: MultiMeasureAttributeMapping[] | undefined;
 }
 export type MixedMeasureMappingList = MixedMeasureMapping[];
 export interface TimestreamConfiguration {
@@ -244,9 +244,9 @@ export interface TimestreamConfiguration {
   TableName: string;
   TimeColumn: string;
   DimensionMappings: DimensionMapping[];
-  MultiMeasureMappings?: MultiMeasureMappings;
-  MixedMeasureMappings?: MixedMeasureMapping[];
-  MeasureNameColumn?: string;
+  MultiMeasureMappings?: MultiMeasureMappings | undefined;
+  MixedMeasureMappings?: MixedMeasureMapping[] | undefined;
+  MeasureNameColumn?: string | undefined;
 }
 export interface TargetConfiguration {
   TimestreamConfiguration: TimestreamConfiguration;
@@ -265,8 +265,8 @@ export type S3ObjectKeyPrefix = string;
 export type S3EncryptionOption = "SSE_S3" | "SSE_KMS" | (string & {});
 export interface S3Configuration {
   BucketName: string;
-  ObjectKeyPrefix?: string;
-  EncryptionOption?: S3EncryptionOption;
+  ObjectKeyPrefix?: string | undefined;
+  EncryptionOption?: S3EncryptionOption | undefined;
 }
 export interface ErrorReportConfiguration {
   S3Configuration: S3Configuration;
@@ -276,11 +276,11 @@ export interface CreateScheduledQueryRequest {
   QueryString: string | redacted.Redacted<string>;
   ScheduleConfiguration: ScheduleConfiguration;
   NotificationConfiguration: NotificationConfiguration;
-  TargetConfiguration?: TargetConfiguration;
-  ClientToken?: string | redacted.Redacted<string>;
+  TargetConfiguration?: TargetConfiguration | undefined;
+  ClientToken?: string | redacted.Redacted<string> | undefined;
   ScheduledQueryExecutionRoleArn: string;
-  Tags?: Tag[];
-  KmsKeyId?: string;
+  Tags?: Tag[] | undefined;
+  KmsKeyId?: string | undefined;
   ErrorReportConfiguration: ErrorReportConfiguration;
 }
 export interface CreateScheduledQueryResponse {
@@ -296,28 +296,28 @@ export type QueryPricingModel = "BYTES_SCANNED" | "COMPUTE_UNITS" | (string & {}
 export type ComputeMode = "ON_DEMAND" | "PROVISIONED" | (string & {});
 export type QueryTCU = number;
 export interface AccountSettingsNotificationConfiguration {
-  SnsConfiguration?: SnsConfiguration;
+  SnsConfiguration?: SnsConfiguration | undefined;
   RoleArn: string;
 }
 export type LastUpdateStatus = "PENDING" | "FAILED" | "SUCCEEDED" | (string & {});
 export interface LastUpdate {
-  TargetQueryTCU?: number;
-  Status?: LastUpdateStatus;
-  StatusMessage?: string;
+  TargetQueryTCU?: number | undefined;
+  Status?: LastUpdateStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface ProvisionedCapacityResponse {
-  ActiveQueryTCU?: number;
-  NotificationConfiguration?: AccountSettingsNotificationConfiguration;
-  LastUpdate?: LastUpdate;
+  ActiveQueryTCU?: number | undefined;
+  NotificationConfiguration?: AccountSettingsNotificationConfiguration | undefined;
+  LastUpdate?: LastUpdate | undefined;
 }
 export interface QueryComputeResponse {
-  ComputeMode?: ComputeMode;
-  ProvisionedCapacity?: ProvisionedCapacityResponse;
+  ComputeMode?: ComputeMode | undefined;
+  ProvisionedCapacity?: ProvisionedCapacityResponse | undefined;
 }
 export interface DescribeAccountSettingsResponse {
-  MaxQueryTCU?: number;
-  QueryPricingModel?: QueryPricingModel;
-  QueryCompute?: QueryComputeResponse;
+  MaxQueryTCU?: number | undefined;
+  QueryPricingModel?: QueryPricingModel | undefined;
+  QueryCompute?: QueryComputeResponse | undefined;
 }
 export interface DescribeEndpointsRequest {}
 export interface Endpoint {
@@ -340,72 +340,72 @@ export type ScheduledQueryRunStatus =
   | "MANUAL_TRIGGER_FAILURE"
   | (string & {});
 export interface ExecutionStats {
-  ExecutionTimeInMillis?: number;
-  DataWrites?: number;
-  BytesMetered?: number;
-  CumulativeBytesScanned?: number;
-  RecordsIngested?: number;
-  QueryResultRows?: number;
+  ExecutionTimeInMillis?: number | undefined;
+  DataWrites?: number | undefined;
+  BytesMetered?: number | undefined;
+  CumulativeBytesScanned?: number | undefined;
+  RecordsIngested?: number | undefined;
+  QueryResultRows?: number | undefined;
 }
 export type PartitionKey = string;
 export type PartitionKeyList = string[];
 export interface QuerySpatialCoverageMax {
-  Value?: number;
-  TableArn?: string;
-  PartitionKey?: string[];
+  Value?: number | undefined;
+  TableArn?: string | undefined;
+  PartitionKey?: string[] | undefined;
 }
 export interface QuerySpatialCoverage {
-  Max?: QuerySpatialCoverageMax;
+  Max?: QuerySpatialCoverageMax | undefined;
 }
 export interface QueryTemporalRangeMax {
-  Value?: number;
-  TableArn?: string;
+  Value?: number | undefined;
+  TableArn?: string | undefined;
 }
 export interface QueryTemporalRange {
-  Max?: QueryTemporalRangeMax;
+  Max?: QueryTemporalRangeMax | undefined;
 }
 export interface ScheduledQueryInsightsResponse {
-  QuerySpatialCoverage?: QuerySpatialCoverage;
-  QueryTemporalRange?: QueryTemporalRange;
-  QueryTableCount?: number;
-  OutputRows?: number;
-  OutputBytes?: number;
+  QuerySpatialCoverage?: QuerySpatialCoverage | undefined;
+  QueryTemporalRange?: QueryTemporalRange | undefined;
+  QueryTableCount?: number | undefined;
+  OutputRows?: number | undefined;
+  OutputBytes?: number | undefined;
 }
 export type S3ObjectKey = string;
 export interface S3ReportLocation {
-  BucketName?: string;
-  ObjectKey?: string;
+  BucketName?: string | undefined;
+  ObjectKey?: string | undefined;
 }
 export interface ErrorReportLocation {
-  S3ReportLocation?: S3ReportLocation;
+  S3ReportLocation?: S3ReportLocation | undefined;
 }
 export type ErrorMessage = string;
 export interface ScheduledQueryRunSummary {
-  InvocationTime?: Date;
-  TriggerTime?: Date;
-  RunStatus?: ScheduledQueryRunStatus;
-  ExecutionStats?: ExecutionStats;
-  QueryInsightsResponse?: ScheduledQueryInsightsResponse;
-  ErrorReportLocation?: ErrorReportLocation;
-  FailureReason?: string;
+  InvocationTime?: Date | undefined;
+  TriggerTime?: Date | undefined;
+  RunStatus?: ScheduledQueryRunStatus | undefined;
+  ExecutionStats?: ExecutionStats | undefined;
+  QueryInsightsResponse?: ScheduledQueryInsightsResponse | undefined;
+  ErrorReportLocation?: ErrorReportLocation | undefined;
+  FailureReason?: string | undefined;
 }
 export type ScheduledQueryRunSummaryList = ScheduledQueryRunSummary[];
 export interface ScheduledQueryDescription {
   Arn: string;
   Name: string;
   QueryString: string | redacted.Redacted<string>;
-  CreationTime?: Date;
+  CreationTime?: Date | undefined;
   State: ScheduledQueryState;
-  PreviousInvocationTime?: Date;
-  NextInvocationTime?: Date;
+  PreviousInvocationTime?: Date | undefined;
+  NextInvocationTime?: Date | undefined;
   ScheduleConfiguration: ScheduleConfiguration;
   NotificationConfiguration: NotificationConfiguration;
-  TargetConfiguration?: TargetConfiguration;
-  ScheduledQueryExecutionRoleArn?: string;
-  KmsKeyId?: string;
-  ErrorReportConfiguration?: ErrorReportConfiguration;
-  LastRunSummary?: ScheduledQueryRunSummary;
-  RecentlyFailedRuns?: ScheduledQueryRunSummary[];
+  TargetConfiguration?: TargetConfiguration | undefined;
+  ScheduledQueryExecutionRoleArn?: string | undefined;
+  KmsKeyId?: string | undefined;
+  ErrorReportConfiguration?: ErrorReportConfiguration | undefined;
+  LastRunSummary?: ScheduledQueryRunSummary | undefined;
+  RecentlyFailedRuns?: ScheduledQueryRunSummary[] | undefined;
 }
 export interface DescribeScheduledQueryResponse {
   ScheduledQuery: ScheduledQueryDescription;
@@ -417,53 +417,53 @@ export interface ScheduledQueryInsights {
 export interface ExecuteScheduledQueryRequest {
   ScheduledQueryArn: string;
   InvocationTime: Date;
-  ClientToken?: string | redacted.Redacted<string>;
-  QueryInsights?: ScheduledQueryInsights;
+  ClientToken?: string | redacted.Redacted<string> | undefined;
+  QueryInsights?: ScheduledQueryInsights | undefined;
 }
 export interface ExecuteScheduledQueryResponse {}
 export type MaxScheduledQueriesResults = number;
 export type NextScheduledQueriesResultsToken = string;
 export interface ListScheduledQueriesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TimestreamDestination {
-  DatabaseName?: string;
-  TableName?: string;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
 }
 export interface TargetDestination {
-  TimestreamDestination?: TimestreamDestination;
+  TimestreamDestination?: TimestreamDestination | undefined;
 }
 export interface ScheduledQuery {
   Arn: string;
   Name: string;
-  CreationTime?: Date;
+  CreationTime?: Date | undefined;
   State: ScheduledQueryState;
-  PreviousInvocationTime?: Date;
-  NextInvocationTime?: Date;
-  ErrorReportConfiguration?: ErrorReportConfiguration;
-  TargetDestination?: TargetDestination;
-  LastRunStatus?: ScheduledQueryRunStatus;
+  PreviousInvocationTime?: Date | undefined;
+  NextInvocationTime?: Date | undefined;
+  ErrorReportConfiguration?: ErrorReportConfiguration | undefined;
+  TargetDestination?: TargetDestination | undefined;
+  LastRunStatus?: ScheduledQueryRunStatus | undefined;
 }
 export type ScheduledQueryList = ScheduledQuery[];
 export interface ListScheduledQueriesResponse {
   ScheduledQueries: ScheduledQuery[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxTagsForResourceResult = number;
 export type NextTagsForResourceResultsToken = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
   Tags: Tag[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface PrepareQueryRequest {
   QueryString: string | redacted.Redacted<string>;
-  ValidateOnly?: boolean;
+  ValidateOnly?: boolean | undefined;
 }
 export type ScalarType =
   | "VARCHAR"
@@ -479,22 +479,22 @@ export type ScalarType =
   | "INTEGER"
   | (string & {});
 export interface ColumnInfo {
-  Name?: string;
+  Name?: string | undefined;
   Type: Type;
 }
 export type ColumnInfoList = ColumnInfo[];
 export interface Type {
-  ScalarType?: ScalarType;
-  ArrayColumnInfo?: ColumnInfo;
-  TimeSeriesMeasureValueColumnInfo?: ColumnInfo;
-  RowColumnInfo?: ColumnInfo[];
+  ScalarType?: ScalarType | undefined;
+  ArrayColumnInfo?: ColumnInfo | undefined;
+  TimeSeriesMeasureValueColumnInfo?: ColumnInfo | undefined;
+  RowColumnInfo?: ColumnInfo[] | undefined;
 }
 export interface SelectColumn {
-  Name?: string;
-  Type?: Type;
-  DatabaseName?: string;
-  TableName?: string;
-  Aliased?: boolean;
+  Name?: string | undefined;
+  Type?: Type | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  Aliased?: boolean | undefined;
 }
 export type SelectColumnList = SelectColumn[];
 export interface ParameterMapping {
@@ -516,10 +516,10 @@ export interface QueryInsights {
 }
 export interface QueryRequest {
   QueryString: string | redacted.Redacted<string>;
-  ClientToken?: string | redacted.Redacted<string>;
-  NextToken?: string;
-  MaxRows?: number;
-  QueryInsights?: QueryInsights;
+  ClientToken?: string | redacted.Redacted<string> | undefined;
+  NextToken?: string | undefined;
+  MaxRows?: number | undefined;
+  QueryInsights?: QueryInsights | undefined;
 }
 export type ScalarValue = string;
 export interface TimeSeriesDataPoint {
@@ -528,11 +528,11 @@ export interface TimeSeriesDataPoint {
 }
 export type TimeSeriesDataPointList = TimeSeriesDataPoint[];
 export interface Datum {
-  ScalarValue?: string;
-  TimeSeriesValue?: TimeSeriesDataPoint[];
-  ArrayValue?: Datum[];
-  RowValue?: Row;
-  NullValue?: boolean;
+  ScalarValue?: string | undefined;
+  TimeSeriesValue?: TimeSeriesDataPoint[] | undefined;
+  ArrayValue?: Datum[] | undefined;
+  RowValue?: Row | undefined;
+  NullValue?: boolean | undefined;
 }
 export type DatumList = Datum[];
 export interface Row {
@@ -540,27 +540,27 @@ export interface Row {
 }
 export type RowList = Row[];
 export interface QueryStatus {
-  ProgressPercentage?: number;
-  CumulativeBytesScanned?: number;
-  CumulativeBytesMetered?: number;
+  ProgressPercentage?: number | undefined;
+  CumulativeBytesScanned?: number | undefined;
+  CumulativeBytesMetered?: number | undefined;
 }
 export interface QueryInsightsResponse {
-  QuerySpatialCoverage?: QuerySpatialCoverage;
-  QueryTemporalRange?: QueryTemporalRange;
-  QueryTableCount?: number;
-  OutputRows?: number;
-  OutputBytes?: number;
-  UnloadPartitionCount?: number;
-  UnloadWrittenRows?: number;
-  UnloadWrittenBytes?: number;
+  QuerySpatialCoverage?: QuerySpatialCoverage | undefined;
+  QueryTemporalRange?: QueryTemporalRange | undefined;
+  QueryTableCount?: number | undefined;
+  OutputRows?: number | undefined;
+  OutputBytes?: number | undefined;
+  UnloadPartitionCount?: number | undefined;
+  UnloadWrittenRows?: number | undefined;
+  UnloadWrittenBytes?: number | undefined;
 }
 export interface QueryResponse {
   QueryId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
   Rows: Row[];
   ColumnInfo: ColumnInfo[];
-  QueryStatus?: QueryStatus;
-  QueryInsightsResponse?: QueryInsightsResponse;
+  QueryStatus?: QueryStatus | undefined;
+  QueryInsightsResponse?: QueryInsightsResponse | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -575,21 +575,21 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface ProvisionedCapacityRequest {
   TargetQueryTCU: number;
-  NotificationConfiguration?: AccountSettingsNotificationConfiguration;
+  NotificationConfiguration?: AccountSettingsNotificationConfiguration | undefined;
 }
 export interface QueryComputeRequest {
-  ComputeMode?: ComputeMode;
-  ProvisionedCapacity?: ProvisionedCapacityRequest;
+  ComputeMode?: ComputeMode | undefined;
+  ProvisionedCapacity?: ProvisionedCapacityRequest | undefined;
 }
 export interface UpdateAccountSettingsRequest {
-  MaxQueryTCU?: number;
-  QueryPricingModel?: QueryPricingModel;
-  QueryCompute?: QueryComputeRequest;
+  MaxQueryTCU?: number | undefined;
+  QueryPricingModel?: QueryPricingModel | undefined;
+  QueryCompute?: QueryComputeRequest | undefined;
 }
 export interface UpdateAccountSettingsResponse {
-  MaxQueryTCU?: number;
-  QueryPricingModel?: QueryPricingModel;
-  QueryCompute?: QueryComputeResponse;
+  MaxQueryTCU?: number | undefined;
+  QueryPricingModel?: QueryPricingModel | undefined;
+  QueryCompute?: QueryComputeResponse | undefined;
 }
 export interface UpdateScheduledQueryRequest {
   ScheduledQueryArn: string;

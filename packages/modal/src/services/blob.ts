@@ -25,9 +25,9 @@ const TELEMETRY = {
 
 export interface CreateBlobRequest {
   /** TODO(erikbern): how are these garbage collected? Shouldn't they belong to an app? */
-  contentMd5?: string;
-  contentSha256Base64?: string;
-  contentLength?: string;
+  contentMd5?: string | undefined;
+  contentSha256Base64?: string | undefined;
+  contentLength?: string | undefined;
 }
 export type StringList = Array<string>;
 /** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
@@ -46,14 +46,15 @@ export interface MultiPartUploadList {
 }
 export interface CreateBlobResponse {
   blobId: string;
-  uploadUrl?: string;
-  multipart?: MultiPartUpload;
+  uploadUrl?: string | undefined;
+  multipart?: MultiPartUpload | undefined;
   blobIds: StringList;
-  uploadUrls?: UploadUrlList;
-  multiparts?: MultiPartUploadList;
+  uploadUrls?: UploadUrlList | undefined;
+  multiparts?: MultiPartUploadList | undefined;
 }
 export interface GetBlobRequest {
-  blobId?: string;
+  blobId?: string | undefined;
+  functionId?: string | undefined;
 }
 export interface GetBlobResponse {
   downloadUrl: string;
@@ -145,6 +146,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           blobId: S.optional(S.String),
+          functionId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/BlobGet", code: 200 })),
       ).annotate({ identifier: "GetBlobRequest" });
     case 1:

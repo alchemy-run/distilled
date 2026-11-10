@@ -196,11 +196,11 @@ export type CreateCheckoutConfigurationRequestPaymentMethodConfigurationEnabledL
 /** Payment method overrides for this checkout. `null` uses the plan or platform defaults. */
 export interface CreateCheckoutConfigurationRequestPaymentMethodConfiguration {
   /** Payment method types explicitly disabled for checkout -- the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
-  disabled?: CreateCheckoutConfigurationRequestPaymentMethodConfigurationDisabledList;
+  disabled?: CreateCheckoutConfigurationRequestPaymentMethodConfigurationDisabledList | undefined;
   /** Payment method types explicitly enabled for checkout -- the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
-  enabled?: CreateCheckoutConfigurationRequestPaymentMethodConfigurationEnabledList;
+  enabled?: CreateCheckoutConfigurationRequestPaymentMethodConfigurationEnabledList | undefined;
   /** Whether platform default payment methods are included. */
-  include_platform_defaults?: boolean;
+  include_platform_defaults?: boolean | undefined;
 }
 /** Payment method types explicitly disabled for this plan -- the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
 export type CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationDisabledList = Array<
@@ -213,11 +213,13 @@ export type CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationEnab
 /** Payment method overrides for the inline plan. `null` uses platform defaults. */
 export interface CreateCheckoutConfigurationRequestPlanPaymentMethodConfiguration {
   /** Payment method types explicitly disabled for this plan -- the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
-  disabled?: CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationDisabledList;
+  disabled?:
+    | CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationDisabledList
+    | undefined;
   /** Payment method types explicitly enabled for this plan -- the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
-  enabled?: CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationEnabledList;
+  enabled?: CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationEnabledList | undefined;
   /** Whether platform default payment methods are included. */
-  include_platform_defaults?: boolean;
+  include_platform_defaults?: boolean | undefined;
 }
 /** Billing model for the plan. */
 export type CreateCheckoutConfigurationRequestPlanPlanType = "renewal" | "one_time";
@@ -237,45 +239,56 @@ export type CreateCheckoutConfigurationRequestPlanVisibility =
 /** Plan attributes used to create or find a plan for this checkout configuration. Mutually exclusive with `plan_id`. */
 export interface CreateCheckoutConfigurationRequestPlan {
   /** Account ID for the inline plan, prefixed `biz_`. Defaults to the account resolved from the request. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** Recurring billing interval in days, such as 30 for monthly or 365 for annual. */
-  billing_period?: number | null;
+  billing_period?: number | null | undefined;
   /** Three-letter ISO currency code for the plan's prices. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Customer-visible plan description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Access duration in days for expiration-based plans. */
-  expiration_days?: number | null;
+  expiration_days?: number | null | undefined;
   /** Whether to create a new plan instead of reusing a matching one. */
-  force_create_new_plan?: boolean | null;
+  force_create_new_plan?: boolean | null | undefined;
   /** Initial purchase price in the plan currency. */
-  initial_price?: number | null;
+  initial_price?: number | null | undefined;
   /** Custom key-value metadata stored on the plan. */
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
   /** Tax classification override for this plan. */
-  override_tax_type?: string | null;
+  override_tax_type?: string | null | undefined;
   /** Payment method overrides for the inline plan. `null` uses platform defaults. */
-  payment_method_configuration?: CreateCheckoutConfigurationRequestPlanPaymentMethodConfiguration | null;
+  payment_method_configuration?:
+    | CreateCheckoutConfigurationRequestPlanPaymentMethodConfiguration
+    | null
+    | undefined;
   /** Billing model for the plan. */
-  plan_type?: CreateCheckoutConfigurationRequestPlanPlanType | (string & {}) | null;
+  plan_type?: CreateCheckoutConfigurationRequestPlanPlanType | (string & {}) | null | undefined;
   /** Product ID the inline plan should belong to, prefixed `prod_`. */
-  product_id?: string | null;
+  product_id?: string | null | undefined;
   /** Sales method for the plan. */
-  release_method?: CreateCheckoutConfigurationRequestPlanReleaseMethod | (string & {}) | null;
+  release_method?:
+    | CreateCheckoutConfigurationRequestPlanReleaseMethod
+    | (string & {})
+    | null
+    | undefined;
   /** Recurring price charged each billing period. */
-  renewal_price?: number | null;
+  renewal_price?: number | null | undefined;
   /** Units available for purchase. */
-  stock?: number | null;
+  stock?: number | null | undefined;
   /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
-  three_ds_level?: CreateCheckoutConfigurationRequestPlanThreeDsLevel | (string & {}) | null;
+  three_ds_level?:
+    | CreateCheckoutConfigurationRequestPlanThreeDsLevel
+    | (string & {})
+    | null
+    | undefined;
   /** Plan display name shown to customers. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Free trial days before the first renewal charge. */
-  trial_period_days?: number | null;
+  trial_period_days?: number | null | undefined;
   /** Whether the plan has unlimited stock. */
-  unlimited_stock?: boolean | null;
+  unlimited_stock?: boolean | null | undefined;
   /** Whether the plan is visible to customers or hidden from public view. */
-  visibility?: CreateCheckoutConfigurationRequestPlanVisibility | (string & {}) | null;
+  visibility?: CreateCheckoutConfigurationRequestPlanVisibility | (string & {}) | null | undefined;
 }
 /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
 export type CreateCheckoutConfigurationRequestThreeDsLevel =
@@ -284,27 +297,34 @@ export type CreateCheckoutConfigurationRequestThreeDsLevel =
   | "frictionless_if_required";
 export interface CreateCheckoutConfigurationRequest {
   /** Account ID, prefixed `biz_`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Affiliate code to apply to the checkout. */
-  affiliate_code?: string | null;
+  affiliate_code?: string | null | undefined;
   /** Currency used for setup-mode payment method availability. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Custom key-value metadata copied to payments and memberships. */
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
   /** Controls whether checkout charges the buyer immediately or saves payment details for later. Defaults to `payment`. */
-  mode?: CreateCheckoutConfigurationRequestMode | (string & {});
+  mode?: CreateCheckoutConfigurationRequestMode | (string & {}) | undefined;
   /** Payment method overrides for this checkout. `null` uses the plan or platform defaults. */
-  payment_method_configuration?: CreateCheckoutConfigurationRequestPaymentMethodConfiguration | null;
+  payment_method_configuration?:
+    | CreateCheckoutConfigurationRequestPaymentMethodConfiguration
+    | null
+    | undefined;
   /** Plan attributes used to create or find a plan for this checkout configuration. Mutually exclusive with `plan_id`. */
-  plan?: CreateCheckoutConfigurationRequestPlan | null;
+  plan?: CreateCheckoutConfigurationRequestPlan | null | undefined;
   /** Existing plan ID, prefixed `plan_`. Mutually exclusive with `plan`. */
-  plan_id?: string | null;
+  plan_id?: string | null | undefined;
   /** URL customers are sent to after checkout. */
-  redirect_url?: string | null;
+  redirect_url?: string | null | undefined;
   /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
-  three_ds_level?: CreateCheckoutConfigurationRequestThreeDsLevel | (string & {}) | null;
+  three_ds_level?:
+    | CreateCheckoutConfigurationRequestThreeDsLevel
+    | (string & {})
+    | null
+    | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Payment methods explicitly disabled. */
 export type CreateCheckoutConfigurationResponseEffectivePaymentMethodConfigurationDisabledList =
@@ -315,11 +335,15 @@ export type CreateCheckoutConfigurationResponseEffectivePaymentMethodConfigurati
 /** The configuration governing a checkout mounted from this configuration, resolved through every layer (its own overrides, the plan's, and the account's) -- the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays this configuration's own editable override. */
 export interface CreateCheckoutConfigurationResponseEffectivePaymentMethodConfiguration {
   /** Payment methods explicitly disabled. */
-  disabled?: CreateCheckoutConfigurationResponseEffectivePaymentMethodConfigurationDisabledList;
+  disabled?:
+    | CreateCheckoutConfigurationResponseEffectivePaymentMethodConfigurationDisabledList
+    | undefined;
   /** Payment methods explicitly enabled. */
-  enabled?: CreateCheckoutConfigurationResponseEffectivePaymentMethodConfigurationEnabledList;
+  enabled?:
+    | CreateCheckoutConfigurationResponseEffectivePaymentMethodConfigurationEnabledList
+    | undefined;
   /** Whether platform default payment methods are included. */
-  include_platform_defaults?: boolean;
+  include_platform_defaults?: boolean | undefined;
 }
 /** Controls whether checkout charges the buyer immediately or saves payment details for later. */
 export type CreateCheckoutConfigurationResponseMode = "payment" | "setup";
@@ -332,11 +356,11 @@ export type CreateCheckoutConfigurationResponsePaymentMethodConfigurationEnabled
 /** Payment method overrides for this checkout. `null` when it uses the plan or platform defaults. */
 export interface CreateCheckoutConfigurationResponsePaymentMethodConfiguration {
   /** Payment methods explicitly disabled for checkout. */
-  disabled?: CreateCheckoutConfigurationResponsePaymentMethodConfigurationDisabledList;
+  disabled?: CreateCheckoutConfigurationResponsePaymentMethodConfigurationDisabledList | undefined;
   /** Payment methods explicitly enabled for checkout. */
-  enabled?: CreateCheckoutConfigurationResponsePaymentMethodConfigurationEnabledList;
+  enabled?: CreateCheckoutConfigurationResponsePaymentMethodConfigurationEnabledList | undefined;
   /** Whether platform default payment methods are included. */
-  include_platform_defaults?: boolean;
+  include_platform_defaults?: boolean | undefined;
 }
 /** Billing model for the plan. */
 export type CreateCheckoutConfigurationResponsePlanPlanType = "renewal" | "one_time";
@@ -389,29 +413,35 @@ export interface CreateCheckoutConfigurationResponse {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** Affiliate code applied at checkout, or `null` when none is set. */
-  affiliate_code?: string | null;
+  affiliate_code?: string | null | undefined;
   /** When the checkout configuration was created, as an ISO 8601 timestamp. */
   created_at: string;
   /** Currency used for setup-mode payment method availability; defaults to `usd` when omitted. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The configuration governing a checkout mounted from this configuration, resolved through every layer (its own overrides, the plan's, and the account's) -- the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays this configuration's own editable override. */
-  effective_payment_method_configuration?: CreateCheckoutConfigurationResponseEffectivePaymentMethodConfiguration | null;
+  effective_payment_method_configuration?:
+    | CreateCheckoutConfigurationResponseEffectivePaymentMethodConfiguration
+    | null
+    | undefined;
   /** Checkout configuration ID, prefixed `ch_`. */
   id: string;
   /** Custom key-value metadata copied to payments and memberships. `null` without the `checkout_configuration:basic:read` scope. */
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
   /** Controls whether checkout charges the buyer immediately or saves payment details for later. */
   mode: CreateCheckoutConfigurationResponseMode;
   /** Payment method overrides for this checkout. `null` when it uses the plan or platform defaults. */
-  payment_method_configuration?: CreateCheckoutConfigurationResponsePaymentMethodConfiguration | null;
+  payment_method_configuration?:
+    | CreateCheckoutConfigurationResponsePaymentMethodConfiguration
+    | null
+    | undefined;
   /** Plan used for payment checkout. `null` in setup mode. */
-  plan?: CreateCheckoutConfigurationResponsePlan | null;
+  plan?: CreateCheckoutConfigurationResponsePlan | null | undefined;
   /** Checkout URL you can send to customers. */
-  purchase_url?: string | null;
+  purchase_url?: string | null | undefined;
   /** URL customers are sent to after checkout, or `null` when no redirect is configured. */
-  redirect_url?: string | null;
+  redirect_url?: string | null | undefined;
   /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
-  three_ds_level?: CreateCheckoutConfigurationResponseThreeDsLevel | null;
+  three_ds_level?: CreateCheckoutConfigurationResponseThreeDsLevel | null | undefined;
   /** When the checkout configuration was last updated, as an ISO 8601 timestamp. */
   updated_at: string;
 }
@@ -438,11 +468,15 @@ export type GetCheckoutConfigurationResponseEffectivePaymentMethodConfigurationE
 /** The configuration governing a checkout mounted from this configuration, resolved through every layer (its own overrides, the plan's, and the account's) -- the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays this configuration's own editable override. */
 export interface GetCheckoutConfigurationResponseEffectivePaymentMethodConfiguration {
   /** Payment methods explicitly disabled. */
-  disabled?: GetCheckoutConfigurationResponseEffectivePaymentMethodConfigurationDisabledList;
+  disabled?:
+    | GetCheckoutConfigurationResponseEffectivePaymentMethodConfigurationDisabledList
+    | undefined;
   /** Payment methods explicitly enabled. */
-  enabled?: GetCheckoutConfigurationResponseEffectivePaymentMethodConfigurationEnabledList;
+  enabled?:
+    | GetCheckoutConfigurationResponseEffectivePaymentMethodConfigurationEnabledList
+    | undefined;
   /** Whether platform default payment methods are included. */
-  include_platform_defaults?: boolean;
+  include_platform_defaults?: boolean | undefined;
 }
 /** Controls whether checkout charges the buyer immediately or saves payment details for later. */
 export type GetCheckoutConfigurationResponseMode = "payment" | "setup";
@@ -453,11 +487,11 @@ export type GetCheckoutConfigurationResponsePaymentMethodConfigurationEnabledLis
 /** Payment method overrides for this checkout. `null` when it uses the plan or platform defaults. */
 export interface GetCheckoutConfigurationResponsePaymentMethodConfiguration {
   /** Payment methods explicitly disabled for checkout. */
-  disabled?: GetCheckoutConfigurationResponsePaymentMethodConfigurationDisabledList;
+  disabled?: GetCheckoutConfigurationResponsePaymentMethodConfigurationDisabledList | undefined;
   /** Payment methods explicitly enabled for checkout. */
-  enabled?: GetCheckoutConfigurationResponsePaymentMethodConfigurationEnabledList;
+  enabled?: GetCheckoutConfigurationResponsePaymentMethodConfigurationEnabledList | undefined;
   /** Whether platform default payment methods are included. */
-  include_platform_defaults?: boolean;
+  include_platform_defaults?: boolean | undefined;
 }
 /** Billing model for the plan. */
 export type GetCheckoutConfigurationResponsePlanPlanType = "renewal" | "one_time";
@@ -510,29 +544,35 @@ export interface GetCheckoutConfigurationResponse {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** Affiliate code applied at checkout, or `null` when none is set. */
-  affiliate_code?: string | null;
+  affiliate_code?: string | null | undefined;
   /** When the checkout configuration was created, as an ISO 8601 timestamp. */
   created_at: string;
   /** Currency used for setup-mode payment method availability; defaults to `usd` when omitted. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The configuration governing a checkout mounted from this configuration, resolved through every layer (its own overrides, the plan's, and the account's) -- the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays this configuration's own editable override. */
-  effective_payment_method_configuration?: GetCheckoutConfigurationResponseEffectivePaymentMethodConfiguration | null;
+  effective_payment_method_configuration?:
+    | GetCheckoutConfigurationResponseEffectivePaymentMethodConfiguration
+    | null
+    | undefined;
   /** Checkout configuration ID, prefixed `ch_`. */
   id: string;
   /** Custom key-value metadata copied to payments and memberships. `null` without the `checkout_configuration:basic:read` scope. */
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
   /** Controls whether checkout charges the buyer immediately or saves payment details for later. */
   mode: GetCheckoutConfigurationResponseMode;
   /** Payment method overrides for this checkout. `null` when it uses the plan or platform defaults. */
-  payment_method_configuration?: GetCheckoutConfigurationResponsePaymentMethodConfiguration | null;
+  payment_method_configuration?:
+    | GetCheckoutConfigurationResponsePaymentMethodConfiguration
+    | null
+    | undefined;
   /** Plan used for payment checkout. `null` in setup mode. */
-  plan?: GetCheckoutConfigurationResponsePlan | null;
+  plan?: GetCheckoutConfigurationResponsePlan | null | undefined;
   /** Checkout URL you can send to customers. */
-  purchase_url?: string | null;
+  purchase_url?: string | null | undefined;
   /** URL customers are sent to after checkout, or `null` when no redirect is configured. */
-  redirect_url?: string | null;
+  redirect_url?: string | null | undefined;
   /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
-  three_ds_level?: GetCheckoutConfigurationResponseThreeDsLevel | null;
+  three_ds_level?: GetCheckoutConfigurationResponseThreeDsLevel | null | undefined;
   /** When the checkout configuration was last updated, as an ISO 8601 timestamp. */
   updated_at: string;
 }
@@ -542,19 +582,19 @@ export interface ListCheckoutConfigurationsRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** Only return checkout configurations for this plan ID, prefixed `plan_`. */
-  plan_id?: string;
+  plan_id?: string | undefined;
   /** Only return checkout configurations created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only return checkout configurations created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Field used to sort checkout configurations. */
-  order?: ListCheckoutConfigurationsRequestOrder | (string & {});
+  order?: ListCheckoutConfigurationsRequestOrder | (string & {}) | undefined;
   /** Sort direction. Defaults to `desc`. */
-  direction?: ListCheckoutConfigurationsRequestDirection | (string & {});
+  direction?: ListCheckoutConfigurationsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 /** Payment methods explicitly disabled. */
 export type ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfigurationDisabledList =
@@ -565,11 +605,15 @@ export type ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConf
 /** The configuration governing a checkout mounted from this configuration, resolved through every layer (its own overrides, the plan's, and the account's) -- the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays this configuration's own editable override. */
 export interface ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfiguration {
   /** Payment methods explicitly disabled. */
-  disabled?: ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfigurationDisabledList;
+  disabled?:
+    | ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfigurationDisabledList
+    | undefined;
   /** Payment methods explicitly enabled. */
-  enabled?: ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfigurationEnabledList;
+  enabled?:
+    | ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfigurationEnabledList
+    | undefined;
   /** Whether platform default payment methods are included. */
-  include_platform_defaults?: boolean;
+  include_platform_defaults?: boolean | undefined;
 }
 /** Controls whether checkout charges the buyer immediately or saves payment details for later. */
 export type ListCheckoutConfigurationsResponseDataItemMode = "payment" | "setup";
@@ -582,11 +626,15 @@ export type ListCheckoutConfigurationsResponseDataItemPaymentMethodConfiguration
 /** Payment method overrides for this checkout. `null` when it uses the plan or platform defaults. */
 export interface ListCheckoutConfigurationsResponseDataItemPaymentMethodConfiguration {
   /** Payment methods explicitly disabled for checkout. */
-  disabled?: ListCheckoutConfigurationsResponseDataItemPaymentMethodConfigurationDisabledList;
+  disabled?:
+    | ListCheckoutConfigurationsResponseDataItemPaymentMethodConfigurationDisabledList
+    | undefined;
   /** Payment methods explicitly enabled for checkout. */
-  enabled?: ListCheckoutConfigurationsResponseDataItemPaymentMethodConfigurationEnabledList;
+  enabled?:
+    | ListCheckoutConfigurationsResponseDataItemPaymentMethodConfigurationEnabledList
+    | undefined;
   /** Whether platform default payment methods are included. */
-  include_platform_defaults?: boolean;
+  include_platform_defaults?: boolean | undefined;
 }
 /** Billing model for the plan. */
 export type ListCheckoutConfigurationsResponseDataItemPlanPlanType = "renewal" | "one_time";
@@ -639,29 +687,35 @@ export interface ListCheckoutConfigurationsResponseDataItem {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** Affiliate code applied at checkout, or `null` when none is set. */
-  affiliate_code?: string | null;
+  affiliate_code?: string | null | undefined;
   /** When the checkout configuration was created, as an ISO 8601 timestamp. */
   created_at: string;
   /** Currency used for setup-mode payment method availability; defaults to `usd` when omitted. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The configuration governing a checkout mounted from this configuration, resolved through every layer (its own overrides, the plan's, and the account's) -- the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays this configuration's own editable override. */
-  effective_payment_method_configuration?: ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfiguration | null;
+  effective_payment_method_configuration?:
+    | ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfiguration
+    | null
+    | undefined;
   /** Checkout configuration ID, prefixed `ch_`. */
   id: string;
   /** Custom key-value metadata copied to payments and memberships. `null` without the `checkout_configuration:basic:read` scope. */
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
   /** Controls whether checkout charges the buyer immediately or saves payment details for later. */
   mode: ListCheckoutConfigurationsResponseDataItemMode;
   /** Payment method overrides for this checkout. `null` when it uses the plan or platform defaults. */
-  payment_method_configuration?: ListCheckoutConfigurationsResponseDataItemPaymentMethodConfiguration | null;
+  payment_method_configuration?:
+    | ListCheckoutConfigurationsResponseDataItemPaymentMethodConfiguration
+    | null
+    | undefined;
   /** Plan used for payment checkout. `null` in setup mode. */
-  plan?: ListCheckoutConfigurationsResponseDataItemPlan | null;
+  plan?: ListCheckoutConfigurationsResponseDataItemPlan | null | undefined;
   /** Checkout URL you can send to customers. */
-  purchase_url?: string | null;
+  purchase_url?: string | null | undefined;
   /** URL customers are sent to after checkout, or `null` when no redirect is configured. */
-  redirect_url?: string | null;
+  redirect_url?: string | null | undefined;
   /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
-  three_ds_level?: ListCheckoutConfigurationsResponseDataItemThreeDsLevel | null;
+  three_ds_level?: ListCheckoutConfigurationsResponseDataItemThreeDsLevel | null | undefined;
   /** When the checkout configuration was last updated, as an ISO 8601 timestamp. */
   updated_at: string;
 }

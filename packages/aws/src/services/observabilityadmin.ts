@@ -185,21 +185,21 @@ export type LogsFilterString = string;
 export type DataSourceFilterString = string;
 export type EncryptedLogGroupStrategy = "ALLOW" | "SKIP" | (string & {});
 export interface SourceLogsConfiguration {
-  LogGroupSelectionCriteria?: string;
-  DataSourceSelectionCriteria?: string;
+  LogGroupSelectionCriteria?: string | undefined;
+  DataSourceSelectionCriteria?: string | undefined;
   EncryptedLogGroupStrategy: EncryptedLogGroupStrategy;
 }
 export type MetricsFilterString = string;
 export interface SourceMetricsConfiguration {
-  MetricsSelectionCriteria?: string;
+  MetricsSelectionCriteria?: string | undefined;
 }
 export interface SourceContextGraphConfiguration {}
 export interface CentralizationRuleSource {
   Regions: string[];
-  Scope?: string;
-  SourceLogsConfiguration?: SourceLogsConfiguration;
-  SourceMetricsConfiguration?: SourceMetricsConfiguration;
-  SourceContextGraphConfiguration?: SourceContextGraphConfiguration;
+  Scope?: string | undefined;
+  SourceLogsConfiguration?: SourceLogsConfiguration | undefined;
+  SourceMetricsConfiguration?: SourceMetricsConfiguration | undefined;
+  SourceContextGraphConfiguration?: SourceContextGraphConfiguration | undefined;
 }
 export type AccountIdentifier = string;
 export type EncryptionStrategy = "CUSTOMER_MANAGED" | "AWS_OWNED" | (string & {});
@@ -211,13 +211,13 @@ export type EncryptionScope =
   | (string & {});
 export interface LogsEncryptionConfiguration {
   EncryptionStrategy: EncryptionStrategy;
-  KmsKeyArn?: string;
-  EncryptionConflictResolutionStrategy?: EncryptionConflictResolutionStrategy;
-  EncryptionScope?: EncryptionScope;
+  KmsKeyArn?: string | undefined;
+  EncryptionConflictResolutionStrategy?: EncryptionConflictResolutionStrategy | undefined;
+  EncryptionScope?: EncryptionScope | undefined;
 }
 export interface LogsBackupConfiguration {
   Region: string;
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | undefined;
 }
 export type LogGroupNamePattern = string;
 export interface LogGroupNameConfiguration {
@@ -227,25 +227,27 @@ export type IamRoleArn = string;
 export type TagConflictResolutionStrategy = "IN_SYNC" | "ADD_ONLY" | "UPDATE_SYNC" | (string & {});
 export interface TagPropagationConfiguration {
   DestinationRoleArn: string;
-  TagConflictResolutionStrategy?: TagConflictResolutionStrategy;
+  TagConflictResolutionStrategy?: TagConflictResolutionStrategy | undefined;
 }
+export type DeletionProtection = "ENABLED" | (string & {});
 export interface DestinationLogsConfiguration {
-  LogsEncryptionConfiguration?: LogsEncryptionConfiguration;
-  BackupConfiguration?: LogsBackupConfiguration;
-  LogGroupNameConfiguration?: LogGroupNameConfiguration;
-  TagPropagationConfiguration?: TagPropagationConfiguration;
+  LogsEncryptionConfiguration?: LogsEncryptionConfiguration | undefined;
+  BackupConfiguration?: LogsBackupConfiguration | undefined;
+  LogGroupNameConfiguration?: LogGroupNameConfiguration | undefined;
+  TagPropagationConfiguration?: TagPropagationConfiguration | undefined;
+  LogGroupDeletionProtection?: DeletionProtection | undefined;
 }
 export interface MetricsBackupConfiguration {
   Region: string;
 }
 export interface DestinationMetricsConfiguration {
-  BackupConfiguration?: MetricsBackupConfiguration;
+  BackupConfiguration?: MetricsBackupConfiguration | undefined;
 }
 export interface CentralizationRuleDestination {
   Region: string;
-  Account?: string;
-  DestinationLogsConfiguration?: DestinationLogsConfiguration;
-  DestinationMetricsConfiguration?: DestinationMetricsConfiguration;
+  Account?: string | undefined;
+  DestinationLogsConfiguration?: DestinationLogsConfiguration | undefined;
+  DestinationMetricsConfiguration?: DestinationMetricsConfiguration | undefined;
 }
 export interface CentralizationRule {
   Source: CentralizationRuleSource;
@@ -257,14 +259,14 @@ export type TagMapInput = { [key: string]: string | undefined };
 export interface CreateCentralizationRuleForOrganizationInput {
   RuleName: string;
   Rule: CentralizationRule;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateCentralizationRuleForOrganizationOutput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export interface CreateDatasetIntegrationInput {
   RoleArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDatasetIntegrationOutput {
   Arn: string;
@@ -275,15 +277,15 @@ export interface CreateDatasetIntegrationOutput {
 export type SSEAlgorithm = "aws:kms" | "AES256" | (string & {});
 export interface Encryption {
   SseAlgorithm: SSEAlgorithm;
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | undefined;
 }
 export interface CreateS3TableIntegrationInput {
   Encryption: Encryption;
   RoleArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateS3TableIntegrationOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type TelemetryPipelineName = string;
 export type TelemetryPipelineConfigurationBody = string;
@@ -293,10 +295,10 @@ export interface TelemetryPipelineConfiguration {
 export interface CreateTelemetryPipelineInput {
   Name: string;
   Configuration: TelemetryPipelineConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTelemetryPipelineOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type ResourceType =
   | "AWS::EC2::Instance"
@@ -321,8 +323,9 @@ export type ResourceType =
   | "AWS::MSK::Cluster"
   | "AWS::S3::Bucket"
   | "AWS::Bedrock::KnowledgeBase"
+  | "AWS::XRay::TransactionSearchConfig"
   | (string & {});
-export type TelemetryType = "Logs" | "Metrics" | "Traces" | (string & {});
+export type TelemetryType = "Logs" | "Metrics" | "Traces" | "Insights" | (string & {});
 export type TelemetrySourceType =
   | "VPC_FLOW_LOGS"
   | "ROUTE53_RESOLVER_QUERY_LOGS"
@@ -336,23 +339,23 @@ export type TelemetrySourceTypes = TelemetrySourceType[];
 export type DestinationType = "cloud-watch-logs" | (string & {});
 export type RetentionPeriodInDays = number;
 export interface VPCFlowLogParameters {
-  LogFormat?: string;
-  TrafficType?: string;
-  MaxAggregationInterval?: number;
+  LogFormat?: string | undefined;
+  TrafficType?: string | undefined;
+  MaxAggregationInterval?: number | undefined;
 }
 export type StringList = string[];
 export interface AdvancedFieldSelector {
   Field: string;
-  Equals?: string[];
-  StartsWith?: string[];
-  EndsWith?: string[];
-  NotEquals?: string[];
-  NotStartsWith?: string[];
-  NotEndsWith?: string[];
+  Equals?: string[] | undefined;
+  StartsWith?: string[] | undefined;
+  EndsWith?: string[] | undefined;
+  NotEquals?: string[] | undefined;
+  NotStartsWith?: string[] | undefined;
+  NotEndsWith?: string[] | undefined;
 }
 export type FieldSelectors = AdvancedFieldSelector[];
 export interface AdvancedEventSelector {
-  Name?: string;
+  Name?: string | undefined;
   FieldSelectors: AdvancedFieldSelector[];
 }
 export type AdvancedEventSelectors = AdvancedEventSelector[];
@@ -361,17 +364,17 @@ export interface CloudtrailParameters {
 }
 export type OutputFormat = "plain" | "json" | (string & {});
 export interface ELBLoadBalancerLoggingParameters {
-  OutputFormat?: OutputFormat;
-  FieldDelimiter?: string;
+  OutputFormat?: OutputFormat | undefined;
+  FieldDelimiter?: string | undefined;
 }
 export interface SingleHeader {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface FieldToMatch {
-  SingleHeader?: SingleHeader;
-  UriPath?: string;
-  QueryString?: string;
-  Method?: string;
+  SingleHeader?: SingleHeader | undefined;
+  UriPath?: string | undefined;
+  QueryString?: string | undefined;
+  Method?: string | undefined;
 }
 export type RedactedFields = FieldToMatch[];
 export type FilterBehavior = "KEEP" | "DROP" | (string & {});
@@ -385,31 +388,31 @@ export type Action =
   | "EXCLUDED_AS_COUNT"
   | (string & {});
 export interface ActionCondition {
-  Action?: Action;
+  Action?: Action | undefined;
 }
 export interface LabelNameCondition {
-  LabelName?: string;
+  LabelName?: string | undefined;
 }
 export interface Condition {
-  ActionCondition?: ActionCondition;
-  LabelNameCondition?: LabelNameCondition;
+  ActionCondition?: ActionCondition | undefined;
+  LabelNameCondition?: LabelNameCondition | undefined;
 }
 export type Conditions = Condition[];
 export interface Filter {
-  Behavior?: FilterBehavior;
-  Requirement?: FilterRequirement;
-  Conditions?: Condition[];
+  Behavior?: FilterBehavior | undefined;
+  Requirement?: FilterRequirement | undefined;
+  Conditions?: Condition[] | undefined;
 }
 export type Filters = Filter[];
 export interface LoggingFilter {
-  Filters?: Filter[];
-  DefaultBehavior?: FilterBehavior;
+  Filters?: Filter[] | undefined;
+  DefaultBehavior?: FilterBehavior | undefined;
 }
 export type WAFLogType = "WAF_LOGS" | (string & {});
 export interface WAFLoggingParameters {
-  RedactedFields?: FieldToMatch[];
-  LoggingFilter?: LoggingFilter;
-  LogType?: WAFLogType;
+  RedactedFields?: FieldToMatch[] | undefined;
+  LoggingFilter?: LoggingFilter | undefined;
+  LogType?: WAFLogType | undefined;
 }
 export type LogType =
   | "APPLICATION_LOGS"
@@ -424,7 +427,7 @@ export type LogType =
   | (string & {});
 export type LogTypes = LogType[];
 export interface LogDeliveryParameters {
-  LogTypes?: LogType[];
+  LogTypes?: LogType[] | undefined;
 }
 export type MskEnhancedMonitoringLevel =
   | "DEFAULT"
@@ -433,48 +436,48 @@ export type MskEnhancedMonitoringLevel =
   | "PER_TOPIC_PER_PARTITION"
   | (string & {});
 export interface MskMonitoringParameters {
-  EnhancedMonitoring?: MskEnhancedMonitoringLevel;
+  EnhancedMonitoring?: MskEnhancedMonitoringLevel | undefined;
 }
 export type KmsKeyArn = string;
 export interface TelemetryDestinationConfiguration {
-  DestinationType?: DestinationType;
-  DestinationPattern?: string;
-  RetentionInDays?: number;
-  VPCFlowLogParameters?: VPCFlowLogParameters;
-  CloudtrailParameters?: CloudtrailParameters;
-  ELBLoadBalancerLoggingParameters?: ELBLoadBalancerLoggingParameters;
-  WAFLoggingParameters?: WAFLoggingParameters;
-  LogDeliveryParameters?: LogDeliveryParameters;
-  MskMonitoringParameters?: MskMonitoringParameters;
-  KmsKeyArn?: string;
+  DestinationType?: DestinationType | undefined;
+  DestinationPattern?: string | undefined;
+  RetentionInDays?: number | undefined;
+  VPCFlowLogParameters?: VPCFlowLogParameters | undefined;
+  CloudtrailParameters?: CloudtrailParameters | undefined;
+  ELBLoadBalancerLoggingParameters?: ELBLoadBalancerLoggingParameters | undefined;
+  WAFLoggingParameters?: WAFLoggingParameters | undefined;
+  LogDeliveryParameters?: LogDeliveryParameters | undefined;
+  MskMonitoringParameters?: MskMonitoringParameters | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type AllRegions = boolean;
 export interface TelemetryRule {
-  ResourceType?: ResourceType;
+  ResourceType?: ResourceType | undefined;
   TelemetryType: TelemetryType;
-  TelemetrySourceTypes?: TelemetrySourceType[];
-  DestinationConfiguration?: TelemetryDestinationConfiguration;
-  Scope?: string;
-  SelectionCriteria?: string;
-  AllowFieldUpdates?: boolean;
-  Regions?: string[];
-  AllRegions?: boolean;
+  TelemetrySourceTypes?: TelemetrySourceType[] | undefined;
+  DestinationConfiguration?: TelemetryDestinationConfiguration | undefined;
+  Scope?: string | undefined;
+  SelectionCriteria?: string | undefined;
+  AllowFieldUpdates?: boolean | undefined;
+  Regions?: string[] | undefined;
+  AllRegions?: boolean | undefined;
 }
 export interface CreateTelemetryRuleInput {
   RuleName: string;
   Rule: TelemetryRule;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTelemetryRuleOutput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export interface CreateTelemetryRuleForOrganizationInput {
   RuleName: string;
   Rule: TelemetryRule;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTelemetryRuleForOrganizationOutput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export type RuleIdentifier = string;
 export interface DeleteCentralizationRuleForOrganizationInput {
@@ -518,46 +521,46 @@ export type TagPropagationFailureReason =
   | (string & {});
 export type ContextGraphStatus = "Healthy" | "Unhealthy" | "Provisioning" | (string & {});
 export interface GetCentralizationRuleForOrganizationOutput {
-  RuleName?: string;
-  RuleArn?: string;
-  CreatorAccountId?: string;
-  CreatedTimeStamp?: number;
-  CreatedRegion?: string;
-  LastUpdateTimeStamp?: number;
-  RuleHealth?: RuleHealth;
-  FailureReason?: CentralizationFailureReason;
-  TagPropagationStatus?: TagPropagationStatus;
-  TagPropagationFailureReason?: TagPropagationFailureReason;
-  ContextGraphStatus?: ContextGraphStatus;
-  CentralizationRule?: CentralizationRule;
+  RuleName?: string | undefined;
+  RuleArn?: string | undefined;
+  CreatorAccountId?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
+  CreatedRegion?: string | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  RuleHealth?: RuleHealth | undefined;
+  FailureReason?: CentralizationFailureReason | undefined;
+  TagPropagationStatus?: TagPropagationStatus | undefined;
+  TagPropagationFailureReason?: TagPropagationFailureReason | undefined;
+  ContextGraphStatus?: ContextGraphStatus | undefined;
+  CentralizationRule?: CentralizationRule | undefined;
 }
 export interface GetDatasetIntegrationInput {
   Arn: string;
 }
 export interface GetDatasetIntegrationOutput {
-  Arn?: string;
-  RoleArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  RoleArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetS3TableIntegrationInput {
   Arn: string;
 }
 export type IntegrationStatus = "ACTIVE" | "DELETING" | (string & {});
 export interface GetS3TableIntegrationOutput {
-  Arn?: string;
-  RoleArn?: string;
-  Status?: IntegrationStatus;
-  Encryption?: Encryption;
-  DestinationTableBucketArn?: string;
-  CreatedTimeStamp?: number;
+  Arn?: string | undefined;
+  RoleArn?: string | undefined;
+  Status?: IntegrationStatus | undefined;
+  Encryption?: Encryption | undefined;
+  DestinationTableBucketArn?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
 }
 export interface GetTelemetryEnrichmentStatusRequest {}
 export type TelemetryEnrichmentStatus = "Running" | "Stopped" | "Impaired" | (string & {});
 export type AwsResourceExplorerManagedViewArn = string;
 export interface GetTelemetryEnrichmentStatusOutput {
-  Status?: TelemetryEnrichmentStatus;
-  AwsResourceExplorerManagedViewArn?: string;
+  Status?: TelemetryEnrichmentStatus | undefined;
+  AwsResourceExplorerManagedViewArn?: string | undefined;
 }
 export interface GetTelemetryEvaluationStatusRequest {}
 export type Status =
@@ -571,24 +574,24 @@ export type Status =
   | (string & {});
 export type FailureReason = string;
 export interface RegionStatus {
-  Region?: string;
-  Status?: string;
-  FailureReason?: string;
-  RuleArn?: string;
+  Region?: string | undefined;
+  Status?: string | undefined;
+  FailureReason?: string | undefined;
+  RuleArn?: string | undefined;
 }
 export type RegionStatuses = RegionStatus[];
 export interface GetTelemetryEvaluationStatusOutput {
-  Status?: Status;
-  FailureReason?: string;
-  HomeRegion?: string;
-  RegionStatuses?: RegionStatus[];
+  Status?: Status | undefined;
+  FailureReason?: string | undefined;
+  HomeRegion?: string | undefined;
+  RegionStatuses?: RegionStatus[] | undefined;
 }
 export interface GetTelemetryEvaluationStatusForOrganizationRequest {}
 export interface GetTelemetryEvaluationStatusForOrganizationOutput {
-  Status?: Status;
-  FailureReason?: string;
-  HomeRegion?: string;
-  RegionStatuses?: RegionStatus[];
+  Status?: Status | undefined;
+  FailureReason?: string | undefined;
+  HomeRegion?: string | undefined;
+  RegionStatuses?: RegionStatus[] | undefined;
 }
 export interface GetTelemetryPipelineInput {
   PipelineIdentifier: string;
@@ -602,149 +605,149 @@ export type TelemetryPipelineStatus =
   | "UPDATE_FAILED"
   | (string & {});
 export interface TelemetryPipelineStatusReason {
-  Description?: string;
+  Description?: string | undefined;
 }
 export type TagMapOutput = { [key: string]: string | undefined };
 export interface TelemetryPipeline {
-  CreatedTimeStamp?: number;
-  LastUpdateTimeStamp?: number;
-  Arn?: string;
-  Name?: string;
-  Configuration?: TelemetryPipelineConfiguration;
-  Status?: TelemetryPipelineStatus;
-  StatusReason?: TelemetryPipelineStatusReason;
-  Tags?: { [key: string]: string | undefined };
+  CreatedTimeStamp?: number | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Configuration?: TelemetryPipelineConfiguration | undefined;
+  Status?: TelemetryPipelineStatus | undefined;
+  StatusReason?: TelemetryPipelineStatusReason | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTelemetryPipelineOutput {
-  Pipeline?: TelemetryPipeline;
+  Pipeline?: TelemetryPipeline | undefined;
 }
 export interface GetTelemetryRuleInput {
   RuleIdentifier: string;
 }
 export type IsReplicated = boolean;
 export interface GetTelemetryRuleOutput {
-  RuleName?: string;
-  RuleArn?: string;
-  CreatedTimeStamp?: number;
-  LastUpdateTimeStamp?: number;
-  TelemetryRule?: TelemetryRule;
-  HomeRegion?: string;
-  IsReplicated?: boolean;
-  RegionStatuses?: RegionStatus[];
+  RuleName?: string | undefined;
+  RuleArn?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  TelemetryRule?: TelemetryRule | undefined;
+  HomeRegion?: string | undefined;
+  IsReplicated?: boolean | undefined;
+  RegionStatuses?: RegionStatus[] | undefined;
 }
 export interface GetTelemetryRuleForOrganizationInput {
   RuleIdentifier: string;
 }
 export interface GetTelemetryRuleForOrganizationOutput {
-  RuleName?: string;
-  RuleArn?: string;
-  CreatedTimeStamp?: number;
-  LastUpdateTimeStamp?: number;
-  TelemetryRule?: TelemetryRule;
-  HomeRegion?: string;
-  IsReplicated?: boolean;
-  RegionStatuses?: RegionStatus[];
+  RuleName?: string | undefined;
+  RuleArn?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  TelemetryRule?: TelemetryRule | undefined;
+  HomeRegion?: string | undefined;
+  IsReplicated?: boolean | undefined;
+  RegionStatuses?: RegionStatus[] | undefined;
 }
 export type ListCentralizationRulesForOrganizationMaxResults = number;
 export type NextToken = string;
 export interface ListCentralizationRulesForOrganizationInput {
-  RuleNamePrefix?: string;
-  AllRegions?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
+  RuleNamePrefix?: string | undefined;
+  AllRegions?: boolean | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface CentralizationRuleSummary {
-  RuleName?: string;
-  RuleArn?: string;
-  CreatorAccountId?: string;
-  CreatedTimeStamp?: number;
-  CreatedRegion?: string;
-  LastUpdateTimeStamp?: number;
-  RuleHealth?: RuleHealth;
-  FailureReason?: CentralizationFailureReason;
-  TagPropagationStatus?: TagPropagationStatus;
-  TagPropagationFailureReason?: TagPropagationFailureReason;
-  ContextGraphStatus?: ContextGraphStatus;
-  DestinationAccountId?: string;
-  DestinationRegion?: string;
+  RuleName?: string | undefined;
+  RuleArn?: string | undefined;
+  CreatorAccountId?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
+  CreatedRegion?: string | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  RuleHealth?: RuleHealth | undefined;
+  FailureReason?: CentralizationFailureReason | undefined;
+  TagPropagationStatus?: TagPropagationStatus | undefined;
+  TagPropagationFailureReason?: TagPropagationFailureReason | undefined;
+  ContextGraphStatus?: ContextGraphStatus | undefined;
+  DestinationAccountId?: string | undefined;
+  DestinationRegion?: string | undefined;
 }
 export type CentralizationRuleSummaries = CentralizationRuleSummary[];
 export interface ListCentralizationRulesForOrganizationOutput {
-  CentralizationRuleSummaries?: CentralizationRuleSummary[];
-  NextToken?: string;
+  CentralizationRuleSummaries?: CentralizationRuleSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListDatasetIntegrationsMaxResults = number;
 export interface ListDatasetIntegrationsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DatasetIntegrationSummary {
   Arn: string;
-  RoleArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  RoleArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type DatasetIntegrationSummaries = DatasetIntegrationSummary[];
 export interface ListDatasetIntegrationsOutput {
   DatasetIntegrationSummaries: DatasetIntegrationSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ResourceIdentifierPrefix = string;
 export type ResourceTypes = ResourceType[];
 export type TelemetryState = "Enabled" | "Disabled" | "NotApplicable" | (string & {});
-export type TelemetryConfigurationState = { [key in TelemetryType]?: TelemetryState };
+export type TelemetryConfigurationState = { [key in TelemetryType]?: TelemetryState | undefined };
 export type ListResourceTelemetryMaxResults = number;
 export interface ListResourceTelemetryInput {
-  ResourceIdentifierPrefix?: string;
-  ResourceTypes?: ResourceType[];
-  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined };
-  ResourceTags?: { [key: string]: string | undefined };
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceIdentifierPrefix?: string | undefined;
+  ResourceTypes?: ResourceType[] | undefined;
+  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined } | undefined;
+  ResourceTags?: { [key: string]: string | undefined } | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceIdentifier = string;
 export interface TelemetryConfiguration {
-  AccountIdentifier?: string;
-  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined };
-  ResourceType?: ResourceType;
-  ResourceIdentifier?: string;
-  ResourceTags?: { [key: string]: string | undefined };
-  LastUpdateTimeStamp?: number;
-  TelemetrySourceType?: TelemetrySourceType;
+  AccountIdentifier?: string | undefined;
+  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined } | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceIdentifier?: string | undefined;
+  ResourceTags?: { [key: string]: string | undefined } | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  TelemetrySourceType?: TelemetrySourceType | undefined;
 }
 export type TelemetryConfigurations = TelemetryConfiguration[];
 export interface ListResourceTelemetryOutput {
-  TelemetryConfigurations?: TelemetryConfiguration[];
-  NextToken?: string;
+  TelemetryConfigurations?: TelemetryConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AccountIdentifiers = string[];
 export type ListResourceTelemetryForOrganizationMaxResults = number;
 export interface ListResourceTelemetryForOrganizationInput {
-  AccountIdentifiers?: string[];
-  ResourceIdentifierPrefix?: string;
-  ResourceTypes?: ResourceType[];
-  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined };
-  ResourceTags?: { [key: string]: string | undefined };
-  MaxResults?: number;
-  NextToken?: string;
+  AccountIdentifiers?: string[] | undefined;
+  ResourceIdentifierPrefix?: string | undefined;
+  ResourceTypes?: ResourceType[] | undefined;
+  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined } | undefined;
+  ResourceTags?: { [key: string]: string | undefined } | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourceTelemetryForOrganizationOutput {
-  TelemetryConfigurations?: TelemetryConfiguration[];
-  NextToken?: string;
+  TelemetryConfigurations?: TelemetryConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListS3TableIntegrationsMaxResults = number;
 export interface ListS3TableIntegrationsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface IntegrationSummary {
-  Arn?: string;
-  Status?: IntegrationStatus;
+  Arn?: string | undefined;
+  Status?: IntegrationStatus | undefined;
 }
 export type IntegrationSummaries = IntegrationSummary[];
 export interface ListS3TableIntegrationsOutput {
-  IntegrationSummaries?: IntegrationSummary[];
-  NextToken?: string;
+  IntegrationSummaries?: IntegrationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceARN: string;
@@ -754,93 +757,93 @@ export interface ListTagsForResourceOutput {
 }
 export type ListTelemetryPipelinesMaxResults = number;
 export interface ListTelemetryPipelinesInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Source {
-  Type?: string;
+  Type?: string | undefined;
 }
 export type Sources = Source[];
 export interface DataSource {
-  Name?: string;
-  Type?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
 }
 export type DataSources = DataSource[];
 export type Processors = string[];
 export type Sinks = string[];
 export interface ConfigurationSummary {
-  Sources?: Source[];
-  DataSources?: DataSource[];
-  Processors?: string[];
-  ProcessorCount?: number;
-  Sinks?: string[];
+  Sources?: Source[] | undefined;
+  DataSources?: DataSource[] | undefined;
+  Processors?: string[] | undefined;
+  ProcessorCount?: number | undefined;
+  Sinks?: string[] | undefined;
 }
 export interface TelemetryPipelineSummary {
-  CreatedTimeStamp?: number;
-  LastUpdateTimeStamp?: number;
-  Arn?: string;
-  Name?: string;
-  Status?: TelemetryPipelineStatus;
-  Tags?: { [key: string]: string | undefined };
-  ConfigurationSummary?: ConfigurationSummary;
+  CreatedTimeStamp?: number | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Status?: TelemetryPipelineStatus | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ConfigurationSummary?: ConfigurationSummary | undefined;
 }
 export type TelemetryPipelineSummaries = TelemetryPipelineSummary[];
 export interface ListTelemetryPipelinesOutput {
-  PipelineSummaries?: TelemetryPipelineSummary[];
-  NextToken?: string;
+  PipelineSummaries?: TelemetryPipelineSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListTelemetryRulesMaxResults = number;
 export interface ListTelemetryRulesInput {
-  RuleNamePrefix?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  RuleNamePrefix?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TelemetryRuleSummary {
-  RuleName?: string;
-  RuleArn?: string;
-  CreatedTimeStamp?: number;
-  LastUpdateTimeStamp?: number;
-  ResourceType?: ResourceType;
-  TelemetryType?: TelemetryType;
-  TelemetrySourceTypes?: TelemetrySourceType[];
+  RuleName?: string | undefined;
+  RuleArn?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
+  LastUpdateTimeStamp?: number | undefined;
+  ResourceType?: ResourceType | undefined;
+  TelemetryType?: TelemetryType | undefined;
+  TelemetrySourceTypes?: TelemetrySourceType[] | undefined;
 }
 export type TelemetryRuleSummaries = TelemetryRuleSummary[];
 export interface ListTelemetryRulesOutput {
-  TelemetryRuleSummaries?: TelemetryRuleSummary[];
-  NextToken?: string;
+  TelemetryRuleSummaries?: TelemetryRuleSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OrganizationUnitIdentifier = string;
 export type OrganizationUnitIdentifiers = string[];
 export type ListTelemetryRulesForOrganizationMaxResults = number;
 export interface ListTelemetryRulesForOrganizationInput {
-  RuleNamePrefix?: string;
-  SourceAccountIds?: string[];
-  SourceOrganizationUnitIds?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  RuleNamePrefix?: string | undefined;
+  SourceAccountIds?: string[] | undefined;
+  SourceOrganizationUnitIds?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTelemetryRulesForOrganizationOutput {
-  TelemetryRuleSummaries?: TelemetryRuleSummary[];
-  NextToken?: string;
+  TelemetryRuleSummaries?: TelemetryRuleSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface StartTelemetryEnrichmentRequest {}
 export interface StartTelemetryEnrichmentOutput {
-  Status?: TelemetryEnrichmentStatus;
-  AwsResourceExplorerManagedViewArn?: string;
+  Status?: TelemetryEnrichmentStatus | undefined;
+  AwsResourceExplorerManagedViewArn?: string | undefined;
 }
 export interface StartTelemetryEvaluationInput {
-  Regions?: string[];
-  AllRegions?: boolean;
+  Regions?: string[] | undefined;
+  AllRegions?: boolean | undefined;
 }
 export interface StartTelemetryEvaluationResponse {}
 export interface StartTelemetryEvaluationForOrganizationInput {
-  Regions?: string[];
-  AllRegions?: boolean;
+  Regions?: string[] | undefined;
+  AllRegions?: boolean | undefined;
 }
 export interface StartTelemetryEvaluationForOrganizationResponse {}
 export interface StopTelemetryEnrichmentRequest {}
 export interface StopTelemetryEnrichmentOutput {
-  Status?: TelemetryEnrichmentStatus;
+  Status?: TelemetryEnrichmentStatus | undefined;
 }
 export interface StopTelemetryEvaluationRequest {}
 export interface StopTelemetryEvaluationResponse {}
@@ -853,26 +856,26 @@ export interface TagResourceInput {
 export interface TagResourceResponse {}
 export type RecordFormat = "STRING" | "JSON" | (string & {});
 export interface Record {
-  Data?: string;
-  Type?: RecordFormat;
+  Data?: string | undefined;
+  Type?: RecordFormat | undefined;
 }
 export type Records = Record[];
 export type SignalType = "LOG" | "METRIC" | (string & {});
 export interface TestTelemetryPipelineInput {
   Records: Record[];
   Configuration: TelemetryPipelineConfiguration;
-  SignalType?: SignalType;
+  SignalType?: SignalType | undefined;
 }
 export interface PipelineOutputError {
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface PipelineOutput {
-  Record?: Record;
-  Error?: PipelineOutputError;
+  Record?: Record | undefined;
+  Error?: PipelineOutputError | undefined;
 }
 export type PipelineOutputs = PipelineOutput[];
 export interface TestTelemetryPipelineOutput {
-  Results?: PipelineOutput[];
+  Results?: PipelineOutput[] | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceInput {
@@ -885,7 +888,7 @@ export interface UpdateCentralizationRuleForOrganizationInput {
   Rule: CentralizationRule;
 }
 export interface UpdateCentralizationRuleForOrganizationOutput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export interface UpdateDatasetIntegrationInput {
   Arn: string;
@@ -907,27 +910,27 @@ export interface UpdateTelemetryRuleInput {
   Rule: TelemetryRule;
 }
 export interface UpdateTelemetryRuleOutput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export interface UpdateTelemetryRuleForOrganizationInput {
   RuleIdentifier: string;
   Rule: TelemetryRule;
 }
 export interface UpdateTelemetryRuleForOrganizationOutput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export interface ValidateTelemetryPipelineConfigurationInput {
   Configuration: TelemetryPipelineConfiguration;
 }
 export type FieldMap = { [key: string]: string | undefined };
 export interface ValidationError {
-  Message?: string;
-  Reason?: string;
-  FieldMap?: { [key: string]: string | undefined };
+  Message?: string | undefined;
+  Reason?: string | undefined;
+  FieldMap?: { [key: string]: string | undefined } | undefined;
 }
 export type ValidationErrors = ValidationError[];
 export interface ValidateTelemetryPipelineConfigurationOutput {
-  Errors?: ValidationError[];
+  Errors?: ValidationError[] | undefined;
 }
 export type CreateCentralizationRuleForOrganizationError =
   | AccessDeniedException
@@ -3804,6 +3807,7 @@ function __c59(j: number): any {
           BackupConfiguration: S.optional(__S(1892, __c59, 4)),
           LogGroupNameConfiguration: S.optional(__S(1893, __c59, 5)),
           TagPropagationConfiguration: S.optional(__S(1894, __c59, 6)),
+          LogGroupDeletionProtection: S.optional(S.String),
         }),
       ).annotate({ identifier: "DestinationLogsConfiguration" });
     case 8:

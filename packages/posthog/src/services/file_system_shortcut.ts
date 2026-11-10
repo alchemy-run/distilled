@@ -55,31 +55,31 @@ export interface CreateFileSystemShortcutRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Display path of the shortcut in the sidebar. */
-  path?: string;
+  path?: string | undefined;
   /** Type of the linked item (e.g. 'folder', 'insight'), or blank. */
-  type?: string;
+  type?: string | undefined;
   /** Reference to the linked item, scoped to its type. Null for href-only shortcuts. */
-  ref?: string | null;
+  ref?: string | null | undefined;
   /** Destination URL the shortcut opens. Null when the shortcut points at an item by ref. */
-  href?: string | null;
+  href?: string | null | undefined;
   /** Display order within the user's shortcut list, ascending. */
-  order?: number;
+  order?: number | undefined;
 }
 export interface FileSystemShortcut2 {
-  id?: string;
+  id?: string | undefined;
   /** Display path of the shortcut in the sidebar. */
-  path?: string;
+  path?: string | undefined;
   /** Type of the linked item (e.g. 'folder', 'insight'), or blank. */
-  type?: string;
+  type?: string | undefined;
   /** Reference to the linked item, scoped to its type. Null for href-only shortcuts. */
-  ref?: string | null;
+  ref?: string | null | undefined;
   /** Destination URL the shortcut opens. Null when the shortcut points at an item by ref. */
-  href?: string | null;
+  href?: string | null | undefined;
   /** Display order within the user's shortcut list, ascending. */
-  order?: number;
-  created_at?: string;
+  order?: number | undefined;
+  created_at?: string | undefined;
   /** Resolved access level the user has for the object this entry references ('none' means the user can't open it). Null when access controls don't apply to the entry type. */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 /** IDs of the current user's shortcuts in the desired display order. */
 export type CreateFileSystemShortcutReorderRequestOrderedIdsList = Array<string>;
@@ -91,20 +91,20 @@ export interface CreateFileSystemShortcutReorderRequest {
 }
 export type PaginatedFileSystemShortcutListResultsList = Array<FileSystemShortcut2>;
 export interface PaginatedFileSystemShortcutList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedFileSystemShortcutListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedFileSystemShortcutListResultsList | undefined;
 }
 export interface FileSystemShortcutBulkItem {
   /** Display path of the shortcut in the sidebar. */
   path: string;
   /** Type of the linked item (e.g. 'folder', 'insight'), or blank. */
-  type?: string;
+  type?: string | undefined;
   /** Reference to the linked item, scoped to its type. Null for href-only shortcuts. */
-  ref?: string | null;
+  ref?: string | null | undefined;
   /** Destination URL the shortcut opens. Null when the shortcut points at an item by ref. */
-  href?: string | null;
+  href?: string | null | undefined;
 }
 /** Shortcuts to create, appended to the end of the current order in the given sequence. An item identical to a shortcut the user already has is skipped. */
 export type FileSystemShortcutBulkUpdateCreateRequestAddList = Array<FileSystemShortcutBulkItem>;
@@ -114,9 +114,9 @@ export interface FileSystemShortcutBulkUpdateCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Shortcuts to create, appended to the end of the current order in the given sequence. An item identical to a shortcut the user already has is skipped. */
-  add?: FileSystemShortcutBulkUpdateCreateRequestAddList;
+  add?: FileSystemShortcutBulkUpdateCreateRequestAddList | undefined;
   /** IDs of the current user's shortcuts to delete. */
-  remove_ids?: FileSystemShortcutBulkUpdateCreateRequestRemoveIdsList;
+  remove_ids?: FileSystemShortcutBulkUpdateCreateRequestRemoveIdsList | undefined;
 }
 export type FileSystemShortcutBulkUpdateCreateResponseBodyList = Array<FileSystemShortcut2>;
 export type FileSystemShortcutBulkUpdateCreateResponse =
@@ -138,9 +138,9 @@ export interface ListFileSystemShortcutRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface UpdateFileSystemShortcutRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -148,15 +148,15 @@ export interface UpdateFileSystemShortcutRequest {
   /** A UUID string identifying this file system shortcut. */
   id: string;
   /** Display path of the shortcut in the sidebar. */
-  path?: string;
+  path?: string | undefined;
   /** Type of the linked item (e.g. 'folder', 'insight'), or blank. */
-  type?: string;
+  type?: string | undefined;
   /** Reference to the linked item, scoped to its type. Null for href-only shortcuts. */
-  ref?: string | null;
+  ref?: string | null | undefined;
   /** Destination URL the shortcut opens. Null when the shortcut points at an item by ref. */
-  href?: string | null;
+  href?: string | null | undefined;
   /** Display order within the user's shortcut list, ascending. */
-  order?: number;
+  order?: number | undefined;
 }
 export interface UpdateFileSystemShortcutPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -164,15 +164,15 @@ export interface UpdateFileSystemShortcutPartialRequest {
   /** A UUID string identifying this file system shortcut. */
   id: string;
   /** Display path of the shortcut in the sidebar. */
-  path?: string;
+  path?: string | undefined;
   /** Type of the linked item (e.g. 'folder', 'insight'), or blank. */
-  type?: string;
+  type?: string | undefined;
   /** Reference to the linked item, scoped to its type. Null for href-only shortcuts. */
-  ref?: string | null;
+  ref?: string | null | undefined;
   /** Destination URL the shortcut opens. Null when the shortcut points at an item by ref. */
-  href?: string | null;
+  href?: string | null | undefined;
   /** Display order within the user's shortcut list, ascending. */
-  order?: number;
+  order?: number | undefined;
 }
 export type CreateFileSystemShortcutError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createFileSystemShortcut: API.OperationMethod<

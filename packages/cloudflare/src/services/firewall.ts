@@ -125,15 +125,15 @@ export type RulesBulkDeleteResultItemAction =
   | "bypass";
 export interface RulesBulkDeleteResultItemFilterFirewallFilter {
   /** The unique identifier of the filter. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** An informative summary of the filter. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/). */
-  expression?: string | null;
+  expression?: string | null | undefined;
   /** When true, indicates that the filter is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** A short reference tag. Allows you to select related filters. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export interface RulesBulkDeleteResultItemFilterDeletedFilter {
   /** The unique identifier of the filter. */
@@ -155,26 +155,26 @@ export type RulesBulkDeleteResultItemProductsItem =
 export type RulesBulkDeleteResultItemProductsList = Array<RulesBulkDeleteResultItemProductsItem>;
 export interface RulesBulkDeleteResultItem {
   /** The unique identifier of the firewall rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The action to apply to a matched request. The `log` action is only available on an Enterprise plan. */
-  action?: RulesBulkDeleteResultItemAction | null;
+  action?: RulesBulkDeleteResultItemAction | null | undefined;
   /** An informative summary of the firewall rule. */
-  description?: string | null;
-  filter?: RulesBulkDeleteResultItemFilter | null;
+  description?: string | null | undefined;
+  filter?: RulesBulkDeleteResultItemFilter | null | undefined;
   /** When true, indicates that the firewall rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority. */
-  priority?: number | null;
-  products?: RulesBulkDeleteResultItemProductsList | null;
+  priority?: number | null | undefined;
+  products?: RulesBulkDeleteResultItemProductsList | null | undefined;
   /** A short reference tag. Allows you to select related firewall rules. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export type RulesBulkDeleteResultList = Array<RulesBulkDeleteResultItem>;
 export interface BulkDeleteRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesBulkDeleteResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface BulkPatchRulesRequest {
   /** Defines an identifier. */
@@ -208,26 +208,26 @@ export type RulesBulkEditResultItemProductsItem =
 export type RulesBulkEditResultItemProductsList = Array<RulesBulkEditResultItemProductsItem>;
 export interface RulesBulkEditResultItem {
   /** The unique identifier of the firewall rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The action to apply to a matched request. The `log` action is only available on an Enterprise plan. */
-  action?: RulesBulkEditResultItemAction | null;
+  action?: RulesBulkEditResultItemAction | null | undefined;
   /** An informative summary of the firewall rule. */
-  description?: string | null;
-  filter?: RulesBulkEditResultItemFilter | null;
+  description?: string | null | undefined;
+  filter?: RulesBulkEditResultItemFilter | null | undefined;
   /** When true, indicates that the firewall rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority. */
-  priority?: number | null;
-  products?: RulesBulkEditResultItemProductsList | null;
+  priority?: number | null | undefined;
+  products?: RulesBulkEditResultItemProductsList | null | undefined;
   /** A short reference tag. Allows you to select related firewall rules. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export type RulesBulkEditResultList = Array<RulesBulkEditResultItem>;
 export interface BulkPatchRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesBulkEditResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface BulkPutRulesRequest {
   /** Defines an identifier. */
@@ -261,61 +261,70 @@ export type RulesBulkUpdateResultItemProductsItem =
 export type RulesBulkUpdateResultItemProductsList = Array<RulesBulkUpdateResultItemProductsItem>;
 export interface RulesBulkUpdateResultItem {
   /** The unique identifier of the firewall rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The action to apply to a matched request. The `log` action is only available on an Enterprise plan. */
-  action?: RulesBulkUpdateResultItemAction | null;
+  action?: RulesBulkUpdateResultItemAction | null | undefined;
   /** An informative summary of the firewall rule. */
-  description?: string | null;
-  filter?: RulesBulkUpdateResultItemFilter | null;
+  description?: string | null | undefined;
+  filter?: RulesBulkUpdateResultItemFilter | null | undefined;
   /** When true, indicates that the firewall rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority. */
-  priority?: number | null;
-  products?: RulesBulkUpdateResultItemProductsList | null;
+  priority?: number | null | undefined;
+  products?: RulesBulkUpdateResultItemProductsList | null | undefined;
   /** A short reference tag. Allows you to select related firewall rules. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export type RulesBulkUpdateResultList = Array<RulesBulkUpdateResultItem>;
 export interface BulkPutRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesBulkUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type AccessRulesCreateRequestConfigurationAccessRuleIPConfigurationTarget = "ip";
 export interface AccessRulesCreateRequestConfigurationAccessRuleIPConfiguration {
   /** The configuration target. You must set the target to `ip` when specifying an IP address in the rule. */
-  target?: AccessRulesCreateRequestConfigurationAccessRuleIPConfigurationTarget | (string & {});
+  target?:
+    | AccessRulesCreateRequestConfigurationAccessRuleIPConfigurationTarget
+    | (string & {})
+    | undefined;
   /** The IP address to match. This address will be compared to the IP address of incoming requests. */
-  value?: string;
+  value?: string | undefined;
 }
 export type AccessRulesCreateRequestConfigurationIPV6ConfigurationTarget = "ip6";
 export interface AccessRulesCreateRequestConfigurationIPV6Configuration {
   /** The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule. */
-  target?: AccessRulesCreateRequestConfigurationIPV6ConfigurationTarget | (string & {});
+  target?: AccessRulesCreateRequestConfigurationIPV6ConfigurationTarget | (string & {}) | undefined;
   /** The IPv6 address to match. */
-  value?: string;
+  value?: string | undefined;
 }
 export type AccessRulesCreateRequestConfigurationAccessRuleCIDRConfigurationTarget = "ip_range";
 export interface AccessRulesCreateRequestConfigurationAccessRuleCIDRConfiguration {
   /** The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule. */
-  target?: AccessRulesCreateRequestConfigurationAccessRuleCIDRConfigurationTarget | (string & {});
+  target?:
+    | AccessRulesCreateRequestConfigurationAccessRuleCIDRConfigurationTarget
+    | (string & {})
+    | undefined;
   /** The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges. */
-  value?: string;
+  value?: string | undefined;
 }
 export type AccessRulesCreateRequestConfigurationASNConfigurationTarget = "asn";
 export interface AccessRulesCreateRequestConfigurationASNConfiguration {
   /** The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule. */
-  target?: AccessRulesCreateRequestConfigurationASNConfigurationTarget | (string & {});
+  target?: AccessRulesCreateRequestConfigurationASNConfigurationTarget | (string & {}) | undefined;
   /** The AS number to match. */
-  value?: string;
+  value?: string | undefined;
 }
 export type AccessRulesCreateRequestConfigurationCountryConfigurationTarget = "country";
 export interface AccessRulesCreateRequestConfigurationCountryConfiguration {
   /** The configuration target. You must set the target to `country` when specifying a country code in the rule. */
-  target?: AccessRulesCreateRequestConfigurationCountryConfigurationTarget | (string & {});
+  target?:
+    | AccessRulesCreateRequestConfigurationCountryConfigurationTarget
+    | (string & {})
+    | undefined;
   /** The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country). */
-  value?: string;
+  value?: string | undefined;
 }
 export type AccessRulesCreateRequestConfiguration =
   | AccessRulesCreateRequestConfigurationAccessRuleIPConfiguration
@@ -337,7 +346,7 @@ export interface CreateAccessRuleForAccountRequest {
   /** The action to apply to a matched request. */
   mode: AccessRulesCreateRequestMode | (string & {});
   /** An informative summary of the rule, typically used as a reminder or explanation. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export type AccessRulesCreateResponseAllowedModesItem =
   | "block"
@@ -350,37 +359,40 @@ export type AccessRulesCreateResponseAllowedModesList =
 export type AccessRulesCreateResponseConfigurationAccessRuleIPConfigurationTarget = "ip";
 export interface AccessRulesCreateResponseConfigurationAccessRuleIPConfiguration {
   /** The configuration target. You must set the target to `ip` when specifying an IP address in the rule. */
-  target?: AccessRulesCreateResponseConfigurationAccessRuleIPConfigurationTarget | null;
+  target?: AccessRulesCreateResponseConfigurationAccessRuleIPConfigurationTarget | null | undefined;
   /** The IP address to match. This address will be compared to the IP address of incoming requests. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesCreateResponseConfigurationIPV6ConfigurationTarget = "ip6";
 export interface AccessRulesCreateResponseConfigurationIPV6Configuration {
   /** The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule. */
-  target?: AccessRulesCreateResponseConfigurationIPV6ConfigurationTarget | null;
+  target?: AccessRulesCreateResponseConfigurationIPV6ConfigurationTarget | null | undefined;
   /** The IPv6 address to match. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesCreateResponseConfigurationAccessRuleCIDRConfigurationTarget = "ip_range";
 export interface AccessRulesCreateResponseConfigurationAccessRuleCIDRConfiguration {
   /** The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule. */
-  target?: AccessRulesCreateResponseConfigurationAccessRuleCIDRConfigurationTarget | null;
+  target?:
+    | AccessRulesCreateResponseConfigurationAccessRuleCIDRConfigurationTarget
+    | null
+    | undefined;
   /** The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesCreateResponseConfigurationASNConfigurationTarget = "asn";
 export interface AccessRulesCreateResponseConfigurationASNConfiguration {
   /** The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule. */
-  target?: AccessRulesCreateResponseConfigurationASNConfigurationTarget | null;
+  target?: AccessRulesCreateResponseConfigurationASNConfigurationTarget | null | undefined;
   /** The AS number to match. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesCreateResponseConfigurationCountryConfigurationTarget = "country";
 export interface AccessRulesCreateResponseConfigurationCountryConfiguration {
   /** The configuration target. You must set the target to `country` when specifying a country code in the rule. */
-  target?: AccessRulesCreateResponseConfigurationCountryConfigurationTarget | null;
+  target?: AccessRulesCreateResponseConfigurationCountryConfigurationTarget | null | undefined;
   /** The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country). */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesCreateResponseConfiguration =
   | AccessRulesCreateResponseConfigurationAccessRuleIPConfiguration
@@ -397,11 +409,11 @@ export type AccessRulesCreateResponseMode =
 export type AccessRulesCreateResponseScopeType = "user" | "organization";
 export interface AccessRulesCreateResponseScope {
   /** Defines an identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Defines the scope of the rule. */
-  type?: AccessRulesCreateResponseScopeType | null;
+  type?: AccessRulesCreateResponseScopeType | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAccessRuleResponse {
@@ -414,13 +426,13 @@ export interface CreateAccessRuleResponse {
   /** The action to apply to a matched request. */
   mode: AccessRulesCreateResponseMode;
   /** The timestamp of when the rule was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The timestamp of when the rule was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** An informative summary of the rule, typically used as a reminder or explanation. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** All zones owned by the user will have the rule applied. */
-  scope?: AccessRulesCreateResponseScope | null;
+  scope?: AccessRulesCreateResponseScope | null | undefined;
 }
 export interface CreateAccessRuleForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -430,14 +442,18 @@ export interface CreateAccessRuleForZoneRequest {
   /** The action to apply to a matched request. */
   mode: AccessRulesCreateRequestMode | (string & {});
   /** An informative summary of the rule, typically used as a reminder or explanation. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export type LockdownsCreateRequestConfigurationsLockdownIPConfigurationTarget = "ip";
 export interface LockdownsCreateRequestConfigurationsLockdownIPConfiguration {
   /** The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule. */
-  target?: LockdownsCreateRequestConfigurationsLockdownIPConfigurationTarget | (string & {}) | null;
+  target?:
+    | LockdownsCreateRequestConfigurationsLockdownIPConfigurationTarget
+    | (string & {})
+    | null
+    | undefined;
   /** The IP address to match. This address will be compared to the IP address of incoming requests. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type LockdownsCreateRequestConfigurationsLockdownCIDRConfigurationTarget = "ip_range";
 export interface LockdownsCreateRequestConfigurationsLockdownCIDRConfiguration {
@@ -445,9 +461,10 @@ export interface LockdownsCreateRequestConfigurationsLockdownCIDRConfiguration {
   target?:
     | LockdownsCreateRequestConfigurationsLockdownCIDRConfigurationTarget
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** The IP address range to match. You can only use prefix lengths `/16` and `/24`. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type LockdownsCreateRequestConfigurations =
   | LockdownsCreateRequestConfigurationsLockdownIPConfiguration
@@ -462,11 +479,11 @@ export interface CreateLockdownRequest {
   /** The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns. */
   urls: LockdownsCreateRequestUrlsList;
   /** An informative summary of the rule. This value is sanitized and any tags will be removed. */
-  description?: string;
+  description?: string | undefined;
   /** When true, indicates that the rule is currently paused. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** The priority of the rule to control the processing order. A lower number indicates higher priority. If not provided, any rules with a configured priority will be processed before rules without a priority. */
-  priority?: number;
+  priority?: number | undefined;
 }
 export type LockdownsCreateResponseUrlsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -486,7 +503,7 @@ export interface CreateLockdownResponse {
   /** The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns. */
   urls: LockdownsCreateResponseUrlsList;
   /** The priority of the Zone Lockdown rule, echoed on reads. */
-  priority?: number | null;
+  priority?: number | null | undefined;
 }
 export type RulesCreateRequestActionMode =
   | "simulate"
@@ -496,29 +513,29 @@ export type RulesCreateRequestActionMode =
   | "managed_challenge";
 export interface RulesCreateRequestActionResponse {
   /** The response body to return. The value must conform to the configured content type. */
-  body?: string;
+  body?: string | undefined;
   /** The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface RulesCreateRequestAction {
   /** The action to perform. */
-  mode?: RulesCreateRequestActionMode | (string & {});
+  mode?: RulesCreateRequestActionMode | (string & {}) | undefined;
   /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
-  response?: RulesCreateRequestActionResponse;
+  response?: RulesCreateRequestActionResponse | undefined;
   /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export interface RulesCreateRequestFilter {
   /** The unique identifier of the filter. */
-  id?: string;
+  id?: string | undefined;
   /** An informative summary of the filter. */
-  description?: string;
+  description?: string | undefined;
   /** The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/). */
-  expression?: string;
+  expression?: string | undefined;
   /** When true, indicates that the filter is currently paused. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** A short reference tag. Allows you to select related filters. */
-  ref?: string;
+  ref?: string | undefined;
 }
 export interface CreateRuleRequest {
   /** Defines an identifier. */
@@ -552,33 +569,33 @@ export type RulesCreateResultItemProductsItem =
 export type RulesCreateResultItemProductsList = Array<RulesCreateResultItemProductsItem>;
 export interface RulesCreateResultItem {
   /** The unique identifier of the firewall rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The action to apply to a matched request. The `log` action is only available on an Enterprise plan. */
-  action?: RulesCreateResultItemAction | null;
+  action?: RulesCreateResultItemAction | null | undefined;
   /** An informative summary of the firewall rule. */
-  description?: string | null;
-  filter?: RulesCreateResultItemFilter | null;
+  description?: string | null | undefined;
+  filter?: RulesCreateResultItemFilter | null | undefined;
   /** When true, indicates that the firewall rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority. */
-  priority?: number | null;
-  products?: RulesCreateResultItemProductsList | null;
+  priority?: number | null | undefined;
+  products?: RulesCreateResultItemProductsList | null | undefined;
   /** A short reference tag. Allows you to select related firewall rules. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export type RulesCreateResultList = Array<RulesCreateResultItem>;
 export interface CreateRuleResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type UaRulesCreateRequestConfigurationTarget = "ua";
 export interface UaRulesCreateRequestConfiguration {
   /** The configuration target. You must set the target to `ua` when specifying a user agent in the rule. */
-  target?: UaRulesCreateRequestConfigurationTarget | (string & {});
+  target?: UaRulesCreateRequestConfigurationTarget | (string & {}) | undefined;
   /** the user agent to exactly match */
-  value?: string;
+  value?: string | undefined;
 }
 export type UaRulesCreateRequestMode =
   | "block"
@@ -593,15 +610,15 @@ export interface CreateUaRuleRequest {
   /** The action to apply to a matched request. */
   mode: UaRulesCreateRequestMode | (string & {});
   /** An informative summary of the rule. This value is sanitized and any tags will be removed. */
-  description?: string;
+  description?: string | undefined;
   /** When true, indicates that the rule is currently paused. */
-  paused?: boolean;
+  paused?: boolean | undefined;
 }
 export interface UaRulesCreateResponseConfiguration {
   /** The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules. */
-  target?: string | null;
+  target?: string | null | undefined;
   /** The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type UaRulesCreateResponseMode =
   | "block"
@@ -611,15 +628,15 @@ export type UaRulesCreateResponseMode =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateUaRuleResponse {
   /** The unique identifier of the User Agent Blocking rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The configuration object for the current rule. */
-  configuration?: UaRulesCreateResponseConfiguration | null;
+  configuration?: UaRulesCreateResponseConfiguration | null | undefined;
   /** An informative summary of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The action to apply to a matched request. */
-  mode?: UaRulesCreateResponseMode | null;
+  mode?: UaRulesCreateResponseMode | null | undefined;
   /** When true, indicates that the rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
 }
 export type WafOverridesCreateRequestUrlsList = Array<string>;
 export interface CreateWafOverrideRequest {
@@ -655,7 +672,7 @@ export interface DeleteLockdownRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteLockdownResponse {
   /** The unique identifier of the Zone Lockdown rule. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteRuleRequest {
   /** Defines an identifier. */
@@ -688,19 +705,19 @@ export type RulesDeleteResponseProductsList = Array<RulesDeleteResponseProductsI
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteRuleResponse {
   /** The unique identifier of the firewall rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The action to apply to a matched request. The `log` action is only available on an Enterprise plan. */
-  action?: RulesDeleteResponseAction | null;
+  action?: RulesDeleteResponseAction | null | undefined;
   /** An informative summary of the firewall rule. */
-  description?: string | null;
-  filter?: RulesDeleteResponseFilter | null;
+  description?: string | null | undefined;
+  filter?: RulesDeleteResponseFilter | null | undefined;
   /** When true, indicates that the firewall rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority. */
-  priority?: number | null;
-  products?: RulesDeleteResponseProductsList | null;
+  priority?: number | null | undefined;
+  products?: RulesDeleteResponseProductsList | null | undefined;
   /** A short reference tag. Allows you to select related firewall rules. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export interface DeleteUaRuleRequest {
   /** Defines an identifier. */
@@ -717,15 +734,15 @@ export type UaRulesDeleteResponseMode =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteUaRuleResponse {
   /** The unique identifier of the User Agent Blocking rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The configuration object for the current rule. */
-  configuration?: UaRulesCreateResponseConfiguration | null;
+  configuration?: UaRulesCreateResponseConfiguration | null | undefined;
   /** An informative summary of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The action to apply to a matched request. */
-  mode?: UaRulesDeleteResponseMode | null;
+  mode?: UaRulesDeleteResponseMode | null | undefined;
   /** When true, indicates that the rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
 }
 export interface DeleteWafOverrideRequest {
   /** Defines an identifier. */
@@ -750,37 +767,37 @@ export type AccessRulesGetResponseAllowedModesList = Array<AccessRulesGetRespons
 export type AccessRulesGetResponseConfigurationAccessRuleIPConfigurationTarget = "ip";
 export interface AccessRulesGetResponseConfigurationAccessRuleIPConfiguration {
   /** The configuration target. You must set the target to `ip` when specifying an IP address in the rule. */
-  target?: AccessRulesGetResponseConfigurationAccessRuleIPConfigurationTarget | null;
+  target?: AccessRulesGetResponseConfigurationAccessRuleIPConfigurationTarget | null | undefined;
   /** The IP address to match. This address will be compared to the IP address of incoming requests. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesGetResponseConfigurationIPV6ConfigurationTarget = "ip6";
 export interface AccessRulesGetResponseConfigurationIPV6Configuration {
   /** The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule. */
-  target?: AccessRulesGetResponseConfigurationIPV6ConfigurationTarget | null;
+  target?: AccessRulesGetResponseConfigurationIPV6ConfigurationTarget | null | undefined;
   /** The IPv6 address to match. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesGetResponseConfigurationAccessRuleCIDRConfigurationTarget = "ip_range";
 export interface AccessRulesGetResponseConfigurationAccessRuleCIDRConfiguration {
   /** The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule. */
-  target?: AccessRulesGetResponseConfigurationAccessRuleCIDRConfigurationTarget | null;
+  target?: AccessRulesGetResponseConfigurationAccessRuleCIDRConfigurationTarget | null | undefined;
   /** The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesGetResponseConfigurationASNConfigurationTarget = "asn";
 export interface AccessRulesGetResponseConfigurationASNConfiguration {
   /** The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule. */
-  target?: AccessRulesGetResponseConfigurationASNConfigurationTarget | null;
+  target?: AccessRulesGetResponseConfigurationASNConfigurationTarget | null | undefined;
   /** The AS number to match. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesGetResponseConfigurationCountryConfigurationTarget = "country";
 export interface AccessRulesGetResponseConfigurationCountryConfiguration {
   /** The configuration target. You must set the target to `country` when specifying a country code in the rule. */
-  target?: AccessRulesGetResponseConfigurationCountryConfigurationTarget | null;
+  target?: AccessRulesGetResponseConfigurationCountryConfigurationTarget | null | undefined;
   /** The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country). */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesGetResponseConfiguration =
   | AccessRulesGetResponseConfigurationAccessRuleIPConfiguration
@@ -797,11 +814,11 @@ export type AccessRulesGetResponseMode =
 export type AccessRulesGetResponseScopeType = "user" | "organization";
 export interface AccessRulesGetResponseScope {
   /** Defines an identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Defines the scope of the rule. */
-  type?: AccessRulesGetResponseScopeType | null;
+  type?: AccessRulesGetResponseScopeType | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAccessRuleResponse {
@@ -814,13 +831,13 @@ export interface GetAccessRuleResponse {
   /** The action to apply to a matched request. */
   mode: AccessRulesGetResponseMode;
   /** The timestamp of when the rule was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The timestamp of when the rule was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** An informative summary of the rule, typically used as a reminder or explanation. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** All zones owned by the user will have the rule applied. */
-  scope?: AccessRulesGetResponseScope | null;
+  scope?: AccessRulesGetResponseScope | null | undefined;
 }
 export interface GetAccessRuleForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -852,7 +869,7 @@ export interface GetLockdownResponse {
   /** The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns. */
   urls: LockdownsGetResponseUrlsList;
   /** The priority of the Zone Lockdown rule, echoed on reads. */
-  priority?: number | null;
+  priority?: number | null | undefined;
 }
 export interface GetRuleRequest {
   /** Defines an identifier. */
@@ -885,19 +902,19 @@ export type RulesGetResponseProductsList = Array<RulesGetResponseProductsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetRuleResponse {
   /** The unique identifier of the firewall rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The action to apply to a matched request. The `log` action is only available on an Enterprise plan. */
-  action?: RulesGetResponseAction | null;
+  action?: RulesGetResponseAction | null | undefined;
   /** An informative summary of the firewall rule. */
-  description?: string | null;
-  filter?: RulesGetResponseFilter | null;
+  description?: string | null | undefined;
+  filter?: RulesGetResponseFilter | null | undefined;
   /** When true, indicates that the firewall rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority. */
-  priority?: number | null;
-  products?: RulesGetResponseProductsList | null;
+  priority?: number | null | undefined;
+  products?: RulesGetResponseProductsList | null | undefined;
   /** A short reference tag. Allows you to select related firewall rules. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export interface GetUaRuleRequest {
   /** Defines an identifier. */
@@ -910,15 +927,15 @@ export type UaRulesGetResponseMode = "block" | "challenge" | "js_challenge" | "m
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetUaRuleResponse {
   /** The unique identifier of the User Agent Blocking rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The configuration object for the current rule. */
-  configuration?: UaRulesCreateResponseConfiguration | null;
+  configuration?: UaRulesCreateResponseConfiguration | null | undefined;
   /** An informative summary of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The action to apply to a matched request. */
-  mode?: UaRulesGetResponseMode | null;
+  mode?: UaRulesGetResponseMode | null | undefined;
   /** When true, indicates that the rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
 }
 export interface GetWafOverrideRequest {
   /** Defines an identifier. */
@@ -955,9 +972,9 @@ export type GetWafPackageRuleResponse = unknown;
 export type AccessRulesListRequestConfigurationTarget = "ip" | "ip_range" | "asn" | "country";
 export interface AccessRulesListRequestConfiguration {
   /** Defines the target to search in existing rules. */
-  target?: AccessRulesListRequestConfigurationTarget | (string & {});
+  target?: AccessRulesListRequestConfigurationTarget | (string & {}) | undefined;
   /** Defines the target value to search for in existing rules: an IP address, an IP address range, or a country code, depending on the provided `configuration.target`. Notes: You can search for a single IPv4 address, an IP address range with a subnet of '/16' or '/24', or a two-letter ISO-3166-1 alpha-2 country code. */
-  value?: string;
+  value?: string | undefined;
 }
 export type AccessRulesListRequestDirection = "asc" | "desc";
 export type AccessRulesListRequestMatch = "any" | "all";
@@ -971,21 +988,21 @@ export type AccessRulesListRequestOrder = "configuration.target" | "configuratio
 export interface ListAccessRulesForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
-  configuration?: AccessRulesListRequestConfiguration;
+  configuration?: AccessRulesListRequestConfiguration | undefined;
   /** Defines the direction used to sort returned rules. */
-  direction?: AccessRulesListRequestDirection | (string & {});
+  direction?: AccessRulesListRequestDirection | (string & {}) | undefined;
   /** Defines the search requirements. When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match. */
-  match?: AccessRulesListRequestMatch | (string & {});
+  match?: AccessRulesListRequestMatch | (string & {}) | undefined;
   /** The action to apply to a matched request. */
-  mode?: AccessRulesListRequestMode | (string & {});
+  mode?: AccessRulesListRequestMode | (string & {}) | undefined;
   /** Defines the string to search for in the notes of existing IP Access rules. Notes: For example, the string 'attack' would match IP Access rules with notes 'Attack 26/02' and 'Attack 27/02'. The search is case insensitive. */
-  notes?: string;
+  notes?: string | undefined;
   /** Defines the field used to sort returned rules. */
-  order?: AccessRulesListRequestOrder | (string & {});
+  order?: AccessRulesListRequestOrder | (string & {}) | undefined;
   /** Defines the requested page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** Defines the maximum number of results requested. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type AccessRulesListResultItemAllowedModesItem =
   | "block"
@@ -998,37 +1015,40 @@ export type AccessRulesListResultItemAllowedModesList =
 export type AccessRulesListResultItemConfigurationAccessRuleIPConfigurationTarget = "ip";
 export interface AccessRulesListResultItemConfigurationAccessRuleIPConfiguration {
   /** The configuration target. You must set the target to `ip` when specifying an IP address in the rule. */
-  target?: AccessRulesListResultItemConfigurationAccessRuleIPConfigurationTarget | null;
+  target?: AccessRulesListResultItemConfigurationAccessRuleIPConfigurationTarget | null | undefined;
   /** The IP address to match. This address will be compared to the IP address of incoming requests. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesListResultItemConfigurationIPV6ConfigurationTarget = "ip6";
 export interface AccessRulesListResultItemConfigurationIPV6Configuration {
   /** The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule. */
-  target?: AccessRulesListResultItemConfigurationIPV6ConfigurationTarget | null;
+  target?: AccessRulesListResultItemConfigurationIPV6ConfigurationTarget | null | undefined;
   /** The IPv6 address to match. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesListResultItemConfigurationAccessRuleCIDRConfigurationTarget = "ip_range";
 export interface AccessRulesListResultItemConfigurationAccessRuleCIDRConfiguration {
   /** The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule. */
-  target?: AccessRulesListResultItemConfigurationAccessRuleCIDRConfigurationTarget | null;
+  target?:
+    | AccessRulesListResultItemConfigurationAccessRuleCIDRConfigurationTarget
+    | null
+    | undefined;
   /** The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesListResultItemConfigurationASNConfigurationTarget = "asn";
 export interface AccessRulesListResultItemConfigurationASNConfiguration {
   /** The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule. */
-  target?: AccessRulesListResultItemConfigurationASNConfigurationTarget | null;
+  target?: AccessRulesListResultItemConfigurationASNConfigurationTarget | null | undefined;
   /** The AS number to match. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesListResultItemConfigurationCountryConfigurationTarget = "country";
 export interface AccessRulesListResultItemConfigurationCountryConfiguration {
   /** The configuration target. You must set the target to `country` when specifying a country code in the rule. */
-  target?: AccessRulesListResultItemConfigurationCountryConfigurationTarget | null;
+  target?: AccessRulesListResultItemConfigurationCountryConfigurationTarget | null | undefined;
   /** The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country). */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesListResultItemConfiguration =
   | AccessRulesListResultItemConfigurationAccessRuleIPConfiguration
@@ -1045,11 +1065,11 @@ export type AccessRulesListResultItemMode =
 export type AccessRulesListResultItemScopeType = "user" | "organization";
 export interface AccessRulesListResultItemScope {
   /** Defines an identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Defines the scope of the rule. */
-  type?: AccessRulesListResultItemScopeType | null;
+  type?: AccessRulesListResultItemScopeType | null | undefined;
 }
 export interface AccessRulesListResultItem {
   /** The unique identifier of the IP Access rule. */
@@ -1061,65 +1081,65 @@ export interface AccessRulesListResultItem {
   /** The action to apply to a matched request. */
   mode: AccessRulesListResultItemMode;
   /** The timestamp of when the rule was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The timestamp of when the rule was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** An informative summary of the rule, typically used as a reminder or explanation. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** All zones owned by the user will have the rule applied. */
-  scope?: AccessRulesListResultItemScope | null;
+  scope?: AccessRulesListResultItemScope | null | undefined;
 }
 export type AccessRulesListResultList = Array<AccessRulesListResultItem>;
 export interface ListAccessRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessRulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessRulesForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
-  configuration?: AccessRulesListRequestConfiguration;
+  configuration?: AccessRulesListRequestConfiguration | undefined;
   /** Defines the direction used to sort returned rules. */
-  direction?: AccessRulesListRequestDirection | (string & {});
+  direction?: AccessRulesListRequestDirection | (string & {}) | undefined;
   /** Defines the search requirements. When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match. */
-  match?: AccessRulesListRequestMatch | (string & {});
+  match?: AccessRulesListRequestMatch | (string & {}) | undefined;
   /** The action to apply to a matched request. */
-  mode?: AccessRulesListRequestMode | (string & {});
+  mode?: AccessRulesListRequestMode | (string & {}) | undefined;
   /** Defines the string to search for in the notes of existing IP Access rules. Notes: For example, the string 'attack' would match IP Access rules with notes 'Attack 26/02' and 'Attack 27/02'. The search is case insensitive. */
-  notes?: string;
+  notes?: string | undefined;
   /** Defines the field used to sort returned rules. */
-  order?: AccessRulesListRequestOrder | (string & {});
+  order?: AccessRulesListRequestOrder | (string & {}) | undefined;
   /** Defines the requested page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** Defines the maximum number of results requested. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface ListLockdownsRequest {
   /** Defines an identifier. */
   zoneId: string;
   /** The timestamp of when the rule was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** A string to search for in the description of existing rules. */
-  description?: string;
+  description?: string | undefined;
   /** A string to search for in the description of existing rules. */
-  descriptionSearch?: string;
+  descriptionSearch?: string | undefined;
   /** A single IP address to search for in existing rules. */
-  ip?: string;
+  ip?: string | undefined;
   /** A single IP address range to search for in existing rules. */
-  ipRangeSearch?: string;
+  ipRangeSearch?: string | undefined;
   /** A single IP address to search for in existing rules. */
-  ipSearch?: string;
+  ipSearch?: string | undefined;
   /** The timestamp of when the rule was last modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** The maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** The priority of the rule to control the processing order. A lower number indicates higher priority. If not provided, any rules with a configured priority will be processed before rules without a priority. */
-  priority?: number;
+  priority?: number | undefined;
   /** A single URI to search for in the list of URLs of existing rules. */
-  uriSearch?: string;
+  uriSearch?: string | undefined;
 }
 export type LockdownsListResultItemUrlsList = Array<string>;
 export interface LockdownsListResultItem {
@@ -1138,30 +1158,30 @@ export interface LockdownsListResultItem {
   /** The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns. */
   urls: LockdownsListResultItemUrlsList;
   /** The priority of the Zone Lockdown rule, echoed on reads. */
-  priority?: number | null;
+  priority?: number | null | undefined;
 }
 export type LockdownsListResultList = Array<LockdownsListResultItem>;
 export interface ListLockdownsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LockdownsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRulesRequest {
   /** Defines an identifier. */
   zoneId: string;
   /** The unique identifier of the firewall rule. */
-  id?: string;
+  id?: string | undefined;
   /** The action to search for. Must be an exact match. */
-  action?: string;
+  action?: string | undefined;
   /** A case-insensitive string to find in the description. */
-  description?: string;
+  description?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** When true, indicates that the firewall rule is currently paused. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** Number of firewall rules per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type RulesListResultItemAction =
   | "block"
@@ -1187,40 +1207,40 @@ export type RulesListResultItemProductsItem =
 export type RulesListResultItemProductsList = Array<RulesListResultItemProductsItem>;
 export interface RulesListResultItem {
   /** The unique identifier of the firewall rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The action to apply to a matched request. The `log` action is only available on an Enterprise plan. */
-  action?: RulesListResultItemAction | null;
+  action?: RulesListResultItemAction | null | undefined;
   /** An informative summary of the firewall rule. */
-  description?: string | null;
-  filter?: RulesListResultItemFilter | null;
+  description?: string | null | undefined;
+  filter?: RulesListResultItemFilter | null | undefined;
   /** When true, indicates that the firewall rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority. */
-  priority?: number | null;
-  products?: RulesListResultItemProductsList | null;
+  priority?: number | null | undefined;
+  products?: RulesListResultItemProductsList | null | undefined;
   /** A short reference tag. Allows you to select related firewall rules. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export type RulesListResultList = Array<RulesListResultItem>;
 export interface ListRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListUaRulesRequest {
   /** Defines an identifier. */
   zoneId: string;
   /** A string to search for in the description of existing rules. */
-  description?: string;
+  description?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** When true, indicates that the rule is currently paused. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** The maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** A string to search for in the user agent values of existing rules. */
-  userAgent?: string;
+  userAgent?: string | undefined;
 }
 export type UaRulesListResultItemConfiguration = UaRulesCreateResponseConfiguration;
 export type UaRulesListResultItemMode =
@@ -1230,30 +1250,30 @@ export type UaRulesListResultItemMode =
   | "managed_challenge";
 export interface UaRulesListResultItem {
   /** The unique identifier of the User Agent Blocking rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The configuration object for the current rule. */
-  configuration?: UaRulesCreateResponseConfiguration | null;
+  configuration?: UaRulesCreateResponseConfiguration | null | undefined;
   /** An informative summary of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The action to apply to a matched request. */
-  mode?: UaRulesListResultItemMode | null;
+  mode?: UaRulesListResultItemMode | null | undefined;
   /** When true, indicates that the rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
 }
 export type UaRulesListResultList = Array<UaRulesListResultItem>;
 export interface ListUaRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UaRulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListWafOverridesRequest {
   /** Defines an identifier. */
   zoneId: string;
   /** The page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of WAF overrides per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface ListWafOverridesResponse {}
 export type WafPackagesGroupsListRequestDirection = "asc" | "desc";
@@ -1266,21 +1286,21 @@ export interface ListWafPackageGroupsRequest {
   /** Defines the unique identifier of a WAF package. */
   packageId: string;
   /** Defines the direction used to sort returned rule groups. */
-  direction?: WafPackagesGroupsListRequestDirection | (string & {});
+  direction?: WafPackagesGroupsListRequestDirection | (string & {}) | undefined;
   /** Defines the condition for search requirements. When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match. */
-  match?: WafPackagesGroupsListRequestMatch | (string & {});
+  match?: WafPackagesGroupsListRequestMatch | (string & {}) | undefined;
   /** Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable. */
-  mode?: WafPackagesGroupsListRequestMode | (string & {});
+  mode?: WafPackagesGroupsListRequestMode | (string & {}) | undefined;
   /** Defines the name of the rule group. */
-  name?: string;
+  name?: string | undefined;
   /** Defines the field used to sort returned rule groups. */
-  order?: WafPackagesGroupsListRequestOrder | (string & {});
+  order?: WafPackagesGroupsListRequestOrder | (string & {}) | undefined;
   /** Defines the page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Defines the number of rule groups per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Defines the number of rules in the current rule group. */
-  rulesCount?: number;
+  rulesCount?: number | undefined;
 }
 export type WafPackagesGroupsListResultItemMode = "on" | "off";
 export type WafPackagesGroupsListResultItemAllowedModesItem = "on" | "off";
@@ -1298,18 +1318,18 @@ export interface WafPackagesGroupsListResultItem {
   /** Defines the number of rules in the current rule group. */
   rulesCount: number;
   /** Defines the available states for the rule group. */
-  allowedModes?: WafPackagesGroupsListResultItemAllowedModesList | null;
+  allowedModes?: WafPackagesGroupsListResultItemAllowedModesList | null | undefined;
   /** Defines the number of rules within the group that have been modified from their default configuration. */
-  modifiedRulesCount?: number | null;
+  modifiedRulesCount?: number | null | undefined;
   /** Defines the unique identifier of a WAF package. */
-  packageId?: string | null;
+  packageId?: string | null | undefined;
 }
 export type WafPackagesGroupsListResultList = Array<WafPackagesGroupsListResultItem>;
 export interface ListWafPackageGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: WafPackagesGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type WafPackagesRulesListRequestDirection = "asc" | "desc";
 export type WafPackagesRulesListRequestMatch = "any" | "all";
@@ -1321,32 +1341,32 @@ export interface ListWafPackageRulesRequest {
   /** Defines the unique identifier of a WAF package. */
   packageId: string;
   /** Defines the public description of the WAF rule. */
-  description?: string;
+  description?: string | undefined;
   /** Defines the direction used to sort returned rules. */
-  direction?: WafPackagesRulesListRequestDirection | (string & {});
+  direction?: WafPackagesRulesListRequestDirection | (string & {}) | undefined;
   /** Defines the unique identifier of the rule group. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Defines the search requirements. When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match. */
-  match?: WafPackagesRulesListRequestMatch | (string & {});
+  match?: WafPackagesRulesListRequestMatch | (string & {}) | undefined;
   /** Defines the action/mode a rule has been overridden to perform. */
-  mode?: WafPackagesRulesListRequestMode | (string & {});
+  mode?: WafPackagesRulesListRequestMode | (string & {}) | undefined;
   /** Defines the field used to sort returned rules. */
-  order?: WafPackagesRulesListRequestOrder | (string & {});
+  order?: WafPackagesRulesListRequestOrder | (string & {}) | undefined;
   /** Defines the page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Defines the number of rules per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Defines the order in which the individual WAF rule is executed within its rule group. */
-  priority?: string;
+  priority?: string | undefined;
 }
 export type WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleAllowedModesItem = "on" | "off";
 export type WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleAllowedModesList =
   Array<WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleAllowedModesItem>;
 export interface WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleGroup {
   /** Defines the unique identifier of the rule group. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Defines the name of the rule group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleMode = "on" | "off";
 export interface WafPackagesRulesListResultItemWAFManagedRulesAnomalyRule {
@@ -1437,7 +1457,7 @@ export interface ListWafPackageRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: WafPackagesRulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type WafPackagesListRequestDirection = "asc" | "desc";
 export type WafPackagesListRequestMatch = "any" | "all";
@@ -1446,54 +1466,63 @@ export interface ListWafPackagesRequest {
   /** Defines an identifier. */
   zoneId: string;
   /** The direction used to sort returned packages. */
-  direction?: WafPackagesListRequestDirection | (string & {});
+  direction?: WafPackagesListRequestDirection | (string & {}) | undefined;
   /** When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match. */
-  match?: WafPackagesListRequestMatch | (string & {});
+  match?: WafPackagesListRequestMatch | (string & {}) | undefined;
   /** The name of the WAF package. */
-  name?: string;
+  name?: string | undefined;
   /** The field used to sort returned packages. */
-  order?: WafPackagesListRequestOrder | (string & {});
+  order?: WafPackagesListRequestOrder | (string & {}) | undefined;
   /** The page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of packages per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface ListWafPackagesResponse {}
 export type AccessRulesEditRequestConfigurationAccessRuleIPConfigurationTarget = "ip";
 export interface AccessRulesEditRequestConfigurationAccessRuleIPConfiguration {
   /** The configuration target. You must set the target to `ip` when specifying an IP address in the rule. */
-  target?: AccessRulesEditRequestConfigurationAccessRuleIPConfigurationTarget | (string & {});
+  target?:
+    | AccessRulesEditRequestConfigurationAccessRuleIPConfigurationTarget
+    | (string & {})
+    | undefined;
   /** The IP address to match. This address will be compared to the IP address of incoming requests. */
-  value?: string;
+  value?: string | undefined;
 }
 export type AccessRulesEditRequestConfigurationIPV6ConfigurationTarget = "ip6";
 export interface AccessRulesEditRequestConfigurationIPV6Configuration {
   /** The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule. */
-  target?: AccessRulesEditRequestConfigurationIPV6ConfigurationTarget | (string & {});
+  target?: AccessRulesEditRequestConfigurationIPV6ConfigurationTarget | (string & {}) | undefined;
   /** The IPv6 address to match. */
-  value?: string;
+  value?: string | undefined;
 }
 export type AccessRulesEditRequestConfigurationAccessRuleCIDRConfigurationTarget = "ip_range";
 export interface AccessRulesEditRequestConfigurationAccessRuleCIDRConfiguration {
   /** The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule. */
-  target?: AccessRulesEditRequestConfigurationAccessRuleCIDRConfigurationTarget | (string & {});
+  target?:
+    | AccessRulesEditRequestConfigurationAccessRuleCIDRConfigurationTarget
+    | (string & {})
+    | undefined;
   /** The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges. */
-  value?: string;
+  value?: string | undefined;
 }
 export type AccessRulesEditRequestConfigurationASNConfigurationTarget = "asn";
 export interface AccessRulesEditRequestConfigurationASNConfiguration {
   /** The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule. */
-  target?: AccessRulesEditRequestConfigurationASNConfigurationTarget | (string & {});
+  target?: AccessRulesEditRequestConfigurationASNConfigurationTarget | (string & {}) | undefined;
   /** The AS number to match. */
-  value?: string;
+  value?: string | undefined;
 }
 export type AccessRulesEditRequestConfigurationCountryConfigurationTarget = "country";
 export interface AccessRulesEditRequestConfigurationCountryConfiguration {
   /** The configuration target. You must set the target to `country` when specifying a country code in the rule. */
-  target?: AccessRulesEditRequestConfigurationCountryConfigurationTarget | (string & {});
+  target?:
+    | AccessRulesEditRequestConfigurationCountryConfigurationTarget
+    | (string & {})
+    | undefined;
   /** The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country). */
-  value?: string;
+  value?: string | undefined;
 }
 export type AccessRulesEditRequestConfiguration =
   | AccessRulesEditRequestConfigurationAccessRuleIPConfiguration
@@ -1517,7 +1546,7 @@ export interface PatchAccessRuleForAccountRequest {
   /** The action to apply to a matched request. */
   mode: AccessRulesEditRequestMode | (string & {});
   /** An informative summary of the rule, typically used as a reminder or explanation. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export type AccessRulesEditResponseAllowedModesItem =
   | "block"
@@ -1530,37 +1559,37 @@ export type AccessRulesEditResponseAllowedModesList =
 export type AccessRulesEditResponseConfigurationAccessRuleIPConfigurationTarget = "ip";
 export interface AccessRulesEditResponseConfigurationAccessRuleIPConfiguration {
   /** The configuration target. You must set the target to `ip` when specifying an IP address in the rule. */
-  target?: AccessRulesEditResponseConfigurationAccessRuleIPConfigurationTarget | null;
+  target?: AccessRulesEditResponseConfigurationAccessRuleIPConfigurationTarget | null | undefined;
   /** The IP address to match. This address will be compared to the IP address of incoming requests. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesEditResponseConfigurationIPV6ConfigurationTarget = "ip6";
 export interface AccessRulesEditResponseConfigurationIPV6Configuration {
   /** The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule. */
-  target?: AccessRulesEditResponseConfigurationIPV6ConfigurationTarget | null;
+  target?: AccessRulesEditResponseConfigurationIPV6ConfigurationTarget | null | undefined;
   /** The IPv6 address to match. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesEditResponseConfigurationAccessRuleCIDRConfigurationTarget = "ip_range";
 export interface AccessRulesEditResponseConfigurationAccessRuleCIDRConfiguration {
   /** The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule. */
-  target?: AccessRulesEditResponseConfigurationAccessRuleCIDRConfigurationTarget | null;
+  target?: AccessRulesEditResponseConfigurationAccessRuleCIDRConfigurationTarget | null | undefined;
   /** The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesEditResponseConfigurationASNConfigurationTarget = "asn";
 export interface AccessRulesEditResponseConfigurationASNConfiguration {
   /** The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule. */
-  target?: AccessRulesEditResponseConfigurationASNConfigurationTarget | null;
+  target?: AccessRulesEditResponseConfigurationASNConfigurationTarget | null | undefined;
   /** The AS number to match. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesEditResponseConfigurationCountryConfigurationTarget = "country";
 export interface AccessRulesEditResponseConfigurationCountryConfiguration {
   /** The configuration target. You must set the target to `country` when specifying a country code in the rule. */
-  target?: AccessRulesEditResponseConfigurationCountryConfigurationTarget | null;
+  target?: AccessRulesEditResponseConfigurationCountryConfigurationTarget | null | undefined;
   /** The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country). */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccessRulesEditResponseConfiguration =
   | AccessRulesEditResponseConfigurationAccessRuleIPConfiguration
@@ -1577,11 +1606,11 @@ export type AccessRulesEditResponseMode =
 export type AccessRulesEditResponseScopeType = "user" | "organization";
 export interface AccessRulesEditResponseScope {
   /** Defines an identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Defines the scope of the rule. */
-  type?: AccessRulesEditResponseScopeType | null;
+  type?: AccessRulesEditResponseScopeType | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchAccessRuleResponse {
@@ -1594,13 +1623,13 @@ export interface PatchAccessRuleResponse {
   /** The action to apply to a matched request. */
   mode: AccessRulesEditResponseMode;
   /** The timestamp of when the rule was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The timestamp of when the rule was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** An informative summary of the rule, typically used as a reminder or explanation. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** All zones owned by the user will have the rule applied. */
-  scope?: AccessRulesEditResponseScope | null;
+  scope?: AccessRulesEditResponseScope | null | undefined;
 }
 export interface PatchAccessRuleForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1612,7 +1641,7 @@ export interface PatchAccessRuleForZoneRequest {
   /** The action to apply to a matched request. */
   mode: AccessRulesEditRequestMode | (string & {});
   /** An informative summary of the rule, typically used as a reminder or explanation. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export interface PatchRuleRequest {
   /** Defines an identifier. */
@@ -1644,26 +1673,26 @@ export type RulesEditResultItemProductsItem =
 export type RulesEditResultItemProductsList = Array<RulesEditResultItemProductsItem>;
 export interface RulesEditResultItem {
   /** The unique identifier of the firewall rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The action to apply to a matched request. The `log` action is only available on an Enterprise plan. */
-  action?: RulesEditResultItemAction | null;
+  action?: RulesEditResultItemAction | null | undefined;
   /** An informative summary of the firewall rule. */
-  description?: string | null;
-  filter?: RulesEditResultItemFilter | null;
+  description?: string | null | undefined;
+  filter?: RulesEditResultItemFilter | null | undefined;
   /** When true, indicates that the firewall rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority. */
-  priority?: number | null;
-  products?: RulesEditResultItemProductsList | null;
+  priority?: number | null | undefined;
+  products?: RulesEditResultItemProductsList | null | undefined;
   /** A short reference tag. Allows you to select related firewall rules. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export type RulesEditResultList = Array<RulesEditResultItem>;
 export interface PatchRuleResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesEditResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type WafPackagesGroupsEditRequestMode = "on" | "off";
 export interface PatchWafPackageGroupRequest {
@@ -1674,7 +1703,7 @@ export interface PatchWafPackageGroupRequest {
   /** Defines the unique identifier of a WAF package. */
   groupId: string;
   /** Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable. */
-  mode?: WafPackagesGroupsEditRequestMode | (string & {});
+  mode?: WafPackagesGroupsEditRequestMode | (string & {}) | undefined;
 }
 export type PatchWafPackageGroupResponse = unknown;
 export type WafPackagesRulesEditRequestMode =
@@ -1693,7 +1722,7 @@ export interface PatchWafPackageRuleRequest {
   /** Defines the unique identifier of a WAF package. */
   ruleId: string;
   /** Defines the mode/action of the rule when triggered. You must use a value from the `allowed_modes` array of the current rule. */
-  mode?: WafPackagesRulesEditRequestMode | (string & {});
+  mode?: WafPackagesRulesEditRequestMode | (string & {}) | undefined;
 }
 export type WafPackagesRulesEditResultWAFManagedRulesAnomalyRuleAllowedModesItem = "on" | "off";
 export type WafPackagesRulesEditResultWAFManagedRulesAnomalyRuleAllowedModesList =
@@ -1796,11 +1825,11 @@ export interface UpdateLockdownRequest {
   /** The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns. */
   urls: LockdownsUpdateRequestUrlsList;
   /** An informative summary of the rule. This value is sanitized and any tags will be removed. */
-  description?: string;
+  description?: string | undefined;
   /** When true, indicates that the rule is currently paused. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** The priority of the rule to control the processing order. A lower number indicates higher priority. If not provided, any rules with a configured priority will be processed before rules without a priority. */
-  priority?: number;
+  priority?: number | undefined;
 }
 export type LockdownsUpdateResponseUrlsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1820,7 +1849,7 @@ export interface UpdateLockdownResponse {
   /** The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns. */
   urls: LockdownsUpdateResponseUrlsList;
   /** The priority of the Zone Lockdown rule, echoed on reads. */
-  priority?: number | null;
+  priority?: number | null | undefined;
 }
 export type RulesUpdateRequestActionMode =
   | "simulate"
@@ -1831,11 +1860,11 @@ export type RulesUpdateRequestActionMode =
 export type RulesUpdateRequestActionResponse = RulesCreateRequestActionResponse;
 export interface RulesUpdateRequestAction {
   /** The action to perform. */
-  mode?: RulesUpdateRequestActionMode | (string & {});
+  mode?: RulesUpdateRequestActionMode | (string & {}) | undefined;
   /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
-  response?: RulesCreateRequestActionResponse;
+  response?: RulesCreateRequestActionResponse | undefined;
   /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export type RulesUpdateRequestFilter = RulesCreateRequestFilter;
 export interface UpdateRuleRequest {
@@ -1872,54 +1901,60 @@ export type RulesUpdateResponseProductsList = Array<RulesUpdateResponseProductsI
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateRuleResponse {
   /** The unique identifier of the firewall rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The action to apply to a matched request. The `log` action is only available on an Enterprise plan. */
-  action?: RulesUpdateResponseAction | null;
+  action?: RulesUpdateResponseAction | null | undefined;
   /** An informative summary of the firewall rule. */
-  description?: string | null;
-  filter?: RulesUpdateResponseFilter | null;
+  description?: string | null | undefined;
+  filter?: RulesUpdateResponseFilter | null | undefined;
   /** When true, indicates that the firewall rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority. */
-  priority?: number | null;
-  products?: RulesUpdateResponseProductsList | null;
+  priority?: number | null | undefined;
+  products?: RulesUpdateResponseProductsList | null | undefined;
   /** A short reference tag. Allows you to select related firewall rules. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export type UaRulesUpdateRequestConfigurationAccessRuleIPConfigurationTarget = "ip";
 export interface UaRulesUpdateRequestConfigurationAccessRuleIPConfiguration {
   /** The configuration target. You must set the target to `ip` when specifying an IP address in the rule. */
-  target?: UaRulesUpdateRequestConfigurationAccessRuleIPConfigurationTarget | (string & {});
+  target?:
+    | UaRulesUpdateRequestConfigurationAccessRuleIPConfigurationTarget
+    | (string & {})
+    | undefined;
   /** The IP address to match. This address will be compared to the IP address of incoming requests. */
-  value?: string;
+  value?: string | undefined;
 }
 export type UaRulesUpdateRequestConfigurationIPV6ConfigurationTarget = "ip6";
 export interface UaRulesUpdateRequestConfigurationIPV6Configuration {
   /** The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule. */
-  target?: UaRulesUpdateRequestConfigurationIPV6ConfigurationTarget | (string & {});
+  target?: UaRulesUpdateRequestConfigurationIPV6ConfigurationTarget | (string & {}) | undefined;
   /** The IPv6 address to match. */
-  value?: string;
+  value?: string | undefined;
 }
 export type UaRulesUpdateRequestConfigurationAccessRuleCIDRConfigurationTarget = "ip_range";
 export interface UaRulesUpdateRequestConfigurationAccessRuleCIDRConfiguration {
   /** The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule. */
-  target?: UaRulesUpdateRequestConfigurationAccessRuleCIDRConfigurationTarget | (string & {});
+  target?:
+    | UaRulesUpdateRequestConfigurationAccessRuleCIDRConfigurationTarget
+    | (string & {})
+    | undefined;
   /** The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges. */
-  value?: string;
+  value?: string | undefined;
 }
 export type UaRulesUpdateRequestConfigurationASNConfigurationTarget = "asn";
 export interface UaRulesUpdateRequestConfigurationASNConfiguration {
   /** The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule. */
-  target?: UaRulesUpdateRequestConfigurationASNConfigurationTarget | (string & {});
+  target?: UaRulesUpdateRequestConfigurationASNConfigurationTarget | (string & {}) | undefined;
   /** The AS number to match. */
-  value?: string;
+  value?: string | undefined;
 }
 export type UaRulesUpdateRequestConfigurationCountryConfigurationTarget = "country";
 export interface UaRulesUpdateRequestConfigurationCountryConfiguration {
   /** The configuration target. You must set the target to `country` when specifying a country code in the rule. */
-  target?: UaRulesUpdateRequestConfigurationCountryConfigurationTarget | (string & {});
+  target?: UaRulesUpdateRequestConfigurationCountryConfigurationTarget | (string & {}) | undefined;
   /** The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country). */
-  value?: string;
+  value?: string | undefined;
 }
 export type UaRulesUpdateRequestConfiguration =
   | UaRulesUpdateRequestConfigurationAccessRuleIPConfiguration
@@ -1943,9 +1978,9 @@ export interface UpdateUaRuleRequest {
   /** The action to apply to a matched request. */
   mode: UaRulesUpdateRequestMode | (string & {});
   /** An informative summary of the rule. This value is sanitized and any tags will be removed. */
-  description?: string;
+  description?: string | undefined;
   /** When true, indicates that the rule is currently paused. */
-  paused?: boolean;
+  paused?: boolean | undefined;
 }
 export type UaRulesUpdateResponseConfiguration = UaRulesCreateResponseConfiguration;
 export type UaRulesUpdateResponseMode =
@@ -1956,15 +1991,15 @@ export type UaRulesUpdateResponseMode =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateUaRuleResponse {
   /** The unique identifier of the User Agent Blocking rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The configuration object for the current rule. */
-  configuration?: UaRulesCreateResponseConfiguration | null;
+  configuration?: UaRulesCreateResponseConfiguration | null | undefined;
   /** An informative summary of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The action to apply to a matched request. */
-  mode?: UaRulesUpdateResponseMode | null;
+  mode?: UaRulesUpdateResponseMode | null | undefined;
   /** When true, indicates that the rule is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
 }
 export type WafOverridesUpdateRequestRewriteActionBlock =
   | "challenge"
@@ -1998,15 +2033,15 @@ export type WafOverridesUpdateRequestRewriteActionSimulate =
   | "default";
 export interface WafOverridesUpdateRequestRewriteAction {
   /** The WAF rule action to apply. */
-  block?: WafOverridesUpdateRequestRewriteActionBlock | (string & {});
+  block?: WafOverridesUpdateRequestRewriteActionBlock | (string & {}) | undefined;
   /** The WAF rule action to apply. */
-  challenge?: WafOverridesUpdateRequestRewriteActionChallenge | (string & {});
+  challenge?: WafOverridesUpdateRequestRewriteActionChallenge | (string & {}) | undefined;
   /** The WAF rule action to apply. */
-  default?: WafOverridesUpdateRequestRewriteActionDefault | (string & {});
+  default?: WafOverridesUpdateRequestRewriteActionDefault | (string & {}) | undefined;
   /** The WAF rule action to apply. */
-  disable?: WafOverridesUpdateRequestRewriteActionDisable | (string & {});
+  disable?: WafOverridesUpdateRequestRewriteActionDisable | (string & {}) | undefined;
   /** The WAF rule action to apply. */
-  simulate?: WafOverridesUpdateRequestRewriteActionSimulate | (string & {});
+  simulate?: WafOverridesUpdateRequestRewriteActionSimulate | (string & {}) | undefined;
 }
 export type WafOverridesUpdateRequestRules =
   | "challenge"

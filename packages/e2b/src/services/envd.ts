@@ -39,17 +39,17 @@ export interface CollapseEnvdRequest {}
 /** Per-call statistics from a heap collapse */
 export interface CollapseResult {
   /** Anonymous read-write regions scanned */
-  regions?: number;
+  regions?: number | undefined;
   /** 2 MiB chunks attempted */
-  chunks?: number;
+  chunks?: number | undefined;
   /** Chunks whose base pages were actually migrated into a new hugepage (real work) */
-  collapsed?: number;
+  collapsed?: number | undefined;
   /** Chunks MADV_COLLAPSE accepted but were already hugepages (no work) */
-  alreadyHuge?: number;
+  alreadyHuge?: number | undefined;
   /** Chunks that could not be collapsed (empty or ineligible) */
-  skipped?: number;
+  skipped?: number | undefined;
   /** Wall-clock time spent collapsing, in milliseconds */
-  elapsedMs?: number;
+  elapsedMs?: number | undefined;
 }
 /** Ordered list of source file paths to concatenate */
 export type ComposeFilesRequestSourcePathsList = Array<string>;
@@ -59,7 +59,7 @@ export interface ComposeFilesRequest {
   /** Destination file path for the composed file */
   destination: string;
   /** User for setting ownership and resolving relative paths */
-  username?: string;
+  username?: string | undefined;
 }
 /** Type of the file */
 export type EntryInfoType = "file";
@@ -73,47 +73,47 @@ export interface EntryInfo {
   /** Type of the file */
   type: EntryInfoType;
   /** User-defined metadata stored as extended attributes on the file. */
-  metadata?: EntryInfoMetadataMap;
+  metadata?: EntryInfoMetadataMap | undefined;
 }
 export type FreezeEnvdRequestMode = "legacy" | "hierarchy";
 export interface FreezeEnvdRequest {
   /** Which cgroups to freeze. "hierarchy" freezes the complement of envd's own ancestor chain, so cgroups the customer created anywhere in the tree are covered; "legacy" freezes only the user and pty cgroups envd itself creates. Omitted means legacy, which is what an orchestrator predating this parameter gets. The mode is chosen by the caller because the feature flag that selects it is evaluated there -- envd has no access to it. FreezeResult echoes the mode back so the caller can confirm envd honoured the request rather than inferring it from the flag's value: an envd too old to know about modes reports legacy while the flag reads on. */
-  mode?: FreezeEnvdRequestMode | (string & {});
+  mode?: FreezeEnvdRequestMode | (string & {}) | undefined;
   /** Bounds how many cgroups a hierarchy sweep may visit. A safety guard against a pathological or hostile hierarchy rather than a performance knob -- the guest is the threat model. Omitted or non-positive means envd's own default. Ignored in legacy mode. */
-  maxCgroups?: number;
+  maxCgroups?: number | undefined;
   /** How long to wait for the cgroups to read back frozen, in milliseconds. The caller owns this budget because it also owns the request timeout, and a wait longer than that timeout cannot be observed. Supplying it also selects the response: with it, the call waits and answers 200 with a FreezeResult; omitted or non-positive, the call does not wait at all and answers 204, which is the contract callers older than this parameter expect. */
-  maxWaitMs?: number;
+  maxWaitMs?: number | undefined;
 }
 /** Which sweep actually ran. Echoed back rather than inferred from the flag, so a caller can tell that envd honoured what it asked for */
 export type FreezeResultMode = "legacy" | "hierarchy";
 /** Per-call statistics from a pre-pause workload freeze */
 export interface FreezeResult {
   /** Which sweep actually ran. Echoed back rather than inferred from the flag, so a caller can tell that envd honoured what it asked for */
-  mode?: FreezeResultMode;
+  mode?: FreezeResultMode | undefined;
   /** Cgroups the walk examined, whether or not it froze them. The input for sizing the bound; meaningless in legacy mode */
-  visited?: number;
+  visited?: number | undefined;
   /** Cgroups skipped because the resume path depends on them (systemd, journald, envd's port forwarding). Reported because the allowlist is expected to grow, and a distro that routes journald differently changes this count */
-  allowlisted?: number;
+  allowlisted?: number | undefined;
   /** True when the walk stopped because it hit the bound rather than because it ran out of tree, so coverage is incomplete */
-  truncated?: boolean;
+  truncated?: boolean | undefined;
   /** Cgroups the guest itself had already frozen before the sweep ran (docker pause writes cgroup.freeze). Not written to and deliberately left frozen by the resume thaw, so the guest's own suspension survives the snapshot */
-  preFrozen?: number;
+  preFrozen?: number | undefined;
   /** Cgroups this call wrote cgroup.freeze to */
-  requested?: number;
+  requested?: number | undefined;
   /** Cgroups that read back "frozen 1" from cgroup.events within the budget; their tasks have stopped */
-  frozen?: number;
+  frozen?: number | undefined;
   /** Cgroups still reading "frozen 0" when the budget expired; their tasks may still be running, so a snapshot taken now can capture a live workload */
-  notFrozen?: number;
+  notFrozen?: number | undefined;
   /** Cgroups that errored for a reason that is not simply being gone - the write was refused, or the state could not be read. A cgroup the hierarchy walk discovered that merely went away is counted vanished instead; one of envd's own static cgroups that goes away is counted here, by design */
-  failed?: number;
+  failed?: number | undefined;
   /** Cgroups the hierarchy walk enumerated that the guest then removed before the sweep finished with them - envd's own static cgroups are excluded and report failed instead. A race rather than a failure, and a claim about the cgroup only - tasks migrated out of it before its removal can still be running. Like failed it spans both phases, so it does not reconcile against requested on its own - one removed during the settle poll was counted in requested, one removed before its write never was */
-  vanished?: number;
+  vanished?: number | undefined;
   /** Cgroups whose freeze state cannot be read because this guest has no cgroup manager; the write was accepted but nothing can be read back, so these are neither frozen nor notFrozen */
-  unobservable?: number;
+  unobservable?: number | undefined;
   /** Time spent issuing the freeze writes, in milliseconds (scales with cgroup count) */
-  sweepMs?: number;
+  sweepMs?: number | undefined;
   /** Time spent polling cgroup.events, in milliseconds (scales with how deep in I/O the guest tasks were). Outcome neutral - the wait ends either because everything stopped or because the budget ran out */
-  waitMs?: number;
+  waitMs?: number | undefined;
 }
 export interface FsfreezeEnvdRequest {}
 export interface FsfreezeEnvdResponse {}
@@ -138,31 +138,31 @@ export type MetricsOomKillsList = Array<OOMKill>;
 /** Resource usage metrics */
 export interface Metrics {
   /** Unix timestamp in UTC for current sandbox time */
-  ts?: number;
+  ts?: number | undefined;
   /** Number of CPU cores online */
-  cpu_count?: number;
+  cpu_count?: number | undefined;
   /** Number of CPUs the guest can bring online */
-  cpu_possible?: number;
+  cpu_possible?: number | undefined;
   /** Online count last requested, 0 when none was */
-  cpu_target?: number;
+  cpu_target?: number | undefined;
   /** Attempts at reaching cpu_target since it was set */
-  cpu_target_attempts?: number;
+  cpu_target_attempts?: number | undefined;
   /** How long a CPU online or offline write has been running in the guest kernel, 0 when none is. A value that keeps growing means CPU hotplug is stuck. */
-  cpu_write_pending_ms?: number;
+  cpu_write_pending_ms?: number | undefined;
   /** CPU usage percentage */
-  cpu_used_pct?: number;
+  cpu_used_pct?: number | undefined;
   /** Total virtual memory in bytes */
-  mem_total?: number;
+  mem_total?: number | undefined;
   /** Used virtual memory in bytes */
-  mem_used?: number;
+  mem_used?: number | undefined;
   /** Cached memory (page cache) in bytes */
-  mem_cache?: number;
+  mem_cache?: number | undefined;
   /** Used disk space in bytes */
-  disk_used?: number;
+  disk_used?: number | undefined;
   /** Total disk space in bytes */
-  disk_total?: number;
+  disk_total?: number | undefined;
   /** The latest 32 out-of-memory kills since the guest booted, oldest first. Reading does not consume them. Empty when there are none. Omitted when not known (while envd is still reading the kernel log, when it can't be read or envd stopped reading it, and outside Firecracker). */
-  oom_kills?: MetricsOomKillsList;
+  oom_kills?: MetricsOomKillsList | undefined;
 }
 /** Volume mount configuration */
 export interface VolumeMount {
@@ -175,50 +175,50 @@ export type InitEnvdRequestVolumeMountsList = Array<VolumeMount>;
 /** Whether this call thaws the workload cgroups a pre-pause freeze left frozen. Absent or "inline": it thaws them before it answers, as every envd before this field did, unless a freeze came after the call entered, which the call then leaves in place. "skip": it thaws nothing and answers X-Envd-Thaw: skip, leaving the workload frozen; only for a resume whose VM is discarded after the call, such as one that records which pages the resume touches. A value this envd does not know reads as inline, the side on which a guest is never left frozen. */
 export type InitEnvdRequestThaw = "inline" | "skip";
 export interface InitEnvdRequest {
-  volumeMounts?: InitEnvdRequestVolumeMountsList;
+  volumeMounts?: InitEnvdRequestVolumeMountsList | undefined;
   /** IP address of the hyperloop server to connect to */
-  hyperloopIP?: string;
+  hyperloopIP?: string | undefined;
   /** Lifecycle ID of the sandbox */
-  lifecycleID?: string;
-  envVars?: EnvVars;
+  lifecycleID?: string | undefined;
+  envVars?: EnvVars | undefined;
   /** Access token for secure access to envd service */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The current timestamp in RFC3339 format. envd adds its own time from reading the request body to its clock gates, reported on X-Envd-Init-Clock-Correction, and applies its clock rules to the result. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The default user to use for operations */
-  defaultUser?: string;
+  defaultUser?: string | undefined;
   /** The default working directory to use for operations */
-  defaultWorkdir?: string;
+  defaultWorkdir?: string | undefined;
   /** PEM-encoded CA certificates to install into the system trust store (may contain multiple concatenated PEM blocks) */
-  caBundle?: string;
+  caBundle?: string | undefined;
   /** Number of guest CPUs that should be online. envd attempts to bring the set of requested CPUs online asynchronously; the outcome is reported on the X-Envd-Cpus header and on /metrics. */
-  cpuCount?: number;
+  cpuCount?: number | undefined;
   /** Whether this call thaws the workload cgroups a pre-pause freeze left frozen. Absent or "inline": it thaws them before it answers, as every envd before this field did, unless a freeze came after the call entered, which the call then leaves in place. "skip": it thaws nothing and answers X-Envd-Thaw: skip, leaving the workload frozen; only for a resume whose VM is discarded after the call, such as one that records which pages the resume touches. A value this envd does not know reads as inline, the side on which a guest is never left frozen. */
-  thaw?: InitEnvdRequestThaw | (string & {});
+  thaw?: InitEnvdRequestThaw | (string & {}) | undefined;
 }
 export interface InitEnvdResponse {}
 export interface ReadFileRequest {
   /** Path to the file, URL encoded. Can be relative to the user's home directory (e.g. "file.txt" resolves to ~/file.txt). */
-  path?: string;
+  path?: string | undefined;
   /** User for setting file ownership and resolving relative paths. Defaults to the sandbox's default user. */
-  username?: string;
+  username?: string | undefined;
   /** Signature used for file access permission verification. */
-  signature?: string;
+  signature?: string | undefined;
   /** Unix timestamp (seconds) after which the signature expires. Only used with the signature parameter. */
-  signature_expiration?: number;
+  signature_expiration?: number | undefined;
 }
 export type ReadFileResponse = Uint8Array;
 export interface UnfreezeEnvdRequest {}
 export interface UnfreezeEnvdResponse {}
 export interface WriteFilesRequest {
   /** Path to the file, URL encoded. Can be relative to the user's home directory (e.g. "file.txt" resolves to ~/file.txt). */
-  path?: string;
+  path?: string | undefined;
   /** User for setting file ownership and resolving relative paths. Defaults to the sandbox's default user. */
-  username?: string;
+  username?: string | undefined;
   /** Signature used for file access permission verification. */
-  signature?: string;
+  signature?: string | undefined;
   /** Unix timestamp (seconds) after which the signature expires. Only used with the signature parameter. */
-  signature_expiration?: number;
+  signature_expiration?: number | undefined;
   file: Blob;
 }
 export type WriteFilesResponseBodyList = Array<EntryInfo>;

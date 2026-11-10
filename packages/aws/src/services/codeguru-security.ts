@@ -177,62 +177,62 @@ export interface BatchGetFindingsRequest {
 }
 export type Status = "Closed" | "Open" | "All" | (string & {});
 export interface Resource {
-  id?: string;
-  subResourceId?: string;
+  id?: string | undefined;
+  subResourceId?: string | undefined;
 }
 export type ReferenceUrls = string[];
 export type RelatedVulnerabilities = string[];
 export interface CodeLine {
-  number?: number;
-  content?: string;
+  number?: number | undefined;
+  content?: string | undefined;
 }
 export type CodeSnippet = CodeLine[];
 export interface FilePath {
-  name?: string;
-  path?: string;
-  startLine?: number;
-  endLine?: number;
-  codeSnippet?: CodeLine[];
+  name?: string | undefined;
+  path?: string | undefined;
+  startLine?: number | undefined;
+  endLine?: number | undefined;
+  codeSnippet?: CodeLine[] | undefined;
 }
 export interface Vulnerability {
-  referenceUrls?: string[];
-  relatedVulnerabilities?: string[];
-  id?: string;
-  filePath?: FilePath;
-  itemCount?: number;
+  referenceUrls?: string[] | undefined;
+  relatedVulnerabilities?: string[] | undefined;
+  id?: string | undefined;
+  filePath?: FilePath | undefined;
+  itemCount?: number | undefined;
 }
 export type Severity = "Critical" | "High" | "Medium" | "Low" | "Info" | (string & {});
 export interface Recommendation {
-  text?: string;
-  url?: string;
+  text?: string | undefined;
+  url?: string | undefined;
 }
 export interface SuggestedFix {
-  description?: string;
-  code?: string;
+  description?: string | undefined;
+  code?: string | undefined;
 }
 export type SuggestedFixes = SuggestedFix[];
 export interface Remediation {
-  recommendation?: Recommendation;
-  suggestedFixes?: SuggestedFix[];
+  recommendation?: Recommendation | undefined;
+  suggestedFixes?: SuggestedFix[] | undefined;
 }
 export type DetectorTags = string[];
 export interface Finding {
-  createdAt?: Date;
-  description?: string;
-  generatorId?: string;
-  id?: string;
-  updatedAt?: Date;
-  type?: string;
-  status?: Status;
-  resource?: Resource;
-  vulnerability?: Vulnerability;
-  severity?: Severity;
-  remediation?: Remediation;
-  title?: string;
-  detectorTags?: string[];
-  detectorId?: string;
-  detectorName?: string;
-  ruleId?: string;
+  createdAt?: Date | undefined;
+  description?: string | undefined;
+  generatorId?: string | undefined;
+  id?: string | undefined;
+  updatedAt?: Date | undefined;
+  type?: string | undefined;
+  status?: Status | undefined;
+  resource?: Resource | undefined;
+  vulnerability?: Vulnerability | undefined;
+  severity?: Severity | undefined;
+  remediation?: Remediation | undefined;
+  title?: string | undefined;
+  detectorTags?: string[] | undefined;
+  detectorId?: string | undefined;
+  detectorName?: string | undefined;
+  ruleId?: string | undefined;
 }
 export type Findings = Finding[];
 export type ScanName = string;
@@ -263,12 +263,12 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateScanRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   resourceId: ResourceId;
   scanName: string;
-  scanType?: ScanType;
-  analysisType?: AnalysisType;
-  tags?: { [key: string]: string | undefined };
+  scanType?: ScanType | undefined;
+  analysisType?: AnalysisType | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ScanState = "InProgress" | "Successful" | "Failed" | (string & {});
 export type ScanNameArn = string;
@@ -277,7 +277,7 @@ export interface CreateScanResponse {
   runId: string;
   resourceId: ResourceId;
   scanState: ScanState;
-  scanNameArn?: string;
+  scanNameArn?: string | undefined;
 }
 export interface CreateUploadUrlRequest {
   scanName: string;
@@ -294,7 +294,7 @@ export interface CreateUploadUrlResponse {
 export interface GetAccountConfigurationRequest {}
 export type KmsKeyArn = string;
 export interface EncryptionConfig {
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export interface GetAccountConfigurationResponse {
   encryptionConfig: EncryptionConfig;
@@ -302,48 +302,48 @@ export interface GetAccountConfigurationResponse {
 export type NextToken = string;
 export interface GetFindingsRequest {
   scanName: string;
-  nextToken?: string;
-  maxResults?: number;
-  status?: Status;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  status?: Status | undefined;
 }
 export interface GetFindingsResponse {
-  findings?: Finding[];
-  nextToken?: string;
+  findings?: Finding[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetMetricsSummaryRequest {
   date: Date;
 }
 export interface FindingMetricsValuePerSeverity {
-  info?: number;
-  low?: number;
-  medium?: number;
-  high?: number;
-  critical?: number;
+  info?: number | undefined;
+  low?: number | undefined;
+  medium?: number | undefined;
+  high?: number | undefined;
+  critical?: number | undefined;
 }
 export interface CategoryWithFindingNum {
-  categoryName?: string;
-  findingNumber?: number;
+  categoryName?: string | undefined;
+  findingNumber?: number | undefined;
 }
 export type CategoriesWithMostFindings = CategoryWithFindingNum[];
 export interface ScanNameWithFindingNum {
-  scanName?: string;
-  findingNumber?: number;
+  scanName?: string | undefined;
+  findingNumber?: number | undefined;
 }
 export type ScansWithMostOpenFindings = ScanNameWithFindingNum[];
 export type ScansWithMostOpenCriticalFindings = ScanNameWithFindingNum[];
 export interface MetricsSummary {
-  date?: Date;
-  openFindings?: FindingMetricsValuePerSeverity;
-  categoriesWithMostFindings?: CategoryWithFindingNum[];
-  scansWithMostOpenFindings?: ScanNameWithFindingNum[];
-  scansWithMostOpenCriticalFindings?: ScanNameWithFindingNum[];
+  date?: Date | undefined;
+  openFindings?: FindingMetricsValuePerSeverity | undefined;
+  categoriesWithMostFindings?: CategoryWithFindingNum[] | undefined;
+  scansWithMostOpenFindings?: ScanNameWithFindingNum[] | undefined;
+  scansWithMostOpenCriticalFindings?: ScanNameWithFindingNum[] | undefined;
 }
 export interface GetMetricsSummaryResponse {
-  metricsSummary?: MetricsSummary;
+  metricsSummary?: MetricsSummary | undefined;
 }
 export interface GetScanRequest {
   scanName: string;
-  runId?: string;
+  runId?: string | undefined;
 }
 export type ErrorMessage = string;
 export interface GetScanResponse {
@@ -352,51 +352,51 @@ export interface GetScanResponse {
   scanState: ScanState;
   createdAt: Date;
   analysisType: AnalysisType;
-  updatedAt?: Date;
-  numberOfRevisions?: number;
-  scanNameArn?: string;
-  errorMessage?: string;
+  updatedAt?: Date | undefined;
+  numberOfRevisions?: number | undefined;
+  scanNameArn?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export interface ListFindingsMetricsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   startDate: Date;
   endDate: Date;
 }
 export interface AccountFindingsMetric {
-  date?: Date;
-  newFindings?: FindingMetricsValuePerSeverity;
-  closedFindings?: FindingMetricsValuePerSeverity;
-  openFindings?: FindingMetricsValuePerSeverity;
-  meanTimeToClose?: FindingMetricsValuePerSeverity;
+  date?: Date | undefined;
+  newFindings?: FindingMetricsValuePerSeverity | undefined;
+  closedFindings?: FindingMetricsValuePerSeverity | undefined;
+  openFindings?: FindingMetricsValuePerSeverity | undefined;
+  meanTimeToClose?: FindingMetricsValuePerSeverity | undefined;
 }
 export type FindingsMetricList = AccountFindingsMetric[];
 export interface ListFindingsMetricsResponse {
-  findingsMetrics?: AccountFindingsMetric[];
-  nextToken?: string;
+  findingsMetrics?: AccountFindingsMetric[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListScansRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ScanSummary {
   scanState: ScanState;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
   scanName: string;
   runId: string;
-  scanNameArn?: string;
+  scanNameArn?: string | undefined;
 }
 export type ScanSummaries = ScanSummary[];
 export interface ListScansResponse {
-  summaries?: ScanSummary[];
-  nextToken?: string;
+  summaries?: ScanSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;

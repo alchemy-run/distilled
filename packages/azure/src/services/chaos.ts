@@ -42,9 +42,27 @@ export interface CancelExperimentRequest {
 }
 export interface CancelExperimentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
+}
+export interface CancelScenarioRunRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+  /** The name of the ScenarioRun */
+  runId: string;
+}
+export interface CancelScenarioRunResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
 }
 /** Model that represents the Capability properties model. */
 export interface CapabilityPropertiesInput {}
@@ -64,7 +82,7 @@ export interface CapabilitiesCreateOrUpdateRequest {
   /** String that represents a Capability resource name. */
   capabilityName: string;
   /** The properties of a capability resource. */
-  properties?: CapabilityPropertiesInput;
+  properties?: CapabilityPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -73,42 +91,117 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
+/** Current provisioning state for a given Azure Chaos resource. */
+export type ProvisioningState =
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Running";
 /** Model that represents the Capability properties model. */
 export interface CapabilityProperties {
   /** String of the Publisher that this Capability extends. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** String of the Target Type that this Capability extends. */
-  targetType?: string;
+  targetType?: string | undefined;
   /** Localized string of the description. */
-  description?: string;
+  description?: string | undefined;
   /** URL to retrieve JSON schema of the Capability parameters. */
-  parametersSchema?: string;
+  parametersSchema?: string | undefined;
   /** String of the URN for this Capability Type. */
-  urn?: string;
+  urn?: string | undefined;
+  /** Resource provisioning state. Not currently in use because resource is created synchronously. */
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CapabilitiesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a capability resource. */
-  properties?: CapabilityProperties;
+  properties?: CapabilityProperties | undefined;
+}
+/** The kind of connection, indicating the actor type authorized to reach the Chaos Studio data plane for the workspace and target. */
+export type ConnectionKind = "AksExtension" | "ChaosAgent";
+/** Model that represents the properties of a connection. The schema is flat and discriminated by `kind`. Optional fields form the superset across all connection kinds; which fields are required is validated by the service per kind. */
+export interface ConnectionPropertiesInput {
+  /** The kind of connection, indicating the actor type authorized to reach the Chaos Studio data plane for the workspace and target. */
+  kind: ConnectionKind | (string & {});
+  /** The fully qualified Azure resource ID of the target resource this connection is established with. */
+  targetResourceId: string;
+  /** The Microsoft Entra principal (object) ID of the identity used by the connection. */
+  principalId?: string | undefined;
+  /** The Microsoft Entra tenant ID that the connection identity belongs to. */
+  tenantId?: string | undefined;
+  /** The subject name of the certificate used to authenticate the connection. */
+  certificateSubjectName?: string | undefined;
+  /** The issuer of the certificate used to authenticate the connection. */
+  certificateIssuer?: string | undefined;
+}
+export interface ConnectionsCreateOrUpdateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the connection. */
+  connectionName: string;
+  /** The properties of the connection. */
+  properties?: ConnectionPropertiesInput | undefined;
+}
+/** The status of a connection. */
+export type ConnectionStatus = "Pending" | "Connected" | "Disconnected" | "Revoked";
+/** Model that represents the properties of a connection. The schema is flat and discriminated by `kind`. Optional fields form the superset across all connection kinds; which fields are required is validated by the service per kind. */
+export interface ConnectionProperties {
+  /** The kind of connection, indicating the actor type authorized to reach the Chaos Studio data plane for the workspace and target. */
+  kind: ConnectionKind;
+  /** The fully qualified Azure resource ID of the target resource this connection is established with. */
+  targetResourceId: string;
+  /** The Microsoft Entra principal (object) ID of the identity used by the connection. */
+  principalId?: string | undefined;
+  /** The Microsoft Entra tenant ID that the connection identity belongs to. */
+  tenantId?: string | undefined;
+  /** The subject name of the certificate used to authenticate the connection. */
+  certificateSubjectName?: string | undefined;
+  /** The issuer of the certificate used to authenticate the connection. */
+  certificateIssuer?: string | undefined;
+  /** The regional Chaos Studio data-plane endpoint assigned to this connection. Clients and agents use this endpoint to reach the Chaos Studio data plane for the connection. */
+  dataPlaneEndpoint?: string | undefined;
+  /** The current status of the connection. */
+  status?: ConnectionStatus | undefined;
+  /** The most recent provisioning state for the connection resource. */
+  provisioningState?: ProvisioningState | undefined;
+}
+export interface ConnectionsCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the connection. */
+  properties?: ConnectionProperties | undefined;
 }
 export interface DeleteCapabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -127,6 +220,17 @@ export interface DeleteCapabilityRequest {
   capabilityName: string;
 }
 export interface DeleteCapabilityResponse {}
+export interface DeleteConnectionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the connection. */
+  connectionName: string;
+}
+export interface DeleteConnectionResponse {}
 export interface DeleteExperimentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -137,10 +241,39 @@ export interface DeleteExperimentRequest {
 }
 export interface DeleteExperimentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
+export interface DeleteScenarioConfigurationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+  /** Name of the scenario definition. */
+  scenarioConfigurationName: string;
+}
+export interface DeleteScenarioConfigurationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+export interface DeleteScenariosRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+}
+export interface DeleteScenariosResponse {}
 export interface DeleteTargetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -156,6 +289,38 @@ export interface DeleteTargetRequest {
   targetName: string;
 }
 export interface DeleteTargetResponse {}
+export interface DeleteWorkspaceRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+}
+export interface DeleteWorkspaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+export interface ExecuteScenarioConfigurationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+  /** Name of the scenario definition. */
+  scenarioConfigurationName: string;
+}
+export interface ExecuteScenarioConfigurationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
 /** Resource tags. */
 export type ExperimentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
@@ -167,13 +332,16 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export type UserAssignedIdentityInput = CapabilityPropertiesInput;
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentitiesInput = {
+export type ExperimentsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
   [key: string]: CapabilityPropertiesInput | null | undefined;
 };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ExperimentsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?:
+    | ExperimentsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 /** Enum union of Chaos experiment action types. */
 export type ExperimentActionType = "delay" | "discrete" | "continuous";
@@ -192,11 +360,11 @@ export interface ChaosExperimentAction {
   /** Chaos experiment action discriminator type */
   type: ExperimentActionType | (string & {});
   /** ISO8601 duration of the action (continuous and delay actions). */
-  duration?: string;
+  duration?: string | undefined;
   /** Key/value settings of the action (continuous and discrete actions). */
-  parameters?: KeyValuePairList;
+  parameters?: KeyValuePairList | undefined;
   /** ID of the selector the action targets (continuous and discrete actions). */
-  selectorId?: string;
+  selectorId?: string | undefined;
 }
 /** List of actions. */
 export type ChaosExperimentBranchActionsList = Array<ChaosExperimentAction>;
@@ -226,14 +394,14 @@ export type StringList = Array<string>;
 /** Parameters of a `Simple` target filter. */
 export interface ChaosTargetSimpleFilterParameters {
   /** Availability zones to filter targets by. */
-  zones?: StringList;
+  zones?: StringList | undefined;
 }
 /** Model that represents available filter types that can be applied to a targets list. */
 export interface ChaosTargetFilter {
   /** Chaos target filter discriminator type */
   type: FilterType | (string & {});
   /** Parameters of a `Simple` filter. */
-  parameters?: ChaosTargetSimpleFilterParameters;
+  parameters?: ChaosTargetSimpleFilterParameters | undefined;
 }
 /** Model that represents a reference to a Target in the selector. */
 export interface TargetReference {
@@ -250,22 +418,31 @@ export interface ChaosTargetSelector {
   /** Chaos target selector discriminator type */
   type: SelectorType | (string & {});
   /** Model that represents available filter types that can be applied to a targets list. */
-  filter?: ChaosTargetFilter;
+  filter?: ChaosTargetFilter | undefined;
   /** Targets of a `List` selector. */
-  targets?: TargetReferenceList;
+  targets?: TargetReferenceList | undefined;
   /** Azure Resource Graph query of a `Query` selector. */
-  queryString?: string;
+  queryString?: string | undefined;
   /** Subscriptions a `Query` selector runs against. */
-  subscriptionIds?: StringList;
+  subscriptionIds?: StringList | undefined;
 }
 /** List of selectors. */
 export type ExperimentPropertiesInputSelectorsList = Array<ChaosTargetSelector>;
+/** Model that represents the Customer Managed Storage for an Experiment. */
+export interface CustomerDataStorageProperties {
+  /** Azure Resource ID of the Storage account to use for Customer Data storage. */
+  storageAccountResourceId?: string | undefined;
+  /** Name of the Azure Blob Storage container to use or create. */
+  blobContainerName?: string | undefined;
+}
 /** Model that represents the Experiment properties model. */
 export interface ExperimentPropertiesInput {
   /** List of steps. */
   steps: ExperimentPropertiesInputStepsList;
   /** List of selectors. */
   selectors: ExperimentPropertiesInputSelectorsList;
+  /** Optional customer-managed Storage account where Experiment schema will be stored. */
+  customerDataStorage?: CustomerDataStorageProperties | undefined;
 }
 export interface ExperimentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -275,11 +452,11 @@ export interface ExperimentsCreateOrUpdateRequest {
   /** String that represents a Experiment resource name. */
   experimentName: string;
   /** Resource tags. */
-  tags?: ExperimentsCreateOrUpdateRequestTagsMap;
+  tags?: ExperimentsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ExperimentsCreateOrUpdateRequestIdentity;
+  identity?: ExperimentsCreateOrUpdateRequestIdentity | undefined;
   /** The properties of the experiment resource. */
   properties: ExperimentPropertiesInput;
 }
@@ -288,29 +465,26 @@ export type ExperimentsCreateOrUpdateResponseTagsMap = { [key: string]: string |
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
+export type ExperimentsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ExperimentsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?:
+    | ExperimentsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
-/** Current provisioning state for a given Azure Chaos resource. */
-export type ProvisioningState =
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Creating"
-  | "Updating"
-  | "Deleting";
 /** List of steps. */
 export type ExperimentPropertiesStepsList = Array<ChaosExperimentStep>;
 /** List of selectors. */
@@ -318,33 +492,35 @@ export type ExperimentPropertiesSelectorsList = Array<ChaosTargetSelector>;
 /** Model that represents the Experiment properties model. */
 export interface ExperimentProperties {
   /** Most recent provisioning state for the given experiment resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of steps. */
   steps: ExperimentPropertiesStepsList;
   /** List of selectors. */
   selectors: ExperimentPropertiesSelectorsList;
+  /** Optional customer-managed Storage account where Experiment schema will be stored. */
+  customerDataStorage?: CustomerDataStorageProperties | undefined;
 }
 export interface ExperimentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ExperimentsCreateOrUpdateResponseTagsMap;
+  tags?: ExperimentsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ExperimentsCreateOrUpdateResponseIdentity;
+  identity?: ExperimentsCreateOrUpdateResponseIdentity | undefined;
   /** The properties of the experiment resource. */
   properties: ExperimentProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExperimentsExecutionDetailsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -359,98 +535,178 @@ export interface ExperimentsExecutionDetailsRequest {
 /** Model that represents the Experiment action target details error model. */
 export interface ExperimentExecutionActionTargetDetailsError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message */
-  message?: string;
+  message?: string | undefined;
 }
 /** Model that represents the Experiment action target details properties model. */
 export interface ExperimentExecutionActionTargetDetailsProperties {
   /** The status of the execution. */
-  status?: string;
+  status?: string | undefined;
   /** The target for the action. */
-  target?: string;
+  target?: string | undefined;
   /** String that represents the failed date time. */
-  targetFailedTime?: string;
+  targetFailedTime?: string | undefined;
   /** String that represents the completed date time. */
-  targetCompletedTime?: string;
+  targetCompletedTime?: string | undefined;
   /** The error of the action. */
-  error?: ExperimentExecutionActionTargetDetailsError;
+  error?: ExperimentExecutionActionTargetDetailsError | undefined;
 }
 /** The array of targets. */
 export type ActionStatusTargetsList = Array<ExperimentExecutionActionTargetDetailsProperties>;
 /** Model that represents the an action and its status. */
 export interface ActionStatus {
   /** The name of the action status. */
-  actionName?: string;
+  actionName?: string | undefined;
   /** The id of the action status. */
-  actionId?: string;
+  actionId?: string | undefined;
   /** The status of the action. */
-  status?: string;
+  status?: string | undefined;
   /** String that represents the start time of the action. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** String that represents the end time of the action. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The array of targets. */
-  targets?: ActionStatusTargetsList;
+  targets?: ActionStatusTargetsList | undefined;
 }
 /** The array of actions. */
 export type BranchStatusActionsList = Array<ActionStatus>;
 /** Model that represents the a list of actions and action statuses. */
 export interface BranchStatus {
   /** The name of the branch status. */
-  branchName?: string;
+  branchName?: string | undefined;
   /** The id of the branch status. */
-  branchId?: string;
+  branchId?: string | undefined;
   /** The status of the branch. */
-  status?: string;
+  status?: string | undefined;
   /** The array of actions. */
-  actions?: BranchStatusActionsList;
+  actions?: BranchStatusActionsList | undefined;
 }
 /** The array of branches. */
 export type StepStatusBranchesList = Array<BranchStatus>;
 /** Model that represents the a list of branches and branch statuses. */
 export interface StepStatus {
   /** The name of the step. */
-  stepName?: string;
+  stepName?: string | undefined;
   /** The id of the step. */
-  stepId?: string;
+  stepId?: string | undefined;
   /** The value of the status of the step. */
-  status?: string;
+  status?: string | undefined;
   /** The array of branches. */
-  branches?: StepStatusBranchesList;
+  branches?: StepStatusBranchesList | undefined;
 }
 /** The steps of the experiment run. */
 export type ExperimentExecutionDetailsPropertiesRunInformationStepsList = Array<StepStatus>;
 /** The information of the experiment run. */
 export interface ExperimentExecutionDetailsPropertiesRunInformation {
   /** The steps of the experiment run. */
-  steps?: ExperimentExecutionDetailsPropertiesRunInformationStepsList;
+  steps?: ExperimentExecutionDetailsPropertiesRunInformationStepsList | undefined;
 }
 /** Model that represents the extended properties of an experiment execution. */
 export interface ExperimentExecutionDetailsProperties {
   /** The status of the execution. */
-  status?: string;
+  status?: string | undefined;
   /** String that represents the start date time. */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** String that represents the stop date time. */
-  stoppedAt?: string;
+  stoppedAt?: string | undefined;
+  /** Resource provisioning state. Not currently in use for executions. */
+  provisioningState?: ProvisioningState | undefined;
   /** The reason why the execution failed. */
-  failureReason?: string;
+  failureReason?: string | undefined;
   /** String that represents the last action date time. */
-  lastActionAt?: string;
+  lastActionAt?: string | undefined;
   /** The information of the experiment run. */
-  runInformation?: ExperimentExecutionDetailsPropertiesRunInformation;
+  runInformation?: ExperimentExecutionDetailsPropertiesRunInformation | undefined;
 }
 /** Model that represents the execution details of an Experiment. */
 export interface ExperimentExecutionDetails {
   /** String of the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** String of the fully qualified resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** String of the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The properties of the experiment execution details. */
-  properties?: ExperimentExecutionDetailsProperties;
+  properties?: ExperimentExecutionDetailsProperties | undefined;
+}
+export interface GetActionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the Azure region. */
+  location: string;
+  /** String that represents an Action resource name. */
+  actionName: string;
+}
+/** Union of action types. */
+export type ActionKind = "Discrete" | "Continuous" | "Cancelable";
+/** List of Azure permissions required for this target type. */
+export type ActionSupportedTargetTypeRequiredPermissionsList = Array<string>;
+/** Model that represents a target type supported by an action. */
+export interface ActionSupportedTargetType {
+  /** The Azure resource type (e.g., "Microsoft.Compute/virtualMachines"). */
+  targetType?: string | undefined;
+  /** List of Azure permissions required for this target type. */
+  requiredPermissions?: ActionSupportedTargetTypeRequiredPermissionsList | undefined;
+}
+/** List of target types supported by this action. */
+export type ActionPropertiesSupportedTargetTypesList = Array<ActionSupportedTargetType>;
+/** Recommended Azure RBAC role definition GUIDs for this action. */
+export type ActionPropertiesRecommendedRolesList = Array<string>;
+/** Model that represents the properties of an Action resource. */
+export interface ActionProperties {
+  /** Canonical identifier of the action (e.g., "microsoft-compute-shutdown/1.0"). */
+  canonicalId?: string | undefined;
+  /** Human-readable display name of the action. */
+  displayName?: string | undefined;
+  /** Description of what this action does. */
+  description?: string | undefined;
+  /** The short name of the action (e.g., "Shutdown"). */
+  actionName?: string | undefined;
+  /** The version of the action (e.g., "1.0.0"). */
+  version?: string | undefined;
+  /** The type of the action. */
+  actionType?: ActionKind | undefined;
+  /** List of target types supported by this action. */
+  supportedTargetTypes?: ActionPropertiesSupportedTargetTypesList | undefined;
+  /** JSON Schema describing the parameters for this action. */
+  parametersSchema?: unknown | undefined;
+  /** Recommended Azure RBAC role definition GUIDs for this action. */
+  recommendedRoles?: ActionPropertiesRecommendedRolesList | undefined;
+}
+export interface GetActionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the action resource. */
+  properties: ActionProperties;
+}
+export interface GetActionVersionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the Azure region. */
+  location: string;
+  /** String that represents an Action resource name. */
+  actionName: string;
+  /** String that represents an Action Version resource name. */
+  versionName: string;
+}
+export interface GetActionVersionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the action version resource. */
+  properties: ActionProperties;
 }
 export interface GetCapabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -470,15 +726,15 @@ export interface GetCapabilityRequest {
 }
 export interface GetCapabilityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a capability resource. */
-  properties?: CapabilityProperties;
+  properties?: CapabilityProperties | undefined;
 }
 export interface GetCapabilityTypeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -499,44 +755,111 @@ export type CapabilityTypePropertiesRequiredAzureRoleDefinitionIdsList = Array<s
 /** Runtime properties of this Capability Type. */
 export interface CapabilityTypePropertiesRuntimeProperties {
   /** String of the kind of the resource's action type (continuous or discrete). */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Model that represents the Capability Type properties model. */
 export interface CapabilityTypeProperties {
   /** String of the Publisher that this Capability Type extends. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** String of the Target Type that this Capability Type extends. */
-  targetType?: string;
+  targetType?: string | undefined;
   /** Localized string of the display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Localized string of the description. */
-  description?: string;
+  description?: string | undefined;
   /** URL to retrieve JSON schema of the Capability Type parameters. */
-  parametersSchema?: string;
+  parametersSchema?: string | undefined;
   /** String of the URN for this Capability Type. */
-  urn?: string;
+  urn?: string | undefined;
   /** String of the kind of this Capability Type. */
-  kind?: string;
+  kind?: string | undefined;
   /** Control plane actions necessary to execute capability type. */
-  azureRbacActions?: CapabilityTypePropertiesAzureRbacActionsList;
+  azureRbacActions?: CapabilityTypePropertiesAzureRbacActionsList | undefined;
   /** Data plane actions necessary to execute capability type. */
-  azureRbacDataActions?: CapabilityTypePropertiesAzureRbacDataActionsList;
+  azureRbacDataActions?: CapabilityTypePropertiesAzureRbacDataActionsList | undefined;
   /** Required Azure Role Definition Ids to execute capability type. */
-  requiredAzureRoleDefinitionIds?: CapabilityTypePropertiesRequiredAzureRoleDefinitionIdsList;
+  requiredAzureRoleDefinitionIds?:
+    | CapabilityTypePropertiesRequiredAzureRoleDefinitionIdsList
+    | undefined;
   /** Runtime properties of this Capability Type. */
-  runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
+  runtimeProperties?: CapabilityTypePropertiesRuntimeProperties | undefined;
 }
 export interface GetCapabilityTypeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the capability type resource. */
-  properties?: CapabilityTypeProperties;
+  properties?: CapabilityTypeProperties | undefined;
+}
+export interface GetConnectionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the connection. */
+  connectionName: string;
+}
+export interface GetConnectionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the connection. */
+  properties?: ConnectionProperties | undefined;
+}
+export interface GetDiscoveredResourceRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the discovered resource. */
+  discoveredResourceName: string;
+}
+/** The availability zones the discovered resource occupies. Values are logical zone identifiers, such as `["1", "2"]` for a zone-pinned resource, or the single value `zone-redundant` when redundancy is expressed as a flag or SKU rather than a zone list. Absent, and never empty, when no zone information was captured; a non-zone-aware resource and a zone-aware resource without an assigned zone are not distinguished. */
+export type DiscoveredResourcePropertiesZonesList = Array<string>;
+/** Model that represents the properties of a discovered resource. */
+export interface DiscoveredResourceProperties {
+  /** The namespace of the discovered resource. */
+  namespace: string;
+  /** The name of the discovered resource. */
+  resourceName: string;
+  /** The resource type of the discovered resource. */
+  resourceType: string;
+  /** The fully qualified identifier of the discovered resource. */
+  fullyQualifiedIdentifier: string;
+  /** The date and time when the resource was discovered. */
+  discoveredAt: string;
+  /** The scope of the discovered resource. */
+  scope: string;
+  /** The Azure region the discovered resource is deployed to, in lowercase with no spaces. Absent when no single deployment region was captured, including global and multi-region resources. */
+  location?: string | undefined;
+  /** The availability zones the discovered resource occupies. Values are logical zone identifiers, such as `["1", "2"]` for a zone-pinned resource, or the single value `zone-redundant` when redundancy is expressed as a flag or SKU rather than a zone list. Absent, and never empty, when no zone information was captured; a non-zone-aware resource and a zone-aware resource without an assigned zone are not distinguished. */
+  zones?: DiscoveredResourcePropertiesZonesList | undefined;
+}
+export interface GetDiscoveredResourceResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the discovered resource. */
+  properties?: DiscoveredResourceProperties | undefined;
 }
 export interface GetExperimentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -548,23 +871,35 @@ export interface GetExperimentRequest {
 }
 /** Resource tags. */
 export type GetExperimentResponseTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type GetExperimentResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
 /** Managed service identity (system assigned and/or user assigned identities) */
-export type GetExperimentResponseIdentity = ExperimentsCreateOrUpdateResponseIdentity;
+export interface GetExperimentResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string | undefined;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string | undefined;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: GetExperimentResponseIdentityUserAssignedIdentitiesMap | undefined;
+}
 export interface GetExperimentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetExperimentResponseTagsMap;
+  tags?: GetExperimentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ExperimentsCreateOrUpdateResponseIdentity;
+  identity?: GetExperimentResponseIdentity | undefined;
   /** The properties of the experiment resource. */
   properties: ExperimentProperties;
 }
@@ -581,23 +916,25 @@ export interface GetExperimentExecutionRequest {
 /** Model that represents the execution properties of an Experiment. */
 export interface ExperimentExecutionProperties {
   /** The status of the execution. */
-  status?: string;
+  status?: string | undefined;
   /** String that represents the start date time. */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** String that represents the stop date time. */
-  stoppedAt?: string;
+  stoppedAt?: string | undefined;
+  /** Resource provisioning state. Not currently in use for executions. */
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetExperimentExecutionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of experiment execution status. */
-  properties?: ExperimentExecutionProperties;
+  properties?: ExperimentExecutionProperties | undefined;
 }
 export interface GetOperationStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -614,67 +951,655 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type GetOperationStatusResponseOperationsList = Array<OperationStatusResult>;
 export interface GetOperationStatusResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetOperationStatusResponseOperationsList;
+  operations?: GetOperationStatusResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
+}
+export interface GetScenarioConfigurationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+  /** Name of the scenario definition. */
+  scenarioConfigurationName: string;
+}
+/** Runtime parameter values for the scenario. Keys must match parameter names defined in the scenario. */
+export type ScenarioConfigurationPropertiesParametersList = Array<KeyValuePair>;
+/** Array of Azure location strings (e.g., "eastus", "westeurope", "global"). Case-insensitive, normalized form only (e.g., "eastus" not "East US"). */
+export type ResourceTargetingCriteriaLocationsList = Array<string>;
+/** Array of logical availability zone identifiers (e.g., "1", "2", "3", "zone-redundant"). Mutually exclusive with `physicalZones` -- set one or the other, not both. When set, `locations` must also be set on the same side (zone IDs are only meaningful within a region). */
+export type ResourceTargetingCriteriaZonesList = Array<string>;
+/** Array of physical datacenter zone identifiers in `{region}-az{N}` format (e.g., "westus2-az1"). Resolved to logical zones per-subscription at execution time. Mutually exclusive with `zones` -- set one or the other, not both. */
+export type ResourceTargetingCriteriaPhysicalZonesList = Array<string>;
+/** Array of Azure resource type strings (e.g., "Microsoft.Compute/virtualMachines"). Case-insensitive equality. Supports trailing wildcard (e.g., "Microsoft.Compute/*"). */
+export type ResourceTargetingCriteriaTypesList = Array<string>;
+/** Array of tag key-value pairs for filtering by Azure resource tags. Key and value are matched case-insensitively. Use "*" as value to match any value for a key. */
+export type ResourceTargetingCriteriaTagsList = Array<KeyValuePair>;
+/** Array of fully qualified Azure resource IDs. Case-insensitive equality. */
+export type ResourceTargetingCriteriaResourcesList = Array<string>;
+/** Model that represents a set of targeting criteria for resource selection. Used on both the include and exclude sides of ResourceTargeting. All dimensions use unified null/empty semantics: - Null or omitted means "no constraint" (this dimension is inactive). - Empty array is treated the same as null (no constraint). - Non-empty array means the dimension is active. */
+export interface ResourceTargetingCriteria {
+  /** Array of Azure location strings (e.g., "eastus", "westeurope", "global"). Case-insensitive, normalized form only (e.g., "eastus" not "East US"). */
+  locations?: ResourceTargetingCriteriaLocationsList | undefined;
+  /** Array of logical availability zone identifiers (e.g., "1", "2", "3", "zone-redundant"). Mutually exclusive with `physicalZones` -- set one or the other, not both. When set, `locations` must also be set on the same side (zone IDs are only meaningful within a region). */
+  zones?: ResourceTargetingCriteriaZonesList | undefined;
+  /** Array of physical datacenter zone identifiers in `{region}-az{N}` format (e.g., "westus2-az1"). Resolved to logical zones per-subscription at execution time. Mutually exclusive with `zones` -- set one or the other, not both. */
+  physicalZones?: ResourceTargetingCriteriaPhysicalZonesList | undefined;
+  /** Array of Azure resource type strings (e.g., "Microsoft.Compute/virtualMachines"). Case-insensitive equality. Supports trailing wildcard (e.g., "Microsoft.Compute/*"). */
+  types?: ResourceTargetingCriteriaTypesList | undefined;
+  /** Array of tag key-value pairs for filtering by Azure resource tags. Key and value are matched case-insensitively. Use "*" as value to match any value for a key. */
+  tags?: ResourceTargetingCriteriaTagsList | undefined;
+  /** Array of fully qualified Azure resource IDs. Case-insensitive equality. */
+  resources?: ResourceTargetingCriteriaResourcesList | undefined;
+}
+/** Model that represents unified resource targeting with symmetric include/exclude criteria. Both sides support the same set of dimensions. */
+export interface ResourceTargeting {
+  /** Inclusion criteria. Resources must match ALL active dimensions to be candidates. Null or omitted means no inclusion filtering (all resources are candidates). */
+  include?: ResourceTargetingCriteria | undefined;
+  /** Exclusion criteria. Resources matching ANY active dimension are removed. Null or omitted means no exclusions applied. */
+  exclude?: ResourceTargetingCriteria | undefined;
+}
+/** Model that represents the properties of the scenario configuration. */
+export interface ScenarioConfigurationProperties {
+  /** Resource ID of the scenario this configuration applies to. */
+  scenarioId: string;
+  /** Runtime parameter values for the scenario. Keys must match parameter names defined in the scenario. */
+  parameters?: ScenarioConfigurationPropertiesParametersList | undefined;
+  /** Most recent provisioning state for the given scenario resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unified resource targeting policy that controls which discovered resources participate in fault injection. Replaces the separate `exclusions` and `filters` properties with symmetric include/exclude criteria. Include uses AND logic -- a resource must match ALL active include dimensions. Exclude uses OR logic -- a resource is removed if it matches ANY exclude dimension. When include and exclude conflict on the same resource, exclude wins. Null or omitted means all discovered resources participate (no targeting constraints). */
+  resourceTargeting?: ResourceTargeting | undefined;
+}
+export interface GetScenarioConfigurationResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of scenario definition. */
+  properties?: ScenarioConfigurationProperties | undefined;
+}
+export interface GetScenarioRunRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+  /** The name of the ScenarioRun */
+  runId: string;
+}
+/** Enum of the scenario run state. */
+export type ScenarioRunState =
+  | "Queued"
+  | "Resolving"
+  | "Generating"
+  | "Validating"
+  | "ValidationSucceeded"
+  | "Starting"
+  | "Preparing"
+  | "Running"
+  | "CleaningUp"
+  | "Canceling"
+  | "Canceled"
+  | "Succeeded"
+  | "PartiallySucceeded"
+  | "Failed";
+/** Model that represents the scenario run resource. */
+export interface ScenarioRunResource {
+  /** The resource id. */
+  id: string;
+}
+/** All resources discovered for the scenario run. */
+export type ScenarioRunPropertiesResourcesList = Array<ScenarioRunResource>;
+/** Resources that matched the scenario's target resource types but were excluded from fault injection by the configuration's resource-targeting filters (for example zone, location, or explicit exclusions). These resources will not be impacted by the run. */
+export type ScenarioRunPropertiesExcludedResourcesList = Array<ScenarioRunResource>;
+/** Represents a system or infrastructure error encountered during an async operation. */
+export interface OperationError {
+  /** The error code identifying the type of system error. */
+  errorCode: string;
+  /** A human-readable description of the system error. */
+  errorMessage: string;
+}
+/** System or infrastructure errors encountered during the scenario run. */
+export type ScenarioRunPropertiesErrorsList = Array<OperationError>;
+/** Additional information about a scenario run warning. */
+export interface ScenarioRunWarningDetail {
+  /** The stable code that identifies the warning detail. */
+  code: string;
+  /** The customer-safe description of the warning detail. */
+  message: string;
+  /** The target associated with the warning detail. */
+  target?: string | undefined;
+}
+/** Additional customer-safe details about the warning. */
+export type ScenarioRunWarningDetailsList = Array<ScenarioRunWarningDetail>;
+/** Customer-actionable warning associated with a scenario run. */
+export interface ScenarioRunWarning {
+  /** The stable code that identifies the warning. */
+  code: string;
+  /** The customer-safe description of the warning. */
+  message: string;
+  /** Additional customer-safe details about the warning. */
+  details?: ScenarioRunWarningDetailsList | undefined;
+}
+/** Customer-actionable warnings encountered during the scenario run. */
+export type ScenarioRunPropertiesWarningsList = Array<ScenarioRunWarning>;
+/** The missing permissions. */
+export type PermissionErrorMissingPermissionsList = Array<string>;
+/** The required permissions. */
+export type PermissionErrorRequiredPermissionsList = Array<string>;
+/** The recommended roles. */
+export type PermissionErrorRecommendedRolesList = Array<string>;
+/** Model that represents the Azure Entra identity. */
+export interface EntraIdentity {
+  /** The identity object id. */
+  objectId: string;
+  /** The identity tenant id. */
+  tenantId: string;
+}
+/** Model that represents the permission error. */
+export interface PermissionError {
+  /** The resource id for the affected resource. */
+  resourceId: string;
+  /** The missing permissions. */
+  missingPermissions: PermissionErrorMissingPermissionsList;
+  /** The required permissions. */
+  requiredPermissions: PermissionErrorRequiredPermissionsList;
+  /** The recommended roles. */
+  recommendedRoles: PermissionErrorRecommendedRolesList;
+  /** The identity. */
+  identity?: EntraIdentity | undefined;
+  /** The error message describing the permission validation failure, when the failure carries a distinct message (for example, when the target could not be read to evaluate access). */
+  errorMessage?: string | undefined;
+}
+/** Any permission errors associated with the scenario run. */
+export type ScenarioErrorsPermissionList = Array<PermissionError>;
+/** Model that represents the resource state error. */
+export interface ResourceStateError {
+  /** The resource id for the affected resource. */
+  resourceId: string;
+  /** The error code. */
+  errorCode: string;
+  /** The error message. */
+  errorMessage: string;
+  /** The remediation uri. */
+  remediationUri: string;
+}
+/** Any resource state errors associated with the scenario run. */
+export type ScenarioErrorsResourceList = Array<ResourceStateError>;
+/** Model that represents the scenario run errors. */
+export interface ScenarioErrors {
+  /** Error code for internal server errors. */
+  errorCode?: string | undefined;
+  /** Error message for internal server errors. */
+  errorMessage?: string | undefined;
+  /** Any permission errors associated with the scenario run. */
+  permission: ScenarioErrorsPermissionList;
+  /** Any resource state errors associated with the scenario run. */
+  resource: ScenarioErrorsResourceList;
+}
+/** Enum of the execution states for a concrete action target. */
+export type ScenarioRunTargetState = "Succeeded" | "NotApplicable" | "Skipped" | "Failed";
+/** Model that represents the outcome for a concrete action target. */
+export interface ScenarioRunEffectiveTarget {
+  /** The target resource ID. */
+  id: string;
+  /** The target execution state. */
+  state: ScenarioRunTargetState;
+  /** When target processing started. */
+  startedAt?: string | undefined;
+  /** When target processing completed. */
+  completedAt?: string | undefined;
+}
+/** The resources affected during action execution. */
+export type ScenarioRunSummaryResourceAffectedResourcesList = Array<ScenarioRunEffectiveTarget>;
+/** Model that represents a resource associated with a scenario run action. */
+export interface ScenarioRunSummaryResource {
+  /** The resource ID. */
+  id: string;
+  /** The resources affected during action execution. */
+  affectedResources?: ScenarioRunSummaryResourceAffectedResourcesList | undefined;
+}
+/** The resources associated with the specified action, including the concrete targets evaluated during execution. */
+export type ScenarioRunSummaryActionResourcesList = Array<ScenarioRunSummaryResource>;
+/** Enum of the scenario run summary action state. */
+export type ScenarioSummaryState =
+  | "Pending"
+  | "Starting"
+  | "Running"
+  | "Stopping"
+  | "Succeeded"
+  | "Canceling"
+  | "Canceled"
+  | "FailingOnError"
+  | "Failed"
+  | "Skipped";
+/** Additional information about a scenario action failure. */
+export interface ActionErrorDetail {
+  /** The stable code that identifies the failure detail. */
+  code: string;
+  /** The customer-safe description of the failure detail. */
+  message: string;
+  /** The target associated with the failure detail. */
+  target?: string | undefined;
+}
+/** Additional customer-safe details about the action failure. */
+export type ActionErrorDetailsList = Array<ActionErrorDetail>;
+/** Structured information about a scenario action failure. */
+export interface ActionError {
+  /** The stable code that identifies the action failure. */
+  code: string;
+  /** The customer-safe description of the action failure. */
+  message: string;
+  /** Additional customer-safe details about the action failure. */
+  details?: ActionErrorDetailsList | undefined;
+}
+/** Model that represents the scenario run action. */
+export interface ScenarioRunSummaryAction {
+  /** The resources associated with the specified action, including the concrete targets evaluated during execution. */
+  resources: ScenarioRunSummaryActionResourcesList;
+  /** The urn for the given chaos action. */
+  actionUrn: string;
+  /** The state of the action. */
+  state: ScenarioSummaryState;
+  /** When the action was started. */
+  startedAt?: string | undefined;
+  /** When the action was completed. */
+  completedAt?: string | undefined;
+  /** Structured information about the action failure. */
+  error?: ActionError | undefined;
+  /** Whether this action's failure was suppressed by the effective `failureBehavior` and therefore did not fail the scenario run. Present only for actions in the `Failed` state; absent otherwise. */
+  failureSuppressed?: boolean | undefined;
+}
+/** The scenario run summary. */
+export type ScenarioRunPropertiesScenarioRunSummaryList = Array<ScenarioRunSummaryAction>;
+/** The zone resolution mode for a scenario run. */
+export type ZoneResolutionMode = "logical" | "physical";
+/** The physical zone identifiers requested by the customer in the scenario configuration (e.g., `["westus2-az1"]`). Empty array when `mode` is `logical`. */
+export type ZoneResolutionInfoRequestedPhysicalZonesList = Array<string>;
+/** Maps a physical zone to the resolved logical zone for a given subscription. */
+export interface PhysicalToLogicalZoneMapping {
+  /** The physical availability zone (e.g., `"westus2-az1"`). */
+  physicalZone: string;
+  /** The logical availability zone resolved for this subscription (e.g., `"1"`, `"2"`, `"3"`). */
+  logicalZone: string;
+}
+/** The physical-to-logical zone mappings for this subscription. */
+export type ZoneResolutionMappingZoneMappingsList = Array<PhysicalToLogicalZoneMapping>;
+/** Maps a single subscription to its physical-to-logical zone resolutions. */
+export interface ZoneResolutionMapping {
+  /** The subscription ID (e.g., `"6b052e15-03d3-4f17-b2e1-be7f07588291"`). */
+  subscriptionId: string;
+  /** The physical-to-logical zone mappings for this subscription. */
+  zoneMappings: ZoneResolutionMappingZoneMappingsList;
+}
+/** Per-subscription zone resolution results. Each entry maps a subscription to the logical zone resolved from the requested physical zone. Empty when `mode` is `logical`. */
+export type ZoneResolutionInfoSubscriptionZoneMappingsList = Array<ZoneResolutionMapping>;
+/** Information about how physical zones were resolved to logical zones for each subscription during scenario execution. */
+export interface ZoneResolutionInfo {
+  /** The zone targeting mode used for this run. `logical` -- customer specified logical zone identifiers directly. `physical` -- customer specified physical zone identifiers; the system resolved them to per-subscription logical zones at execution time. */
+  mode: ZoneResolutionMode;
+  /** The physical zone identifiers requested by the customer in the scenario configuration (e.g., `["westus2-az1"]`). Empty array when `mode` is `logical`. */
+  requestedPhysicalZones: ZoneResolutionInfoRequestedPhysicalZonesList;
+  /** Per-subscription zone resolution results. Each entry maps a subscription to the logical zone resolved from the requested physical zone. Empty when `mode` is `logical`. */
+  subscriptionZoneMappings: ZoneResolutionInfoSubscriptionZoneMappingsList;
+}
+/** Model that represents the properties of the scenario run. */
+export interface ScenarioRunProperties {
+  /** The workspace name. */
+  workspaceName: string;
+  /** The scenario name. */
+  scenarioName: string;
+  /** The scenario configuration name. */
+  scenarioConfigurationName: string;
+  /** The principal id for the managed identity used for the run. */
+  managedIdentityPrincipalId: string;
+  /** The resource snapshot ID this run is pinned to. Resolved from the scenario's pinned evaluation snapshot (template scenarios) or the latest discovery snapshot (custom scenarios) at run creation, ensuring the run executes against the same set of discovered resources that produced the recommendation. */
+  resourceSnapshotId?: string | undefined;
+  /** The scenario run status. */
+  status: ScenarioRunState;
+  /** All resources discovered for the scenario run. */
+  resources: ScenarioRunPropertiesResourcesList;
+  /** Resources that matched the scenario's target resource types but were excluded from fault injection by the configuration's resource-targeting filters (for example zone, location, or explicit exclusions). These resources will not be impacted by the run. */
+  excludedResources?: ScenarioRunPropertiesExcludedResourcesList | undefined;
+  /** System or infrastructure errors encountered during the scenario run. */
+  errors?: ScenarioRunPropertiesErrorsList | undefined;
+  /** Customer-actionable warnings encountered during the scenario run. */
+  warnings?: ScenarioRunPropertiesWarningsList | undefined;
+  /** Business errors from fault injection -- permission and resource state issues. */
+  executionErrors?: ScenarioErrors | undefined;
+  /** The scenario run json. */
+  scenarioRunJson?: string | undefined;
+  /** The scenario run summary. */
+  scenarioRunSummary?: ScenarioRunPropertiesScenarioRunSummaryList | undefined;
+  /** When the scenario run was started. */
+  startTime: string;
+  /** When the scenario run was completed. */
+  endTime?: string | undefined;
+  /** Zone resolution information. Present when the scenario configuration used physical zone targeting (`physicalZones`). Contains the mode, requested physical zones, and per-subscription logical zone mappings. */
+  zoneResolution?: ZoneResolutionInfo | undefined;
+}
+export interface GetScenarioRunResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of scenario run. */
+  properties?: ScenarioRunProperties | undefined;
+  /** The URL where the status of the long-running operation can be polled. */
+  location?: string | undefined;
+  /** The number of seconds the client should wait before polling again. */
+  retryAfter?: number | undefined;
+}
+export interface GetScenariosRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+}
+/** Enum for parameter types. */
+export type ParameterType = "string" | "number" | "boolean" | "object" | "array";
+/** Enum of the built-in formats a scenario parameter's value can be validated against. */
+export type ParameterFormatType =
+  | "AzureResourceId"
+  | "AzureRegion"
+  | "AzureZone"
+  | "Duration"
+  | "Json";
+/** Human-readable examples of values that satisfy the format. */
+export type ScenarioParameterFormatExamplesList = Array<string>;
+/** Model that represents the format validation applied to a scenario parameter's value. */
+export interface ScenarioParameterFormat {
+  /** The built-in format the value is validated against. */
+  formatType?: ParameterFormatType | (string & {}) | undefined;
+  /** Human-readable examples of values that satisfy the format. */
+  examples?: ScenarioParameterFormatExamplesList | undefined;
+}
+/** Model that represents a single scenario parameter definition. */
+export interface ScenarioParameter {
+  /** The name of the parameter. */
+  name: string;
+  /** Parameter data type. */
+  type: ParameterType | (string & {});
+  /** Default value for the parameter. */
+  default?: string | undefined;
+  /** Whether this parameter is required. */
+  required?: boolean | undefined;
+  /** Description of the parameter. */
+  description?: string | undefined;
+  /** Format validation applied to the parameter's value, and examples of values that satisfy it. */
+  format?: ScenarioParameterFormat | undefined;
+}
+/** Parameter definitions for the scenario. */
+export type ScenarioPropertiesParametersList = Array<ScenarioParameter>;
+/** Action-specific parameter values. */
+export type ScenarioActionParametersList = Array<KeyValuePair>;
+/** The supported action selector names. */
+export type ScenarioActionSelectorName = "logicalZone" | "physicalZone" | "location";
+/** Model that represents an action-specific target selector. */
+export interface ScenarioActionSelector {
+  /** The selector name, such as `logicalZone`, `physicalZone`, or `location`. */
+  name: ScenarioActionSelectorName | (string & {});
+  /** The value that targets must match. Supports template macro syntax. */
+  value: string;
+}
+/** Action-specific target selectors evaluated during execution. When provided, the collection must contain either `logicalZone` and `location`, or `physicalZone`. Selector names must be unique, the two modes cannot be combined, and the service enforces the cross-item combination at runtime. */
+export type ScenarioActionSelectorsList = Array<ScenarioActionSelector>;
+/** Defines how multiple dependencies are evaluated. */
+export type RunAfterBehavior = "Any" | "All" | "AtLeastOne";
+/** Enum for action dependency type. */
+export type ActionDependencyType = "Action";
+/** Enum for action lifecycle states. */
+export type ActionLifecycle =
+  | "AnyTerminal"
+  | "Start"
+  | "Running"
+  | "Success"
+  | "Failure"
+  | "Skipped";
+/** Model that represents an action dependency. */
+export interface ActionDependency {
+  /** The type of dependency. */
+  type: ActionDependencyType | (string & {});
+  /** Name of the action this depends on. */
+  name: string;
+  /** The lifecycle state of the dependency action that triggers this action to start. */
+  onActionLifecycle?: ActionLifecycle | (string & {}) | undefined;
+}
+/** Array of action dependencies. */
+export type RunAfterItemsList = Array<ActionDependency>;
+/** Model that represents action dependencies. */
+export interface RunAfter {
+  /** Defines how multiple dependencies are evaluated. */
+  behavior?: RunAfterBehavior | (string & {}) | undefined;
+  /** Array of action dependencies. */
+  items: RunAfterItemsList;
+}
+/** Model that represents an external resource reference. */
+export interface ExternalResource {
+  /** The resource ID of the external resource. */
+  resourceId?: string | undefined;
+}
+/** Enum of how a scenario run reacts when an action fails. */
+export type FailureBehavior = "Stop" | "Continue";
+/** Model that represents a scenario action. */
+export interface ScenarioAction {
+  /** Unique name for the action. */
+  name: string;
+  /** Identifier of the action and version (e.g., "microsoft-compute-shutdown/1.0"). */
+  actionId: string;
+  /** Human-readable description of what this action does. */
+  description?: string | undefined;
+  /** ISO 8601 duration for how long the action runs (e.g., PT30M for 30 minutes). Supports template macro syntax (%%\{parameters.\<name\>\}%%). */
+  duration: string;
+  /** Action-specific parameter values. */
+  parameters?: ScenarioActionParametersList | undefined;
+  /** Action-specific target selectors evaluated during execution. When provided, the collection must contain either `logicalZone` and `location`, or `physicalZone`. Selector names must be unique, the two modes cannot be combined, and the service enforces the cross-item combination at runtime. */
+  selectors?: ScenarioActionSelectorsList | undefined;
+  /** Action dependencies that control when this action starts. */
+  runAfter?: RunAfter | undefined;
+  /** ISO 8601 duration to wait before action starts (e.g., PT30S for 30 seconds). Supports template macro syntax. */
+  waitBefore?: string | undefined;
+  /** ISO 8601 duration for maximum action execution time. Supports template macro syntax. */
+  timeout?: string | undefined;
+  /** External resource reference for the action. */
+  externalResource?: ExternalResource | undefined;
+  /** Per-action override for how the scenario run reacts when this action fails. When omitted, the action inherits the scenario-level `failureBehavior`; when neither is supplied the effective behavior is `Stop`. */
+  failureBehavior?: FailureBehavior | (string & {}) | undefined;
+}
+/** Array of actions that define the scenario's orchestration. */
+export type ScenarioPropertiesActionsList = Array<ScenarioAction>;
+/** Enum of the scenario validation state. */
+export type RecommendationStatus =
+  | "NotEvaluated"
+  | "Recommended"
+  | "NotApplicable"
+  | "Evaluating"
+  | "EvaluationFailed"
+  | "EvaluationCancelled";
+/** Model that represents a scenario recommendation. */
+export interface Recommendation {
+  /** The recommendation status. */
+  recommendationStatus: RecommendationStatus;
+  /** The UTC time when the recommendation was evaluated. */
+  evaluationRunAt?: string | undefined;
+}
+/** Model that represents the properties of the scenario. */
+export interface ScenarioProperties {
+  /** Most recent provisioning state for the given scenario resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Resource ID of the template version this scenario was created from (optional). The ID has the form `/providers/Microsoft.Chaos/scenarioTemplates/{scenarioTemplateName}/versions/{version}`. This property retains its existing string representation for compatibility with earlier API versions and SDKs. A scenario's structure comes from exactly one of two mutually exclusive sources. When `createdFrom` is supplied on create, the referenced template version is the authoritative source for the scenario's structure; inline `parameters` and `actions` are not used. When `createdFrom` is absent, the structure comes from the inline `parameters` and `actions` supplied in the request. Supplying neither source is rejected by request validation. */
+  createdFrom?: string | undefined;
+  /** Version of the scenario, supplied by the author. Defaults to `1.0` when not supplied on create. This is the scenario's own version and is independent of the version of any template it was created from. */
+  version?: string | undefined;
+  /** Description of what this scenario does (optional). */
+  description?: string | undefined;
+  /** Parameter definitions for the scenario. */
+  parameters?: ScenarioPropertiesParametersList | undefined;
+  /** Array of actions that define the scenario's orchestration. */
+  actions?: ScenarioPropertiesActionsList | undefined;
+  /** Scenario-wide default for how a scenario run reacts when one of its actions fails. An action that does not supply its own `failureBehavior` inherits this value; when neither is supplied the effective behavior is `Stop`. Not used when `createdFrom` is supplied, for the same reason as `parameters` and `actions`: the referenced template version is then the authoritative source for the scenario's structure, and it supplies this policy too. A value sent in the request is ignored in that case -- on create the referenced template's policy is used, and on update the policy of the already persisted template is preserved. */
+  failureBehavior?: FailureBehavior | undefined;
+  /** The recommendation information for this scenario. */
+  recommendation?: Recommendation | undefined;
+}
+export interface GetScenariosResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of scenario. */
+  properties?: ScenarioProperties | undefined;
+}
+export interface GetScenarioTemplateRequest {
+  /** Name of the scenario template. */
+  scenarioTemplateName: string;
+}
+/** Parameter definitions the template accepts. Values are supplied when the scenario created from this template is configured, and are referenced from an action through the `%%\{parameters.\<name\>\}%%` macro. */
+export type ScenarioTemplatePropertiesParametersList = Array<ScenarioParameter>;
+/** The actions that define the template's orchestration. These are the same model a scenario publishes, and carry unresolved `%%\{...\}%%` macros; the macros are substituted when the scenario runs, not when it is read or created. Three macro namespaces may appear: - `%%\{parameters.\<name\>\}%%` -- resolves from the parameter values supplied when the scenario is configured. The accepted names are declared by `parameters`. - `%%\{resourceTargeting.include.\<dimension\>\}%%` -- resolves from the resource targeting of the scenario's configuration (for example `zones`, `locations`). The template does not declare these; they are dimensions of the configuration supplied at run time. - `%%\{filters.\<dimension\>\}%%` -- deprecated spelling of `resourceTargeting.include.`, retained only so that superseded template versions keep resolving. Do not depend on it; the newest version of every template uses `resourceTargeting.include.`. An action's `failureBehavior` overrides the template-wide `failureBehavior` for that action alone; an action that does not carry one inherits the template-wide value. */
+export type ScenarioTemplatePropertiesActionsList = Array<ScenarioAction>;
+/** Model that represents the properties of a scenario template. These are the properties of the template's newest published version, together with the version number that identifies it. */
+export interface ScenarioTemplateProperties {
+  /** The newest published version of the template, for example 1.2. This is the version whose content the remaining properties describe, and the version a scenario records when it is created from the template without naming one. */
+  latestVersion: string;
+  /** Localized display name of the template. */
+  displayName?: string | undefined;
+  /** Description of what the template does, and what resilience question it answers. */
+  description?: string | undefined;
+  /** Parameter definitions the template accepts. Values are supplied when the scenario created from this template is configured, and are referenced from an action through the `%%\{parameters.\<name\>\}%%` macro. */
+  parameters?: ScenarioTemplatePropertiesParametersList | undefined;
+  /** The actions that define the template's orchestration. These are the same model a scenario publishes, and carry unresolved `%%\{...\}%%` macros; the macros are substituted when the scenario runs, not when it is read or created. Three macro namespaces may appear: - `%%\{parameters.\<name\>\}%%` -- resolves from the parameter values supplied when the scenario is configured. The accepted names are declared by `parameters`. - `%%\{resourceTargeting.include.\<dimension\>\}%%` -- resolves from the resource targeting of the scenario's configuration (for example `zones`, `locations`). The template does not declare these; they are dimensions of the configuration supplied at run time. - `%%\{filters.\<dimension\>\}%%` -- deprecated spelling of `resourceTargeting.include.`, retained only so that superseded template versions keep resolving. Do not depend on it; the newest version of every template uses `resourceTargeting.include.`. An action's `failureBehavior` overrides the template-wide `failureBehavior` for that action alone; an action that does not carry one inherits the template-wide value. */
+  actions: ScenarioTemplatePropertiesActionsList;
+  /** Template-wide default for how a scenario run reacts when one of this template's actions fails. An action that does not carry its own `failureBehavior` inherits this value; when neither is present the effective behavior is `Stop`. A scenario created from this template takes this policy with the rest of the template's structure, so it is also the scenario's resolved `failureBehavior`. Template versions published before this policy existed do not carry one and report it as absent, which the run resolves as `Stop`. */
+  failureBehavior?: FailureBehavior | undefined;
+}
+export interface GetScenarioTemplateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the scenario template's newest published version. */
+  properties: ScenarioTemplateProperties;
+}
+export interface GetScenarioTemplateVersionRequest {
+  /** Name of the scenario template. */
+  scenarioTemplateName: string;
+  /** The version of the scenario template, for example 1.2. */
+  version: string;
+}
+/** Parameter definitions the template accepts. Values are supplied when the scenario created from this template is configured, and are referenced from an action through the `%%\{parameters.\<name\>\}%%` macro. */
+export type ScenarioTemplateVersionPropertiesParametersList = Array<ScenarioParameter>;
+/** The actions that define the template's orchestration. These are the same model a scenario publishes, and carry unresolved `%%\{...\}%%` macros; the macros are substituted when the scenario runs, not when it is read or created. Three macro namespaces may appear: - `%%\{parameters.\<name\>\}%%` -- resolves from the parameter values supplied when the scenario is configured. The accepted names are declared by `parameters`. - `%%\{resourceTargeting.include.\<dimension\>\}%%` -- resolves from the resource targeting of the scenario's configuration (for example `zones`, `locations`). The template does not declare these; they are dimensions of the configuration supplied at run time. - `%%\{filters.\<dimension\>\}%%` -- deprecated spelling of `resourceTargeting.include.`, retained only so that superseded template versions keep resolving. Do not depend on it; the newest version of every template uses `resourceTargeting.include.`. An action's `failureBehavior` overrides the template-wide `failureBehavior` for that action alone; an action that does not carry one inherits the template-wide value. */
+export type ScenarioTemplateVersionPropertiesActionsList = Array<ScenarioAction>;
+/** Model that represents the properties of a single published version of a scenario template -- the blueprint content itself. */
+export interface ScenarioTemplateVersionProperties {
+  /** Localized display name of the template. */
+  displayName?: string | undefined;
+  /** Description of what the template does, and what resilience question it answers. */
+  description?: string | undefined;
+  /** Parameter definitions the template accepts. Values are supplied when the scenario created from this template is configured, and are referenced from an action through the `%%\{parameters.\<name\>\}%%` macro. */
+  parameters?: ScenarioTemplateVersionPropertiesParametersList | undefined;
+  /** The actions that define the template's orchestration. These are the same model a scenario publishes, and carry unresolved `%%\{...\}%%` macros; the macros are substituted when the scenario runs, not when it is read or created. Three macro namespaces may appear: - `%%\{parameters.\<name\>\}%%` -- resolves from the parameter values supplied when the scenario is configured. The accepted names are declared by `parameters`. - `%%\{resourceTargeting.include.\<dimension\>\}%%` -- resolves from the resource targeting of the scenario's configuration (for example `zones`, `locations`). The template does not declare these; they are dimensions of the configuration supplied at run time. - `%%\{filters.\<dimension\>\}%%` -- deprecated spelling of `resourceTargeting.include.`, retained only so that superseded template versions keep resolving. Do not depend on it; the newest version of every template uses `resourceTargeting.include.`. An action's `failureBehavior` overrides the template-wide `failureBehavior` for that action alone; an action that does not carry one inherits the template-wide value. */
+  actions: ScenarioTemplateVersionPropertiesActionsList;
+  /** Template-wide default for how a scenario run reacts when one of this template's actions fails. An action that does not carry its own `failureBehavior` inherits this value; when neither is present the effective behavior is `Stop`. A scenario created from this template takes this policy with the rest of the template's structure, so it is also the scenario's resolved `failureBehavior`. Template versions published before this policy existed do not carry one and report it as absent, which the run resolves as `Stop`. */
+  failureBehavior?: FailureBehavior | undefined;
+}
+export interface GetScenarioTemplateVersionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the scenario template version. */
+  properties: ScenarioTemplateVersionProperties;
 }
 export interface GetTargetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -694,17 +1619,17 @@ export interface GetTargetRequest {
 export type GetTargetResponsePropertiesMap = { [key: string]: unknown | undefined };
 export interface GetTargetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the target resource. */
   properties: GetTargetResponsePropertiesMap;
   /** Azure resource location. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetTargetTypeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -719,25 +1644,388 @@ export type TargetTypePropertiesResourceTypesList = Array<string>;
 /** Model that represents the base Target Type properties model. */
 export interface TargetTypeProperties {
   /** Localized string of the display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Localized string of the description. */
-  description?: string;
+  description?: string | undefined;
   /** URL to retrieve JSON schema of the Target Type properties. */
-  propertiesSchema?: string;
+  propertiesSchema?: string | undefined;
   /** List of resource types this Target Type can extend. */
-  resourceTypes?: TargetTypePropertiesResourceTypesList;
+  resourceTypes?: TargetTypePropertiesResourceTypesList | undefined;
 }
 export interface GetTargetTypeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the target type resource. */
   properties: TargetTypeProperties;
+}
+export interface GetWorkspaceRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+}
+/** Resource tags. */
+export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type GetWorkspaceResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface GetWorkspaceResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string | undefined;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string | undefined;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: GetWorkspaceResponseIdentityUserAssignedIdentitiesMap | undefined;
+}
+/** The intended workspace-level resource scope to be used by child scenarios. */
+export type WorkspacePropertiesScopesList = Array<string>;
+/** A customer-managed key reference, not key material. */
+export interface WorkspaceCustomerManagedKeyEncryption {
+  /** The versionless HTTPS Key Vault key URI in the supported cloud and Workspace tenant. The key vault must belong to the same Microsoft Entra tenant as the Workspace. Its HTTPS origin must match the vault referenced by keyVaultResourceId. The service validates the effective pair and caller vault-read permission synchronously through Azure Resource Manager before creating public operation metadata, accepting the configuration operation, persisting requested encryption, or changing Storage or customer data. Supports RSA keys in Azure Key Vault and RSA-HSM keys in Premium Key Vault, with key sizes of 2048, 3072, or 4096 bits. Premium RSA-HSM keys use the same vault URL. The separate Azure Managed HSM service is not supported; Managed HSM endpoints are rejected before operation acceptance. A key version, query string, or fragment is not permitted. Azure Storage follows key versions automatically. Keep the previous version available for at least 24 hours after rotation. */
+  keyEncryptionKeyUrl: string;
+  /** The fully qualified Azure resource ID of the key vault that contains the key. Use /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}, not a key child resource, Managed HSM, or URL. Full PUT with CMK and PATCH that changes either CMK member require Microsoft.KeyVault/vaults/read on the effective vault. The service compares its canonical ID, tenant, and vault URI with the requested pair before accepting the operation. */
+  keyVaultResourceId: string;
+}
+/** The service application that the customer authorizes to use the key. */
+export interface WorkspaceCustomerManagedKeyOnboarding {
+  /** The Microsoft Entra application ID used for customer consent, returned for existing Workspaces, including Microsoft-managed Workspaces. This does not permit adding CMK to an existing Microsoft-managed Workspace. Before creating a Workspace with a customer key, obtain the application name and ID for the target cloud from the service onboarding documentation or Portal, then consent and grant key access. The configuring caller separately needs Microsoft.KeyVault/vaults/read on the referenced vault. GET returns the same application ID. This is not a service principal object ID or an identity selector. The Workspace's top-level identity does not select this application. */
+  applicationId: string;
+}
+/** The observed encryption state; this does not replace Workspace provisioningState. */
+export type WorkspaceEncryptionState =
+  | "NotConfigured"
+  | "Pending"
+  | "Applied"
+  | "Failed"
+  | "Unknown";
+/** The last directly observed protection of active Workspace customer data. */
+export type WorkspaceEncryptionProtection = "CustomerManaged" | "MicrosoftManaged";
+/** The error details. */
+export type WorkspaceEncryptionStatusErrorDetailsList = Array<ErrorDetail>;
+/** The error additional info. */
+export type WorkspaceEncryptionStatusErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface WorkspaceEncryptionStatusError {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: WorkspaceEncryptionStatusErrorDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: WorkspaceEncryptionStatusErrorAdditionalInfoList | undefined;
+}
+/** Service observations of protection and access for customer data under the Workspace encryption scope. */
+export interface WorkspaceEncryptionStatus {
+  /** The result of configuration or the most recent usable health observation. */
+  state: WorkspaceEncryptionState;
+  /** The last directly observed active protection. Omitted when unknown. */
+  observedProtection?: WorkspaceEncryptionProtection | undefined;
+  /** The active key URI reported by Azure Storage, including its version when available. Omitted when unknown or when protection is Microsoft-managed. This value is not inferred from the requested key. */
+  observedKeyEncryptionKeyUrl?: string | undefined;
+  /** The UTC time of the observation, including a failed check. */
+  lastCheckedAt?: string | undefined;
+  /** The error detail. */
+  error?: WorkspaceEncryptionStatusError | undefined;
+}
+/** The validated requested key and vault reference, onboarding information, and service observations. */
+export interface WorkspaceEncryption {
+  /** The requested customer-managed key. Its presence is fixed by accepted Workspace creation: adding CMK to a Microsoft-managed Workspace or removing CMK from a CMK-created Workspace is rejected with InvalidEncryptionConfiguration. The key pair remains updateable on CMK-created Workspaces, including after a failed creation. A present object requires a coherent keyEncryptionKeyUrl and keyVaultResourceId pair. After synchronous caller and vault validation, the accepted pair can be returned while configuration is Pending. It does not prove that active data already uses the requested key. */
+  customerManagedKeyEncryption?: WorkspaceCustomerManagedKeyEncryption | undefined;
+  /** The service application to authorize before creating a new CMK Workspace; also returned for existing Workspaces. */
+  customerManagedKeyOnboarding?: WorkspaceCustomerManagedKeyOnboarding | undefined;
+  /** The observed result, separate from the requested setting. */
+  status?: WorkspaceEncryptionStatus | undefined;
+}
+/** Model that represents the Workspace properties model. */
+export interface WorkspaceProperties {
+  /** Most recent provisioning state for the given Workspace resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The intended workspace-level resource scope to be used by child scenarios. */
+  scopes: WorkspacePropertiesScopesList;
+  /** The requested customer key and service observations. Accepted creation fixes whether customerManagedKeyEncryption is present. On PUT, omission of encryption or its CMK object, or an empty encryption object, is valid for Microsoft-managed Workspaces but rejected for CMK-created Workspaces. Null is not a valid PUT value. A CMK-created Workspace can replace its key. */
+  encryption?: WorkspaceEncryption | undefined;
+}
+export interface GetWorkspaceResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: GetWorkspaceResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: GetWorkspaceResponseIdentity | undefined;
+  /** The properties of the Workspace resource. */
+  properties: WorkspaceProperties;
+}
+export interface GetWorkspaceDiscoveryRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** The service-generated discovery result ID. Use latest in the request path for the most recently durably admitted discovery; responses contain the canonical result ID. */
+  discoveryName: string;
+}
+/** Enum of the workspace discovery status. */
+export type WorkspaceDiscoveryStatus =
+  | "Pending"
+  | "Queued"
+  | "InProgress"
+  | "Succeeded"
+  | "PartiallySucceeded"
+  | "Failed"
+  | "Canceled";
+/** System or infrastructure errors encountered during discovery. */
+export type WorkspaceDiscoveryPropertiesErrorsList = Array<OperationError>;
+/** The coverage classification of the accepted Azure Resource Manager discovery result, independent of operation status and cause. */
+export type WorkspaceDiscoveryCompleteness =
+  | "Established"
+  | "BaselineUnknown"
+  | "VerificationIncomplete"
+  | "KnownPartial";
+/** Two independent partitions of expanded scope occurrences after normalized-scope deduplication. Distinct service groups remain distinct even if their members coincide. The known/unknown counts and the four completeness counts each sum to totalCount. */
+export interface WorkspaceDiscoveryScopeCoverageSummary {
+  /** The number of expanded Azure Resource Manager scope occurrences represented by the result. */
+  totalCount: number;
+  /** The number of scopes with an authoritative complete expected resource-occurrence set, including authoritatively empty sets. */
+  knownExpectedSetCount: number;
+  /** The number of scopes whose complete expected inventory set is unavailable. A service group's known subscription or resource-group membership does not establish its descendant-resource denominator. */
+  unknownExpectedSetCount: number;
+  /** The number of scopes with Established coverage. */
+  establishedCount: number;
+  /** The number of scopes with a structurally unavailable denominator and no observed shortfall, including successful observed-empty container scans. */
+  baselineUnknownCount: number;
+  /** The number of scopes with required verification failure, unavailable required child enumeration, or a proven accessible required resource absent from the snapshot. */
+  verificationIncompleteCount: number;
+  /** The number of scopes with confirmed undelivered obligations and no remaining system-verification gap. */
+  knownPartialCount: number;
+}
+/** Required resource occurrences from known-set scopes, keyed by normalized scope and resource before global inventory-row deduplication. classifiedCount plus unclassifiedCount equals expectedCount, and coveredCount does not exceed classifiedCount. */
+export interface WorkspaceDiscoveryResourceCoverageSummary {
+  /** The number of unique required resource occurrences across known-set scopes, not the number of service-group container members or listed inventory rows. */
+  expectedCount: number;
+  /** The number of expected occurrences with a terminal access or presence classification. */
+  classifiedCount: number;
+  /** The number of expected occurrences that required system verification could not classify. */
+  unclassifiedCount: number;
+  /** The number of classified expected occurrences actually represented in the produced snapshot. Access to a container or its descendants does not invent a resource occurrence. */
+  coveredCount: number;
+}
+/** Aggregate coverage of expanded Azure Resource Manager scope occurrences. Non-Azure Resource Manager discovery ingress is outside this population. VerificationIncomplete dominates KnownPartial, then BaselineUnknown, then Established. */
+export interface WorkspaceDiscoveryCoverageSummary {
+  /** The scope-occurrence coverage partitions for this discovery result. */
+  scopes: WorkspaceDiscoveryScopeCoverageSummary;
+  /** Required resource occurrences only from scopes with a known complete expected inventory set. Absent exactly when knownExpectedSetCount is zero. Unknown is not a known empty set. */
+  resources?: WorkspaceDiscoveryResourceCoverageSummary | undefined;
+}
+/** The confirmed guidance reason. Unknown future reasons preserve the common warning fields and must not be interpreted as a permission denial. */
+export type WorkspaceDiscoveryWarningReason =
+  | "RbacValidationFailed"
+  | "TargetNotFound"
+  | "AccessIndeterminate";
+/** The common fields of a discovery guidance warning, discriminated by reason. Known reasons use their corresponding subtype; unknown future reasons retain these base fields. */
+export interface WorkspaceDiscoveryWarning {
+  /** The normalized expanded source scope where the affected obligation was encountered. */
+  scopeId: string;
+  /** The source scope kind, such as Subscription, ResourceGroup, ServiceGroup, or Resource. */
+  scopeKind: string;
+  /** The confirmed guidance reason, not a system-verification failure. */
+  reason: WorkspaceDiscoveryWarningReason;
+  /** Human-readable guidance with attribution appropriate to the reason. */
+  message: string;
+}
+/** Confirmed access, missing-resource, or access-indeterminate guidance. System verification failures are reported in errors, not as permission warnings. The returned array may be a subset; use warningsTotalCount and warningsTruncated. */
+export type WorkspaceDiscoveryPropertiesWarningsList = Array<WorkspaceDiscoveryWarning>;
+/** Model that represents the properties of the workspace discovery. */
+export interface WorkspaceDiscoveryProperties {
+  /** The discovery status. */
+  status: WorkspaceDiscoveryStatus;
+  /** The discovery UTC start time. */
+  startTime?: string | undefined;
+  /** The discovery UTC end time. */
+  endTime?: string | undefined;
+  /** System or infrastructure errors encountered during discovery. */
+  errors?: WorkspaceDiscoveryPropertiesErrorsList | undefined;
+  /** The workspace ID this discovery belongs to. */
+  workspaceId: string;
+  /** The resource snapshot ID produced by this discovery. */
+  resourceSnapshotId?: string | undefined;
+  /** The coverage established by the accepted discovery result for Azure Resource Manager scopes. Present with coverageSummary on newly produced snapshot results; absence is not Established or a known zero. */
+  completeness?: WorkspaceDiscoveryCompleteness | undefined;
+  /** Coverage facts for the accepted result. Scope counts, resource-occurrence counts, warning counts, and returned inventory-row counts are different units and must not be combined. */
+  coverageSummary?: WorkspaceDiscoveryCoverageSummary | undefined;
+  /** Confirmed access, missing-resource, or access-indeterminate guidance. System verification failures are reported in errors, not as permission warnings. The returned array may be a subset; use warningsTotalCount and warningsTruncated. */
+  warnings?: WorkspaceDiscoveryPropertiesWarningsList | undefined;
+  /** The deduplicated number of warning identities before sampling. Identity consists of the expanded scope, affected resource, and reason. Absent means no accepted warning population was recorded, not zero warnings. */
+  warningsTotalCount?: number | undefined;
+  /** Whether warnings contains fewer entries than warningsTotalCount. False requires equality; true requires a smaller returned array. An accepted empty warning population is an empty array, zero total, and false. */
+  warningsTruncated?: boolean | undefined;
+}
+export interface GetWorkspaceDiscoveryResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: WorkspaceDiscoveryProperties | undefined;
+}
+export interface GetWorkspaceEvaluationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** The stable service-generated evaluation result ID in hyphenated GUID form. Use latest in the request path for the most recently durably admitted GA template evaluation; responses contain the canonical result ID, not the protected polling identifier. */
+  evaluationName: string;
+}
+/** Enum of the workspace evaluation status. */
+export type WorkspaceEvaluationStatus =
+  | "Pending"
+  | "Queued"
+  | "InProgress"
+  | "Succeeded"
+  | "PartiallySucceeded"
+  | "Failed"
+  | "Canceled";
+/** System or infrastructure errors encountered during evaluation. */
+export type WorkspaceEvaluationPropertiesErrorsList = Array<OperationError>;
+/** Model that represents a single template evaluation result. */
+export interface TemplateEvaluationResultItem {
+  /** The canonical ARM ID of the evaluated scenario-template version. Scenario IDs and versionless template aliases are not valid substitutes. */
+  templateId: string;
+  /** The stable catalog name of the evaluated scenario template, not a localized display name. */
+  templateName: string;
+  /** The evaluation result for this template. */
+  evaluationResult: RecommendationStatus;
+}
+/** Per-template evaluation results. */
+export type WorkspaceEvaluationPropertiesResultsList = Array<TemplateEvaluationResultItem>;
+/** Model that represents the properties of the workspace evaluation. */
+export interface WorkspaceEvaluationProperties {
+  /** The evaluation status. */
+  status: WorkspaceEvaluationStatus;
+  /** The evaluation UTC start time. */
+  startTime?: string | undefined;
+  /** The evaluation UTC end time. */
+  endTime?: string | undefined;
+  /** System or infrastructure errors encountered during evaluation. */
+  errors?: WorkspaceEvaluationPropertiesErrorsList | undefined;
+  /** The workspace ID this evaluation belongs to. */
+  workspaceId: string;
+  /** The resource snapshot ID used for this evaluation. */
+  resourceSnapshotId: string;
+  /** The canonical Azure resource ID of the retained discovery result that supplied resourceSnapshotId. This reference does not change when the latest discovery changes and never identifies the latest alias or a protected LRO polling handle. */
+  discoveryResultId: string;
+  /** The number of templates to evaluate. */
+  numTemplatesToEvaluate: number;
+  /** The number of templates that evaluated successfully. */
+  numTemplatesEvaluatedSucceeded: number;
+  /** The number of templates that failed evaluation. */
+  numTemplatesEvaluatedFailed: number;
+  /** The number of templates that were cancelled during evaluation. */
+  numTemplatesEvaluatedCancelled: number;
+  /** Per-template evaluation results. */
+  results?: WorkspaceEvaluationPropertiesResultsList | undefined;
+}
+export interface GetWorkspaceEvaluationResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: WorkspaceEvaluationProperties | undefined;
+}
+export interface ListActionsRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the Azure region. */
+  location: string;
+  /** String that sets the continuation token. */
+  continuationToken?: string | undefined;
+}
+/** Model that represents an Action resource. */
+export interface Action {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the action resource. */
+  properties: ActionProperties;
+}
+/** The Action items on this page */
+export type ActionListResultValueList = Array<Action>;
+/** Model that represents a list of Action resources and a link for pagination. */
+export interface ActionListResult {
+  /** The Action items on this page */
+  value: ActionListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListActionVersionsRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the Azure region. */
+  location: string;
+  /** String that represents an Action resource name. */
+  actionName: string;
+  /** String that sets the continuation token. */
+  continuationToken?: string | undefined;
+}
+/** Model that represents an Action Version resource. */
+export interface ActionVersion {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the action version resource. */
+  properties: ActionProperties;
+}
+/** The ActionVersion items on this page */
+export type ActionVersionListResultValueList = Array<ActionVersion>;
+/** Model that represents a list of Action Version resources and a link for pagination. */
+export interface ActionVersionListResult {
+  /** The ActionVersion items on this page */
+  value: ActionVersionListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
 }
 export interface ListCapabilitiesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -753,20 +2041,20 @@ export interface ListCapabilitiesRequest {
   /** String that represents a Target resource name. */
   targetName: string;
   /** String that sets the continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 /** Model that represents a Capability resource. */
 export interface Capability {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a capability resource. */
-  properties?: CapabilityProperties;
+  properties?: CapabilityProperties | undefined;
 }
 /** The Capability items on this page */
 export type CapabilityListResultValueList = Array<Capability>;
@@ -775,7 +2063,7 @@ export interface CapabilityListResult {
   /** The Capability items on this page */
   value: CapabilityListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCapabilityTypesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -785,20 +2073,20 @@ export interface ListCapabilityTypesRequest {
   /** String that represents a Target Type resource name. */
   targetTypeName: string;
   /** String that sets the continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 /** Model that represents a Capability Type resource. */
 export interface CapabilityType {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the capability type resource. */
-  properties?: CapabilityTypeProperties;
+  properties?: CapabilityTypeProperties | undefined;
 }
 /** The CapabilityType items on this page */
 export type CapabilityTypeListResultValueList = Array<CapabilityType>;
@@ -807,36 +2095,108 @@ export interface CapabilityTypeListResult {
   /** The CapabilityType items on this page */
   value: CapabilityTypeListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
+}
+export interface ListConnectionAllRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+}
+/** Model that represents a connection between a workspace and a target resource. A connection provisions and tracks the trust relationship that authorizes the actor to reach the Chaos Studio data plane for the workspace and target during fault injection. */
+export interface Connection {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the connection. */
+  properties?: ConnectionProperties | undefined;
+}
+/** The Connection items on this page */
+export type ConnectionListResultValueList = Array<Connection>;
+/** Model that represents a list of connections and a link for pagination. */
+export interface ConnectionListResult {
+  /** The Connection items on this page */
+  value: ConnectionListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListDiscoveredResourceByWorkspaceRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+}
+/** Model that represents a discovered resource. */
+export interface DiscoveredResource {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the discovered resource. */
+  properties?: DiscoveredResourceProperties | undefined;
+}
+/** The DiscoveredResource items on this page */
+export type DiscoveredResourceListResultValueList = Array<DiscoveredResource>;
+/** Model that represents a list of discovered resources and a link for pagination. */
+export interface DiscoveredResourceListResult {
+  /** The DiscoveredResource items on this page */
+  value: DiscoveredResourceListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
 }
 export interface ListExperimentAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** Optional value that indicates whether to filter results based on if the Experiment is currently running. If null, then the results will not be filtered. */
-  running?: boolean;
+  running?: boolean | undefined;
   /** String that sets the continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 /** Resource tags. */
 export type ExperimentTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type ExperimentIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
 /** Managed service identity (system assigned and/or user assigned identities) */
-export type ExperimentIdentity = ExperimentsCreateOrUpdateResponseIdentity;
+export interface ExperimentIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string | undefined;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string | undefined;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: ExperimentIdentityUserAssignedIdentitiesMap | undefined;
+}
 /** Model that represents a Experiment resource. */
 export interface Experiment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ExperimentTagsMap;
+  tags?: ExperimentTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ExperimentsCreateOrUpdateResponseIdentity;
+  identity?: ExperimentIdentity | undefined;
   /** The properties of the experiment resource. */
   properties: ExperimentProperties;
 }
@@ -847,7 +2207,7 @@ export interface ExperimentListResult {
   /** The Experiment items on this page */
   value: ExperimentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListExperimentAllExecutionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -860,15 +2220,15 @@ export interface ListExperimentAllExecutionsRequest {
 /** Model that represents the execution of a Experiment. */
 export interface ExperimentExecution {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of experiment execution status. */
-  properties?: ExperimentExecutionProperties;
+  properties?: ExperimentExecutionProperties | undefined;
 }
 /** The ExperimentExecution items on this page */
 export type ExperimentExecutionListResultValueList = Array<ExperimentExecution>;
@@ -877,7 +2237,7 @@ export interface ExperimentExecutionListResult {
   /** The ExperimentExecution items on this page */
   value: ExperimentExecutionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListExperimentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -885,21 +2245,21 @@ export interface ListExperimentsRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Optional value that indicates whether to filter results based on if the Experiment is currently running. If null, then the results will not be filtered. */
-  running?: boolean;
+  running?: boolean | undefined;
   /** String that sets the continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ListOperationAllRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -908,23 +2268,166 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationAllResponseValueList = Array<Operation>;
 export interface ListOperationAllResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationAllResponseValueList;
+  value?: ListOperationAllResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
+}
+export interface ListScenarioConfigurationAllRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+}
+/** Model that represents the scenario. */
+export interface ScenarioConfiguration {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of scenario definition. */
+  properties?: ScenarioConfigurationProperties | undefined;
+}
+/** The ScenarioConfiguration items on this page */
+export type ScenarioConfigurationListResultValueList = Array<ScenarioConfiguration>;
+/** Model that represents a list of scenario configurations and a link for pagination. */
+export interface ScenarioConfigurationListResult {
+  /** The ScenarioConfiguration items on this page */
+  value: ScenarioConfigurationListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListScenarioRunAllRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+}
+/** Model that represents the scenario run. */
+export interface ScenarioRun {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of scenario run. */
+  properties?: ScenarioRunProperties | undefined;
+}
+/** The ScenarioRun items on this page */
+export type ScenarioRunListResultValueList = Array<ScenarioRun>;
+/** Model that represents a list of scenario runs and a link for pagination. */
+export interface ScenarioRunListResult {
+  /** The ScenarioRun items on this page */
+  value: ScenarioRunListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListScenariosAllRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+}
+/** Model that represents the scenario. */
+export interface Scenario {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of scenario. */
+  properties?: ScenarioProperties | undefined;
+}
+/** The Scenario items on this page */
+export type ScenarioListResultValueList = Array<Scenario>;
+/** Model that represents a list of scenarios and a link for pagination. */
+export interface ScenarioListResult {
+  /** The Scenario items on this page */
+  value: ScenarioListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListScenarioTemplatesRequest {}
+/** Model that represents a built-in scenario template. A scenario template is a versioned, read-only blueprint published by Microsoft that can be used to create a scenario. Templates are the same shape as the scenarios they produce, so an action read from a template is valid input to a scenario create. The template is addressed without a version, and always describes its newest published version. Address a specific version through the child versions resource. */
+export interface ScenarioTemplate {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the scenario template's newest published version. */
+  properties: ScenarioTemplateProperties;
+}
+/** The ScenarioTemplate items on this page */
+export type ScenarioTemplateListResultValueList = Array<ScenarioTemplate>;
+/** Model that represents a list of scenario templates and a link for pagination. */
+export interface ScenarioTemplateListResult {
+  /** The ScenarioTemplate items on this page */
+  value: ScenarioTemplateListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListScenarioTemplateVersionsRequest {
+  /** Name of the scenario template. */
+  scenarioTemplateName: string;
+}
+/** Model that represents a single published version of a scenario template. A published version is immutable: corrections are shipped as a new version rather than by changing an existing one, so a scenario that records the version it was created from always resolves to the same content. */
+export interface ScenarioTemplateVersion {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of the scenario template version. */
+  properties: ScenarioTemplateVersionProperties;
+}
+/** The ScenarioTemplateVersion items on this page */
+export type ScenarioTemplateVersionListResultValueList = Array<ScenarioTemplateVersion>;
+/** Model that represents a list of scenario template versions and a link for pagination. */
+export interface ScenarioTemplateVersionListResult {
+  /** The ScenarioTemplateVersion items on this page */
+  value: ScenarioTemplateVersionListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
 }
 export interface ListTargetsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -938,24 +2441,24 @@ export interface ListTargetsRequest {
   /** The parent resource name. */
   parentResourceName: string;
   /** String that sets the continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 /** The properties of the target resource. */
 export type TargetPropertiesMap = { [key: string]: unknown | undefined };
 /** Model that represents a Target resource. */
 export interface Target {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the target resource. */
   properties: TargetPropertiesMap;
   /** Azure resource location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Target items on this page */
 export type TargetListResultValueList = Array<Target>;
@@ -964,7 +2467,7 @@ export interface TargetListResult {
   /** The Target items on this page */
   value: TargetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTargetTypesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -972,18 +2475,18 @@ export interface ListTargetTypesRequest {
   /** The name of the Azure region. */
   location: string;
   /** String that sets the continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 /** Model that represents a Target Type resource. */
 export interface TargetType {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the target type resource. */
   properties: TargetTypeProperties;
 }
@@ -994,7 +2497,233 @@ export interface TargetTypeListResult {
   /** The TargetType items on this page */
   value: TargetTypeListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
+}
+export interface ListWorkspaceAllRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** String that sets the continuation token. */
+  continuationToken?: string | undefined;
+}
+/** Resource tags. */
+export type WorkspaceTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type WorkspaceIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface WorkspaceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string | undefined;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string | undefined;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: WorkspaceIdentityUserAssignedIdentitiesMap | undefined;
+}
+/** Model that represents a Workspace resource. */
+export interface Workspace {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: WorkspaceTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: WorkspaceIdentity | undefined;
+  /** The properties of the Workspace resource. */
+  properties: WorkspaceProperties;
+}
+/** The Workspace items on this page */
+export type WorkspaceListResultValueList = Array<Workspace>;
+/** Model that represents a list of Workspace resources and a link for pagination. */
+export interface WorkspaceListResult {
+  /** The Workspace items on this page */
+  value: WorkspaceListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListWorkspaceDiscoveriesRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Opaque continuation token supplied by the returned nextLink. */
+  continuationToken?: string | undefined;
+}
+/** A retained workspace discovery result and its accepted coverage facts. */
+export interface WorkspaceDiscovery {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: WorkspaceDiscoveryProperties | undefined;
+}
+/** The WorkspaceDiscovery items on this page */
+export type WorkspaceDiscoveryListResultValueList = Array<WorkspaceDiscovery>;
+/** The response of a WorkspaceDiscovery list operation. */
+export interface WorkspaceDiscoveryListResult {
+  /** The WorkspaceDiscovery items on this page */
+  value: WorkspaceDiscoveryListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListWorkspaceEvaluationsRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Opaque continuation token supplied by the returned nextLink. */
+  continuationToken?: string | undefined;
+}
+/** A retained workspace evaluation of published scenario-template versions. */
+export interface WorkspaceEvaluation {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: WorkspaceEvaluationProperties | undefined;
+}
+/** The WorkspaceEvaluation items on this page */
+export type WorkspaceEvaluationListResultValueList = Array<WorkspaceEvaluation>;
+/** The response of a WorkspaceEvaluation list operation. */
+export interface WorkspaceEvaluationListResult {
+  /** The WorkspaceEvaluation items on this page */
+  value: WorkspaceEvaluationListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListWorkspacesRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that sets the continuation token. */
+  continuationToken?: string | undefined;
+}
+/** Runtime parameter values for the scenario. Keys must match parameter names defined in the scenario. */
+export type ScenarioConfigurationPropertiesInputParametersList = Array<KeyValuePair>;
+/** Model that represents the properties of the scenario configuration. */
+export interface ScenarioConfigurationPropertiesInput {
+  /** Resource ID of the scenario this configuration applies to. */
+  scenarioId: string;
+  /** Runtime parameter values for the scenario. Keys must match parameter names defined in the scenario. */
+  parameters?: ScenarioConfigurationPropertiesInputParametersList | undefined;
+  /** Unified resource targeting policy that controls which discovered resources participate in fault injection. Replaces the separate `exclusions` and `filters` properties with symmetric include/exclude criteria. Include uses AND logic -- a resource must match ALL active include dimensions. Exclude uses OR logic -- a resource is removed if it matches ANY exclude dimension. When include and exclude conflict on the same resource, exclude wins. Null or omitted means all discovered resources participate (no targeting constraints). */
+  resourceTargeting?: ResourceTargeting | undefined;
+}
+export interface ScenarioConfigurationsCreateOrUpdateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+  /** Name of the scenario definition. */
+  scenarioConfigurationName: string;
+  /** The properties of scenario definition. */
+  properties?: ScenarioConfigurationPropertiesInput | undefined;
+}
+export interface ScenarioConfigurationsCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of scenario definition. */
+  properties?: ScenarioConfigurationProperties | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+export interface ScenarioConfigurationsFixResourcePermissionsRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+  /** Name of the scenario definition. */
+  scenarioConfigurationName: string;
+  /** Optional value that indicates whether to run a "dry run" of fixing resource permissions. */
+  whatIf?: boolean | undefined;
+}
+export interface ScenarioConfigurationsFixResourcePermissionsResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+/** Parameter definitions for the scenario. */
+export type ScenarioPropertiesInputParametersList = Array<ScenarioParameter>;
+/** Array of actions that define the scenario's orchestration. */
+export type ScenarioPropertiesInputActionsList = Array<ScenarioAction>;
+/** Model that represents the properties of the scenario. */
+export interface ScenarioPropertiesInput {
+  /** Resource ID of the template version this scenario was created from (optional). The ID has the form `/providers/Microsoft.Chaos/scenarioTemplates/{scenarioTemplateName}/versions/{version}`. This property retains its existing string representation for compatibility with earlier API versions and SDKs. A scenario's structure comes from exactly one of two mutually exclusive sources. When `createdFrom` is supplied on create, the referenced template version is the authoritative source for the scenario's structure; inline `parameters` and `actions` are not used. When `createdFrom` is absent, the structure comes from the inline `parameters` and `actions` supplied in the request. Supplying neither source is rejected by request validation. */
+  createdFrom?: string | undefined;
+  /** Version of the scenario, supplied by the author. Defaults to `1.0` when not supplied on create. This is the scenario's own version and is independent of the version of any template it was created from. */
+  version?: string | undefined;
+  /** Description of what this scenario does (optional). */
+  description?: string | undefined;
+  /** Parameter definitions for the scenario. */
+  parameters?: ScenarioPropertiesInputParametersList | undefined;
+  /** Array of actions that define the scenario's orchestration. */
+  actions?: ScenarioPropertiesInputActionsList | undefined;
+  /** Scenario-wide default for how a scenario run reacts when one of its actions fails. An action that does not supply its own `failureBehavior` inherits this value; when neither is supplied the effective behavior is `Stop`. Not used when `createdFrom` is supplied, for the same reason as `parameters` and `actions`: the referenced template version is then the authoritative source for the scenario's structure, and it supplies this policy too. A value sent in the request is ignored in that case -- on create the referenced template's policy is used, and on update the policy of the already persisted template is preserved. */
+  failureBehavior?: FailureBehavior | (string & {}) | undefined;
+}
+export interface ScenariosCreateOrUpdateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+  /** The properties of scenario. */
+  properties?: ScenarioPropertiesInput | undefined;
+}
+export interface ScenariosCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of scenario. */
+  properties?: ScenarioProperties | undefined;
 }
 export interface StartExperimentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1006,9 +2735,9 @@ export interface StartExperimentRequest {
 }
 export interface StartExperimentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The properties of the target resource. */
 export type TargetsCreateOrUpdateRequestPropertiesMap = { [key: string]: unknown | undefined };
@@ -1028,28 +2757,36 @@ export interface TargetsCreateOrUpdateRequest {
   /** The properties of the target resource. */
   properties: TargetsCreateOrUpdateRequestPropertiesMap;
   /** Azure resource location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The properties of the target resource. */
 export type TargetsCreateOrUpdateResponsePropertiesMap = { [key: string]: unknown | undefined };
 export interface TargetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the target resource. */
   properties: TargetsCreateOrUpdateResponsePropertiesMap;
   /** Azure resource location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateExperimentRequestTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UpdateExperimentRequestIdentityUserAssignedIdentitiesMap = {
+  [key: string]: CapabilityPropertiesInput | null | undefined;
+};
 /** Managed service identity (system assigned and/or user assigned identities) */
-export type UpdateExperimentRequestIdentity = ExperimentsCreateOrUpdateRequestIdentity;
+export interface UpdateExperimentRequestIdentity {
+  type: ManagedServiceIdentityType | (string & {});
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: UpdateExperimentRequestIdentityUserAssignedIdentitiesMap | undefined;
+}
 export interface UpdateExperimentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1058,35 +2795,281 @@ export interface UpdateExperimentRequest {
   /** String that represents a Experiment resource name. */
   experimentName: string;
   /** Resource tags. */
-  tags?: UpdateExperimentRequestTagsMap;
+  tags?: UpdateExperimentRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ExperimentsCreateOrUpdateRequestIdentity;
+  identity?: UpdateExperimentRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateExperimentResponseTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UpdateExperimentResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
 /** Managed service identity (system assigned and/or user assigned identities) */
-export type UpdateExperimentResponseIdentity = ExperimentsCreateOrUpdateResponseIdentity;
+export interface UpdateExperimentResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string | undefined;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string | undefined;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: UpdateExperimentResponseIdentityUserAssignedIdentitiesMap | undefined;
+}
 export interface UpdateExperimentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateExperimentResponseTagsMap;
+  tags?: UpdateExperimentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ExperimentsCreateOrUpdateResponseIdentity;
+  identity?: UpdateExperimentResponseIdentity | undefined;
   /** The properties of the experiment resource. */
   properties: ExperimentProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
+}
+/** Resource tags. */
+export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UpdateWorkspaceRequestIdentityUserAssignedIdentitiesMap = {
+  [key: string]: CapabilityPropertiesInput | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface UpdateWorkspaceRequestIdentity {
+  type: ManagedServiceIdentityType | (string & {});
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: UpdateWorkspaceRequestIdentityUserAssignedIdentitiesMap | undefined;
+}
+/** A partial customer key reference, validated after merging with the stored setting. */
+export interface WorkspaceCustomerManagedKeyEncryptionPatchMergePatchUpdateOrCreate {
+  /** The replacement versionless key URI. Omission retains the URI; null deletes it. A same-vault replacement retains the stored vault ID. The effective pair is authorized and validated before acceptance; an incomplete or mismatched pair is rejected. Key path and name casing is preserved. */
+  keyEncryptionKeyUrl?: string | null | undefined;
+  /** The vault resource ID to merge with the key URL. Omission retains the ID, but does not bypass caller authorization when the URL changes. Null deletes the ID; a remaining CMK object without both members is invalid. Changing vault requires a coherent new URL and ID pair. */
+  keyVaultResourceId?: string | null | undefined;
+}
+/** A partial encryption setting. Omitted fields are unchanged and null deletes a writable field. A remaining customerManagedKeyEncryption object must have a coherent key URL and vault resource ID. Read-only onboarding and status inputs are ignored. The accepted creation choice cannot change. Only a CMK-created Workspace can update the pair. Changing either member requires synchronous caller and vault validation of the merged pair, including any retained member. */
+export interface WorkspaceEncryptionPatchMergePatchUpdateOrCreate {
+  /** The customer key configuration to merge on a CMK-created Workspace. Null deletion is rejected on CMK and is a no-op only when already absent on a Microsoft-managed Workspace. An empty object retains an existing complete pair without a lookup when neither member changes, but is invalid when the merged pair is incomplete. Unsupported mode changes are rejected before vault lookup, operation creation, desired mutation, or Storage effects. */
+  customerManagedKeyEncryption?:
+    | WorkspaceCustomerManagedKeyEncryptionPatchMergePatchUpdateOrCreate
+    | null
+    | undefined;
+}
+/** The Workspace properties supported by partial updates. */
+export interface WorkspaceUpdateProperties {
+  /** A JSON Merge Patch of the requested encryption setting. Omission leaves the setting unchanged. Null deletion is rejected on a CMK-created Workspace and is a no-op only when the setting is already absent on a Microsoft-managed Workspace. The service validates the creation choice and merged pair first. */
+  encryption?: WorkspaceEncryptionPatchMergePatchUpdateOrCreate | null | undefined;
+}
+export interface UpdateWorkspaceRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Resource tags. */
+  tags?: UpdateWorkspaceRequestTagsMap | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: UpdateWorkspaceRequestIdentity | undefined;
+  /** The resource-specific fields to update. Omitted fields are unchanged. */
+  properties?: WorkspaceUpdateProperties | undefined;
+}
+/** Resource tags. */
+export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UpdateWorkspaceResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface UpdateWorkspaceResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string | undefined;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string | undefined;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: UpdateWorkspaceResponseIdentityUserAssignedIdentitiesMap | undefined;
+}
+export interface UpdateWorkspaceResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: UpdateWorkspaceResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: UpdateWorkspaceResponseIdentity | undefined;
+  /** The properties of the Workspace resource. */
+  properties: WorkspaceProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+export interface ValidateScenarioConfigurationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Name of the scenario. */
+  scenarioName: string;
+  /** Name of the scenario definition. */
+  scenarioConfigurationName: string;
+}
+export interface ValidateScenarioConfigurationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+/** Resource tags. */
+export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type WorkspacesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
+  [key: string]: CapabilityPropertiesInput | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface WorkspacesCreateOrUpdateRequestIdentity {
+  type: ManagedServiceIdentityType | (string & {});
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?:
+    | WorkspacesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
+}
+/** The intended workspace-level resource scope to be used by child scenarios. */
+export type WorkspacePropertiesInputScopesList = Array<string>;
+/** The validated requested key and vault reference, onboarding information, and service observations. */
+export interface WorkspaceEncryptionInput {
+  /** The requested customer-managed key. Its presence is fixed by accepted Workspace creation: adding CMK to a Microsoft-managed Workspace or removing CMK from a CMK-created Workspace is rejected with InvalidEncryptionConfiguration. The key pair remains updateable on CMK-created Workspaces, including after a failed creation. A present object requires a coherent keyEncryptionKeyUrl and keyVaultResourceId pair. After synchronous caller and vault validation, the accepted pair can be returned while configuration is Pending. It does not prove that active data already uses the requested key. */
+  customerManagedKeyEncryption?: WorkspaceCustomerManagedKeyEncryption | undefined;
+}
+/** Model that represents the Workspace properties model. */
+export interface WorkspacePropertiesInput {
+  /** The intended workspace-level resource scope to be used by child scenarios. */
+  scopes: WorkspacePropertiesInputScopesList;
+  /** The requested customer key and service observations. Accepted creation fixes whether customerManagedKeyEncryption is present. On PUT, omission of encryption or its CMK object, or an empty encryption object, is valid for Microsoft-managed Workspaces but rejected for CMK-created Workspaces. Null is not a valid PUT value. A CMK-created Workspace can replace its key. */
+  encryption?: WorkspaceEncryptionInput | undefined;
+}
+export interface WorkspacesCreateOrUpdateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+  /** Resource tags. */
+  tags?: WorkspacesCreateOrUpdateRequestTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: WorkspacesCreateOrUpdateRequestIdentity | undefined;
+  /** The properties of the Workspace resource. */
+  properties: WorkspacePropertiesInput;
+}
+/** Resource tags. */
+export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type WorkspacesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface WorkspacesCreateOrUpdateResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string | undefined;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string | undefined;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?:
+    | WorkspacesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
+}
+export interface WorkspacesCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: WorkspacesCreateOrUpdateResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: WorkspacesCreateOrUpdateResponseIdentity | undefined;
+  /** The properties of the Workspace resource. */
+  properties: WorkspaceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+export interface WorkspacesDiscoverRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+}
+export interface WorkspacesDiscoverResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: WorkspaceDiscoveryProperties | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+export interface WorkspacesEvaluateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** String that represents a Workspace resource name. */
+  workspaceName: string;
+}
+export interface WorkspacesEvaluateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: WorkspaceEvaluationProperties | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
 }
 export type CancelExperimentError = AzureOpError;
 /** Cancel a running Experiment resource. */
@@ -1105,6 +3088,23 @@ export const CancelExperiment: API.OperationMethod<
   span: "CancelExperiment",
 }));
 
+export type CancelScenarioRunError = AzureOpError;
+/** Cancel the currently running scenario execution. */
+export const CancelScenarioRun: API.OperationMethod<
+  CancelScenarioRunRequest,
+  CancelScenarioRunResponse,
+  CancelScenarioRunError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c2, 0) as any as S.Schema<CancelScenarioRunRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<CancelScenarioRunResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelScenarioRun",
+}));
+
 export type CapabilitiesCreateOrUpdateError = AzureOpError;
 /** Create or update a Capability resource that extends a Target resource. */
 export const CapabilitiesCreateOrUpdate: API.OperationMethod<
@@ -1113,13 +3113,30 @@ export const CapabilitiesCreateOrUpdate: API.OperationMethod<
   CapabilitiesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CapabilitiesCreateOrUpdateRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<CapabilitiesCreateOrUpdateResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<CapabilitiesCreateOrUpdateRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<CapabilitiesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CapabilitiesCreateOrUpdate",
+}));
+
+export type ConnectionsCreateOrUpdateError = AzureOpError;
+/** Create or update a connection. */
+export const ConnectionsCreateOrUpdate: API.OperationMethod<
+  ConnectionsCreateOrUpdateRequest,
+  ConnectionsCreateOrUpdateResponse,
+  ConnectionsCreateOrUpdateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1537, __c48, 1) as any as S.Schema<ConnectionsCreateOrUpdateRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<ConnectionsCreateOrUpdateResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectionsCreateOrUpdate",
 }));
 
 export type DeleteCapabilityError = AzureOpError;
@@ -1130,13 +3147,30 @@ export const DeleteCapability: API.OperationMethod<
   DeleteCapabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DeleteCapabilityRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<DeleteCapabilityResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<DeleteCapabilityRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteCapabilityResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteCapability",
+}));
+
+export type DeleteConnectionError = AzureOpError;
+/** Delete a connection. */
+export const DeleteConnection: API.OperationMethod<
+  DeleteConnectionRequest,
+  DeleteConnectionResponse,
+  DeleteConnectionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2528, __c79, 0) as any as S.Schema<DeleteConnectionRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteConnectionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteExperimentError = AzureOpError;
@@ -1147,13 +3181,47 @@ export const DeleteExperiment: API.OperationMethod<
   DeleteExperimentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteExperimentRequest>,
+  input: __S(2912, __c91, 0) as any as S.Schema<DeleteExperimentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteExperimentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteExperiment",
+}));
+
+export type DeleteScenarioConfigurationError = AzureOpError;
+/** Delete a scenario definition. */
+export const DeleteScenarioConfiguration: API.OperationMethod<
+  DeleteScenarioConfigurationRequest,
+  DeleteScenarioConfigurationResponse,
+  DeleteScenarioConfigurationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3104, __c97, 0) as any as S.Schema<DeleteScenarioConfigurationRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteScenarioConfigurationResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScenarioConfiguration",
+}));
+
+export type DeleteScenariosError = AzureOpError;
+/** Delete a scenario. */
+export const DeleteScenarios: API.OperationMethod<
+  DeleteScenariosRequest,
+  DeleteScenariosResponse,
+  DeleteScenariosError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3136, __c98, 0) as any as S.Schema<DeleteScenariosRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteScenariosResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScenarios",
 }));
 
 export type DeleteTargetError = AzureOpError;
@@ -1164,13 +3232,47 @@ export const DeleteTarget: API.OperationMethod<
   DeleteTargetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteTargetRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<DeleteTargetResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<DeleteTargetRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteTargetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTarget",
+}));
+
+export type DeleteWorkspaceError = AzureOpError;
+/** Delete a Workspace resource. */
+export const DeleteWorkspace: API.OperationMethod<
+  DeleteWorkspaceRequest,
+  DeleteWorkspaceResponse,
+  DeleteWorkspaceError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c3, 0) as any as S.Schema<DeleteWorkspaceRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteWorkspaceResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
+}));
+
+export type ExecuteScenarioConfigurationError = AzureOpError;
+/** Execute the scenario execution with the given scenario configuration. */
+export const ExecuteScenarioConfiguration: API.OperationMethod<
+  ExecuteScenarioConfigurationRequest,
+  ExecuteScenarioConfigurationResponse,
+  ExecuteScenarioConfigurationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c4, 0) as any as S.Schema<ExecuteScenarioConfigurationRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<ExecuteScenarioConfigurationResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteScenarioConfiguration",
 }));
 
 export type ExperimentsCreateOrUpdateError = AzureOpError;
@@ -1181,8 +3283,8 @@ export const ExperimentsCreateOrUpdate: API.OperationMethod<
   ExperimentsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(897, __c28, 1) as any as S.Schema<ExperimentsCreateOrUpdateRequest>,
-  output: __S(898, __c28, 2) as any as S.Schema<ExperimentsCreateOrUpdateResponse>,
+  input: __S(161, __c5, 1) as any as S.Schema<ExperimentsCreateOrUpdateRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<ExperimentsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1198,13 +3300,47 @@ export const ExperimentsExecutionDetails: API.OperationMethod<
   ExperimentsExecutionDetailsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ExperimentsExecutionDetailsRequest>,
-  output: __S(1036, __c32, 12) as any as S.Schema<ExperimentExecutionDetails>,
+  input: __S(352, __c11, 0) as any as S.Schema<ExperimentsExecutionDetailsRequest>,
+  output: __S(364, __c11, 12) as any as S.Schema<ExperimentExecutionDetails>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExperimentsExecutionDetails",
+}));
+
+export type GetActionError = AzureOpError;
+/** Get an Action resource for a given location. */
+export const GetAction: API.OperationMethod<
+  GetActionRequest,
+  GetActionResponse,
+  GetActionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(384, __c12, 0) as any as S.Schema<GetActionRequest>,
+  output: __S(419, __c13, 3) as any as S.Schema<GetActionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAction",
+}));
+
+export type GetActionVersionError = AzureOpError;
+/** Get an Action Version resource for a given location and action. */
+export const GetActionVersion: API.OperationMethod<
+  GetActionVersionRequest,
+  GetActionVersionResponse,
+  GetActionVersionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c14, 0) as any as S.Schema<GetActionVersionRequest>,
+  output: __S(419, __c13, 3) as any as S.Schema<GetActionVersionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionVersion",
 }));
 
 export type GetCapabilityError = AzureOpError;
@@ -1215,8 +3351,8 @@ export const GetCapability: API.OperationMethod<
   GetCapabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetCapabilityRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<GetCapabilityResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetCapabilityRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<GetCapabilityResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1232,13 +3368,47 @@ export const GetCapabilityType: API.OperationMethod<
   GetCapabilityTypeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetCapabilityTypeRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<GetCapabilityTypeResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetCapabilityTypeRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<GetCapabilityTypeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCapabilityType",
+}));
+
+export type GetConnectionError = AzureOpError;
+/** Get a connection. */
+export const GetConnection: API.OperationMethod<
+  GetConnectionRequest,
+  GetConnectionResponse,
+  GetConnectionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(576, __c18, 0) as any as S.Schema<GetConnectionRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<GetConnectionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnection",
+}));
+
+export type GetDiscoveredResourceError = AzureOpError;
+/** Get a discovered resource. */
+export const GetDiscoveredResource: API.OperationMethod<
+  GetDiscoveredResourceRequest,
+  GetDiscoveredResourceResponse,
+  GetDiscoveredResourceError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c19, 0) as any as S.Schema<GetDiscoveredResourceRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<GetDiscoveredResourceResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiscoveredResource",
 }));
 
 export type GetExperimentError = AzureOpError;
@@ -1249,8 +3419,8 @@ export const GetExperiment: API.OperationMethod<
   GetExperimentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetExperimentRequest>,
-  output: __S(1184, __c37, 0) as any as S.Schema<GetExperimentResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetExperimentRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<GetExperimentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1266,8 +3436,8 @@ export const GetExperimentExecution: API.OperationMethod<
   GetExperimentExecutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetExperimentExecutionRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<GetExperimentExecutionResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetExperimentExecutionRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<GetExperimentExecutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1283,13 +3453,98 @@ export const GetOperationStatus: API.OperationMethod<
   GetOperationStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetOperationStatusRequest>,
-  output: __S(264, __c8, 8) as any as S.Schema<GetOperationStatusResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetOperationStatusRequest>,
+  output: __S(932, __c29, 4) as any as S.Schema<GetOperationStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOperationStatus",
+}));
+
+export type GetScenarioConfigurationError = AzureOpError;
+/** Get a scenario definition. */
+export const GetScenarioConfiguration: API.OperationMethod<
+  GetScenarioConfigurationRequest,
+  GetScenarioConfigurationResponse,
+  GetScenarioConfigurationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c31, 0) as any as S.Schema<GetScenarioConfigurationRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<GetScenarioConfigurationResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScenarioConfiguration",
+}));
+
+export type GetScenarioRunError = AzureOpError;
+/** Get a scenario run. This endpoint is also the polling target for ScenarioConfigurations.execute and ScenarioRuns.cancel (final-state-via: location). While the run is in progress the service returns 202 with a Location header pointing back to this URL; clients must keep polling until they receive 200, which carries the final ScenarioRun body. */
+export const GetScenarioRun: API.OperationMethod<
+  GetScenarioRunRequest,
+  GetScenarioRunResponse,
+  GetScenarioRunError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1088, __c34, 0) as any as S.Schema<GetScenarioRunRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<GetScenarioRunResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScenarioRun",
+}));
+
+export type GetScenariosError = AzureOpError;
+/** Get a scenario. */
+export const GetScenarios: API.OperationMethod<
+  GetScenariosRequest,
+  GetScenariosResponse,
+  GetScenariosError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1184, __c37, 0) as any as S.Schema<GetScenariosRequest>,
+  output: __S(1250, __c39, 2) as any as S.Schema<GetScenariosResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScenarios",
+}));
+
+export type GetScenarioTemplateError = AzureOpError;
+/** Get a scenario template, described by its newest published version. */
+export const GetScenarioTemplate: API.OperationMethod<
+  GetScenarioTemplateRequest,
+  GetScenarioTemplateResponse,
+  GetScenarioTemplateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1280, __c40, 0) as any as S.Schema<GetScenarioTemplateRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<GetScenarioTemplateResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScenarioTemplate",
+}));
+
+export type GetScenarioTemplateVersionError = AzureOpError;
+/** Get a single published version of a scenario template. */
+export const GetScenarioTemplateVersion: API.OperationMethod<
+  GetScenarioTemplateVersionRequest,
+  GetScenarioTemplateVersionResponse,
+  GetScenarioTemplateVersionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1344, __c42, 0) as any as S.Schema<GetScenarioTemplateVersionRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<GetScenarioTemplateVersionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScenarioTemplateVersion",
 }));
 
 export type GetTargetError = AzureOpError;
@@ -1300,8 +3555,8 @@ export const GetTarget: API.OperationMethod<
   GetTargetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetTargetRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<GetTargetResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetTargetRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<GetTargetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1317,13 +3572,98 @@ export const GetTargetType: API.OperationMethod<
   GetTargetTypeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetTargetTypeRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<GetTargetTypeResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetTargetTypeRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<GetTargetTypeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTargetType",
+}));
+
+export type GetWorkspaceError = AzureOpError;
+/** Get a Workspace resource. */
+export const GetWorkspace: API.OperationMethod<
+  GetWorkspaceRequest,
+  GetWorkspaceResponse,
+  GetWorkspaceError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1600, __c50, 0) as any as S.Schema<GetWorkspaceRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<GetWorkspaceResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspace",
+}));
+
+export type GetWorkspaceDiscoveryError = AzureOpError;
+/** Gets a retained discovery result by its ID, or uses latest to select the most recently durably admitted discovery. Returns 200 with the current representation while processing or terminal. A Failed result can contain errors without a snapshot. Returns 404 if no qualifying retained result exists. This is not an LRO polling endpoint. */
+export const GetWorkspaceDiscovery: API.OperationMethod<
+  GetWorkspaceDiscoveryRequest,
+  GetWorkspaceDiscoveryResponse,
+  GetWorkspaceDiscoveryError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1696, __c53, 0) as any as S.Schema<GetWorkspaceDiscoveryRequest>,
+  output: __S(1728, __c54, 0) as any as S.Schema<GetWorkspaceDiscoveryResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceDiscovery",
+}));
+
+export type GetWorkspaceEvaluationError = AzureOpError;
+/** Gets a retained template evaluation by its ID, or uses latest to select the most recently durably admitted GA template evaluation. Returns 200 with the current representation while processing or terminal. Returns 404 if no qualifying retained result exists; scenario-backed legacy operations are not substituted. This is not an LRO polling endpoint. */
+export const GetWorkspaceEvaluation: API.OperationMethod<
+  GetWorkspaceEvaluationRequest,
+  GetWorkspaceEvaluationResponse,
+  GetWorkspaceEvaluationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1792, __c56, 0) as any as S.Schema<GetWorkspaceEvaluationRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<GetWorkspaceEvaluationResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceEvaluation",
+}));
+
+export type ListActionsError = AzureOpError;
+/** Get a list of Action resources for a given location. */
+export const ListActions: API.OperationMethod<
+  ListActionsRequest,
+  ActionListResult,
+  ListActionsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1888, __c59, 0) as any as S.Schema<ListActionsRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<ActionListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActions",
+}));
+
+export type ListActionVersionsError = AzureOpError;
+/** Get a list of Action Version resources for a given location and action. */
+export const ListActionVersions: API.OperationMethod<
+  ListActionVersionsRequest,
+  ActionVersionListResult,
+  ListActionVersionsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1952, __c61, 0) as any as S.Schema<ListActionVersionsRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<ActionVersionListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActionVersions",
 }));
 
 export type ListCapabilitiesError = AzureOpError;
@@ -1334,8 +3674,8 @@ export const ListCapabilities: API.OperationMethod<
   ListCapabilitiesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListCapabilitiesRequest>,
-  output: __S(418, __c13, 2) as any as S.Schema<CapabilityListResult>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListCapabilitiesRequest>,
+  output: __S(1986, __c62, 2) as any as S.Schema<CapabilityListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1351,13 +3691,47 @@ export const ListCapabilityTypes: API.OperationMethod<
   ListCapabilityTypesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ListCapabilityTypesRequest>,
-  output: __S(450, __c14, 2) as any as S.Schema<CapabilityTypeListResult>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListCapabilityTypesRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<CapabilityTypeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCapabilityTypes",
+}));
+
+export type ListConnectionAllError = AzureOpError;
+/** Get a list of connections. */
+export const ListConnectionAll: API.OperationMethod<
+  ListConnectionAllRequest,
+  ConnectionListResult,
+  ListConnectionAllError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2048, __c64, 0) as any as S.Schema<ListConnectionAllRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<ConnectionListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectionAll",
+}));
+
+export type ListDiscoveredResourceByWorkspaceError = AzureOpError;
+/** Get a list of discovered resources for a workspace. */
+export const ListDiscoveredResourceByWorkspace: API.OperationMethod<
+  ListDiscoveredResourceByWorkspaceRequest,
+  DiscoveredResourceListResult,
+  ListDiscoveredResourceByWorkspaceError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2080, __c65, 0) as any as S.Schema<ListDiscoveredResourceByWorkspaceRequest>,
+  output: __S(2082, __c65, 2) as any as S.Schema<DiscoveredResourceListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDiscoveredResourceByWorkspace",
 }));
 
 export type ListExperimentAllError = AzureOpError;
@@ -1368,8 +3742,8 @@ export const ListExperimentAll: API.OperationMethod<
   ListExperimentAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ListExperimentAllRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ExperimentListResult>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListExperimentAllRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<ExperimentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1385,8 +3759,8 @@ export const ListExperimentAllExecutions: API.OperationMethod<
   ListExperimentAllExecutionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListExperimentAllExecutionsRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<ExperimentExecutionListResult>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListExperimentAllExecutionsRequest>,
+  output: __S(2210, __c69, 2) as any as S.Schema<ExperimentExecutionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1402,8 +3776,8 @@ export const ListExperiments: API.OperationMethod<
   ListExperimentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ListExperimentsRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ExperimentListResult>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListExperimentsRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<ExperimentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1419,13 +3793,98 @@ export const ListOperationAll: API.OperationMethod<
   ListOperationAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<ListOperationAllRequest>,
-  output: __S(612, __c19, 4) as any as S.Schema<ListOperationAllResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListOperationAllRequest>,
+  output: __S(2276, __c71, 4) as any as S.Schema<ListOperationAllResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperationAll",
+}));
+
+export type ListScenarioConfigurationAllError = AzureOpError;
+/** Get a list of scenario definitions. */
+export const ListScenarioConfigurationAll: API.OperationMethod<
+  ListScenarioConfigurationAllRequest,
+  ScenarioConfigurationListResult,
+  ListScenarioConfigurationAllError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2304, __c72, 0) as any as S.Schema<ListScenarioConfigurationAllRequest>,
+  output: __S(2306, __c72, 2) as any as S.Schema<ScenarioConfigurationListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScenarioConfigurationAll",
+}));
+
+export type ListScenarioRunAllError = AzureOpError;
+/** Get a list of scenario runs. */
+export const ListScenarioRunAll: API.OperationMethod<
+  ListScenarioRunAllRequest,
+  ScenarioRunListResult,
+  ListScenarioRunAllError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2336, __c73, 0) as any as S.Schema<ListScenarioRunAllRequest>,
+  output: __S(2339, __c73, 3) as any as S.Schema<ScenarioRunListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScenarioRunAll",
+}));
+
+export type ListScenariosAllError = AzureOpError;
+/** Get a list of scenarios. */
+export const ListScenariosAll: API.OperationMethod<
+  ListScenariosAllRequest,
+  ScenarioListResult,
+  ListScenariosAllError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2368, __c74, 0) as any as S.Schema<ListScenariosAllRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<ScenarioListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScenariosAll",
+}));
+
+export type ListScenarioTemplatesError = AzureOpError;
+/** Get a list of the scenario templates published by Microsoft. */
+export const ListScenarioTemplates: API.OperationMethod<
+  ListScenarioTemplatesRequest,
+  ScenarioTemplateListResult,
+  ListScenarioTemplatesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2400, __c75, 0) as any as S.Schema<ListScenarioTemplatesRequest>,
+  output: __S(2402, __c75, 2) as any as S.Schema<ScenarioTemplateListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScenarioTemplates",
+}));
+
+export type ListScenarioTemplateVersionsError = AzureOpError;
+/** Get a list of the published versions of a scenario template, including superseded ones. */
+export const ListScenarioTemplateVersions: API.OperationMethod<
+  ListScenarioTemplateVersionsRequest,
+  ScenarioTemplateVersionListResult,
+  ListScenarioTemplateVersionsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2432, __c76, 0) as any as S.Schema<ListScenarioTemplateVersionsRequest>,
+  output: __S(2434, __c76, 2) as any as S.Schema<ScenarioTemplateVersionListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScenarioTemplateVersions",
 }));
 
 export type ListTargetsError = AzureOpError;
@@ -1436,8 +3895,8 @@ export const ListTargets: API.OperationMethod<
   ListTargetsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListTargetsRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<TargetListResult>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListTargetsRequest>,
+  output: __S(2466, __c77, 2) as any as S.Schema<TargetListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1453,13 +3912,136 @@ export const ListTargetTypes: API.OperationMethod<
   ListTargetTypesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListTargetTypesRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<TargetTypeListResult>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListTargetTypesRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<TargetTypeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetTypes",
+}));
+
+export type ListWorkspaceAllError = AzureOpError;
+/** Get a list of all Workspace resources in a subscription. */
+export const ListWorkspaceAll: API.OperationMethod<
+  ListWorkspaceAllRequest,
+  WorkspaceListResult,
+  ListWorkspaceAllError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2560, __c80, 0) as any as S.Schema<ListWorkspaceAllRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<WorkspaceListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceAll",
+}));
+
+export type ListWorkspaceDiscoveriesError = AzureOpError;
+/** Lists retained discovery results under the workspace. Each result has its canonical ID; latest is an alias and is not a separate collection entry. This operation does not extend result retention. */
+export const ListWorkspaceDiscoveries: API.OperationMethod<
+  ListWorkspaceDiscoveriesRequest,
+  WorkspaceDiscoveryListResult,
+  ListWorkspaceDiscoveriesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2624, __c82, 0) as any as S.Schema<ListWorkspaceDiscoveriesRequest>,
+  output: __S(2626, __c82, 2) as any as S.Schema<WorkspaceDiscoveryListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceDiscoveries",
+}));
+
+export type ListWorkspaceEvaluationsError = AzureOpError;
+/** Lists retained GA template evaluations under the workspace. Each result has its canonical ID; latest is an alias and is not a separate collection entry. This operation does not extend retention or convert scenario-backed legacy evaluations. */
+export const ListWorkspaceEvaluations: API.OperationMethod<
+  ListWorkspaceEvaluationsRequest,
+  WorkspaceEvaluationListResult,
+  ListWorkspaceEvaluationsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2656, __c83, 0) as any as S.Schema<ListWorkspaceEvaluationsRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<WorkspaceEvaluationListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceEvaluations",
+}));
+
+export type ListWorkspacesError = AzureOpError;
+/** Get a list of Workspace resources in a resource group. */
+export const ListWorkspaces: API.OperationMethod<
+  ListWorkspacesRequest,
+  WorkspaceListResult,
+  ListWorkspacesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2688, __c84, 0) as any as S.Schema<ListWorkspacesRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<WorkspaceListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
+}));
+
+export type ScenarioConfigurationsCreateOrUpdateError = AzureOpError;
+/** Create or update a scenario definition. */
+export const ScenarioConfigurationsCreateOrUpdate: API.OperationMethod<
+  ScenarioConfigurationsCreateOrUpdateRequest,
+  ScenarioConfigurationsCreateOrUpdateResponse,
+  ScenarioConfigurationsCreateOrUpdateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2721, __c85, 1) as any as S.Schema<ScenarioConfigurationsCreateOrUpdateRequest>,
+  output: __S(2722, __c85, 2) as any as S.Schema<ScenarioConfigurationsCreateOrUpdateResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScenarioConfigurationsCreateOrUpdate",
+}));
+
+export type ScenarioConfigurationsFixResourcePermissionsError = AzureOpError;
+/** Fixes resource permissions for the given scenario configuration. */
+export const ScenarioConfigurationsFixResourcePermissions: API.OperationMethod<
+  ScenarioConfigurationsFixResourcePermissionsRequest,
+  ScenarioConfigurationsFixResourcePermissionsResponse,
+  ScenarioConfigurationsFixResourcePermissionsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    2752,
+    __c86,
+    0,
+  ) as any as S.Schema<ScenarioConfigurationsFixResourcePermissionsRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<ScenarioConfigurationsFixResourcePermissionsResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScenarioConfigurationsFixResourcePermissions",
+}));
+
+export type ScenariosCreateOrUpdateError = AzureOpError;
+/** Create or update a scenario. */
+export const ScenariosCreateOrUpdate: API.OperationMethod<
+  ScenariosCreateOrUpdateRequest,
+  ScenariosCreateOrUpdateResponse,
+  ScenariosCreateOrUpdateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2785, __c87, 1) as any as S.Schema<ScenariosCreateOrUpdateRequest>,
+  output: __S(1250, __c39, 2) as any as S.Schema<ScenariosCreateOrUpdateResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScenariosCreateOrUpdate",
 }));
 
 export type StartExperimentError = AzureOpError;
@@ -1470,7 +4052,7 @@ export const StartExperiment: API.OperationMethod<
   StartExperimentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<StartExperimentRequest>,
+  input: __S(2816, __c88, 0) as any as S.Schema<StartExperimentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartExperimentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -1487,8 +4069,8 @@ export const TargetsCreateOrUpdate: API.OperationMethod<
   TargetsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<TargetsCreateOrUpdateRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<TargetsCreateOrUpdateResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<TargetsCreateOrUpdateRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<TargetsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1504,13 +4086,98 @@ export const UpdateExperiment: API.OperationMethod<
   UpdateExperimentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<UpdateExperimentRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<UpdateExperimentResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<UpdateExperimentRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<UpdateExperimentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateExperiment",
+}));
+
+export type UpdateWorkspaceError = AzureOpError;
+/** Update a Workspace. */
+export const UpdateWorkspace: API.OperationMethod<
+  UpdateWorkspaceRequest,
+  UpdateWorkspaceResponse,
+  UpdateWorkspaceError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2947, __c92, 3) as any as S.Schema<UpdateWorkspaceRequest>,
+  output: __S(2948, __c92, 4) as any as S.Schema<UpdateWorkspaceResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
+}));
+
+export type ValidateScenarioConfigurationError = AzureOpError;
+/** Validate the given scenario configuration. */
+export const ValidateScenarioConfiguration: API.OperationMethod<
+  ValidateScenarioConfigurationRequest,
+  ValidateScenarioConfigurationResponse,
+  ValidateScenarioConfigurationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2976, __c93, 0) as any as S.Schema<ValidateScenarioConfigurationRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<ValidateScenarioConfigurationResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateScenarioConfiguration",
+}));
+
+export type WorkspacesCreateOrUpdateError = AzureOpError;
+/** Create or update a Workspace resource. */
+export const WorkspacesCreateOrUpdate: API.OperationMethod<
+  WorkspacesCreateOrUpdateRequest,
+  WorkspacesCreateOrUpdateResponse,
+  WorkspacesCreateOrUpdateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3010, __c94, 2) as any as S.Schema<WorkspacesCreateOrUpdateRequest>,
+  output: __S(3011, __c94, 3) as any as S.Schema<WorkspacesCreateOrUpdateResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspacesCreateOrUpdate",
+}));
+
+export type WorkspacesDiscoverError = AzureOpError;
+/** Starts discovery for the workspace. The initial 202 has no body. Poll the operation-bound Location URL until completion: a successful or partially successful discovery returns the typed result; failed or canceled processing returns an Azure error whose target identifies the discovery resource. Ordinary discovery reads return the current resource, including failed or canceled results, while retained. */
+export const WorkspacesDiscover: API.OperationMethod<
+  WorkspacesDiscoverRequest,
+  WorkspacesDiscoverResponse,
+  WorkspacesDiscoverError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3040, __c95, 0) as any as S.Schema<WorkspacesDiscoverRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<WorkspacesDiscoverResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspacesDiscover",
+}));
+
+export type WorkspacesEvaluateError = AzureOpError;
+/** Starts evaluation of published scenario-template versions, including when the workspace has no scenarios. Acceptance fixes the selected template membership and total count, qualified resource snapshot and canonical discovery result reference. Without a usable discovery snapshot or valid catalog input, the request is rejected synchronously with an Azure error and no evaluation result is created. A valid empty catalog completes successfully with zero counts and an empty results array. Outcome counts reflect processing after acceptance. The initial 202 has no body. Poll the operation-bound Location URL until completion: a completed successful or partially successful assessment returns the typed result; failed or canceled processing returns an Azure error whose target identifies the evaluation resource. Ordinary evaluation reads return the current resource, including failed or canceled results, while retained. */
+export const WorkspacesEvaluate: API.OperationMethod<
+  WorkspacesEvaluateRequest,
+  WorkspacesEvaluateResponse,
+  WorkspacesEvaluateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3072, __c96, 0) as any as S.Schema<WorkspacesEvaluateRequest>,
+  output: __S(3073, __c96, 1) as any as S.Schema<WorkspacesEvaluateResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspacesEvaluate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -1527,7 +4194,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/cancel",
             code: 200,
-            apiVersion: "2025-01-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CancelExperimentRequest" });
@@ -1551,27 +4218,37 @@ function __c2(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
-          parentProviderNamespace: S.String.pipe(T.Label()),
-          parentResourceType: S.String.pipe(T.Label()),
-          parentResourceName: S.String.pipe(T.Label()),
-          targetName: S.String.pipe(T.Label()),
-          capabilityName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(96, __c3, 0)),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+          runId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}/capabilities/{capabilityName}",
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/runs/{runId}/cancel",
             code: 200,
-            apiVersion: "2025-01-01",
+            apiVersion: "2026-11-01",
           }),
         ),
-      ).annotate({ identifier: "CapabilitiesCreateOrUpdateRequest" });
+      ).annotate({ identifier: "CancelScenarioRunRequest" });
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "CapabilityPropertiesInput" });
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteWorkspaceRequest" });
   }
 }
 function __c4(j: number): any {
@@ -1579,14 +4256,20 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createdBy: S.optional(S.String),
-          createdByType: S.optional(S.String),
-          createdAt: S.optional(S.String),
-          lastModifiedBy: S.optional(S.String),
-          lastModifiedByType: S.optional(S.String),
-          lastModifiedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SystemData" });
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+          scenarioConfigurationName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations/{scenarioConfigurationName}/execute",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ExecuteScenarioConfigurationRequest" });
   }
 }
 function __c5(j: number): any {
@@ -1594,613 +4277,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          publisher: S.optional(S.String),
-          targetType: S.optional(S.String),
-          description: S.optional(S.String),
-          parametersSchema: S.optional(S.String),
-          urn: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CapabilityProperties" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(128, __c4, 0)),
-          properties: S.optional(__S(160, __c5, 0)),
-        }),
-      ).annotate({ identifier: "CapabilitiesCreateOrUpdateResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          experimentName: S.String.pipe(T.Label()),
-          executionId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions/{executionId}",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "GetExperimentExecutionRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          startedAt: S.optional(S.String),
-          stoppedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExperimentExecutionProperties" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(128, __c4, 0)),
-          properties: S.optional(__S(224, __c7, 0)),
-        }),
-      ).annotate({ identifier: "GetExperimentExecutionResponse" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          operationId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/operationStatuses/{operationId}",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "GetOperationStatusRequest" });
-    case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(262, __c8, 6)));
-    case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(261, __c8, 5)));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          info: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "ErrorAdditionalInfo" });
-    case 4:
-      return S.Array(__S(259, __c8, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          target: S.optional(S.String),
-          details: S.optional(__S(258, __c8, 2)),
-          additionalInfo: S.optional(__S(260, __c8, 4)),
-        }),
-      ).annotate({ identifier: "ErrorDetail" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          name: S.optional(S.String),
-          status: S.String,
-          percentComplete: S.optional(S.Number),
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-          operations: S.optional(__S(257, __c8, 1)),
-          error: S.optional(__S(261, __c8, 5)),
-        }),
-      ).annotate({ identifier: "OperationStatusResult" });
-    case 7:
-      return S.Array(__S(262, __c8, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          name: S.optional(S.String),
-          status: S.String,
-          percentComplete: S.optional(S.Number),
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-          operations: S.optional(__S(263, __c8, 7)),
-          error: S.optional(__S(261, __c8, 5)),
-        }),
-      ).annotate({ identifier: "GetOperationStatusResponse" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          parentProviderNamespace: S.String.pipe(T.Label()),
-          parentResourceType: S.String.pipe(T.Label()),
-          parentResourceName: S.String.pipe(T.Label()),
-          targetName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "GetTargetRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(128, __c4, 0)),
-          properties: __S(320, __c10, 0),
-          location: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetTargetResponse" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          targetTypeName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes/{targetTypeName}",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "GetTargetTypeRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          propertiesSchema: S.optional(S.String),
-          resourceTypes: S.optional(__S(960, __c30, 0)),
-        }),
-      ).annotate({ identifier: "TargetTypeProperties" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(128, __c4, 0)),
-          properties: __S(384, __c12, 0),
-        }),
-      ).annotate({ identifier: "GetTargetTypeResponse" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          parentProviderNamespace: S.String.pipe(T.Label()),
-          parentResourceType: S.String.pipe(T.Label()),
-          parentResourceName: S.String.pipe(T.Label()),
-          targetName: S.String.pipe(T.Label()),
-          continuationToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}/capabilities",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListCapabilitiesRequest" });
-    case 1:
-      return S.Array(__S(161, __c5, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(417, __c13, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CapabilityListResult" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          targetTypeName: S.String.pipe(T.Label()),
-          continuationToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes/{targetTypeName}/capabilityTypes",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListCapabilityTypesRequest" });
-    case 1:
-      return S.Array(__S(1122, __c35, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(449, __c14, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CapabilityTypeListResult" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          running: S.optional(S.Boolean.pipe(T.Query())),
-          continuationToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/experiments",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListExperimentAllRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1184, __c37, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(512, __c16, 0),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExperimentListResult" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          experimentName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListExperimentAllExecutionsRequest" });
-    case 1:
-      return S.Array(__S(225, __c7, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(545, __c17, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExperimentExecutionListResult" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          running: S.optional(S.Boolean.pipe(T.Query())),
-          continuationToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListExperimentsRequest" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/providers/Microsoft.Chaos/operations",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListOperationAllRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          provider: S.optional(S.String),
-          resource: S.optional(S.String),
-          operation: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OperationDisplay" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(609, __c19, 1)),
-          origin: S.optional(S.String),
-          actionType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Operation" });
-    case 3:
-      return S.Array(__S(610, __c19, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(611, __c19, 3)),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListOperationAllResponse" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          parentProviderNamespace: S.String.pipe(T.Label()),
-          parentResourceType: S.String.pipe(T.Label()),
-          parentResourceName: S.String.pipe(T.Label()),
-          targetName: S.String.pipe(T.Label()),
-          capabilityName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}/capabilities/{capabilityName}",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteCapabilityRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          parentProviderNamespace: S.String.pipe(T.Label()),
-          parentResourceType: S.String.pipe(T.Label()),
-          parentResourceName: S.String.pipe(T.Label()),
-          continuationToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListTargetsRequest" });
-    case 1:
-      return S.Array(__S(321, __c10, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(673, __c21, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TargetListResult" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          continuationToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListTargetTypesRequest" });
-    case 1:
-      return S.Array(__S(385, __c12, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(705, __c22, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TargetTypeListResult" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          experimentName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/start",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "StartExperimentRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          parentProviderNamespace: S.String.pipe(T.Label()),
-          parentResourceType: S.String.pipe(T.Label()),
-          parentResourceName: S.String.pipe(T.Label()),
-          targetName: S.String.pipe(T.Label()),
-          properties: __S(320, __c10, 0),
-          location: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "TargetsCreateOrUpdateRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          experimentName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(992, __c31, 0)),
-          identity: S.optional(__S(929, __c29, 1)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateExperimentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(128, __c4, 0)),
-          tags: S.optional(__S(992, __c31, 0)),
-          location: S.String,
-          identity: S.optional(__S(1009, __c31, 17)),
-          properties: __S(1010, __c31, 18),
-          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-        }),
-      ).annotate({ identifier: "UpdateExperimentResponse" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          experimentName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteExperimentRequest" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          parentProviderNamespace: S.String.pipe(T.Label()),
-          parentResourceType: S.String.pipe(T.Label()),
-          parentResourceName: S.String.pipe(T.Label()),
-          targetName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
-            code: 200,
-            apiVersion: "2025-01-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteTargetRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          steps: __S(1000, __c31, 8),
-          selectors: __S(1006, __c31, 14),
+          steps: __S(293, __c9, 5),
+          selectors: __S(299, __c9, 11),
+          customerDataStorage: S.optional(__S(300, __c9, 12)),
         }),
       ).annotate({ identifier: "ExperimentPropertiesInput" });
     case 1:
@@ -2209,16 +4288,16 @@ function __c28(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           experimentName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(992, __c31, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          identity: S.optional(__S(929, __c29, 1)),
-          properties: __S(896, __c28, 0),
+          identity: S.optional(__S(321, __c10, 1)),
+          properties: __S(160, __c5, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
             code: 200,
-            apiVersion: "2025-01-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ExperimentsCreateOrUpdateRequest" });
@@ -2228,143 +4307,159 @@ function __c28(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(128, __c4, 0)),
-          tags: S.optional(__S(992, __c31, 0)),
+          systemData: S.optional(__S(736, __c23, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          identity: S.optional(__S(1009, __c31, 17)),
-          properties: __S(1010, __c31, 18),
+          identity: S.optional(__S(259, __c8, 3)),
+          properties: __S(301, __c9, 13),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "ExperimentsCreateOrUpdateResponse" });
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(96, __c3, 0)));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          userAssignedIdentities: S.optional(__S(928, __c29, 0)),
-        }),
-      ).annotate({ identifier: "ExperimentsCreateOrUpdateRequestIdentity" });
-  }
-}
-function __c30(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c31(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           value: S.String,
         }),
       ).annotate({ identifier: "KeyValuePair" });
-    case 2:
-      return S.Array(__S(993, __c31, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          type: S.String,
-          duration: S.optional(S.String),
-          parameters: S.optional(__S(994, __c31, 2)),
-          selectorId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ChaosExperimentAction" });
-    case 4:
-      return S.Array(__S(995, __c31, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          actions: __S(996, __c31, 4),
-        }),
-      ).annotate({ identifier: "ChaosExperimentBranch" });
-    case 6:
-      return S.Array(__S(997, __c31, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          branches: __S(998, __c31, 6),
-        }),
-      ).annotate({ identifier: "ChaosExperimentStep" });
-    case 8:
-      return S.Array(__S(999, __c31, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          zones: S.optional(__S(960, __c30, 0)),
-        }),
-      ).annotate({ identifier: "ChaosTargetSimpleFilterParameters" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          parameters: S.optional(__S(1001, __c31, 9)),
-        }),
-      ).annotate({ identifier: "ChaosTargetFilter" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          id: S.String,
-        }),
-      ).annotate({ identifier: "TargetReference" });
-    case 12:
-      return S.Array(__S(1003, __c31, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          filter: S.optional(__S(1002, __c31, 10)),
-          targets: S.optional(__S(1004, __c31, 12)),
-          queryString: S.optional(S.String),
-          subscriptionIds: S.optional(__S(960, __c30, 0)),
-        }),
-      ).annotate({ identifier: "ChaosTargetSelector" });
-    case 14:
-      return S.Array(__S(1005, __c31, 13));
-    case 15:
+    case 1:
+      return S.Array(__S(224, __c7, 0));
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           clientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserAssignedIdentity" });
-    case 16:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1007, __c31, 15)));
-    case 17:
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(257, __c8, 1)));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.String,
-          userAssignedIdentities: S.optional(__S(1008, __c31, 16)),
+          userAssignedIdentities: S.optional(__S(258, __c8, 2)),
         }),
       ).annotate({ identifier: "ExperimentsCreateOrUpdateResponseIdentity" });
-    case 18:
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          type: S.String,
+          duration: S.optional(S.String),
+          parameters: S.optional(__S(225, __c7, 1)),
+          selectorId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ChaosExperimentAction" });
+    case 1:
+      return S.Array(__S(288, __c9, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          actions: __S(289, __c9, 1),
+        }),
+      ).annotate({ identifier: "ChaosExperimentBranch" });
+    case 3:
+      return S.Array(__S(290, __c9, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          branches: __S(291, __c9, 3),
+        }),
+      ).annotate({ identifier: "ChaosExperimentStep" });
+    case 5:
+      return S.Array(__S(292, __c9, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          zones: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "ChaosTargetSimpleFilterParameters" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          parameters: S.optional(__S(294, __c9, 6)),
+        }),
+      ).annotate({ identifier: "ChaosTargetFilter" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "TargetReference" });
+    case 9:
+      return S.Array(__S(296, __c9, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          filter: S.optional(__S(295, __c9, 7)),
+          targets: S.optional(__S(297, __c9, 9)),
+          queryString: S.optional(S.String),
+          subscriptionIds: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "ChaosTargetSelector" });
+    case 11:
+      return S.Array(__S(298, __c9, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          storageAccountResourceId: S.optional(S.String),
+          blobContainerName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomerDataStorageProperties" });
+    case 13:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          steps: __S(1000, __c31, 8),
-          selectors: __S(1006, __c31, 14),
+          steps: __S(293, __c9, 5),
+          selectors: __S(299, __c9, 11),
+          customerDataStorage: S.optional(__S(300, __c9, 12)),
         }),
       ).annotate({ identifier: "ExperimentProperties" });
   }
 }
-function __c32(j: number): any {
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(768, __c24, 0)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          userAssignedIdentities: S.optional(__S(320, __c10, 0)),
+        }),
+      ).annotate({ identifier: "ExperimentsCreateOrUpdateRequestIdentity" });
+  }
+}
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2378,7 +4473,7 @@ function __c32(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions/{executionId}/getExecutionDetails",
             code: 200,
-            apiVersion: "2025-01-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ExperimentsExecutionDetailsRequest" });
@@ -2396,11 +4491,11 @@ function __c32(j: number): any {
           target: S.optional(S.String),
           targetFailedTime: S.optional(S.String),
           targetCompletedTime: S.optional(S.String),
-          error: S.optional(__S(1025, __c32, 1)),
+          error: S.optional(__S(353, __c11, 1)),
         }),
       ).annotate({ identifier: "ExperimentExecutionActionTargetDetailsProperties" });
     case 3:
-      return S.Array(__S(1026, __c32, 2));
+      return S.Array(__S(354, __c11, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2409,37 +4504,37 @@ function __c32(j: number): any {
           status: S.optional(S.String),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          targets: S.optional(__S(1027, __c32, 3)),
+          targets: S.optional(__S(355, __c11, 3)),
         }),
       ).annotate({ identifier: "ActionStatus" });
     case 5:
-      return S.Array(__S(1028, __c32, 4));
+      return S.Array(__S(356, __c11, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           branchName: S.optional(S.String),
           branchId: S.optional(S.String),
           status: S.optional(S.String),
-          actions: S.optional(__S(1029, __c32, 5)),
+          actions: S.optional(__S(357, __c11, 5)),
         }),
       ).annotate({ identifier: "BranchStatus" });
     case 7:
-      return S.Array(__S(1030, __c32, 6));
+      return S.Array(__S(358, __c11, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           stepName: S.optional(S.String),
           stepId: S.optional(S.String),
           status: S.optional(S.String),
-          branches: S.optional(__S(1031, __c32, 7)),
+          branches: S.optional(__S(359, __c11, 7)),
         }),
       ).annotate({ identifier: "StepStatus" });
     case 9:
-      return S.Array(__S(1032, __c32, 8));
+      return S.Array(__S(360, __c11, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          steps: S.optional(__S(1033, __c32, 9)),
+          steps: S.optional(__S(361, __c11, 9)),
         }),
       ).annotate({ identifier: "ExperimentExecutionDetailsPropertiesRunInformation" });
     case 11:
@@ -2448,9 +4543,10 @@ function __c32(j: number): any {
           status: S.optional(S.String),
           startedAt: S.optional(S.String),
           stoppedAt: S.optional(S.String),
+          provisioningState: S.optional(S.String),
           failureReason: S.optional(S.String),
           lastActionAt: S.optional(S.String),
-          runInformation: S.optional(__S(1034, __c32, 10)),
+          runInformation: S.optional(__S(362, __c11, 10)),
         }),
       ).annotate({ identifier: "ExperimentExecutionDetailsProperties" });
     case 12:
@@ -2459,12 +4555,88 @@ function __c32(j: number): any {
           type: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          properties: S.optional(__S(1035, __c32, 11)),
+          properties: S.optional(__S(363, __c11, 11)),
         }),
       ).annotate({ identifier: "ExperimentExecutionDetails" });
   }
 }
-function __c33(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+          actionName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/actions/{actionName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetActionRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          targetType: S.optional(S.String),
+          requiredPermissions: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "ActionSupportedTargetType" });
+    case 1:
+      return S.Array(__S(416, __c13, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          canonicalId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          actionName: S.optional(S.String),
+          version: S.optional(S.String),
+          actionType: S.optional(S.String),
+          supportedTargetTypes: S.optional(__S(417, __c13, 1)),
+          parametersSchema: S.optional(S.Unknown),
+          recommendedRoles: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "ActionProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: __S(418, __c13, 2),
+        }),
+      ).annotate({ identifier: "GetActionResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+          actionName: S.String.pipe(T.Label()),
+          versionName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/actions/{actionName}/versions/{versionName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetActionVersionRequest" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2481,13 +4653,13 @@ function __c33(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}/capabilities/{capabilityName}",
             code: 200,
-            apiVersion: "2025-01-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetCapabilityRequest" });
   }
 }
-function __c34(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2501,13 +4673,13 @@ function __c34(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes/{targetTypeName}/capabilityTypes/{capabilityTypeName}",
             code: 200,
-            apiVersion: "2025-01-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetCapabilityTypeRequest" });
   }
 }
-function __c35(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2525,10 +4697,10 @@ function __c35(j: number): any {
           parametersSchema: S.optional(S.String),
           urn: S.optional(S.String),
           kind: S.optional(S.String),
-          azureRbacActions: S.optional(__S(960, __c30, 0)),
-          azureRbacDataActions: S.optional(__S(960, __c30, 0)),
-          requiredAzureRoleDefinitionIds: S.optional(__S(960, __c30, 0)),
-          runtimeProperties: S.optional(__S(1120, __c35, 0)),
+          azureRbacActions: S.optional(__S(192, __c6, 0)),
+          azureRbacDataActions: S.optional(__S(192, __c6, 0)),
+          requiredAzureRoleDefinitionIds: S.optional(__S(192, __c6, 0)),
+          runtimeProperties: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "CapabilityTypeProperties" });
     case 2:
@@ -2537,13 +4709,150 @@ function __c35(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(128, __c4, 0)),
-          properties: S.optional(__S(1121, __c35, 1)),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "GetCapabilityTypeResponse" });
   }
 }
-function __c36(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          connectionName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/connections/{connectionName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetConnectionRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          discoveredResourceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/discoveredResources/{discoveredResourceName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetDiscoveredResourceRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String,
+          resourceName: S.String,
+          resourceType: S.String,
+          fullyQualifiedIdentifier: S.String,
+          discoveredAt: S.String,
+          scope: S.String,
+          location: S.optional(S.String),
+          zones: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "DiscoveredResourceProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(640, __c20, 0)),
+        }),
+      ).annotate({ identifier: "GetDiscoveredResourceResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          parentProviderNamespace: S.String.pipe(T.Label()),
+          parentResourceType: S.String.pipe(T.Label()),
+          parentResourceName: S.String.pipe(T.Label()),
+          targetName: S.String.pipe(T.Label()),
+          capabilityName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(768, __c24, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}/capabilities/{capabilityName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "CapabilitiesCreateOrUpdateRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          publisher: S.optional(S.String),
+          targetType: S.optional(S.String),
+          description: S.optional(S.String),
+          parametersSchema: S.optional(S.String),
+          urn: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CapabilityProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(704, __c22, 0)),
+        }),
+      ).annotate({ identifier: "CapabilitiesCreateOrUpdateResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdBy: S.optional(S.String),
+          createdByType: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedByType: S.optional(S.String),
+          lastModifiedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SystemData" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CapabilityPropertiesInput" });
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2556,13 +4865,13 @@ function __c36(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
             code: 200,
-            apiVersion: "2025-01-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetExperimentRequest" });
   }
 }
-function __c37(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2570,13 +4879,2096 @@ function __c37(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(128, __c4, 0)),
-          tags: S.optional(__S(992, __c31, 0)),
+          systemData: S.optional(__S(736, __c23, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          identity: S.optional(__S(1009, __c31, 17)),
-          properties: __S(1010, __c31, 18),
+          identity: S.optional(__S(259, __c8, 3)),
+          properties: __S(301, __c9, 13),
         }),
       ).annotate({ identifier: "GetExperimentResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          experimentName: S.String.pipe(T.Label()),
+          executionId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions/{executionId}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetExperimentExecutionRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          startedAt: S.optional(S.String),
+          stoppedAt: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExperimentExecutionProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(896, __c28, 0)),
+        }),
+      ).annotate({ identifier: "GetExperimentExecutionResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+          operationId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/operationStatuses/{operationId}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetOperationStatusRequest" });
+    case 1:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(930, __c29, 2)));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          resourceId: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.String,
+          percentComplete: S.optional(S.Number),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          operations: S.optional(__S(929, __c29, 1)),
+          error: S.optional(__S(963, __c30, 3)),
+        }),
+      ).annotate({ identifier: "OperationStatusResult" });
+    case 3:
+      return S.Array(__S(930, __c29, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          resourceId: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.String,
+          percentComplete: S.optional(S.Number),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          operations: S.optional(__S(931, __c29, 3)),
+          error: S.optional(__S(963, __c30, 3)),
+        }),
+      ).annotate({ identifier: "GetOperationStatusResponse" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(963, __c30, 3)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          info: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ErrorAdditionalInfo" });
+    case 2:
+      return S.Array(__S(961, __c30, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          target: S.optional(S.String),
+          details: S.optional(__S(960, __c30, 0)),
+          additionalInfo: S.optional(__S(962, __c30, 2)),
+        }),
+      ).annotate({ identifier: "ErrorDetail" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+          scenarioConfigurationName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations/{scenarioConfigurationName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetScenarioConfigurationRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(1058, __c33, 2)),
+        }),
+      ).annotate({ identifier: "GetScenarioConfigurationResponse" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          locations: S.optional(__S(192, __c6, 0)),
+          zones: S.optional(__S(192, __c6, 0)),
+          physicalZones: S.optional(__S(192, __c6, 0)),
+          types: S.optional(__S(192, __c6, 0)),
+          tags: S.optional(__S(225, __c7, 1)),
+          resources: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "ResourceTargetingCriteria" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          include: S.optional(__S(1056, __c33, 0)),
+          exclude: S.optional(__S(1056, __c33, 0)),
+        }),
+      ).annotate({ identifier: "ResourceTargeting" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          scenarioId: S.String,
+          parameters: S.optional(__S(225, __c7, 1)),
+          provisioningState: S.optional(S.String),
+          resourceTargeting: S.optional(__S(1057, __c33, 1)),
+        }),
+      ).annotate({ identifier: "ScenarioConfigurationProperties" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+          runId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/runs/{runId}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetScenarioRunRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(1175, __c36, 23)),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "GetScenarioRunResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          errorCode: S.String,
+          errorMessage: S.String,
+        }),
+      ).annotate({ identifier: "OperationError" });
+    case 1:
+      return S.Array(__S(1120, __c35, 0));
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "ScenarioRunResource" });
+    case 1:
+      return S.Array(__S(1152, __c36, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+          target: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScenarioRunWarningDetail" });
+    case 3:
+      return S.Array(__S(1154, __c36, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+          details: S.optional(__S(1155, __c36, 3)),
+        }),
+      ).annotate({ identifier: "ScenarioRunWarning" });
+    case 5:
+      return S.Array(__S(1156, __c36, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          objectId: S.String,
+          tenantId: S.String,
+        }),
+      ).annotate({ identifier: "EntraIdentity" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.String,
+          missingPermissions: __S(192, __c6, 0),
+          requiredPermissions: __S(192, __c6, 0),
+          recommendedRoles: __S(192, __c6, 0),
+          identity: S.optional(__S(1158, __c36, 6)),
+          errorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PermissionError" });
+    case 8:
+      return S.Array(__S(1159, __c36, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.String,
+          errorCode: S.String,
+          errorMessage: S.String,
+          remediationUri: S.String,
+        }),
+      ).annotate({ identifier: "ResourceStateError" });
+    case 10:
+      return S.Array(__S(1161, __c36, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          errorCode: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          permission: __S(1160, __c36, 8),
+          resource: __S(1162, __c36, 10),
+        }),
+      ).annotate({ identifier: "ScenarioErrors" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          state: S.String,
+          startedAt: S.optional(S.String),
+          completedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScenarioRunEffectiveTarget" });
+    case 13:
+      return S.Array(__S(1164, __c36, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          affectedResources: S.optional(__S(1165, __c36, 13)),
+        }),
+      ).annotate({ identifier: "ScenarioRunSummaryResource" });
+    case 15:
+      return S.Array(__S(1166, __c36, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          resources: __S(1167, __c36, 15),
+          actionUrn: S.String,
+          state: S.String,
+          startedAt: S.optional(S.String),
+          completedAt: S.optional(S.String),
+          error: S.optional(__S(1156, __c36, 4)),
+          failureSuppressed: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ScenarioRunSummaryAction" });
+    case 17:
+      return S.Array(__S(1168, __c36, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          physicalZone: S.String,
+          logicalZone: S.String,
+        }),
+      ).annotate({ identifier: "PhysicalToLogicalZoneMapping" });
+    case 19:
+      return S.Array(__S(1170, __c36, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String,
+          zoneMappings: __S(1171, __c36, 19),
+        }),
+      ).annotate({ identifier: "ZoneResolutionMapping" });
+    case 21:
+      return S.Array(__S(1172, __c36, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.String,
+          requestedPhysicalZones: __S(192, __c6, 0),
+          subscriptionZoneMappings: __S(1173, __c36, 21),
+        }),
+      ).annotate({ identifier: "ZoneResolutionInfo" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          workspaceName: S.String,
+          scenarioName: S.String,
+          scenarioConfigurationName: S.String,
+          managedIdentityPrincipalId: S.String,
+          resourceSnapshotId: S.optional(S.String),
+          status: S.String,
+          resources: __S(1153, __c36, 1),
+          excludedResources: S.optional(__S(1153, __c36, 1)),
+          errors: S.optional(__S(1121, __c35, 1)),
+          warnings: S.optional(__S(1157, __c36, 5)),
+          executionErrors: S.optional(__S(1163, __c36, 11)),
+          scenarioRunJson: S.optional(S.String),
+          scenarioRunSummary: S.optional(__S(1169, __c36, 17)),
+          startTime: S.String,
+          endTime: S.optional(S.String),
+          zoneResolution: S.optional(__S(1174, __c36, 22)),
+        }),
+      ).annotate({ identifier: "ScenarioRunProperties" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetScenariosRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          formatType: S.optional(S.String),
+          examples: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "ScenarioParameterFormat" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          type: S.String,
+          default: S.optional(S.String),
+          required: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          format: S.optional(__S(1216, __c38, 0)),
+        }),
+      ).annotate({ identifier: "ScenarioParameter" });
+    case 2:
+      return S.Array(__S(1217, __c38, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "ScenarioActionSelector" });
+    case 4:
+      return S.Array(__S(1219, __c38, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          onActionLifecycle: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ActionDependency" });
+    case 6:
+      return S.Array(__S(1221, __c38, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          behavior: S.optional(S.String),
+          items: __S(1222, __c38, 6),
+        }),
+      ).annotate({ identifier: "RunAfter" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExternalResource" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          actionId: S.String,
+          description: S.optional(S.String),
+          duration: S.String,
+          parameters: S.optional(__S(225, __c7, 1)),
+          selectors: S.optional(__S(1220, __c38, 4)),
+          runAfter: S.optional(__S(1223, __c38, 7)),
+          waitBefore: S.optional(S.String),
+          timeout: S.optional(S.String),
+          externalResource: S.optional(__S(1224, __c38, 8)),
+          failureBehavior: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScenarioAction" });
+    case 10:
+      return S.Array(__S(1225, __c38, 9));
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recommendationStatus: S.String,
+          evaluationRunAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Recommendation" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          createdFrom: S.optional(S.String),
+          version: S.optional(S.String),
+          description: S.optional(S.String),
+          parameters: S.optional(__S(1218, __c38, 2)),
+          actions: S.optional(__S(1226, __c38, 10)),
+          failureBehavior: S.optional(S.String),
+          recommendation: S.optional(__S(1248, __c39, 0)),
+        }),
+      ).annotate({ identifier: "ScenarioProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(1249, __c39, 1)),
+        }),
+      ).annotate({ identifier: "GetScenariosResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scenarioTemplateName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/providers/Microsoft.Chaos/scenarioTemplates/{scenarioTemplateName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetScenarioTemplateRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          latestVersion: S.String,
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          parameters: S.optional(__S(1218, __c38, 2)),
+          actions: __S(1226, __c38, 10),
+          failureBehavior: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScenarioTemplateProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: __S(1312, __c41, 0),
+        }),
+      ).annotate({ identifier: "GetScenarioTemplateResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scenarioTemplateName: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/providers/Microsoft.Chaos/scenarioTemplates/{scenarioTemplateName}/versions/{version}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetScenarioTemplateVersionRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          parameters: S.optional(__S(1218, __c38, 2)),
+          actions: __S(1226, __c38, 10),
+          failureBehavior: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScenarioTemplateVersionProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: __S(1376, __c43, 0),
+        }),
+      ).annotate({ identifier: "GetScenarioTemplateVersionResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          parentProviderNamespace: S.String.pipe(T.Label()),
+          parentResourceType: S.String.pipe(T.Label()),
+          parentResourceName: S.String.pipe(T.Label()),
+          targetName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetTargetRequest" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: __S(1440, __c45, 0),
+          location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetTargetResponse" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+          targetTypeName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes/{targetTypeName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetTargetTypeRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          propertiesSchema: S.optional(S.String),
+          resourceTypes: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "TargetTypeProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: __S(1504, __c47, 0),
+        }),
+      ).annotate({ identifier: "GetTargetTypeResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          targetResourceId: S.String,
+          principalId: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          certificateSubjectName: S.optional(S.String),
+          certificateIssuer: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          connectionName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(1536, __c48, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/connections/{connectionName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ConnectionsCreateOrUpdateRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          targetResourceId: S.String,
+          principalId: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          certificateSubjectName: S.optional(S.String),
+          certificateIssuer: S.optional(S.String),
+          dataPlaneEndpoint: S.optional(S.String),
+          status: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(1568, __c49, 0)),
+        }),
+      ).annotate({ identifier: "ConnectionsCreateOrUpdateResponse" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetWorkspaceRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          identity: S.optional(__S(259, __c8, 3)),
+          properties: __S(1670, __c52, 6),
+        }),
+      ).annotate({ identifier: "GetWorkspaceResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          keyEncryptionKeyUrl: S.String,
+          keyVaultResourceId: S.String,
+        }),
+      ).annotate({ identifier: "WorkspaceCustomerManagedKeyEncryption" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          applicationId: S.String,
+        }),
+      ).annotate({ identifier: "WorkspaceCustomerManagedKeyOnboarding" });
+    case 2:
+      return S.Array(__S(963, __c30, 3));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          target: S.optional(S.String),
+          details: S.optional(__S(1666, __c52, 2)),
+          additionalInfo: S.optional(__S(962, __c30, 2)),
+        }),
+      ).annotate({ identifier: "WorkspaceEncryptionStatusError" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.String,
+          observedProtection: S.optional(S.String),
+          observedKeyEncryptionKeyUrl: S.optional(S.String),
+          lastCheckedAt: S.optional(S.String),
+          error: S.optional(__S(1667, __c52, 3)),
+        }),
+      ).annotate({ identifier: "WorkspaceEncryptionStatus" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          customerManagedKeyEncryption: S.optional(__S(1664, __c52, 0)),
+          customerManagedKeyOnboarding: S.optional(__S(1665, __c52, 1)),
+          status: S.optional(__S(1668, __c52, 4)),
+        }),
+      ).annotate({ identifier: "WorkspaceEncryption" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          scopes: __S(192, __c6, 0),
+          encryption: S.optional(__S(1669, __c52, 5)),
+        }),
+      ).annotate({ identifier: "WorkspaceProperties" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          discoveryName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/discoveries/{discoveryName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetWorkspaceDiscoveryRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(1765, __c55, 5)),
+        }),
+      ).annotate({ identifier: "GetWorkspaceDiscoveryResponse" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          totalCount: S.Number,
+          knownExpectedSetCount: S.Number,
+          unknownExpectedSetCount: S.Number,
+          establishedCount: S.Number,
+          baselineUnknownCount: S.Number,
+          verificationIncompleteCount: S.Number,
+          knownPartialCount: S.Number,
+        }),
+      ).annotate({ identifier: "WorkspaceDiscoveryScopeCoverageSummary" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          expectedCount: S.Number,
+          classifiedCount: S.Number,
+          unclassifiedCount: S.Number,
+          coveredCount: S.Number,
+        }),
+      ).annotate({ identifier: "WorkspaceDiscoveryResourceCoverageSummary" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          scopes: __S(1760, __c55, 0),
+          resources: S.optional(__S(1761, __c55, 1)),
+        }),
+      ).annotate({ identifier: "WorkspaceDiscoveryCoverageSummary" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          scopeId: S.String,
+          scopeKind: S.String,
+          reason: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "WorkspaceDiscoveryWarning" });
+    case 4:
+      return S.Array(__S(1763, __c55, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          errors: S.optional(__S(1121, __c35, 1)),
+          workspaceId: S.String,
+          resourceSnapshotId: S.optional(S.String),
+          completeness: S.optional(S.String),
+          coverageSummary: S.optional(__S(1762, __c55, 2)),
+          warnings: S.optional(__S(1764, __c55, 4)),
+          warningsTotalCount: S.optional(S.Number),
+          warningsTruncated: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "WorkspaceDiscoveryProperties" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          evaluationName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/evaluations/{evaluationName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetWorkspaceEvaluationRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(1858, __c58, 2)),
+        }),
+      ).annotate({ identifier: "GetWorkspaceEvaluationResponse" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          templateId: S.String,
+          templateName: S.String,
+          evaluationResult: S.String,
+        }),
+      ).annotate({ identifier: "TemplateEvaluationResultItem" });
+    case 1:
+      return S.Array(__S(1856, __c58, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          errors: S.optional(__S(1121, __c35, 1)),
+          workspaceId: S.String,
+          resourceSnapshotId: S.String,
+          discoveryResultId: S.String,
+          numTemplatesToEvaluate: S.Number,
+          numTemplatesEvaluatedSucceeded: S.Number,
+          numTemplatesEvaluatedFailed: S.Number,
+          numTemplatesEvaluatedCancelled: S.Number,
+          results: S.optional(__S(1857, __c58, 1)),
+        }),
+      ).annotate({ identifier: "WorkspaceEvaluationProperties" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+          continuationToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/actions",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListActionsRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(419, __c13, 3));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(1920, __c60, 0),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ActionListResult" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+          actionName: S.String.pipe(T.Label()),
+          continuationToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/actions/{actionName}/versions",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListActionVersionsRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          parentProviderNamespace: S.String.pipe(T.Label()),
+          parentResourceType: S.String.pipe(T.Label()),
+          parentResourceName: S.String.pipe(T.Label()),
+          targetName: S.String.pipe(T.Label()),
+          continuationToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}/capabilities",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListCapabilitiesRequest" });
+    case 1:
+      return S.Array(__S(705, __c22, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(1985, __c62, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CapabilityListResult" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+          targetTypeName: S.String.pipe(T.Label()),
+          continuationToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes/{targetTypeName}/capabilityTypes",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListCapabilityTypesRequest" });
+    case 1:
+      return S.Array(__S(546, __c17, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2017, __c63, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CapabilityTypeListResult" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/connections",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListConnectionAllRequest" });
+    case 1:
+      return S.Array(__S(1569, __c49, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2049, __c64, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionListResult" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/discoveredResources",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListDiscoveredResourceByWorkspaceRequest" });
+    case 1:
+      return S.Array(__S(641, __c20, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2081, __c65, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiscoveredResourceListResult" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          running: S.optional(S.Boolean.pipe(T.Query())),
+          continuationToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/experiments",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListExperimentAllRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(832, __c26, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2144, __c67, 0),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExperimentListResult" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          parentProviderNamespace: S.String.pipe(T.Label()),
+          parentResourceType: S.String.pipe(T.Label()),
+          parentResourceName: S.String.pipe(T.Label()),
+          targetName: S.String.pipe(T.Label()),
+          capabilityName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}/capabilities/{capabilityName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteCapabilityRequest" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          experimentName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListExperimentAllExecutionsRequest" });
+    case 1:
+      return S.Array(__S(897, __c28, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2209, __c69, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExperimentExecutionListResult" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          running: S.optional(S.Boolean.pipe(T.Query())),
+          continuationToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListExperimentsRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/providers/Microsoft.Chaos/operations",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListOperationAllRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.optional(S.String),
+          resource: S.optional(S.String),
+          operation: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OperationDisplay" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          isDataAction: S.optional(S.Boolean),
+          display: S.optional(__S(2273, __c71, 1)),
+          origin: S.optional(S.String),
+          actionType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Operation" });
+    case 3:
+      return S.Array(__S(2274, __c71, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(2275, __c71, 3)),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListOperationAllResponse" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListScenarioConfigurationAllRequest" });
+    case 1:
+      return S.Array(__S(1024, __c32, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2305, __c72, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScenarioConfigurationListResult" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/runs",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListScenarioRunAllRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(1175, __c36, 23)),
+        }),
+      ).annotate({ identifier: "ScenarioRun" });
+    case 2:
+      return S.Array(__S(2337, __c73, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2338, __c73, 2),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScenarioRunListResult" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListScenariosAllRequest" });
+    case 1:
+      return S.Array(__S(1250, __c39, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2369, __c74, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScenarioListResult" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/providers/Microsoft.Chaos/scenarioTemplates",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListScenarioTemplatesRequest" });
+    case 1:
+      return S.Array(__S(1313, __c41, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2401, __c75, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScenarioTemplateListResult" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scenarioTemplateName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/providers/Microsoft.Chaos/scenarioTemplates/{scenarioTemplateName}/versions",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListScenarioTemplateVersionsRequest" });
+    case 1:
+      return S.Array(__S(1377, __c43, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2433, __c76, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScenarioTemplateVersionListResult" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          parentProviderNamespace: S.String.pipe(T.Label()),
+          parentResourceType: S.String.pipe(T.Label()),
+          parentResourceName: S.String.pipe(T.Label()),
+          continuationToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListTargetsRequest" });
+    case 1:
+      return S.Array(__S(1441, __c45, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2465, __c77, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TargetListResult" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+          continuationToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListTargetTypesRequest" });
+    case 1:
+      return S.Array(__S(1505, __c47, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2497, __c78, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TargetTypeListResult" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          connectionName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/connections/{connectionName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteConnectionRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          continuationToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/workspaces",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListWorkspaceAllRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1632, __c51, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2592, __c81, 0),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkspaceListResult" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          continuationToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/discoveries",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListWorkspaceDiscoveriesRequest" });
+    case 1:
+      return S.Array(__S(1728, __c54, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2625, __c82, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkspaceDiscoveryListResult" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          continuationToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/evaluations",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListWorkspaceEvaluationsRequest" });
+    case 1:
+      return S.Array(__S(1824, __c57, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2657, __c83, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkspaceEvaluationListResult" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          continuationToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListWorkspacesRequest" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scenarioId: S.String,
+          parameters: S.optional(__S(225, __c7, 1)),
+          resourceTargeting: S.optional(__S(1057, __c33, 1)),
+        }),
+      ).annotate({ identifier: "ScenarioConfigurationPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+          scenarioConfigurationName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(2720, __c85, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations/{scenarioConfigurationName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ScenarioConfigurationsCreateOrUpdateRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(1058, __c33, 2)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "ScenarioConfigurationsCreateOrUpdateResponse" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+          scenarioConfigurationName: S.String.pipe(T.Label()),
+          whatIf: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations/{scenarioConfigurationName}/fixResourcePermissions",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ScenarioConfigurationsFixResourcePermissionsRequest" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdFrom: S.optional(S.String),
+          version: S.optional(S.String),
+          description: S.optional(S.String),
+          parameters: S.optional(__S(1218, __c38, 2)),
+          actions: S.optional(__S(1226, __c38, 10)),
+          failureBehavior: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScenarioPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(2784, __c87, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ScenariosCreateOrUpdateRequest" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          experimentName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/start",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "StartExperimentRequest" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          parentProviderNamespace: S.String.pipe(T.Label()),
+          parentResourceType: S.String.pipe(T.Label()),
+          parentResourceName: S.String.pipe(T.Label()),
+          targetName: S.String.pipe(T.Label()),
+          properties: __S(1440, __c45, 0),
+          location: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "TargetsCreateOrUpdateRequest" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          experimentName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(256, __c8, 0)),
+          identity: S.optional(__S(321, __c10, 1)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateExperimentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          identity: S.optional(__S(259, __c8, 3)),
+          properties: __S(301, __c9, 13),
+          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "UpdateExperimentResponse" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          experimentName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteExperimentRequest" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          keyEncryptionKeyUrl: S.optional(S.NullOr(S.String)),
+          keyVaultResourceId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({
+        identifier: "WorkspaceCustomerManagedKeyEncryptionPatchMergePatchUpdateOrCreate",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          customerManagedKeyEncryption: S.optional(S.NullOr(__S(2944, __c92, 0))),
+        }),
+      ).annotate({ identifier: "WorkspaceEncryptionPatchMergePatchUpdateOrCreate" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          encryption: S.optional(S.NullOr(__S(2945, __c92, 1))),
+        }),
+      ).annotate({ identifier: "WorkspaceUpdateProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(256, __c8, 0)),
+          identity: S.optional(__S(321, __c10, 1)),
+          properties: S.optional(__S(2946, __c92, 2)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateWorkspaceRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          identity: S.optional(__S(259, __c8, 3)),
+          properties: __S(1670, __c52, 6),
+          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "UpdateWorkspaceResponse" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+          scenarioConfigurationName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations/{scenarioConfigurationName}/validate",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ValidateScenarioConfigurationRequest" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customerManagedKeyEncryption: S.optional(__S(1664, __c52, 0)),
+        }),
+      ).annotate({ identifier: "WorkspaceEncryptionInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          scopes: __S(192, __c6, 0),
+          encryption: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "WorkspacePropertiesInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          identity: S.optional(__S(321, __c10, 1)),
+          properties: __S(3009, __c94, 1),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "WorkspacesCreateOrUpdateRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          identity: S.optional(__S(259, __c8, 3)),
+          properties: __S(1670, __c52, 6),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "WorkspacesCreateOrUpdateResponse" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/discover",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "WorkspacesDiscoverRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(1765, __c55, 5)),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "WorkspacesDiscoverResponse" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/evaluate",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "WorkspacesEvaluateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(736, __c23, 0)),
+          properties: S.optional(__S(1858, __c58, 2)),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "WorkspacesEvaluateResponse" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+          scenarioConfigurationName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations/{scenarioConfigurationName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteScenarioConfigurationRequest" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          scenarioName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteScenariosRequest" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          parentProviderNamespace: S.String.pipe(T.Label()),
+          parentResourceType: S.String.pipe(T.Label()),
+          parentResourceName: S.String.pipe(T.Label()),
+          targetName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteTargetRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

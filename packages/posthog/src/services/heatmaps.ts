@@ -56,38 +56,42 @@ export interface GetHeatmapsEventRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** How to aggregate counts: 'total_count' (every interaction, default) or 'unique_visitors' (distinct people). * `unique_visitors` - unique_visitors * `total_count` - total_count */
-  aggregation?: GetHeatmapsEventRequestAggregation | (string & {});
+  aggregation?: GetHeatmapsEventRequestAggregation | (string & {}) | undefined;
   /** JSON array of cohort IDs (e.g. '[123, 456]') to restrict results to people in those cohorts. Feature-flagged; ignored when the cohort filter is not enabled for the caller. */
-  cohort_ids?: string;
+  cohort_ids?: string | undefined;
   /** Start of the window. Relative (e.g. '-7d', '-30d', '-1mStart') or an absolute 'YYYY-MM-DD' date. Defaults to '-7d'. Heatmap data is retained for 90 days. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** End of the window, inclusive. Relative or absolute 'YYYY-MM-DD'. Defaults to today. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** JSON array of event filters (e.g. '[{"id": "purchase", "properties": []}]') to restrict results to sessions in which those events occurred. Each entry needs a string 'id' (the event name) and may carry a 'properties' array of property filters applied to that event, each of type 'event' or 'element'. Several entries are combined with AND: the session must contain a matching event for every entry. At most 10 entries, each with at most 20 property filters. Requires project-wide heatmap access, since the filter reads the project's events rather than one saved heatmap. Feature-flagged; ignored when the event filter is not enabled for the caller. */
-  events?: string;
+  events?: string | undefined;
   /** When true, exclude sessions from internal/test accounts using the project's test-account filters. */
-  filter_test_accounts?: boolean;
+  filter_test_accounts?: boolean | undefined;
   /** When true (default), drop interactions recorded at the (0, 0) origin, which are usually noise. */
-  hide_zero_coordinates?: boolean;
+  hide_zero_coordinates?: boolean | undefined;
   /** Maximum interactions to return (1-100). */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of interactions to skip, for pagination. */
-  offset?: number;
+  offset?: number | undefined;
   /** JSON array of the heatmap coordinates to drill into, e.g. '[{"x": 0.5, "y": 100}]'. Each point needs 'x' (relative x, 0..1) and 'y' (absolute client-y pixels) matching values returned by the heatmaps list endpoint; an optional 'target_fixed' boolean matches fixed-position elements. Returns the individual session interactions behind those spots. */
   points: string;
+  /** Inclusive UTC instant. Supply with timestamp_to to override date bounds. */
+  timestamp_from?: string | undefined;
+  /** Exclusive UTC instant. Supply with timestamp_from to override date bounds. */
+  timestamp_to?: string | undefined;
   /** The interaction type to return. One of: 'click' (default), 'rageclick', 'mousemove', or 'scrolldepth'. Scrolldepth returns scroll buckets instead of x/y coordinates. */
-  type?: string;
+  type?: string | undefined;
   /** Match a single page by exact URL (trailing slash is ignored). Mutually exclusive with url_pattern. */
-  url_exact?: string;
+  url_exact?: string | undefined;
   /** Match pages by regex against the full current_url (anchored automatically). Use this to aggregate across query strings or path segments. Mutually exclusive with url_exact. */
-  url_pattern?: string;
+  url_pattern?: string | undefined;
   /** Only include interactions captured at a viewport at most this wide, in CSS pixels. */
-  viewport_width_max?: number;
+  viewport_width_max?: number | undefined;
   /** Only include interactions captured at a viewport at least this wide, in CSS pixels. Use with viewport_width_max to isolate a device class (e.g. 360-768 for mobile). */
-  viewport_width_min?: number;
+  viewport_width_min?: number | undefined;
 }
 export interface HeatmapEventItem {
-  session_id?: string | null;
+  session_id?: string | null | undefined;
   distinct_id: string;
   timestamp: string;
   pointer_relative_x: number;
@@ -106,39 +110,43 @@ export interface ListHeatmapsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** How to aggregate counts: 'total_count' (every interaction, default) or 'unique_visitors' (distinct people). * `unique_visitors` - unique_visitors * `total_count` - total_count */
-  aggregation?: ListHeatmapsRequestAggregation | (string & {});
+  aggregation?: ListHeatmapsRequestAggregation | (string & {}) | undefined;
   /** JSON array of cohort IDs (e.g. '[123, 456]') to restrict results to people in those cohorts. Feature-flagged; ignored when the cohort filter is not enabled for the caller. */
-  cohort_ids?: string;
+  cohort_ids?: string | undefined;
   /** Start of the window. Relative (e.g. '-7d', '-30d', '-1mStart') or an absolute 'YYYY-MM-DD' date. Defaults to '-7d'. Heatmap data is retained for 90 days. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** End of the window, inclusive. Relative or absolute 'YYYY-MM-DD'. Defaults to today. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** JSON array of event filters (e.g. '[{"id": "purchase", "properties": []}]') to restrict results to sessions in which those events occurred. Each entry needs a string 'id' (the event name) and may carry a 'properties' array of property filters applied to that event, each of type 'event' or 'element'. Several entries are combined with AND: the session must contain a matching event for every entry. At most 10 entries, each with at most 20 property filters. Requires project-wide heatmap access, since the filter reads the project's events rather than one saved heatmap. Feature-flagged; ignored when the event filter is not enabled for the caller. */
-  events?: string;
+  events?: string | undefined;
   /** When true, exclude sessions from internal/test accounts using the project's test-account filters. */
-  filter_test_accounts?: boolean;
+  filter_test_accounts?: boolean | undefined;
   /** When true (default), drop interactions recorded at the (0, 0) origin, which are usually noise. */
-  hide_zero_coordinates?: boolean;
+  hide_zero_coordinates?: boolean | undefined;
   /** Maximum number of coordinate points to return, ordered hottest-first by count. Defaults to 500. Pass 0 to fetch the full set (every coordinate) needed to render a complete heatmap overlay. Ignored for the 'scrolldepth' type, which always returns every bucket. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of hottest-first points to skip, for paging through cooler coordinates. Ignored for the 'scrolldepth' type. */
-  offset?: number;
+  offset?: number | undefined;
+  /** Inclusive UTC instant. Supply with timestamp_to to override date bounds. */
+  timestamp_from?: string | undefined;
+  /** Exclusive UTC instant. Supply with timestamp_from to override date bounds. */
+  timestamp_to?: string | undefined;
   /** The interaction type to return. One of: 'click' (default), 'rageclick', 'mousemove', or 'scrolldepth'. Scrolldepth returns scroll buckets instead of x/y coordinates. */
-  type?: string;
+  type?: string | undefined;
   /** Match a single page by exact URL (trailing slash is ignored). Mutually exclusive with url_pattern. */
-  url_exact?: string;
+  url_exact?: string | undefined;
   /** Match pages by regex against the full current_url (anchored automatically). Use this to aggregate across query strings or path segments. Mutually exclusive with url_exact. */
-  url_pattern?: string;
+  url_pattern?: string | undefined;
   /** Only include interactions captured at a viewport at most this wide, in CSS pixels. */
-  viewport_width_max?: number;
+  viewport_width_max?: number | undefined;
   /** Only include interactions captured at a viewport at least this wide, in CSS pixels. Use with viewport_width_max to isolate a device class (e.g. 360-768 for mobile). */
-  viewport_width_min?: number;
+  viewport_width_min?: number | undefined;
 }
 export interface HeatmapResponseItem {
-  count?: number;
-  pointer_y?: number;
-  pointer_relative_x?: number;
-  pointer_target_fixed?: boolean;
+  count?: number | undefined;
+  pointer_y?: number | undefined;
+  pointer_relative_x?: number | undefined;
+  pointer_target_fixed?: boolean | undefined;
 }
 export type HeatmapsResponseResultsList = Array<HeatmapResponseItem>;
 export interface HeatmapFoldSummary {
@@ -152,11 +160,11 @@ export interface HeatmapFoldSummary {
   median_viewport_height: number | null;
 }
 export interface HeatmapsResponse {
-  results?: HeatmapsResponseResultsList;
+  results?: HeatmapsResponseResultsList | undefined;
   /** Above/below-the-fold summary for the returned interactions. Present for click/rageclick/mousemove; omitted for scrolldepth. */
-  fold?: HeatmapFoldSummary | null;
+  fold?: HeatmapFoldSummary | null | undefined;
   /** True when more coordinate points exist beyond the returned page. Raise 'limit' or page with 'offset' to fetch them. Always false for scrolldepth, which returns every bucket. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export type ListHeatmapsResponseBodyList = Array<HeatmapsResponse>;
 export type ListHeatmapsResponse = ListHeatmapsResponseBodyList;
@@ -211,6 +219,8 @@ function __c0(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           points: S.String.pipe(T.Query()),
+          timestamp_from: S.optional(S.String.pipe(T.Query())),
+          timestamp_to: S.optional(S.String.pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
           url_exact: S.optional(S.String.pipe(T.Query())),
           url_pattern: S.optional(S.String.pipe(T.Query())),
@@ -259,6 +269,8 @@ function __c1(j: number): any {
           hide_zero_coordinates: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          timestamp_from: S.optional(S.String.pipe(T.Query())),
+          timestamp_to: S.optional(S.String.pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
           url_exact: S.optional(S.String.pipe(T.Query())),
           url_pattern: S.optional(S.String.pipe(T.Query())),

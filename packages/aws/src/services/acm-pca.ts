@@ -215,32 +215,32 @@ export interface CustomAttribute {
 }
 export type CustomAttributeList = CustomAttribute[];
 export interface ASN1Subject {
-  Country?: string;
-  Organization?: string;
-  OrganizationalUnit?: string;
-  DistinguishedNameQualifier?: string;
-  State?: string;
-  CommonName?: string;
-  SerialNumber?: string;
-  Locality?: string;
-  Title?: string;
-  Surname?: string;
-  GivenName?: string;
-  Initials?: string;
-  Pseudonym?: string;
-  GenerationQualifier?: string;
-  CustomAttributes?: CustomAttribute[];
+  Country?: string | undefined;
+  Organization?: string | undefined;
+  OrganizationalUnit?: string | undefined;
+  DistinguishedNameQualifier?: string | undefined;
+  State?: string | undefined;
+  CommonName?: string | undefined;
+  SerialNumber?: string | undefined;
+  Locality?: string | undefined;
+  Title?: string | undefined;
+  Surname?: string | undefined;
+  GivenName?: string | undefined;
+  Initials?: string | undefined;
+  Pseudonym?: string | undefined;
+  GenerationQualifier?: string | undefined;
+  CustomAttributes?: CustomAttribute[] | undefined;
 }
 export interface KeyUsage {
-  DigitalSignature?: boolean;
-  NonRepudiation?: boolean;
-  KeyEncipherment?: boolean;
-  DataEncipherment?: boolean;
-  KeyAgreement?: boolean;
-  KeyCertSign?: boolean;
-  CRLSign?: boolean;
-  EncipherOnly?: boolean;
-  DecipherOnly?: boolean;
+  DigitalSignature?: boolean | undefined;
+  NonRepudiation?: boolean | undefined;
+  KeyEncipherment?: boolean | undefined;
+  DataEncipherment?: boolean | undefined;
+  KeyAgreement?: boolean | undefined;
+  KeyCertSign?: boolean | undefined;
+  CRLSign?: boolean | undefined;
+  EncipherOnly?: boolean | undefined;
+  DecipherOnly?: boolean | undefined;
 }
 export type AccessMethodType =
   | "CA_REPOSITORY"
@@ -248,8 +248,8 @@ export type AccessMethodType =
   | "RESOURCE_PKI_NOTIFY"
   | (string & {});
 export interface AccessMethod {
-  CustomObjectIdentifier?: string;
-  AccessMethodType?: AccessMethodType;
+  CustomObjectIdentifier?: string | undefined;
+  AccessMethodType?: AccessMethodType | undefined;
 }
 export type String256 = string;
 export interface OtherName {
@@ -259,18 +259,18 @@ export interface OtherName {
 export type String253 = string;
 export interface EdiPartyName {
   PartyName: string;
-  NameAssigner?: string;
+  NameAssigner?: string | undefined;
 }
 export type String39 = string;
 export interface GeneralName {
-  OtherName?: OtherName;
-  Rfc822Name?: string;
-  DnsName?: string;
-  DirectoryName?: ASN1Subject;
-  EdiPartyName?: EdiPartyName;
-  UniformResourceIdentifier?: string;
-  IpAddress?: string;
-  RegisteredId?: string;
+  OtherName?: OtherName | undefined;
+  Rfc822Name?: string | undefined;
+  DnsName?: string | undefined;
+  DirectoryName?: ASN1Subject | undefined;
+  EdiPartyName?: EdiPartyName | undefined;
+  UniformResourceIdentifier?: string | undefined;
+  IpAddress?: string | undefined;
+  RegisteredId?: string | undefined;
 }
 export interface AccessDescription {
   AccessMethod: AccessMethod;
@@ -278,14 +278,14 @@ export interface AccessDescription {
 }
 export type AccessDescriptionList = AccessDescription[];
 export interface CsrExtensions {
-  KeyUsage?: KeyUsage;
-  SubjectInformationAccess?: AccessDescription[];
+  KeyUsage?: KeyUsage | undefined;
+  SubjectInformationAccess?: AccessDescription[] | undefined;
 }
 export interface CertificateAuthorityConfiguration {
   KeyAlgorithm: KeyAlgorithm;
   SigningAlgorithm: SigningAlgorithm;
   Subject: ASN1Subject;
-  CsrExtensions?: CsrExtensions;
+  CsrExtensions?: CsrExtensions | undefined;
 }
 export type Integer1To5000 = number;
 export type CnameString = string;
@@ -298,21 +298,23 @@ export type CrlType = "COMPLETE" | "PARTITIONED" | (string & {});
 export type CrlPathString = string;
 export interface CrlConfiguration {
   Enabled: boolean;
-  ExpirationInDays?: number;
-  CustomCname?: string;
-  S3BucketName?: string;
-  S3ObjectAcl?: S3ObjectAcl;
-  CrlDistributionPointExtensionConfiguration?: CrlDistributionPointExtensionConfiguration;
-  CrlType?: CrlType;
-  CustomPath?: string;
+  ExpirationInDays?: number | undefined;
+  CustomCname?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3ObjectAcl?: S3ObjectAcl | undefined;
+  CrlDistributionPointExtensionConfiguration?:
+    | CrlDistributionPointExtensionConfiguration
+    | undefined;
+  CrlType?: CrlType | undefined;
+  CustomPath?: string | undefined;
 }
 export interface OcspConfiguration {
   Enabled: boolean;
-  OcspCustomCname?: string;
+  OcspCustomCname?: string | undefined;
 }
 export interface RevocationConfiguration {
-  CrlConfiguration?: CrlConfiguration;
-  OcspConfiguration?: OcspConfiguration;
+  CrlConfiguration?: CrlConfiguration | undefined;
+  OcspConfiguration?: OcspConfiguration | undefined;
 }
 export type CertificateAuthorityType = "ROOT" | "SUBORDINATE" | (string & {});
 export type IdempotencyToken = string;
@@ -325,7 +327,7 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export type CertificateAuthorityUsageMode =
@@ -334,16 +336,16 @@ export type CertificateAuthorityUsageMode =
   | (string & {});
 export interface CreateCertificateAuthorityRequest {
   CertificateAuthorityConfiguration: CertificateAuthorityConfiguration;
-  RevocationConfiguration?: RevocationConfiguration;
+  RevocationConfiguration?: RevocationConfiguration | undefined;
   CertificateAuthorityType: CertificateAuthorityType;
-  IdempotencyToken?: string;
-  KeyStorageSecurityStandard?: KeyStorageSecurityStandard;
-  Tags?: Tag[];
-  UsageMode?: CertificateAuthorityUsageMode;
+  IdempotencyToken?: string | undefined;
+  KeyStorageSecurityStandard?: KeyStorageSecurityStandard | undefined;
+  Tags?: Tag[] | undefined;
+  UsageMode?: CertificateAuthorityUsageMode | undefined;
 }
 export type Arn = string;
 export interface CreateCertificateAuthorityResponse {
-  CertificateAuthorityArn?: string;
+  CertificateAuthorityArn?: string | undefined;
 }
 export type S3BucketName = string;
 export type AuditReportResponseFormat = "JSON" | "CSV" | (string & {});
@@ -355,8 +357,8 @@ export interface CreateCertificateAuthorityAuditReportRequest {
 export type AuditReportId = string;
 export type S3Key = string;
 export interface CreateCertificateAuthorityAuditReportResponse {
-  AuditReportId?: string;
-  S3Key?: string;
+  AuditReportId?: string | undefined;
+  S3Key?: string | undefined;
 }
 export type Principal = string;
 export type AccountId = string;
@@ -365,20 +367,20 @@ export type ActionList = ActionType[];
 export interface CreatePermissionRequest {
   CertificateAuthorityArn: string;
   Principal: string;
-  SourceAccount?: string;
+  SourceAccount?: string | undefined;
   Actions: ActionType[];
 }
 export interface CreatePermissionResponse {}
 export type PermanentDeletionTimeInDays = number;
 export interface DeleteCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
-  PermanentDeletionTimeInDays?: number;
+  PermanentDeletionTimeInDays?: number | undefined;
 }
 export interface DeleteCertificateAuthorityResponse {}
 export interface DeletePermissionRequest {
   CertificateAuthorityArn: string;
   Principal: string;
-  SourceAccount?: string;
+  SourceAccount?: string | undefined;
 }
 export interface DeletePermissionResponse {}
 export interface DeletePolicyRequest {
@@ -399,24 +401,24 @@ export type CertificateAuthorityStatus =
   | (string & {});
 export type FailureReason = "REQUEST_TIMED_OUT" | "UNSUPPORTED_ALGORITHM" | "OTHER" | (string & {});
 export interface CertificateAuthority {
-  Arn?: string;
-  OwnerAccount?: string;
-  CreatedAt?: Date;
-  LastStateChangeAt?: Date;
-  Type?: CertificateAuthorityType;
-  Serial?: string;
-  Status?: CertificateAuthorityStatus;
-  NotBefore?: Date;
-  NotAfter?: Date;
-  FailureReason?: FailureReason;
-  CertificateAuthorityConfiguration?: CertificateAuthorityConfiguration;
-  RevocationConfiguration?: RevocationConfiguration;
-  RestorableUntil?: Date;
-  KeyStorageSecurityStandard?: KeyStorageSecurityStandard;
-  UsageMode?: CertificateAuthorityUsageMode;
+  Arn?: string | undefined;
+  OwnerAccount?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastStateChangeAt?: Date | undefined;
+  Type?: CertificateAuthorityType | undefined;
+  Serial?: string | undefined;
+  Status?: CertificateAuthorityStatus | undefined;
+  NotBefore?: Date | undefined;
+  NotAfter?: Date | undefined;
+  FailureReason?: FailureReason | undefined;
+  CertificateAuthorityConfiguration?: CertificateAuthorityConfiguration | undefined;
+  RevocationConfiguration?: RevocationConfiguration | undefined;
+  RestorableUntil?: Date | undefined;
+  KeyStorageSecurityStandard?: KeyStorageSecurityStandard | undefined;
+  UsageMode?: CertificateAuthorityUsageMode | undefined;
 }
 export interface DescribeCertificateAuthorityResponse {
-  CertificateAuthority?: CertificateAuthority;
+  CertificateAuthority?: CertificateAuthority | undefined;
 }
 export interface DescribeCertificateAuthorityAuditReportRequest {
   CertificateAuthorityArn: string;
@@ -424,10 +426,10 @@ export interface DescribeCertificateAuthorityAuditReportRequest {
 }
 export type AuditReportStatus = "CREATING" | "SUCCESS" | "FAILED" | (string & {});
 export interface DescribeCertificateAuthorityAuditReportResponse {
-  AuditReportStatus?: AuditReportStatus;
-  S3BucketName?: string;
-  S3Key?: string;
-  CreatedAt?: Date;
+  AuditReportStatus?: AuditReportStatus | undefined;
+  S3BucketName?: string | undefined;
+  S3Key?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export interface GetCertificateRequest {
   CertificateAuthorityArn: string;
@@ -436,36 +438,36 @@ export interface GetCertificateRequest {
 export type CertificateBody = string;
 export type CertificateChain = string;
 export interface GetCertificateResponse {
-  Certificate?: string;
-  CertificateChain?: string;
+  Certificate?: string | undefined;
+  CertificateChain?: string | undefined;
 }
 export interface GetCertificateAuthorityCertificateRequest {
   CertificateAuthorityArn: string;
 }
 export interface GetCertificateAuthorityCertificateResponse {
-  Certificate?: string;
-  CertificateChain?: string;
+  Certificate?: string | undefined;
+  CertificateChain?: string | undefined;
 }
 export interface GetCertificateAuthorityCsrRequest {
   CertificateAuthorityArn: string;
 }
 export type CsrBody = string;
 export interface GetCertificateAuthorityCsrResponse {
-  Csr?: string;
+  Csr?: string | undefined;
 }
 export interface GetPolicyRequest {
   ResourceArn: string;
 }
 export type AWSPolicy = string;
 export interface GetPolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export type CertificateBodyBlob = Uint8Array;
 export type CertificateChainBlob = Uint8Array;
 export interface ImportCertificateAuthorityCertificateRequest {
   CertificateAuthorityArn: string;
   Certificate: Uint8Array;
-  CertificateChain?: Uint8Array;
+  CertificateChain?: Uint8Array | undefined;
 }
 export interface ImportCertificateAuthorityCertificateResponse {}
 export type PolicyQualifierId = "CPS" | (string & {});
@@ -479,7 +481,7 @@ export interface PolicyQualifierInfo {
 export type PolicyQualifierInfoList = PolicyQualifierInfo[];
 export interface PolicyInformation {
   CertPolicyId: string;
-  PolicyQualifiers?: PolicyQualifierInfo[];
+  PolicyQualifiers?: PolicyQualifierInfo[] | undefined;
 }
 export type CertificatePolicyList = PolicyInformation[];
 export type ExtendedKeyUsageType =
@@ -494,8 +496,8 @@ export type ExtendedKeyUsageType =
   | "CERTIFICATE_TRANSPARENCY"
   | (string & {});
 export interface ExtendedKeyUsage {
-  ExtendedKeyUsageType?: ExtendedKeyUsageType;
-  ExtendedKeyUsageObjectIdentifier?: string;
+  ExtendedKeyUsageType?: ExtendedKeyUsageType | undefined;
+  ExtendedKeyUsageObjectIdentifier?: string | undefined;
 }
 export type ExtendedKeyUsageList = ExtendedKeyUsage[];
 export type GeneralNameList = GeneralName[];
@@ -503,19 +505,19 @@ export type Base64String1To4096 = string;
 export interface CustomExtension {
   ObjectIdentifier: string;
   Value: string;
-  Critical?: boolean;
+  Critical?: boolean | undefined;
 }
 export type CustomExtensionList = CustomExtension[];
 export interface Extensions {
-  CertificatePolicies?: PolicyInformation[];
-  ExtendedKeyUsage?: ExtendedKeyUsage[];
-  KeyUsage?: KeyUsage;
-  SubjectAlternativeNames?: GeneralName[];
-  CustomExtensions?: CustomExtension[];
+  CertificatePolicies?: PolicyInformation[] | undefined;
+  ExtendedKeyUsage?: ExtendedKeyUsage[] | undefined;
+  KeyUsage?: KeyUsage | undefined;
+  SubjectAlternativeNames?: GeneralName[] | undefined;
+  CustomExtensions?: CustomExtension[] | undefined;
 }
 export interface ApiPassthrough {
-  Extensions?: Extensions;
-  Subject?: ASN1Subject;
+  Extensions?: Extensions | undefined;
+  Subject?: ASN1Subject | undefined;
 }
 export type CsrBlob = Uint8Array;
 export type PositiveLong = number;
@@ -531,57 +533,57 @@ export interface Validity {
   Type: ValidityPeriodType;
 }
 export interface IssueCertificateRequest {
-  ApiPassthrough?: ApiPassthrough;
+  ApiPassthrough?: ApiPassthrough | undefined;
   CertificateAuthorityArn: string;
   Csr: Uint8Array;
   SigningAlgorithm: SigningAlgorithm;
-  TemplateArn?: string;
+  TemplateArn?: string | undefined;
   Validity: Validity;
-  ValidityNotBefore?: Validity;
-  IdempotencyToken?: string;
+  ValidityNotBefore?: Validity | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface IssueCertificateResponse {
-  CertificateArn?: string;
+  CertificateArn?: string | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export type ResourceOwner = "SELF" | "OTHER_ACCOUNTS" | (string & {});
 export interface ListCertificateAuthoritiesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ResourceOwner?: ResourceOwner;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ResourceOwner?: ResourceOwner | undefined;
 }
 export type CertificateAuthorities = CertificateAuthority[];
 export interface ListCertificateAuthoritiesResponse {
-  NextToken?: string;
-  CertificateAuthorities?: CertificateAuthority[];
+  NextToken?: string | undefined;
+  CertificateAuthorities?: CertificateAuthority[] | undefined;
 }
 export interface ListPermissionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   CertificateAuthorityArn: string;
 }
 export interface Permission {
-  CertificateAuthorityArn?: string;
-  CreatedAt?: Date;
-  Principal?: string;
-  SourceAccount?: string;
-  Actions?: ActionType[];
-  Policy?: string;
+  CertificateAuthorityArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Principal?: string | undefined;
+  SourceAccount?: string | undefined;
+  Actions?: ActionType[] | undefined;
+  Policy?: string | undefined;
 }
 export type PermissionList = Permission[];
 export interface ListPermissionsResponse {
-  NextToken?: string;
-  Permissions?: Permission[];
+  NextToken?: string | undefined;
+  Permissions?: Permission[] | undefined;
 }
 export interface ListTagsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   CertificateAuthorityArn: string;
 }
 export interface ListTagsResponse {
-  NextToken?: string;
-  Tags?: Tag[];
+  NextToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface PutPolicyRequest {
   ResourceArn: string;
@@ -620,8 +622,8 @@ export interface UntagCertificateAuthorityRequest {
 export interface UntagCertificateAuthorityResponse {}
 export interface UpdateCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
-  RevocationConfiguration?: RevocationConfiguration;
-  Status?: CertificateAuthorityStatus;
+  RevocationConfiguration?: RevocationConfiguration | undefined;
+  Status?: CertificateAuthorityStatus | undefined;
 }
 export interface UpdateCertificateAuthorityResponse {}
 export type CreateCertificateAuthorityError =

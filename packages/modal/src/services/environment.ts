@@ -55,12 +55,12 @@ export class EnvironmentNotFound
 
 /** Environment-scoped settings, with workspace-level defaults. Note that we use MergeFrom to combine workspace / environment settings, which will *append* any `repeated` fields! */
 export interface EnvironmentSettings {
-  imageBuilderVersion?: string;
-  webhookSuffix?: string;
-  maxConcurrentGpus?: number;
-  maxConcurrentTasks?: number;
+  imageBuilderVersion?: string | undefined;
+  webhookSuffix?: string | undefined;
+  maxConcurrentGpus?: number | undefined;
+  maxConcurrentTasks?: number | undefined;
   /** When true, new unauthenticated web functions, Servers, tunnels, and Endpoints in this environment are rejected. Unset inherits the workspace default. */
-  blockUnauthenticatedResources?: boolean;
+  blockUnauthenticatedResources?: boolean | undefined;
 }
 /** Creation-time environment classification. Captures whether an environment is public or administered by Modal. is_managed and machine_generated may be folded in as future values. */
 export type EnvironmentType =
@@ -75,43 +75,43 @@ export type EnvironmentRole =
   | "ENVIRONMENT_ROLE_MODAL_ADMINISTERED_OBSERVER"
   | "ENVIRONMENT_ROLE_CUSTOM";
 export interface CreateEnvironmentRequest {
-  name?: string;
-  isManaged?: boolean;
-  settings?: EnvironmentSettings;
-  environmentType?: EnvironmentType | (string & {});
-  defaultMemberRole?: EnvironmentRole | (string & {});
-  defaultMemberRoleStr?: string;
+  name?: string | undefined;
+  isManaged?: boolean | undefined;
+  settings?: EnvironmentSettings | undefined;
+  environmentType?: EnvironmentType | (string & {}) | undefined;
+  defaultMemberRole?: EnvironmentRole | (string & {}) | undefined;
+  defaultMemberRoleStr?: string | undefined;
 }
 export interface CreateEnvironmentResponse {}
 export interface DeleteEnvironmentRequest {
-  name?: string;
+  name?: string | undefined;
 }
 export interface DeleteEnvironmentResponse {}
 export interface EnvironmentBillingSummaryRequest {
   /** all query intervals are implicitly one month long (to line up with billing cycles) */
-  startTimestamp?: string;
-  environmentId?: string;
+  startTimestamp?: string | undefined;
+  environmentId?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export interface EnvironmentBillingSummaryResponse {
-  startTimestamp?: string;
-  endTimestamp?: string;
+  startTimestamp?: string | undefined;
+  endTimestamp?: string | undefined;
   /** not showing credits, reservations, etc as those are applied at the workspace level */
   meteredCost: string;
   /** keyed by app type (deployed, ephemeral, notebook, endpoint, ...), volume, tokens, network egress */
   meteredCostBreakdown: StringMap;
 }
 export interface EnvironmentGetBudgetRequest {
-  environmentId?: string;
+  environmentId?: string | undefined;
 }
 export interface EnvironmentGetBudgetResponse {
-  cycleBudgetDollars?: number;
+  cycleBudgetDollars?: number | undefined;
   effectiveCycleSpendLimit: number;
   currentCycleUsage: number;
   spendLimitReached: boolean;
 }
 export interface EnvironmentGetManagedRequest {
-  environmentId?: string;
+  environmentId?: string | undefined;
 }
 export type MemberRole =
   | "MEMBER_ROLE_UNSPECIFIED"
@@ -145,20 +145,20 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface EnvironmentGetOrCreateRequest {
-  deploymentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
+  deploymentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
 }
 export interface EnvironmentMetadata {
   name: string;
-  settings?: EnvironmentSettings;
+  settings?: EnvironmentSettings | undefined;
   environmentType: EnvironmentType;
 }
 export interface EnvironmentGetOrCreateResponse {
   environmentId: string;
-  metadata?: EnvironmentMetadata;
+  metadata?: EnvironmentMetadata | undefined;
 }
 export interface EnvironmentGetRolesRequest {
-  environmentId?: string;
+  environmentId?: string | undefined;
 }
 export type StringList = Array<string>;
 /** Workspace custom role. Built-in Viewer and Contributor are not represented here. */
@@ -181,35 +181,35 @@ export interface EnvironmentGetRolesResponsePrincipal {
   /** Built-in role token or custom role name. */
   roleStr: string;
   role: EnvironmentRole;
-  roleDefinition?: EnvironmentRoleDefinition;
+  roleDefinition?: EnvironmentRoleDefinition | undefined;
   choosableRoles: EnvironmentRoleList;
   choosableRoleDefinitions: EnvironmentRoleDefinitionList;
   memberRole: MemberRole;
-  inheritsDefaultMemberRole?: boolean;
-  hasRoleAssignment?: boolean;
+  inheritsDefaultMemberRole?: boolean | undefined;
+  hasRoleAssignment?: boolean | undefined;
 }
 export type EnvironmentGetRolesResponsePrincipalList = Array<EnvironmentGetRolesResponsePrincipal>;
 export interface EnvironmentGetRolesResponse {
   name: string;
   createdAt: number;
   principalRoles: EnvironmentGetRolesResponsePrincipalList;
-  defaultMemberRole?: EnvironmentRole;
+  defaultMemberRole?: EnvironmentRole | undefined;
 }
 export interface EnvironmentSetBudgetRequest {
-  environmentId?: string;
-  cycleBudgetDollars?: number;
-  clearBudget?: boolean;
+  environmentId?: string | undefined;
+  cycleBudgetDollars?: number | undefined;
+  clearBudget?: boolean | undefined;
 }
 export interface EnvironmentSetBudgetResponse {}
 export interface EnvironmentSetDefaultMemberRoleRequest {
-  environmentId?: string;
-  defaultMemberRole?: EnvironmentRole | (string & {});
+  environmentId?: string | undefined;
+  defaultMemberRole?: EnvironmentRole | (string & {}) | undefined;
 }
 export interface EnvironmentSetDefaultMemberRoleResponse {}
 export interface EnvironmentSetManagedRequest {
-  environmentId?: string;
-  managed?: boolean;
-  defaultMemberRole?: EnvironmentRole | (string & {});
+  environmentId?: string | undefined;
+  managed?: boolean | undefined;
+  defaultMemberRole?: EnvironmentRole | (string & {}) | undefined;
 }
 export interface EnvironmentSetManagedResponse {}
 export interface ListEnvironmentRequest {}
@@ -220,36 +220,36 @@ export interface EnvironmentListItem {
   default: boolean;
   isManaged: boolean;
   environmentId: string;
-  maxConcurrentTasks?: number;
-  maxConcurrentGpus?: number;
+  maxConcurrentTasks?: number | undefined;
+  maxConcurrentGpus?: number | undefined;
   currentConcurrentTasks: number;
   currentConcurrentGpus: number;
-  cycleBudgetDollars?: number;
+  cycleBudgetDollars?: number | undefined;
   /** manager-set */
   effectiveCycleSpendLimit: number;
   currentCycleUsage: number;
   spendLimitReached: boolean;
   environmentType: EnvironmentType;
-  defaultMemberRole?: EnvironmentRole;
-  blockUnauthenticatedResources?: boolean;
-  effectiveRole?: EnvironmentRole;
-  imageBuilderVersion?: string;
+  defaultMemberRole?: EnvironmentRole | undefined;
+  blockUnauthenticatedResources?: boolean | undefined;
+  effectiveRole?: EnvironmentRole | undefined;
+  imageBuilderVersion?: string | undefined;
 }
 export type EnvironmentListItemList = Array<EnvironmentListItem>;
 export interface ListEnvironmentResponse {
   items: EnvironmentListItemList;
 }
 export interface SetEnvironmentRoleRequest {
-  environmentId?: string;
-  userId?: string;
-  serviceUserId?: string;
-  role?: EnvironmentRole | (string & {});
-  roleStr?: string;
+  environmentId?: string | undefined;
+  userId?: string | undefined;
+  serviceUserId?: string | undefined;
+  role?: EnvironmentRole | (string & {}) | undefined;
+  roleStr?: string | undefined;
   /** String representation from the CLI; parsed when role is unspecified */
-  serviceUserName?: string;
-  environmentName?: string;
+  serviceUserName?: string | undefined;
+  environmentName?: string | undefined;
   /** Sent by the client when an environment ID is unavailable Custom role (`rd-`). */
-  environmentRoleDefinitionId?: string;
+  environmentRoleDefinitionId?: string | undefined;
 }
 export interface SetEnvironmentRoleResponse {}
 /** Partial-update signal for EnvironmentUpdateRequest. Omitted means no-op. INHERIT clears the environment override so the workspace default applies. */
@@ -259,13 +259,16 @@ export type EnvironmentBlockUnauthenticatedResources =
   | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK"
   | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW";
 export interface UpdateEnvironmentRequest {
-  currentName?: string;
-  name?: string;
-  webSuffix?: string;
-  maxConcurrentTasks?: number;
-  maxConcurrentGpus?: number;
-  blockUnauthenticatedResources?: EnvironmentBlockUnauthenticatedResources | (string & {});
-  imageBuilderVersion?: string;
+  currentName?: string | undefined;
+  name?: string | undefined;
+  webSuffix?: string | undefined;
+  maxConcurrentTasks?: number | undefined;
+  maxConcurrentGpus?: number | undefined;
+  blockUnauthenticatedResources?:
+    | EnvironmentBlockUnauthenticatedResources
+    | (string & {})
+    | undefined;
+  imageBuilderVersion?: string | undefined;
 }
 export interface UpdateEnvironmentResponse {
   name: string;
@@ -274,20 +277,20 @@ export interface UpdateEnvironmentResponse {
   default: boolean;
   isManaged: boolean;
   environmentId: string;
-  maxConcurrentTasks?: number;
-  maxConcurrentGpus?: number;
+  maxConcurrentTasks?: number | undefined;
+  maxConcurrentGpus?: number | undefined;
   currentConcurrentTasks: number;
   currentConcurrentGpus: number;
-  cycleBudgetDollars?: number;
+  cycleBudgetDollars?: number | undefined;
   /** manager-set */
   effectiveCycleSpendLimit: number;
   currentCycleUsage: number;
   spendLimitReached: boolean;
   environmentType: EnvironmentType;
-  defaultMemberRole?: EnvironmentRole;
-  blockUnauthenticatedResources?: boolean;
-  effectiveRole?: EnvironmentRole;
-  imageBuilderVersion?: string;
+  defaultMemberRole?: EnvironmentRole | undefined;
+  blockUnauthenticatedResources?: boolean | undefined;
+  effectiveRole?: EnvironmentRole | undefined;
+  imageBuilderVersion?: string | undefined;
 }
 export type CreateEnvironmentError = EnvironmentAlreadyExists | ModalOpError;
 export const createEnvironment: API.OperationMethod<

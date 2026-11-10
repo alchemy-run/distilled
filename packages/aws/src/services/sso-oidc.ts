@@ -259,23 +259,23 @@ export interface CreateTokenRequest {
   clientId: string;
   clientSecret: string | redacted.Redacted<string>;
   grantType: string;
-  deviceCode?: string;
-  code?: string;
-  refreshToken?: string | redacted.Redacted<string>;
-  scope?: string[];
-  redirectUri?: string;
-  codeVerifier?: string | redacted.Redacted<string>;
+  deviceCode?: string | undefined;
+  code?: string | undefined;
+  refreshToken?: string | redacted.Redacted<string> | undefined;
+  scope?: string[] | undefined;
+  redirectUri?: string | undefined;
+  codeVerifier?: string | redacted.Redacted<string> | undefined;
 }
 export type AccessToken = string | redacted.Redacted<string>;
 export type TokenType = string;
 export type ExpirationInSeconds = number;
 export type IdToken = string | redacted.Redacted<string>;
 export interface CreateTokenResponse {
-  accessToken?: string | redacted.Redacted<string>;
-  tokenType?: string;
-  expiresIn?: number;
-  refreshToken?: string | redacted.Redacted<string>;
-  idToken?: string | redacted.Redacted<string>;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  tokenType?: string | undefined;
+  expiresIn?: number | undefined;
+  refreshToken?: string | redacted.Redacted<string> | undefined;
+  idToken?: string | redacted.Redacted<string> | undefined;
 }
 export type Assertion = string | redacted.Redacted<string>;
 export type SubjectToken = string | redacted.Redacted<string>;
@@ -283,29 +283,29 @@ export type TokenTypeURI = string;
 export interface CreateTokenWithIAMRequest {
   clientId: string;
   grantType: string;
-  code?: string;
-  refreshToken?: string | redacted.Redacted<string>;
-  assertion?: string | redacted.Redacted<string>;
-  scope?: string[];
-  redirectUri?: string;
-  subjectToken?: string | redacted.Redacted<string>;
-  subjectTokenType?: string;
-  requestedTokenType?: string;
-  codeVerifier?: string | redacted.Redacted<string>;
+  code?: string | undefined;
+  refreshToken?: string | redacted.Redacted<string> | undefined;
+  assertion?: string | redacted.Redacted<string> | undefined;
+  scope?: string[] | undefined;
+  redirectUri?: string | undefined;
+  subjectToken?: string | redacted.Redacted<string> | undefined;
+  subjectTokenType?: string | undefined;
+  requestedTokenType?: string | undefined;
+  codeVerifier?: string | redacted.Redacted<string> | undefined;
 }
 export type IdentityContext = string;
 export interface AwsAdditionalDetails {
-  identityContext?: string;
+  identityContext?: string | undefined;
 }
 export interface CreateTokenWithIAMResponse {
-  accessToken?: string | redacted.Redacted<string>;
-  tokenType?: string;
-  expiresIn?: number;
-  refreshToken?: string | redacted.Redacted<string>;
-  idToken?: string | redacted.Redacted<string>;
-  issuedTokenType?: string;
-  scope?: string[];
-  awsAdditionalDetails?: AwsAdditionalDetails;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  tokenType?: string | undefined;
+  expiresIn?: number | undefined;
+  refreshToken?: string | redacted.Redacted<string> | undefined;
+  idToken?: string | redacted.Redacted<string> | undefined;
+  issuedTokenType?: string | undefined;
+  scope?: string[] | undefined;
+  awsAdditionalDetails?: AwsAdditionalDetails | undefined;
 }
 export type ClientName = string;
 export type ClientType = string;
@@ -315,20 +315,20 @@ export type ArnType = string;
 export interface RegisterClientRequest {
   clientName: string;
   clientType: string;
-  scopes?: string[];
-  redirectUris?: string[];
-  grantTypes?: string[];
-  issuerUrl?: string;
-  entitledApplicationArn?: string;
+  scopes?: string[] | undefined;
+  redirectUris?: string[] | undefined;
+  grantTypes?: string[] | undefined;
+  issuerUrl?: string | undefined;
+  entitledApplicationArn?: string | undefined;
 }
 export type LongTimeStampType = number;
 export interface RegisterClientResponse {
-  clientId?: string;
-  clientSecret?: string | redacted.Redacted<string>;
-  clientIdIssuedAt?: number;
-  clientSecretExpiresAt?: number;
-  authorizationEndpoint?: string;
-  tokenEndpoint?: string;
+  clientId?: string | undefined;
+  clientSecret?: string | redacted.Redacted<string> | undefined;
+  clientIdIssuedAt?: number | undefined;
+  clientSecretExpiresAt?: number | undefined;
+  authorizationEndpoint?: string | undefined;
+  tokenEndpoint?: string | undefined;
 }
 export interface StartDeviceAuthorizationRequest {
   clientId: string;
@@ -338,12 +338,12 @@ export interface StartDeviceAuthorizationRequest {
 export type UserCode = string;
 export type IntervalInSeconds = number;
 export interface StartDeviceAuthorizationResponse {
-  deviceCode?: string;
-  userCode?: string;
-  verificationUri?: string;
-  verificationUriComplete?: string;
-  expiresIn?: number;
-  interval?: number;
+  deviceCode?: string | undefined;
+  userCode?: string | undefined;
+  verificationUri?: string | undefined;
+  verificationUriComplete?: string | undefined;
+  expiresIn?: number | undefined;
+  interval?: number | undefined;
 }
 export type AccessDeniedExceptionReason = "KMS_AccessDeniedException" | (string & {});
 export type ErrorDescription = string;

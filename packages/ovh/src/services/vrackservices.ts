@@ -53,70 +53,70 @@ export type VrackServicesProductStatusEnum = "ACTIVE" | "DRAFT" | "SUSPENDED";
 /** Endpoint holding a managed service IP */
 export interface VrackServicesEndpoint {
   /** IP description defined in the managed service */
-  description?: string;
+  description?: string | undefined;
   /** IP address assigned by OVHcloud */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** Endpoints representing the IPs assigned to the managed services */
 export type VrackServicesServiceEndpointEndpointsList = Array<VrackServicesEndpoint>;
 /** A Service Endpoint provides an access to managed services directly from one or several private IPs in the associated vRack */
 export interface VrackServicesServiceEndpoint {
   /** Endpoints representing the IPs assigned to the managed services */
-  endpoints?: VrackServicesServiceEndpointEndpointsList;
+  endpoints?: VrackServicesServiceEndpointEndpointsList | undefined;
   /** IAM Resource URN of the managed service. Compatible managed service types are listed by /reference/compatibleManagedServiceType call. */
-  managedServiceURN?: string;
+  managedServiceURN?: string | undefined;
 }
 /** Service endpoints of the subnet */
 export type VrackServicesSubnetServiceEndpointsList = Array<VrackServicesServiceEndpoint>;
 /** Definition of the range dedicated to the subnet's services */
 export interface VrackServicesServiceRange {
   /** CIDR dedicated to the subnet's services */
-  cidr?: string;
+  cidr?: string | undefined;
   /** Number of remaining IPs in the service range */
-  remainingIps?: number;
+  remainingIps?: number | undefined;
   /** Number of service range IPs reserved by OVHcloud */
-  reservedIps?: number;
+  reservedIps?: number | undefined;
   /** Number of service range IPs assigned to the managed services */
-  usedIps?: number;
+  usedIps?: number | undefined;
 }
 /** A network segment of the associated vRack. It represents an IP addressing scheme inside the private network */
 export interface VrackServicesSubnet {
   /** IP address range of the subnet in CIDR format */
-  cidr?: string;
+  cidr?: string | undefined;
   /** Display name of the subnet */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Service endpoints of the subnet */
-  serviceEndpoints?: VrackServicesSubnetServiceEndpointsList;
+  serviceEndpoints?: VrackServicesSubnetServiceEndpointsList | undefined;
   /** Defines a smaller subnet dedicated to the managed services IPs */
-  serviceRange?: VrackServicesServiceRange;
+  serviceRange?: VrackServicesServiceRange | undefined;
   /** Unique inner VLAN that allows subnets segregation */
-  vlan?: number | null;
+  vlan?: number | null | undefined;
 }
 /** Subnets of the current vRack Services */
 export type VrackServicesVrackServicesCurrentStateSubnetsList = Array<VrackServicesSubnet>;
 /** Current state of the vRack Services */
 export interface VrackServicesVrackServicesCurrentState {
   /** Product status of the vRack Services */
-  productStatus?: VrackServicesProductStatusEnum;
+  productStatus?: VrackServicesProductStatusEnum | undefined;
   /** Region of the vRack Services. List of compatible regions can be retrieved from /reference/region */
-  region?: string;
+  region?: string | undefined;
   /** Subnets of the current vRack Services */
-  subnets?: VrackServicesVrackServicesCurrentStateSubnetsList;
+  subnets?: VrackServicesVrackServicesCurrentStateSubnetsList | undefined;
   /** vRack associated to the vRack Services */
-  vrackId?: string | null;
+  vrackId?: string | null | undefined;
 }
 /** Current status of a task. A task in ERROR cannot be retried without your inputs. PENDING tasks will be executed as soon as possible. A RUNNING task is currently executing your original request. SCHEDULED is used for tasks that will be executed in the future */
 export type CommonCurrentTaskStatusEnum = "ERROR" | "PENDING" | "RUNNING" | "SCHEDULED";
 /** Asynchronous operation currently running */
 export interface CommonCurrentTask {
   /** Identifier of the current task */
-  id?: string;
+  id?: string | undefined;
   /** Link to the task details */
-  link?: string;
+  link?: string | undefined;
   /** Current global status of the current task */
-  status?: CommonCurrentTaskStatusEnum | null;
+  status?: CommonCurrentTaskStatusEnum | null | undefined;
   /** Type of the current task */
-  type?: string;
+  type?: string | undefined;
 }
 /** Asynchronous operations ongoing on the vRack Services */
 export type VrackServicesVrackServicesWithIAMCurrentTasksList = Array<CommonCurrentTask>;
@@ -125,13 +125,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** It reflects the readiness of the vRack Services resource. The status `READY` indicates that the vRack Services state is stable. It guarantees that the `currentState` is fully aligned with the `targetSpec`. A new target specification request will be accepted only in this status. */
 export type VrackServicesResourceStatusEnum =
@@ -158,13 +158,13 @@ export interface VrackServicesTargetSubnet {
   /** IP address range of the subnet in CIDR format. Must be a private network address (RFC1918). Authorized range for prefix length: /16 to /24 */
   cidr: string;
   /** Display name of the subnet. Format must follow `^[ a-zA-Z0-9-_.]{0,40}$` */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Target specification of the Service Endpoints */
   serviceEndpoints: VrackServicesTargetSubnetServiceEndpointsList;
   /** Defines a smaller subnet dedicated to the managed service IPs */
   serviceRange: VrackServicesTargetServiceRange;
   /** Unique inner VLAN that allows subnets segregation. Authorized values: [2 - 4094] and `null` (untagged traffic) */
-  vlan?: number | null;
+  vlan?: number | null | undefined;
 }
 /** Target specification of the subnets. Maximum one subnet per vRack Services */
 export type VrackServicesVrackServicesTargetSpecSubnetsList = Array<VrackServicesTargetSubnet>;
@@ -176,23 +176,23 @@ export interface VrackServicesVrackServicesTargetSpec {
 /** A vRack Services */
 export interface VrackServicesVrackServicesWithIAM {
   /** Computed hash used to control concurrent modification requests. Here, it represents the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Date of the vRack Services delivery */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current configuration applied to the vRack Services */
-  currentState?: VrackServicesVrackServicesCurrentState;
+  currentState?: VrackServicesVrackServicesCurrentState | undefined;
   /** Asynchronous operations ongoing on the vRack Services */
-  currentTasks?: VrackServicesVrackServicesWithIAMCurrentTasksList | null;
+  currentTasks?: VrackServicesVrackServicesWithIAMCurrentTasksList | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Reflects the readiness of the vRack Services. A new target specification request will be accepted only in `READY` status */
-  resourceStatus?: VrackServicesResourceStatusEnum;
+  resourceStatus?: VrackServicesResourceStatusEnum | undefined;
   /** Last target specification of the vRack Services */
-  targetSpec?: VrackServicesVrackServicesTargetSpec;
+  targetSpec?: VrackServicesVrackServicesTargetSpec | undefined;
   /** Date of the Last vRack Services update */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetVrackServiceResourceTaskRequest {
   /** Vrack services ID */
@@ -203,7 +203,7 @@ export interface GetVrackServiceResourceTaskRequest {
 /** Errors that occured on the task */
 export interface CommonTaskError {
   /** Error description */
-  message?: string;
+  message?: string | undefined;
 }
 /** Errors that occured on the task */
 export type CommonTaskErrorsList = Array<CommonTaskError>;
@@ -212,56 +212,56 @@ export type CommonTaskStatusEnum = "DONE" | "ERROR" | "PENDING" | "RUNNING" | "S
 /** Detailed information about an asynchronous operation progress steps */
 export interface CommonTaskProgress {
   /** Progress step name */
-  name?: string;
+  name?: string | undefined;
   /** Current status of the progress step */
-  status?: CommonTaskStatusEnum;
+  status?: CommonTaskStatusEnum | undefined;
 }
 /** Progress steps of the asynchronous operation */
 export type CommonTaskProgressList = Array<CommonTaskProgress>;
 /** Asynchronous operation */
 export interface CommonTask {
   /** Creation date of the task */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Errors that occured on the task */
-  errors?: CommonTaskErrorsList | null;
+  errors?: CommonTaskErrorsList | null | undefined;
   /** Ending date of the task */
-  finishedAt?: string | null;
+  finishedAt?: string | null | undefined;
   /** Identifier of the task */
-  id?: string;
+  id?: string | undefined;
   /** Link to the related resource */
-  link?: string;
+  link?: string | undefined;
   /** Description of the task */
-  message?: string;
+  message?: string | undefined;
   /** Progress steps of the asynchronous operation */
-  progress?: CommonTaskProgressList;
+  progress?: CommonTaskProgressList | undefined;
   /** Starting date of the task */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
   /** Current global status of the task */
-  status?: CommonTaskStatusEnum;
+  status?: CommonTaskStatusEnum | undefined;
   /** Type of the task */
-  type?: string;
+  type?: string | undefined;
   /** Last update of the task */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface ListVrackServiceReferenceCompatibleManagedServiceTypeRequest {
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListVrackServiceReferenceCompatibleManagedServiceTypeResponseBodyList = Array<string>;
 export type ListVrackServiceReferenceCompatibleManagedServiceTypeResponse =
   ListVrackServiceReferenceCompatibleManagedServiceTypeResponseBodyList;
 export interface ListVrackServiceReferenceRegionRequest {
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 /** A vRack Services compatible localization */
 export interface VrackServicesRegion {
   /** Region name */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListVrackServiceReferenceRegionResponseBodyList = Array<VrackServicesRegion>;
 export type ListVrackServiceReferenceRegionResponse =
@@ -274,11 +274,11 @@ export type ListVrackServiceResourceRequestIamTagsMap = {
 };
 export interface ListVrackServiceResourceRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListVrackServiceResourceRequestIamTagsMap;
+  iamTags?: ListVrackServiceResourceRequestIamTagsMap | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListVrackServiceResourceResponseBodyList = Array<VrackServicesVrackServicesWithIAM>;
 export type ListVrackServiceResourceResponse = ListVrackServiceResourceResponseBodyList;
@@ -286,18 +286,18 @@ export interface ListVrackServiceResourceEligibleManagedServiceRequest {
   /** Vrack services ID */
   vrackServicesId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 /** List of IAM resource URNs */
 export type VrackServicesEligibleManagedServiceManagedServiceURNsList = Array<string>;
 /** List of managed services eligible to the requested vRack Services */
 export interface VrackServicesEligibleManagedService {
   /** IAM resource type. Compatible managed service types are listed by /reference/compatibleManagedServiceType call. */
-  managedServiceType?: string;
+  managedServiceType?: string | undefined;
   /** List of IAM resource URNs */
-  managedServiceURNs?: VrackServicesEligibleManagedServiceManagedServiceURNsList;
+  managedServiceURNs?: VrackServicesEligibleManagedServiceManagedServiceURNsList | undefined;
 }
 export type ListVrackServiceResourceEligibleManagedServiceResponseBodyList =
   Array<VrackServicesEligibleManagedService>;
@@ -307,9 +307,9 @@ export interface ListVrackServiceResourceTaskRequest {
   /** Vrack services ID */
   vrackServicesId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListVrackServiceResourceTaskResponseBodyList = Array<CommonTask>;
 export type ListVrackServiceResourceTaskResponse = ListVrackServiceResourceTaskResponseBodyList;
@@ -326,21 +326,21 @@ export type VrackServicesVrackServicesCurrentTasksList = Array<CommonCurrentTask
 /** A vRack Services */
 export interface VrackServicesVrackServices {
   /** Computed hash used to control concurrent modification requests. Here, it represents the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Date of the vRack Services delivery */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current configuration applied to the vRack Services */
-  currentState?: VrackServicesVrackServicesCurrentState;
+  currentState?: VrackServicesVrackServicesCurrentState | undefined;
   /** Asynchronous operations ongoing on the vRack Services */
-  currentTasks?: VrackServicesVrackServicesCurrentTasksList | null;
+  currentTasks?: VrackServicesVrackServicesCurrentTasksList | null | undefined;
   /** Unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Reflects the readiness of the vRack Services. A new target specification request will be accepted only in `READY` status */
-  resourceStatus?: VrackServicesResourceStatusEnum;
+  resourceStatus?: VrackServicesResourceStatusEnum | undefined;
   /** Last target specification of the vRack Services */
-  targetSpec?: VrackServicesVrackServicesTargetSpec;
+  targetSpec?: VrackServicesVrackServicesTargetSpec | undefined;
   /** Date of the Last vRack Services update */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export type GetVrackServiceResourceError = NotFound | OvhOpError;
 /** Retrieve a vRack Services */

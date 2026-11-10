@@ -44,7 +44,7 @@ export class DomainNotFound
   ) {}
 
 export interface CreateDomainRequest {
-  domainName?: string;
+  domainName?: string | undefined;
 }
 /** now unused internal experimental values */
 export type DNSRecordType = "DNS_RECORD_TYPE_A" | "DNS_RECORD_TYPE_TXT" | "DNS_RECORD_TYPE_CNAME";
@@ -76,10 +76,10 @@ export interface ListDomainResponse {
   domains: DomainList2;
 }
 export interface VerifyDomainCertificateRequest {
-  domainId?: string;
+  domainId?: string | undefined;
 }
 export interface VerifyDomainCertificateResponse {
-  domain?: Domain;
+  domain?: Domain | undefined;
 }
 export type CreateDomainError = DomainAlreadyExists | ModalOpError;
 export const createDomain: API.OperationMethod<

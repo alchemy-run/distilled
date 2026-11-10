@@ -229,7 +229,7 @@ export interface AttendeeCapabilities {
 }
 export interface CreateAttendeeRequestItem {
   ExternalUserId: string | redacted.Redacted<string>;
-  Capabilities?: AttendeeCapabilities;
+  Capabilities?: AttendeeCapabilities | undefined;
 }
 export type CreateAttendeeRequestItemList = CreateAttendeeRequestItem[];
 export interface BatchCreateAttendeeRequest {
@@ -238,21 +238,21 @@ export interface BatchCreateAttendeeRequest {
 }
 export type JoinTokenString = string | redacted.Redacted<string>;
 export interface Attendee {
-  ExternalUserId?: string | redacted.Redacted<string>;
-  AttendeeId?: string;
-  JoinToken?: string | redacted.Redacted<string>;
-  Capabilities?: AttendeeCapabilities;
+  ExternalUserId?: string | redacted.Redacted<string> | undefined;
+  AttendeeId?: string | undefined;
+  JoinToken?: string | redacted.Redacted<string> | undefined;
+  Capabilities?: AttendeeCapabilities | undefined;
 }
 export type AttendeeList = Attendee[];
 export interface CreateAttendeeError_ {
-  ExternalUserId?: string | redacted.Redacted<string>;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ExternalUserId?: string | redacted.Redacted<string> | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type BatchCreateAttendeeErrorList = CreateAttendeeError_[];
 export interface BatchCreateAttendeeResponse {
-  Attendees?: Attendee[];
-  Errors?: CreateAttendeeError_[];
+  Attendees?: Attendee[] | undefined;
+  Errors?: CreateAttendeeError_[] | undefined;
 }
 export interface AttendeeIdItem {
   AttendeeId: string;
@@ -267,41 +267,41 @@ export interface BatchUpdateAttendeeCapabilitiesExceptResponse {}
 export interface CreateAttendeeRequest {
   MeetingId: string;
   ExternalUserId: string | redacted.Redacted<string>;
-  Capabilities?: AttendeeCapabilities;
+  Capabilities?: AttendeeCapabilities | undefined;
 }
 export interface CreateAttendeeResponse {
-  Attendee?: Attendee;
+  Attendee?: Attendee | undefined;
 }
 export type ClientRequestToken = string | redacted.Redacted<string>;
 export type MediaRegion = string;
 export type ExternalMeetingId = string | redacted.Redacted<string>;
 export type Arn = string | redacted.Redacted<string>;
 export interface NotificationsConfiguration {
-  LambdaFunctionArn?: string | redacted.Redacted<string>;
-  SnsTopicArn?: string | redacted.Redacted<string>;
-  SqsQueueArn?: string | redacted.Redacted<string>;
+  LambdaFunctionArn?: string | redacted.Redacted<string> | undefined;
+  SnsTopicArn?: string | redacted.Redacted<string> | undefined;
+  SqsQueueArn?: string | redacted.Redacted<string> | undefined;
 }
 export type MeetingFeatureStatus = "AVAILABLE" | "UNAVAILABLE" | (string & {});
 export interface AudioFeatures {
-  EchoReduction?: MeetingFeatureStatus;
+  EchoReduction?: MeetingFeatureStatus | undefined;
 }
 export type VideoResolution = "None" | "HD" | "FHD" | (string & {});
 export interface VideoFeatures {
-  MaxResolution?: VideoResolution;
+  MaxResolution?: VideoResolution | undefined;
 }
 export type ContentResolution = "None" | "FHD" | "UHD" | (string & {});
 export interface ContentFeatures {
-  MaxResolution?: ContentResolution;
+  MaxResolution?: ContentResolution | undefined;
 }
 export type AttendeeMax = number;
 export interface AttendeeFeatures {
-  MaxCount?: number;
+  MaxCount?: number | undefined;
 }
 export interface MeetingFeaturesConfiguration {
-  Audio?: AudioFeatures;
-  Video?: VideoFeatures;
-  Content?: ContentFeatures;
-  Attendee?: AttendeeFeatures;
+  Audio?: AudioFeatures | undefined;
+  Video?: VideoFeatures | undefined;
+  Content?: ContentFeatures | undefined;
+  Attendee?: AttendeeFeatures | undefined;
 }
 export type PrimaryMeetingId = string;
 export type TenantId = string;
@@ -317,58 +317,58 @@ export type MediaPlacementNetworkType = "Ipv4Only" | "DualStack" | (string & {})
 export interface CreateMeetingRequest {
   ClientRequestToken: string | redacted.Redacted<string>;
   MediaRegion: string;
-  MeetingHostId?: string | redacted.Redacted<string>;
+  MeetingHostId?: string | redacted.Redacted<string> | undefined;
   ExternalMeetingId: string | redacted.Redacted<string>;
-  NotificationsConfiguration?: NotificationsConfiguration;
-  MeetingFeatures?: MeetingFeaturesConfiguration;
-  PrimaryMeetingId?: string;
-  TenantIds?: string[];
-  Tags?: Tag[];
-  MediaPlacementNetworkType?: MediaPlacementNetworkType;
+  NotificationsConfiguration?: NotificationsConfiguration | undefined;
+  MeetingFeatures?: MeetingFeaturesConfiguration | undefined;
+  PrimaryMeetingId?: string | undefined;
+  TenantIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  MediaPlacementNetworkType?: MediaPlacementNetworkType | undefined;
 }
 export interface MediaPlacement {
-  AudioHostUrl?: string;
-  AudioFallbackUrl?: string;
-  SignalingUrl?: string;
-  TurnControlUrl?: string;
-  ScreenDataUrl?: string;
-  ScreenViewingUrl?: string;
-  ScreenSharingUrl?: string;
-  EventIngestionUrl?: string;
+  AudioHostUrl?: string | undefined;
+  AudioFallbackUrl?: string | undefined;
+  SignalingUrl?: string | undefined;
+  TurnControlUrl?: string | undefined;
+  ScreenDataUrl?: string | undefined;
+  ScreenViewingUrl?: string | undefined;
+  ScreenSharingUrl?: string | undefined;
+  EventIngestionUrl?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface Meeting {
-  MeetingId?: string;
-  MeetingHostId?: string | redacted.Redacted<string>;
-  ExternalMeetingId?: string | redacted.Redacted<string>;
-  MediaRegion?: string;
-  MediaPlacement?: MediaPlacement;
-  MeetingFeatures?: MeetingFeaturesConfiguration;
-  PrimaryMeetingId?: string;
-  TenantIds?: string[];
-  MeetingArn?: string;
+  MeetingId?: string | undefined;
+  MeetingHostId?: string | redacted.Redacted<string> | undefined;
+  ExternalMeetingId?: string | redacted.Redacted<string> | undefined;
+  MediaRegion?: string | undefined;
+  MediaPlacement?: MediaPlacement | undefined;
+  MeetingFeatures?: MeetingFeaturesConfiguration | undefined;
+  PrimaryMeetingId?: string | undefined;
+  TenantIds?: string[] | undefined;
+  MeetingArn?: string | undefined;
 }
 export interface CreateMeetingResponse {
-  Meeting?: Meeting;
+  Meeting?: Meeting | undefined;
 }
 export type CreateMeetingWithAttendeesRequestItemList = CreateAttendeeRequestItem[];
 export interface CreateMeetingWithAttendeesRequest {
   ClientRequestToken: string | redacted.Redacted<string>;
   MediaRegion: string;
-  MeetingHostId?: string | redacted.Redacted<string>;
+  MeetingHostId?: string | redacted.Redacted<string> | undefined;
   ExternalMeetingId: string | redacted.Redacted<string>;
-  MeetingFeatures?: MeetingFeaturesConfiguration;
-  NotificationsConfiguration?: NotificationsConfiguration;
+  MeetingFeatures?: MeetingFeaturesConfiguration | undefined;
+  NotificationsConfiguration?: NotificationsConfiguration | undefined;
   Attendees: CreateAttendeeRequestItem[];
-  PrimaryMeetingId?: string;
-  TenantIds?: string[];
-  Tags?: Tag[];
-  MediaPlacementNetworkType?: MediaPlacementNetworkType;
+  PrimaryMeetingId?: string | undefined;
+  TenantIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  MediaPlacementNetworkType?: MediaPlacementNetworkType | undefined;
 }
 export interface CreateMeetingWithAttendeesResponse {
-  Meeting?: Meeting;
-  Attendees?: Attendee[];
-  Errors?: CreateAttendeeError_[];
+  Meeting?: Meeting | undefined;
+  Attendees?: Attendee[] | undefined;
+  Errors?: CreateAttendeeError_[] | undefined;
 }
 export interface DeleteAttendeeRequest {
   MeetingId: string;
@@ -384,29 +384,29 @@ export interface GetAttendeeRequest {
   AttendeeId: string;
 }
 export interface GetAttendeeResponse {
-  Attendee?: Attendee;
+  Attendee?: Attendee | undefined;
 }
 export interface GetMeetingRequest {
   MeetingId: string;
 }
 export interface GetMeetingResponse {
-  Meeting?: Meeting;
+  Meeting?: Meeting | undefined;
 }
 export type ResultMax = number;
 export interface ListAttendeesRequest {
   MeetingId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListAttendeesResponse {
-  Attendees?: Attendee[];
-  NextToken?: string;
+  Attendees?: Attendee[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type TranscribeLanguageCode =
   | "en-US"
@@ -448,22 +448,22 @@ export type TranscribeLanguageModelName = string;
 export type TranscribeLanguageOptions = string;
 export type TranscribeVocabularyNamesOrFilterNamesString = string;
 export interface EngineTranscribeSettings {
-  LanguageCode?: TranscribeLanguageCode;
-  VocabularyFilterMethod?: TranscribeVocabularyFilterMethod;
-  VocabularyFilterName?: string;
-  VocabularyName?: string;
-  Region?: TranscribeRegion;
-  EnablePartialResultsStabilization?: boolean;
-  PartialResultsStability?: TranscribePartialResultsStability;
-  ContentIdentificationType?: TranscribeContentIdentificationType;
-  ContentRedactionType?: TranscribeContentRedactionType;
-  PiiEntityTypes?: string;
-  LanguageModelName?: string;
-  IdentifyLanguage?: boolean;
-  LanguageOptions?: string;
-  PreferredLanguage?: TranscribeLanguageCode;
-  VocabularyNames?: string;
-  VocabularyFilterNames?: string;
+  LanguageCode?: TranscribeLanguageCode | undefined;
+  VocabularyFilterMethod?: TranscribeVocabularyFilterMethod | undefined;
+  VocabularyFilterName?: string | undefined;
+  VocabularyName?: string | undefined;
+  Region?: TranscribeRegion | undefined;
+  EnablePartialResultsStabilization?: boolean | undefined;
+  PartialResultsStability?: TranscribePartialResultsStability | undefined;
+  ContentIdentificationType?: TranscribeContentIdentificationType | undefined;
+  ContentRedactionType?: TranscribeContentRedactionType | undefined;
+  PiiEntityTypes?: string | undefined;
+  LanguageModelName?: string | undefined;
+  IdentifyLanguage?: boolean | undefined;
+  LanguageOptions?: string | undefined;
+  PreferredLanguage?: TranscribeLanguageCode | undefined;
+  VocabularyNames?: string | undefined;
+  VocabularyFilterNames?: string | undefined;
 }
 export type TranscribeMedicalLanguageCode = "en-US" | (string & {});
 export type TranscribeMedicalSpecialty =
@@ -489,13 +489,13 @@ export interface EngineTranscribeMedicalSettings {
   LanguageCode: TranscribeMedicalLanguageCode;
   Specialty: TranscribeMedicalSpecialty;
   Type: TranscribeMedicalType;
-  VocabularyName?: string;
-  Region?: TranscribeMedicalRegion;
-  ContentIdentificationType?: TranscribeMedicalContentIdentificationType;
+  VocabularyName?: string | undefined;
+  Region?: TranscribeMedicalRegion | undefined;
+  ContentIdentificationType?: TranscribeMedicalContentIdentificationType | undefined;
 }
 export interface TranscriptionConfiguration {
-  EngineTranscribeSettings?: EngineTranscribeSettings;
-  EngineTranscribeMedicalSettings?: EngineTranscribeMedicalSettings;
+  EngineTranscribeSettings?: EngineTranscribeSettings | undefined;
+  EngineTranscribeMedicalSettings?: EngineTranscribeMedicalSettings | undefined;
 }
 export interface StartMeetingTranscriptionRequest {
   MeetingId: string;
@@ -523,7 +523,7 @@ export interface UpdateAttendeeCapabilitiesRequest {
   Capabilities: AttendeeCapabilities;
 }
 export interface UpdateAttendeeCapabilitiesResponse {
-  Attendee?: Attendee;
+  Attendee?: Attendee | undefined;
 }
 export type RetryAfterSeconds = string;
 export type BatchCreateAttendeeError =

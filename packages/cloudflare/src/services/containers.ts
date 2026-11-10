@@ -219,7 +219,7 @@ export interface UserSSHPublicKey {
   /** An SSH public key. */
   publicKey: string;
   /** Optional human readable name for this key. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type UserSSHPublicKeyList = Array<UserSSHPublicKey>;
 export type StringList = Array<string>;
@@ -240,11 +240,11 @@ export type ContainerInstanceType =
   | "standard-3"
   | "standard-4";
 export interface ContainerApplicationLogs {
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export interface ContainerApplicationObservability {
   /** Observability logging settings. */
-  logs?: ContainerApplicationLogs | null;
+  logs?: ContainerApplicationLogs | null | undefined;
 }
 export type DocumentList = Array<unknown>;
 export type ContainerNetworkAssignIp = "none" | "predefined";
@@ -252,51 +252,51 @@ export type ContainerNetworkMode = "private" | "public";
 /** Network configuration for a container deployment. Transcribed from the live API: it rejects unknown keys (`unrecognized key: "assignipv4"`). */
 export interface ContainerNetwork {
   /** Whether to assign an IPv4 address. `predefined` requests public reachability: the API infers `mode: public` when `mode` is omitted, and rejects it combined with `mode: private`. */
-  assignIpv4?: ContainerNetworkAssignIp | (string & {}) | null;
+  assignIpv4?: ContainerNetworkAssignIp | (string & {}) | null | undefined;
   /** Whether to assign an IPv6 address. Same rules as `assign_ipv4`. */
-  assignIpv6?: ContainerNetworkAssignIp | (string & {}) | null;
+  assignIpv6?: ContainerNetworkAssignIp | (string & {}) | null | undefined;
   /** Network mode. Some accounts only permit `private`. */
-  mode?: ContainerNetworkMode | (string & {}) | null;
+  mode?: ContainerNetworkMode | (string & {}) | null | undefined;
 }
 export interface WranglerSSHConfiguration {
-  enabled?: boolean | null;
-  port?: number | null;
+  enabled?: boolean | null | undefined;
+  port?: number | null | undefined;
 }
 export interface ContainerConfiguration {
   /** Image url. */
   image: string;
-  authorizedKeys?: UserSSHPublicKeyList;
+  authorizedKeys?: UserSSHPublicKeyList | undefined;
   /** The command that runs when the container starts, passed to the entrypoint. You can override this at run-time. If you override only the command, it gets passed to the default entrypoint specified in the image. */
-  command?: StringList;
+  command?: StringList | undefined;
   /** The entry point for the container, specifying the executable to run when the container starts. You can override this at run-time. If you do, the default command from the image is ignored. Specify both entrypoint and command at run-time to completely replace the image defaults. */
-  entrypoint?: StringList;
+  entrypoint?: StringList | undefined;
   /** Container environment variables. */
-  environmentVariables?: EnvironmentVariableList;
+  environmentVariables?: EnvironmentVariableList | undefined;
   /** The instance type configures vCPU, memory, and disk. */
-  instanceType?: ContainerInstanceType | (string & {});
+  instanceType?: ContainerInstanceType | (string & {}) | undefined;
   /** Settings for deployment observability such as logging. */
-  observability?: ContainerApplicationObservability;
-  vcpu?: number;
-  memory?: string;
-  memoryMib?: number;
-  disk?: unknown;
-  secrets?: DocumentList;
-  labels?: DocumentList;
-  ports?: DocumentList;
-  network?: ContainerNetwork;
-  checks?: DocumentList;
-  dns?: unknown;
-  sshPublicKeyIds?: StringList;
-  wranglerSsh?: WranglerSSHConfiguration;
-  experimentalFlags?: StringList;
+  observability?: ContainerApplicationObservability | undefined;
+  vcpu?: number | undefined;
+  memory?: string | undefined;
+  memoryMib?: number | undefined;
+  disk?: unknown | undefined;
+  secrets?: DocumentList | undefined;
+  labels?: DocumentList | undefined;
+  ports?: DocumentList | undefined;
+  network?: ContainerNetwork | undefined;
+  checks?: DocumentList | undefined;
+  dns?: unknown | undefined;
+  sshPublicKeyIds?: StringList | undefined;
+  wranglerSsh?: WranglerSSHConfiguration | undefined;
+  experimentalFlags?: StringList | undefined;
 }
 export type ContainerSchedulingPolicy = "default" | "durable_object";
 export interface ScheduledApplicationConstraints {
   /** Restricts placement to datacenters in the selected jurisdiction. Choose "eu", "fedramp", or "us". When combined with regions, EU supports EEUR and WEUR while FedRAMP and US support ENAM and WNAM. */
-  jurisdiction?: string | null;
-  regions?: StringList | null;
+  jurisdiction?: string | null | undefined;
+  regions?: StringList | null | undefined;
   /** Placement tier. Not in the API reference. Wrangler's ApplicationConstraints has it (https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/ApplicationConstraints.ts). */
-  tier?: number | null;
+  tier?: number | null | undefined;
 }
 export interface DurableObjectsRef {
   /** The namespace ID of the durable object namespace to use for this application. */
@@ -314,30 +314,30 @@ export interface CreateContainerApplicationRequest {
   /** Defines the deployment configuration for every deployment in this application. */
   configuration: ContainerConfiguration;
   /** The initial number of deployments to create. */
-  instances?: number;
+  instances?: number | undefined;
   /** Sets the maximum number of instances that the application can run. */
-  maxInstances?: number;
+  maxInstances?: number | undefined;
   /** The name for this application. */
   name: string;
   /** Selects a scheduler-backed application. Use `default` when the Containers scheduler should maintain the requested number of instances and manage deployment configuration, placement, scaling, versions, and rollouts. */
   schedulingPolicy: ContainerSchedulingPolicy | (string & {});
   /** The jurisdiction of a Durable Object-managed application's primary control-plane object. Set this when creating the application; it cannot be changed afterwards. Other placement constraints are not supported by this scheduling policy. */
-  constraints?: ScheduledApplicationConstraints;
+  constraints?: ScheduledApplicationConstraints | undefined;
   /** Optionally associates this scheduler-backed application with a Durable Object namespace. */
-  durableObjects?: DurableObjectsConfiguration;
+  durableObjects?: DurableObjectsConfiguration | undefined;
   /** Top-level observability settings for the application. This field is mutually exclusive with configuration.observability. */
-  observability?: ContainerApplicationObservability;
+  observability?: ContainerApplicationObservability | undefined;
   /** Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds. Defaults to 0. */
-  rolloutActiveGracePeriod?: number;
+  rolloutActiveGracePeriod?: number | undefined;
   /** Not in the API reference. Wrangler's CreateApplicationRequest has it (https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/CreateApplicationRequest.ts). */
-  affinities?: unknown;
+  affinities?: unknown | undefined;
 }
 export type DurableObjectSchedulingPolicy = "durable_object";
 export interface DurableObjectContainerConfiguration {
-  authorizedKeys?: UserSSHPublicKeyList | null;
+  authorizedKeys?: UserSSHPublicKeyList | null | undefined;
   /** Configuration properties for connecting with SSH to a container using Wrangler. */
-  wranglerSsh?: WranglerSSHConfiguration | null;
-  experimentalFlags?: StringList | null;
+  wranglerSsh?: WranglerSSHConfiguration | null | undefined;
+  experimentalFlags?: StringList | null | undefined;
 }
 export type ContainerJurisdiction = "eu" | "fedramp" | "us";
 export interface DurableObjectApplicationConstraints {
@@ -354,7 +354,7 @@ export interface DurableObjectApplicationHealth {
   /** Counts of observed non-terminal instances. */
   instances: DurableObjectApplicationHealthInstances;
   /** Present as pending until the first activity sweep completes; omitted afterward. */
-  summary?: DurableObjectApplicationHealthSummary | null;
+  summary?: DurableObjectApplicationHealthSummary | null | undefined;
 }
 export interface DurableObjectContainerApplication {
   /** An Application ID represents an identifier of an application. */
@@ -372,41 +372,41 @@ export interface DurableObjectContainerApplication {
   /** UTC timestamp string in ISO 8601 format. */
   updatedAt: string;
   /** Application-wide settings for a Durable Object-managed application. */
-  configuration?: DurableObjectContainerConfiguration | null;
+  configuration?: DurableObjectContainerConfiguration | null | undefined;
   /** The jurisdiction of a Durable Object-managed application's primary control-plane object. Set this when creating the application; it cannot be changed afterwards. Other placement constraints are not supported by this scheduling policy. */
-  constraints?: DurableObjectApplicationConstraints | null;
+  constraints?: DurableObjectApplicationConstraints | null | undefined;
   /** Aggregate current activity for the latest observed placement of each instance. Runtime snapshots feed periodic background sweeps. Counts refresh after each complete sweep. Instance listings retain their separate three-month history for failure discovery. */
-  health?: DurableObjectApplicationHealth | null;
+  health?: DurableObjectApplicationHealth | null | undefined;
   /** Application-wide logging settings for a Durable Object-managed application. The application publishes these settings to its runtime metadata. Updating them does not create a deployment or rollout. */
-  observability?: ContainerApplicationObservability | null;
+  observability?: ContainerApplicationObservability | null | undefined;
 }
 export interface ContainerApplicationConfiguration {
-  authorizedKeys?: UserSSHPublicKeyList | null;
+  authorizedKeys?: UserSSHPublicKeyList | null | undefined;
   /** The command that runs when the container starts, passed to the entrypoint. You can override this at run-time. If you override only the command, it gets passed to the default entrypoint specified in the image. */
-  command?: StringList | null;
+  command?: StringList | null | undefined;
   /** The entry point for the container, specifying the executable to run when the container starts. You can override this at run-time. If you do, the default command from the image is ignored. Specify both entrypoint and command at run-time to completely replace the image defaults. */
-  entrypoint?: StringList | null;
+  entrypoint?: StringList | null | undefined;
   /** Container environment variables. */
-  environmentVariables?: EnvironmentVariableList | null;
+  environmentVariables?: EnvironmentVariableList | null | undefined;
   /** Image url. */
-  image?: string | null;
+  image?: string | null | undefined;
   /** The instance type configures vCPU, memory, and disk. */
-  instanceType?: ContainerInstanceType | (string & {}) | null;
+  instanceType?: ContainerInstanceType | (string & {}) | null | undefined;
   /** Settings for deployment observability such as logging. */
-  observability?: ContainerApplicationObservability | null;
-  vcpu?: number | null;
-  memory?: string | null;
-  memoryMib?: number | null;
-  disk?: unknown | null;
-  secrets?: DocumentList | null;
-  labels?: DocumentList | null;
-  ports?: DocumentList | null;
-  network?: ContainerNetwork | null;
-  checks?: DocumentList | null;
-  dns?: unknown | null;
-  sshPublicKeyIds?: StringList | null;
-  wranglerSsh?: WranglerSSHConfiguration | null;
-  experimentalFlags?: StringList | null;
+  observability?: ContainerApplicationObservability | null | undefined;
+  vcpu?: number | null | undefined;
+  memory?: string | null | undefined;
+  memoryMib?: number | null | undefined;
+  disk?: unknown | null | undefined;
+  secrets?: DocumentList | null | undefined;
+  labels?: DocumentList | null | undefined;
+  ports?: DocumentList | null | undefined;
+  network?: ContainerNetwork | null | undefined;
+  checks?: DocumentList | null | undefined;
+  dns?: unknown | null | undefined;
+  sshPublicKeyIds?: StringList | null | undefined;
+  wranglerSsh?: WranglerSSHConfiguration | null | undefined;
+  experimentalFlags?: StringList | null | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type ContainerApplicationEventName =
@@ -458,7 +458,7 @@ export interface ScheduledApplicationHealth {
   /** Shows a count of application instance states. */
   instances: ScheduledApplicationHealthInstances;
   /** High-level health assessment. Only populated for "new_instances" strategy. Based on a sample of target-version instances rather than a full count. */
-  summary?: ScheduledApplicationHealthSummary | null;
+  summary?: ScheduledApplicationHealthSummary | null | undefined;
 }
 export interface ScheduledContainerApplication {
   /** An Application ID represents an identifier of an application. */
@@ -479,19 +479,19 @@ export interface ScheduledContainerApplication {
   updatedAt: string;
   version: number;
   /** An identifier for a specific rollout within an application. */
-  activeRolloutId?: string | null;
-  constraints?: ScheduledApplicationConstraints | null;
+  activeRolloutId?: string | null | undefined;
+  constraints?: ScheduledApplicationConstraints | null | undefined;
   /** Durable object configuration stored on and returned from a Cloudchamber application. */
-  durableObjects?: DurableObjectsRef | null;
-  health?: ScheduledApplicationHealth | null;
+  durableObjects?: DurableObjectsRef | null | undefined;
+  health?: ScheduledApplicationHealth | null | undefined;
   /** Maximum number of instances the application allows. This is relevant for applications that auto-scale. */
-  maxInstances?: number | null;
+  maxInstances?: number | null | undefined;
   /** Top-level observability settings for the application. This field is mutually exclusive with configuration.observability. */
-  observability?: ContainerApplicationObservability | null;
+  observability?: ContainerApplicationObservability | null | undefined;
   /** Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds. Defaults to 0. */
-  rolloutActiveGracePeriod?: number | null;
+  rolloutActiveGracePeriod?: number | null | undefined;
   /** Not in the API reference. Wrangler's Application model has it (https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/Application.ts). */
-  affinities?: unknown | null;
+  affinities?: unknown | null | undefined;
 }
 export type ContainerApplicationItem =
   | DurableObjectContainerApplication
@@ -522,13 +522,16 @@ export interface CreateContainerApplicationRolloutRequest {
   /** User-specified container configuration changes. */
   targetConfiguration: ContainerApplicationConfiguration;
   /** Kind of the rollout process. Defaults to "full_auto". */
-  kind?: CreateContainerApplicationRolloutRequestKind | (string & {});
+  kind?: CreateContainerApplicationRolloutRequestKind | (string & {}) | undefined;
   /** Initial target version percentage (0-100). Version sync actively replaces instances to match. Required when strategy is "new_instances" and kind is "full_manual". When strategy is "new_instances" and kind is "full_auto", omitted percentage starts at 10% or the smallest percentage that targets at least one instance. Unused for "rolling". */
-  percentage?: number;
+  percentage?: number | undefined;
   /** Percentage of rollout to increase in each step when "steps" is absent. Applicable values: 5, 10, 20, 25, 50, 100. These create rollouts with 20, 10, 5, 4, 2, 1 steps respectively. Only valid for "rolling" strategy. */
-  stepPercentage?: CreateContainerApplicationRolloutRequestStepPercentage | (number & {});
+  stepPercentage?:
+    | CreateContainerApplicationRolloutRequestStepPercentage
+    | (number & {})
+    | undefined;
   /** Steps defining the rollout process, used when "step_percentage" is absent. Specify only one of "step_percentage" or "steps" when creating a rollout. "steps" allow granular control over each step. Only valid for "rolling" strategy. */
-  steps?: CreateContainerApplicationRolloutRequestStepsList;
+  steps?: CreateContainerApplicationRolloutRequestStepsList | undefined;
 }
 export type CreateContainerApplicationRolloutResponseKind =
   | "full_auto"
@@ -543,13 +546,13 @@ export type CreateContainerApplicationRolloutResponseStatus =
 export type CreateContainerApplicationRolloutResponseStrategy = "rolling" | "new_instances";
 export interface CreateContainerApplicationRolloutResponseProgressVersionDistribution {
   /** Expected number of instances remaining on the current (old) version based on the current percentage split. Only populated for "rolling" strategy. */
-  currentVersionInstances?: number | null;
+  currentVersionInstances?: number | null | undefined;
   /** The percentage of new instances being scheduled on the current version (100 - target_version_percentage). Only populated for "new_instances" strategy. */
-  currentVersionPercentage?: number | null;
+  currentVersionPercentage?: number | null | undefined;
   /** Expected number of instances scheduled for the target (new) version based on the current percentage split. Only populated for "rolling" strategy. */
-  targetVersionInstances?: number | null;
+  targetVersionInstances?: number | null | undefined;
   /** The active percentage of new instances being scheduled on the target version. For "rolling", this reflects the step_size.percentage of the current active step. For "new_instances", this reflects the user-set percentage. */
-  targetVersionPercentage?: number | null;
+  targetVersionPercentage?: number | null | undefined;
 }
 export interface CreateContainerApplicationRolloutResponseProgress {
   /** Current step being executed in the rollout process. Initialized to 0. */
@@ -561,7 +564,10 @@ export interface CreateContainerApplicationRolloutResponseProgress {
   /** Number of instances updated in the rollout process. */
   updatedInstances: number;
   /** Expected distribution of instances per version, based on the current percentage split. Populated during active rollouts. Values derive from the version percentage weights rather than actual running instance counts. */
-  versionDistribution?: CreateContainerApplicationRolloutResponseProgressVersionDistribution | null;
+  versionDistribution?:
+    | CreateContainerApplicationRolloutResponseProgressVersionDistribution
+    | null
+    | undefined;
 }
 export type CreateContainerApplicationRolloutResponseStepsItemStatus =
   | "pending"
@@ -580,11 +586,11 @@ export interface CreateContainerApplicationRolloutResponseStepsItem {
   status: CreateContainerApplicationRolloutResponseStepsItemStatus;
   stepSize: CreateContainerApplicationRolloutRequestStepsItemStepSize;
   /** UTC timestamp string in ISO 8601 format. */
-  completedAt?: string | null;
+  completedAt?: string | null | undefined;
   /** Reason for the step's current status. */
-  reason?: string | null;
+  reason?: string | null | undefined;
   /** UTC timestamp string in ISO 8601 format. */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
 }
 export type CreateContainerApplicationRolloutResponseStepsList =
   Array<CreateContainerApplicationRolloutResponseStepsItem>;
@@ -619,14 +625,17 @@ export interface CreateContainerApplicationRolloutResponse {
   /** Target application version after the rollout is complete and applied to all current instances. */
   targetVersion: number;
   /** Current target version percentage (0-100). Only present for "new_instances" strategy. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Progress details of an application rollout. */
-  progress?: CreateContainerApplicationRolloutResponseProgress | null;
+  progress?: CreateContainerApplicationRolloutResponseProgress | null | undefined;
   /** Timestamp when the rollout started. */
-  startedAt?: string | null;
-  steps?: CreateContainerApplicationRolloutResponseStepsList | null;
+  startedAt?: string | null | undefined;
+  steps?: CreateContainerApplicationRolloutResponseStepsList | null | undefined;
   /** Version percentage distribution. Only present for "new_instances" strategy. For "rolling" strategy, see progress.version_distribution instead. */
-  versionDistribution?: CreateContainerApplicationRolloutResponseVersionDistribution | null;
+  versionDistribution?:
+    | CreateContainerApplicationRolloutResponseVersionDistribution
+    | null
+    | undefined;
 }
 export interface CreateContainerRegistryRequestAuthPrivateCredential {
   /** Name of the secret within the store. */
@@ -650,7 +659,7 @@ export interface CreateContainerRegistryRequest {
   /** Registry provider. This must match `domain`: `DockerHub` for `docker.io`, `ECR` for AWS ECR, or `GAR` for Google Artifact Registry. */
   kind: CreateContainerRegistryRequestKind | (string & {});
   /** Omit this field or set it to `false`. Public Docker Hub images do not require registry configuration and cannot be added with this endpoint. */
-  isPublic?: boolean;
+  isPublic?: boolean | undefined;
 }
 export type ContainerRegistryKind = "ECR" | "DockerHub" | "GAR" | "default";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -660,9 +669,9 @@ export interface CreateContainerRegistryResponse {
   /** A string representation of a domain name. See RFC-1034 (https://www.ietf.org/rfc/rfc1034.txt). Consider that the limit of a domain name is min 3 and max 253 ASCII characters. */
   domain: string;
   /** The type of registry that is being configured. */
-  kind?: ContainerRegistryKind | null;
+  kind?: ContainerRegistryKind | null | undefined;
   /** Public component of the registry credentials. For managed registries this is a base64-encoded public key; for external registries the format depends on the registry provider. */
-  publicKey?: string | null;
+  publicKey?: string | null | undefined;
 }
 export type CreateContainerRegistryCredentialsRequestPermissionsItem = "pull" | "push" | "list";
 export type CreateContainerRegistryCredentialsRequestPermissionsList = Array<
@@ -673,9 +682,9 @@ export interface CreateContainerRegistryCredentialsRequest {
   /** The domain to get credentials for. */
   domain: string;
   /** The number of minutes Cloudflare managed registry credentials stay valid. Required for managed registries and must remain positive. Cloudflare ignores this value for external registries. */
-  expirationMinutes?: number;
+  expirationMinutes?: number | undefined;
   /** The permissions for Cloudflare managed registry credentials. Required for managed registries. Cloudflare ignores this value for external registries. */
-  permissions?: CreateContainerRegistryCredentialsRequestPermissionsList;
+  permissions?: CreateContainerRegistryCredentialsRequestPermissionsList | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateContainerRegistryCredentialsResponse {
@@ -693,9 +702,9 @@ export interface CreateDurableObjectContainerApplicationRequest {
   name: string;
   schedulingPolicy: DurableObjectSchedulingPolicy;
   durableObjects: DurableObjectsConfiguration;
-  configuration?: DurableObjectContainerConfiguration;
-  constraints?: DurableObjectApplicationConstraints;
-  observability?: ContainerApplicationObservability;
+  configuration?: DurableObjectContainerConfiguration | undefined;
+  constraints?: DurableObjectApplicationConstraints | undefined;
+  observability?: ContainerApplicationObservability | undefined;
 }
 export type CreateDurableObjectContainerApplicationResponse = ContainerApplicationItem;
 export interface DeleteContainerApplicationRequest {
@@ -705,7 +714,7 @@ export interface DeleteContainerApplicationRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteContainerApplicationResponse {
-  message?: string | null;
+  message?: string | null | undefined;
 }
 export interface DeleteContainerRegistryRequest {
   accountId: string;
@@ -745,7 +754,7 @@ export interface ContainerInstanceStatus {
   /** UTC timestamp string in ISO 8601 format. */
   updatedAt: string;
   /** The process exit code, when the runtime reports one. */
-  exitCode?: number | null;
+  exitCode?: number | null | undefined;
 }
 export interface ContainerInstanceResources {
   /** Disk allocated to the container instance, in decimal MB. */
@@ -772,13 +781,13 @@ export interface GetContainerApplicationInstanceResponse {
   /** The latest known status of a container instance. */
   status: ContainerInstanceStatus;
   /** The resources allocated to the container instance. */
-  configuration?: ContainerInstanceResources | null;
+  configuration?: ContainerInstanceResources | null | undefined;
   /** The location of the instance's current container placement. */
-  location?: ContainerInstanceLocation | null;
+  location?: ContainerInstanceLocation | null | undefined;
   /** The customer-provided instance name, when available. Its UTF-8 encoding uses at most 1,024 bytes. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The time at which the current container placement started, when one exists. */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
 }
 export interface GetContainerIdentityRequest {
   accountId: string;
@@ -790,13 +799,13 @@ export interface ListContainerApplicationInstancesRequest {
   /** An Application ID represents an identifier of an application. */
   applicationId: string;
   /** Filter instances by a case-sensitive name prefix, falling back to the actor ID when no name is known. Keep the same prefix when using a page token. */
-  namePrefix?: string;
+  namePrefix?: string | undefined;
   /** Opaque token from a previous response to retrieve the next page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of instances to return per page. Defaults to 100. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filters instances by lifecycle state. `active` includes provisioning, running, and stopping instances; `not-active` includes stopped and failed instances. When omitted, all instances are returned. */
-  state?: ContainerInstanceStateFilter | (string & {});
+  state?: ContainerInstanceStateFilter | (string & {}) | undefined;
 }
 export interface ContainerInstance {
   /** A container instance ID (64-character hex Durable Object actor ID). */
@@ -808,26 +817,26 @@ export interface ContainerInstance {
   /** The latest known status of a container instance. */
   status: ContainerInstanceStatus;
   /** The resources allocated to the container instance. */
-  configuration?: ContainerInstanceResources | null;
+  configuration?: ContainerInstanceResources | null | undefined;
   /** The location of the instance's current container placement. */
-  location?: ContainerInstanceLocation | null;
+  location?: ContainerInstanceLocation | null | undefined;
   /** The customer-provided instance name, when available. Its UTF-8 encoding uses at most 1,024 bytes. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The time at which the current container placement started, when one exists. */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
 }
 export type ContainerInstanceList = Array<ContainerInstance>;
 export type ListContainerApplicationInstancesResponse = ContainerInstanceList;
 export interface ListContainerApplicationsRequest {
   accountId: string;
   /** Filter applications by image. */
-  image?: string;
+  image?: string | undefined;
   /** Filter applications by name. */
-  name?: string;
+  name?: string | undefined;
   /** Opaque token from a previous response to retrieve the next page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of applications to return per page. Defaults to all, or 100 when `page_token` is set. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ContainerApplicationItemList = Array<ContainerApplicationItem>;
 export type ListContainerApplicationsResponse = ContainerApplicationItemList;
@@ -853,9 +862,9 @@ export interface ContainerRegistry {
   /** A string representation of a domain name. See RFC-1034 (https://www.ietf.org/rfc/rfc1034.txt). Consider that the limit of a domain name is min 3 and max 253 ASCII characters. */
   domain: string;
   /** The type of registry that is being configured. */
-  kind?: ContainerRegistryKind | null;
+  kind?: ContainerRegistryKind | null | undefined;
   /** Public component of the registry credentials. For managed registries this is a base64-encoded public key; for external registries the format depends on the registry provider. */
-  publicKey?: string | null;
+  publicKey?: string | null | undefined;
 }
 export type ContainerRegistryList = Array<ContainerRegistry>;
 export type ListContainerRegistriesResponse = ContainerRegistryList;
@@ -872,27 +881,27 @@ export interface PrepareContainerImageResponse {
   /** Current durable preparation state for a container image. */
   status: ContainerImagePreparationStatus;
   /** Digest of the prepared runtime artifact when status is ready. */
-  artifactDigest?: string | null;
+  artifactDigest?: string | null | undefined;
   /** Human-readable pending or terminal error detail. */
-  reason?: string | null;
+  reason?: string | null | undefined;
 }
 export interface UpdateContainerApplicationRequest {
   accountId: string;
   /** An Application ID represents an identifier of an application. */
   applicationId: string;
   /** Application configuration fields you can change without creating a rollout. */
-  configuration?: ContainerApplicationConfiguration;
-  constraints?: ScheduledApplicationConstraints;
+  configuration?: ContainerApplicationConfiguration | undefined;
+  constraints?: ScheduledApplicationConstraints | undefined;
   /** Maximum number of instances that an autoscaling application can run. */
-  maxInstances?: number;
+  maxInstances?: number | undefined;
   /** Top-level application observability settings. Scheduler-backed applications hot-reload these settings across existing instances. An existing Durable Object-managed application accepts only `logs.enabled` and publishes these settings to runtime metadata without creating deployments or rollouts. */
-  observability?: ContainerApplicationObservability;
+  observability?: ContainerApplicationObservability | undefined;
   /** Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds. Defaults to 0. */
-  rolloutActiveGracePeriod?: number;
-  instances?: number;
-  schedulingPolicy?: ContainerSchedulingPolicy | (string & {});
+  rolloutActiveGracePeriod?: number | undefined;
+  instances?: number | undefined;
+  schedulingPolicy?: ContainerSchedulingPolicy | (string & {}) | undefined;
   /** Not in the API reference. Wrangler's ModifyApplicationRequestBody has it (https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/ModifyApplicationRequestBody.ts). */
-  affinities?: unknown;
+  affinities?: unknown | undefined;
 }
 export type UpdateContainerApplicationResponse = ContainerApplicationItem;
 export type CreateContainerApplicationError =

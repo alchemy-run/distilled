@@ -39,7 +39,7 @@ export interface AddOrUpdateMembershipForUserInOrgRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The role that this user should have in the team. */
-  role?: AddOrUpdateMembershipForUserInOrgRequestRole | (string & {});
+  role?: AddOrUpdateMembershipForUserInOrgRequestRole | (string & {}) | undefined;
 }
 /** The role of the user in the team. */
 export type TeamMembershipRole = "member" | "maintainer";
@@ -62,8 +62,8 @@ export interface AddOrUpdateRepoPermissionsInOrgRequest {
   owner: string;
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
-  /** The permission to grant the team on this repository. We accept the following permissions to be set: `pull`, `triage`, `push`, `maintain`, `admin` and you can also specify a custom repository role name, if the owning organization has defined any. If no permission is specified, the team's `permission` attribute will be used to determine what permission to grant the team on this repository. */
-  permission?: string;
+  /** The permission to grant the team on this repository. We accept the following permissions to be set: `pull`, `triage`, `moderate`, `push`, `maintain`, `admin` and you can also specify a custom repository role name, if the owning organization has defined any. If no permission is specified, the team's `permission` attribute will be used to determine what permission to grant the team on this repository. */
+  permission?: string | undefined;
 }
 export interface AddOrUpdateRepoPermissionsInOrgResponse {}
 export interface CheckPermissionsForRepoInOrgRequest {
@@ -83,19 +83,19 @@ export interface NullableLicenseSimple {
   url: string | null;
   spdx_id: string | null;
   node_id: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export interface TeamRepositoryPermissions {
   admin: boolean;
   pull: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   push: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
 }
 /** A GitHub user. */
 export interface NullableSimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -114,8 +114,8 @@ export interface NullableSimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 export type TeamRepositoryTopicsList = Array<string>;
 /** A team's access to a repository. */
@@ -128,8 +128,8 @@ export interface TeamRepository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: TeamRepositoryPermissions;
-  role_name?: string;
+  permissions?: TeamRepositoryPermissions | undefined;
+  role_name?: string | undefined;
   owner: NullableSimpleUser | null;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -188,8 +188,8 @@ export interface TeamRepository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: TeamRepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: TeamRepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -204,30 +204,31 @@ export interface TeamRepository {
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
-  temp_clone_token?: string;
+  allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
-  subscribers_count?: number;
-  network_count?: number;
+  web_commit_signoff_required?: boolean | undefined;
+  subscribers_count?: number | undefined;
+  network_count?: number | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
+  master_branch?: string | undefined;
 }
 /** List GitHub usernames for organization members who will become team maintainers. */
 export type CreateRequestMaintainersList = Array<string>;
@@ -245,21 +246,21 @@ export interface CreateRequest {
   /** The name of the team. */
   name: string;
   /** The description of the team. */
-  description?: string;
+  description?: string | undefined;
   /** List GitHub usernames for organization members who will become team maintainers. */
-  maintainers?: CreateRequestMaintainersList;
+  maintainers?: CreateRequestMaintainersList | undefined;
   /** The full name (e.g., "organization-name/repository-name") of repositories to add the team to. */
-  repo_names?: CreateRequestRepoNamesList;
+  repo_names?: CreateRequestRepoNamesList | undefined;
   /** The level of privacy this team should have. The options are: **For a non-nested team:** * `secret` - only visible to organization owners and members of this team. * `closed` - visible to all members of this organization. Default: `secret` **For a parent or child team:** * `closed` - visible to all members of this organization. Default for child team: `closed` */
-  privacy?: CreateRequestPrivacy | (string & {});
+  privacy?: CreateRequestPrivacy | (string & {}) | undefined;
   /** The notification setting the team has chosen. The options are: * `notifications_enabled` - team members receive notifications when the team is @mentioned. * `notifications_disabled` - no one receives notifications. Default: `notifications_enabled` */
-  notification_setting?: CreateRequestNotificationSetting | (string & {});
+  notification_setting?: CreateRequestNotificationSetting | (string & {}) | undefined;
   /** **Closing down notice**. The permission that new repositories will be added to the team with when none is specified. */
-  permission?: CreateRequestPermission | (string & {});
+  permission?: CreateRequestPermission | (string & {}) | undefined;
   /** The ID of a team to set as the parent team. */
-  parent_team_id?: number;
+  parent_team_id?: number | undefined;
   /** The slug of a team to set as the parent team. Ignored when `parent_team_id` is also provided. */
-  parent_team_slug?: string;
+  parent_team_slug?: string | undefined;
 }
 /** The level of privacy this team should have */
 export type TeamFullPrivacy = "closed" | "secret";
@@ -282,27 +283,27 @@ export interface NullableTeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: NullableTeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 export interface TeamOrganizationPlan {
   name: string;
   space: number;
   private_repos: number;
-  filled_seats?: number;
-  seats?: number;
+  filled_seats?: number | undefined;
+  seats?: number | undefined;
 }
 /** Team Organization */
 export interface TeamOrganization {
@@ -318,13 +319,13 @@ export interface TeamOrganization {
   public_members_url: string;
   avatar_url: string;
   description: string | null;
-  name?: string;
-  company?: string | null;
-  blog?: string | null;
-  location?: string | null;
-  email?: string | null;
-  twitter_username?: string | null;
-  is_verified?: boolean;
+  name?: string | undefined;
+  company?: string | null | undefined;
+  blog?: string | null | undefined;
+  location?: string | null | undefined;
+  email?: string | null | undefined;
+  twitter_username?: string | null | undefined;
+  is_verified?: boolean | undefined;
   has_organization_projects: boolean;
   has_repository_projects: boolean;
   public_repos: number;
@@ -334,25 +335,25 @@ export interface TeamOrganization {
   html_url: string;
   created_at: string;
   type: string;
-  total_private_repos?: number;
-  owned_private_repos?: number;
-  private_gists?: number | null;
-  disk_usage?: number | null;
-  collaborators?: number | null;
-  billing_email?: string | null;
-  plan?: TeamOrganizationPlan;
-  default_repository_permission?: string | null;
-  members_can_create_repositories?: boolean | null;
-  two_factor_requirement_enabled?: boolean | null;
-  members_allowed_repository_creation_type?: string;
-  members_can_create_public_repositories?: boolean;
-  members_can_create_private_repositories?: boolean;
-  members_can_create_internal_repositories?: boolean;
-  members_can_create_pages?: boolean;
-  members_can_create_public_pages?: boolean;
-  members_can_create_private_pages?: boolean;
-  members_can_fork_private_repositories?: boolean | null;
-  web_commit_signoff_required?: boolean;
+  total_private_repos?: number | undefined;
+  owned_private_repos?: number | undefined;
+  private_gists?: number | null | undefined;
+  disk_usage?: number | null | undefined;
+  collaborators?: number | null | undefined;
+  billing_email?: string | null | undefined;
+  plan?: TeamOrganizationPlan | undefined;
+  default_repository_permission?: string | null | undefined;
+  members_can_create_repositories?: boolean | null | undefined;
+  two_factor_requirement_enabled?: boolean | null | undefined;
+  members_allowed_repository_creation_type?: string | undefined;
+  members_can_create_public_repositories?: boolean | undefined;
+  members_can_create_private_repositories?: boolean | undefined;
+  members_can_create_internal_repositories?: boolean | undefined;
+  members_can_create_pages?: boolean | undefined;
+  members_can_create_public_pages?: boolean | undefined;
+  members_can_create_private_pages?: boolean | undefined;
+  members_can_fork_private_repositories?: boolean | null | undefined;
+  web_commit_signoff_required?: boolean | undefined;
   updated_at: string;
   archived_at: string | null;
 }
@@ -371,26 +372,26 @@ export interface TeamFull {
   slug: string;
   description: string | null;
   /** The level of privacy this team should have */
-  privacy?: TeamFullPrivacy;
+  privacy?: TeamFullPrivacy | undefined;
   /** The notification setting the team has set */
-  notification_setting?: TeamFullNotificationSetting;
+  notification_setting?: TeamFullNotificationSetting | undefined;
   /** Permission that the team will have for its repositories */
   permission: string;
   members_url: string;
   repositories_url: string;
-  parent?: NullableTeamSimple | null;
+  parent?: NullableTeamSimple | null | undefined;
   members_count: number;
   repos_count: number;
   created_at: string;
   updated_at: string;
   organization: TeamOrganization;
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: TeamFullType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 export interface DeleteInOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -418,11 +419,11 @@ export interface ListRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
-  /** Filter team results by their type. For more information, see "[What kind of team should I use?](https://docs.github.com/enterprise-cloud@latest/admin/concepts/enterprise-fundamentals/teams-in-an-enterprise#what-kind-of-team-should-i-use)" */
-  team_type?: ListRequestTeamType | (string & {});
+  page?: number | undefined;
+  /** Filter team results by their type. For more information, see "[What kind of team should I use?](https://docs.github.com/admin/concepts/enterprise-fundamentals/teams-in-an-enterprise#what-kind-of-team-should-i-use)" */
+  team_type?: ListRequestTeamType | (string & {}) | undefined;
 }
 export interface TeamPermissions {
   pull: boolean;
@@ -442,10 +443,10 @@ export interface Team {
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -453,11 +454,11 @@ export interface Team {
   /** The ownership type of the team */
   type: TeamType;
   /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
-  access_source?: TeamAccessSource;
+  access_source?: TeamAccessSource | undefined;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
   parent: NullableTeamSimple | null;
 }
 export type ListResponseBodyList = Array<Team>;
@@ -468,17 +469,17 @@ export interface ListChildInOrgRequest {
   /** The slug of the team name. */
   team_slug: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListChildInOrgResponseBodyList = Array<Team>;
 export type ListChildInOrgResponse = ListChildInOrgResponseBodyList;
 export interface ListForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForAuthenticatedUserResponseBodyList = Array<TeamFull>;
 export type ListForAuthenticatedUserResponse = ListForAuthenticatedUserResponseBodyList;
@@ -489,18 +490,18 @@ export interface ListMembersInOrgRequest {
   /** The slug of the team name. */
   team_slug: string;
   /** Filters members returned by their role in the team. */
-  role?: ListMembersInOrgRequestRole | (string & {});
+  role?: ListMembersInOrgRequestRole | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** The member's role on the team. Only present on the `List team members` endpoint, and only when the feature is enabled for the organization. */
 export type TeamMemberRole = "member" | "maintainer";
 /** A user that is a member of a team, including their role on the team and whether the membership is inherited from a child team. */
 export interface TeamMember {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -519,12 +520,12 @@ export interface TeamMember {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
   /** The member's role on the team. Only present on the `List team members` endpoint, and only when the feature is enabled for the organization. */
-  role?: TeamMemberRole;
+  role?: TeamMemberRole | undefined;
   /** Whether the user is a member of the team only through a child team. `true` means the membership is inherited from a child team; `false` means the user is a direct (immediate) member of the team. Only present on the `List team members` endpoint, and only when the feature is enabled for the organization. */
-  inherited?: boolean;
+  inherited?: boolean | undefined;
 }
 export type ListMembersInOrgResponseBodyList = Array<TeamMember>;
 export type ListMembersInOrgResponse = ListMembersInOrgResponseBodyList;
@@ -534,9 +535,9 @@ export interface ListPendingInvitationsInOrgRequest {
   /** The slug of the team name. */
   team_slug: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** A GitHub user. */
 export type SimpleUser = NullableSimpleUser;
@@ -547,13 +548,13 @@ export interface OrganizationInvitation {
   email: string | null;
   role: string;
   created_at: string;
-  failed_at?: string | null;
-  failed_reason?: string | null;
+  failed_at?: string | null | undefined;
+  failed_reason?: string | null | undefined;
   inviter: NullableSimpleUser;
   team_count: number;
   node_id: string;
   invitation_teams_url: string;
-  invitation_source?: string;
+  invitation_source?: string | undefined;
 }
 export type ListPendingInvitationsInOrgResponseBodyList = Array<OrganizationInvitation>;
 export type ListPendingInvitationsInOrgResponse = ListPendingInvitationsInOrgResponseBodyList;
@@ -563,74 +564,74 @@ export interface ListReposInOrgRequest {
   /** The slug of the team name. */
   team_slug: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type MinimalRepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type MinimalRepositoryPullRequestCreationPolicy = "all" | "collaborators_only";
 export interface MinimalRepositoryPermissions {
-  admin?: boolean;
-  maintain?: boolean;
-  push?: boolean;
-  triage?: boolean;
-  pull?: boolean;
+  admin?: boolean | undefined;
+  maintain?: boolean | undefined;
+  push?: boolean | undefined;
+  triage?: boolean | undefined;
+  pull?: boolean | undefined;
 }
 /** Code Of Conduct */
 export interface CodeOfConduct {
   key: string;
   name: string;
   url: string;
-  body?: string;
+  body?: string | undefined;
   html_url: string | null;
 }
 export interface MinimalRepositoryLicense {
-  key?: string;
-  name?: string;
-  spdx_id?: string;
-  url?: string | null;
-  node_id?: string;
+  key?: string | undefined;
+  name?: string | undefined;
+  spdx_id?: string | undefined;
+  url?: string | null | undefined;
+  node_id?: string | undefined;
 }
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
 export interface SecurityAndAnalysisAdvancedSecurity {
-  status?: SecurityAndAnalysisAdvancedSecurityStatus;
+  status?: SecurityAndAnalysisAdvancedSecurityStatus | undefined;
 }
 export type SecurityAndAnalysisCodeSecurityStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisCodeSecurity {
-  status?: SecurityAndAnalysisCodeSecurityStatus;
+  status?: SecurityAndAnalysisCodeSecurityStatus | undefined;
 }
 /** The enablement status of Dependabot security updates for the repository. */
 export type SecurityAndAnalysisDependabotSecurityUpdatesStatus = "enabled" | "disabled";
 /** Enable or disable Dependabot security updates for the repository. */
 export interface SecurityAndAnalysisDependabotSecurityUpdates {
   /** The enablement status of Dependabot security updates for the repository. */
-  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus;
+  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanning {
-  status?: SecurityAndAnalysisSecretScanningStatus;
+  status?: SecurityAndAnalysisSecretScanningStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningPushProtectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningPushProtection {
-  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus;
+  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningNonProviderPatternsStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningNonProviderPatterns {
-  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus;
+  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningAiDetectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningAiDetection {
-  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus;
+  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedAlertDismissal {
-  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedBypassStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedBypass {
-  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus | undefined;
 }
 /** The type of the bypass reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
@@ -646,28 +647,34 @@ export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewer
   /** The type of the bypass reviewer */
   reviewer_type: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType;
   /** The bypass mode for the reviewer */
-  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode;
+  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode | undefined;
 }
 /** The bypass reviewers for secret scanning delegated bypass */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList =
   Array<SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItem>;
 export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptions {
   /** The bypass reviewers for secret scanning delegated bypass */
-  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList;
+  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList | undefined;
 }
 export interface SecurityAndAnalysis {
   /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
-  advanced_security?: SecurityAndAnalysisAdvancedSecurity;
-  code_security?: SecurityAndAnalysisCodeSecurity;
+  advanced_security?: SecurityAndAnalysisAdvancedSecurity | undefined;
+  code_security?: SecurityAndAnalysisCodeSecurity | undefined;
   /** Enable or disable Dependabot security updates for the repository. */
-  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates;
-  secret_scanning?: SecurityAndAnalysisSecretScanning;
-  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection;
-  secret_scanning_non_provider_patterns?: SecurityAndAnalysisSecretScanningNonProviderPatterns;
-  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection;
-  secret_scanning_delegated_alert_dismissal?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissal;
-  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass;
-  secret_scanning_delegated_bypass_options?: SecurityAndAnalysisSecretScanningDelegatedBypassOptions;
+  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates | undefined;
+  secret_scanning?: SecurityAndAnalysisSecretScanning | undefined;
+  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection | undefined;
+  secret_scanning_non_provider_patterns?:
+    | SecurityAndAnalysisSecretScanningNonProviderPatterns
+    | undefined;
+  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection | undefined;
+  secret_scanning_delegated_alert_dismissal?:
+    | SecurityAndAnalysisSecretScanningDelegatedAlertDismissal
+    | undefined;
+  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass | undefined;
+  secret_scanning_delegated_bypass_options?:
+    | SecurityAndAnalysisSecretScanningDelegatedBypassOptions
+    | undefined;
 }
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
 export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
@@ -700,7 +707,7 @@ export interface MinimalRepository {
   git_commits_url: string;
   git_refs_url: string;
   git_tags_url: string;
-  git_url?: string;
+  git_url?: string | undefined;
   issue_comment_url: string;
   issue_events_url: string;
   issues_url: string;
@@ -712,7 +719,7 @@ export interface MinimalRepository {
   notifications_url: string;
   pulls_url: string;
   releases_url: string;
-  ssh_url?: string;
+  ssh_url?: string | undefined;
   stargazers_url: string;
   statuses_url: string;
   subscribers_url: string;
@@ -720,52 +727,53 @@ export interface MinimalRepository {
   tags_url: string;
   teams_url: string;
   trees_url: string;
-  clone_url?: string;
-  mirror_url?: string | null;
+  clone_url?: string | undefined;
+  mirror_url?: string | null | undefined;
   hooks_url: string;
-  svn_url?: string;
-  homepage?: string | null;
-  language?: string | null;
-  forks_count?: number;
-  stargazers_count?: number;
-  watchers_count?: number;
+  svn_url?: string | undefined;
+  homepage?: string | null | undefined;
+  language?: string | null | undefined;
+  forks_count?: number | undefined;
+  stargazers_count?: number | undefined;
+  watchers_count?: number | undefined;
   /** The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0. */
-  size?: number;
-  default_branch?: string;
-  open_issues_count?: number;
-  is_template?: boolean;
-  topics?: MinimalRepositoryTopicsList;
-  has_issues?: boolean;
-  has_projects?: boolean;
-  has_wiki?: boolean;
-  has_pages?: boolean;
-  has_downloads?: boolean;
-  has_discussions?: boolean;
-  has_pull_requests?: boolean;
+  size?: number | undefined;
+  default_branch?: string | undefined;
+  open_issues_count?: number | undefined;
+  is_template?: boolean | undefined;
+  topics?: MinimalRepositoryTopicsList | undefined;
+  has_issues?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_wiki?: boolean | undefined;
+  has_pages?: boolean | undefined;
+  has_downloads?: boolean | undefined;
+  has_discussions?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy;
-  archived?: boolean;
-  disabled?: boolean;
-  visibility?: string;
-  pushed_at?: string | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  permissions?: MinimalRepositoryPermissions;
-  role_name?: string;
-  temp_clone_token?: string;
-  delete_branch_on_merge?: boolean;
-  subscribers_count?: number;
-  network_count?: number;
-  code_of_conduct?: CodeOfConduct;
-  license?: MinimalRepositoryLicense | null;
-  forks?: number;
-  open_issues?: number;
-  watchers?: number;
-  allow_forking?: boolean;
-  web_commit_signoff_required?: boolean;
-  security_and_analysis?: SecurityAndAnalysis | null;
+  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy | undefined;
+  archived?: boolean | undefined;
+  disabled?: boolean | undefined;
+  visibility?: string | undefined;
+  pushed_at?: string | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  permissions?: MinimalRepositoryPermissions | undefined;
+  role_name?: string | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
+  temp_clone_token?: string | undefined;
+  delete_branch_on_merge?: boolean | undefined;
+  subscribers_count?: number | undefined;
+  network_count?: number | undefined;
+  code_of_conduct?: CodeOfConduct | undefined;
+  license?: MinimalRepositoryLicense | null | undefined;
+  forks?: number | undefined;
+  open_issues?: number | undefined;
+  watchers?: number | undefined;
+  allow_forking?: boolean | undefined;
+  web_commit_signoff_required?: boolean | undefined;
+  security_and_analysis?: SecurityAndAnalysis | null | undefined;
   /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-  custom_properties?: MinimalRepositoryCustomPropertiesMap;
+  custom_properties?: MinimalRepositoryCustomPropertiesMap | undefined;
 }
 export type ListReposInOrgResponseBodyList = Array<MinimalRepository>;
 export type ListReposInOrgResponse = ListReposInOrgResponseBodyList;
@@ -803,19 +811,19 @@ export interface UpdateInOrgRequest {
   /** The slug of the team name. */
   team_slug: string;
   /** The name of the team. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the team. */
-  description?: string;
+  description?: string | undefined;
   /** The level of privacy this team should have. Editing teams without specifying this parameter leaves `privacy` intact. When a team is nested, the `privacy` for parent teams cannot be `secret`. The options are: **For a non-nested team:** * `secret` - only visible to organization owners and members of this team. * `closed` - visible to all members of this organization. **For a parent or child team:** * `closed` - visible to all members of this organization. */
-  privacy?: UpdateInOrgRequestPrivacy | (string & {});
+  privacy?: UpdateInOrgRequestPrivacy | (string & {}) | undefined;
   /** The notification setting the team has chosen. Editing teams without specifying this parameter leaves `notification_setting` intact. The options are: * `notifications_enabled` - team members receive notifications when the team is @mentioned. * `notifications_disabled` - no one receives notifications. */
-  notification_setting?: UpdateInOrgRequestNotificationSetting | (string & {});
+  notification_setting?: UpdateInOrgRequestNotificationSetting | (string & {}) | undefined;
   /** **Closing down notice**. The permission that new repositories will be added to the team with when none is specified. */
-  permission?: UpdateInOrgRequestPermission | (string & {});
+  permission?: UpdateInOrgRequestPermission | (string & {}) | undefined;
   /** The ID of a team to set as the parent team. */
-  parent_team_id?: number | null;
+  parent_team_id?: number | null | undefined;
   /** The slug of a team to set as the parent team. Ignored when `parent_team_id` is also provided. */
-  parent_team_slug?: string | null;
+  parent_team_slug?: string | null | undefined;
 }
 export type AddOrUpdateMembershipForUserInOrgError = GithubOpError;
 /** Add or update team membership for a user Adds an organization member to a team. An authenticated organization owner or team maintainer can add organization members to a team. Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation. > [!NOTE] > When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "[Synchronizing teams between your identity provider and GitHub](https://docs.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/)." An organization owner can add someone who is not part of the team's organization to a team. When an organization owner adds someone to a team who is not an organization member, this endpoint will send an invitation to the person via email. This newly-created membership will be in the "pending" state until the person accepts the invitation, at which point the membership will transition to the "active" state and the user will be added as a member of the team. If the user is already a member of the team, this endpoint will update the role of the team member's role. To update the membership of a team member, the authenticated user must be an organization owner or a team maintainer. > [!NOTE] > You can also specify a team by `org_id` and `team_id` using the route `PUT /organizations/{org_id}/team/{team_id}/memberships/{username}`. */

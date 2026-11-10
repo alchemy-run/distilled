@@ -42,9 +42,9 @@ export interface DeleteStandbyContainerGroupPoolRequest {
 }
 export interface DeleteStandbyContainerGroupPoolResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteStandbyVirtualMachinePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -56,9 +56,9 @@ export interface DeleteStandbyVirtualMachinePoolRequest {
 }
 export interface DeleteStandbyVirtualMachinePoolResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetStandbyContainerGroupPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -75,17 +75,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetStandbyContainerGroupPoolResponseTagsMap = { [key: string]: string | undefined };
@@ -94,23 +94,23 @@ export type RefillPolicy = "always";
 /** Specifies the dynamic sizing configuration. */
 export interface DynamicSizing {
   /** Indicates whether dynamic sizing is enabled for the standby pool. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Specifies the elasticity profile of the standby container group pools. */
 export interface StandbyContainerGroupPoolElasticityProfile {
   /** Specifies maximum number of standby container groups in the standby pool. */
   maxReadyCapacity: number;
   /** Specifies refill policy of the pool. */
-  refillPolicy?: RefillPolicy | (string & {});
+  refillPolicy?: RefillPolicy | (string & {}) | undefined;
   /** Specifies the dynamic sizing configuration. */
-  dynamicSizing?: DynamicSizing;
+  dynamicSizing?: DynamicSizing | undefined;
 }
 /** Details of the ContainerGroupProfile. */
 export interface ContainerGroupProfile {
   /** Specifies container group profile id of standby container groups. */
   id: string;
   /** Specifies revision of container group profile. */
-  revision?: number;
+  revision?: number | undefined;
 }
 /** Subnet of container group */
 export interface Subnet {
@@ -124,7 +124,7 @@ export interface ContainerGroupProperties {
   /** Specifies container group profile of standby container groups. */
   containerGroupProfile: ContainerGroupProfile;
   /** Specifies subnet Ids for container group. */
-  subnetIds?: ContainerGroupPropertiesSubnetIdsList;
+  subnetIds?: ContainerGroupPropertiesSubnetIdsList | undefined;
 }
 /** Specifies zones of standby container group pools. */
 export type StandbyContainerGroupPoolResourcePropertiesZonesList = Array<string>;
@@ -137,25 +137,25 @@ export interface StandbyContainerGroupPoolResourceProperties {
   /** Specifies container group properties of standby container group pools. */
   containerGroupProperties: ContainerGroupProperties;
   /** Specifies zones of standby container group pools. */
-  zones?: StandbyContainerGroupPoolResourcePropertiesZonesList;
+  zones?: StandbyContainerGroupPoolResourcePropertiesZonesList | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetStandbyContainerGroupPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetStandbyContainerGroupPoolResponseTagsMap;
+  tags?: GetStandbyContainerGroupPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyContainerGroupPoolResourceProperties;
+  properties?: StandbyContainerGroupPoolResourceProperties | undefined;
 }
 export interface GetStandbyContainerGroupPoolRuntimeViewRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -182,7 +182,7 @@ export type ContainerGroupInstanceCountSummaryInstanceCountsByStateList =
 /** Displays the counts of container groups in each state, as known by the StandbyPool resource provider. */
 export interface ContainerGroupInstanceCountSummary {
   /** The zone that the provided counts are in. It will not have a value if zones are not enabled. */
-  zone?: number;
+  zone?: number | undefined;
   /** The count of pooled container groups in each state for the given zone. */
   instanceCountsByState: ContainerGroupInstanceCountSummaryInstanceCountsByStateList;
 }
@@ -196,7 +196,7 @@ export interface PoolStatus {
   /** Displays the healthy state of the StandbyPool. */
   code: HealthStateCode;
   /** Displays the StandbyPool health state details. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Displays the predicted count of instances to be requested from the standby pool. */
 export type StandbyContainerGroupPoolForecastValuesInstancesRequestedCountList = Array<number>;
@@ -219,23 +219,23 @@ export interface StandbyContainerGroupPoolRuntimeViewResourceProperties {
   /** A list containing the counts of container groups in each possible state, as known by the StandbyPool resource provider. */
   instanceCountSummary: StandbyContainerGroupPoolRuntimeViewResourcePropertiesInstanceCountSummaryList;
   /** Display status of the standby pool */
-  status?: PoolStatus;
+  status?: PoolStatus | undefined;
   /** Displays the provisioning state of the standby pool */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Displays prediction information of the standby pool */
-  prediction?: StandbyContainerGroupPoolPrediction;
+  prediction?: StandbyContainerGroupPoolPrediction | undefined;
 }
 export interface GetStandbyContainerGroupPoolRuntimeViewResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyContainerGroupPoolRuntimeViewResourceProperties;
+  properties?: StandbyContainerGroupPoolRuntimeViewResourceProperties | undefined;
 }
 export interface GetStandbyVirtualMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -252,19 +252,19 @@ export interface StandbyVirtualMachineResourceProperties {
   /** Resource id of the virtual machine. */
   virtualMachineResourceId: string;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetStandbyVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyVirtualMachineResourceProperties;
+  properties?: StandbyVirtualMachineResourceProperties | undefined;
 }
 export interface GetStandbyVirtualMachinePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -281,51 +281,51 @@ export interface StandbyVirtualMachinePoolElasticityProfile {
   /** Specifies the maximum number of virtual machines in the standby virtual machine pool. */
   maxReadyCapacity: number;
   /** Specifies the desired minimum number of virtual machines in the standby virtual machine pool. MinReadyCapacity cannot exceed MaxReadyCapacity. */
-  minReadyCapacity?: number;
+  minReadyCapacity?: number | undefined;
   /** Specifies the duration to wait after virtual machine provisioning before the virtual machine becomes available for use. The duration should be specified in ISO 8601 format (e.g., PT2S for 2 seconds). */
-  postProvisioningDelay?: string;
+  postProvisioningDelay?: string | undefined;
   /** Specifies the dynamic sizing configuration. */
-  dynamicSizing?: DynamicSizing;
+  dynamicSizing?: DynamicSizing | undefined;
 }
 /** State of standby virtual machines */
 export type VirtualMachineState = "Running" | "Deallocated" | "Hibernated" | "Mix";
 /** Specifies the distribution of virtual machine states in the pool. */
 export interface VmStateDistribution {
   /** Specifies the percentage of virtual machines in the Running state in the standby pool. */
-  runningPercent?: number;
+  runningPercent?: number | undefined;
   /** Specifies the percentage of virtual machines in the Deallocated state in the standby pool. */
-  deallocatedPercent?: number;
+  deallocatedPercent?: number | undefined;
   /** Specifies the percentage of virtual machines in the Hibernated state in the standby pool. */
-  hibernatedPercent?: number;
+  hibernatedPercent?: number | undefined;
 }
 /** Details of the StandbyVirtualMachinePool. */
 export interface StandbyVirtualMachinePoolResourceProperties {
   /** Specifies the elasticity profile of the standby virtual machine pools. */
-  elasticityProfile?: StandbyVirtualMachinePoolElasticityProfile;
+  elasticityProfile?: StandbyVirtualMachinePoolElasticityProfile | undefined;
   /** Specifies the desired state of virtual machines in the pool. */
   virtualMachineState: VirtualMachineState;
   /** Specifies the distribution of virtual machine states in the pool when virtualMachineState is set to Mix. */
-  vmStateDistribution?: VmStateDistribution;
+  vmStateDistribution?: VmStateDistribution | undefined;
   /** Specifies the fully qualified resource ID of a virtual machine scale set the pool is attached to. */
-  attachedVirtualMachineScaleSetId?: string;
+  attachedVirtualMachineScaleSetId?: string | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetStandbyVirtualMachinePoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetStandbyVirtualMachinePoolResponseTagsMap;
+  tags?: GetStandbyVirtualMachinePoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyVirtualMachinePoolResourceProperties;
+  properties?: StandbyVirtualMachinePoolResourceProperties | undefined;
 }
 export interface GetStandbyVirtualMachinePoolRuntimeViewRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -360,7 +360,7 @@ export type VirtualMachineInstanceCountSummaryInstanceCountsByStateList =
 /** Contains the counts of VMs in each power state in a given zone, fault domain, as known by the StandbyPool resource provider. Note: any resources in the Running state may still be installing extensions / not fully provisioned. */
 export interface VirtualMachineInstanceCountSummary {
   /** The zone that the provided counts are in. It will not have a value if zones are not enabled on the attached VMSS. */
-  zone?: number;
+  zone?: number | undefined;
   /** The count of pooled virtual machines in each state for the given zone. */
   instanceCountsByState: VirtualMachineInstanceCountSummaryInstanceCountsByStateList;
 }
@@ -388,35 +388,35 @@ export interface StandbyVirtualMachinePoolRuntimeViewResourceProperties {
   /** A list containing the counts of virtual machines in each possible power state for each zone if enabled, as known by the StandbyPool resource provider. If zones are not enabled on the attached VMSS, the list will contain a single entry without zone values. Note: any resources in the Running state may still be installing extensions / not fully provisioned. */
   instanceCountSummary: StandbyVirtualMachinePoolRuntimeViewResourcePropertiesInstanceCountSummaryList;
   /** Display status of the standby pool */
-  status?: PoolStatus;
+  status?: PoolStatus | undefined;
   /** Displays the provisioning state of the standby pool */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Displays prediction information of the standby pool */
-  prediction?: StandbyVirtualMachinePoolPrediction;
+  prediction?: StandbyVirtualMachinePoolPrediction | undefined;
 }
 export interface GetStandbyVirtualMachinePoolRuntimeViewResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyVirtualMachinePoolRuntimeViewResourceProperties;
+  properties?: StandbyVirtualMachinePoolRuntimeViewResourceProperties | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -425,23 +425,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStandbyContainerGroupPoolByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -454,19 +454,19 @@ export type StandbyContainerGroupPoolResourceTagsMap = { [key: string]: string |
 /** A StandbyContainerGroupPoolResource. */
 export interface StandbyContainerGroupPoolResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StandbyContainerGroupPoolResourceTagsMap;
+  tags?: StandbyContainerGroupPoolResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyContainerGroupPoolResourceProperties;
+  properties?: StandbyContainerGroupPoolResourceProperties | undefined;
 }
 /** The StandbyContainerGroupPoolResource items on this page */
 export type StandbyContainerGroupPoolResourceListResultValueList =
@@ -476,7 +476,7 @@ export interface StandbyContainerGroupPoolResourceListResult {
   /** The StandbyContainerGroupPoolResource items on this page */
   value: StandbyContainerGroupPoolResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStandbyContainerGroupPoolBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -493,15 +493,15 @@ export interface ListStandbyContainerGroupPoolRuntimeViewByStandbyPoolRequest {
 /** Contains information about a standby container group pool as last known by the StandbyPool resource provider. */
 export interface StandbyContainerGroupPoolRuntimeViewResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyContainerGroupPoolRuntimeViewResourceProperties;
+  properties?: StandbyContainerGroupPoolRuntimeViewResourceProperties | undefined;
 }
 /** The StandbyContainerGroupPoolRuntimeViewResource items on this page */
 export type StandbyContainerGroupPoolRuntimeViewResourceListResultValueList =
@@ -511,7 +511,7 @@ export interface StandbyContainerGroupPoolRuntimeViewResourceListResult {
   /** The StandbyContainerGroupPoolRuntimeViewResource items on this page */
   value: StandbyContainerGroupPoolRuntimeViewResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStandbyVirtualMachineByStandbyVirtualMachinePoolResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -524,15 +524,15 @@ export interface ListStandbyVirtualMachineByStandbyVirtualMachinePoolResourceReq
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface StandbyVirtualMachineResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyVirtualMachineResourceProperties;
+  properties?: StandbyVirtualMachineResourceProperties | undefined;
 }
 /** The StandbyVirtualMachineResource items on this page */
 export type StandbyVirtualMachineResourceListResultValueList = Array<StandbyVirtualMachineResource>;
@@ -541,7 +541,7 @@ export interface StandbyVirtualMachineResourceListResult {
   /** The StandbyVirtualMachineResource items on this page */
   value: StandbyVirtualMachineResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStandbyVirtualMachinePoolByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -554,19 +554,19 @@ export type StandbyVirtualMachinePoolResourceTagsMap = { [key: string]: string |
 /** A StandbyVirtualMachinePoolResource. */
 export interface StandbyVirtualMachinePoolResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StandbyVirtualMachinePoolResourceTagsMap;
+  tags?: StandbyVirtualMachinePoolResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyVirtualMachinePoolResourceProperties;
+  properties?: StandbyVirtualMachinePoolResourceProperties | undefined;
 }
 /** The StandbyVirtualMachinePoolResource items on this page */
 export type StandbyVirtualMachinePoolResourceListResultValueList =
@@ -576,7 +576,7 @@ export interface StandbyVirtualMachinePoolResourceListResult {
   /** The StandbyVirtualMachinePoolResource items on this page */
   value: StandbyVirtualMachinePoolResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStandbyVirtualMachinePoolBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -593,15 +593,15 @@ export interface ListStandbyVirtualMachinePoolRuntimeViewByStandbyPoolRequest {
 /** Contains information about a standby virtual machine pool as last known by the StandbyPool resource provider. */
 export interface StandbyVirtualMachinePoolRuntimeViewResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyVirtualMachinePoolRuntimeViewResourceProperties;
+  properties?: StandbyVirtualMachinePoolRuntimeViewResourceProperties | undefined;
 }
 /** The StandbyVirtualMachinePoolRuntimeViewResource items on this page */
 export type StandbyVirtualMachinePoolRuntimeViewResourceListResultValueList =
@@ -611,7 +611,7 @@ export interface StandbyVirtualMachinePoolRuntimeViewResourceListResult {
   /** The StandbyVirtualMachinePoolRuntimeViewResource items on this page */
   value: StandbyVirtualMachinePoolRuntimeViewResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type StandbyContainerGroupPoolsCreateOrUpdateRequestTagsMap = {
@@ -626,7 +626,7 @@ export interface StandbyContainerGroupPoolResourcePropertiesInput {
   /** Specifies container group properties of standby container group pools. */
   containerGroupProperties: ContainerGroupProperties;
   /** Specifies zones of standby container group pools. */
-  zones?: StandbyContainerGroupPoolResourcePropertiesInputZonesList;
+  zones?: StandbyContainerGroupPoolResourcePropertiesInputZonesList | undefined;
 }
 export interface StandbyContainerGroupPoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -636,11 +636,11 @@ export interface StandbyContainerGroupPoolsCreateOrUpdateRequest {
   /** Name of the standby container group pool */
   standbyContainerGroupPoolName: string;
   /** Resource tags. */
-  tags?: StandbyContainerGroupPoolsCreateOrUpdateRequestTagsMap;
+  tags?: StandbyContainerGroupPoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyContainerGroupPoolResourcePropertiesInput;
+  properties?: StandbyContainerGroupPoolResourcePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type StandbyContainerGroupPoolsCreateOrUpdateResponseTagsMap = {
@@ -648,21 +648,21 @@ export type StandbyContainerGroupPoolsCreateOrUpdateResponseTagsMap = {
 };
 export interface StandbyContainerGroupPoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StandbyContainerGroupPoolsCreateOrUpdateResponseTagsMap;
+  tags?: StandbyContainerGroupPoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyContainerGroupPoolResourceProperties;
+  properties?: StandbyContainerGroupPoolResourceProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type StandbyVirtualMachinePoolsCreateOrUpdateRequestTagsMap = {
@@ -671,13 +671,13 @@ export type StandbyVirtualMachinePoolsCreateOrUpdateRequestTagsMap = {
 /** Details of the StandbyVirtualMachinePool. */
 export interface StandbyVirtualMachinePoolResourcePropertiesInput {
   /** Specifies the elasticity profile of the standby virtual machine pools. */
-  elasticityProfile?: StandbyVirtualMachinePoolElasticityProfile;
+  elasticityProfile?: StandbyVirtualMachinePoolElasticityProfile | undefined;
   /** Specifies the desired state of virtual machines in the pool. */
   virtualMachineState: VirtualMachineState | (string & {});
   /** Specifies the distribution of virtual machine states in the pool when virtualMachineState is set to Mix. */
-  vmStateDistribution?: VmStateDistribution;
+  vmStateDistribution?: VmStateDistribution | undefined;
   /** Specifies the fully qualified resource ID of a virtual machine scale set the pool is attached to. */
-  attachedVirtualMachineScaleSetId?: string;
+  attachedVirtualMachineScaleSetId?: string | undefined;
 }
 export interface StandbyVirtualMachinePoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -687,11 +687,11 @@ export interface StandbyVirtualMachinePoolsCreateOrUpdateRequest {
   /** Name of the standby virtual machine pool */
   standbyVirtualMachinePoolName: string;
   /** Resource tags. */
-  tags?: StandbyVirtualMachinePoolsCreateOrUpdateRequestTagsMap;
+  tags?: StandbyVirtualMachinePoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyVirtualMachinePoolResourcePropertiesInput;
+  properties?: StandbyVirtualMachinePoolResourcePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type StandbyVirtualMachinePoolsCreateOrUpdateResponseTagsMap = {
@@ -699,21 +699,21 @@ export type StandbyVirtualMachinePoolsCreateOrUpdateResponseTagsMap = {
 };
 export interface StandbyVirtualMachinePoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StandbyVirtualMachinePoolsCreateOrUpdateResponseTagsMap;
+  tags?: StandbyVirtualMachinePoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyVirtualMachinePoolResourceProperties;
+  properties?: StandbyVirtualMachinePoolResourceProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateStandbyContainerGroupPoolRequestTagsMap = { [key: string]: string | undefined };
@@ -722,11 +722,11 @@ export type StandbyContainerGroupPoolResourceUpdatePropertiesZonesList = Array<s
 /** The updatable properties of the StandbyContainerGroupPoolResource. */
 export interface StandbyContainerGroupPoolResourceUpdateProperties {
   /** Specifies elasticity profile of standby container group pools. */
-  elasticityProfile?: StandbyContainerGroupPoolElasticityProfile;
+  elasticityProfile?: StandbyContainerGroupPoolElasticityProfile | undefined;
   /** Specifies container group properties of standby container group pools. */
-  containerGroupProperties?: ContainerGroupProperties;
+  containerGroupProperties?: ContainerGroupProperties | undefined;
   /** Specifies zones of standby container group pools. */
-  zones?: StandbyContainerGroupPoolResourceUpdatePropertiesZonesList;
+  zones?: StandbyContainerGroupPoolResourceUpdatePropertiesZonesList | undefined;
 }
 export interface UpdateStandbyContainerGroupPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -736,40 +736,40 @@ export interface UpdateStandbyContainerGroupPoolRequest {
   /** Name of the standby container group pool */
   standbyContainerGroupPoolName: string;
   /** Resource tags. */
-  tags?: UpdateStandbyContainerGroupPoolRequestTagsMap;
+  tags?: UpdateStandbyContainerGroupPoolRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyContainerGroupPoolResourceUpdateProperties;
+  properties?: StandbyContainerGroupPoolResourceUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateStandbyContainerGroupPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateStandbyContainerGroupPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateStandbyContainerGroupPoolResponseTagsMap;
+  tags?: UpdateStandbyContainerGroupPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyContainerGroupPoolResourceProperties;
+  properties?: StandbyContainerGroupPoolResourceProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateStandbyVirtualMachinePoolRequestTagsMap = { [key: string]: string | undefined };
 /** The updatable properties of the StandbyVirtualMachinePoolResource. */
 export interface StandbyVirtualMachinePoolResourceUpdateProperties {
   /** Specifies the elasticity profile of the standby virtual machine pools. */
-  elasticityProfile?: StandbyVirtualMachinePoolElasticityProfile;
+  elasticityProfile?: StandbyVirtualMachinePoolElasticityProfile | undefined;
   /** Specifies the desired state of virtual machines in the pool. */
-  virtualMachineState?: VirtualMachineState | (string & {});
+  virtualMachineState?: VirtualMachineState | (string & {}) | undefined;
   /** Specifies the distribution of virtual machine states in the pool when virtualMachineState is set to Mix. */
-  vmStateDistribution?: VmStateDistribution;
+  vmStateDistribution?: VmStateDistribution | undefined;
   /** Specifies the fully qualified resource ID of a virtual machine scale set the pool is attached to. */
-  attachedVirtualMachineScaleSetId?: string;
+  attachedVirtualMachineScaleSetId?: string | undefined;
 }
 export interface UpdateStandbyVirtualMachinePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -779,27 +779,27 @@ export interface UpdateStandbyVirtualMachinePoolRequest {
   /** Name of the standby virtual machine pool */
   standbyVirtualMachinePoolName: string;
   /** Resource tags. */
-  tags?: UpdateStandbyVirtualMachinePoolRequestTagsMap;
+  tags?: UpdateStandbyVirtualMachinePoolRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyVirtualMachinePoolResourceUpdateProperties;
+  properties?: StandbyVirtualMachinePoolResourceUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateStandbyVirtualMachinePoolResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateStandbyVirtualMachinePoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateStandbyVirtualMachinePoolResponseTagsMap;
+  tags?: UpdateStandbyVirtualMachinePoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StandbyVirtualMachinePoolResourceProperties;
+  properties?: StandbyVirtualMachinePoolResourceProperties | undefined;
 }
 export type DeleteStandbyContainerGroupPoolError = AzureOpError;
 /** Delete a StandbyContainerGroupPoolResource */

@@ -153,31 +153,31 @@ export interface OutputConfiguration {
   s3Uri: string;
 }
 export interface GetDataAutomationStatusResponse {
-  status?: AutomationJobStatus;
-  errorType?: string;
-  errorMessage?: string;
-  outputConfiguration?: OutputConfiguration;
-  jobSubmissionTime?: Date;
-  jobCompletionTime?: Date;
-  jobDurationInSeconds?: number;
+  status?: AutomationJobStatus | undefined;
+  errorType?: string | undefined;
+  errorMessage?: string | undefined;
+  outputConfiguration?: OutputConfiguration | undefined;
+  jobSubmissionTime?: Date | undefined;
+  jobCompletionTime?: Date | undefined;
+  jobDurationInSeconds?: number | undefined;
 }
 export interface SyncInputConfiguration {
-  bytes?: Uint8Array;
-  s3Uri?: string;
+  bytes?: Uint8Array | undefined;
+  s3Uri?: string | undefined;
 }
 export type DataAutomationArn = string;
 export type DataAutomationStage = "LIVE" | "DEVELOPMENT" | (string & {});
 export interface DataAutomationConfiguration {
   dataAutomationProjectArn: string;
-  stage?: DataAutomationStage;
+  stage?: DataAutomationStage | undefined;
 }
 export type BlueprintArn = string;
 export type BlueprintVersion = string;
 export type BlueprintStage = "DEVELOPMENT" | "LIVE" | (string & {});
 export interface Blueprint {
   blueprintArn: string;
-  version?: string;
-  stage?: BlueprintStage;
+  version?: string | undefined;
+  stage?: BlueprintStage | undefined;
 }
 export type BlueprintList = Blueprint[];
 export type DataAutomationProfileArn = string;
@@ -187,28 +187,28 @@ export type EncryptionContextValue = string;
 export type EncryptionContextMap = { [key: string]: string | undefined };
 export interface EncryptionConfiguration {
   kmsKeyId: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
+  kmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface InvokeDataAutomationRequest {
   inputConfiguration: SyncInputConfiguration;
-  dataAutomationConfiguration?: DataAutomationConfiguration;
-  blueprints?: Blueprint[];
+  dataAutomationConfiguration?: DataAutomationConfiguration | undefined;
+  blueprints?: Blueprint[] | undefined;
   dataAutomationProfileArn: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  outputConfiguration?: OutputConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  outputConfiguration?: OutputConfiguration | undefined;
 }
 export type SemanticModality = "DOCUMENT" | "IMAGE" | "AUDIO" | "VIDEO" | (string & {});
 export type CustomOutputStatus = "MATCH" | "NO_MATCH" | (string & {});
 export interface OutputSegment {
-  customOutputStatus?: CustomOutputStatus;
-  customOutput?: string;
-  standardOutput?: string;
+  customOutputStatus?: CustomOutputStatus | undefined;
+  customOutput?: string | undefined;
+  standardOutput?: string | undefined;
 }
 export type OutputSegmentList = OutputSegment[];
 export interface InvokeDataAutomationResponse {
-  outputConfiguration?: OutputConfiguration;
+  outputConfiguration?: OutputConfiguration | undefined;
   semanticModality: SemanticModality;
-  outputSegments?: OutputSegment[];
+  outputSegments?: OutputSegment[] | undefined;
 }
 export type IdempotencyToken = string;
 export interface TimestampSegment {
@@ -217,14 +217,14 @@ export interface TimestampSegment {
 }
 export type VideoSegmentConfiguration = { timestampSegment: TimestampSegment };
 export interface VideoAssetProcessingConfiguration {
-  segmentConfiguration?: VideoSegmentConfiguration;
+  segmentConfiguration?: VideoSegmentConfiguration | undefined;
 }
 export interface AssetProcessingConfiguration {
-  video?: VideoAssetProcessingConfiguration;
+  video?: VideoAssetProcessingConfiguration | undefined;
 }
 export interface InputConfiguration {
   s3Uri: string;
-  assetProcessingConfiguration?: AssetProcessingConfiguration;
+  assetProcessingConfiguration?: AssetProcessingConfiguration | undefined;
 }
 export interface EventBridgeConfiguration {
   eventBridgeEnabled: boolean;
@@ -240,15 +240,15 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface InvokeDataAutomationAsyncRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   inputConfiguration: InputConfiguration;
   outputConfiguration: OutputConfiguration;
-  dataAutomationConfiguration?: DataAutomationConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
-  notificationConfiguration?: NotificationConfiguration;
-  blueprints?: Blueprint[];
+  dataAutomationConfiguration?: DataAutomationConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  notificationConfiguration?: NotificationConfiguration | undefined;
+  blueprints?: Blueprint[] | undefined;
   dataAutomationProfileArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface InvokeDataAutomationAsyncResponse {
   invocationArn: string;
@@ -258,7 +258,7 @@ export interface ListTagsForResourceRequest {
   resourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface TagResourceRequest {
   resourceARN: string;

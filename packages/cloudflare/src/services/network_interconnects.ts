@@ -63,7 +63,7 @@ export interface CnisCreateRequestBgp {
   /** Extra set of static prefixes to advertise to the customer's end of the session Prefixes containing host bits will be normalized to contain network bits only. Duplicates are not allowed. */
   extraPrefixes: CnisCreateRequestBgpExtraPrefixesList;
   /** MD5 key to use for session authentication. */
-  md5Key?: string;
+  md5Key?: string | undefined;
 }
 export interface CreateCniRequest {
   /** Customer account tag */
@@ -72,7 +72,7 @@ export interface CreateCniRequest {
   account: string;
   interconnect: string;
   magic: CnisCreateRequestMagic;
-  bgp?: CnisCreateRequestBgp;
+  bgp?: CnisCreateRequestBgp | undefined;
 }
 export type CnisCreateResponseMagic = CnisCreateRequestMagic;
 export type CnisCreateResponseBgpExtraPrefixesList = Array<string>;
@@ -82,7 +82,7 @@ export interface CnisCreateResponseBgp {
   /** Extra set of static prefixes to advertise to the customer's end of the session Prefixes containing host bits will be normalized to contain network bits only. Duplicates are not allowed. */
   extraPrefixes: CnisCreateResponseBgpExtraPrefixesList;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type CnisCreateResponseBgpMode = "dynamic_route_exchange" | "advertise_only";
 /** Raw response payload (operation does not use the standard v4 result envelope). */
@@ -97,9 +97,9 @@ export interface CreateCniResponse {
   magic: CnisCreateRequestMagic;
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
-  bgp?: CnisCreateResponseBgp | null;
+  bgp?: CnisCreateResponseBgp | null | undefined;
   /** The BGP mode for a CNI. One of the following: */
-  bgpMode?: CnisCreateResponseBgpMode | null;
+  bgpMode?: CnisCreateResponseBgpMode | null | undefined;
 }
 export type InterconnectsCreateRequestBandwidth =
   | "50M"
@@ -118,13 +118,13 @@ export interface CreateInterconnectRequest {
   /** Customer account tag */
   accountId: string;
   account: string;
-  slotId?: string;
+  slotId?: string | undefined;
   type: string;
-  speed?: string;
+  speed?: string | undefined;
   /** Bandwidth structure as visible through the customer-facing API. */
-  bandwidth?: InterconnectsCreateRequestBandwidth | (string & {});
+  bandwidth?: InterconnectsCreateRequestBandwidth | (string & {}) | undefined;
   /** Pairing key provided by GCP */
-  pairingKey?: string;
+  pairingKey?: string | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateInterconnectResponse {}
@@ -153,7 +153,7 @@ export interface CnisGetResponseBgp {
   /** Extra set of static prefixes to advertise to the customer's end of the session Prefixes containing host bits will be normalized to contain network bits only. Duplicates are not allowed. */
   extraPrefixes: CnisGetResponseBgpExtraPrefixesList;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type CnisGetResponseBgpMode = "dynamic_route_exchange" | "advertise_only";
 /** Raw response payload (operation does not use the standard v4 result envelope). */
@@ -168,9 +168,9 @@ export interface GetCniResponse {
   magic: CnisCreateRequestMagic;
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
-  bgp?: CnisGetResponseBgp | null;
+  bgp?: CnisGetResponseBgp | null | undefined;
   /** The BGP mode for a CNI. One of the following: */
-  bgpMode?: CnisGetResponseBgpMode | null;
+  bgpMode?: CnisGetResponseBgpMode | null | undefined;
 }
 export interface GetInterconnectRequest {
   /** Customer account tag */
@@ -206,18 +206,18 @@ export interface GetSlotResponse {
   site: string;
   speed: string;
   /** Customer account tag */
-  account?: string | null;
-  ccrDeviceName?: string | null;
+  account?: string | null | undefined;
+  ccrDeviceName?: string | null | undefined;
 }
 export interface ListCnisRequest {
   /** Customer account tag */
   accountId: string;
-  cursor?: number;
-  limit?: number;
+  cursor?: number | undefined;
+  limit?: number | undefined;
   /** If specified, only show CNIs associated with the specified slot */
-  slot?: string;
+  slot?: string | undefined;
   /** If specified, only show cnis associated with the specified tunnel id */
-  tunnelId?: string;
+  tunnelId?: string | undefined;
 }
 export type CnisListResponseItemsItemMagic = CnisCreateRequestMagic;
 export type CnisListResponseItemsItemBgpExtraPrefixesList = Array<string>;
@@ -227,7 +227,7 @@ export interface CnisListResponseItemsItemBgp {
   /** Extra set of static prefixes to advertise to the customer's end of the session Prefixes containing host bits will be normalized to contain network bits only. Duplicates are not allowed. */
   extraPrefixes: CnisListResponseItemsItemBgpExtraPrefixesList;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type CnisListResponseItemsItemBgpMode = "dynamic_route_exchange" | "advertise_only";
 export interface CnisListResponseItemsItem {
@@ -241,25 +241,25 @@ export interface CnisListResponseItemsItem {
   magic: CnisCreateRequestMagic;
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
-  bgp?: CnisListResponseItemsItemBgp | null;
+  bgp?: CnisListResponseItemsItemBgp | null | undefined;
   /** The BGP mode for a CNI. One of the following: */
-  bgpMode?: CnisListResponseItemsItemBgpMode | null;
+  bgpMode?: CnisListResponseItemsItemBgpMode | null | undefined;
 }
 export type CnisListResponseItemsList = Array<CnisListResponseItemsItem>;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface ListCnisResponse {
   items: CnisListResponseItemsList;
-  next?: number | null;
+  next?: number | null | undefined;
 }
 export interface ListInterconnectsRequest {
   /** Customer account tag */
   accountId: string;
-  cursor?: number;
-  limit?: number;
+  cursor?: number | undefined;
+  limit?: number | undefined;
   /** If specified, only show interconnects located at the given site */
-  site?: string;
-  /** If specified, only show interconnects of the given type */
-  type?: string;
+  site?: string | undefined;
+  /** Type of interconnect to list, such as `direct` or `gcp_partner`. Defaults to `direct`. */
+  type?: string | undefined;
 }
 export type InterconnectsListResponseItemsItemNscInterconnectPhysicalBodyFacilityAddressList =
   Array<string>;
@@ -268,7 +268,6 @@ export interface InterconnectsListResponseItemsItemNscInterconnectPhysicalBodyFa
   name: string;
 }
 export interface InterconnectsListResponseItemsItemNscInterconnectPhysicalBody {
-  account: string;
   facility: InterconnectsListResponseItemsItemNscInterconnectPhysicalBodyFacility;
   name: string;
   /** A Cloudflare site name. */
@@ -277,8 +276,7 @@ export interface InterconnectsListResponseItemsItemNscInterconnectPhysicalBody {
   speed: string;
   type: string;
   virtualPortReservationId: string;
-  ccrDeviceName?: string | null;
-  owner?: string | null;
+  ccrDeviceName?: string | null | undefined;
 }
 export type InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBodySpeed =
   | "50M"
@@ -294,14 +292,12 @@ export type InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBodySpeed
   | "20G"
   | "50G";
 export interface InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBody {
-  account: string;
   name: string;
   region: string;
   type: string;
   virtualPortReservationId: string;
-  owner?: string | null;
   /** Bandwidth structure as visible through the customer-facing API. */
-  speed?: InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBodySpeed | null;
+  speed?: InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBodySpeed | null | undefined;
 }
 export type InterconnectsListResponseItemsItem =
   | InterconnectsListResponseItemsItemNscInterconnectPhysicalBody
@@ -310,21 +306,21 @@ export type InterconnectsListResponseItemsList = Array<InterconnectsListResponse
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface ListInterconnectsResponse {
   items: InterconnectsListResponseItemsList;
-  next?: number | null;
+  next?: number | null | undefined;
 }
 export interface ListSlotsRequest {
   /** Customer account tag */
   accountId: string;
   /** If specified, only show slots with the given text in their address field */
-  addressContains?: string;
-  cursor?: number;
-  limit?: number;
+  addressContains?: string | undefined;
+  cursor?: number | undefined;
+  limit?: number | undefined;
   /** If specified, only show slots with a specific occupied/unoccupied state */
-  occupied?: boolean;
+  occupied?: boolean | undefined;
   /** If specified, only show slots located at the given site */
-  site?: string;
+  site?: string | undefined;
   /** If specified, only show slots that support the given speed */
-  speed?: string;
+  speed?: string | undefined;
 }
 export type SlotsListResponseItemsItemFacilityAddressList = Array<string>;
 export interface SlotsListResponseItemsItemFacility {
@@ -340,26 +336,26 @@ export interface SlotsListResponseItemsItem {
   site: string;
   speed: string;
   /** Customer account tag */
-  account?: string | null;
-  ccrDeviceName?: string | null;
+  account?: string | null | undefined;
+  ccrDeviceName?: string | null | undefined;
 }
 export type SlotsListResponseItemsList = Array<SlotsListResponseItemsItem>;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface ListSlotsResponse {
   items: SlotsListResponseItemsList;
-  next?: number | null;
+  next?: number | null | undefined;
 }
 export interface LoaInterconnectRequest {
   /** Customer account tag */
   accountId: string;
   icon: string;
   /** Custom name to use in the LOA instead of the account name (200 Character limit) */
-  name?: string;
+  name?: string | undefined;
 }
 export interface LoaInterconnectResponse {}
 export interface PutSettingRequest {
   accountId: string;
-  defaultAsn?: number;
+  defaultAsn?: number | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface PutSettingResponse {
@@ -380,7 +376,7 @@ export interface CnisUpdateRequestBgp {
   /** Extra set of static prefixes to advertise to the customer's end of the session Prefixes containing host bits will be normalized to contain network bits only. Duplicates are not allowed. */
   extraPrefixes: CnisUpdateRequestBgpExtraPrefixesList;
   /** MD5 key to use for session authentication. */
-  md5Key?: string;
+  md5Key?: string | undefined;
 }
 export type CnisUpdateRequestBgpMode = "dynamic_route_exchange" | "advertise_only";
 export interface UpdateCniRequest {
@@ -397,9 +393,9 @@ export interface UpdateCniRequest {
   magic: CnisCreateRequestMagic;
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
-  bgp?: CnisUpdateRequestBgp;
+  bgp?: CnisUpdateRequestBgp | undefined;
   /** The BGP mode for a CNI. One of the following: */
-  bgpMode?: CnisUpdateRequestBgpMode | (string & {});
+  bgpMode?: CnisUpdateRequestBgpMode | (string & {}) | undefined;
 }
 export type CnisUpdateResponseMagic = CnisCreateRequestMagic;
 export type CnisUpdateResponseBgpExtraPrefixesList = Array<string>;
@@ -409,7 +405,7 @@ export interface CnisUpdateResponseBgp {
   /** Extra set of static prefixes to advertise to the customer's end of the session Prefixes containing host bits will be normalized to contain network bits only. Duplicates are not allowed. */
   extraPrefixes: CnisUpdateResponseBgpExtraPrefixesList;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type CnisUpdateResponseBgpMode = "dynamic_route_exchange" | "advertise_only";
 /** Raw response payload (operation does not use the standard v4 result envelope). */
@@ -424,9 +420,9 @@ export interface UpdateCniResponse {
   magic: CnisCreateRequestMagic;
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
-  bgp?: CnisUpdateResponseBgp | null;
+  bgp?: CnisUpdateResponseBgp | null | undefined;
   /** The BGP mode for a CNI. One of the following: */
-  bgpMode?: CnisUpdateResponseBgpMode | null;
+  bgpMode?: CnisUpdateResponseBgpMode | null | undefined;
 }
 export type CreateCniError = CloudflareOpError;
 /** Creates a new Cloud Network Interconnect (CNI) for private network connectivity between Cloudflare and your infrastructure. CNIs enable dedicated, high-performance network links. */
@@ -582,7 +578,7 @@ export const listCnis: API.OperationMethod<
 }));
 
 export type ListInterconnectsError = CloudflareOpError;
-/** Lists all network interconnects configured for the account, including physical and virtual connections. */
+/** Lists network interconnects of a single type configured for the account. The `type` query parameter selects the type to list; when omitted, only `direct` interconnects are returned. */
 export const listInterconnects: API.OperationMethod<
   ListInterconnectsRequest,
   ListInterconnectsResponse,
@@ -775,7 +771,6 @@ function __c5(j: number): any {
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
-            "account",
             "facility",
             "name",
             "site",
@@ -784,9 +779,8 @@ function __c5(j: number): any {
             "type",
             "virtualPortReservationId",
             "ccrDeviceName",
-            "owner",
           ],
-          ["account", "name", "region", "type", "virtualPortReservationId", "owner", "speed"],
+          ["name", "region", "type", "virtualPortReservationId", "speed"],
         ]),
       );
     case 2:

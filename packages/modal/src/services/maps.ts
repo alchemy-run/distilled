@@ -24,12 +24,12 @@ const TELEMETRY = {
 } as const;
 
 export interface MapAwaitRequest {
-  functionCallId?: string;
-  mapToken?: string;
-  lastEntryId?: string;
-  requestedAt?: number;
+  functionCallId?: string | undefined;
+  mapToken?: string | undefined;
+  lastEntryId?: string | undefined;
+  requestedAt?: number | undefined;
   /** Used for waypoints. */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 /** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
@@ -58,9 +58,9 @@ export interface GenericResult {
   /** Pickled traceback object. */
   tbLineCache: string;
   /** Pickled line cache for traceback object. */
-  data?: string;
+  data?: string | undefined;
   /** Inline data of the result. */
-  dataBlobId?: string;
+  dataBlobId?: string | undefined;
   /** Blob ID for large data. */
   propagationReason: string;
 }
@@ -72,7 +72,7 @@ export type DataFormat =
   | "DATA_FORMAT_GENERATOR_DONE"
   | "DATA_FORMAT_CBOR";
 export interface FunctionGetOutputsItem {
-  result?: GenericResult;
+  result?: GenericResult | undefined;
   idx: number;
   inputId: string;
   dataFormat: DataFormat;
@@ -90,9 +90,9 @@ export interface MapAwaitResponse {
 }
 export type StringList = Array<string>;
 export interface MapCheckInputsRequest {
-  lastEntryId?: string;
-  timeout?: number;
-  attemptTokens?: StringList;
+  lastEntryId?: string | undefined;
+  timeout?: number | undefined;
+  attemptTokens?: StringList | undefined;
 }
 export type BooleanList = Array<boolean>;
 export interface MapCheckInputsResponse {
@@ -100,42 +100,42 @@ export interface MapCheckInputsResponse {
 }
 export interface FunctionInput {
   /** serialized (args, kwargs). */
-  args?: string;
-  argsBlobId?: string;
-  finalInput?: boolean;
-  dataFormat?: DataFormat | (string & {});
+  args?: string | undefined;
+  argsBlobId?: string | undefined;
+  finalInput?: boolean | undefined;
+  dataFormat?: DataFormat | (string & {}) | undefined;
   /** For args_oneof. */
-  methodName?: string;
+  methodName?: string | undefined;
 }
 export type BlobUploadResultOutcome = "OUTCOME_UNSPECIFIED" | "OUTCOME_SUCCESS" | "OUTCOME_FAILURE";
 export interface BlobUploadResult {
-  blobId?: string;
+  blobId?: string | undefined;
   /** The blob id (from BlobCreateResponse) that this upload attempt targeted. */
-  outcome?: BlobUploadResultOutcome | (string & {});
-  throughputBytesS?: string;
+  outcome?: BlobUploadResultOutcome | (string & {}) | undefined;
+  throughputBytesS?: string | undefined;
 }
 export type BlobUploadResultList = Array<BlobUploadResult>;
 export interface FunctionPutInputsItem {
-  idx?: number;
-  input?: FunctionInput;
-  r2Failed?: boolean;
+  idx?: number | undefined;
+  input?: FunctionInput | undefined;
+  r2Failed?: boolean | undefined;
   /** r2_latency_ms */
-  r2ThroughputBytesS?: string;
-  blobUploadResults?: BlobUploadResultList;
+  r2ThroughputBytesS?: string | undefined;
+  blobUploadResults?: BlobUploadResultList | undefined;
 }
 export interface MapStartOrContinueItem {
-  input?: FunctionPutInputsItem;
-  attemptToken?: string;
+  input?: FunctionPutInputsItem | undefined;
+  attemptToken?: string | undefined;
 }
 export type MapStartOrContinueItemList = Array<MapStartOrContinueItem>;
 export interface MapStartOrContinueRequest {
-  functionId?: string;
-  parentInputId?: string;
+  functionId?: string | undefined;
+  parentInputId?: string | undefined;
   /** Clients will send call_info on map continue requests. */
-  functionCallId?: string;
-  mapToken?: string;
-  items?: MapStartOrContinueItemList;
-  proxied?: boolean;
+  functionCallId?: string | undefined;
+  mapToken?: string | undefined;
+  items?: MapStartOrContinueItemList | undefined;
+  proxied?: boolean | undefined;
 }
 export interface FunctionRetryPolicy {
   backoffCoefficient: number;
@@ -151,7 +151,7 @@ export interface MapStartOrContinueResponse {
   functionCallId: string;
   maxInputsOutstanding: number;
   attemptTokens: StringList;
-  retryPolicy?: FunctionRetryPolicy;
+  retryPolicy?: FunctionRetryPolicy | undefined;
 }
 export type MapAwaitError = ModalOpError;
 /** Input Plane Map */

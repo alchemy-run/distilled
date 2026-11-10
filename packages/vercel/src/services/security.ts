@@ -34,6 +34,15 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+export class Conflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409 }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -64,22 +73,22 @@ export class PaymentRequired
 export interface AddBypassIpRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  domain?: string;
+  slug?: string | undefined;
+  domain?: string | undefined;
   /** If the specified bypass will apply to all domains for a project. */
-  projectScope?: boolean;
-  sourceIp?: string;
-  allSources?: boolean;
+  projectScope?: boolean | undefined;
+  sourceIp?: string | undefined;
+  allSources?: boolean | undefined;
   /** Time to live in milliseconds */
-  ttl?: number;
-  note?: string;
+  ttl?: number | undefined;
+  note?: string | undefined;
 }
 export interface AddBypassIpResponseBodyCase0ResultItem {
   Domain: string;
   Id: string;
-  Ip?: string;
+  Ip?: string | undefined;
   IsProjectRule: boolean;
   Note: string;
   OwnerId: string;
@@ -93,28 +102,177 @@ export interface AddBypassIpResponseBodyCase0 {
 }
 export type AddBypassIpResponseBodyCase1ResultItemAction = "block" | "bypass";
 export interface AddBypassIpResponseBodyCase1ResultItem {
-  Action?: AddBypassIpResponseBodyCase1ResultItemAction;
-  ActorId?: string;
+  Action?: AddBypassIpResponseBodyCase1ResultItemAction | undefined;
+  ActorId?: string | undefined;
   CreatedAt: string;
-  DeletedAt?: string;
+  DeletedAt?: string | undefined;
   Domain: string;
-  ExpiresAt?: number | null;
+  ExpiresAt?: number | null | undefined;
   Id: string;
   Ip: string;
-  IsProjectRule?: boolean;
-  Note?: string;
+  IsProjectRule?: boolean | undefined;
+  Note?: string | undefined;
   OwnerId: string;
-  ProjectId?: string;
+  ProjectId?: string | undefined;
   UpdatedAt: string;
   UpdatedAtHour: string;
 }
 export type AddBypassIpResponseBodyCase1ResultList = Array<AddBypassIpResponseBodyCase1ResultItem>;
 export interface AddBypassIpResponseBodyCase1 {
   ok: boolean;
-  result?: AddBypassIpResponseBodyCase1ResultList;
+  result?: AddBypassIpResponseBodyCase1ResultList | undefined;
 }
 export type AddBypassIpResponseBody = AddBypassIpResponseBodyCase0 | AddBypassIpResponseBodyCase1;
 export type AddBypassIpResponse = AddBypassIpResponseBody;
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0Type = "user_agent";
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0Op =
+  | "eq"
+  | "pre"
+  | "suf"
+  | "sub";
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0Key = "user-agent";
+export interface CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0 {
+  type: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0Type;
+  op: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0Op | (string & {});
+  value: string;
+  key?:
+    | CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0Key
+    | (string & {})
+    | undefined;
+}
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase1Type = "path";
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase1Op =
+  | "eq"
+  | "pre"
+  | "suf"
+  | "sub";
+export interface CreateConditionalBypassRequestConditionGroupItemConditionsItemCase1 {
+  type: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase1Type;
+  op: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase1Op | (string & {});
+  value: string;
+}
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase2Type = "header";
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase2Op =
+  | "eq"
+  | "pre"
+  | "suf"
+  | "sub";
+export interface CreateConditionalBypassRequestConditionGroupItemConditionsItemCase2 {
+  type: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase2Type;
+  op: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase2Op | (string & {});
+  key: string;
+  value: string;
+}
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase3Type = "header";
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase3Op = "ex";
+export interface CreateConditionalBypassRequestConditionGroupItemConditionsItemCase3 {
+  type: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase3Type;
+  op: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase3Op;
+  key: string;
+}
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItem =
+  | CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0
+  | CreateConditionalBypassRequestConditionGroupItemConditionsItemCase1
+  | CreateConditionalBypassRequestConditionGroupItemConditionsItemCase2
+  | CreateConditionalBypassRequestConditionGroupItemConditionsItemCase3;
+export type CreateConditionalBypassRequestConditionGroupItemConditionsList =
+  Array<CreateConditionalBypassRequestConditionGroupItemConditionsItem>;
+export interface CreateConditionalBypassRequestConditionGroupItem {
+  conditions: CreateConditionalBypassRequestConditionGroupItemConditionsList;
+}
+export type CreateConditionalBypassRequestConditionGroupList =
+  Array<CreateConditionalBypassRequestConditionGroupItem>;
+export interface CreateConditionalBypassRequest {
+  projectId: string;
+  slug?: string | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  domain: string;
+  conditionGroup: CreateConditionalBypassRequestConditionGroupList;
+  note?: string | undefined;
+}
+export type CreateConditionalBypassResponseConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export type CreateConditionalBypassResponseConditionGroupItemConditionsItemType =
+  | "bot_category"
+  | "bot_name"
+  | "bot_protection"
+  | "bot_status"
+  | "cookie"
+  | "domain_environment"
+  | "environment"
+  | "geo_as_number"
+  | "geo_city"
+  | "geo_continent"
+  | "geo_country"
+  | "geo_country_region"
+  | "header"
+  | "host"
+  | "ip_address"
+  | "ja3_digest"
+  | "ja4_digest"
+  | "method"
+  | "path"
+  | "protocol"
+  | "query"
+  | "rate_limit_api_id"
+  | "raw_path"
+  | "region"
+  | "response_code"
+  | "response_header"
+  | "route"
+  | "ruleset"
+  | "scheme"
+  | "server_action"
+  | "shared_condition"
+  | "target_path"
+  | "traffic_source"
+  | "trusted_source"
+  | "user_agent";
+export type CreateConditionalBypassResponseConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export type CreateConditionalBypassResponseConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | CreateConditionalBypassResponseConditionGroupItemConditionsItemValueCase2List;
+export interface CreateConditionalBypassResponseConditionGroupItemConditionsItem {
+  key?: string | undefined;
+  neg?: boolean | undefined;
+  op: CreateConditionalBypassResponseConditionGroupItemConditionsItemOp;
+  type: CreateConditionalBypassResponseConditionGroupItemConditionsItemType;
+  value?: CreateConditionalBypassResponseConditionGroupItemConditionsItemValue | undefined;
+}
+export type CreateConditionalBypassResponseConditionGroupItemConditionsList =
+  Array<CreateConditionalBypassResponseConditionGroupItemConditionsItem>;
+export interface CreateConditionalBypassResponseConditionGroupItem {
+  conditions: CreateConditionalBypassResponseConditionGroupItemConditionsList;
+}
+export type CreateConditionalBypassResponseConditionGroupList =
+  Array<CreateConditionalBypassResponseConditionGroupItem>;
+export interface CreateConditionalBypassResponse {
+  condition: string;
+  conditionGroup: CreateConditionalBypassResponseConditionGroupList;
+  createdAt: string;
+  domain: string;
+  id: string;
+  note?: string | undefined;
+  projectId: string;
+  updatedAt: string;
+}
 export interface CreateSecurityFirewallConfigByConfigVersionActivateRequest {
   /** The deployed configVersion for the firewall configuration */
   configVersion: string;
@@ -161,6 +319,8 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCondition
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -177,11 +337,13 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCondition
   | number
   | CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValueCase2List;
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemOp;
   type: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemType;
-  value?: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValue;
+  value?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsList =
   Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem>;
@@ -193,7 +355,7 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCondition
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem {
   active: boolean;
   conditionGroup: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
 }
@@ -293,7 +455,7 @@ export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsI
   hostname: string;
   id: string;
   ip: string;
-  notes?: string;
+  notes?: string | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsList =
   Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem>;
@@ -308,62 +470,80 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRu
   | "deny"
   | "log";
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots {
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBotsAction;
+  action?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBotsAction
+    | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtectionAction =
   | "challenge"
   | "deny"
   | "log";
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection {
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtectionAction;
+  action?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtectionAction
+    | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwaspAction =
   | "challenge"
   | "deny"
   | "log";
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp {
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwaspAction;
+  action?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwaspAction
+    | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSourcesAction =
   | "challenge"
   | "deny"
   | "log";
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources {
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSourcesAction;
+  action?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSourcesAction
+    | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRulesetAction =
   | "challenge"
   | "deny"
   | "log";
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset {
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRulesetAction;
+  action?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRulesetAction
+    | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules {
-  ai_bots?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots;
-  bot_protection?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection;
-  owasp?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp;
-  traffic_sources?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources;
-  vercel_ruleset?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset;
+  ai_bots?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots
+    | undefined;
+  bot_protection?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection
+    | undefined;
+  owasp?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp | undefined;
+  traffic_sources?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources
+    | undefined;
+  vercel_ruleset?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset
+    | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateAction =
   | "allow"
@@ -391,7 +571,10 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitKeysList =
   Array<string>;
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit {
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAction | null;
+  action?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAlgo;
   keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitKeysList;
   limit: number;
@@ -403,14 +586,24 @@ export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRule
 }
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate {
   action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeaders;
-  rateLimit?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeaders
+    | undefined;
+  rateLimit?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action {
-  mitigate?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate;
+  mitigate?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate
+    | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemOp =
   | "eq"
@@ -453,6 +646,8 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -469,11 +664,13 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem
   | number
   | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemValueCase2List;
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemOp;
   type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemType;
-  value?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemValue;
+  value?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsList =
   Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItem>;
@@ -486,7 +683,7 @@ export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRule
   action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action;
   active: boolean;
   conditionGroup: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   valid: boolean;
@@ -518,7 +715,10 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitKeysList =
   Array<string>;
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit {
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAction | null;
+  action?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAlgo;
   keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitKeysList;
   limit: number;
@@ -528,14 +728,24 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate {
   action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeaders;
-  rateLimit?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeaders
+    | undefined;
+  rateLimit?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action {
-  mitigate?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate;
+  mitigate?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate
+    | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemOp =
   | "eq"
@@ -578,6 +788,8 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -594,11 +806,13 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem
   | number
   | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemValueCase2List;
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemOp;
   type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemType;
-  value?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemValue;
+  value?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsList =
   Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItem>;
@@ -613,7 +827,7 @@ export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRule
   action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action;
   active: boolean;
   conditionGroup: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   valid: boolean;
@@ -665,6 +879,8 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsC
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -681,11 +897,13 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsC
   | number
   | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List;
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp;
   type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemType;
-  value?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemValue;
+  value?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsList =
   Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItem>;
@@ -720,7 +938,10 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsC
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitKeysList =
   Array<string>;
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit {
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAction | null;
+  action?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAlgo;
   keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitKeysList;
   limit: number;
@@ -730,22 +951,34 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsC
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigate {
   action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateLogHeaders;
-  rateLimit?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateLogHeaders
+    | undefined;
+  rateLimit?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemAction {
-  mitigate?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigate;
+  mitigate?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigate
+    | undefined;
 }
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0Item {
   active: boolean;
   conditionGroup: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemAction;
+  action?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemAction
+    | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0List =
   Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0Item>;
@@ -775,7 +1008,10 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsC
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitKeysList =
   Array<string>;
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit {
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAction | null;
+  action?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAction
+    | null
+    | undefined;
   algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAlgo;
   keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitKeysList;
   limit: number;
@@ -785,11 +1021,19 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsC
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1Value {
   action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueLogHeaders;
-  rateLimit?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueLogHeaders
+    | undefined;
+  rateLimit?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1Map = {
   [key: string]:
@@ -800,22 +1044,35 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets 
   | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0List
   | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1Map;
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponse {
-  botIdEnabled?: boolean;
+  botIdEnabled?: boolean | undefined;
   changes: CreateSecurityFirewallConfigByConfigVersionActivateResponseChangesList;
-  conditions?: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsList;
-  crs?: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrs;
+  conditions?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsList
+    | undefined;
+  crs?: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrs | undefined;
   firewallEnabled: boolean;
   id: string;
   ips: CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsList;
-  logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeaders;
-  managedRules?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules;
+  logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeaders | undefined;
+  managedRules?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules
+    | undefined;
   ownerId: string;
   projectKey: string;
   rules: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesList;
-  rulesets?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets;
+  rulesets?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets | undefined;
   updatedAt: string;
   version: number;
 }
+export interface DeleteConditionalBypassRequest {
+  projectId: string;
+  slug?: string | undefined;
+  domain: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+}
+export type DeleteConditionalBypassResponseBody = "";
+export type DeleteConditionalBypassResponse = DeleteConditionalBypassResponseBody;
 export interface DeleteSecurityFirewallConfigRequest {
   /** The deployed configVersion for the firewall configuration */
   configVersion: string;
@@ -823,15 +1080,15 @@ export interface DeleteSecurityFirewallConfigRequest {
 export type DeleteSecurityFirewallConfigResponseBody = "";
 export type DeleteSecurityFirewallConfigResponse = DeleteSecurityFirewallConfigResponseBody;
 export interface GenerateFirewallRuleRequest {
-  projectId?: string;
+  projectId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GenerateFirewallRuleResponseRuleActionMitigateRateLimitKeysList = Array<string>;
 export interface GenerateFirewallRuleResponseRuleActionMitigateRateLimit {
-  action?: string | null;
+  action?: string | null | undefined;
   algo: string;
   keys: GenerateFirewallRuleResponseRuleActionMitigateRateLimitKeysList;
   limit: number;
@@ -841,12 +1098,15 @@ export type GenerateFirewallRuleResponseRuleActionMitigateRedirect =
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GenerateFirewallRuleResponseRuleActionMitigate {
   action: string;
-  actionDuration?: string | null;
-  rateLimit?: GenerateFirewallRuleResponseRuleActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  rateLimit?: GenerateFirewallRuleResponseRuleActionMitigateRateLimit | null | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GenerateFirewallRuleResponseRuleAction {
-  mitigate?: GenerateFirewallRuleResponseRuleActionMitigate;
+  mitigate?: GenerateFirewallRuleResponseRuleActionMitigate | undefined;
 }
 export type GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
@@ -855,11 +1115,11 @@ export type GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemValu
   | number
   | GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemValueCase2List;
 export interface GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg: boolean;
   op: string;
   type: string;
-  value?: GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemValue;
+  value?: GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemValue | undefined;
 }
 export type GenerateFirewallRuleResponseRuleConditionGroupItemConditionsList =
   Array<GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItem>;
@@ -872,20 +1132,20 @@ export interface GenerateFirewallRuleResponseRule {
   action: GenerateFirewallRuleResponseRuleAction;
   active: boolean;
   conditionGroup: GenerateFirewallRuleResponseRuleConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   name: string;
 }
 export interface GenerateFirewallRuleResponse {
-  error?: string;
-  rule?: GenerateFirewallRuleResponseRule;
+  error?: string | undefined;
+  rule?: GenerateFirewallRuleResponseRule | undefined;
 }
 export interface GetActiveAttackStatusRequest {
   projectId: string;
-  since?: number;
+  since?: number | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapValueAnomalyAlertsValue {
   at_minute: string;
@@ -910,8 +1170,12 @@ export type GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapVa
     | undefined;
 };
 export interface GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapValue {
-  anomalyAlerts?: GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapValueAnomalyAlertsMap;
-  ddosAlerts?: GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapValueDdosAlertsMap;
+  anomalyAlerts?:
+    | GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapValueAnomalyAlertsMap
+    | undefined;
+  ddosAlerts?:
+    | GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapValueDdosAlertsMap
+    | undefined;
 }
 export type GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapMap = {
   [key: string]:
@@ -925,7 +1189,7 @@ export interface GetActiveAttackStatusResponseBodyCase1AnomaliesItem {
   ownerId: string;
   projectId: string;
   startTime: number;
-  state?: string;
+  state?: string | undefined;
 }
 export type GetActiveAttackStatusResponseBodyCase1AnomaliesList =
   Array<GetActiveAttackStatusResponseBodyCase1AnomaliesItem>;
@@ -936,19 +1200,19 @@ export type GetActiveAttackStatusResponseBody = unknown | GetActiveAttackStatusR
 export type GetActiveAttackStatusResponse = GetActiveAttackStatusResponseBody;
 export interface GetBypassIpRequest {
   projectId: string;
-  limit?: number;
+  limit?: number | undefined;
   /** Filter by source IP */
-  sourceIp?: string;
+  sourceIp?: string | undefined;
   /** Filter by domain */
-  domain?: string;
+  domain?: string | undefined;
   /** Filter by project scoped rules */
-  projectScope?: boolean;
+  projectScope?: boolean | undefined;
   /** Used for pagination. Retrieves results after the provided id */
-  offset?: string;
+  offset?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetBypassIpResponsePagination {
   Id: string;
@@ -956,34 +1220,216 @@ export interface GetBypassIpResponsePagination {
 }
 export type GetBypassIpResponseResultItemAction = "block" | "bypass";
 export interface GetBypassIpResponseResultItem {
-  Action?: GetBypassIpResponseResultItemAction;
-  ActorId?: string;
+  Action?: GetBypassIpResponseResultItemAction | undefined;
+  ActorId?: string | undefined;
   CreatedAt: string;
-  DeletedAt?: string;
+  DeletedAt?: string | undefined;
   Domain: string;
-  ExpiresAt?: number | null;
+  ExpiresAt?: number | null | undefined;
   Id: string;
   Ip: string;
-  IsProjectRule?: boolean;
-  Note?: string;
+  IsProjectRule?: boolean | undefined;
+  Note?: string | undefined;
   OwnerId: string;
-  ProjectId?: string;
+  ProjectId?: string | undefined;
   UpdatedAt: string;
   UpdatedAtHour: string;
 }
 export type GetBypassIpResponseResultList = Array<GetBypassIpResponseResultItem>;
 export interface GetBypassIpResponse {
-  pagination?: GetBypassIpResponsePagination;
+  pagination?: GetBypassIpResponsePagination | undefined;
   result: GetBypassIpResponseResultList;
 }
+export interface GetConditionalBypassRequest {
+  projectId: string;
+  slug?: string | undefined;
+  domain?: string | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+}
+export type GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export type GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemType =
+  | "bot_category"
+  | "bot_name"
+  | "bot_protection"
+  | "bot_status"
+  | "cookie"
+  | "domain_environment"
+  | "environment"
+  | "geo_as_number"
+  | "geo_city"
+  | "geo_continent"
+  | "geo_country"
+  | "geo_country_region"
+  | "header"
+  | "host"
+  | "ip_address"
+  | "ja3_digest"
+  | "ja4_digest"
+  | "method"
+  | "path"
+  | "protocol"
+  | "query"
+  | "rate_limit_api_id"
+  | "raw_path"
+  | "region"
+  | "response_code"
+  | "response_header"
+  | "route"
+  | "ruleset"
+  | "scheme"
+  | "server_action"
+  | "shared_condition"
+  | "target_path"
+  | "traffic_source"
+  | "trusted_source"
+  | "user_agent";
+export type GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export type GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemValueCase2List;
+export interface GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItem {
+  key?: string | undefined;
+  neg?: boolean | undefined;
+  op: GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemOp;
+  type: GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemType;
+  value?: GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemValue | undefined;
+}
+export type GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsList =
+  Array<GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItem>;
+export interface GetConditionalBypassResponseBodyCase0ConditionGroupItem {
+  conditions: GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsList;
+}
+export type GetConditionalBypassResponseBodyCase0ConditionGroupList =
+  Array<GetConditionalBypassResponseBodyCase0ConditionGroupItem>;
+export interface GetConditionalBypassResponseBodyCase0 {
+  condition: string;
+  conditionGroup: GetConditionalBypassResponseBodyCase0ConditionGroupList;
+  createdAt: string;
+  domain: string;
+  id: string;
+  note?: string | undefined;
+  projectId: string;
+  updatedAt: string;
+}
+export type GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export type GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemType =
+  | "bot_category"
+  | "bot_name"
+  | "bot_protection"
+  | "bot_status"
+  | "cookie"
+  | "domain_environment"
+  | "environment"
+  | "geo_as_number"
+  | "geo_city"
+  | "geo_continent"
+  | "geo_country"
+  | "geo_country_region"
+  | "header"
+  | "host"
+  | "ip_address"
+  | "ja3_digest"
+  | "ja4_digest"
+  | "method"
+  | "path"
+  | "protocol"
+  | "query"
+  | "rate_limit_api_id"
+  | "raw_path"
+  | "region"
+  | "response_code"
+  | "response_header"
+  | "route"
+  | "ruleset"
+  | "scheme"
+  | "server_action"
+  | "shared_condition"
+  | "target_path"
+  | "traffic_source"
+  | "trusted_source"
+  | "user_agent";
+export type GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export type GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemValueCase2List;
+export interface GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItem {
+  key?: string | undefined;
+  neg?: boolean | undefined;
+  op: GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemOp;
+  type: GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemType;
+  value?:
+    | GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemValue
+    | undefined;
+}
+export type GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsList =
+  Array<GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItem>;
+export interface GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItem {
+  conditions: GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsList;
+}
+export type GetConditionalBypassResponseBodyCase1RulesItemConditionGroupList =
+  Array<GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItem>;
+export interface GetConditionalBypassResponseBodyCase1RulesItem {
+  condition: string;
+  conditionGroup: GetConditionalBypassResponseBodyCase1RulesItemConditionGroupList;
+  createdAt: string;
+  domain: string;
+  id: string;
+  note?: string | undefined;
+  projectId: string;
+  updatedAt: string;
+}
+export type GetConditionalBypassResponseBodyCase1RulesList =
+  Array<GetConditionalBypassResponseBodyCase1RulesItem>;
+export interface GetConditionalBypassResponseBodyCase1 {
+  rules: GetConditionalBypassResponseBodyCase1RulesList;
+}
+export type GetConditionalBypassResponseBody =
+  | GetConditionalBypassResponseBodyCase0
+  | GetConditionalBypassResponseBodyCase1;
+export type GetConditionalBypassResponse = GetConditionalBypassResponseBody;
 export interface GetFirewallConfigRequest {
   /** The deployed configVersion for the firewall configuration */
   configVersion: string;
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetFirewallConfigResponseChangesList = Array<unknown>;
 export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemOp =
@@ -1027,6 +1473,8 @@ export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsI
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -1043,11 +1491,11 @@ export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsI
   | number
   | GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValueCase2List;
 export interface GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemOp;
   type: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemType;
-  value?: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValue;
+  value?: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValue | undefined;
 }
 export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsList =
   Array<GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem>;
@@ -1059,7 +1507,7 @@ export type GetFirewallConfigResponseConditionsItemConditionGroupList =
 export interface GetFirewallConfigResponseConditionsItem {
   active: boolean;
   conditionGroup: GetFirewallConfigResponseConditionsItemConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
 }
@@ -1162,7 +1610,7 @@ export interface GetFirewallConfigResponseIpsItem {
   hostname: string;
   id: string;
   ip: string;
-  notes?: string;
+  notes?: string | undefined;
 }
 export type GetFirewallConfigResponseIpsList = Array<GetFirewallConfigResponseIpsItem>;
 export type GetFirewallConfigResponseLogHeadersCase0List = Array<string>;
@@ -1172,53 +1620,53 @@ export type GetFirewallConfigResponseLogHeaders =
   | GetFirewallConfigResponseLogHeadersCase1;
 export type GetFirewallConfigResponseManagedRulesAiBotsAction = "challenge" | "deny" | "log";
 export interface GetFirewallConfigResponseManagedRulesAiBots {
-  action?: GetFirewallConfigResponseManagedRulesAiBotsAction;
+  action?: GetFirewallConfigResponseManagedRulesAiBotsAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetFirewallConfigResponseManagedRulesBotProtectionAction = "challenge" | "deny" | "log";
 export interface GetFirewallConfigResponseManagedRulesBotProtection {
-  action?: GetFirewallConfigResponseManagedRulesBotProtectionAction;
+  action?: GetFirewallConfigResponseManagedRulesBotProtectionAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetFirewallConfigResponseManagedRulesOwaspAction = "challenge" | "deny" | "log";
 export interface GetFirewallConfigResponseManagedRulesOwasp {
-  action?: GetFirewallConfigResponseManagedRulesOwaspAction;
+  action?: GetFirewallConfigResponseManagedRulesOwaspAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetFirewallConfigResponseManagedRulesTrafficSourcesAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetFirewallConfigResponseManagedRulesTrafficSources {
-  action?: GetFirewallConfigResponseManagedRulesTrafficSourcesAction;
+  action?: GetFirewallConfigResponseManagedRulesTrafficSourcesAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetFirewallConfigResponseManagedRulesVercelRulesetAction = "challenge" | "deny" | "log";
 export interface GetFirewallConfigResponseManagedRulesVercelRuleset {
-  action?: GetFirewallConfigResponseManagedRulesVercelRulesetAction;
+  action?: GetFirewallConfigResponseManagedRulesVercelRulesetAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export interface GetFirewallConfigResponseManagedRules {
-  ai_bots?: GetFirewallConfigResponseManagedRulesAiBots;
-  bot_protection?: GetFirewallConfigResponseManagedRulesBotProtection;
-  owasp?: GetFirewallConfigResponseManagedRulesOwasp;
-  traffic_sources?: GetFirewallConfigResponseManagedRulesTrafficSources;
-  vercel_ruleset?: GetFirewallConfigResponseManagedRulesVercelRuleset;
+  ai_bots?: GetFirewallConfigResponseManagedRulesAiBots | undefined;
+  bot_protection?: GetFirewallConfigResponseManagedRulesBotProtection | undefined;
+  owasp?: GetFirewallConfigResponseManagedRulesOwasp | undefined;
+  traffic_sources?: GetFirewallConfigResponseManagedRulesTrafficSources | undefined;
+  vercel_ruleset?: GetFirewallConfigResponseManagedRulesVercelRuleset | undefined;
 }
 export type GetFirewallConfigResponseRulesItemCase0ActionMitigateAction =
   | "allow"
@@ -1244,7 +1692,7 @@ export type GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAlgo =
   | "token_bucket";
 export type GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitKeysList = Array<string>;
 export interface GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit {
-  action?: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAction | null;
+  action?: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAction | null | undefined;
   algo: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAlgo;
   keys: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitKeysList;
   limit: number;
@@ -1254,14 +1702,17 @@ export type GetFirewallConfigResponseRulesItemCase0ActionMitigateRedirect =
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetFirewallConfigResponseRulesItemCase0ActionMitigate {
   action: GetFirewallConfigResponseRulesItemCase0ActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeaders;
-  rateLimit?: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeaders | undefined;
+  rateLimit?: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit | null | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GetFirewallConfigResponseRulesItemCase0Action {
-  mitigate?: GetFirewallConfigResponseRulesItemCase0ActionMitigate;
+  mitigate?: GetFirewallConfigResponseRulesItemCase0ActionMitigate | undefined;
 }
 export type GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemOp =
   | "eq"
@@ -1304,6 +1755,8 @@ export type GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsI
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -1320,11 +1773,11 @@ export type GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsI
   | number
   | GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemValueCase2List;
 export interface GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemOp;
   type: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemType;
-  value?: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemValue;
+  value?: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemValue | undefined;
 }
 export type GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsList =
   Array<GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItem>;
@@ -1337,7 +1790,7 @@ export interface GetFirewallConfigResponseRulesItemCase0 {
   action: GetFirewallConfigResponseRulesItemCase0Action;
   active: boolean;
   conditionGroup: GetFirewallConfigResponseRulesItemCase0ConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   valid: boolean;
@@ -1367,7 +1820,7 @@ export type GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAlgo =
   | "token_bucket";
 export type GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitKeysList = Array<string>;
 export interface GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit {
-  action?: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAction | null;
+  action?: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAction | null | undefined;
   algo: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAlgo;
   keys: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitKeysList;
   limit: number;
@@ -1377,14 +1830,17 @@ export type GetFirewallConfigResponseRulesItemCase1ActionMitigateRedirect =
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetFirewallConfigResponseRulesItemCase1ActionMitigate {
   action: GetFirewallConfigResponseRulesItemCase1ActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeaders;
-  rateLimit?: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeaders | undefined;
+  rateLimit?: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit | null | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GetFirewallConfigResponseRulesItemCase1Action {
-  mitigate?: GetFirewallConfigResponseRulesItemCase1ActionMitigate;
+  mitigate?: GetFirewallConfigResponseRulesItemCase1ActionMitigate | undefined;
 }
 export type GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemOp =
   | "eq"
@@ -1427,6 +1883,8 @@ export type GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsI
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -1443,11 +1901,11 @@ export type GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsI
   | number
   | GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemValueCase2List;
 export interface GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemOp;
   type: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemType;
-  value?: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemValue;
+  value?: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemValue | undefined;
 }
 export type GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsList =
   Array<GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItem>;
@@ -1461,7 +1919,7 @@ export interface GetFirewallConfigResponseRulesItemCase1 {
   action: GetFirewallConfigResponseRulesItemCase1Action;
   active: boolean;
   conditionGroup: GetFirewallConfigResponseRulesItemCase1ConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   valid: boolean;
@@ -1512,6 +1970,8 @@ export type GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditio
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -1528,11 +1988,13 @@ export type GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditio
   | number
   | GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List;
 export interface GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp;
   type: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemType;
-  value?: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemValue;
+  value?:
+    | GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsList =
   Array<GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItem>;
@@ -1566,7 +2028,10 @@ export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAlg
 export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitKeysList =
   Array<string>;
 export interface GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit {
-  action?: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAction | null;
+  action?:
+    | GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAlgo;
   keys: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitKeysList;
   limit: number;
@@ -1576,22 +2041,25 @@ export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRedirect =
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetFirewallConfigResponseRulesetsCase0ItemActionMitigate {
   action: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateLogHeaders;
-  rateLimit?: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateLogHeaders | undefined;
+  rateLimit?: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit | null | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GetFirewallConfigResponseRulesetsCase0ItemAction {
-  mitigate?: GetFirewallConfigResponseRulesetsCase0ItemActionMitigate;
+  mitigate?: GetFirewallConfigResponseRulesetsCase0ItemActionMitigate | undefined;
 }
 export interface GetFirewallConfigResponseRulesetsCase0Item {
   active: boolean;
   conditionGroup: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
-  action?: GetFirewallConfigResponseRulesetsCase0ItemAction;
+  action?: GetFirewallConfigResponseRulesetsCase0ItemAction | undefined;
 }
 export type GetFirewallConfigResponseRulesetsCase0List =
   Array<GetFirewallConfigResponseRulesetsCase0Item>;
@@ -1618,7 +2086,7 @@ export type GetFirewallConfigResponseRulesetsCase1ValueRateLimitAlgo =
   | "token_bucket";
 export type GetFirewallConfigResponseRulesetsCase1ValueRateLimitKeysList = Array<string>;
 export interface GetFirewallConfigResponseRulesetsCase1ValueRateLimit {
-  action?: GetFirewallConfigResponseRulesetsCase1ValueRateLimitAction | null;
+  action?: GetFirewallConfigResponseRulesetsCase1ValueRateLimitAction | null | undefined;
   algo: GetFirewallConfigResponseRulesetsCase1ValueRateLimitAlgo;
   keys: GetFirewallConfigResponseRulesetsCase1ValueRateLimitKeysList;
   limit: number;
@@ -1628,11 +2096,14 @@ export type GetFirewallConfigResponseRulesetsCase1ValueRedirect =
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetFirewallConfigResponseRulesetsCase1Value {
   action: GetFirewallConfigResponseRulesetsCase1ValueAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetFirewallConfigResponseRulesetsCase1ValueLogHeaders;
-  rateLimit?: GetFirewallConfigResponseRulesetsCase1ValueRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: GetFirewallConfigResponseRulesetsCase1ValueLogHeaders | undefined;
+  rateLimit?: GetFirewallConfigResponseRulesetsCase1ValueRateLimit | null | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export type GetFirewallConfigResponseRulesetsCase1Map = {
   [key: string]: GetFirewallConfigResponseRulesetsCase1Value | undefined;
@@ -1641,20 +2112,20 @@ export type GetFirewallConfigResponseRulesets =
   | GetFirewallConfigResponseRulesetsCase0List
   | GetFirewallConfigResponseRulesetsCase1Map;
 export interface GetFirewallConfigResponse {
-  botIdEnabled?: boolean;
+  botIdEnabled?: boolean | undefined;
   changes: GetFirewallConfigResponseChangesList;
-  conditions?: GetFirewallConfigResponseConditionsList;
+  conditions?: GetFirewallConfigResponseConditionsList | undefined;
   /** Custom Ruleset */
-  crs?: GetFirewallConfigResponseCrs;
+  crs?: GetFirewallConfigResponseCrs | undefined;
   firewallEnabled: boolean;
   id: string;
   ips: GetFirewallConfigResponseIpsList;
-  logHeaders?: GetFirewallConfigResponseLogHeaders;
-  managedRules?: GetFirewallConfigResponseManagedRules;
+  logHeaders?: GetFirewallConfigResponseLogHeaders | undefined;
+  managedRules?: GetFirewallConfigResponseManagedRules | undefined;
   ownerId: string;
   projectKey: string;
   rules: GetFirewallConfigResponseRulesList;
-  rulesets?: GetFirewallConfigResponseRulesets;
+  rulesets?: GetFirewallConfigResponseRulesets | undefined;
   updatedAt: string;
   version: number;
 }
@@ -1701,6 +2172,8 @@ export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupI
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -1717,11 +2190,13 @@ export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupI
   | number
   | GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List;
 export interface GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp;
   type: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType;
-  value?: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue;
+  value?:
+    | GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList =
   Array<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem>;
@@ -1733,7 +2208,7 @@ export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupL
 export interface GetSecurityFirewallConfigResponseActiveConditionsItem {
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
 }
@@ -1817,7 +2292,7 @@ export interface GetSecurityFirewallConfigResponseActiveIpsItem {
   hostname: string;
   id: string;
   ip: string;
-  notes?: string;
+  notes?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveIpsList =
   Array<GetSecurityFirewallConfigResponseActiveIpsItem>;
@@ -1831,62 +2306,62 @@ export type GetSecurityFirewallConfigResponseActiveManagedRulesAiBotsAction =
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseActiveManagedRulesAiBots {
-  action?: GetSecurityFirewallConfigResponseActiveManagedRulesAiBotsAction;
+  action?: GetSecurityFirewallConfigResponseActiveManagedRulesAiBotsAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveManagedRulesBotProtectionAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection {
-  action?: GetSecurityFirewallConfigResponseActiveManagedRulesBotProtectionAction;
+  action?: GetSecurityFirewallConfigResponseActiveManagedRulesBotProtectionAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveManagedRulesOwaspAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseActiveManagedRulesOwasp {
-  action?: GetSecurityFirewallConfigResponseActiveManagedRulesOwaspAction;
+  action?: GetSecurityFirewallConfigResponseActiveManagedRulesOwaspAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSourcesAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources {
-  action?: GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSourcesAction;
+  action?: GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSourcesAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveManagedRulesVercelRulesetAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset {
-  action?: GetSecurityFirewallConfigResponseActiveManagedRulesVercelRulesetAction;
+  action?: GetSecurityFirewallConfigResponseActiveManagedRulesVercelRulesetAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export interface GetSecurityFirewallConfigResponseActiveManagedRules {
-  ai_bots?: GetSecurityFirewallConfigResponseActiveManagedRulesAiBots;
-  bot_protection?: GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection;
-  owasp?: GetSecurityFirewallConfigResponseActiveManagedRulesOwasp;
-  traffic_sources?: GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources;
-  vercel_ruleset?: GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset;
+  ai_bots?: GetSecurityFirewallConfigResponseActiveManagedRulesAiBots | undefined;
+  bot_protection?: GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection | undefined;
+  owasp?: GetSecurityFirewallConfigResponseActiveManagedRulesOwasp | undefined;
+  traffic_sources?: GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources | undefined;
+  vercel_ruleset?: GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction =
   | "allow"
@@ -1914,7 +2389,10 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateR
 export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList =
   Array<string>;
 export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit {
-  action?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction | null;
+  action?:
+    | GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo;
   keys: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList;
   limit: number;
@@ -1924,14 +2402,22 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateR
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate {
   action: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders;
-  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders
+    | undefined;
+  rateLimit?:
+    | GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0Action {
-  mitigate?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate;
+  mitigate?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp =
   | "eq"
@@ -1974,6 +2460,8 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupI
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -1990,11 +2478,13 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupI
   | number
   | GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValueCase2List;
 export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp;
   type: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType;
-  value?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValue;
+  value?:
+    | GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsList =
   Array<GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItem>;
@@ -2007,7 +2497,7 @@ export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0 {
   action: GetSecurityFirewallConfigResponseActiveRulesItemCase0Action;
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   valid: boolean;
@@ -2039,7 +2529,10 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateR
 export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList =
   Array<string>;
 export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit {
-  action?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction | null;
+  action?:
+    | GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo;
   keys: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList;
   limit: number;
@@ -2049,14 +2542,22 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateR
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate {
   action: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders;
-  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders
+    | undefined;
+  rateLimit?:
+    | GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1Action {
-  mitigate?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate;
+  mitigate?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp =
   | "eq"
@@ -2099,6 +2600,8 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupI
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -2115,11 +2618,13 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupI
   | number
   | GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValueCase2List;
 export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp;
   type: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType;
-  value?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValue;
+  value?:
+    | GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsList =
   Array<GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItem>;
@@ -2134,7 +2639,7 @@ export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1 {
   action: GetSecurityFirewallConfigResponseActiveRulesItemCase1Action;
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   valid: boolean;
@@ -2186,6 +2691,8 @@ export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGro
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -2202,11 +2709,13 @@ export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGro
   | number
   | GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List;
 export interface GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp;
   type: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType;
-  value?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValue;
+  value?:
+    | GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsList =
   Array<GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItem>;
@@ -2241,7 +2750,10 @@ export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitiga
 export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList =
   Array<string>;
 export interface GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit {
-  action?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction | null;
+  action?:
+    | GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo;
   keys: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList;
   limit: number;
@@ -2251,22 +2763,30 @@ export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitiga
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigate {
   action: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders;
-  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders
+    | undefined;
+  rateLimit?:
+    | GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemAction {
-  mitigate?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigate;
+  mitigate?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigate | undefined;
 }
 export interface GetSecurityFirewallConfigResponseActiveRulesetsCase0Item {
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
-  action?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemAction;
+  action?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemAction | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveRulesetsCase0List =
   Array<GetSecurityFirewallConfigResponseActiveRulesetsCase0Item>;
@@ -2295,7 +2815,10 @@ export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAl
 export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList =
   Array<string>;
 export interface GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit {
-  action?: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction | null;
+  action?:
+    | GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction
+    | null
+    | undefined;
   algo: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo;
   keys: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList;
   limit: number;
@@ -2305,11 +2828,14 @@ export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRedirect =
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetSecurityFirewallConfigResponseActiveRulesetsCase1Value {
   action: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders;
-  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders | undefined;
+  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit | null | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseActiveRulesetsCase1Map = {
   [key: string]: GetSecurityFirewallConfigResponseActiveRulesetsCase1Value | undefined;
@@ -2318,19 +2844,19 @@ export type GetSecurityFirewallConfigResponseActiveRulesets =
   | GetSecurityFirewallConfigResponseActiveRulesetsCase0List
   | GetSecurityFirewallConfigResponseActiveRulesetsCase1Map;
 export interface GetSecurityFirewallConfigResponseActive {
-  botIdEnabled?: boolean;
+  botIdEnabled?: boolean | undefined;
   changes: GetSecurityFirewallConfigResponseActiveChangesList;
-  conditions?: GetSecurityFirewallConfigResponseActiveConditionsList;
-  crs?: GetSecurityFirewallConfigResponseActiveCrs;
+  conditions?: GetSecurityFirewallConfigResponseActiveConditionsList | undefined;
+  crs?: GetSecurityFirewallConfigResponseActiveCrs | undefined;
   firewallEnabled: boolean;
   id: string;
   ips: GetSecurityFirewallConfigResponseActiveIpsList;
-  logHeaders?: GetSecurityFirewallConfigResponseActiveLogHeaders;
-  managedRules?: GetSecurityFirewallConfigResponseActiveManagedRules;
+  logHeaders?: GetSecurityFirewallConfigResponseActiveLogHeaders | undefined;
+  managedRules?: GetSecurityFirewallConfigResponseActiveManagedRules | undefined;
   ownerId: string;
   projectKey: string;
   rules: GetSecurityFirewallConfigResponseActiveRulesList;
-  rulesets?: GetSecurityFirewallConfigResponseActiveRulesets;
+  rulesets?: GetSecurityFirewallConfigResponseActiveRulesets | undefined;
   updatedAt: string;
   version: number;
 }
@@ -2376,6 +2902,8 @@ export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupIt
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -2392,11 +2920,13 @@ export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupIt
   | number
   | GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValueCase2List;
 export interface GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemOp;
   type: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemType;
-  value?: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValue;
+  value?:
+    | GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsList =
   Array<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem>;
@@ -2408,7 +2938,7 @@ export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupLi
 export interface GetSecurityFirewallConfigResponseDraftConditionsItem {
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
 }
@@ -2492,7 +3022,7 @@ export interface GetSecurityFirewallConfigResponseDraftIpsItem {
   hostname: string;
   id: string;
   ip: string;
-  notes?: string;
+  notes?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftIpsList =
   Array<GetSecurityFirewallConfigResponseDraftIpsItem>;
@@ -2506,62 +3036,62 @@ export type GetSecurityFirewallConfigResponseDraftManagedRulesAiBotsAction =
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseDraftManagedRulesAiBots {
-  action?: GetSecurityFirewallConfigResponseDraftManagedRulesAiBotsAction;
+  action?: GetSecurityFirewallConfigResponseDraftManagedRulesAiBotsAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftManagedRulesBotProtectionAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection {
-  action?: GetSecurityFirewallConfigResponseDraftManagedRulesBotProtectionAction;
+  action?: GetSecurityFirewallConfigResponseDraftManagedRulesBotProtectionAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftManagedRulesOwaspAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseDraftManagedRulesOwasp {
-  action?: GetSecurityFirewallConfigResponseDraftManagedRulesOwaspAction;
+  action?: GetSecurityFirewallConfigResponseDraftManagedRulesOwaspAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSourcesAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources {
-  action?: GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSourcesAction;
+  action?: GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSourcesAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftManagedRulesVercelRulesetAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset {
-  action?: GetSecurityFirewallConfigResponseDraftManagedRulesVercelRulesetAction;
+  action?: GetSecurityFirewallConfigResponseDraftManagedRulesVercelRulesetAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export interface GetSecurityFirewallConfigResponseDraftManagedRules {
-  ai_bots?: GetSecurityFirewallConfigResponseDraftManagedRulesAiBots;
-  bot_protection?: GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection;
-  owasp?: GetSecurityFirewallConfigResponseDraftManagedRulesOwasp;
-  traffic_sources?: GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources;
-  vercel_ruleset?: GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset;
+  ai_bots?: GetSecurityFirewallConfigResponseDraftManagedRulesAiBots | undefined;
+  bot_protection?: GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection | undefined;
+  owasp?: GetSecurityFirewallConfigResponseDraftManagedRulesOwasp | undefined;
+  traffic_sources?: GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources | undefined;
+  vercel_ruleset?: GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateAction =
   | "allow"
@@ -2588,7 +3118,10 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRa
 export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitKeysList =
   Array<string>;
 export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit {
-  action?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAction | null;
+  action?:
+    | GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAlgo;
   keys: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitKeysList;
   limit: number;
@@ -2598,14 +3131,22 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRe
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate {
   action: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeaders;
-  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeaders
+    | undefined;
+  rateLimit?:
+    | GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0Action {
-  mitigate?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate;
+  mitigate?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemOp =
   | "eq"
@@ -2648,6 +3189,8 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupIt
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -2664,11 +3207,13 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupIt
   | number
   | GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemValueCase2List;
 export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemOp;
   type: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemType;
-  value?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemValue;
+  value?:
+    | GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsList =
   Array<GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItem>;
@@ -2681,7 +3226,7 @@ export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0 {
   action: GetSecurityFirewallConfigResponseDraftRulesItemCase0Action;
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   valid: boolean;
@@ -2712,7 +3257,10 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRa
 export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitKeysList =
   Array<string>;
 export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit {
-  action?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAction | null;
+  action?:
+    | GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAlgo;
   keys: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitKeysList;
   limit: number;
@@ -2722,14 +3270,22 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRe
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate {
   action: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeaders;
-  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeaders
+    | undefined;
+  rateLimit?:
+    | GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1Action {
-  mitigate?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate;
+  mitigate?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemOp =
   | "eq"
@@ -2772,6 +3328,8 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupIt
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -2788,11 +3346,13 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupIt
   | number
   | GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemValueCase2List;
 export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemOp;
   type: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemType;
-  value?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemValue;
+  value?:
+    | GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsList =
   Array<GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItem>;
@@ -2807,7 +3367,7 @@ export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1 {
   action: GetSecurityFirewallConfigResponseDraftRulesItemCase1Action;
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   valid: boolean;
@@ -2859,6 +3419,8 @@ export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGrou
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -2875,11 +3437,13 @@ export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGrou
   | number
   | GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List;
 export interface GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemOp;
   type: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemType;
-  value?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemValue;
+  value?:
+    | GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsList =
   Array<GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItem>;
@@ -2914,7 +3478,10 @@ export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigat
 export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitKeysList =
   Array<string>;
 export interface GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit {
-  action?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAction | null;
+  action?:
+    | GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAlgo;
   keys: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitKeysList;
   limit: number;
@@ -2924,22 +3491,30 @@ export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigat
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigate {
   action: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateLogHeaders;
-  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateLogHeaders
+    | undefined;
+  rateLimit?:
+    | GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemAction {
-  mitigate?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigate;
+  mitigate?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigate | undefined;
 }
 export interface GetSecurityFirewallConfigResponseDraftRulesetsCase0Item {
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
-  action?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemAction;
+  action?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemAction | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftRulesetsCase0List =
   Array<GetSecurityFirewallConfigResponseDraftRulesetsCase0Item>;
@@ -2968,7 +3543,10 @@ export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAlg
 export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitKeysList =
   Array<string>;
 export interface GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit {
-  action?: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAction | null;
+  action?:
+    | GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAction
+    | null
+    | undefined;
   algo: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAlgo;
   keys: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitKeysList;
   limit: number;
@@ -2978,11 +3556,14 @@ export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRedirect =
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetSecurityFirewallConfigResponseDraftRulesetsCase1Value {
   action: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueLogHeaders;
-  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueLogHeaders | undefined;
+  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit | null | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseDraftRulesetsCase1Map = {
   [key: string]: GetSecurityFirewallConfigResponseDraftRulesetsCase1Value | undefined;
@@ -2991,19 +3572,19 @@ export type GetSecurityFirewallConfigResponseDraftRulesets =
   | GetSecurityFirewallConfigResponseDraftRulesetsCase0List
   | GetSecurityFirewallConfigResponseDraftRulesetsCase1Map;
 export interface GetSecurityFirewallConfigResponseDraft {
-  botIdEnabled?: boolean;
+  botIdEnabled?: boolean | undefined;
   changes: GetSecurityFirewallConfigResponseDraftChangesList;
-  conditions?: GetSecurityFirewallConfigResponseDraftConditionsList;
-  crs?: GetSecurityFirewallConfigResponseDraftCrs;
+  conditions?: GetSecurityFirewallConfigResponseDraftConditionsList | undefined;
+  crs?: GetSecurityFirewallConfigResponseDraftCrs | undefined;
   firewallEnabled: boolean;
   id: string;
   ips: GetSecurityFirewallConfigResponseDraftIpsList;
-  logHeaders?: GetSecurityFirewallConfigResponseDraftLogHeaders;
-  managedRules?: GetSecurityFirewallConfigResponseDraftManagedRules;
+  logHeaders?: GetSecurityFirewallConfigResponseDraftLogHeaders | undefined;
+  managedRules?: GetSecurityFirewallConfigResponseDraftManagedRules | undefined;
   ownerId: string;
   projectKey: string;
   rules: GetSecurityFirewallConfigResponseDraftRulesList;
-  rulesets?: GetSecurityFirewallConfigResponseDraftRulesets;
+  rulesets?: GetSecurityFirewallConfigResponseDraftRulesets | undefined;
   updatedAt: string;
   version: number;
 }
@@ -3049,6 +3630,8 @@ export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemCondition
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -3065,11 +3648,13 @@ export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemCondition
   | number
   | GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValueCase2List;
 export interface GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemOp;
   type: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemType;
-  value?: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValue;
+  value?:
+    | GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsList =
   Array<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem>;
@@ -3081,7 +3666,7 @@ export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemCondition
 export interface GetSecurityFirewallConfigResponseVersionsItemConditionsItem {
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
 }
@@ -3165,7 +3750,7 @@ export interface GetSecurityFirewallConfigResponseVersionsItemIpsItem {
   hostname: string;
   id: string;
   ip: string;
-  notes?: string;
+  notes?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemIpsList =
   Array<GetSecurityFirewallConfigResponseVersionsItemIpsItem>;
@@ -3179,62 +3764,70 @@ export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBotsActio
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots {
-  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBotsAction;
+  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBotsAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtectionAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection {
-  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtectionAction;
+  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtectionAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwaspAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp {
-  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwaspAction;
+  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwaspAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSourcesAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources {
-  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSourcesAction;
+  action?:
+    | GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSourcesAction
+    | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRulesetAction =
   | "challenge"
   | "deny"
   | "log";
 export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset {
-  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRulesetAction;
+  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRulesetAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export interface GetSecurityFirewallConfigResponseVersionsItemManagedRules {
-  ai_bots?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots;
-  bot_protection?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection;
-  owasp?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp;
-  traffic_sources?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources;
-  vercel_ruleset?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset;
+  ai_bots?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots | undefined;
+  bot_protection?:
+    | GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection
+    | undefined;
+  owasp?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp | undefined;
+  traffic_sources?:
+    | GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources
+    | undefined;
+  vercel_ruleset?:
+    | GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateAction =
   | "allow"
@@ -3262,7 +3855,10 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMit
 export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitKeysList =
   Array<string>;
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit {
-  action?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAction | null;
+  action?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAlgo;
   keys: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitKeysList;
   limit: number;
@@ -3272,14 +3868,22 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMit
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate {
   action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeaders;
-  rateLimit?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeaders
+    | undefined;
+  rateLimit?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action {
-  mitigate?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate;
+  mitigate?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemOp =
   | "eq"
@@ -3322,6 +3926,8 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Condition
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -3338,11 +3944,13 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Condition
   | number
   | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemValueCase2List;
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemOp;
   type: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemType;
-  value?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemValue;
+  value?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsList =
   Array<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItem>;
@@ -3355,7 +3963,7 @@ export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0 {
   action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action;
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   valid: boolean;
@@ -3387,7 +3995,10 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMit
 export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitKeysList =
   Array<string>;
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit {
-  action?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAction | null;
+  action?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAlgo;
   keys: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitKeysList;
   limit: number;
@@ -3397,14 +4008,22 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMit
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate {
   action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeaders;
-  rateLimit?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeaders
+    | undefined;
+  rateLimit?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action {
-  mitigate?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate;
+  mitigate?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemOp =
   | "eq"
@@ -3447,6 +4066,8 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Condition
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -3463,11 +4084,13 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Condition
   | number
   | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemValueCase2List;
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemOp;
   type: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemType;
-  value?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemValue;
+  value?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsList =
   Array<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItem>;
@@ -3482,7 +4105,7 @@ export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1 {
   action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action;
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   valid: boolean;
@@ -3534,6 +4157,8 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemCondit
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -3550,11 +4175,13 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemCondit
   | number
   | GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List;
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemOp;
   type: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemType;
-  value?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemValue;
+  value?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsList =
   Array<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItem>;
@@ -3589,7 +4216,10 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemAction
 export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitKeysList =
   Array<string>;
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit {
-  action?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAction | null;
+  action?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAlgo;
   keys: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitKeysList;
   limit: number;
@@ -3599,22 +4229,32 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemAction
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigate {
   action: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateLogHeaders;
-  rateLimit?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateLogHeaders
+    | undefined;
+  rateLimit?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemAction {
-  mitigate?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigate;
+  mitigate?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigate
+    | undefined;
 }
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0Item {
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
-  action?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemAction;
+  action?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemAction | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0List =
   Array<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0Item>;
@@ -3643,7 +4283,10 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateL
 export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitKeysList =
   Array<string>;
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit {
-  action?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAction | null;
+  action?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAction
+    | null
+    | undefined;
   algo: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAlgo;
   keys: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitKeysList;
   limit: number;
@@ -3653,11 +4296,19 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRedir
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1Value {
   action: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueLogHeaders;
-  rateLimit?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueLogHeaders
+    | undefined;
+  rateLimit?:
+    | GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1Map = {
   [key: string]: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1Value | undefined;
@@ -3666,19 +4317,19 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesets =
   | GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0List
   | GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1Map;
 export interface GetSecurityFirewallConfigResponseVersionsItem {
-  botIdEnabled?: boolean;
+  botIdEnabled?: boolean | undefined;
   changes: GetSecurityFirewallConfigResponseVersionsItemChangesList;
-  conditions?: GetSecurityFirewallConfigResponseVersionsItemConditionsList;
-  crs?: GetSecurityFirewallConfigResponseVersionsItemCrs;
+  conditions?: GetSecurityFirewallConfigResponseVersionsItemConditionsList | undefined;
+  crs?: GetSecurityFirewallConfigResponseVersionsItemCrs | undefined;
   firewallEnabled: boolean;
   id: string;
   ips: GetSecurityFirewallConfigResponseVersionsItemIpsList;
-  logHeaders?: GetSecurityFirewallConfigResponseVersionsItemLogHeaders;
-  managedRules?: GetSecurityFirewallConfigResponseVersionsItemManagedRules;
+  logHeaders?: GetSecurityFirewallConfigResponseVersionsItemLogHeaders | undefined;
+  managedRules?: GetSecurityFirewallConfigResponseVersionsItemManagedRules | undefined;
   ownerId: string;
   projectKey: string;
   rules: GetSecurityFirewallConfigResponseVersionsItemRulesList;
-  rulesets?: GetSecurityFirewallConfigResponseVersionsItemRulesets;
+  rulesets?: GetSecurityFirewallConfigResponseVersionsItemRulesets | undefined;
   updatedAt: string;
   version: number;
 }
@@ -3707,23 +4358,23 @@ export type GetSecurityFirewallEventsRequestActionTypeList = Array<
 export type GetSecurityFirewallEventsRequestRuleKind = "system" | "custom";
 export type GetSecurityFirewallEventsRequestRuleIdList = Array<string>;
 export interface GetSecurityFirewallEventsRequest {
-  sort?: GetSecurityFirewallEventsRequestSort | (string & {});
-  limit?: number;
-  cursor?: string;
+  sort?: GetSecurityFirewallEventsRequestSort | (string & {}) | undefined;
+  limit?: number | undefined;
+  cursor?: string | undefined;
   projectId: string;
-  startTimestamp?: number;
-  endTimestamp?: number;
-  hosts?: string;
-  ip?: GetSecurityFirewallEventsRequestIpList;
-  isActive?: boolean;
-  action?: GetSecurityFirewallEventsRequestActionList;
-  actionType?: GetSecurityFirewallEventsRequestActionTypeList;
-  ruleKind?: GetSecurityFirewallEventsRequestRuleKind | (string & {});
-  ruleId?: GetSecurityFirewallEventsRequestRuleIdList;
+  startTimestamp?: number | undefined;
+  endTimestamp?: number | undefined;
+  hosts?: string | undefined;
+  ip?: GetSecurityFirewallEventsRequestIpList | undefined;
+  isActive?: boolean | undefined;
+  action?: GetSecurityFirewallEventsRequestActionList | undefined;
+  actionType?: GetSecurityFirewallEventsRequestActionTypeList | undefined;
+  ruleKind?: GetSecurityFirewallEventsRequestRuleKind | (string & {}) | undefined;
+  ruleId?: GetSecurityFirewallEventsRequestRuleIdList | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetSecurityFirewallEventsResponseActionsItem {
   action: string;
@@ -3768,19 +4419,19 @@ export type GetSecurityFirewallEventsSummaryRequestRuleKind = "system" | "custom
 export type GetSecurityFirewallEventsSummaryRequestRuleIdList = Array<string>;
 export interface GetSecurityFirewallEventsSummaryRequest {
   projectId: string;
-  startTimestamp?: number;
-  endTimestamp?: number;
-  hosts?: string;
-  ip?: GetSecurityFirewallEventsSummaryRequestIpList;
-  isActive?: boolean;
-  action?: GetSecurityFirewallEventsSummaryRequestActionList;
-  actionType?: GetSecurityFirewallEventsSummaryRequestActionTypeList;
-  ruleKind?: GetSecurityFirewallEventsSummaryRequestRuleKind | (string & {});
-  ruleId?: GetSecurityFirewallEventsSummaryRequestRuleIdList;
+  startTimestamp?: number | undefined;
+  endTimestamp?: number | undefined;
+  hosts?: string | undefined;
+  ip?: GetSecurityFirewallEventsSummaryRequestIpList | undefined;
+  isActive?: boolean | undefined;
+  action?: GetSecurityFirewallEventsSummaryRequestActionList | undefined;
+  actionType?: GetSecurityFirewallEventsSummaryRequestActionTypeList | undefined;
+  ruleKind?: GetSecurityFirewallEventsSummaryRequestRuleKind | (string & {}) | undefined;
+  ruleId?: GetSecurityFirewallEventsSummaryRequestRuleIdList | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetSecurityFirewallEventsSummaryResponseByActionMap = {
   [key: string]: number | undefined;
@@ -3865,27 +4516,27 @@ export interface PutFirewallConfigRequestCrsJava {
 /** Custom Ruleset */
 export interface PutFirewallConfigRequestCrs {
   /** Scanner Detection - Detect and prevent reconnaissance activities from network scanning tools. */
-  sd?: PutFirewallConfigRequestCrsSd;
+  sd?: PutFirewallConfigRequestCrsSd | undefined;
   /** Multipart Attack - Block attempts to bypass security controls using multipart/form-data encoding. */
-  ma?: PutFirewallConfigRequestCrsMa;
+  ma?: PutFirewallConfigRequestCrsMa | undefined;
   /** Local File Inclusion Attack - Prevent unauthorized access to local files through web applications. */
-  lfi?: PutFirewallConfigRequestCrsLfi;
+  lfi?: PutFirewallConfigRequestCrsLfi | undefined;
   /** Remote File Inclusion Attack - Prohibit unauthorized upload or execution of remote files. */
-  rfi?: PutFirewallConfigRequestCrsRfi;
+  rfi?: PutFirewallConfigRequestCrsRfi | undefined;
   /** Remote Execution Attack - Prevent unauthorized execution of remote scripts or commands. */
-  rce?: PutFirewallConfigRequestCrsRce;
+  rce?: PutFirewallConfigRequestCrsRce | undefined;
   /** PHP Attack - Safeguard against vulnerability exploits in PHP-based applications. */
-  php?: PutFirewallConfigRequestCrsPhp;
+  php?: PutFirewallConfigRequestCrsPhp | undefined;
   /** Generic Attack - Provide broad protection from various undefined or novel attack vectors. */
-  gen?: PutFirewallConfigRequestCrsGen;
+  gen?: PutFirewallConfigRequestCrsGen | undefined;
   /** XSS Attack - Prevent injection of malicious scripts into trusted webpages. */
-  xss?: PutFirewallConfigRequestCrsXss;
+  xss?: PutFirewallConfigRequestCrsXss | undefined;
   /** SQL Injection Attack - Prohibit unauthorized use of SQL commands to manipulate databases. */
-  sqli?: PutFirewallConfigRequestCrsSqli;
+  sqli?: PutFirewallConfigRequestCrsSqli | undefined;
   /** Session Fixation Attack - Prevent unauthorized takeover of user sessions by enforcing unique session IDs. */
-  sf?: PutFirewallConfigRequestCrsSf;
+  sf?: PutFirewallConfigRequestCrsSf | undefined;
   /** Java Attack - Mitigate risks of exploitation targeting Java-based applications or components. */
-  java?: PutFirewallConfigRequestCrsJava;
+  java?: PutFirewallConfigRequestCrsJava | undefined;
 }
 /** [Parameter](https://vercel.com/docs/security/vercel-waf/rule-configuration#parameters) from the incoming traffic. */
 export type PutFirewallConfigRequestRulesItemConditionGroupItemConditionsItemType =
@@ -3920,7 +4571,9 @@ export type PutFirewallConfigRequestRulesItemConditionGroupItemConditionsItemTyp
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type PutFirewallConfigRequestRulesItemConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -3947,9 +4600,9 @@ export interface PutFirewallConfigRequestRulesItemConditionGroupItemConditionsIt
   /** [Parameter](https://vercel.com/docs/security/vercel-waf/rule-configuration#parameters) from the incoming traffic. */
   type: PutFirewallConfigRequestRulesItemConditionGroupItemConditionsItemType | (string & {});
   op: PutFirewallConfigRequestRulesItemConditionGroupItemConditionsItemOp | (string & {});
-  neg?: boolean;
-  key?: string;
-  value?: PutFirewallConfigRequestRulesItemConditionGroupItemConditionsItemValue;
+  neg?: boolean | undefined;
+  key?: string | undefined;
+  value?: PutFirewallConfigRequestRulesItemConditionGroupItemConditionsItemValue | undefined;
 }
 export type PutFirewallConfigRequestRulesItemConditionGroupItemConditionsList =
   Array<PutFirewallConfigRequestRulesItemConditionGroupItemConditionsItem>;
@@ -3982,7 +4635,7 @@ export interface PutFirewallConfigRequestRulesItemActionMitigateRateLimitCase0 {
   window: number;
   limit: number;
   keys: PutFirewallConfigRequestRulesItemActionMitigateRateLimitCase0KeysList;
-  action?: PutFirewallConfigRequestRulesItemActionMitigateRateLimitCase0Action | null;
+  action?: PutFirewallConfigRequestRulesItemActionMitigateRateLimitCase0Action | null | undefined;
 }
 export type PutFirewallConfigRequestRulesItemActionMitigateRateLimit =
   | PutFirewallConfigRequestRulesItemActionMitigateRateLimitCase0
@@ -3998,28 +4651,28 @@ export type PutFirewallConfigRequestRulesItemActionMitigateLogHeaders =
   | PutFirewallConfigRequestRulesItemActionMitigateLogHeadersCase1List;
 export interface PutFirewallConfigRequestRulesItemActionMitigate {
   action: PutFirewallConfigRequestRulesItemActionMitigateAction | (string & {});
-  rateLimit?: PutFirewallConfigRequestRulesItemActionMitigateRateLimit | null;
-  redirect?: PutFirewallConfigRequestRulesItemActionMitigateRedirect | null;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: PutFirewallConfigRequestRulesItemActionMitigateLogHeaders;
+  rateLimit?: PutFirewallConfigRequestRulesItemActionMitigateRateLimit | null | undefined;
+  redirect?: PutFirewallConfigRequestRulesItemActionMitigateRedirect | null | undefined;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: PutFirewallConfigRequestRulesItemActionMitigateLogHeaders | undefined;
 }
 export interface PutFirewallConfigRequestRulesItemAction {
-  mitigate?: PutFirewallConfigRequestRulesItemActionMitigate;
+  mitigate?: PutFirewallConfigRequestRulesItemActionMitigate | undefined;
 }
 export type PutFirewallConfigRequestRulesItemValidationErrorsCase0List = Array<string>;
 export type PutFirewallConfigRequestRulesItemValidationErrors =
   | PutFirewallConfigRequestRulesItemValidationErrorsCase0List
   | string;
 export interface PutFirewallConfigRequestRulesItem {
-  id?: string;
+  id?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   active: boolean;
   conditionGroup: PutFirewallConfigRequestRulesItemConditionGroupList;
   action: PutFirewallConfigRequestRulesItemAction;
-  valid?: boolean;
-  validationErrors?: PutFirewallConfigRequestRulesItemValidationErrors;
+  valid?: boolean | undefined;
+  validationErrors?: PutFirewallConfigRequestRulesItemValidationErrors | undefined;
 }
 export type PutFirewallConfigRequestRulesList = Array<PutFirewallConfigRequestRulesItem>;
 export type PutFirewallConfigRequestRulesetsCase0ItemConditionGroupItemConditionsItemType =
@@ -4054,7 +4707,9 @@ export type PutFirewallConfigRequestRulesetsCase0ItemConditionGroupItemCondition
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type PutFirewallConfigRequestRulesetsCase0ItemConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -4082,9 +4737,11 @@ export interface PutFirewallConfigRequestRulesetsCase0ItemConditionGroupItemCond
     | PutFirewallConfigRequestRulesetsCase0ItemConditionGroupItemConditionsItemType
     | (string & {});
   op: PutFirewallConfigRequestRulesetsCase0ItemConditionGroupItemConditionsItemOp | (string & {});
-  neg?: boolean;
-  key?: string;
-  value?: PutFirewallConfigRequestRulesetsCase0ItemConditionGroupItemConditionsItemValue;
+  neg?: boolean | undefined;
+  key?: string | undefined;
+  value?:
+    | PutFirewallConfigRequestRulesetsCase0ItemConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type PutFirewallConfigRequestRulesetsCase0ItemConditionGroupItemConditionsList =
   Array<PutFirewallConfigRequestRulesetsCase0ItemConditionGroupItemConditionsItem>;
@@ -4101,21 +4758,21 @@ export interface PutFirewallConfigRequestRulesetsCase0ItemActionMitigate {
   action: PutFirewallConfigRequestRulesetsCase0ItemActionMitigateAction | (string & {});
 }
 export interface PutFirewallConfigRequestRulesetsCase0ItemAction {
-  mitigate?: PutFirewallConfigRequestRulesetsCase0ItemActionMitigate;
+  mitigate?: PutFirewallConfigRequestRulesetsCase0ItemActionMitigate | undefined;
 }
 export type PutFirewallConfigRequestRulesetsCase0ItemValidationErrorsCase0List = Array<string>;
 export type PutFirewallConfigRequestRulesetsCase0ItemValidationErrors =
   | PutFirewallConfigRequestRulesetsCase0ItemValidationErrorsCase0List
   | string;
 export interface PutFirewallConfigRequestRulesetsCase0Item {
-  id?: string;
+  id?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   active: boolean;
   conditionGroup: PutFirewallConfigRequestRulesetsCase0ItemConditionGroupList;
-  action?: PutFirewallConfigRequestRulesetsCase0ItemAction;
-  valid?: boolean;
-  validationErrors?: PutFirewallConfigRequestRulesetsCase0ItemValidationErrors;
+  action?: PutFirewallConfigRequestRulesetsCase0ItemAction | undefined;
+  valid?: boolean | undefined;
+  validationErrors?: PutFirewallConfigRequestRulesetsCase0ItemValidationErrors | undefined;
 }
 export type PutFirewallConfigRequestRulesetsCase0List =
   Array<PutFirewallConfigRequestRulesetsCase0Item>;
@@ -4135,10 +4792,10 @@ export type PutFirewallConfigRequestRulesets =
   | PutFirewallConfigRequestRulesetsCase1Map;
 export type PutFirewallConfigRequestIpsItemAction = "deny" | "challenge" | "log" | "bypass";
 export interface PutFirewallConfigRequestIpsItem {
-  id?: string;
+  id?: string | undefined;
   hostname: string;
   ip: string;
-  notes?: string;
+  notes?: string | undefined;
   action: PutFirewallConfigRequestIpsItemAction | (string & {});
 }
 export type PutFirewallConfigRequestIpsList = Array<PutFirewallConfigRequestIpsItem>;
@@ -4149,18 +4806,18 @@ export type PutFirewallConfigRequestLogHeaders =
 export interface PutFirewallConfigRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   firewallEnabled: boolean;
-  managedRules?: unknown;
+  managedRules?: unknown | undefined;
   /** Custom Ruleset */
-  crs?: PutFirewallConfigRequestCrs;
-  rules?: PutFirewallConfigRequestRulesList;
-  rulesets?: PutFirewallConfigRequestRulesets;
-  ips?: PutFirewallConfigRequestIpsList;
-  botIdEnabled?: boolean;
-  logHeaders?: PutFirewallConfigRequestLogHeaders;
+  crs?: PutFirewallConfigRequestCrs | undefined;
+  rules?: PutFirewallConfigRequestRulesList | undefined;
+  rulesets?: PutFirewallConfigRequestRulesets | undefined;
+  ips?: PutFirewallConfigRequestIpsList | undefined;
+  botIdEnabled?: boolean | undefined;
+  logHeaders?: PutFirewallConfigRequestLogHeaders | undefined;
 }
 export type PutFirewallConfigResponseActiveChangesList = Array<unknown>;
 export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp =
@@ -4204,6 +4861,8 @@ export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemCondi
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -4220,11 +4879,13 @@ export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemCondi
   | number
   | PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List;
 export interface PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp;
   type: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType;
-  value?: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue;
+  value?:
+    | PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList =
   Array<PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem>;
@@ -4236,7 +4897,7 @@ export type PutFirewallConfigResponseActiveConditionsItemConditionGroupList =
 export interface PutFirewallConfigResponseActiveConditionsItem {
   active: boolean;
   conditionGroup: PutFirewallConfigResponseActiveConditionsItemConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
 }
@@ -4339,7 +5000,7 @@ export interface PutFirewallConfigResponseActiveIpsItem {
   hostname: string;
   id: string;
   ip: string;
-  notes?: string;
+  notes?: string | undefined;
 }
 export type PutFirewallConfigResponseActiveIpsList = Array<PutFirewallConfigResponseActiveIpsItem>;
 export type PutFirewallConfigResponseActiveLogHeadersCase0List = Array<string>;
@@ -4349,59 +5010,59 @@ export type PutFirewallConfigResponseActiveLogHeaders =
   | PutFirewallConfigResponseActiveLogHeadersCase1;
 export type PutFirewallConfigResponseActiveManagedRulesAiBotsAction = "challenge" | "deny" | "log";
 export interface PutFirewallConfigResponseActiveManagedRulesAiBots {
-  action?: PutFirewallConfigResponseActiveManagedRulesAiBotsAction;
+  action?: PutFirewallConfigResponseActiveManagedRulesAiBotsAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type PutFirewallConfigResponseActiveManagedRulesBotProtectionAction =
   | "challenge"
   | "deny"
   | "log";
 export interface PutFirewallConfigResponseActiveManagedRulesBotProtection {
-  action?: PutFirewallConfigResponseActiveManagedRulesBotProtectionAction;
+  action?: PutFirewallConfigResponseActiveManagedRulesBotProtectionAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type PutFirewallConfigResponseActiveManagedRulesOwaspAction = "challenge" | "deny" | "log";
 export interface PutFirewallConfigResponseActiveManagedRulesOwasp {
-  action?: PutFirewallConfigResponseActiveManagedRulesOwaspAction;
+  action?: PutFirewallConfigResponseActiveManagedRulesOwaspAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type PutFirewallConfigResponseActiveManagedRulesTrafficSourcesAction =
   | "challenge"
   | "deny"
   | "log";
 export interface PutFirewallConfigResponseActiveManagedRulesTrafficSources {
-  action?: PutFirewallConfigResponseActiveManagedRulesTrafficSourcesAction;
+  action?: PutFirewallConfigResponseActiveManagedRulesTrafficSourcesAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export type PutFirewallConfigResponseActiveManagedRulesVercelRulesetAction =
   | "challenge"
   | "deny"
   | "log";
 export interface PutFirewallConfigResponseActiveManagedRulesVercelRuleset {
-  action?: PutFirewallConfigResponseActiveManagedRulesVercelRulesetAction;
+  action?: PutFirewallConfigResponseActiveManagedRulesVercelRulesetAction | undefined;
   active: boolean;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
+  updatedAt?: string | undefined;
+  userId?: string | undefined;
+  username?: string | undefined;
 }
 export interface PutFirewallConfigResponseActiveManagedRules {
-  ai_bots?: PutFirewallConfigResponseActiveManagedRulesAiBots;
-  bot_protection?: PutFirewallConfigResponseActiveManagedRulesBotProtection;
-  owasp?: PutFirewallConfigResponseActiveManagedRulesOwasp;
-  traffic_sources?: PutFirewallConfigResponseActiveManagedRulesTrafficSources;
-  vercel_ruleset?: PutFirewallConfigResponseActiveManagedRulesVercelRuleset;
+  ai_bots?: PutFirewallConfigResponseActiveManagedRulesAiBots | undefined;
+  bot_protection?: PutFirewallConfigResponseActiveManagedRulesBotProtection | undefined;
+  owasp?: PutFirewallConfigResponseActiveManagedRulesOwasp | undefined;
+  traffic_sources?: PutFirewallConfigResponseActiveManagedRulesTrafficSources | undefined;
+  vercel_ruleset?: PutFirewallConfigResponseActiveManagedRulesVercelRuleset | undefined;
 }
 export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction =
   | "allow"
@@ -4428,7 +5089,10 @@ export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit
 export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList =
   Array<string>;
 export interface PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit {
-  action?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction | null;
+  action?:
+    | PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo;
   keys: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList;
   limit: number;
@@ -4438,14 +5102,20 @@ export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRedirect 
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate {
   action: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders;
-  rateLimit?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders | undefined;
+  rateLimit?:
+    | PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface PutFirewallConfigResponseActiveRulesItemCase0Action {
-  mitigate?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate;
+  mitigate?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate | undefined;
 }
 export type PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp =
   | "eq"
@@ -4488,6 +5158,8 @@ export type PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemCondi
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -4504,11 +5176,13 @@ export type PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemCondi
   | number
   | PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValueCase2List;
 export interface PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp;
   type: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType;
-  value?: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValue;
+  value?:
+    | PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsList =
   Array<PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItem>;
@@ -4521,7 +5195,7 @@ export interface PutFirewallConfigResponseActiveRulesItemCase0 {
   action: PutFirewallConfigResponseActiveRulesItemCase0Action;
   active: boolean;
   conditionGroup: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   valid: boolean;
@@ -4552,7 +5226,10 @@ export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit
 export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList =
   Array<string>;
 export interface PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit {
-  action?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction | null;
+  action?:
+    | PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo;
   keys: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList;
   limit: number;
@@ -4562,14 +5239,20 @@ export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRedirect 
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate {
   action: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders;
-  rateLimit?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders | undefined;
+  rateLimit?:
+    | PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface PutFirewallConfigResponseActiveRulesItemCase1Action {
-  mitigate?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate;
+  mitigate?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate | undefined;
 }
 export type PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp =
   | "eq"
@@ -4612,6 +5295,8 @@ export type PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemCondi
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -4628,11 +5313,13 @@ export type PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemCondi
   | number
   | PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValueCase2List;
 export interface PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp;
   type: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType;
-  value?: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValue;
+  value?:
+    | PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsList =
   Array<PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItem>;
@@ -4646,7 +5333,7 @@ export interface PutFirewallConfigResponseActiveRulesItemCase1 {
   action: PutFirewallConfigResponseActiveRulesItemCase1Action;
   active: boolean;
   conditionGroup: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   valid: boolean;
@@ -4698,6 +5385,8 @@ export type PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemCo
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -4714,11 +5403,13 @@ export type PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemCo
   | number
   | PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List;
 export interface PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItem {
-  key?: string;
-  neg?: boolean;
+  key?: string | undefined;
+  neg?: boolean | undefined;
   op: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp;
   type: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType;
-  value?: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValue;
+  value?:
+    | PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsList =
   Array<PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItem>;
@@ -4752,7 +5443,10 @@ export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLi
 export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList =
   Array<string>;
 export interface PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit {
-  action?: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction | null;
+  action?:
+    | PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction
+    | null
+    | undefined;
   algo: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo;
   keys: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList;
   limit: number;
@@ -4762,22 +5456,28 @@ export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRedire
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigate {
   action: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders;
-  rateLimit?: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders | undefined;
+  rateLimit?:
+    | PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export interface PutFirewallConfigResponseActiveRulesetsCase0ItemAction {
-  mitigate?: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigate;
+  mitigate?: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigate | undefined;
 }
 export interface PutFirewallConfigResponseActiveRulesetsCase0Item {
   active: boolean;
   conditionGroup: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupList;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
-  action?: PutFirewallConfigResponseActiveRulesetsCase0ItemAction;
+  action?: PutFirewallConfigResponseActiveRulesetsCase0ItemAction | undefined;
 }
 export type PutFirewallConfigResponseActiveRulesetsCase0List =
   Array<PutFirewallConfigResponseActiveRulesetsCase0Item>;
@@ -4804,7 +5504,7 @@ export type PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo =
   | "token_bucket";
 export type PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList = Array<string>;
 export interface PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit {
-  action?: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction | null;
+  action?: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction | null | undefined;
   algo: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo;
   keys: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList;
   limit: number;
@@ -4814,11 +5514,14 @@ export type PutFirewallConfigResponseActiveRulesetsCase1ValueRedirect =
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 export interface PutFirewallConfigResponseActiveRulesetsCase1Value {
   action: PutFirewallConfigResponseActiveRulesetsCase1ValueAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: PutFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders;
-  rateLimit?: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: PutFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders | undefined;
+  rateLimit?: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit | null | undefined;
+  redirect?:
+    | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect
+    | null
+    | undefined;
 }
 export type PutFirewallConfigResponseActiveRulesetsCase1Map = {
   [key: string]: PutFirewallConfigResponseActiveRulesetsCase1Value | undefined;
@@ -4827,20 +5530,20 @@ export type PutFirewallConfigResponseActiveRulesets =
   | PutFirewallConfigResponseActiveRulesetsCase0List
   | PutFirewallConfigResponseActiveRulesetsCase1Map;
 export interface PutFirewallConfigResponseActive {
-  botIdEnabled?: boolean;
+  botIdEnabled?: boolean | undefined;
   changes: PutFirewallConfigResponseActiveChangesList;
-  conditions?: PutFirewallConfigResponseActiveConditionsList;
+  conditions?: PutFirewallConfigResponseActiveConditionsList | undefined;
   /** Custom Ruleset */
-  crs?: PutFirewallConfigResponseActiveCrs;
+  crs?: PutFirewallConfigResponseActiveCrs | undefined;
   firewallEnabled: boolean;
   id: string;
   ips: PutFirewallConfigResponseActiveIpsList;
-  logHeaders?: PutFirewallConfigResponseActiveLogHeaders;
-  managedRules?: PutFirewallConfigResponseActiveManagedRules;
+  logHeaders?: PutFirewallConfigResponseActiveLogHeaders | undefined;
+  managedRules?: PutFirewallConfigResponseActiveManagedRules | undefined;
   ownerId: string;
   projectKey: string;
   rules: PutFirewallConfigResponseActiveRulesList;
-  rulesets?: PutFirewallConfigResponseActiveRulesets;
+  rulesets?: PutFirewallConfigResponseActiveRulesets | undefined;
   updatedAt: string;
   version: number;
 }
@@ -4850,14 +5553,14 @@ export interface PutFirewallConfigResponse {
 export interface RemoveBypassIpRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  domain?: string;
-  projectScope?: boolean;
-  sourceIp?: string;
-  allSources?: boolean;
-  note?: string;
+  slug?: string | undefined;
+  domain?: string | undefined;
+  projectScope?: boolean | undefined;
+  sourceIp?: string | undefined;
+  allSources?: boolean | undefined;
+  note?: string | undefined;
 }
 export interface RemoveBypassIpResponse {
   ok: boolean;
@@ -4876,14 +5579,163 @@ export type UpdateAttackChallengeModeRequestBody =
   | UpdateAttackChallengeModeRequestBodyCase1;
 export interface UpdateAttackChallengeModeRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   body: UpdateAttackChallengeModeRequestBody;
 }
 export interface UpdateAttackChallengeModeResponse {
   attackModeEnabled: boolean;
   attackModeUpdatedAt: number;
+}
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0Type = "user_agent";
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0Op =
+  | "eq"
+  | "pre"
+  | "suf"
+  | "sub";
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0Key = "user-agent";
+export interface UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0 {
+  type: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0Type;
+  op: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0Op | (string & {});
+  value: string;
+  key?:
+    | UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0Key
+    | (string & {})
+    | undefined;
+}
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase1Type = "path";
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase1Op =
+  | "eq"
+  | "pre"
+  | "suf"
+  | "sub";
+export interface UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase1 {
+  type: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase1Type;
+  op: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase1Op | (string & {});
+  value: string;
+}
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase2Type = "header";
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase2Op =
+  | "eq"
+  | "pre"
+  | "suf"
+  | "sub";
+export interface UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase2 {
+  type: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase2Type;
+  op: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase2Op | (string & {});
+  key: string;
+  value: string;
+}
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase3Type = "header";
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase3Op = "ex";
+export interface UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase3 {
+  type: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase3Type;
+  op: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase3Op;
+  key: string;
+}
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItem =
+  | UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0
+  | UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase1
+  | UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase2
+  | UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase3;
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsList =
+  Array<UpdateConditionalBypassRequestConditionGroupItemConditionsItem>;
+export interface UpdateConditionalBypassRequestConditionGroupItem {
+  conditions: UpdateConditionalBypassRequestConditionGroupItemConditionsList;
+}
+export type UpdateConditionalBypassRequestConditionGroupList =
+  Array<UpdateConditionalBypassRequestConditionGroupItem>;
+export interface UpdateConditionalBypassRequest {
+  projectId: string;
+  slug?: string | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  domain: string;
+  conditionGroup: UpdateConditionalBypassRequestConditionGroupList;
+  note?: string | undefined;
+}
+export type UpdateConditionalBypassResponseConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export type UpdateConditionalBypassResponseConditionGroupItemConditionsItemType =
+  | "bot_category"
+  | "bot_name"
+  | "bot_protection"
+  | "bot_status"
+  | "cookie"
+  | "domain_environment"
+  | "environment"
+  | "geo_as_number"
+  | "geo_city"
+  | "geo_continent"
+  | "geo_country"
+  | "geo_country_region"
+  | "header"
+  | "host"
+  | "ip_address"
+  | "ja3_digest"
+  | "ja4_digest"
+  | "method"
+  | "path"
+  | "protocol"
+  | "query"
+  | "rate_limit_api_id"
+  | "raw_path"
+  | "region"
+  | "response_code"
+  | "response_header"
+  | "route"
+  | "ruleset"
+  | "scheme"
+  | "server_action"
+  | "shared_condition"
+  | "target_path"
+  | "traffic_source"
+  | "trusted_source"
+  | "user_agent";
+export type UpdateConditionalBypassResponseConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export type UpdateConditionalBypassResponseConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | UpdateConditionalBypassResponseConditionGroupItemConditionsItemValueCase2List;
+export interface UpdateConditionalBypassResponseConditionGroupItemConditionsItem {
+  key?: string | undefined;
+  neg?: boolean | undefined;
+  op: UpdateConditionalBypassResponseConditionGroupItemConditionsItemOp;
+  type: UpdateConditionalBypassResponseConditionGroupItemConditionsItemType;
+  value?: UpdateConditionalBypassResponseConditionGroupItemConditionsItemValue | undefined;
+}
+export type UpdateConditionalBypassResponseConditionGroupItemConditionsList =
+  Array<UpdateConditionalBypassResponseConditionGroupItemConditionsItem>;
+export interface UpdateConditionalBypassResponseConditionGroupItem {
+  conditions: UpdateConditionalBypassResponseConditionGroupItemConditionsList;
+}
+export type UpdateConditionalBypassResponseConditionGroupList =
+  Array<UpdateConditionalBypassResponseConditionGroupItem>;
+export interface UpdateConditionalBypassResponse {
+  condition: string;
+  conditionGroup: UpdateConditionalBypassResponseConditionGroupList;
+  createdAt: string;
+  domain: string;
+  id: string;
+  note?: string | undefined;
+  projectId: string;
+  updatedAt: string;
 }
 export type UpdateFirewallConfigRequestBodyCase0Action = "firewallEnabled";
 export type UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemConditionsItemType =
@@ -4918,7 +5770,9 @@ export type UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemCondition
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -4946,9 +5800,11 @@ export interface UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemCond
     | UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemConditionsItemType
     | (string & {});
   op: UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemConditionsItemOp | (string & {});
-  neg?: boolean;
-  key?: string;
-  value?: UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemConditionsItemValue;
+  neg?: boolean | undefined;
+  key?: string | undefined;
+  value?:
+    | UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemConditionsList =
   Array<UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemConditionsItem>;
@@ -4965,7 +5821,7 @@ export interface UpdateFirewallConfigRequestBodyCase0ValueActionMitigate {
   action: UpdateFirewallConfigRequestBodyCase0ValueActionMitigateAction | (string & {});
 }
 export interface UpdateFirewallConfigRequestBodyCase0ValueAction {
-  mitigate?: UpdateFirewallConfigRequestBodyCase0ValueActionMitigate;
+  mitigate?: UpdateFirewallConfigRequestBodyCase0ValueActionMitigate | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase0ValueValidationErrorsCase0List = Array<string>;
 export type UpdateFirewallConfigRequestBodyCase0ValueValidationErrors =
@@ -4973,17 +5829,17 @@ export type UpdateFirewallConfigRequestBodyCase0ValueValidationErrors =
   | string;
 export interface UpdateFirewallConfigRequestBodyCase0Value {
   name: string;
-  description?: string;
+  description?: string | undefined;
   active: boolean;
   conditionGroup: UpdateFirewallConfigRequestBodyCase0ValueConditionGroupList;
-  action?: UpdateFirewallConfigRequestBodyCase0ValueAction;
-  valid?: boolean;
-  validationErrors?: UpdateFirewallConfigRequestBodyCase0ValueValidationErrors;
+  action?: UpdateFirewallConfigRequestBodyCase0ValueAction | undefined;
+  valid?: boolean | undefined;
+  validationErrors?: UpdateFirewallConfigRequestBodyCase0ValueValidationErrors | undefined;
 }
 /** Add a ruleset */
 export interface UpdateFirewallConfigRequestBodyCase0 {
   action: UpdateFirewallConfigRequestBodyCase0Action;
-  id?: unknown | null;
+  id?: unknown | null | undefined;
   value: UpdateFirewallConfigRequestBodyCase0Value;
 }
 export type UpdateFirewallConfigRequestBodyCase1Action = "rules.insert";
@@ -5019,7 +5875,9 @@ export type UpdateFirewallConfigRequestBodyCase1ValueConditionGroupItemCondition
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type UpdateFirewallConfigRequestBodyCase1ValueConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -5047,9 +5905,11 @@ export interface UpdateFirewallConfigRequestBodyCase1ValueConditionGroupItemCond
     | UpdateFirewallConfigRequestBodyCase1ValueConditionGroupItemConditionsItemType
     | (string & {});
   op: UpdateFirewallConfigRequestBodyCase1ValueConditionGroupItemConditionsItemOp | (string & {});
-  neg?: boolean;
-  key?: string;
-  value?: UpdateFirewallConfigRequestBodyCase1ValueConditionGroupItemConditionsItemValue;
+  neg?: boolean | undefined;
+  key?: string | undefined;
+  value?:
+    | UpdateFirewallConfigRequestBodyCase1ValueConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase1ValueConditionGroupItemConditionsList =
   Array<UpdateFirewallConfigRequestBodyCase1ValueConditionGroupItemConditionsItem>;
@@ -5066,7 +5926,7 @@ export interface UpdateFirewallConfigRequestBodyCase1ValueActionMitigate {
   action: UpdateFirewallConfigRequestBodyCase1ValueActionMitigateAction | (string & {});
 }
 export interface UpdateFirewallConfigRequestBodyCase1ValueAction {
-  mitigate?: UpdateFirewallConfigRequestBodyCase1ValueActionMitigate;
+  mitigate?: UpdateFirewallConfigRequestBodyCase1ValueActionMitigate | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase1ValueValidationErrorsCase0List = Array<string>;
 export type UpdateFirewallConfigRequestBodyCase1ValueValidationErrors =
@@ -5074,12 +5934,12 @@ export type UpdateFirewallConfigRequestBodyCase1ValueValidationErrors =
   | string;
 export interface UpdateFirewallConfigRequestBodyCase1Value {
   name: string;
-  description?: string;
+  description?: string | undefined;
   active: boolean;
   conditionGroup: UpdateFirewallConfigRequestBodyCase1ValueConditionGroupList;
-  action?: UpdateFirewallConfigRequestBodyCase1ValueAction;
-  valid?: boolean;
-  validationErrors?: UpdateFirewallConfigRequestBodyCase1ValueValidationErrors;
+  action?: UpdateFirewallConfigRequestBodyCase1ValueAction | undefined;
+  valid?: boolean | undefined;
+  validationErrors?: UpdateFirewallConfigRequestBodyCase1ValueValidationErrors | undefined;
 }
 /** Update a ruleset */
 export interface UpdateFirewallConfigRequestBodyCase1 {
@@ -5092,7 +5952,7 @@ export type UpdateFirewallConfigRequestBodyCase2Action = "rules.update";
 export interface UpdateFirewallConfigRequestBodyCase2 {
   action: UpdateFirewallConfigRequestBodyCase2Action;
   id: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase3Action = "rules.remove";
 /** Reorder a ruleset */
@@ -5134,7 +5994,9 @@ export type UpdateFirewallConfigRequestBodyCase4ValueConditionGroupItemCondition
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type UpdateFirewallConfigRequestBodyCase4ValueConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -5162,9 +6024,11 @@ export interface UpdateFirewallConfigRequestBodyCase4ValueConditionGroupItemCond
     | UpdateFirewallConfigRequestBodyCase4ValueConditionGroupItemConditionsItemType
     | (string & {});
   op: UpdateFirewallConfigRequestBodyCase4ValueConditionGroupItemConditionsItemOp | (string & {});
-  neg?: boolean;
-  key?: string;
-  value?: UpdateFirewallConfigRequestBodyCase4ValueConditionGroupItemConditionsItemValue;
+  neg?: boolean | undefined;
+  key?: string | undefined;
+  value?:
+    | UpdateFirewallConfigRequestBodyCase4ValueConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase4ValueConditionGroupItemConditionsList =
   Array<UpdateFirewallConfigRequestBodyCase4ValueConditionGroupItemConditionsItem>;
@@ -5179,16 +6043,16 @@ export type UpdateFirewallConfigRequestBodyCase4ValueValidationErrors =
   | string;
 export interface UpdateFirewallConfigRequestBodyCase4Value {
   name: string;
-  description?: string;
+  description?: string | undefined;
   active: boolean;
   conditionGroup: UpdateFirewallConfigRequestBodyCase4ValueConditionGroupList;
-  valid?: boolean;
-  validationErrors?: UpdateFirewallConfigRequestBodyCase4ValueValidationErrors;
+  valid?: boolean | undefined;
+  validationErrors?: UpdateFirewallConfigRequestBodyCase4ValueValidationErrors | undefined;
 }
 /** Add a named condition */
 export interface UpdateFirewallConfigRequestBodyCase4 {
   action: UpdateFirewallConfigRequestBodyCase4Action;
-  id?: string;
+  id?: string | undefined;
   value: UpdateFirewallConfigRequestBodyCase4Value;
 }
 export type UpdateFirewallConfigRequestBodyCase5Action = "crs.update";
@@ -5224,7 +6088,9 @@ export type UpdateFirewallConfigRequestBodyCase5ValueConditionGroupItemCondition
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type UpdateFirewallConfigRequestBodyCase5ValueConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -5252,9 +6118,11 @@ export interface UpdateFirewallConfigRequestBodyCase5ValueConditionGroupItemCond
     | UpdateFirewallConfigRequestBodyCase5ValueConditionGroupItemConditionsItemType
     | (string & {});
   op: UpdateFirewallConfigRequestBodyCase5ValueConditionGroupItemConditionsItemOp | (string & {});
-  neg?: boolean;
-  key?: string;
-  value?: UpdateFirewallConfigRequestBodyCase5ValueConditionGroupItemConditionsItemValue;
+  neg?: boolean | undefined;
+  key?: string | undefined;
+  value?:
+    | UpdateFirewallConfigRequestBodyCase5ValueConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase5ValueConditionGroupItemConditionsList =
   Array<UpdateFirewallConfigRequestBodyCase5ValueConditionGroupItemConditionsItem>;
@@ -5269,11 +6137,11 @@ export type UpdateFirewallConfigRequestBodyCase5ValueValidationErrors =
   | string;
 export interface UpdateFirewallConfigRequestBodyCase5Value {
   name: string;
-  description?: string;
+  description?: string | undefined;
   active: boolean;
   conditionGroup: UpdateFirewallConfigRequestBodyCase5ValueConditionGroupList;
-  valid?: boolean;
-  validationErrors?: UpdateFirewallConfigRequestBodyCase5ValueValidationErrors;
+  valid?: boolean | undefined;
+  validationErrors?: UpdateFirewallConfigRequestBodyCase5ValueValidationErrors | undefined;
 }
 /** Update a named condition */
 export interface UpdateFirewallConfigRequestBodyCase5 {
@@ -5286,7 +6154,7 @@ export type UpdateFirewallConfigRequestBodyCase6Action = "crs.disable";
 export interface UpdateFirewallConfigRequestBodyCase6 {
   action: UpdateFirewallConfigRequestBodyCase6Action;
   id: unknown | null;
-  value?: unknown | null;
+  value?: unknown | null | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase7Action = "ip.insert";
 export type UpdateFirewallConfigRequestBodyCase7ValueAction =
@@ -5308,13 +6176,13 @@ export type UpdateFirewallConfigRequestBodyCase8Action = "ip.update";
 export interface UpdateFirewallConfigRequestBodyCase8 {
   action: UpdateFirewallConfigRequestBodyCase8Action;
   id: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase9Action = "ip.remove";
 /** Enable Firewall */
 export interface UpdateFirewallConfigRequestBodyCase9 {
   action: UpdateFirewallConfigRequestBodyCase9Action;
-  id?: string;
+  id?: string | undefined;
   value: unknown | null;
 }
 export type UpdateFirewallConfigRequestBodyCase10Action = "managedRules.update";
@@ -5350,7 +6218,9 @@ export type UpdateFirewallConfigRequestBodyCase10ValueConditionGroupItemConditio
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type UpdateFirewallConfigRequestBodyCase10ValueConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -5378,9 +6248,11 @@ export interface UpdateFirewallConfigRequestBodyCase10ValueConditionGroupItemCon
     | UpdateFirewallConfigRequestBodyCase10ValueConditionGroupItemConditionsItemType
     | (string & {});
   op: UpdateFirewallConfigRequestBodyCase10ValueConditionGroupItemConditionsItemOp | (string & {});
-  neg?: boolean;
-  key?: string;
-  value?: UpdateFirewallConfigRequestBodyCase10ValueConditionGroupItemConditionsItemValue;
+  neg?: boolean | undefined;
+  key?: string | undefined;
+  value?:
+    | UpdateFirewallConfigRequestBodyCase10ValueConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase10ValueConditionGroupItemConditionsList =
   Array<UpdateFirewallConfigRequestBodyCase10ValueConditionGroupItemConditionsItem>;
@@ -5414,7 +6286,7 @@ export interface UpdateFirewallConfigRequestBodyCase10ValueActionMitigateRateLim
   window: number;
   limit: number;
   keys: UpdateFirewallConfigRequestBodyCase10ValueActionMitigateRateLimitCase0KeysList;
-  action?: UpdateFirewallConfigRequestBodyCase10ValueActionMitigateRateLimitCase0Action;
+  action?: UpdateFirewallConfigRequestBodyCase10ValueActionMitigateRateLimitCase0Action | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase10ValueActionMitigateRateLimit =
   | UpdateFirewallConfigRequestBodyCase10ValueActionMitigateRateLimitCase0
@@ -5431,14 +6303,14 @@ export type UpdateFirewallConfigRequestBodyCase10ValueActionMitigateLogHeaders =
   | UpdateFirewallConfigRequestBodyCase10ValueActionMitigateLogHeadersCase1List;
 export interface UpdateFirewallConfigRequestBodyCase10ValueActionMitigate {
   action: UpdateFirewallConfigRequestBodyCase10ValueActionMitigateAction | (string & {});
-  rateLimit?: UpdateFirewallConfigRequestBodyCase10ValueActionMitigateRateLimit;
-  redirect?: UpdateFirewallConfigRequestBodyCase10ValueActionMitigateRedirect;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: UpdateFirewallConfigRequestBodyCase10ValueActionMitigateLogHeaders;
+  rateLimit?: UpdateFirewallConfigRequestBodyCase10ValueActionMitigateRateLimit | undefined;
+  redirect?: UpdateFirewallConfigRequestBodyCase10ValueActionMitigateRedirect | undefined;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: UpdateFirewallConfigRequestBodyCase10ValueActionMitigateLogHeaders | undefined;
 }
 export interface UpdateFirewallConfigRequestBodyCase10ValueAction {
-  mitigate?: UpdateFirewallConfigRequestBodyCase10ValueActionMitigate;
+  mitigate?: UpdateFirewallConfigRequestBodyCase10ValueActionMitigate | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase10ValueValidationErrorsCase0List = Array<string>;
 export type UpdateFirewallConfigRequestBodyCase10ValueValidationErrors =
@@ -5446,17 +6318,17 @@ export type UpdateFirewallConfigRequestBodyCase10ValueValidationErrors =
   | string;
 export interface UpdateFirewallConfigRequestBodyCase10Value {
   name: string;
-  description?: string;
+  description?: string | undefined;
   active: boolean;
   conditionGroup: UpdateFirewallConfigRequestBodyCase10ValueConditionGroupList;
   action: UpdateFirewallConfigRequestBodyCase10ValueAction;
-  valid?: boolean;
-  validationErrors?: UpdateFirewallConfigRequestBodyCase10ValueValidationErrors;
+  valid?: boolean | undefined;
+  validationErrors?: UpdateFirewallConfigRequestBodyCase10ValueValidationErrors | undefined;
 }
 /** Add a custom rule */
 export interface UpdateFirewallConfigRequestBodyCase10 {
   action: UpdateFirewallConfigRequestBodyCase10Action;
-  id?: string;
+  id?: string | undefined;
   value: UpdateFirewallConfigRequestBodyCase10Value;
 }
 export type UpdateFirewallConfigRequestBodyCase11ValueConditionGroupItemConditionsItemType =
@@ -5491,7 +6363,9 @@ export type UpdateFirewallConfigRequestBodyCase11ValueConditionGroupItemConditio
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type UpdateFirewallConfigRequestBodyCase11ValueConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -5519,9 +6393,11 @@ export interface UpdateFirewallConfigRequestBodyCase11ValueConditionGroupItemCon
     | UpdateFirewallConfigRequestBodyCase11ValueConditionGroupItemConditionsItemType
     | (string & {});
   op: UpdateFirewallConfigRequestBodyCase11ValueConditionGroupItemConditionsItemOp | (string & {});
-  neg?: boolean;
-  key?: string;
-  value?: UpdateFirewallConfigRequestBodyCase11ValueConditionGroupItemConditionsItemValue;
+  neg?: boolean | undefined;
+  key?: string | undefined;
+  value?:
+    | UpdateFirewallConfigRequestBodyCase11ValueConditionGroupItemConditionsItemValue
+    | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase11ValueConditionGroupItemConditionsList =
   Array<UpdateFirewallConfigRequestBodyCase11ValueConditionGroupItemConditionsItem>;
@@ -5555,7 +6431,7 @@ export interface UpdateFirewallConfigRequestBodyCase11ValueActionMitigateRateLim
   window: number;
   limit: number;
   keys: UpdateFirewallConfigRequestBodyCase11ValueActionMitigateRateLimitCase0KeysList;
-  action?: UpdateFirewallConfigRequestBodyCase11ValueActionMitigateRateLimitCase0Action;
+  action?: UpdateFirewallConfigRequestBodyCase11ValueActionMitigateRateLimitCase0Action | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase11ValueActionMitigateRateLimit =
   | UpdateFirewallConfigRequestBodyCase11ValueActionMitigateRateLimitCase0
@@ -5572,14 +6448,14 @@ export type UpdateFirewallConfigRequestBodyCase11ValueActionMitigateLogHeaders =
   | UpdateFirewallConfigRequestBodyCase11ValueActionMitigateLogHeadersCase1List;
 export interface UpdateFirewallConfigRequestBodyCase11ValueActionMitigate {
   action: UpdateFirewallConfigRequestBodyCase11ValueActionMitigateAction | (string & {});
-  rateLimit?: UpdateFirewallConfigRequestBodyCase11ValueActionMitigateRateLimit;
-  redirect?: UpdateFirewallConfigRequestBodyCase11ValueActionMitigateRedirect;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: UpdateFirewallConfigRequestBodyCase11ValueActionMitigateLogHeaders;
+  rateLimit?: UpdateFirewallConfigRequestBodyCase11ValueActionMitigateRateLimit | undefined;
+  redirect?: UpdateFirewallConfigRequestBodyCase11ValueActionMitigateRedirect | undefined;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?: UpdateFirewallConfigRequestBodyCase11ValueActionMitigateLogHeaders | undefined;
 }
 export interface UpdateFirewallConfigRequestBodyCase11ValueAction {
-  mitigate?: UpdateFirewallConfigRequestBodyCase11ValueActionMitigate;
+  mitigate?: UpdateFirewallConfigRequestBodyCase11ValueActionMitigate | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase11ValueValidationErrorsCase0List = Array<string>;
 export type UpdateFirewallConfigRequestBodyCase11ValueValidationErrors =
@@ -5587,12 +6463,12 @@ export type UpdateFirewallConfigRequestBodyCase11ValueValidationErrors =
   | string;
 export interface UpdateFirewallConfigRequestBodyCase11Value {
   name: string;
-  description?: string;
+  description?: string | undefined;
   active: boolean;
   conditionGroup: UpdateFirewallConfigRequestBodyCase11ValueConditionGroupList;
   action: UpdateFirewallConfigRequestBodyCase11ValueAction;
-  valid?: boolean;
-  validationErrors?: UpdateFirewallConfigRequestBodyCase11ValueValidationErrors;
+  valid?: boolean | undefined;
+  validationErrors?: UpdateFirewallConfigRequestBodyCase11ValueValidationErrors | undefined;
 }
 /** Update a custom rule */
 export interface UpdateFirewallConfigRequestBodyCase11 {
@@ -5604,7 +6480,7 @@ export interface UpdateFirewallConfigRequestBodyCase11 {
 export interface UpdateFirewallConfigRequestBodyCase12 {
   action: string;
   id: string;
-  value?: string;
+  value?: string | undefined;
 }
 /** Reorder a custom rule */
 export interface UpdateFirewallConfigRequestBodyCase13 {
@@ -5638,8 +6514,8 @@ export interface UpdateFirewallConfigRequestBodyCase14 {
 /** Disable a managed rule */
 export interface UpdateFirewallConfigRequestBodyCase15 {
   action: string;
-  id?: string;
-  value?: string;
+  id?: string | undefined;
+  value?: string | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase16ValueAction =
   | "deny"
@@ -5649,13 +6525,13 @@ export type UpdateFirewallConfigRequestBodyCase16ValueAction =
 export interface UpdateFirewallConfigRequestBodyCase16Value {
   hostname: string;
   ip: string;
-  notes?: string;
+  notes?: string | undefined;
   action: UpdateFirewallConfigRequestBodyCase16ValueAction | (string & {});
 }
 /** Add an IP Blocking rule */
 export interface UpdateFirewallConfigRequestBodyCase16 {
   action: string;
-  id?: string;
+  id?: string | undefined;
   value: UpdateFirewallConfigRequestBodyCase16Value;
 }
 export type UpdateFirewallConfigRequestBodyCase17ValueAction =
@@ -5666,7 +6542,7 @@ export type UpdateFirewallConfigRequestBodyCase17ValueAction =
 export interface UpdateFirewallConfigRequestBodyCase17Value {
   hostname: string;
   ip: string;
-  notes?: string;
+  notes?: string | undefined;
   action: UpdateFirewallConfigRequestBodyCase17ValueAction | (string & {});
 }
 /** Update an IP Blocking rule */
@@ -5686,7 +6562,7 @@ export type UpdateFirewallConfigRequestBodyCase19Id =
   | "owasp";
 export type UpdateFirewallConfigRequestBodyCase19ValueAction = "log" | "challenge" | "deny";
 export interface UpdateFirewallConfigRequestBodyCase19Value {
-  action?: UpdateFirewallConfigRequestBodyCase19ValueAction | (string & {});
+  action?: UpdateFirewallConfigRequestBodyCase19ValueAction | (string & {}) | undefined;
   active: boolean;
 }
 /** Update a managed ruleset */
@@ -5705,7 +6581,7 @@ export type UpdateFirewallConfigRequestBodyCase20Id =
 export type UpdateFirewallConfigRequestBodyCase20ValueValueAction = "log" | "challenge" | "deny";
 export interface UpdateFirewallConfigRequestBodyCase20ValueValue {
   active: boolean;
-  action?: UpdateFirewallConfigRequestBodyCase20ValueValueAction | (string & {});
+  action?: UpdateFirewallConfigRequestBodyCase20ValueValueAction | (string & {}) | undefined;
 }
 export type UpdateFirewallConfigRequestBodyCase20ValueMap = {
   [key: string]: UpdateFirewallConfigRequestBodyCase20ValueValue | undefined;
@@ -5719,7 +6595,7 @@ export interface UpdateFirewallConfigRequestBodyCase20 {
 /** Toggle bot ID */
 export interface UpdateFirewallConfigRequestBodyCase21 {
   action: string;
-  id?: string;
+  id?: string | undefined;
   value: boolean;
 }
 export type UpdateFirewallConfigRequestBodyCase22ValueCase1List = Array<string>;
@@ -5729,7 +6605,7 @@ export type UpdateFirewallConfigRequestBodyCase22Value =
 /** Update log headers configuration */
 export interface UpdateFirewallConfigRequestBodyCase22 {
   action: string;
-  id?: string;
+  id?: string | undefined;
   value: UpdateFirewallConfigRequestBodyCase22Value;
 }
 export type UpdateFirewallConfigRequestBody =
@@ -5759,9 +6635,9 @@ export type UpdateFirewallConfigRequestBody =
 export interface UpdateFirewallConfigRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   body: UpdateFirewallConfigRequestBody;
 }
 export type UpdateFirewallConfigResponse = unknown;
@@ -5773,13 +6649,35 @@ export const addBypassIp: API.OperationMethod<
   AddBypassIpError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<AddBypassIpRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<AddBypassIpResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<AddBypassIpRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<AddBypassIpResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddBypassIp",
+}));
+
+export type CreateConditionalBypassError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
+/** Create conditional firewall bypass Create a conditional firewall bypass rule for a project domain. */
+export const createConditionalBypass: API.OperationMethod<
+  CreateConditionalBypassRequest,
+  CreateConditionalBypassResponse,
+  CreateConditionalBypassError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(515, __c16, 3) as any as S.Schema<CreateConditionalBypassRequest>,
+  output: __S(520, __c16, 8) as any as S.Schema<CreateConditionalBypassResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConditionalBypass",
 }));
 
 export type CreateSecurityFirewallConfigByConfigVersionActivateError =
@@ -5796,13 +6694,13 @@ export const createSecurityFirewallConfigByConfigVersionActivate: API.OperationM
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c10,
+    544,
+    __c17,
     0,
   ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateRequest>,
   output: __S(
-    328,
-    __c10,
+    552,
+    __c17,
     8,
   ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
@@ -5810,6 +6708,23 @@ export const createSecurityFirewallConfigByConfigVersionActivate: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSecurityFirewallConfigByConfigVersionActivate",
+}));
+
+export type DeleteConditionalBypassError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Delete conditional firewall bypass Delete a conditional firewall bypass rule from a project domain. */
+export const deleteConditionalBypass: API.OperationMethod<
+  DeleteConditionalBypassRequest,
+  DeleteConditionalBypassResponse,
+  DeleteConditionalBypassError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c19, 0) as any as S.Schema<DeleteConditionalBypassRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<DeleteConditionalBypassResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConditionalBypass",
 }));
 
 export type DeleteSecurityFirewallConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -5820,8 +6735,8 @@ export const deleteSecurityFirewallConfig: API.OperationMethod<
   DeleteSecurityFirewallConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeleteSecurityFirewallConfigRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<DeleteSecurityFirewallConfigResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteSecurityFirewallConfigRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<DeleteSecurityFirewallConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5837,8 +6752,8 @@ export const generateFirewallRule: API.OperationMethod<
   GenerateFirewallRuleError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(417, __c13, 1) as any as S.Schema<GenerateFirewallRuleRequest>,
-  output: __S(426, __c13, 10) as any as S.Schema<GenerateFirewallRuleResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<GenerateFirewallRuleRequest>,
+  output: __S(10, __c0, 10) as any as S.Schema<GenerateFirewallRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5854,8 +6769,8 @@ export const getActiveAttackStatus: API.OperationMethod<
   GetActiveAttackStatusError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetActiveAttackStatusRequest>,
-  output: __S(481, __c15, 1) as any as S.Schema<GetActiveAttackStatusResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<GetActiveAttackStatusRequest>,
+  output: __S(65, __c2, 1) as any as S.Schema<GetActiveAttackStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5871,13 +6786,30 @@ export const getBypassIp: API.OperationMethod<
   GetBypassIpError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(514, __c16, 2) as any as S.Schema<GetBypassIpRequest>,
-  output: __S(516, __c16, 4) as any as S.Schema<GetBypassIpResponse>,
+  input: __S(98, __c3, 2) as any as S.Schema<GetBypassIpRequest>,
+  output: __S(100, __c3, 4) as any as S.Schema<GetBypassIpResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBypassIp",
+}));
+
+export type GetConditionalBypassError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Get conditional firewall bypasses Retrieve conditional firewall bypass rules for a project. */
+export const getConditionalBypass: API.OperationMethod<
+  GetConditionalBypassRequest,
+  GetConditionalBypassResponse,
+  GetConditionalBypassError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c4, 0) as any as S.Schema<GetConditionalBypassRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<GetConditionalBypassResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConditionalBypass",
 }));
 
 export type GetFirewallConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -5888,8 +6820,8 @@ export const getFirewallConfig: API.OperationMethod<
   GetFirewallConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetFirewallConfigRequest>,
-  output: __S(8, __c0, 8) as any as S.Schema<GetFirewallConfigResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<GetFirewallConfigRequest>,
+  output: __S(168, __c5, 8) as any as S.Schema<GetFirewallConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5905,8 +6837,8 @@ export const getSecurityFirewallConfig: API.OperationMethod<
   GetSecurityFirewallConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<GetSecurityFirewallConfigRequest>,
-  output: __S(58, __c1, 26) as any as S.Schema<GetSecurityFirewallConfigResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetSecurityFirewallConfigRequest>,
+  output: __S(218, __c6, 26) as any as S.Schema<GetSecurityFirewallConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5922,8 +6854,8 @@ export const getSecurityFirewallEvents: API.OperationMethod<
   GetSecurityFirewallEventsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetSecurityFirewallEventsRequest>,
-  output: __S(68, __c2, 4) as any as S.Schema<GetSecurityFirewallEventsResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetSecurityFirewallEventsRequest>,
+  output: __S(228, __c7, 4) as any as S.Schema<GetSecurityFirewallEventsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5943,8 +6875,8 @@ export const getSecurityFirewallEventsSummary: API.OperationMethod<
   GetSecurityFirewallEventsSummaryError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GetSecurityFirewallEventsSummaryRequest>,
-  output: __S(130, __c4, 2) as any as S.Schema<GetSecurityFirewallEventsSummaryResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetSecurityFirewallEventsSummaryRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<GetSecurityFirewallEventsSummaryResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5965,8 +6897,8 @@ export const putFirewallConfig: API.OperationMethod<
   PutFirewallConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(172, __c5, 12) as any as S.Schema<PutFirewallConfigRequest>,
-  output: __S(181, __c5, 21) as any as S.Schema<PutFirewallConfigResponse>,
+  input: __S(332, __c10, 12) as any as S.Schema<PutFirewallConfigRequest>,
+  output: __S(341, __c10, 21) as any as S.Schema<PutFirewallConfigResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5987,8 +6919,8 @@ export const removeBypassIp: API.OperationMethod<
   RemoveBypassIpError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<RemoveBypassIpRequest>,
-  output: __S(193, __c6, 1) as any as S.Schema<RemoveBypassIpResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<RemoveBypassIpRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<RemoveBypassIpResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -6004,13 +6936,30 @@ export const updateAttackChallengeMode: API.OperationMethod<
   UpdateAttackChallengeModeError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<UpdateAttackChallengeModeRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<UpdateAttackChallengeModeResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<UpdateAttackChallengeModeRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<UpdateAttackChallengeModeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAttackChallengeMode",
+}));
+
+export type UpdateConditionalBypassError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Update conditional firewall bypass Update a conditional firewall bypass rule for a project domain. Replaces conditions and the note for the domain's existing rule. Omitting `note` clears it. The rule ID, domain, creator, and creation time are preserved. Missing or deleted rules are not created. */
+export const updateConditionalBypass: API.OperationMethod<
+  UpdateConditionalBypassRequest,
+  UpdateConditionalBypassResponse,
+  UpdateConditionalBypassError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(419, __c13, 3) as any as S.Schema<UpdateConditionalBypassRequest>,
+  output: __S(424, __c13, 8) as any as S.Schema<UpdateConditionalBypassResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConditionalBypass",
 }));
 
 export type UpdateFirewallConfigError =
@@ -6026,8 +6975,8 @@ export const updateFirewallConfig: API.OperationMethod<
   UpdateFirewallConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<UpdateFirewallConfigRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<UpdateFirewallConfigResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<UpdateFirewallConfigRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<UpdateFirewallConfigResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -6037,6 +6986,186 @@ export const updateFirewallConfig: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.String,
+          permanent: S.Boolean,
+        }),
+      ).annotate({
+        identifier:
+          "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v1/security/firewall/config/generate-rule", code: 200 }),
+        ),
+      ).annotate({ identifier: "GenerateFirewallRuleRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(S.NullOr(S.String)),
+          algo: S.String,
+          keys: __S(32, __c1, 0),
+          limit: S.Number,
+          window: S.Number,
+        }),
+      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleActionMitigateRateLimit" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          actionDuration: S.optional(S.NullOr(S.String)),
+          rateLimit: S.optional(S.NullOr(__S(2, __c0, 2))),
+          redirect: S.optional(S.NullOr(__S(0, __c0, 0))),
+        }),
+      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleActionMitigate" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          mitigate: S.optional(__S(3, __c0, 3)),
+        }),
+      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleAction" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          neg: S.Boolean,
+          op: S.String,
+          type: S.String,
+          value: S.optional(S.Unknown),
+        }),
+      ).annotate({
+        identifier: "GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItem",
+      });
+    case 6:
+      return S.Array(__S(5, __c0, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: __S(6, __c0, 6),
+        }),
+      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleConditionGroupItem" });
+    case 8:
+      return S.Array(__S(7, __c0, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          action: __S(4, __c0, 4),
+          active: S.Boolean,
+          conditionGroup: __S(8, __c0, 8),
+          description: S.optional(S.String),
+          name: S.String,
+        }),
+      ).annotate({ identifier: "GenerateFirewallRuleResponseRule" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+          rule: S.optional(__S(9, __c0, 9)),
+        }),
+      ).annotate({ identifier: "GenerateFirewallRuleResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Query()),
+          since: S.optional(S.Number.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/attack-status", code: 200 })),
+      ).annotate({ identifier: "GetActiveAttackStatusRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetActiveAttackStatusResponse",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Action: S.optional(S.String),
+          ActorId: S.optional(S.String),
+          CreatedAt: S.String,
+          DeletedAt: S.optional(S.String),
+          Domain: S.String,
+          ExpiresAt: S.optional(S.NullOr(S.Number)),
+          Id: S.String,
+          Ip: S.String,
+          IsProjectRule: S.optional(S.Boolean),
+          Note: S.optional(S.String),
+          OwnerId: S.String,
+          ProjectId: S.optional(S.String),
+          UpdatedAt: S.String,
+          UpdatedAtHour: S.String,
+        }),
+      ).annotate({ identifier: "AddBypassIpResponseBodyCase1ResultItem" });
+    case 1:
+      return S.Array(__S(96, __c3, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Query()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          sourceIp: S.optional(S.String.pipe(T.Query())),
+          domain: S.optional(S.String.pipe(T.Query())),
+          projectScope: S.optional(S.Boolean.pipe(T.Query())),
+          offset: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/bypass", code: 200 })),
+      ).annotate({ identifier: "GetBypassIpRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.String,
+          OwnerId: S.String,
+        }),
+      ).annotate({ identifier: "GetBypassIpResponsePagination" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          pagination: S.optional(__S(99, __c3, 3)),
+          result: __S(97, __c3, 1),
+        }),
+      ).annotate({ identifier: "GetBypassIpResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Query()),
+          slug: S.optional(S.String.pipe(T.Query())),
+          domain: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/bypass/rules", code: 200 })),
+      ).annotate({ identifier: "GetConditionalBypassRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetConditionalBypassResponse",
+      });
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6062,44 +7191,44 @@ function __c0(j: number): any {
         identifier: "GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem",
       });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(161, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(2, __c0, 2),
+          conditions: __S(162, __c5, 2),
         }),
       ).annotate({ identifier: "GetFirewallConfigResponseConditionsItemConditionGroupItem" });
     case 4:
-      return S.Array(__S(3, __c0, 3));
+      return S.Array(__S(163, __c5, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          conditionGroup: __S(4, __c0, 4),
+          conditionGroup: __S(164, __c5, 4),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "GetFirewallConfigResponseConditionsItem" });
     case 6:
-      return S.Array(__S(5, __c0, 5));
+      return S.Array(__S(165, __c5, 5));
     case 7:
       return S.Array(S.Unknown);
     case 8:
       return S.suspend(() =>
         S.Struct({
           botIdEnabled: S.optional(S.Boolean),
-          changes: __S(352, __c11, 0),
-          conditions: S.optional(__S(6, __c0, 6)),
-          crs: S.optional(__S(354, __c11, 2)),
+          changes: __S(576, __c18, 0),
+          conditions: S.optional(__S(166, __c5, 6)),
+          crs: S.optional(__S(578, __c18, 2)),
           firewallEnabled: S.Boolean,
           id: S.String,
-          ips: __S(356, __c11, 4),
+          ips: __S(580, __c18, 4),
           logHeaders: S.optional(S.Unknown),
-          managedRules: S.optional(__S(358, __c11, 6)),
+          managedRules: S.optional(__S(582, __c18, 6)),
           ownerId: S.String,
           projectKey: S.String,
-          rules: __S(7, __c0, 7),
+          rules: __S(167, __c5, 7),
           rulesets: S.optional(S.Unknown),
           updatedAt: S.String,
           version: S.Number,
@@ -6107,7 +7236,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetFirewallConfigResponse" });
   }
 }
-function __c1(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6129,46 +7258,46 @@ function __c1(j: number): any {
           "GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem",
       });
     case 2:
-      return S.Array(__S(33, __c1, 1));
+      return S.Array(__S(193, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(34, __c1, 2),
+          conditions: __S(194, __c6, 2),
         }),
       ).annotate({
         identifier: "GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem",
       });
     case 4:
-      return S.Array(__S(35, __c1, 3));
+      return S.Array(__S(195, __c6, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          conditionGroup: __S(36, __c1, 4),
+          conditionGroup: __S(196, __c6, 4),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "GetSecurityFirewallConfigResponseActiveConditionsItem" });
     case 6:
-      return S.Array(__S(37, __c1, 5));
+      return S.Array(__S(197, __c6, 5));
     case 7:
       return S.Array(S.Unknown);
     case 8:
       return S.suspend(() =>
         S.Struct({
           botIdEnabled: S.optional(S.Boolean),
-          changes: __S(352, __c11, 0),
-          conditions: S.optional(__S(38, __c1, 6)),
-          crs: S.optional(__S(354, __c11, 2)),
+          changes: __S(576, __c18, 0),
+          conditions: S.optional(__S(198, __c6, 6)),
+          crs: S.optional(__S(578, __c18, 2)),
           firewallEnabled: S.Boolean,
           id: S.String,
-          ips: __S(356, __c11, 4),
+          ips: __S(580, __c18, 4),
           logHeaders: S.optional(S.Unknown),
-          managedRules: S.optional(__S(358, __c11, 6)),
+          managedRules: S.optional(__S(582, __c18, 6)),
           ownerId: S.String,
           projectKey: S.String,
-          rules: __S(39, __c1, 7),
+          rules: __S(199, __c6, 7),
           rulesets: S.optional(S.Unknown),
           updatedAt: S.String,
           version: S.Number,
@@ -6188,46 +7317,46 @@ function __c1(j: number): any {
           "GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem",
       });
     case 10:
-      return S.Array(__S(41, __c1, 9));
+      return S.Array(__S(201, __c6, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(42, __c1, 10),
+          conditions: __S(202, __c6, 10),
         }),
       ).annotate({
         identifier: "GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem",
       });
     case 12:
-      return S.Array(__S(43, __c1, 11));
+      return S.Array(__S(203, __c6, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          conditionGroup: __S(44, __c1, 12),
+          conditionGroup: __S(204, __c6, 12),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "GetSecurityFirewallConfigResponseDraftConditionsItem" });
     case 14:
-      return S.Array(__S(45, __c1, 13));
+      return S.Array(__S(205, __c6, 13));
     case 15:
       return S.Array(S.Unknown);
     case 16:
       return S.suspend(() =>
         S.Struct({
           botIdEnabled: S.optional(S.Boolean),
-          changes: __S(352, __c11, 0),
-          conditions: S.optional(__S(46, __c1, 14)),
-          crs: S.optional(__S(354, __c11, 2)),
+          changes: __S(576, __c18, 0),
+          conditions: S.optional(__S(206, __c6, 14)),
+          crs: S.optional(__S(578, __c18, 2)),
           firewallEnabled: S.Boolean,
           id: S.String,
-          ips: __S(356, __c11, 4),
+          ips: __S(580, __c18, 4),
           logHeaders: S.optional(S.Unknown),
-          managedRules: S.optional(__S(358, __c11, 6)),
+          managedRules: S.optional(__S(582, __c18, 6)),
           ownerId: S.String,
           projectKey: S.String,
-          rules: __S(47, __c1, 15),
+          rules: __S(207, __c6, 15),
           rulesets: S.optional(S.Unknown),
           updatedAt: S.String,
           version: S.Number,
@@ -6247,64 +7376,64 @@ function __c1(j: number): any {
           "GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem",
       });
     case 18:
-      return S.Array(__S(49, __c1, 17));
+      return S.Array(__S(209, __c6, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(50, __c1, 18),
+          conditions: __S(210, __c6, 18),
         }),
       ).annotate({
         identifier: "GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem",
       });
     case 20:
-      return S.Array(__S(51, __c1, 19));
+      return S.Array(__S(211, __c6, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          conditionGroup: __S(52, __c1, 20),
+          conditionGroup: __S(212, __c6, 20),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "GetSecurityFirewallConfigResponseVersionsItemConditionsItem" });
     case 22:
-      return S.Array(__S(53, __c1, 21));
+      return S.Array(__S(213, __c6, 21));
     case 23:
       return S.Array(S.Unknown);
     case 24:
       return S.suspend(() =>
         S.Struct({
           botIdEnabled: S.optional(S.Boolean),
-          changes: __S(352, __c11, 0),
-          conditions: S.optional(__S(54, __c1, 22)),
-          crs: S.optional(__S(354, __c11, 2)),
+          changes: __S(576, __c18, 0),
+          conditions: S.optional(__S(214, __c6, 22)),
+          crs: S.optional(__S(578, __c18, 2)),
           firewallEnabled: S.Boolean,
           id: S.String,
-          ips: __S(356, __c11, 4),
+          ips: __S(580, __c18, 4),
           logHeaders: S.optional(S.Unknown),
-          managedRules: S.optional(__S(358, __c11, 6)),
+          managedRules: S.optional(__S(582, __c18, 6)),
           ownerId: S.String,
           projectKey: S.String,
-          rules: __S(55, __c1, 23),
+          rules: __S(215, __c6, 23),
           rulesets: S.optional(S.Unknown),
           updatedAt: S.String,
           version: S.Number,
         }),
       ).annotate({ identifier: "GetSecurityFirewallConfigResponseVersionsItem" });
     case 25:
-      return S.Array(__S(56, __c1, 24));
+      return S.Array(__S(216, __c6, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          active: S.NullOr(__S(40, __c1, 8)),
-          draft: S.NullOr(__S(48, __c1, 16)),
-          versions: __S(57, __c1, 25),
+          active: S.NullOr(__S(200, __c6, 8)),
+          draft: S.NullOr(__S(208, __c6, 16)),
+          versions: __S(217, __c6, 25),
         }),
       ).annotate({ identifier: "GetSecurityFirewallConfigResponse" });
   }
 }
-function __c2(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6316,12 +7445,12 @@ function __c2(j: number): any {
           startTimestamp: S.optional(S.Number.pipe(T.Query())),
           endTimestamp: S.optional(S.Number.pipe(T.Query())),
           hosts: S.optional(S.String.pipe(T.Query())),
-          ip: S.optional(__S(448, __c14, 0).pipe(T.Query())),
+          ip: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           isActive: S.optional(S.Boolean.pipe(T.Query())),
-          action: S.optional(__S(96, __c3, 0).pipe(T.Query())),
-          actionType: S.optional(__S(96, __c3, 0).pipe(T.Query())),
+          action: S.optional(__S(256, __c8, 0).pipe(T.Query())),
+          actionType: S.optional(__S(256, __c8, 0).pipe(T.Query())),
           ruleKind: S.optional(S.String.pipe(T.Query())),
-          ruleId: S.optional(__S(448, __c14, 0).pipe(T.Query())),
+          ruleId: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/events", code: 200 })),
@@ -6342,7 +7471,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "GetSecurityFirewallEventsResponseActionsItem" });
     case 2:
-      return S.Array(__S(65, __c2, 1));
+      return S.Array(__S(225, __c7, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6353,19 +7482,19 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(66, __c2, 2),
-          pagination: __S(67, __c2, 3),
+          actions: __S(226, __c7, 2),
+          pagination: __S(227, __c7, 3),
         }),
       ).annotate({ identifier: "GetSecurityFirewallEventsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c4(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6374,12 +7503,12 @@ function __c4(j: number): any {
           startTimestamp: S.optional(S.Number.pipe(T.Query())),
           endTimestamp: S.optional(S.Number.pipe(T.Query())),
           hosts: S.optional(S.String.pipe(T.Query())),
-          ip: S.optional(__S(448, __c14, 0).pipe(T.Query())),
+          ip: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           isActive: S.optional(S.Boolean.pipe(T.Query())),
-          action: S.optional(__S(96, __c3, 0).pipe(T.Query())),
-          actionType: S.optional(__S(96, __c3, 0).pipe(T.Query())),
+          action: S.optional(__S(256, __c8, 0).pipe(T.Query())),
+          actionType: S.optional(__S(256, __c8, 0).pipe(T.Query())),
           ruleKind: S.optional(S.String.pipe(T.Query())),
-          ruleId: S.optional(__S(448, __c14, 0).pipe(T.Query())),
+          ruleId: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/events/summary", code: 200 })),
@@ -6390,8 +7519,8 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           blockingIps: S.Number,
-          byAction: __S(129, __c4, 1),
-          byActionType: __S(129, __c4, 1),
+          byAction: __S(289, __c9, 1),
+          byActionType: __S(289, __c9, 1),
           challengingIps: S.Number,
           other: S.Number,
           total: S.Number,
@@ -6399,7 +7528,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetSecurityFirewallEventsSummaryResponse" });
   }
 }
-function __c5(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6411,17 +7540,17 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sd: S.optional(__S(160, __c5, 0)),
-          ma: S.optional(__S(160, __c5, 0)),
-          lfi: S.optional(__S(160, __c5, 0)),
-          rfi: S.optional(__S(160, __c5, 0)),
-          rce: S.optional(__S(160, __c5, 0)),
-          php: S.optional(__S(160, __c5, 0)),
-          gen: S.optional(__S(160, __c5, 0)),
-          xss: S.optional(__S(160, __c5, 0)),
-          sqli: S.optional(__S(160, __c5, 0)),
-          sf: S.optional(__S(160, __c5, 0)),
-          java: S.optional(__S(160, __c5, 0)),
+          sd: S.optional(__S(320, __c10, 0)),
+          ma: S.optional(__S(320, __c10, 0)),
+          lfi: S.optional(__S(320, __c10, 0)),
+          rfi: S.optional(__S(320, __c10, 0)),
+          rce: S.optional(__S(320, __c10, 0)),
+          php: S.optional(__S(320, __c10, 0)),
+          gen: S.optional(__S(320, __c10, 0)),
+          xss: S.optional(__S(320, __c10, 0)),
+          sqli: S.optional(__S(320, __c10, 0)),
+          sf: S.optional(__S(320, __c10, 0)),
+          java: S.optional(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "PutFirewallConfigRequestCrs" });
     case 2:
@@ -6437,15 +7566,15 @@ function __c5(j: number): any {
         identifier: "PutFirewallConfigRequestRulesItemConditionGroupItemConditionsItem",
       });
     case 3:
-      return S.Array(__S(162, __c5, 2));
+      return S.Array(__S(322, __c10, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(163, __c5, 3),
+          conditions: __S(323, __c10, 3),
         }),
       ).annotate({ identifier: "PutFirewallConfigRequestRulesItemConditionGroupItem" });
     case 5:
-      return S.Array(__S(164, __c5, 4));
+      return S.Array(__S(324, __c10, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -6460,7 +7589,7 @@ function __c5(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          mitigate: S.optional(__S(166, __c5, 6)),
+          mitigate: S.optional(__S(326, __c10, 6)),
         }),
       ).annotate({ identifier: "PutFirewallConfigRequestRulesItemAction" });
     case 8:
@@ -6470,14 +7599,14 @@ function __c5(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           active: S.Boolean,
-          conditionGroup: __S(165, __c5, 5),
-          action: __S(167, __c5, 7),
+          conditionGroup: __S(325, __c10, 5),
+          action: __S(327, __c10, 7),
           valid: S.optional(S.Boolean),
           validationErrors: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "PutFirewallConfigRequestRulesItem" });
     case 9:
-      return S.Array(__S(168, __c5, 8));
+      return S.Array(__S(328, __c10, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -6489,7 +7618,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "PutFirewallConfigRequestIpsItem" });
     case 11:
-      return S.Array(__S(170, __c5, 10));
+      return S.Array(__S(330, __c10, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -6498,10 +7627,10 @@ function __c5(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
           firewallEnabled: S.Boolean,
           managedRules: S.optional(S.Unknown),
-          crs: S.optional(__S(161, __c5, 1)),
-          rules: S.optional(__S(169, __c5, 9)),
+          crs: S.optional(__S(321, __c10, 1)),
+          rules: S.optional(__S(329, __c10, 9)),
           rulesets: S.optional(S.Unknown),
-          ips: S.optional(__S(171, __c5, 11)),
+          ips: S.optional(__S(331, __c10, 11)),
           botIdEnabled: S.optional(S.Boolean),
           logHeaders: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/security/firewall/config", code: 200 })),
@@ -6519,44 +7648,44 @@ function __c5(j: number): any {
         identifier: "PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem",
       });
     case 14:
-      return S.Array(__S(173, __c5, 13));
+      return S.Array(__S(333, __c10, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(174, __c5, 14),
+          conditions: __S(334, __c10, 14),
         }),
       ).annotate({ identifier: "PutFirewallConfigResponseActiveConditionsItemConditionGroupItem" });
     case 16:
-      return S.Array(__S(175, __c5, 15));
+      return S.Array(__S(335, __c10, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          conditionGroup: __S(176, __c5, 16),
+          conditionGroup: __S(336, __c10, 16),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "PutFirewallConfigResponseActiveConditionsItem" });
     case 18:
-      return S.Array(__S(177, __c5, 17));
+      return S.Array(__S(337, __c10, 17));
     case 19:
       return S.Array(S.Unknown);
     case 20:
       return S.suspend(() =>
         S.Struct({
           botIdEnabled: S.optional(S.Boolean),
-          changes: __S(352, __c11, 0),
-          conditions: S.optional(__S(178, __c5, 18)),
-          crs: S.optional(__S(354, __c11, 2)),
+          changes: __S(576, __c18, 0),
+          conditions: S.optional(__S(338, __c10, 18)),
+          crs: S.optional(__S(578, __c18, 2)),
           firewallEnabled: S.Boolean,
           id: S.String,
-          ips: __S(356, __c11, 4),
+          ips: __S(580, __c18, 4),
           logHeaders: S.optional(S.Unknown),
-          managedRules: S.optional(__S(358, __c11, 6)),
+          managedRules: S.optional(__S(582, __c18, 6)),
           ownerId: S.String,
           projectKey: S.String,
-          rules: __S(179, __c5, 19),
+          rules: __S(339, __c10, 19),
           rulesets: S.optional(S.Unknown),
           updatedAt: S.String,
           version: S.Number,
@@ -6565,12 +7694,12 @@ function __c5(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          active: __S(180, __c5, 20),
+          active: __S(340, __c10, 20),
         }),
       ).annotate({ identifier: "PutFirewallConfigResponse" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6593,7 +7722,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "RemoveBypassIpResponse" });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6612,7 +7741,65 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateAttackChallengeModeResponse" });
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: __S(416, __c13, 0),
+        }),
+      ).annotate({ identifier: "UpdateConditionalBypassRequestConditionGroupItem" });
+    case 2:
+      return S.Array(__S(417, __c13, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Query()),
+          slug: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          domain: S.String,
+          conditionGroup: __S(418, __c13, 2),
+          note: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/security/firewall/bypass/rules", code: 200 })),
+      ).annotate({ identifier: "UpdateConditionalBypassRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          neg: S.optional(S.Boolean),
+          op: S.String,
+          type: S.String,
+          value: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "UpdateConditionalBypassResponseConditionGroupItemConditionsItem" });
+    case 5:
+      return S.Array(__S(420, __c13, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: __S(421, __c13, 5),
+        }),
+      ).annotate({ identifier: "UpdateConditionalBypassResponseConditionGroupItem" });
+    case 7:
+      return S.Array(__S(422, __c13, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          condition: S.String,
+          conditionGroup: __S(423, __c13, 7),
+          createdAt: S.String,
+          domain: S.String,
+          id: S.String,
+          note: S.optional(S.String),
+          projectId: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "UpdateConditionalBypassResponse" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6629,7 +7816,7 @@ function __c8(j: number): any {
       });
   }
 }
-function __c9(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6651,7 +7838,65 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: __S(512, __c16, 0),
+        }),
+      ).annotate({ identifier: "CreateConditionalBypassRequestConditionGroupItem" });
+    case 2:
+      return S.Array(__S(513, __c16, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Query()),
+          slug: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          domain: S.String,
+          conditionGroup: __S(514, __c16, 2),
+          note: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/security/firewall/bypass/rules", code: 200 })),
+      ).annotate({ identifier: "CreateConditionalBypassRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          neg: S.optional(S.Boolean),
+          op: S.String,
+          type: S.String,
+          value: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "CreateConditionalBypassResponseConditionGroupItemConditionsItem" });
+    case 5:
+      return S.Array(__S(516, __c16, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: __S(517, __c16, 5),
+        }),
+      ).annotate({ identifier: "CreateConditionalBypassResponseConditionGroupItem" });
+    case 7:
+      return S.Array(__S(518, __c16, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          condition: S.String,
+          conditionGroup: __S(519, __c16, 7),
+          createdAt: S.String,
+          domain: S.String,
+          id: S.String,
+          note: S.optional(S.String),
+          projectId: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "CreateConditionalBypassResponse" });
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6679,23 +7924,23 @@ function __c10(j: number): any {
           "CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem",
       });
     case 2:
-      return S.Array(__S(321, __c10, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(322, __c10, 2),
+          conditions: __S(546, __c17, 2),
         }),
       ).annotate({
         identifier:
           "CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem",
       });
     case 4:
-      return S.Array(__S(323, __c10, 3));
+      return S.Array(__S(547, __c17, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          conditionGroup: __S(324, __c10, 4),
+          conditionGroup: __S(548, __c17, 4),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
@@ -6704,24 +7949,24 @@ function __c10(j: number): any {
         identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem",
       });
     case 6:
-      return S.Array(__S(325, __c10, 5));
+      return S.Array(__S(549, __c17, 5));
     case 7:
       return S.Array(S.Unknown);
     case 8:
       return S.suspend(() =>
         S.Struct({
           botIdEnabled: S.optional(S.Boolean),
-          changes: __S(352, __c11, 0),
-          conditions: S.optional(__S(326, __c10, 6)),
-          crs: S.optional(__S(354, __c11, 2)),
+          changes: __S(576, __c18, 0),
+          conditions: S.optional(__S(550, __c17, 6)),
+          crs: S.optional(__S(578, __c18, 2)),
           firewallEnabled: S.Boolean,
           id: S.String,
-          ips: __S(356, __c11, 4),
+          ips: __S(580, __c18, 4),
           logHeaders: S.optional(S.Unknown),
-          managedRules: S.optional(__S(358, __c11, 6)),
+          managedRules: S.optional(__S(582, __c18, 6)),
           ownerId: S.String,
           projectKey: S.String,
-          rules: __S(327, __c10, 7),
+          rules: __S(551, __c17, 7),
           rulesets: S.optional(S.Unknown),
           updatedAt: S.String,
           version: S.Number,
@@ -6729,7 +7974,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponse" });
   }
 }
-function __c11(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -6745,17 +7990,17 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gen: __S(353, __c11, 1),
-          java: __S(353, __c11, 1),
-          lfi: __S(353, __c11, 1),
-          ma: __S(353, __c11, 1),
-          php: __S(353, __c11, 1),
-          rce: __S(353, __c11, 1),
-          rfi: __S(353, __c11, 1),
-          sd: __S(353, __c11, 1),
-          sf: __S(353, __c11, 1),
-          sqli: __S(353, __c11, 1),
-          xss: __S(353, __c11, 1),
+          gen: __S(577, __c18, 1),
+          java: __S(577, __c18, 1),
+          lfi: __S(577, __c18, 1),
+          ma: __S(577, __c18, 1),
+          php: __S(577, __c18, 1),
+          rce: __S(577, __c18, 1),
+          rfi: __S(577, __c18, 1),
+          sd: __S(577, __c18, 1),
+          sf: __S(577, __c18, 1),
+          sqli: __S(577, __c18, 1),
+          xss: __S(577, __c18, 1),
         }),
       ).annotate({ identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrs" });
     case 3:
@@ -6771,7 +8016,7 @@ function __c11(j: number): any {
         identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem",
       });
     case 4:
-      return S.Array(__S(355, __c11, 3));
+      return S.Array(__S(579, __c18, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -6787,18 +8032,39 @@ function __c11(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          ai_bots: S.optional(__S(357, __c11, 5)),
-          bot_protection: S.optional(__S(357, __c11, 5)),
-          owasp: S.optional(__S(357, __c11, 5)),
-          traffic_sources: S.optional(__S(357, __c11, 5)),
-          vercel_ruleset: S.optional(__S(357, __c11, 5)),
+          ai_bots: S.optional(__S(581, __c18, 5)),
+          bot_protection: S.optional(__S(581, __c18, 5)),
+          owasp: S.optional(__S(581, __c18, 5)),
+          traffic_sources: S.optional(__S(581, __c18, 5)),
+          vercel_ruleset: S.optional(__S(581, __c18, 5)),
         }),
       ).annotate({
         identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules",
       });
   }
 }
-function __c12(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Query()),
+          slug: S.optional(S.String.pipe(T.Query())),
+          domain: S.String.pipe(T.Query()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v1/security/firewall/bypass/rules", code: 200 })),
+      ).annotate({ identifier: "DeleteConditionalBypassRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
+        identifier: "DeleteConditionalBypassResponse",
+      });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6812,173 +8078,6 @@ function __c12(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteSecurityFirewallConfigRequest" });
-    case 1:
-      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
-        identifier: "DeleteSecurityFirewallConfigResponse",
-      });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.String,
-          permanent: S.Boolean,
-        }),
-      ).annotate({
-        identifier:
-          "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/v1/security/firewall/config/generate-rule", code: 200 }),
-        ),
-      ).annotate({ identifier: "GenerateFirewallRuleRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.optional(S.NullOr(S.String)),
-          algo: S.String,
-          keys: __S(448, __c14, 0),
-          limit: S.Number,
-          window: S.Number,
-        }),
-      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleActionMitigateRateLimit" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          actionDuration: S.optional(S.NullOr(S.String)),
-          rateLimit: S.optional(S.NullOr(__S(418, __c13, 2))),
-          redirect: S.optional(S.NullOr(__S(416, __c13, 0))),
-        }),
-      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleActionMitigate" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          mitigate: S.optional(__S(419, __c13, 3)),
-        }),
-      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleAction" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-          neg: S.optional(S.Boolean),
-          op: S.String,
-          type: S.String,
-          value: S.optional(S.Unknown),
-        }),
-      ).annotate({
-        identifier: "GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItem",
-      });
-    case 6:
-      return S.Array(__S(421, __c13, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          conditions: __S(422, __c13, 6),
-        }),
-      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleConditionGroupItem" });
-    case 8:
-      return S.Array(__S(423, __c13, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          action: __S(420, __c13, 4),
-          active: S.Boolean,
-          conditionGroup: __S(424, __c13, 8),
-          description: S.optional(S.String),
-          name: S.String,
-        }),
-      ).annotate({ identifier: "GenerateFirewallRuleResponseRule" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          error: S.optional(S.String),
-          rule: S.optional(__S(425, __c13, 9)),
-        }),
-      ).annotate({ identifier: "GenerateFirewallRuleResponse" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Query()),
-          since: S.optional(S.Number.pipe(T.Query())),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/attack-status", code: 200 })),
-      ).annotate({ identifier: "GetActiveAttackStatusRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetActiveAttackStatusResponse",
-      });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Action: S.optional(S.String),
-          ActorId: S.optional(S.String),
-          CreatedAt: S.String,
-          DeletedAt: S.optional(S.String),
-          Domain: S.String,
-          ExpiresAt: S.optional(S.NullOr(S.Number)),
-          Id: S.String,
-          Ip: S.String,
-          IsProjectRule: S.optional(S.Boolean),
-          Note: S.optional(S.String),
-          OwnerId: S.String,
-          ProjectId: S.optional(S.String),
-          UpdatedAt: S.String,
-          UpdatedAtHour: S.String,
-        }),
-      ).annotate({ identifier: "AddBypassIpResponseBodyCase1ResultItem" });
-    case 1:
-      return S.Array(__S(512, __c16, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Query()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          sourceIp: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String.pipe(T.Query())),
-          projectScope: S.optional(S.Boolean.pipe(T.Query())),
-          offset: S.optional(S.String.pipe(T.Query())),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/bypass", code: 200 })),
-      ).annotate({ identifier: "GetBypassIpRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          Id: S.String,
-          OwnerId: S.String,
-        }),
-      ).annotate({ identifier: "GetBypassIpResponsePagination" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          pagination: S.optional(__S(515, __c16, 3)),
-          result: __S(513, __c16, 1),
-        }),
-      ).annotate({ identifier: "GetBypassIpResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

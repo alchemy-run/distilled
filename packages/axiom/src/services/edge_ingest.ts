@@ -55,11 +55,11 @@ export class UnprocessableEntity
 export interface IngestToDatasetRequest {
   dataset_id: string;
   /** The name of the field to use as the timestamp. If not specified, the timestamp will be the time the event was received by Axiom. */
-  timestamp_field?: string;
+  timestamp_field?: string | undefined;
   /** The date-time format of the timestamp field. The reference time is `Mon Jan 2 15:04:05 -0700 MST 2006`, as specified in https://pkg.go.dev/time/?tab=doc#Parse */
-  timestamp_format?: string;
+  timestamp_format?: string | undefined;
   /** The delimiter to use when parsing CSV data. If not specified, the default delimiter is `,`. */
-  csv_delimiter?: string;
+  csv_delimiter?: string | undefined;
   body: string;
 }
 export interface IngestFailure {
@@ -70,12 +70,13 @@ export type IngestStatusFailuresList = Array<IngestFailure>;
 export interface IngestStatus {
   blocksCreated: number;
   failed: number;
-  failures?: IngestStatusFailuresList;
+  failures?: IngestStatusFailuresList | undefined;
   ingested: number;
   processedBytes: number;
   walLength: number;
 }
 export type IngestToDatasetError = BadRequest | NotFound | UnprocessableEntity | AxiomOpError;
+/** Ingests JSON, NDJSON, or CSV events into an events or logs dataset in this edge deployment. Events that fail are counted in `failed` and listed in `failures`. Events whose timestamp is more than 24 hours in the future or before the Unix epoch (1970-01-01T00:00:00Z) are rejected and not stored. Returns `400` when every event in the request is rejected and `430` when the organization has reached its ingest limit. */
 export const ingestToDataset: API.OperationMethod<
   IngestToDatasetRequest,
   IngestStatus,

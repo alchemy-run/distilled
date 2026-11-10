@@ -54,16 +54,16 @@ export class SecretNotFound
   ) {}
 
 export interface DeleteSecretRequest {
-  secretId?: string;
+  secretId?: string | undefined;
 }
 export interface DeleteSecretResponse {}
 export interface ListPagination {
-  maxObjects?: number;
-  createdBefore?: number;
+  maxObjects?: number | undefined;
+  createdBefore?: number | undefined;
 }
 export interface ListSecretRequest {
-  environmentName?: string;
-  pagination?: ListPagination;
+  environmentName?: string | undefined;
+  pagination?: ListPagination | undefined;
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
@@ -74,7 +74,7 @@ export interface CreationInfo {
 export type StringList = Array<string>;
 export interface SecretMetadata {
   name: string;
-  creationInfo?: CreationInfo;
+  creationInfo?: CreationInfo | undefined;
   keys: StringList;
   environmentName: string;
   lastUsedAt: number;
@@ -88,7 +88,7 @@ export interface SecretListItem {
   environmentName: string;
   /** Unused by client */
   secretId: string;
-  metadata?: SecretMetadata;
+  metadata?: SecretMetadata | undefined;
 }
 export type SecretListItemList = Array<SecretListItem>;
 export interface ListSecretResponse {
@@ -96,10 +96,10 @@ export interface ListSecretResponse {
   environmentName: string;
 }
 export interface SecretGetInfoRequest {
-  secretId?: string;
+  secretId?: string | undefined;
 }
 export interface SecretGetInfoResponse {
-  metadata?: SecretMetadata;
+  metadata?: SecretMetadata | undefined;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -110,29 +110,29 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export type StringMap = { [key: string]: string | undefined };
 export interface SecretGetOrCreateRequest {
-  deploymentName?: string;
+  deploymentName?: string | undefined;
   /** removed namespace */
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
+  environmentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
   /** Not used atm */
-  envDict?: StringMap;
-  appId?: string;
+  envDict?: StringMap | undefined;
+  appId?: string | undefined;
   /** only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP */
-  requiredKeys?: StringList;
+  requiredKeys?: StringList | undefined;
 }
 export interface SecretGetOrCreateResponse {
   secretId: string;
-  metadata?: SecretMetadata;
+  metadata?: SecretMetadata | undefined;
 }
 export interface UpdateSecretRequestUpdate {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type UpdateSecretRequestUpdateList = Array<UpdateSecretRequestUpdate>;
 export interface UpdateSecretRequest {
   /** If not set, the key is removed. */
-  secretId?: string;
-  updates?: UpdateSecretRequestUpdateList;
+  secretId?: string | undefined;
+  updates?: UpdateSecretRequestUpdateList | undefined;
 }
 export interface UpdateSecretResponse {}
 export type DeleteSecretError = SecretNotFound | ModalOpError;

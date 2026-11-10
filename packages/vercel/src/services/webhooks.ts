@@ -138,6 +138,7 @@ export type CreateWebhookRequestEventsItem =
   | "marketplace.invoice.refunded"
   | "ai-gateway.balance-depleted"
   | "ai-gateway.auto-reload.limit-reached"
+  | "ai-gateway.budget.updated"
   | "observability.anomaly"
   | "observability.anomaly-error"
   | "observability.usage-anomaly"
@@ -170,18 +171,19 @@ export type CreateWebhookRequestEventsList = Array<CreateWebhookRequestEventsIte
 export type CreateWebhookRequestProjectIdsList = Array<string>;
 export interface CreateWebhookRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   url: string;
   events: CreateWebhookRequestEventsList;
-  projectIds?: CreateWebhookRequestProjectIdsList;
+  projectIds?: CreateWebhookRequestProjectIdsList | undefined;
 }
 export type CreateWebhookResponseAlertRuleIdsList = Array<string>;
 /** The webhooks events */
 export type CreateWebhookResponseEventsItem =
   | "ai-gateway.auto-reload.limit-reached"
   | "ai-gateway.balance-depleted"
+  | "ai-gateway.budget.updated"
   | "alerts.triggered"
   | "botid.anomaly"
   | "budget.reached"
@@ -297,7 +299,7 @@ export type CreateWebhookResponseEventsList = Array<CreateWebhookResponseEventsI
 /** The ID of the projects the webhook is associated with */
 export type CreateWebhookResponseProjectIdsList = Array<string>;
 export interface CreateWebhookResponse {
-  alertRuleIds?: CreateWebhookResponseAlertRuleIdsList;
+  alertRuleIds?: CreateWebhookResponseAlertRuleIdsList | undefined;
   /** A number containing the date when the webhook was created in in milliseconds */
   createdAt: number;
   /** The webhooks events */
@@ -307,7 +309,7 @@ export interface CreateWebhookResponse {
   /** The unique ID of the team the webhook belongs to */
   ownerId: string;
   /** The ID of the projects the webhook is associated with */
-  projectIds?: CreateWebhookResponseProjectIdsList;
+  projectIds?: CreateWebhookResponseProjectIdsList | undefined;
   /** The webhook secret used to sign the payload */
   secret: string | Redacted.Redacted<string>;
   /** A number containing the date when the webhook was updated in in milliseconds */
@@ -318,23 +320,24 @@ export interface CreateWebhookResponse {
 export interface DeleteWebhookRequest {
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteWebhookResponse {}
 export interface GetWebhookRequest {
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetWebhookResponseAlertRuleIdsList = Array<string>;
 /** The webhooks events */
 export type GetWebhookResponseEventsItem =
   | "ai-gateway.auto-reload.limit-reached"
   | "ai-gateway.balance-depleted"
+  | "ai-gateway.budget.updated"
   | "alerts.triggered"
   | "botid.anomaly"
   | "budget.reached"
@@ -450,7 +453,7 @@ export type GetWebhookResponseEventsList = Array<GetWebhookResponseEventsItem>;
 /** The ID of the projects the webhook is associated with */
 export type GetWebhookResponseProjectIdsList = Array<string>;
 export interface GetWebhookResponse {
-  alertRuleIds?: GetWebhookResponseAlertRuleIdsList;
+  alertRuleIds?: GetWebhookResponseAlertRuleIdsList | undefined;
   /** A number containing the date when the webhook was created in in milliseconds */
   createdAt: number;
   /** The webhooks events */
@@ -460,24 +463,25 @@ export interface GetWebhookResponse {
   /** The unique ID of the team the webhook belongs to */
   ownerId: string;
   /** The ID of the projects the webhook is associated with */
-  projectIds?: GetWebhookResponseProjectIdsList;
+  projectIds?: GetWebhookResponseProjectIdsList | undefined;
   /** A number containing the date when the webhook was updated in in milliseconds */
   updatedAt: number;
   /** A string with the URL of the webhook */
   url: string;
 }
 export interface GetWebhooksRequest {
-  projectId?: string;
+  projectId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetWebhooksResponseBodyCase0ItemAlertRuleIdsList = Array<string>;
 /** The webhooks events */
 export type GetWebhooksResponseBodyCase0ItemEventsItem =
   | "ai-gateway.auto-reload.limit-reached"
   | "ai-gateway.balance-depleted"
+  | "ai-gateway.budget.updated"
   | "alerts.triggered"
   | "botid.anomaly"
   | "budget.reached"
@@ -669,15 +673,15 @@ export type GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework =
   | "xmcp"
   | "zola";
 export interface GetWebhooksResponseBodyCase0ItemProjectsMetadataItem {
-  framework?: GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework | null;
+  framework?: GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework | null | undefined;
   id: string;
-  latestDeployment?: string;
+  latestDeployment?: string | undefined;
   name: string;
 }
 export type GetWebhooksResponseBodyCase0ItemProjectsMetadataList =
   Array<GetWebhooksResponseBodyCase0ItemProjectsMetadataItem>;
 export interface GetWebhooksResponseBodyCase0Item {
-  alertRuleIds?: GetWebhooksResponseBodyCase0ItemAlertRuleIdsList;
+  alertRuleIds?: GetWebhooksResponseBodyCase0ItemAlertRuleIdsList | undefined;
   /** A number containing the date when the webhook was created in in milliseconds */
   createdAt: number;
   /** The webhooks events */
@@ -687,7 +691,7 @@ export interface GetWebhooksResponseBodyCase0Item {
   /** The unique ID of the team the webhook belongs to */
   ownerId: string;
   /** The ID of the projects the webhook is associated with */
-  projectIds?: GetWebhooksResponseBodyCase0ItemProjectIdsList;
+  projectIds?: GetWebhooksResponseBodyCase0ItemProjectIdsList | undefined;
   projectsMetadata: GetWebhooksResponseBodyCase0ItemProjectsMetadataList | null;
   /** A number containing the date when the webhook was updated in in milliseconds */
   updatedAt: number;
@@ -700,6 +704,7 @@ export type GetWebhooksResponseBodyCase1ItemAlertRuleIdsList = Array<string>;
 export type GetWebhooksResponseBodyCase1ItemEventsItem =
   | "ai-gateway.auto-reload.limit-reached"
   | "ai-gateway.balance-depleted"
+  | "ai-gateway.budget.updated"
   | "alerts.triggered"
   | "botid.anomaly"
   | "budget.reached"
@@ -816,7 +821,7 @@ export type GetWebhooksResponseBodyCase1ItemEventsList =
 /** The ID of the projects the webhook is associated with */
 export type GetWebhooksResponseBodyCase1ItemProjectIdsList = Array<string>;
 export interface GetWebhooksResponseBodyCase1Item {
-  alertRuleIds?: GetWebhooksResponseBodyCase1ItemAlertRuleIdsList;
+  alertRuleIds?: GetWebhooksResponseBodyCase1ItemAlertRuleIdsList | undefined;
   /** A number containing the date when the webhook was created in in milliseconds */
   createdAt: number;
   /** The webhooks events */
@@ -826,7 +831,7 @@ export interface GetWebhooksResponseBodyCase1Item {
   /** The unique ID of the team the webhook belongs to */
   ownerId: string;
   /** The ID of the projects the webhook is associated with */
-  projectIds?: GetWebhooksResponseBodyCase1ItemProjectIdsList;
+  projectIds?: GetWebhooksResponseBodyCase1ItemProjectIdsList | undefined;
   /** A number containing the date when the webhook was updated in in milliseconds */
   updatedAt: number;
   /** A string with the URL of the webhook */

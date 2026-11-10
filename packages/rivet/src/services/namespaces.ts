@@ -67,11 +67,11 @@ export interface NamespacesCreateResponse {
 }
 export interface ListNamespacesRequest {
   /** Only return the namespace with this name. The response then holds zero or one namespace, `pagination.cursor` is `null`, and `limit` and `cursor` are ignored. */
-  name?: string;
+  name?: string | undefined;
   /** Name of the last namespace on the previous page. Pass the `pagination.cursor` value from the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of namespaces to return, from 1 to 100. Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type NamespaceListResponseNamespacesList = Array<Namespace>;
 export interface Pagination {

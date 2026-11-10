@@ -40,6 +40,7 @@ export type CreateProviderMappingRequestProvider =
   | "hf-inference"
   | "novita"
   | "nscale"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"
@@ -107,10 +108,10 @@ export type CreateProviderMappingRequestBodyCase0Task =
   | "any-to-any"
   | "video-to-video";
 export interface CreateProviderMappingRequestBodyCase0 {
-  type?: string;
+  type?: string | undefined;
   hfModel: string;
   providerModel: string;
-  status?: CreateProviderMappingRequestBodyCase0Status | (string & {});
+  status?: CreateProviderMappingRequestBodyCase0Status | (string & {}) | undefined;
   task: CreateProviderMappingRequestBodyCase0Task | (string & {});
 }
 export type CreateProviderMappingRequestBodyCase1Status = "live" | "staging" | "error";
@@ -176,7 +177,7 @@ export type CreateProviderMappingRequestBodyCase1TagsList = Array<string>;
 export interface CreateProviderMappingRequestBodyCase1 {
   type: string;
   providerModel: string;
-  status?: CreateProviderMappingRequestBodyCase1Status | (string & {});
+  status?: CreateProviderMappingRequestBodyCase1Status | (string & {}) | undefined;
   task: CreateProviderMappingRequestBodyCase1Task | (string & {});
   tags: CreateProviderMappingRequestBodyCase1TagsList;
   adapterType: string;
@@ -186,11 +187,11 @@ export type CreateProviderMappingRequestBody =
   | CreateProviderMappingRequestBodyCase1;
 export interface CreateProviderMappingRequest {
   provider: CreateProviderMappingRequestProvider | (string & {});
-  body?: CreateProviderMappingRequestBody;
+  body?: CreateProviderMappingRequestBody | undefined;
 }
 export interface CreateProviderMappingResponse {}
 export interface DefaultBillingEntityRequest {
-  orgId?: string;
+  orgId?: string | undefined;
 }
 export interface DefaultBillingEntityResponse {}
 export type ListProviderMappingsRequestProvider =
@@ -205,6 +206,7 @@ export type ListProviderMappingsRequestProvider =
   | "hf-inference"
   | "novita"
   | "nscale"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"
@@ -215,7 +217,7 @@ export type ListProviderMappingsRequestProvider =
 export type ListProviderMappingsRequestStatus = "live" | "staging" | "error";
 export interface ListProviderMappingsRequest {
   provider: ListProviderMappingsRequestProvider | (string & {});
-  status?: ListProviderMappingsRequestStatus | (string & {});
+  status?: ListProviderMappingsRequestStatus | (string & {}) | undefined;
 }
 export interface ListProviderMappingsResponse {}
 export interface ReorderInferenceProvidersRequestBodyValue {
@@ -226,7 +228,7 @@ export type ReorderInferenceProvidersRequestBodyMap = {
   [key: string]: ReorderInferenceProvidersRequestBodyValue | undefined;
 };
 export interface ReorderInferenceProvidersRequest {
-  body?: ReorderInferenceProvidersRequestBodyMap;
+  body?: ReorderInferenceProvidersRequestBodyMap | undefined;
 }
 export interface ReorderInferenceProvidersResponse {}
 export type SetProviderKeyRequestProvider =
@@ -240,6 +242,7 @@ export type SetProviderKeyRequestProvider =
   | "groq"
   | "novita"
   | "nscale"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"
@@ -268,6 +271,7 @@ export type UpdateMappingStatusRequestProvider =
   | "hf-inference"
   | "novita"
   | "nscale"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"

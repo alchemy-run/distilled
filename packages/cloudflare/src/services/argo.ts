@@ -84,7 +84,7 @@ export interface GetSmartRoutingResponse {
   /** Specifies the enablement value of Argo Smart Routing. */
   value: SmartRoutingGetResponseValue;
   /** Specifies the time when the setting was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface GetTieredCachingRequest {
   /** Identifier. */
@@ -101,7 +101,7 @@ export interface GetTieredCachingResponse {
   /** Value of the Tiered Cache zone setting. */
   value: TieredCachingGetResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SmartRoutingEditRequestValue = "on" | "off";
 export interface PatchSmartRoutingRequest {
@@ -120,13 +120,13 @@ export interface PatchSmartRoutingResponse {
   /** Specifies the enablement value of Argo Smart Routing. */
   value: SmartRoutingEditResponseValue;
   /** Specifies the time when the setting was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type TieredCachingEditRequestValue = "on" | "off";
 export interface PatchTieredCachingRequest {
   /** Identifier. */
   zoneId: string;
-  /** Enables Tiered Caching. */
+  /** Enables or disables Tiered Cache. */
   value: TieredCachingEditRequestValue | (string & {});
 }
 export type TieredCachingEditResponseId = "tiered_caching";
@@ -140,7 +140,7 @@ export interface PatchTieredCachingResponse {
   /** Value of the Tiered Cache zone setting. */
   value: TieredCachingEditResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type GetSmartRoutingError =
   | InvalidObjectIdentifier
@@ -174,7 +174,7 @@ export type GetTieredCachingError =
   | ZoneNotFound
   | Forbidden
   | CloudflareOpError;
-/** Tiered Cache works by dividing Cloudflare's data centers into a hierarchy of lower-tiers and upper-tiers. If content is not cached in lower-tier data centers (generally the ones closest to a visitor), the lower-tier must ask an upper-tier to see if it has the content. If the upper-tier does not have the content, only the upper-tier can ask the origin for content. This practice improves bandwidth efficiency by limiting the number of data centers that can ask the origin for content, which reduces origin load and makes websites more cost-effective to operate. Additionally, Tiered Cache concentrates connections to origin servers so they come from a small number of data centers rather than the full set of network locations. This results in fewer open connections using server resources. */
+/** Retrieves whether Tiered Cache is enabled for a zone. Tiered Cache reduces origin traffic by serving lower-tier cache misses from upper-tier data centers before requesting content from your origin. */
 export const getTieredCaching: API.OperationMethod<
   GetTieredCachingRequest,
   GetTieredCachingResponse,
@@ -224,7 +224,7 @@ export const patchSmartRouting: API.OperationMethod<
 }));
 
 export type PatchTieredCachingError = InvalidObjectIdentifier | Forbidden | CloudflareOpError;
-/** Tiered Cache works by dividing Cloudflare's data centers into a hierarchy of lower-tiers and upper-tiers. If content is not cached in lower-tier data centers (generally the ones closest to a visitor), the lower-tier must ask an upper-tier to see if it has the content. If the upper-tier does not have the content, only the upper-tier can ask the origin for content. This practice improves bandwidth efficiency by limiting the number of data centers that can ask the origin for content, which reduces origin load and makes websites more cost-effective to operate. Additionally, Tiered Cache concentrates connections to origin servers so they come from a small number of data centers rather than the full set of network locations. This results in fewer open connections using server resources. */
+/** Enables or disables Tiered Cache for a zone. Tiered Cache reduces origin traffic by serving lower-tier cache misses from upper-tier data centers before requesting content from your origin. */
 export const patchTieredCaching: API.OperationMethod<
   PatchTieredCachingRequest,
   PatchTieredCachingResponse,

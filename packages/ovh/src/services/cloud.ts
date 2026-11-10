@@ -86,53 +86,53 @@ export type CloudSubOperationRegionsList = Array<string>;
 /** A sub-operation is a child of an operation on your Project */
 export interface CloudSubOperation {
   /** The action of the sub-operation */
-  action?: string;
+  action?: string | undefined;
   /** The completed date of the sub-operation */
-  completedAt?: string | null;
+  completedAt?: string | null | undefined;
   /** Unique ID to describe the sub-operation */
-  id?: string;
+  id?: string | undefined;
   /** The progression in percentage of the sub-operation */
-  progress?: number;
+  progress?: number | undefined;
   /** Affected regions of the sub-operation */
-  regions?: CloudSubOperationRegionsList | null;
+  regions?: CloudSubOperationRegionsList | null | undefined;
   /** Affected resource of the sub-operation */
-  resourceId?: string | null;
+  resourceId?: string | null | undefined;
   /** The started date of the sub-operation */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
   /** Sub-operation status */
-  status?: CloudOperationStatusEnum;
+  status?: CloudOperationStatusEnum | undefined;
 }
 /** Sub-operations of the operation */
 export type CloudOperationSubOperationsList = Array<CloudSubOperation>;
 /** An operation is an async process on your Project */
 export interface CloudOperation {
   /** The action of the operation */
-  action?: string;
+  action?: string | undefined;
   /** The completed date of the operation */
-  completedAt?: string | null;
+  completedAt?: string | null | undefined;
   /** The creation date of the operation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Unique ID to describe the operation */
-  id?: string;
+  id?: string | undefined;
   /** The progression in percentage of the operation */
-  progress?: number;
+  progress?: number | undefined;
   /** Affected regions of the operation */
-  regions?: CloudOperationRegionsList | null;
+  regions?: CloudOperationRegionsList | null | undefined;
   /** Affected resource of the operation */
-  resourceId?: string | null;
+  resourceId?: string | null | undefined;
   /** The started date of the operation */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
   /** Operation status */
-  status?: CloudOperationStatusEnum;
+  status?: CloudOperationStatusEnum | undefined;
   /** Sub-operations of the operation */
-  subOperations?: CloudOperationSubOperationsList | null;
+  subOperations?: CloudOperationSubOperationsList | null | undefined;
 }
 /** Instance with region to set as monthly billing */
 export interface CloudInstanceMonthlyInstanceBulkParams {
   /** Instance id */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Region name */
-  region?: string;
+  region?: string | undefined;
 }
 /** Instance ids and regions */
 export type ActivateCloudProjectMonthlyBillingRequestInstancesList =
@@ -148,97 +148,97 @@ export type CloudFlavorCapabilityNameEnum = "failoverip" | "resize" | "snapshot"
 /** Flavor capability */
 export interface CloudFlavorCapability {
   /** Is the capability enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Name of the capability */
-  name?: CloudFlavorCapabilityNameEnum;
+  name?: CloudFlavorCapabilityNameEnum | undefined;
 }
 /** Capabilities of the flavor */
 export type CloudFlavorFlavorCapabilitiesList = Array<CloudFlavorCapability>;
 /** FlavorPlanCodes */
 export interface CloudFlavorFlavorPlanCodes {
   /** Plan code to order hourly instance */
-  hourly?: string | null;
+  hourly?: string | null | undefined;
   /** Plan code of associated license */
-  license?: string | null;
+  license?: string | null | undefined;
   /** Plan code to order monthly instance */
-  monthly?: string | null;
+  monthly?: string | null | undefined;
 }
 /** Flavor */
 export interface CloudFlavorFlavor {
   /** Available in stock */
-  available?: boolean;
+  available?: boolean | undefined;
   /** Capabilities of the flavor */
-  capabilities?: CloudFlavorFlavorCapabilitiesList;
+  capabilities?: CloudFlavorFlavorCapabilitiesList | undefined;
   /** Number of disks */
-  disk?: number;
+  disk?: number | undefined;
   /** Flavor id */
-  id?: string;
+  id?: string | undefined;
   /** Max capacity of inbound traffic in Mbit/s */
-  inboundBandwidth?: number | null;
+  inboundBandwidth?: number | null | undefined;
   /** Flavor name */
-  name?: string;
+  name?: string | undefined;
   /** OS to install on */
-  osType?: string;
+  osType?: string | undefined;
   /** Max capacity of outbound traffic in Mbit/s */
-  outboundBandwidth?: number | null;
+  outboundBandwidth?: number | null | undefined;
   /** Plan codes to order instances */
-  planCodes?: CloudFlavorFlavorPlanCodes;
+  planCodes?: CloudFlavorFlavorPlanCodes | undefined;
   /** Number instance you can spawn with your actual quota */
-  quota?: number;
+  quota?: number | undefined;
   /** Ram quantity (Gio) */
-  ram?: number;
+  ram?: number | undefined;
   /** Flavor region */
-  region?: string;
+  region?: string | undefined;
   /** Flavor type */
-  type?: string;
+  type?: string | undefined;
   /** Number of VCPUs */
-  vcpus?: number;
+  vcpus?: number | undefined;
 }
 /** Tags about the image */
 export type CloudImageImageTagsList = Array<string>;
 /** Image */
 export interface CloudImageImage {
   /** Image creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Image usable only for this type of flavor if not null */
-  flavorType?: string | null;
+  flavorType?: string | null | undefined;
   /** Image id */
-  id?: string;
+  id?: string | undefined;
   /** Minimum disks required to use image */
-  minDisk?: number;
+  minDisk?: number | undefined;
   /** Minimum RAM required to use image */
-  minRam?: number;
+  minRam?: number | undefined;
   /** Image name */
-  name?: string;
+  name?: string | undefined;
   /** Order plan code */
-  planCode?: string | null;
+  planCode?: string | null | undefined;
   /** Image region */
-  region?: string;
+  region?: string | undefined;
   /** Image size (in GiB) */
-  size?: number;
+  size?: number | undefined;
   /** Image status */
-  status?: string;
+  status?: string | undefined;
   /** Tags about the image */
-  tags?: CloudImageImageTagsList | null;
+  tags?: CloudImageImageTagsList | null | undefined;
   /** Image type */
-  type?: string;
+  type?: string | undefined;
   /** User to connect with */
-  user?: string;
+  user?: string | undefined;
   /** Image visibility */
-  visibility?: string;
+  visibility?: string | undefined;
 }
 /** IpAddress */
 export interface CloudInstanceIpAddress {
   /** Gateway IP */
-  gatewayIp?: string | null;
+  gatewayIp?: string | null | undefined;
   /** Instance IP address */
-  ip?: string;
+  ip?: string | undefined;
   /** Network ID */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Instance IP address type */
-  type?: string;
+  type?: string | undefined;
   /** IP version */
-  version?: number;
+  version?: number | undefined;
 }
 /** Instance IP addresses */
 export type CloudInstanceInstanceIpAddressesList = Array<CloudInstanceIpAddress>;
@@ -247,9 +247,9 @@ export type CloudInstanceMonthlyBillingStatusEnum = "activationPending" | "ok";
 /** MonthlyBilling */
 export interface CloudInstanceMonthlyBilling {
   /** Monthly billing activated since */
-  since?: string;
+  since?: string | undefined;
   /** Monthly billing status */
-  status?: CloudInstanceMonthlyBillingStatusEnum;
+  status?: CloudInstanceMonthlyBillingStatusEnum | undefined;
 }
 /** Ids of pending public cloud operations */
 export type CloudInstanceInstanceOperationIdsList = Array<string>;
@@ -258,15 +258,15 @@ export type CloudSshkeySshKeyDetailRegionsList = Array<string>;
 /** SshKeyDetail */
 export interface CloudSshkeySshKeyDetail {
   /** SSH key fingerprint */
-  fingerPrint?: string;
+  fingerPrint?: string | undefined;
   /** SSH key id */
-  id?: string;
+  id?: string | undefined;
   /** SSH key name */
-  name?: string;
+  name?: string | undefined;
   /** SSH public key */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** SSH key regions */
-  regions?: CloudSshkeySshKeyDetailRegionsList;
+  regions?: CloudSshkeySshKeyDetailRegionsList | undefined;
 }
 /** InstanceStatusEnum */
 export type CloudInstanceInstanceStatusEnum =
@@ -304,41 +304,41 @@ export type CloudInstanceInstanceStatusEnum =
 /** Instance */
 export interface CloudInstanceInstance {
   /** Availability zone of the instance */
-  availabilityZone?: string | null;
+  availabilityZone?: string | null | undefined;
   /** Instance creation date */
-  created?: string;
+  created?: string | undefined;
   /** Instance outgoing network traffic for the current month (in bytes) */
-  currentMonthOutgoingTraffic?: number | null;
+  currentMonthOutgoingTraffic?: number | null | undefined;
   /** Instance flavor */
-  flavor?: CloudFlavorFlavor | null;
+  flavor?: CloudFlavorFlavor | null | undefined;
   /** Instance flavor id */
-  flavorId?: string;
+  flavorId?: string | undefined;
   /** Instance id */
-  id?: string;
+  id?: string | undefined;
   /** Instance image */
-  image?: CloudImageImage | null;
+  image?: CloudImageImage | null | undefined;
   /** Instance image id */
-  imageId?: string;
+  imageId?: string | undefined;
   /** Instance IP addresses */
-  ipAddresses?: CloudInstanceInstanceIpAddressesList;
+  ipAddresses?: CloudInstanceInstanceIpAddressesList | undefined;
   /** Instance monthly billing status */
-  monthlyBilling?: CloudInstanceMonthlyBilling | null;
+  monthlyBilling?: CloudInstanceMonthlyBilling | null | undefined;
   /** Instance name */
-  name?: string;
+  name?: string | undefined;
   /** Ids of pending public cloud operations */
-  operationIds?: CloudInstanceInstanceOperationIdsList;
+  operationIds?: CloudInstanceInstanceOperationIdsList | undefined;
   /** Order plan code */
-  planCode?: string | null;
+  planCode?: string | null | undefined;
   /** Instance id */
-  region?: string;
+  region?: string | undefined;
   /** Rescue password if instance is in RESCUE status */
-  rescuePassword?: string | Redacted.Redacted<string> | null;
+  rescuePassword?: string | Redacted.Redacted<string> | null | undefined;
   /** Instance SSH key */
-  sshKey?: CloudSshkeySshKeyDetail | null;
+  sshKey?: CloudSshkeySshKeyDetail | null | undefined;
   /** Instance ssh key id */
-  sshKeyId?: string | null;
+  sshKeyId?: string | null | undefined;
   /** Instance status */
-  status?: CloudInstanceInstanceStatusEnum;
+  status?: CloudInstanceInstanceStatusEnum | undefined;
 }
 export type ActivateCloudProjectMonthlyBillingResponseBodyList = Array<CloudInstanceInstance>;
 export type ActivateCloudProjectMonthlyBillingResponse =
@@ -363,15 +363,15 @@ export interface AddAlertingRequest {
   /** Delay of the alert in seconds */
   delay: number;
   /** Email. DEPRECATED: use emails */
-  email?: string;
+  email?: string | undefined;
   /** Receiver of the alert */
-  emails?: AddAlertingRequestEmailsList;
+  emails?: AddAlertingRequestEmailsList | undefined;
   /** Monthly threshold */
   monthlyThreshold: number;
   /** Name of the alert */
-  name?: string;
+  name?: string | undefined;
   /** Service of the alert */
-  service?: CloudAlertingServiceEnum | (string & {});
+  service?: CloudAlertingServiceEnum | (string & {}) | undefined;
 }
 /** Receiver of the alert */
 export type CloudAlertingAlertingEmailsList = Array<string>;
@@ -395,45 +395,45 @@ export type OrderCurrencyCodeEnum =
 /** Price with its currency and textual representation */
 export interface OrderPrice {
   /** Currency code */
-  currencyCode?: OrderCurrencyCodeEnum;
+  currencyCode?: OrderCurrencyCodeEnum | undefined;
   /** Price in microcents */
-  priceInUcents?: number | null;
+  priceInUcents?: number | null | undefined;
   /** Textual representation */
-  text?: string;
+  text?: string | undefined;
   /** The effective price */
-  value?: number;
+  value?: number | undefined;
 }
 /** alert status */
 export type CloudAlertingStatusEnum = "deleted" | "disabled" | "ok";
 /** Billing Alert Configuration */
 export interface CloudAlertingAlerting {
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Delay of the alert in seconds */
   delay: number;
   /** Email. DEPRECATED: use emails */
-  email?: string;
+  email?: string | undefined;
   /** Receiver of the alert */
-  emails?: CloudAlertingAlertingEmailsList;
+  emails?: CloudAlertingAlertingEmailsList | undefined;
   /** formatted monthly threshold */
-  formattedMonthlyThreshold?: OrderPrice;
+  formattedMonthlyThreshold?: OrderPrice | undefined;
   /** ID of the alert */
-  id?: string;
+  id?: string | undefined;
   /** Monthly threshold */
   monthlyThreshold: number;
   /** Name of the alert */
-  name?: string;
+  name?: string | undefined;
   /** Service of the alert */
-  service?: CloudAlertingServiceEnum;
+  service?: CloudAlertingServiceEnum | undefined;
   /** Status of the alert */
-  status?: CloudAlertingStatusEnum;
+  status?: CloudAlertingStatusEnum | undefined;
 }
 /** Import external certificate */
 export interface CloudProjectCertificateImport {
   /** PEM encoded certificate */
   cert: string;
   /** Optional PEM encoded certificate chain */
-  chain?: string | null;
+  chain?: string | null | undefined;
   /** PEM encoded certificate private key */
   key: string;
 }
@@ -441,7 +441,7 @@ export interface AddCertificateRequest {
   /** Service name */
   serviceName: string;
   /** Import an existing certificate */
-  import?: CloudProjectCertificateImport | null;
+  import?: CloudProjectCertificateImport | null | undefined;
   /** Name of the certificate */
   name: string;
 }
@@ -452,9 +452,9 @@ export type CloudProjectCertificateServerAlternativeNameKindEnum = "DNS" | "EMAI
 /** Certificate SAN */
 export interface CloudProjectCertificateServerAlternativeName {
   /** SAN kind */
-  kind?: CloudProjectCertificateServerAlternativeNameKindEnum;
+  kind?: CloudProjectCertificateServerAlternativeNameKindEnum | undefined;
   /** Name of the given kind */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of SANs (extract from certificate) */
 export type CloudProjectCertificateServerAlternativeNamesList =
@@ -464,29 +464,29 @@ export type CloudProjectCertificateStatusEnum = "EXPIRED" | "NOT_YET_VALID" | "O
 /** A Certificate to use in your NFVs */
 export interface CloudProjectCertificate {
   /** Date after when the certificate is not valid */
-  expireAt?: string;
+  expireAt?: string | undefined;
   /** Fingerprint of the cert (prefixed by hashing algorithm used) */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Unique ID of the certificate */
-  id?: string;
+  id?: string | undefined;
   /** Issue of the certificate (extract from certificate) */
-  issuer?: string;
+  issuer?: string | undefined;
   /** Kind of certificate */
-  kind?: CloudProjectCertificateKindEnum;
+  kind?: CloudProjectCertificateKindEnum | undefined;
   /** Name of the certificate */
-  name?: string;
+  name?: string | undefined;
   /** Serial number of the certificate (extract from certificate) */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** List of SANs (extract from certificate) */
-  serverAlternativeNames?: CloudProjectCertificateServerAlternativeNamesList;
+  serverAlternativeNames?: CloudProjectCertificateServerAlternativeNamesList | undefined;
   /** Certificate status, to quickly know it can safely be used */
-  status?: CloudProjectCertificateStatusEnum;
+  status?: CloudProjectCertificateStatusEnum | undefined;
   /** Subject of the certificate (extract from certificate) */
-  subject?: string;
+  subject?: string | undefined;
   /** Date after when the certificate is valid */
-  validAt?: string;
+  validAt?: string | undefined;
   /** Version of certificate (incremented every time you push a new certificate with the same name) */
-  version?: number;
+  version?: number | undefined;
 }
 export interface ApplyApplicationLoadBalancerConfigurationRequest {
   /** Service name */
@@ -559,13 +559,13 @@ export type CloudProjectLoadbalancerActionsRewriteList =
 /** HTTP load balancer actions */
 export interface CloudProjectLoadbalancerActions {
   /** List of dispatch actions */
-  dispatch?: CloudProjectLoadbalancerActionsDispatchList | null;
+  dispatch?: CloudProjectLoadbalancerActionsDispatchList | null | undefined;
   /** List of redirect actions */
-  redirect?: CloudProjectLoadbalancerActionsRedirectList | null;
+  redirect?: CloudProjectLoadbalancerActionsRedirectList | null | undefined;
   /** List of reject actions */
-  reject?: CloudProjectLoadbalancerActionsRejectList | null;
+  reject?: CloudProjectLoadbalancerActionsRejectList | null | undefined;
   /** List of rewrite actions */
-  rewrite?: CloudProjectLoadbalancerActionsRewriteList | null;
+  rewrite?: CloudProjectLoadbalancerActionsRewriteList | null | undefined;
 }
 /** List of certificate ID */
 export type CloudProjectLoadbalancerApplicationConfigurationCertificatesList = Array<string>;
@@ -590,13 +590,13 @@ export type CloudProjectLoadbalancerConditionValuesList = Array<string>;
 /** A condition */
 export interface CloudProjectLoadbalancerCondition {
   /** The condition name */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Criterion matching operation */
   match: CloudProjectLoadbalancerConditionMatchEnum | (string & {});
   /** The condition name */
   name: string;
   /** Negate the condition */
-  negate?: boolean | null;
+  negate?: boolean | null | undefined;
   /** Criterion used to chose the appropriate action */
   type: CloudProjectLoadbalancerConditionTypeEnum | (string & {});
   /** The list of values to match */
@@ -608,9 +608,9 @@ export type CloudProjectLoadbalancerApplicationConfigurationConditionsList =
 /** A port range */
 export interface CloudProjectLoadbalancerPortRange {
   /** Port range end */
-  end?: number;
+  end?: number | undefined;
   /** Port range start */
-  start?: number;
+  start?: number | undefined;
 }
 /** Port ranges to listen */
 export type CloudProjectLoadbalancerEntryPointPortRangesList =
@@ -624,25 +624,25 @@ export interface CloudProjectLoadbalancerRule {
   /** The action name */
   action: string;
   /** The list of condition to match */
-  conditions?: CloudProjectLoadbalancerRuleConditionsList | null;
+  conditions?: CloudProjectLoadbalancerRuleConditionsList | null | undefined;
 }
 /** List of rules */
 export type CloudProjectLoadbalancerEntryPointRulesList = Array<CloudProjectLoadbalancerRule>;
 /** A load balancer entryPoint */
 export interface CloudProjectLoadbalancerEntryPoint {
   /** The default target name */
-  defaultTarget?: string | null;
+  defaultTarget?: string | null | undefined;
   /** Disable HTTP2 */
-  disableH2?: boolean | null;
+  disableH2?: boolean | null | undefined;
   /** The frontend name */
   name: string;
   /** Port ranges to listen */
-  portRanges?: CloudProjectLoadbalancerEntryPointPortRangesList | null;
+  portRanges?: CloudProjectLoadbalancerEntryPointPortRangesList | null | undefined;
   /** Ports to listen */
-  ports?: CloudProjectLoadbalancerEntryPointPortsList | null;
+  ports?: CloudProjectLoadbalancerEntryPointPortsList | null | undefined;
   /** List of rules */
-  rules?: CloudProjectLoadbalancerEntryPointRulesList;
-  tls?: boolean;
+  rules?: CloudProjectLoadbalancerEntryPointRulesList | undefined;
+  tls?: boolean | undefined;
 }
 /** List of entryPoints */
 export type CloudProjectLoadbalancerApplicationConfigurationEntryPointsList =
@@ -652,7 +652,7 @@ export type CloudProjectLoadbalancerNetworkingEgressKindEnum = "public" | "vrack
 /** Networking configuration egress definition */
 export interface CloudProjectLoadbalancerConfigurationNetworkingEgress {
   /** vrack networking id */
-  id?: string | null;
+  id?: string | null | undefined;
   /** networking egress kind definition */
   kind: CloudProjectLoadbalancerNetworkingEgressKindEnum | (string & {});
 }
@@ -666,9 +666,9 @@ export interface CloudProjectLoadbalancerConfigurationNetworkingIngress {
 /** Networking configuration object */
 export interface CloudProjectLoadbalancerConfigurationNetworkingNetworking {
   /** Networking configuration definition for egress */
-  egress?: CloudProjectLoadbalancerConfigurationNetworkingEgress | null;
+  egress?: CloudProjectLoadbalancerConfigurationNetworkingEgress | null | undefined;
   /** Networking configuration definition for ingress */
-  ingress?: CloudProjectLoadbalancerConfigurationNetworkingIngress | null;
+  ingress?: CloudProjectLoadbalancerConfigurationNetworkingIngress | null | undefined;
 }
 /** Available load balancer target balancer algorithm */
 export type CloudProjectLoadbalancerTargetBalancerAlgorithmEnum =
@@ -686,26 +686,30 @@ export interface CloudProjectLoadbalancerServer {
   /** Server name */
   name: string;
   /** Disable health check */
-  noCheck?: boolean | null;
+  noCheck?: boolean | null | undefined;
   /** Port that the server listen */
   port: number;
   /** Weight of the server in the backend */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 /** List of server in target */
 export type CloudProjectLoadbalancerTargetServersList = Array<CloudProjectLoadbalancerServer>;
 /** A load balancer target */
 export interface CloudProjectLoadbalancerTarget {
   /** Use a specific balancer algorithm */
-  balancer?: CloudProjectLoadbalancerTargetBalancerAlgorithmEnum | (string & {}) | null;
+  balancer?: CloudProjectLoadbalancerTargetBalancerAlgorithmEnum | (string & {}) | null | undefined;
   /** The backend name */
   name: string;
   /** Use proxy protocol on target */
-  proxyProtocol?: CloudProjectLoadbalancerTargetProxyProtocolEnum | (string & {}) | null;
+  proxyProtocol?:
+    | CloudProjectLoadbalancerTargetProxyProtocolEnum
+    | (string & {})
+    | null
+    | undefined;
   /** List of server in target */
   servers: CloudProjectLoadbalancerTargetServersList;
   /** Enable sticky session, only usable with http-mode frontends */
-  sticky?: boolean | null;
+  sticky?: boolean | null | undefined;
 }
 /** List of targets */
 export type CloudProjectLoadbalancerApplicationConfigurationTargetsList =
@@ -713,19 +717,19 @@ export type CloudProjectLoadbalancerApplicationConfigurationTargetsList =
 /** An application load balancer configuration */
 export interface CloudProjectLoadbalancerApplicationConfiguration {
   /** All actions */
-  actions?: CloudProjectLoadbalancerActions | null;
+  actions?: CloudProjectLoadbalancerActions | null | undefined;
   /** List of certificate ID */
-  certificates?: CloudProjectLoadbalancerApplicationConfigurationCertificatesList;
+  certificates?: CloudProjectLoadbalancerApplicationConfigurationCertificatesList | undefined;
   /** List of conditions */
-  conditions?: CloudProjectLoadbalancerApplicationConfigurationConditionsList | null;
+  conditions?: CloudProjectLoadbalancerApplicationConfigurationConditionsList | null | undefined;
   /** List of entryPoints */
-  entryPoints?: CloudProjectLoadbalancerApplicationConfigurationEntryPointsList;
+  entryPoints?: CloudProjectLoadbalancerApplicationConfigurationEntryPointsList | undefined;
   /** networking configuration */
-  networking?: CloudProjectLoadbalancerConfigurationNetworkingNetworking;
+  networking?: CloudProjectLoadbalancerConfigurationNetworkingNetworking | undefined;
   /** List of targets */
-  targets?: CloudProjectLoadbalancerApplicationConfigurationTargetsList | null;
+  targets?: CloudProjectLoadbalancerApplicationConfigurationTargetsList | null | undefined;
   /** Identifier and version of the configuration */
-  version?: number;
+  version?: number | undefined;
 }
 export interface ApplyCloudProjectDatabaseCassandraMaintenanceRequest {
   /** Service name */
@@ -745,15 +749,15 @@ export type CloudProjectDatabaseServiceMaintenanceStatusEnum =
 /** Cloud database service maintenance definition */
 export interface CloudProjectDatabaseServiceMaintenance {
   /** Date of the application of the maintenance */
-  appliedAt?: string | null;
+  appliedAt?: string | null | undefined;
   /** Description of the maintenance */
-  description?: string;
+  description?: string | undefined;
   /** ID of the maintenance */
-  id?: string;
+  id?: string | undefined;
   /** Date of the planification of the maintenance */
-  scheduledAt?: string | null;
+  scheduledAt?: string | null | undefined;
   /** Status of the maintenance */
-  status?: CloudProjectDatabaseServiceMaintenanceStatusEnum;
+  status?: CloudProjectDatabaseServiceMaintenanceStatusEnum | undefined;
 }
 export interface ApplyCloudProjectDatabaseClickhouseMaintenanceRequest {
   /** Service name */
@@ -881,15 +885,23 @@ export type CloudProjectLoadbalancerBackendServersList = Array<CloudProjectLoadb
 /** A load balancer backend */
 export interface CloudProjectLoadbalancerBackend {
   /** Use a specific balancer algorithm */
-  balancer?: CloudProjectLoadbalancerBackendBalancerAlgorithmEnum | (string & {}) | null;
+  balancer?:
+    | CloudProjectLoadbalancerBackendBalancerAlgorithmEnum
+    | (string & {})
+    | null
+    | undefined;
   /** The backend name */
   name: string;
   /** Use proxy protocol on backend */
-  proxyProtocol?: CloudProjectLoadbalancerBackendProxyProtocolEnum | (string & {}) | null;
+  proxyProtocol?:
+    | CloudProjectLoadbalancerBackendProxyProtocolEnum
+    | (string & {})
+    | null
+    | undefined;
   /** List of server in backend */
   servers: CloudProjectLoadbalancerBackendServersList;
   /** Enable sticky session, only usable with http-mode frontends */
-  sticky?: boolean | null;
+  sticky?: boolean | null | undefined;
 }
 /** List of backends */
 export type CloudProjectLoadbalancerConfigurationBackendsList =
@@ -918,18 +930,18 @@ export interface CloudProjectLoadbalancerFrontend {
   /** Selector for backend */
   backends: CloudProjectLoadbalancerFrontendBackendsList;
   /** Load balancing mode */
-  mode?: CloudProjectLoadbalancerFrontendModeEnum | (string & {}) | null;
+  mode?: CloudProjectLoadbalancerFrontendModeEnum | (string & {}) | null | undefined;
   /** The frontend name */
   name: string;
   /** Port to listen (deprecated: see ports) */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Port ranges to listen */
-  portRanges?: CloudProjectLoadbalancerFrontendPortRangesList | null;
+  portRanges?: CloudProjectLoadbalancerFrontendPortRangesList | null | undefined;
   /** Ports to listen */
-  ports?: CloudProjectLoadbalancerFrontendPortsList | null;
-  tls?: boolean;
+  ports?: CloudProjectLoadbalancerFrontendPortsList | null | undefined;
+  tls?: boolean | undefined;
   /** IP range to whitelist */
-  whitelist?: CloudProjectLoadbalancerFrontendWhitelistList;
+  whitelist?: CloudProjectLoadbalancerFrontendWhitelistList | undefined;
 }
 /** List of frontends */
 export type CloudProjectLoadbalancerConfigurationFrontendsList =
@@ -937,15 +949,15 @@ export type CloudProjectLoadbalancerConfigurationFrontendsList =
 /** A load balancer configuration */
 export interface CloudProjectLoadbalancerConfiguration {
   /** List of backends */
-  backends?: CloudProjectLoadbalancerConfigurationBackendsList;
+  backends?: CloudProjectLoadbalancerConfigurationBackendsList | undefined;
   /** List of certificate ID */
-  certificates?: CloudProjectLoadbalancerConfigurationCertificatesList;
+  certificates?: CloudProjectLoadbalancerConfigurationCertificatesList | undefined;
   /** List of frontends */
-  frontends?: CloudProjectLoadbalancerConfigurationFrontendsList;
+  frontends?: CloudProjectLoadbalancerConfigurationFrontendsList | undefined;
   /** networking configuration */
-  networking?: CloudProjectLoadbalancerConfigurationNetworkingNetworking;
+  networking?: CloudProjectLoadbalancerConfigurationNetworkingNetworking | undefined;
   /** Identifier and version of the configuration */
-  version?: number;
+  version?: number | undefined;
 }
 export interface ApplyNetworkLoadBalancerConfigurationRequest {
   /** Service name */
@@ -973,9 +985,9 @@ export type CloudProjectNetworkloadbalancerActionsRejectList =
 /** Network Loadbalancer action */
 export interface CloudProjectNetworkloadbalancerActions {
   /** List of dispatch actions */
-  dispatch?: CloudProjectNetworkloadbalancerActionsDispatchList | null;
+  dispatch?: CloudProjectNetworkloadbalancerActionsDispatchList | null | undefined;
   /** List of reject actions */
-  reject?: CloudProjectNetworkloadbalancerActionsRejectList | null;
+  reject?: CloudProjectNetworkloadbalancerActionsRejectList | null | undefined;
 }
 /** Matching field */
 export type CloudProjectNetworkloadbalancerConditionTypeEnum = "source";
@@ -984,13 +996,13 @@ export type CloudProjectNetworkloadbalancerConditionValuesList = Array<string>;
 /** A condition */
 export interface CloudProjectNetworkloadbalancerCondition {
   /** The condition name */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Criterion matching operation */
   match: CloudProjectLoadbalancerConditionMatchEnum | (string & {});
   /** The condition name */
   name: string;
   /** Negate the condition */
-  negate?: boolean | null;
+  negate?: boolean | null | undefined;
   /** Criterion used to chose the appropriate action */
   type: CloudProjectNetworkloadbalancerConditionTypeEnum | (string & {});
   /** The list of values to match */
@@ -1010,15 +1022,15 @@ export type CloudProjectNetworkloadbalancerEntryPointRulesList =
 /** A network load balancer entryPoint */
 export interface CloudProjectNetworkloadbalancerEntryPoint {
   /** The default target name */
-  defaultTarget?: string | null;
+  defaultTarget?: string | null | undefined;
   /** The frontend name */
   name: string;
   /** Port ranges to listen */
-  portRanges?: CloudProjectNetworkloadbalancerEntryPointPortRangesList | null;
+  portRanges?: CloudProjectNetworkloadbalancerEntryPointPortRangesList | null | undefined;
   /** Ports to listen */
-  ports?: CloudProjectNetworkloadbalancerEntryPointPortsList | null;
+  ports?: CloudProjectNetworkloadbalancerEntryPointPortsList | null | undefined;
   /** List of rules */
-  rules?: CloudProjectNetworkloadbalancerEntryPointRulesList;
+  rules?: CloudProjectNetworkloadbalancerEntryPointRulesList | undefined;
 }
 /** List of entryPoints */
 export type CloudProjectNetworkloadbalancerConfigurationEntryPointsList =
@@ -1029,17 +1041,17 @@ export type CloudProjectNetworkloadbalancerConfigurationTargetsList =
 /** A network load balancer configuration */
 export interface CloudProjectNetworkloadbalancerConfiguration {
   /** All actions */
-  actions?: CloudProjectNetworkloadbalancerActions | null;
+  actions?: CloudProjectNetworkloadbalancerActions | null | undefined;
   /** List of conditions */
-  conditions?: CloudProjectNetworkloadbalancerConfigurationConditionsList | null;
+  conditions?: CloudProjectNetworkloadbalancerConfigurationConditionsList | null | undefined;
   /** List of entryPoints */
-  entryPoints?: CloudProjectNetworkloadbalancerConfigurationEntryPointsList;
+  entryPoints?: CloudProjectNetworkloadbalancerConfigurationEntryPointsList | undefined;
   /** networking configuration */
-  networking?: CloudProjectLoadbalancerConfigurationNetworkingNetworking;
+  networking?: CloudProjectLoadbalancerConfigurationNetworkingNetworking | undefined;
   /** List of targets */
-  targets?: CloudProjectNetworkloadbalancerConfigurationTargetsList | null;
+  targets?: CloudProjectNetworkloadbalancerConfigurationTargetsList | null | undefined;
   /** Identifier and version of the configuration */
-  version?: number;
+  version?: number | undefined;
 }
 export interface ArchiveCloudProjectRegionColdArchiveRequest {
   /** Service name */
@@ -1049,7 +1061,7 @@ export interface ArchiveCloudProjectRegionColdArchiveRequest {
   /** Name */
   name: string;
   /** Archive is locked (cannot be deleted) for the given number of days */
-  lockedUntilDays?: number | null;
+  lockedUntilDays?: number | null | undefined;
 }
 export interface ArchiveCloudProjectRegionColdArchiveResponse {}
 /** GatewayModelEnum */
@@ -1071,7 +1083,7 @@ export interface AssociateFloatingIpOnInstanceOnRegionRequest {
   /** Floating IP ID */
   floatingIpId: string;
   /** Parameters to create a gateway if required */
-  gateway?: CloudNetworkCreateGatewaySummary | null;
+  gateway?: CloudNetworkCreateGatewaySummary | null | undefined;
   /** Private instance IP to associate the floating IP with */
   ip: string;
 }
@@ -1090,23 +1102,23 @@ export type CloudIpIpSubTypeEnum = "cloud" | "ovh";
 /** FailoverIp */
 export interface CloudIpFailoverIp {
   /** IP block */
-  block?: string | null;
+  block?: string | null | undefined;
   /** Ip continent */
-  continentCode?: string | null;
+  continentCode?: string | null | undefined;
   /** Ip location */
-  geoloc?: string | null;
+  geoloc?: string | null | undefined;
   /** Ip id */
-  id?: string;
+  id?: string | undefined;
   /** Ip */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Current operation progress in percent */
-  progress?: number;
+  progress?: number | undefined;
   /** Instance where ip is routed to */
-  routedTo?: string | null;
+  routedTo?: string | null | undefined;
   /** Ip status */
-  status?: CloudIpIpStatusEnum;
+  status?: CloudIpIpStatusEnum | undefined;
   /** IP sub type */
-  subType?: CloudIpIpSubTypeEnum;
+  subType?: CloudIpIpSubTypeEnum | undefined;
 }
 export interface AttachCloudProjectVolumeRequest {
   /** Service name */
@@ -1154,41 +1166,41 @@ export type CloudVolumeVolumeTypeEnum =
 /** Volume */
 export interface CloudVolumeVolume {
   /** Volume attached to instances id */
-  attachedTo?: CloudVolumeVolumeAttachedToList;
+  attachedTo?: CloudVolumeVolumeAttachedToList | undefined;
   /** Availability zone of the volume */
-  availabilityZone?: string | null;
+  availabilityZone?: string | null | undefined;
   /** Volume bootable */
-  bootable?: boolean;
+  bootable?: boolean | undefined;
   /** Volume creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Volume description */
-  description?: string;
+  description?: string | undefined;
   /** Volume id */
-  id?: string;
+  id?: string | undefined;
   /** Volume name */
-  name?: string;
+  name?: string | undefined;
   /** Order plan code */
-  planCode?: string | null;
+  planCode?: string | null | undefined;
   /** Volume region */
-  region?: string;
+  region?: string | undefined;
   /** Volume size (in GB) */
-  size?: number;
+  size?: number | undefined;
   /** Volume status */
-  status?: CloudVolumeVolumeStatusEnum;
+  status?: CloudVolumeVolumeStatusEnum | undefined;
   /** Volume type */
-  type?: CloudVolumeVolumeTypeEnum;
+  type?: CloudVolumeVolumeTypeEnum | undefined;
 }
 /** Autobackup params at instance creation */
 export interface CloudInstanceAutoBackup {
   /** Unix Cron pattern (eg: '0 0 * * *') */
-  cron?: string;
+  cron?: string | undefined;
   /** Number of backup to keep */
-  rotation?: number;
+  rotation?: number | undefined;
 }
 /** NetworkBulkParams */
 export interface CloudInstanceNetworkBulkParams {
   /** Private or public network Id */
-  networkId?: string;
+  networkId?: string | undefined;
 }
 /** Create network interfaces */
 export type BulkCloudProjectInstanceRequestNetworksList = Array<CloudInstanceNetworkBulkParams>;
@@ -1196,31 +1208,31 @@ export interface BulkCloudProjectInstanceRequest {
   /** Service name */
   serviceName: string;
   /** Create an autobackup workflow after instance start up */
-  autobackup?: CloudInstanceAutoBackup | null;
+  autobackup?: CloudInstanceAutoBackup | null | undefined;
   /** Availability zone to create the instance on */
-  availabilityZone?: string | null;
+  availabilityZone?: string | null | undefined;
   /** Instance flavor id */
   flavorId: string;
   /** Start instance in group */
-  groupId?: string | null;
+  groupId?: string | null | undefined;
   /** Instance image id */
-  imageId?: string | null;
+  imageId?: string | null | undefined;
   /** Active monthly billing */
-  monthlyBilling?: boolean | null;
+  monthlyBilling?: boolean | null | undefined;
   /** Instance name */
   name: string;
   /** Create network interfaces */
-  networks?: BulkCloudProjectInstanceRequestNetworksList | null;
+  networks?: BulkCloudProjectInstanceRequestNetworksList | null | undefined;
   /** Number of instances you want to create */
   number: number;
   /** Instance region */
   region: string;
   /** SSH keypair id */
-  sshKeyId?: string | null;
+  sshKeyId?: string | null | undefined;
   /** Configuration information or scripts to use upon launch */
-  userData?: string | null;
+  userData?: string | null | undefined;
   /** Specify a volume id to boot from it */
-  volumeId?: string | null;
+  volumeId?: string | null | undefined;
 }
 export type BulkCloudProjectInstanceResponseBodyList = Array<CloudInstanceInstance>;
 export type BulkCloudProjectInstanceResponse = BulkCloudProjectInstanceResponseBodyList;
@@ -1234,16 +1246,19 @@ export interface BulkCloudProjectRegionVolumeDeleteSnapshotsRequest {
   /** Volume ID */
   volumeId: string;
   /** Delete all snapshots related to a volume, cannot be used along side a list of IDs */
-  deleteAll?: boolean;
+  deleteAll?: boolean | undefined;
   /** Snapshot IDs to delete, cannot be used along side the deleteAll boolean set to true */
-  snapshotIds?: BulkCloudProjectRegionVolumeDeleteSnapshotsRequestSnapshotIdsList | null;
+  snapshotIds?:
+    | BulkCloudProjectRegionVolumeDeleteSnapshotsRequestSnapshotIdsList
+    | null
+    | undefined;
 }
 /** Object to delete. */
 export interface CloudStorageObjectDelete {
   /** Key of the object. */
   key: string;
   /** Version ID of the object. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 /** Objects to delete. */
 export type BulkDeleteContainerObjectsOnRegionRequestObjectsList = Array<CloudStorageObjectDelete>;
@@ -1260,35 +1275,35 @@ export interface BulkDeleteContainerObjectsOnRegionRequest {
 /** Successfully deleted object. */
 export interface CloudStorageObjectDeleted {
   /** Version ID of the delete marker created. */
-  deleteMarkerVersionId?: string | null;
+  deleteMarkerVersionId?: string | null | undefined;
   /** Key of the deleted object. */
-  key?: string;
+  key?: string | undefined;
   /** Version ID of the deleted object. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
   /** Indicates whether the object was a delete marker. */
-  wasADeleteMarker?: boolean;
+  wasADeleteMarker?: boolean | undefined;
 }
 /** List of successfully deleted objects. */
 export type CloudStorageObjectDeleteBulkResponseDeletedList = Array<CloudStorageObjectDeleted>;
 /** Object deletion error. */
 export interface CloudStorageObjectDeleteError {
   /** Error code. */
-  code?: string;
+  code?: string | undefined;
   /** Error message. */
-  error?: string;
+  error?: string | undefined;
   /** Key of the object that failed to delete. */
-  key?: string;
+  key?: string | undefined;
   /** Version ID of the object that failed to delete. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 /** List of objects that failed to delete. */
 export type CloudStorageObjectDeleteBulkResponseErrorsList = Array<CloudStorageObjectDeleteError>;
 /** Bulk delete response containing deleted objects and errors. */
 export interface CloudStorageObjectDeleteBulkResponse {
   /** List of successfully deleted objects. */
-  deleted?: CloudStorageObjectDeleteBulkResponseDeletedList;
+  deleted?: CloudStorageObjectDeleteBulkResponseDeletedList | undefined;
   /** List of objects that failed to delete. */
-  errors?: CloudStorageObjectDeleteBulkResponseErrorsList;
+  errors?: CloudStorageObjectDeleteBulkResponseErrorsList | undefined;
 }
 export interface CancelCloudProjectRequest {
   /** The project id */
@@ -1301,14 +1316,14 @@ export interface CancelCloudProjectDatabaseClickhouseCurrentQueryRequest {
   /** Cluster ID */
   clusterId: string;
   /** Database server connection ID */
-  pid?: number;
+  pid?: number | undefined;
   /** Request immediate termination instead of soft cancel */
-  terminate?: boolean;
+  terminate?: boolean | undefined;
 }
 /** Cloud database service current queries query cancel response */
 export interface CloudProjectDatabaseServiceCurrentqueriesQueryCancelResponse {
   /** Status reported by the database server */
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface CancelCloudProjectDatabaseMysqlCurrentQueryRequest {
   /** Service name */
@@ -1316,9 +1331,9 @@ export interface CancelCloudProjectDatabaseMysqlCurrentQueryRequest {
   /** Cluster ID */
   clusterId: string;
   /** Database server connection ID */
-  pid?: number;
+  pid?: number | undefined;
   /** Request immediate termination instead of soft cancel */
-  terminate?: boolean;
+  terminate?: boolean | undefined;
 }
 export interface CancelCloudProjectDatabasePostgresqlCurrentQueryRequest {
   /** Service name */
@@ -1326,9 +1341,9 @@ export interface CancelCloudProjectDatabasePostgresqlCurrentQueryRequest {
   /** Cluster ID */
   clusterId: string;
   /** Database server connection ID */
-  pid?: number;
+  pid?: number | undefined;
   /** Request immediate termination instead of soft cancel */
-  terminate?: boolean;
+  terminate?: boolean | undefined;
 }
 export interface CheckCloudProjectDatabaseMysqlMigrationRequest {
   /** Service name */
@@ -1356,11 +1371,11 @@ export type CloudProjectDatabaseMysqlMigrationStatusEnum =
 /** Cloud database MySQL migration check result definition */
 export interface CloudProjectDatabaseMysqlMigrationCheckResult {
   /** Migration result message */
-  result?: string;
+  result?: string | undefined;
   /** Status of the migration check task */
-  status?: CloudProjectDatabaseMysqlMigrationStatusEnum;
+  status?: CloudProjectDatabaseMysqlMigrationStatusEnum | undefined;
   /** Success status of the migration check */
-  success?: boolean;
+  success?: boolean | undefined;
 }
 /** All future uses you can provide for a service termination */
 export type ServiceTerminationFutureUseEnum =
@@ -1389,11 +1404,11 @@ export interface ConfirmCloudProjectTerminationRequest {
   /** The project id */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** What next after your termination request */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** Reason of your termination request */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -1415,18 +1430,18 @@ export interface CopyCloudProjectRegionStorageObjectRequest {
   /** Key */
   key: string;
   /** Target Storage class. When copying an object within the same bucket with the same key, specify a different storage class to change an object's storage class. */
-  storageClass?: CloudStorageStorageClassEnum | (string & {}) | null;
+  storageClass?: CloudStorageStorageClassEnum | (string & {}) | null | undefined;
   /** Target bucket name. Can be the same as source bucket name to copy an object within the same bucket. */
-  targetBucket?: string;
+  targetBucket?: string | undefined;
   /** Target object key. */
-  targetKey?: string;
+  targetKey?: string | undefined;
 }
 /** Copy object output. */
 export interface CloudStorageCopyObjectOut {
   /** The entity tag is a hash of the object that reflects changes only to the contents. */
-  etag?: string;
+  etag?: string | undefined;
   /** Version ID of the copied object. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 export interface CopyCloudProjectRegionStorageObjectVersionRequest {
   /** Service name */
@@ -1440,11 +1455,11 @@ export interface CopyCloudProjectRegionStorageObjectVersionRequest {
   /** Version ID */
   versionId: string;
   /** Target Storage class. When copying an object within the same bucket with the same key, specify a different storage class to change an object's storage class. */
-  storageClass?: CloudStorageStorageClassEnum | (string & {}) | null;
+  storageClass?: CloudStorageStorageClassEnum | (string & {}) | null | undefined;
   /** Target bucket name. Can be the same as source bucket name to copy an object within the same bucket. */
-  targetBucket?: string;
+  targetBucket?: string | undefined;
   /** Target object key. */
-  targetKey?: string;
+  targetKey?: string | undefined;
 }
 /** Networking Egress definition */
 export interface CloudProjectLoadbalancerNetworkingEgressCreation {
@@ -1459,9 +1474,9 @@ export interface CloudProjectLoadbalancerNetworkingIngressCreation {
 /** Networking creation object */
 export interface CloudProjectLoadbalancerNetworkingNetworkingCreation {
   /** Networking definition for egress */
-  egress?: CloudProjectLoadbalancerNetworkingEgressCreation | null;
+  egress?: CloudProjectLoadbalancerNetworkingEgressCreation | null | undefined;
   /** Networking definition for ingress */
-  ingress?: CloudProjectLoadbalancerNetworkingIngressCreation | null;
+  ingress?: CloudProjectLoadbalancerNetworkingIngressCreation | null | undefined;
 }
 /** Size of the load balancer */
 export type CloudProjectLoadbalancerSizeEnum = "L" | "M" | "S";
@@ -1469,31 +1484,31 @@ export interface CreateApplicationLoadBalancerRequest {
   /** Service name */
   serviceName: string;
   /** Description of the load balancer */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the load balancer */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Networking definition */
-  networking?: CloudProjectLoadbalancerNetworkingNetworkingCreation | null;
+  networking?: CloudProjectLoadbalancerNetworkingNetworkingCreation | null | undefined;
   /** Openstack Region where the load balancer is hosted */
-  openstackRegion?: string;
+  openstackRegion?: string | undefined;
   /** Region where the load balancer is hosted */
   region: string;
   /** Size of the load balancer */
-  size?: CloudProjectLoadbalancerSizeEnum | (string & {}) | null;
+  size?: CloudProjectLoadbalancerSizeEnum | (string & {}) | null | undefined;
 }
 /** Address to reach the load balancer */
 export interface CloudProjectLoadbalancerAddress {
   /** IP version 4 */
-  ipv4?: string;
+  ipv4?: string | undefined;
   /** IP version 6 */
-  ipv6?: string | null;
+  ipv6?: string | null | undefined;
 }
 /** Information about version of the configuration */
 export interface CloudProjectLoadbalancerConfigurationVersion {
   /** Applied version of the configuration */
-  applied?: number;
+  applied?: number | undefined;
   /** Latest version of the configuration */
-  latest?: number;
+  latest?: number | undefined;
 }
 /** IP version 4 list */
 export type CloudProjectLoadbalancerAddressesIpv4List = Array<string>;
@@ -1502,9 +1517,9 @@ export type CloudProjectLoadbalancerAddressesIpv6List = Array<string>;
 /** IP list split in version 4 and 6 */
 export interface CloudProjectLoadbalancerAddresses {
   /** IP version 4 list */
-  ipv4?: CloudProjectLoadbalancerAddressesIpv4List;
+  ipv4?: CloudProjectLoadbalancerAddressesIpv4List | undefined;
   /** IP version 6 list */
-  ipv6?: CloudProjectLoadbalancerAddressesIpv6List | null;
+  ipv6?: CloudProjectLoadbalancerAddressesIpv6List | null | undefined;
 }
 /** Status of a load balancer */
 export type CloudProjectLoadbalancerStatusEnum =
@@ -1517,27 +1532,27 @@ export type CloudProjectLoadbalancerStatusEnum =
 /** A load balancer to handle application workload */
 export interface CloudProjectApplicationLoadBalancer {
   /** Address to reach the load balancer */
-  address?: CloudProjectLoadbalancerAddress;
+  address?: CloudProjectLoadbalancerAddress | undefined;
   /** Information about version of the configuration */
-  configuration?: CloudProjectLoadbalancerConfigurationVersion;
+  configuration?: CloudProjectLoadbalancerConfigurationVersion | undefined;
   /** Creation date and time of the load balancer */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Description of the load balancer */
-  description?: string | null;
+  description?: string | null | undefined;
   /** IPs used by the load balancer to contact backend's servers */
-  egressAddress?: CloudProjectLoadbalancerAddresses;
+  egressAddress?: CloudProjectLoadbalancerAddresses | undefined;
   /** ID of the load balancer */
-  id?: string;
+  id?: string | undefined;
   /** Name of the load balancer */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Openstack region where the load balancer is hosted */
-  openstackRegion?: string;
+  openstackRegion?: string | undefined;
   /** Region where the load balancer is hosted */
-  region?: string;
+  region?: string | undefined;
   /** Size of the load balancer */
-  size?: CloudProjectLoadbalancerSizeEnum;
+  size?: CloudProjectLoadbalancerSizeEnum | undefined;
   /** Status of a load balancer */
-  status?: CloudProjectLoadbalancerStatusEnum;
+  status?: CloudProjectLoadbalancerStatusEnum | undefined;
 }
 /** List of certificate ID */
 export type CreateApplicationLoadBalancerConfigurationRequestCertificatesList = Array<string>;
@@ -1556,17 +1571,17 @@ export interface CreateApplicationLoadBalancerConfigurationRequest {
   /** Application load balancer ID */
   applicationLoadBalancerId: string;
   /** All actions */
-  actions?: CloudProjectLoadbalancerActions | null;
+  actions?: CloudProjectLoadbalancerActions | null | undefined;
   /** List of certificate ID */
-  certificates?: CreateApplicationLoadBalancerConfigurationRequestCertificatesList;
+  certificates?: CreateApplicationLoadBalancerConfigurationRequestCertificatesList | undefined;
   /** List of conditions */
-  conditions?: CreateApplicationLoadBalancerConfigurationRequestConditionsList | null;
+  conditions?: CreateApplicationLoadBalancerConfigurationRequestConditionsList | null | undefined;
   /** List of entryPoints */
-  entryPoints?: CreateApplicationLoadBalancerConfigurationRequestEntryPointsList;
+  entryPoints?: CreateApplicationLoadBalancerConfigurationRequestEntryPointsList | undefined;
   /** networking configuration */
-  networking?: CloudProjectLoadbalancerConfigurationNetworkingNetworking | null;
+  networking?: CloudProjectLoadbalancerConfigurationNetworkingNetworking | null | undefined;
   /** List of targets */
-  targets?: CreateApplicationLoadBalancerConfigurationRequestTargetsList | null;
+  targets?: CreateApplicationLoadBalancerConfigurationRequestTargetsList | null | undefined;
 }
 /** Possible values for ACL type */
 export type CloudAclTypeEnum = "readOnly" | "readWrite";
@@ -1581,22 +1596,22 @@ export interface CreateCloudProjectAclRequest {
 /** Cloud ACL */
 export interface CloudAcl {
   /** OVH customer unique identifier */
-  accountId?: string;
+  accountId?: string | undefined;
   /** ACL type */
-  type?: CloudAclTypeEnum;
+  type?: CloudAclTypeEnum | undefined;
 }
 /** App command */
 export type CreateCloudProjectAiAppRequestCommandList = Array<string>;
 /** AI Solutions AI App deployment strategy object */
 export interface CloudProjectAiAppDeploymentStrategy {
   /** Maximum number of replicas that can be created over the desired number of Pods (can be expressed as a percentage of the desired pods, suffixed with '%') */
-  maxSurge?: string | null;
+  maxSurge?: string | null | undefined;
   /** Maximum number of replicas that can be unavailable during the update process (can be expressed as a percentage of the desired pods, suffixed with '%') */
-  maxUnavailable?: string | null;
+  maxUnavailable?: string | null | undefined;
   /** Number of seconds you want to wait for your Deployment to progress before the system reports back that the Deployment has failed progressing */
-  progressDeadlineSeconds?: number | null;
+  progressDeadlineSeconds?: number | null | undefined;
   /** Number of seconds we allow an app's replica to shutdown gracefully before we terminate it. Defaults to 30 seconds */
-  terminationGracePeriodSeconds?: number | null;
+  terminationGracePeriodSeconds?: number | null | undefined;
 }
 /** AI Solutions Job Env Object */
 export interface CloudProjectAiJobJobEnv {
@@ -1612,44 +1627,44 @@ export type CreateCloudProjectAiAppRequestLabelsMap = { [key: string]: string | 
 /** AI Solutions App Probe Object */
 export interface CloudProjectAiAppProbeInput {
   /** Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1. */
-  failureThreshold?: number | null;
+  failureThreshold?: number | null | undefined;
   /** Number of seconds after the container has started before liveness probes are initiated. */
-  initialDelaySeconds?: number | null;
+  initialDelaySeconds?: number | null | undefined;
   /** Path to access to check for readiness */
-  path?: string | null;
+  path?: string | null | undefined;
   /** How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. */
-  periodSeconds?: number | null;
+  periodSeconds?: number | null | undefined;
   /** Port to access to check for readiness */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Minimum consecutive successes for the probe to be considered successful after having failed. Defaults to 1. Must be 1 for liveness and startup. Minimum value is 1. */
-  successThreshold?: number | null;
+  successThreshold?: number | null | undefined;
   /** Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. */
-  timeoutSeconds?: number | null;
+  timeoutSeconds?: number | null | undefined;
 }
 /** AI Solutions Resource Object */
 export interface CloudProjectAiResourcesInput {
   /** Number of vCPU resources requested */
-  cpu?: number | null;
+  cpu?: number | null | undefined;
   /** The amount of ephemeral storage in bytes */
-  ephemeralStorage?: number | null;
+  ephemeralStorage?: number | null | undefined;
   /** Instance flavor */
-  flavor?: string | null;
+  flavor?: string | null | undefined;
   /** Number of desired units of the chosen flavor */
-  flavorCount?: number | null;
+  flavorCount?: number | null | undefined;
   /** Number of GPU resources requested */
-  gpu?: number | null;
+  gpu?: number | null | undefined;
   /** The GPU Brand */
-  gpuBrand?: string | null;
+  gpuBrand?: string | null | undefined;
   /** The GPU Memory in bytes */
-  gpuMemory?: number | null;
+  gpuMemory?: number | null | undefined;
   /** The GPU Model */
-  gpuModel?: string | null;
+  gpuModel?: string | null | undefined;
   /** The amount of memory in bytes */
-  memory?: number | null;
+  memory?: number | null | undefined;
   /** The private network bandwidth in bits per seconds */
-  privateNetwork?: number | null;
+  privateNetwork?: number | null | undefined;
   /** The public network bandwidth in bits per seconds */
-  publicNetwork?: number | null;
+  publicNetwork?: number | null | undefined;
 }
 /** Aggregation type for the custom metrics we want to deploy an AI deploy App on */
 export type CloudProjectAiAppCustomMetricsAggregationTypeEnum = "AVERAGE" | "MAX" | "MIN" | "SUM";
@@ -1658,61 +1673,65 @@ export type CloudProjectAiAppCustomMetricsFormatEnum = "JSON" | "PROMETHEUS" | "
 /** Scale an AI Deploy App based on a custom metric provided by a customer-exposed API */
 export interface CloudProjectAiAppAutomaticScalingStrategyCustomMetricsInput {
   /** aggregation type we apply on the custom metric used to scaled an AI Deploy App */
-  aggregationType?: CloudProjectAiAppCustomMetricsAggregationTypeEnum | (string & {});
+  aggregationType?: CloudProjectAiAppCustomMetricsAggregationTypeEnum | (string & {}) | undefined;
   /** Full URL of the API operation to call to get the metric value. Specific <SELF> placeholder can be given whenever metrics API is served by the deployed app itself. e.g : "http://<SELF>:6000/metrics" */
-  apiUrl?: string;
+  apiUrl?: string | undefined;
   /** format of the custom metric used to scaled an AI Deploy App */
-  format?: CloudProjectAiAppCustomMetricsFormatEnum | (string & {});
+  format?: CloudProjectAiAppCustomMetricsFormatEnum | (string & {}) | undefined;
   /** Target value to scale on */
-  targetValue?: number;
+  targetValue?: number | undefined;
   /** The location of the metric value in the response payload. The value is format specific, see https://keda.sh/docs/2.16/scalers/metrics-api/#trigger-specification for details */
-  valueLocation?: string;
+  valueLocation?: string | undefined;
 }
 /** Resource type for App automatic scaling strategy */
 export type CloudProjectAiAppScalingAutomaticStrategyResourceTypeEnum = "CPU" | "RAM";
 /** AI Solutions App automatic scaling strategy object */
 export interface CloudProjectAiAppScalingAutomaticStrategyInput {
   /** The average resource usage threshold that the app upscale or downscale will be triggered from, in percent */
-  averageUsageTarget?: number | null;
+  averageUsageTarget?: number | null | undefined;
   /** Number of seconds to wait before scaling app to 0 whenever there are no more HTTP/gRPC requests made to it. Only applies when replicasMin=0 */
-  cooldownPeriodSeconds?: number | null;
+  cooldownPeriodSeconds?: number | null | undefined;
   /** parameters to scale the AI Deploy App based on a custom metric provided by a customer-exposed API */
-  customMetrics?: CloudProjectAiAppAutomaticScalingStrategyCustomMetricsInput | null;
+  customMetrics?: CloudProjectAiAppAutomaticScalingStrategyCustomMetricsInput | null | undefined;
   /** Maximum number of replicas */
-  replicasMax?: number;
+  replicasMax?: number | undefined;
   /** Minimum number of replicas */
-  replicasMin?: number;
+  replicasMin?: number | undefined;
   /** Type of the resource to base the automatic scaling on */
-  resourceType?: CloudProjectAiAppScalingAutomaticStrategyResourceTypeEnum | (string & {}) | null;
+  resourceType?:
+    | CloudProjectAiAppScalingAutomaticStrategyResourceTypeEnum
+    | (string & {})
+    | null
+    | undefined;
   /** Number of seconds for which past recommendations should be considered while scaling down. Must be greater than or equal to zero and less than or equal to 3600 (one hour). */
-  scaleDownStabilizationWindowSeconds?: number | null;
+  scaleDownStabilizationWindowSeconds?: number | null | undefined;
   /** Number of seconds for which past recommendations should be considered while scaling up. Must be greater than or equal to zero and less than or equal to 3600 (one hour). */
-  scaleUpStabilizationWindowSeconds?: number | null;
+  scaleUpStabilizationWindowSeconds?: number | null | undefined;
 }
 /** AI Solutions App Status Object */
 export interface CloudProjectAiAppScalingFixedStrategyInput {
   /** Number of wanted replicas */
-  replicas?: number;
+  replicas?: number | undefined;
 }
 /** AI Solutions App Scaling Strategy Object */
 export interface CloudProjectAiAppScalingStrategyInput {
   /** Strategy setting a variable number of replicas, based on an average resource usage threshold (conflicts with 'fixed' property when both are not null) */
-  automatic?: CloudProjectAiAppScalingAutomaticStrategyInput | null;
+  automatic?: CloudProjectAiAppScalingAutomaticStrategyInput | null | undefined;
   /** Strategy setting a fix number of replicas (conflicts with 'automatic' property when both are not null) */
-  fixed?: CloudProjectAiAppScalingFixedStrategyInput | null;
+  fixed?: CloudProjectAiAppScalingFixedStrategyInput | null | undefined;
 }
 /** AI Solutions data store container Volume Object */
 export interface CloudProjectAiVolumeDataStore {
   /** Data store alias */
   alias: string;
   /** Name of the tar archive that needs to be saved */
-  archive?: string | null;
+  archive?: string | null | undefined;
   /** Data store container to attach */
   container: string;
   /** True if data is stored on OVHcloud AI's internal storage */
-  internal?: boolean | null;
+  internal?: boolean | null | undefined;
   /** Prefix to fetch only part of the volume */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
 }
 /** Permissions to apply on a volume */
 export type CloudProjectAiVolumePermissionEnum = "RO" | "RW" | "RWD";
@@ -1729,52 +1748,52 @@ export interface CloudProjectAiVolumePublicSwift {
 /** AI Solutions No Source Volume Object */
 export interface CloudProjectAiVolumeStandalone {
   /** Name of the volume */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** AI Solutions VolumeSource Object. Describes a source (object store) volume */
 export interface CloudProjectAiVolumeVolumeSource {
   /** Volume details for data store containers */
-  dataStore?: CloudProjectAiVolumeDataStore | null;
+  dataStore?: CloudProjectAiVolumeDataStore | null | undefined;
   /** Volume details for public git repositories */
-  publicGit?: CloudProjectAiVolumePublicGit | null;
+  publicGit?: CloudProjectAiVolumePublicGit | null | undefined;
   /** Volume details for public swift containers */
-  publicSwift?: CloudProjectAiVolumePublicSwift | null;
+  publicSwift?: CloudProjectAiVolumePublicSwift | null | undefined;
   /** Volume details for volumes that do not have a datasource */
-  standalone?: CloudProjectAiVolumeStandalone | null;
+  standalone?: CloudProjectAiVolumeStandalone | null | undefined;
 }
 /** AI Solutions VolumeTarget Object. Describes a target (object store) volume */
 export interface CloudProjectAiVolumeVolumeTarget {
   /** Volume details for data store containers */
-  targetDataStore?: CloudProjectAiVolumeDataStore | null;
+  targetDataStore?: CloudProjectAiVolumeDataStore | null | undefined;
 }
 /** AI Solutions Volume Object */
 export interface CloudProjectAiVolumeVolumeInput {
   /** Enable/disable volume caching */
-  cache?: boolean;
+  cache?: boolean | undefined;
   /** Public Cloud Storage container to attach */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Volume details for data store containers. Deprecated: Use volumeSource.dataStore instead */
-  dataStore?: CloudProjectAiVolumeDataStore | null;
+  dataStore?: CloudProjectAiVolumeDataStore | null | undefined;
   /** Path where to mount the data inside the container */
   mountPath: string;
   /** Permissions to use on the mounted volume */
   permission: CloudProjectAiVolumePermissionEnum | (string & {});
   /** Prefix to fetch only part of the volume */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Volume details for public git repositories. Deprecated: Use volumeSource.publicGit instead */
-  publicGit?: CloudProjectAiVolumePublicGit | null;
+  publicGit?: CloudProjectAiVolumePublicGit | null | undefined;
   /** Volume details for public swift containers. Deprecated: Use volumeSource.publicSwift instead */
-  publicSwift?: CloudProjectAiVolumePublicSwift | null;
+  publicSwift?: CloudProjectAiVolumePublicSwift | null | undefined;
   /** Public Cloud Storage Region */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Volume details for volumes that do not have a datasource. Deprecated: Use volumeSource.standalone instead */
-  standalone?: CloudProjectAiVolumeStandalone | null;
+  standalone?: CloudProjectAiVolumeStandalone | null | undefined;
   /** Target volume details for data store containers. Deprecated: Use volumeTarget.targetDataStore instead */
-  targetDataStore?: CloudProjectAiVolumeDataStore | null;
+  targetDataStore?: CloudProjectAiVolumeDataStore | null | undefined;
   /** Source volume details */
-  volumeSource?: CloudProjectAiVolumeVolumeSource | null;
+  volumeSource?: CloudProjectAiVolumeVolumeSource | null | undefined;
   /** Target volume details */
-  volumeTarget?: CloudProjectAiVolumeVolumeTarget | null;
+  volumeTarget?: CloudProjectAiVolumeVolumeTarget | null | undefined;
 }
 /** App Data linked */
 export type CreateCloudProjectAiAppRequestVolumesList = Array<CloudProjectAiVolumeVolumeInput>;
@@ -1782,37 +1801,37 @@ export interface CreateCloudProjectAiAppRequest {
   /** Service name */
   serviceName: string;
   /** App command */
-  command?: CreateCloudProjectAiAppRequestCommandList | null;
+  command?: CreateCloudProjectAiAppRequestCommandList | null | undefined;
   /** Default port to access http service inside the app */
-  defaultHttpPort?: number | null;
+  defaultHttpPort?: number | null | undefined;
   /** AI App deployment strategy */
-  deploymentStrategy?: CloudProjectAiAppDeploymentStrategy | null;
+  deploymentStrategy?: CloudProjectAiAppDeploymentStrategy | null | undefined;
   /** List of environment variable to be set inside the app */
-  envVars?: CreateCloudProjectAiAppRequestEnvVarsList | null;
+  envVars?: CreateCloudProjectAiAppRequestEnvVarsList | null | undefined;
   /** GRPC Port that we want to expose in case workload HTTP & gRPC servers cannot be multiplexed to listen on the same port */
-  grpcPort?: number | null;
+  grpcPort?: number | null | undefined;
   /** Docker or capability image to use in the app. App capability images must comply with the pattern 'image-id:version' */
   image: string;
   /** Labels are used to scope tokens, labels prefixed by 'ovh/' are owned by the platform and overridden */
-  labels?: CreateCloudProjectAiAppRequestLabelsMap | null;
+  labels?: CreateCloudProjectAiAppRequestLabelsMap | null | undefined;
   /** App liveness probe */
-  livenessProbe?: CloudProjectAiAppProbeInput | null;
+  livenessProbe?: CloudProjectAiAppProbeInput | null | undefined;
   /** App name */
-  name?: string;
+  name?: string | undefined;
   /** Partner ID */
-  partnerId?: string | null;
+  partnerId?: string | null | undefined;
   /** App readiness probe */
-  probe?: CloudProjectAiAppProbeInput | null;
+  probe?: CloudProjectAiAppProbeInput | null | undefined;
   /** Host region of the app */
   region: string;
   /** App resources */
   resources: CloudProjectAiResourcesInput;
   /** App scaling strategy */
-  scalingStrategy?: CloudProjectAiAppScalingStrategyInput | null;
+  scalingStrategy?: CloudProjectAiAppScalingStrategyInput | null | undefined;
   /** Whether if app api port can be accessed without any authentication token */
-  unsecureHttp?: boolean | null;
+  unsecureHttp?: boolean | null | undefined;
   /** App Data linked */
-  volumes?: CreateCloudProjectAiAppRequestVolumesList | null;
+  volumes?: CreateCloudProjectAiAppRequestVolumesList | null | undefined;
 }
 /** App command */
 export type CloudProjectAiAppAppSpecCommandList = Array<string>;
@@ -1825,147 +1844,147 @@ export type CloudProjectAiAppProbe = CloudProjectAiAppProbeInput;
 /** AI Solutions Resource Object */
 export interface CloudProjectAiResources {
   /** Number of vCPU resources requested */
-  cpu?: number;
+  cpu?: number | undefined;
   /** The amount of ephemeral storage in bytes */
-  ephemeralStorage?: number;
+  ephemeralStorage?: number | undefined;
   /** Current instance flavor */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Number of desired units of the chosen flavor */
-  flavorCount?: number | null;
+  flavorCount?: number | null | undefined;
   /** Number of GPU resources requested */
-  gpu?: number;
+  gpu?: number | undefined;
   /** The GPU Brand */
-  gpuBrand?: string | null;
+  gpuBrand?: string | null | undefined;
   /** The GPU Memory in bits */
-  gpuMemory?: number | null;
+  gpuMemory?: number | null | undefined;
   /** The GPU Model */
-  gpuModel?: string | null;
+  gpuModel?: string | null | undefined;
   /** The amount of memory in bytes */
-  memory?: number;
+  memory?: number | undefined;
   /** The guarantee private bandwidth in bytes per seconds */
-  privateNetwork?: number;
+  privateNetwork?: number | undefined;
   /** The guarantee public bandwidth in bytes per seconds */
-  publicNetwork?: number;
+  publicNetwork?: number | undefined;
 }
 /** Scale an AI Deploy App based on a custom metric provided by a customer-exposed API */
 export interface CloudProjectAiAppAutomaticScalingStrategyCustomMetrics {
   /** aggregation type we apply on the custom metric used to scaled an AI Deploy App */
-  aggregationType?: CloudProjectAiAppCustomMetricsAggregationTypeEnum;
+  aggregationType?: CloudProjectAiAppCustomMetricsAggregationTypeEnum | undefined;
   /** Full URL of the API operation to call to get the metric value. Specific <SELF> placeholder can be given whenever metrics API is served by the deployed app itself. e.g : "http://<SELF>:6000/metrics" */
-  apiUrl?: string;
+  apiUrl?: string | undefined;
   /** format of the custom metric used to scaled an AI Deploy App */
-  format?: CloudProjectAiAppCustomMetricsFormatEnum;
+  format?: CloudProjectAiAppCustomMetricsFormatEnum | undefined;
   /** Target value to scale on */
-  targetValue?: number;
+  targetValue?: number | undefined;
   /** The location of the metric value in the response payload. The value is format specific, see https://keda.sh/docs/2.16/scalers/metrics-api/#trigger-specification for details */
-  valueLocation?: string;
+  valueLocation?: string | undefined;
 }
 /** AI Solutions App automatic scaling strategy object */
 export interface CloudProjectAiAppScalingAutomaticStrategy {
   /** The average resource usage threshold that the app upscale or downscale will be triggered from, in percent */
-  averageUsageTarget?: number | null;
+  averageUsageTarget?: number | null | undefined;
   /** Number of seconds to wait before scaling app to 0 whenever there are no more HTTP/gRPC requests made to it. Only applies when replicasMin=0 */
-  cooldownPeriodSeconds?: number | null;
+  cooldownPeriodSeconds?: number | null | undefined;
   /** parameters to scale the AI Deploy App based on a custom metric provided by a customer-exposed API */
-  customMetrics?: CloudProjectAiAppAutomaticScalingStrategyCustomMetrics | null;
+  customMetrics?: CloudProjectAiAppAutomaticScalingStrategyCustomMetrics | null | undefined;
   /** Maximum number of replicas */
-  replicasMax?: number;
+  replicasMax?: number | undefined;
   /** Minimum number of replicas */
-  replicasMin?: number | null;
+  replicasMin?: number | null | undefined;
   /** Type of the resource to base the automatic scaling on */
-  resourceType?: CloudProjectAiAppScalingAutomaticStrategyResourceTypeEnum | null;
+  resourceType?: CloudProjectAiAppScalingAutomaticStrategyResourceTypeEnum | null | undefined;
   /** Number of seconds for which past recommendations should be considered while scaling down. Must be greater than or equal to zero and less than or equal to 3600 (one hour). */
-  scaleDownStabilizationWindowSeconds?: number | null;
+  scaleDownStabilizationWindowSeconds?: number | null | undefined;
   /** Number of seconds for which past recommendations should be considered while scaling up. Must be greater than or equal to zero and less than or equal to 3600 (one hour). */
-  scaleUpStabilizationWindowSeconds?: number | null;
+  scaleUpStabilizationWindowSeconds?: number | null | undefined;
 }
 /** AI Solutions App Status Object */
 export type CloudProjectAiAppScalingFixedStrategy = CloudProjectAiAppScalingFixedStrategyInput;
 /** AI Solutions App Scaling Strategy Object */
 export interface CloudProjectAiAppScalingStrategy {
   /** Strategy setting a variable number of replicas, based on an average resource usage threshold */
-  automatic?: CloudProjectAiAppScalingAutomaticStrategy | null;
+  automatic?: CloudProjectAiAppScalingAutomaticStrategy | null | undefined;
   /** Strategy setting a fix number of replicas */
-  fixed?: CloudProjectAiAppScalingFixedStrategyInput | null;
+  fixed?: CloudProjectAiAppScalingFixedStrategyInput | null | undefined;
 }
 /** AI Solutions Volume Object */
 export interface CloudProjectAiVolumeVolume {
   /** Enable/disable volume caching */
-  cache?: boolean;
+  cache?: boolean | undefined;
   /** Public Cloud Storage container to attach */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Volume details for data store containers. Deprecated: Use volumeSource.dataStore instead */
-  dataStore?: CloudProjectAiVolumeDataStore | null;
+  dataStore?: CloudProjectAiVolumeDataStore | null | undefined;
   /** Volume Id. Deprecated: moved to status.volumes[] */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Path where to mount the data inside the container */
   mountPath: string;
   /** Permissions to use on the mounted volume */
   permission: CloudProjectAiVolumePermissionEnum;
   /** Prefix to fetch only part of the volume */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Volume details for public git repositories. Deprecated: Use volumeSource.publicGit instead */
-  publicGit?: CloudProjectAiVolumePublicGit | null;
+  publicGit?: CloudProjectAiVolumePublicGit | null | undefined;
   /** Volume details for public swift containers. Deprecated: Use volumeSource.publicSwift instead */
-  publicSwift?: CloudProjectAiVolumePublicSwift | null;
+  publicSwift?: CloudProjectAiVolumePublicSwift | null | undefined;
   /** Public Cloud Storage Region */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Volume details for volumes that do not have a datasource. Deprecated: Use volumeSource.standalone instead */
-  standalone?: CloudProjectAiVolumeStandalone | null;
+  standalone?: CloudProjectAiVolumeStandalone | null | undefined;
   /** Target volume details for data store containers. Deprecated: Use volumeTarget.targetDataStore instead */
-  targetDataStore?: CloudProjectAiVolumeDataStore | null;
+  targetDataStore?: CloudProjectAiVolumeDataStore | null | undefined;
   /** Source volume details */
-  volumeSource?: CloudProjectAiVolumeVolumeSource | null;
+  volumeSource?: CloudProjectAiVolumeVolumeSource | null | undefined;
   /** Target volume details */
-  volumeTarget?: CloudProjectAiVolumeVolumeTarget | null;
+  volumeTarget?: CloudProjectAiVolumeVolumeTarget | null | undefined;
 }
 /** App Data linked */
 export type CloudProjectAiAppAppSpecVolumesList = Array<CloudProjectAiVolumeVolume>;
 /** AI Solutions App Spec Object to create an app */
 export interface CloudProjectAiAppAppSpec {
   /** App command */
-  command?: CloudProjectAiAppAppSpecCommandList | null;
+  command?: CloudProjectAiAppAppSpecCommandList | null | undefined;
   /** Default port to access the http service inside the app */
-  defaultHttpPort?: number | null;
+  defaultHttpPort?: number | null | undefined;
   /** AI App deployment strategy */
-  deploymentStrategy?: CloudProjectAiAppDeploymentStrategy | null;
+  deploymentStrategy?: CloudProjectAiAppDeploymentStrategy | null | undefined;
   /** List of environment variable to be set inside the app */
-  envVars?: CloudProjectAiAppAppSpecEnvVarsList | null;
+  envVars?: CloudProjectAiAppAppSpecEnvVarsList | null | undefined;
   /** GRPC Port that we want to expose in case workload HTTP & gRPC servers cannot be multiplexed to listen on the same port */
-  grpcPort?: number | null;
+  grpcPort?: number | null | undefined;
   /** App image */
-  image?: string;
+  image?: string | undefined;
   /** Labels for the app */
-  labels?: CloudProjectAiAppAppSpecLabelsMap | null;
+  labels?: CloudProjectAiAppAppSpecLabelsMap | null | undefined;
   /** App liveness probe */
-  livenessProbe?: CloudProjectAiAppProbeInput | null;
+  livenessProbe?: CloudProjectAiAppProbeInput | null | undefined;
   /** App name */
-  name?: string;
+  name?: string | undefined;
   /** Partner ID */
-  partnerId?: string | null;
+  partnerId?: string | null | undefined;
   /** App readiness probe */
-  probe?: CloudProjectAiAppProbeInput | null;
+  probe?: CloudProjectAiAppProbeInput | null | undefined;
   /** Host region of the app */
-  region?: string;
+  region?: string | undefined;
   /** App resources */
-  resources?: CloudProjectAiResources;
+  resources?: CloudProjectAiResources | undefined;
   /** App scaling strategy */
-  scalingStrategy?: CloudProjectAiAppScalingStrategy | null;
+  scalingStrategy?: CloudProjectAiAppScalingStrategy | null | undefined;
   /** True if app api port can be accessed without any authentication token, false otherwise */
-  unsecureHttp?: boolean | null;
+  unsecureHttp?: boolean | null | undefined;
   /** App Data linked */
-  volumes?: CloudProjectAiAppAppSpecVolumesList | null;
+  volumes?: CloudProjectAiAppAppSpecVolumesList | null | undefined;
 }
 /** Data Sync Direction */
 export type CloudProjectAiVolumeDataSyncEnum = "pull" | "push";
 /** AI Solutions Data Sync Spec */
 export interface CloudProjectAiVolumeDataSyncSpec {
   /** Direction of the sync */
-  direction?: CloudProjectAiVolumeDataSyncEnum;
+  direction?: CloudProjectAiVolumeDataSyncEnum | undefined;
   /** True if the user has created the object */
-  manual?: boolean;
+  manual?: boolean | undefined;
   /** Only sync this volume */
-  volume?: string | null;
+  volume?: string | null | undefined;
 }
 /** Code enum for Info object */
 export type CloudProjectAiInfoCodeEnum =
@@ -2031,9 +2050,9 @@ export type CloudProjectAiInfoCodeEnum =
 /** Information about the state of this entity */
 export interface CloudProjectAiInfo {
   /** Info code identifier */
-  code?: CloudProjectAiInfoCodeEnum;
+  code?: CloudProjectAiInfoCodeEnum | undefined;
   /** Formatted message */
-  message?: string;
+  message?: string | undefined;
 }
 /** State of the progress sync */
 export type CloudProjectAiVolumeDataSyncProgressStateEnum =
@@ -2051,33 +2070,33 @@ export type CloudProjectAiVolumeDataSyncProgressStateEnum =
 /** AI Solutions Progress Object */
 export interface CloudProjectAiVolumeProgress {
   /** Number of completed files */
-  completed?: number;
+  completed?: number | undefined;
   /** Progress creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Number of deleted files */
-  deleted?: number;
+  deleted?: number | undefined;
   /** Direction of the progress sync */
-  direction?: CloudProjectAiVolumeDataSyncEnum;
+  direction?: CloudProjectAiVolumeDataSyncEnum | undefined;
   /** ETA to finish in seconds. Deprecated */
-  eta?: number | null;
+  eta?: number | null | undefined;
   /** Number of failed files */
-  failed?: number;
+  failed?: number | undefined;
   /** Progress Id */
-  id?: string;
+  id?: string | undefined;
   /** Volume information */
-  info?: string;
+  info?: string | undefined;
   /** Number of processed files */
-  processed?: number;
+  processed?: number | undefined;
   /** Number of skipped files */
-  skipped?: number;
+  skipped?: number | undefined;
   /** State of the progress sync */
-  state?: CloudProjectAiVolumeDataSyncProgressStateEnum;
+  state?: CloudProjectAiVolumeDataSyncProgressStateEnum | undefined;
   /** Total number of files */
-  total?: number;
+  total?: number | undefined;
   /** Transferred size in bytes */
-  transferredBytes?: number;
+  transferredBytes?: number | undefined;
   /** Progress update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Progress status of the data sync */
 export type CloudProjectAiVolumeDataSyncStatusProgressList = Array<CloudProjectAiVolumeProgress>;
@@ -2092,30 +2111,30 @@ export type CloudProjectAiVolumeDataSyncStateEnum =
 /** AI Solutions Data Sync Status */
 export interface CloudProjectAiVolumeDataSyncStatus {
   /** Date when the data sync ended */
-  endedAt?: string | null;
+  endedAt?: string | null | undefined;
   /** Information about the data sync */
-  info?: CloudProjectAiInfo;
+  info?: CloudProjectAiInfo | undefined;
   /** Progress status of the data sync */
-  progress?: CloudProjectAiVolumeDataSyncStatusProgressList;
+  progress?: CloudProjectAiVolumeDataSyncStatusProgressList | undefined;
   /** Date when the data sync was queued */
-  queuedAt?: string;
+  queuedAt?: string | undefined;
   /** Date when the data sync was started */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
   /** State of the data sync */
-  state?: CloudProjectAiVolumeDataSyncStateEnum;
+  state?: CloudProjectAiVolumeDataSyncStateEnum | undefined;
 }
 /** AI Solutions Data Sync */
 export interface CloudProjectAiVolumeDataSync {
   /** Data Sync creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Data Sync Id */
-  id?: string;
+  id?: string | undefined;
   /** Data Sync specifications */
-  spec?: CloudProjectAiVolumeDataSyncSpec;
+  spec?: CloudProjectAiVolumeDataSyncSpec | undefined;
   /** Data Sync status */
-  status?: CloudProjectAiVolumeDataSyncStatus;
+  status?: CloudProjectAiVolumeDataSyncStatus | undefined;
   /** Data Sync update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Status about the datasync linked to the app */
 export type CloudProjectAiAppAppStatusDataSyncList = Array<CloudProjectAiVolumeDataSync>;
@@ -2135,64 +2154,64 @@ export type CloudProjectAiAppAppStateEnum =
 /** AI Solutions App State History Object */
 export interface CloudProjectAiAppAppStateHistory {
   /** Date when the status occurred */
-  date?: string;
+  date?: string | undefined;
   /** State of the app */
-  state?: CloudProjectAiAppAppStateEnum;
+  state?: CloudProjectAiAppAppStateEnum | undefined;
 }
 /** Job state history */
 export type CloudProjectAiAppAppStatusHistoryList = Array<CloudProjectAiAppAppStateHistory>;
 /** AI Solutions Volume Object */
 export interface CloudProjectAiVolumeVolumeStatus {
   /** Volume Id */
-  id?: string;
+  id?: string | undefined;
   /** Path where the data is mounted inside the container */
-  mountPath?: string;
+  mountPath?: string | undefined;
   /** User volume Id */
-  userVolumeId?: string;
+  userVolumeId?: string | undefined;
 }
 /** App Data linked */
 export type CloudProjectAiAppAppStatusVolumesList = Array<CloudProjectAiVolumeVolumeStatus>;
 /** AI Solutions App Status Object */
 export interface CloudProjectAiAppAppStatus {
   /** Number of available replicas */
-  availableReplicas?: number;
+  availableReplicas?: number | undefined;
   /** Status about the datasync linked to the app */
-  dataSync?: CloudProjectAiAppAppStatusDataSyncList;
+  dataSync?: CloudProjectAiAppAppStatusDataSyncList | undefined;
   /** Address to reach when you want to access the App's gRPC services */
-  grpcAddress?: string | null;
+  grpcAddress?: string | null | undefined;
   /** Job state history */
-  history?: CloudProjectAiAppAppStatusHistoryList;
+  history?: CloudProjectAiAppAppStatusHistoryList | undefined;
   /** Information about the app */
-  info?: CloudProjectAiInfo;
+  info?: CloudProjectAiInfo | undefined;
   /** App info url */
-  infoUrl?: string | null;
+  infoUrl?: string | null | undefined;
   /** Internal IP address of the app service */
-  internalServiceIp?: string | null;
+  internalServiceIp?: string | null | undefined;
   /** Date of the last app state change */
-  lastTransitionDate?: string | null;
+  lastTransitionDate?: string | null | undefined;
   /** App resource usage url */
-  monitoringUrl?: string | null;
+  monitoringUrl?: string | null | undefined;
   /** State of the app */
-  state?: CloudProjectAiAppAppStateEnum | null;
+  state?: CloudProjectAiAppAppStateEnum | null | undefined;
   /** App access url */
-  url?: string | null;
+  url?: string | null | undefined;
   /** App Data linked */
-  volumes?: CloudProjectAiAppAppStatusVolumesList | null;
+  volumes?: CloudProjectAiAppAppStatusVolumesList | null | undefined;
 }
 /** AI Solutions Platform App Object */
 export interface CloudProjectAiAppApp {
   /** App creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** App Id */
-  id?: string;
+  id?: string | undefined;
   /** App spec */
-  spec?: CloudProjectAiAppAppSpec;
+  spec?: CloudProjectAiAppAppSpec | undefined;
   /** App Container Status */
-  status?: CloudProjectAiAppAppStatus;
+  status?: CloudProjectAiAppAppStatus | undefined;
   /** App last update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** App user owner */
-  user?: string;
+  user?: string | undefined;
 }
 /** App command */
 export type CreateCloudProjectAiAppCommandRequestCommandList = Array<string>;
@@ -2207,42 +2226,42 @@ export interface CreateCloudProjectAiAppCommandRequest {
   /** Service name */
   serviceName: string;
   /** App command */
-  command?: CreateCloudProjectAiAppCommandRequestCommandList | null;
+  command?: CreateCloudProjectAiAppCommandRequestCommandList | null | undefined;
   /** Default port to access http service inside the app */
-  defaultHttpPort?: number | null;
+  defaultHttpPort?: number | null | undefined;
   /** AI App deployment strategy */
-  deploymentStrategy?: CloudProjectAiAppDeploymentStrategy | null;
+  deploymentStrategy?: CloudProjectAiAppDeploymentStrategy | null | undefined;
   /** List of environment variable to be set inside the app */
-  envVars?: CreateCloudProjectAiAppCommandRequestEnvVarsList | null;
+  envVars?: CreateCloudProjectAiAppCommandRequestEnvVarsList | null | undefined;
   /** GRPC Port that we want to expose in case workload HTTP & gRPC servers cannot be multiplexed to listen on the same port */
-  grpcPort?: number | null;
+  grpcPort?: number | null | undefined;
   /** Docker or capability image to use in the app. App capability images must comply with the pattern 'image-id:version' */
   image: string;
   /** Labels are used to scope tokens, labels prefixed by 'ovh/' are owned by the platform and overridden */
-  labels?: CreateCloudProjectAiAppCommandRequestLabelsMap | null;
+  labels?: CreateCloudProjectAiAppCommandRequestLabelsMap | null | undefined;
   /** App liveness probe */
-  livenessProbe?: CloudProjectAiAppProbeInput | null;
+  livenessProbe?: CloudProjectAiAppProbeInput | null | undefined;
   /** App name */
-  name?: string;
+  name?: string | undefined;
   /** Partner ID */
-  partnerId?: string | null;
+  partnerId?: string | null | undefined;
   /** App readiness probe */
-  probe?: CloudProjectAiAppProbeInput | null;
+  probe?: CloudProjectAiAppProbeInput | null | undefined;
   /** Host region of the app */
   region: string;
   /** App resources */
   resources: CloudProjectAiResourcesInput;
   /** App scaling strategy */
-  scalingStrategy?: CloudProjectAiAppScalingStrategyInput | null;
+  scalingStrategy?: CloudProjectAiAppScalingStrategyInput | null | undefined;
   /** Whether if app api port can be accessed without any authentication token */
-  unsecureHttp?: boolean | null;
+  unsecureHttp?: boolean | null | undefined;
   /** App Data linked */
-  volumes?: CreateCloudProjectAiAppCommandRequestVolumesList | null;
+  volumes?: CreateCloudProjectAiAppCommandRequestVolumesList | null | undefined;
 }
 /** AI Solutions CLI command */
 export interface CloudProjectAiCommand {
   /** AI Solutions CLI command */
-  command?: string;
+  command?: string | undefined;
 }
 export interface CreateCloudProjectAiAppDatasyncRequest {
   /** Service name */
@@ -2250,9 +2269,9 @@ export interface CreateCloudProjectAiAppDatasyncRequest {
   /** App ID */
   appId: string;
   /** Direction of the sync */
-  direction?: CloudProjectAiVolumeDataSyncEnum | (string & {});
+  direction?: CloudProjectAiVolumeDataSyncEnum | (string & {}) | undefined;
   /** Only sync this volume */
-  volume?: string | null;
+  volume?: string | null | undefined;
 }
 export interface CreateCloudProjectAiAuthorizationRequest {
   /** Service name */
@@ -2271,14 +2290,14 @@ export interface CloudProjectAiSshCredentialsInput {
   /** SSH private key */
   privateKey: string | Redacted.Redacted<string>;
   /** SSH public key */
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 /** AI Solutions data store git credentials input */
 export interface CloudProjectAiGitCredentialsInput {
   /** Basic Auth data store credentials */
-  basicAuth?: CloudProjectAiBasicAuthCredentialsInput | null;
+  basicAuth?: CloudProjectAiBasicAuthCredentialsInput | null | undefined;
   /** SSH data store credentials */
-  sshKeypair?: CloudProjectAiSshCredentialsInput | null;
+  sshKeypair?: CloudProjectAiSshCredentialsInput | null | undefined;
 }
 /** AI Solutions S3(TM) compatible credentials */
 export interface CloudProjectAiS3CredentialsInput {
@@ -2292,9 +2311,9 @@ export interface CloudProjectAiS3CredentialsInput {
 /** AI Solutions data store credentials Object */
 export interface CloudProjectAiDataStoreCredentialsInput {
   /** Git data store credentials */
-  git?: CloudProjectAiGitCredentialsInput | null;
+  git?: CloudProjectAiGitCredentialsInput | null | undefined;
   /** S3(TM) compatible data store credentials */
-  s3?: CloudProjectAiS3CredentialsInput | null;
+  s3?: CloudProjectAiS3CredentialsInput | null | undefined;
 }
 /** Data Store Owner */
 export type CloudProjectAiDataStoreOwnerEnum = "customer" | "ovhcloud";
@@ -2306,7 +2325,7 @@ export interface CreateCloudProjectAiDataRegionAliasRequest {
   /** Region */
   region: string;
   /** If set to true, it will skip the data store connection check */
-  skipDataStoreConnectionCheck?: boolean;
+  skipDataStoreConnectionCheck?: boolean | undefined;
   /** Data store alias */
   alias: string;
   /** Data store credentials */
@@ -2316,20 +2335,20 @@ export interface CreateCloudProjectAiDataRegionAliasRequest {
   /** Data store owner */
   owner: CloudProjectAiDataStoreOwnerEnum | (string & {});
   /** Data store prefix */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Data store type */
   type: CloudProjectAiDataStoreTypeEnum | (string & {});
 }
 /** AI Solutions data store container Volume Object */
 export interface CloudProjectAiDataStore {
   /** Data store alias */
-  alias?: string;
+  alias?: string | undefined;
   /** Data store endpoint URL */
-  endpoint?: string | null;
+  endpoint?: string | null | undefined;
   /** Owner type of the datastore */
-  owner?: CloudProjectAiDataStoreOwnerEnum;
+  owner?: CloudProjectAiDataStoreOwnerEnum | undefined;
   /** Type of the datastore */
-  type?: CloudProjectAiDataStoreTypeEnum;
+  type?: CloudProjectAiDataStoreTypeEnum | undefined;
 }
 /** Job command */
 export type CreateCloudProjectAiJobRequestCommandList = Array<string>;
@@ -2345,37 +2364,37 @@ export interface CreateCloudProjectAiJobRequest {
   /** Service name */
   serviceName: string;
   /** Job command */
-  command?: CreateCloudProjectAiJobRequestCommandList | null;
+  command?: CreateCloudProjectAiJobRequestCommandList | null | undefined;
   /** Port use as the default one to access http service inside job */
-  defaultHttpPort?: number | null;
+  defaultHttpPort?: number | null | undefined;
   /** List of environment variable to be set inside job */
-  envVars?: CreateCloudProjectAiJobRequestEnvVarsList | null;
+  envVars?: CreateCloudProjectAiJobRequestEnvVarsList | null | undefined;
   /** GRPC Port that we want to expose in case workload HTTP & gRPC servers cannot be multiplexed to listen on the same port */
-  grpcPort?: number | null;
+  grpcPort?: number | null | undefined;
   /** Job image */
   image: string;
   /** Labels are used to scope tokens, labels prefixed by 'ovh/' are owned by the platform and overridden */
-  labels?: CreateCloudProjectAiJobRequestLabelsMap | null;
+  labels?: CreateCloudProjectAiJobRequestLabelsMap | null | undefined;
   /** Job name */
-  name?: string;
+  name?: string | undefined;
   /** Partner ID */
-  partnerId?: string | null;
+  partnerId?: string | null | undefined;
   /** User ID to use to access the job */
-  readUser?: string | null;
+  readUser?: string | null | undefined;
   /** Host region of the job */
   region: string;
   /** Job resources */
   resources: CloudProjectAiResourcesInput;
   /** SSH keys authorized to access to the job container */
-  sshPublicKeys?: CreateCloudProjectAiJobRequestSshPublicKeysList | null;
+  sshPublicKeys?: CreateCloudProjectAiJobRequestSshPublicKeysList | null | undefined;
   /** Maximum time to spend before killing the job */
-  timeout?: number | null;
+  timeout?: number | null | undefined;
   /** Whether job is set to be restarted after timeout */
-  timeoutAutoRestart?: boolean | null;
+  timeoutAutoRestart?: boolean | null | undefined;
   /** Whether job api port can be accessed without any authentication token */
-  unsecureHttp?: boolean | null;
+  unsecureHttp?: boolean | null | undefined;
   /** Job Data linked */
-  volumes?: CreateCloudProjectAiJobRequestVolumesList | null;
+  volumes?: CreateCloudProjectAiJobRequestVolumesList | null | undefined;
 }
 /** Job command */
 export type CloudProjectAiJobJobSpecCommandList = Array<string>;
@@ -2392,39 +2411,39 @@ export type CloudProjectAiJobJobSpecVolumesList = Array<CloudProjectAiVolumeVolu
 /** AI Solutions Job Spec Object to create a job */
 export interface CloudProjectAiJobJobSpec {
   /** Job command */
-  command?: CloudProjectAiJobJobSpecCommandList | null;
+  command?: CloudProjectAiJobJobSpecCommandList | null | undefined;
   /** Port use as the default one to access http service inside job */
-  defaultHttpPort?: number | null;
+  defaultHttpPort?: number | null | undefined;
   /** List of environment variable to be set inside job */
-  envVars?: CloudProjectAiJobJobSpecEnvVarsList | null;
+  envVars?: CloudProjectAiJobJobSpecEnvVarsList | null | undefined;
   /** GRPC Port that we want to expose in case workload HTTP & gRPC servers cannot be multiplexed to listen on the same port */
-  grpcPort?: number | null;
+  grpcPort?: number | null | undefined;
   /** Job image */
-  image?: string;
+  image?: string | undefined;
   /** Labels for the job */
-  labels?: CloudProjectAiJobJobSpecLabelsMap | null;
+  labels?: CloudProjectAiJobJobSpecLabelsMap | null | undefined;
   /** Job name */
-  name?: string;
+  name?: string | undefined;
   /** Partner ID */
-  partnerId?: string | null;
+  partnerId?: string | null | undefined;
   /** User ID to use to access the job */
-  readUser?: string | null;
+  readUser?: string | null | undefined;
   /** Host region of the job */
-  region?: string;
+  region?: string | undefined;
   /** Job resources */
-  resources?: CloudProjectAiResources;
+  resources?: CloudProjectAiResources | undefined;
   /** Shutdown strategy (if any) */
-  shutdown?: CloudProjectAiShutdownStrategyEnum | null;
+  shutdown?: CloudProjectAiShutdownStrategyEnum | null | undefined;
   /** SSH keys authorized to access to the job container */
-  sshPublicKeys?: CloudProjectAiJobJobSpecSshPublicKeysList | null;
+  sshPublicKeys?: CloudProjectAiJobJobSpecSshPublicKeysList | null | undefined;
   /** Maximum time to spend before killing the job */
-  timeout?: number | null;
+  timeout?: number | null | undefined;
   /** Whether job should be restarted after timeout */
-  timeoutAutoRestart?: boolean | null;
+  timeoutAutoRestart?: boolean | null | undefined;
   /** Whether job api port can be accessed without any authentication token */
-  unsecureHttp?: boolean | null;
+  unsecureHttp?: boolean | null | undefined;
   /** Job Data linked */
-  volumes?: CloudProjectAiJobJobSpecVolumesList | null;
+  volumes?: CloudProjectAiJobJobSpecVolumesList | null | undefined;
 }
 /** Status about the datasync linked to the job */
 export type CloudProjectAiJobJobStatusDataSyncList = Array<CloudProjectAiVolumeDataSync>;
@@ -2446,9 +2465,9 @@ export type CloudProjectAiJobJobStateEnum =
 /** AI Solutions Job Status History Object */
 export interface CloudProjectAiJobJobStatusHistory {
   /** Date when the status occurred */
-  date?: string;
+  date?: string | undefined;
   /** State of the job */
-  state?: CloudProjectAiJobJobStateEnum;
+  state?: CloudProjectAiJobJobStateEnum | undefined;
 }
 /** Job state history */
 export type CloudProjectAiJobJobStatusHistoryList = Array<CloudProjectAiJobJobStatusHistory>;
@@ -2457,62 +2476,62 @@ export type CloudProjectAiJobJobStatusVolumesList = Array<CloudProjectAiVolumeVo
 /** AI Solutions Job Status Object */
 export interface CloudProjectAiJobJobStatus {
   /** Status about the datasync linked to the job */
-  dataSync?: CloudProjectAiJobJobStatusDataSyncList;
+  dataSync?: CloudProjectAiJobJobStatusDataSyncList | undefined;
   /** Duration of the job */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Exit code of the job */
-  exitCode?: number | null;
+  exitCode?: number | null | undefined;
   /** External IP of the job */
-  externalIp?: string | null;
+  externalIp?: string | null | undefined;
   /** Date when the job was finalized */
-  finalizedAt?: string | null;
+  finalizedAt?: string | null | undefined;
   /** Address to reach when you want to access the Job's gRPC services */
-  grpcAddress?: string | null;
+  grpcAddress?: string | null | undefined;
   /** Job state history */
-  history?: CloudProjectAiJobJobStatusHistoryList;
+  history?: CloudProjectAiJobJobStatusHistoryList | undefined;
   /** Information about the job */
-  info?: CloudProjectAiInfo;
+  info?: CloudProjectAiInfo | undefined;
   /** Job info url */
-  infoUrl?: string | null;
+  infoUrl?: string | null | undefined;
   /** Date when the job was initialized */
-  initializingAt?: string | null;
+  initializingAt?: string | null | undefined;
   /** IP of the job */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Date of the last transition */
-  lastTransitionDate?: string | null;
+  lastTransitionDate?: string | null | undefined;
   /** Job resource usage url */
-  monitoringUrl?: string | null;
+  monitoringUrl?: string | null | undefined;
   /** Date when the job was queued */
-  queuedAt?: string | null;
+  queuedAt?: string | null | undefined;
   /** SSH Url fot the job */
-  sshUrl?: string | null;
+  sshUrl?: string | null | undefined;
   /** Date when the job was started */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
   /** State of the job */
-  state?: CloudProjectAiJobJobStateEnum | null;
+  state?: CloudProjectAiJobJobStateEnum | null | undefined;
   /** Date when the job was stop */
-  stoppedAt?: string | null;
+  stoppedAt?: string | null | undefined;
   /** Date when the job is planned to timeout */
-  timeoutAt?: string | null;
+  timeoutAt?: string | null | undefined;
   /** Job access url */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Job Data linked */
-  volumes?: CloudProjectAiJobJobStatusVolumesList | null;
+  volumes?: CloudProjectAiJobJobStatusVolumesList | null | undefined;
 }
 /** AI Solutions Job Object */
 export interface CloudProjectAiJobJob {
   /** Job creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Job Id */
-  id?: string;
+  id?: string | undefined;
   /** Job specifications */
-  spec?: CloudProjectAiJobJobSpec;
+  spec?: CloudProjectAiJobJobSpec | undefined;
   /** Job status */
-  status?: CloudProjectAiJobJobStatus;
+  status?: CloudProjectAiJobJobStatus | undefined;
   /** Job update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Job user owner */
-  user?: string;
+  user?: string | undefined;
 }
 /** Job command */
 export type CreateCloudProjectAiJobCommandRequestCommandList = Array<string>;
@@ -2529,37 +2548,37 @@ export interface CreateCloudProjectAiJobCommandRequest {
   /** Service name */
   serviceName: string;
   /** Job command */
-  command?: CreateCloudProjectAiJobCommandRequestCommandList | null;
+  command?: CreateCloudProjectAiJobCommandRequestCommandList | null | undefined;
   /** Port use as the default one to access http service inside job */
-  defaultHttpPort?: number | null;
+  defaultHttpPort?: number | null | undefined;
   /** List of environment variable to be set inside job */
-  envVars?: CreateCloudProjectAiJobCommandRequestEnvVarsList | null;
+  envVars?: CreateCloudProjectAiJobCommandRequestEnvVarsList | null | undefined;
   /** GRPC Port that we want to expose in case workload HTTP & gRPC servers cannot be multiplexed to listen on the same port */
-  grpcPort?: number | null;
+  grpcPort?: number | null | undefined;
   /** Job image */
   image: string;
   /** Labels are used to scope tokens, labels prefixed by 'ovh/' are owned by the platform and overridden */
-  labels?: CreateCloudProjectAiJobCommandRequestLabelsMap | null;
+  labels?: CreateCloudProjectAiJobCommandRequestLabelsMap | null | undefined;
   /** Job name */
-  name?: string;
+  name?: string | undefined;
   /** Partner ID */
-  partnerId?: string | null;
+  partnerId?: string | null | undefined;
   /** User ID to use to access the job */
-  readUser?: string | null;
+  readUser?: string | null | undefined;
   /** Host region of the job */
   region: string;
   /** Job resources */
   resources: CloudProjectAiResourcesInput;
   /** SSH keys authorized to access to the job container */
-  sshPublicKeys?: CreateCloudProjectAiJobCommandRequestSshPublicKeysList | null;
+  sshPublicKeys?: CreateCloudProjectAiJobCommandRequestSshPublicKeysList | null | undefined;
   /** Maximum time to spend before killing the job */
-  timeout?: number | null;
+  timeout?: number | null | undefined;
   /** Whether job is set to be restarted after timeout */
-  timeoutAutoRestart?: boolean | null;
+  timeoutAutoRestart?: boolean | null | undefined;
   /** Whether job api port can be accessed without any authentication token */
-  unsecureHttp?: boolean | null;
+  unsecureHttp?: boolean | null | undefined;
   /** Job Data linked */
-  volumes?: CreateCloudProjectAiJobCommandRequestVolumesList | null;
+  volumes?: CreateCloudProjectAiJobCommandRequestVolumesList | null | undefined;
 }
 export interface CreateCloudProjectAiJobDatasyncRequest {
   /** Service name */
@@ -2567,9 +2586,9 @@ export interface CreateCloudProjectAiJobDatasyncRequest {
   /** Job ID */
   jobId: string;
   /** Direction of the sync */
-  direction?: CloudProjectAiVolumeDataSyncEnum | (string & {});
+  direction?: CloudProjectAiVolumeDataSyncEnum | (string & {}) | undefined;
   /** Only sync this volume */
-  volume?: string | null;
+  volume?: string | null | undefined;
 }
 /** AI Solutions Framework Object to create a notebook */
 export interface CloudProjectAiNotebookNotebookEnv {
@@ -2578,7 +2597,7 @@ export interface CloudProjectAiNotebookNotebookEnv {
   /** Framework name */
   frameworkId: string;
   /** Framework version to use */
-  frameworkVersion?: string | null;
+  frameworkVersion?: string | null | undefined;
 }
 /** List of environment variables to be set inside the notebook */
 export type CreateCloudProjectAiNotebookRequestEnvVarsList = Array<CloudProjectAiJobJobEnv>;
@@ -2587,7 +2606,7 @@ export type CreateCloudProjectAiNotebookRequestLabelsMap = { [key: string]: stri
 /** Quantum Resource Object */
 export interface CloudProjectQuantumQuantumResourcesInput {
   /** ID of the QPU flavor */
-  qpuFlavorId?: string | null;
+  qpuFlavorId?: string | null | undefined;
 }
 /** SSH keys authorized to access the notebook */
 export type CreateCloudProjectAiNotebookRequestSshPublicKeysList = Array<string>;
@@ -2599,25 +2618,25 @@ export interface CreateCloudProjectAiNotebookRequest {
   /** Environment to deploy in this notebook */
   env: CloudProjectAiNotebookNotebookEnv;
   /** List of environment variables to be set inside the notebook */
-  envVars?: CreateCloudProjectAiNotebookRequestEnvVarsList | null;
+  envVars?: CreateCloudProjectAiNotebookRequestEnvVarsList | null | undefined;
   /** Labels are used to scope tokens, labels prefixed by 'ovh/' are owned by the platform and overridden */
-  labels?: CreateCloudProjectAiNotebookRequestLabelsMap | null;
+  labels?: CreateCloudProjectAiNotebookRequestLabelsMap | null | undefined;
   /** Notebook name */
-  name?: string;
+  name?: string | undefined;
   /** Quantum resources */
-  quantumResources?: CloudProjectQuantumQuantumResourcesInput | null;
+  quantumResources?: CloudProjectQuantumQuantumResourcesInput | null | undefined;
   /** Host region of the notebook */
   region: string;
   /** Notebook resources */
   resources: CloudProjectAiResourcesInput;
   /** SSH keys authorized to access the notebook */
-  sshPublicKeys?: CreateCloudProjectAiNotebookRequestSshPublicKeysList | null;
+  sshPublicKeys?: CreateCloudProjectAiNotebookRequestSshPublicKeysList | null | undefined;
   /** Whether notebook is set to be restarted after timeout */
-  timeoutAutoRestart?: boolean | null;
+  timeoutAutoRestart?: boolean | null | undefined;
   /** Whether notebook api port can be accessed without any authentication token */
-  unsecureHttp?: boolean | null;
+  unsecureHttp?: boolean | null | undefined;
   /** Notebook Data linked */
-  volumes?: CreateCloudProjectAiNotebookRequestVolumesList | null;
+  volumes?: CreateCloudProjectAiNotebookRequestVolumesList | null | undefined;
 }
 /** List of environment variables to be set inside the notebook */
 export type CloudProjectAiNotebookNotebookSpecEnvVarsList = Array<CloudProjectAiJobJobEnv>;
@@ -2632,31 +2651,31 @@ export type CloudProjectAiNotebookNotebookSpecVolumesList = Array<CloudProjectAi
 /** AI Solutions Notebook Spec Object to create a notebook */
 export interface CloudProjectAiNotebookNotebookSpec {
   /** Environment to deploy in this notebook */
-  env?: CloudProjectAiNotebookNotebookEnv;
+  env?: CloudProjectAiNotebookNotebookEnv | undefined;
   /** List of environment variables to be set inside the notebook */
-  envVars?: CloudProjectAiNotebookNotebookSpecEnvVarsList;
+  envVars?: CloudProjectAiNotebookNotebookSpecEnvVarsList | undefined;
   /** Current notebook flavor */
-  flavor?: string | null;
+  flavor?: string | null | undefined;
   /** Labels for the notebook */
-  labels?: CloudProjectAiNotebookNotebookSpecLabelsMap | null;
+  labels?: CloudProjectAiNotebookNotebookSpecLabelsMap | null | undefined;
   /** Notebook name */
-  name?: string;
+  name?: string | undefined;
   /** Quantum resources */
-  quantumResources?: CloudProjectQuantumQuantumResourcesInput | null;
+  quantumResources?: CloudProjectQuantumQuantumResourcesInput | null | undefined;
   /** Host region of the notebook */
-  region?: string;
+  region?: string | undefined;
   /** Notebook resources */
-  resources?: CloudProjectAiResources;
+  resources?: CloudProjectAiResources | undefined;
   /** Shutdown strategy (if any) */
-  shutdown?: CloudProjectAiShutdownStrategyEnum | null;
+  shutdown?: CloudProjectAiShutdownStrategyEnum | null | undefined;
   /** SSH keys authorized to access the notebook */
-  sshPublicKeys?: CloudProjectAiNotebookNotebookSpecSshPublicKeysList | null;
+  sshPublicKeys?: CloudProjectAiNotebookNotebookSpecSshPublicKeysList | null | undefined;
   /** Whether notebook is set to be restarted after timeout */
-  timeoutAutoRestart?: boolean | null;
+  timeoutAutoRestart?: boolean | null | undefined;
   /** Whether notebook api port can be accessed without any authentication token */
-  unsecureHttp?: boolean | null;
+  unsecureHttp?: boolean | null | undefined;
   /** Notebook Data linked */
-  volumes?: CloudProjectAiNotebookNotebookSpecVolumesList | null;
+  volumes?: CloudProjectAiNotebookNotebookSpecVolumesList | null | undefined;
 }
 /** Status about the datasync linked to the job */
 export type CloudProjectAiNotebookNotebookStatusDataSyncList = Array<CloudProjectAiVolumeDataSync>;
@@ -2677,55 +2696,55 @@ export type CloudProjectAiNotebookNotebookStatusVolumesList =
 /** AI Solutions Notebook Workspace Object */
 export interface CloudProjectAiNotebookNotebookWorkspace {
   /** The number of storage bytes free of charges for notebook workspace */
-  storageFree?: number;
+  storageFree?: number | undefined;
   /** The number of storage bytes currently used to persist notebook workspace */
-  storageUsed?: number;
+  storageUsed?: number | undefined;
 }
 /** AI Solutions Notebook Status Object */
 export interface CloudProjectAiNotebookNotebookStatus {
   /** Status about the datasync linked to the job */
-  dataSync?: CloudProjectAiNotebookNotebookStatusDataSyncList;
+  dataSync?: CloudProjectAiNotebookNotebookStatusDataSyncList | undefined;
   /** Duration of the notebook in seconds */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Address to reach when you want to access the Notebook's gRPC services */
-  grpcAddress?: string | null;
+  grpcAddress?: string | null | undefined;
   /** Information about the notebook */
-  info?: CloudProjectAiInfo;
+  info?: CloudProjectAiInfo | undefined;
   /** Notebook info url */
-  infoUrl?: string | null;
+  infoUrl?: string | null | undefined;
   /** Status for the last job run */
-  lastJobStatus?: CloudProjectAiJobJobStatus;
+  lastJobStatus?: CloudProjectAiJobJobStatus | undefined;
   /** Date when the notebook was last started */
-  lastStartedAt?: string | null;
+  lastStartedAt?: string | null | undefined;
   /** Date when the notebook was last stopped */
-  lastStoppedAt?: string | null;
+  lastStoppedAt?: string | null | undefined;
   /** Notebook resource usage url */
-  monitoringUrl?: string | null;
+  monitoringUrl?: string | null | undefined;
   /** SSH Url for the notebook */
-  sshUrl?: string | null;
+  sshUrl?: string | null | undefined;
   /** State of the notebook */
-  state?: CloudProjectAiNotebookNotebookStateEnum | null;
+  state?: CloudProjectAiNotebookNotebookStateEnum | null | undefined;
   /** Notebook access url */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Notebook Data linked */
-  volumes?: CloudProjectAiNotebookNotebookStatusVolumesList | null;
+  volumes?: CloudProjectAiNotebookNotebookStatusVolumesList | null | undefined;
   /** State of the notebook workspace */
-  workspace?: CloudProjectAiNotebookNotebookWorkspace | null;
+  workspace?: CloudProjectAiNotebookNotebookWorkspace | null | undefined;
 }
 /** AI Solutions Platform Notebook Object */
 export interface CloudProjectAiNotebookNotebook {
   /** Notebook creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Notebook Id */
-  id?: string;
+  id?: string | undefined;
   /** Notebook spec */
-  spec?: CloudProjectAiNotebookNotebookSpec;
+  spec?: CloudProjectAiNotebookNotebookSpec | undefined;
   /** Notebook Container Status */
-  status?: CloudProjectAiNotebookNotebookStatus;
+  status?: CloudProjectAiNotebookNotebookStatus | undefined;
   /** Notebook last update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Notebook user owner */
-  user?: string;
+  user?: string | undefined;
 }
 /** List of environment variables to be set inside the notebook */
 export type CreateCloudProjectAiNotebookCommandRequestEnvVarsList = Array<CloudProjectAiJobJobEnv>;
@@ -2744,25 +2763,25 @@ export interface CreateCloudProjectAiNotebookCommandRequest {
   /** Environment to deploy in this notebook */
   env: CloudProjectAiNotebookNotebookEnv;
   /** List of environment variables to be set inside the notebook */
-  envVars?: CreateCloudProjectAiNotebookCommandRequestEnvVarsList | null;
+  envVars?: CreateCloudProjectAiNotebookCommandRequestEnvVarsList | null | undefined;
   /** Labels are used to scope tokens, labels prefixed by 'ovh/' are owned by the platform and overridden */
-  labels?: CreateCloudProjectAiNotebookCommandRequestLabelsMap | null;
+  labels?: CreateCloudProjectAiNotebookCommandRequestLabelsMap | null | undefined;
   /** Notebook name */
-  name?: string;
+  name?: string | undefined;
   /** Quantum resources */
-  quantumResources?: CloudProjectQuantumQuantumResourcesInput | null;
+  quantumResources?: CloudProjectQuantumQuantumResourcesInput | null | undefined;
   /** Host region of the notebook */
   region: string;
   /** Notebook resources */
   resources: CloudProjectAiResourcesInput;
   /** SSH keys authorized to access the notebook */
-  sshPublicKeys?: CreateCloudProjectAiNotebookCommandRequestSshPublicKeysList | null;
+  sshPublicKeys?: CreateCloudProjectAiNotebookCommandRequestSshPublicKeysList | null | undefined;
   /** Whether notebook is set to be restarted after timeout */
-  timeoutAutoRestart?: boolean | null;
+  timeoutAutoRestart?: boolean | null | undefined;
   /** Whether notebook api port can be accessed without any authentication token */
-  unsecureHttp?: boolean | null;
+  unsecureHttp?: boolean | null | undefined;
   /** Notebook Data linked */
-  volumes?: CreateCloudProjectAiNotebookCommandRequestVolumesList | null;
+  volumes?: CreateCloudProjectAiNotebookCommandRequestVolumesList | null | undefined;
 }
 export interface CreateCloudProjectAiNotebookDatasyncRequest {
   /** Service name */
@@ -2770,9 +2789,9 @@ export interface CreateCloudProjectAiNotebookDatasyncRequest {
   /** Notebook ID */
   notebookId: string;
   /** Direction of the sync */
-  direction?: CloudProjectAiVolumeDataSyncEnum | (string & {});
+  direction?: CloudProjectAiVolumeDataSyncEnum | (string & {}) | undefined;
   /** Only sync this volume */
-  volume?: string | null;
+  volume?: string | null | undefined;
 }
 export interface CreateCloudProjectAiRegistryRequest {
   /** Service name */
@@ -2789,19 +2808,19 @@ export interface CreateCloudProjectAiRegistryRequest {
 /** Representation of a registry */
 export interface CloudProjectAiRegistryRegistry {
   /** Registry creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Registry Id */
-  id?: string;
+  id?: string | undefined;
   /** Docker registry password */
   password: string | Redacted.Redacted<string> | null;
   /** Region where the registry is available */
   region: string;
   /** Registry update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Docker registry URL */
   url: string | null;
   /** Registry user creator */
-  user?: string;
+  user?: string | undefined;
   /** Docker registry username */
   username: string | null;
 }
@@ -2815,7 +2834,7 @@ export interface CreateCloudProjectAiTokenRequest {
   /** Service name */
   serviceName: string;
   /** Application token label selector */
-  labelSelector?: string | null;
+  labelSelector?: string | null | undefined;
   /** Application token name */
   name: string;
   /** Public Cloud Storage Region */
@@ -2826,7 +2845,7 @@ export interface CreateCloudProjectAiTokenRequest {
 /** AI Solutions Application Token Spec Object to create a notebook */
 export interface CloudProjectAiTokenTokenSpec {
   /** Application token label selector */
-  labelSelector?: string | null;
+  labelSelector?: string | null | undefined;
   /** Application token name */
   name: string;
   /** Public Cloud Storage Region */
@@ -2837,32 +2856,32 @@ export interface CloudProjectAiTokenTokenSpec {
 /** AI Solutions Application Token Status Object */
 export interface CloudProjectAiTokenTokenStatus {
   /** Application token value to use as a Bearer */
-  value?: string | null;
+  value?: string | null | undefined;
   /** Application token version */
-  version?: number;
+  version?: number | undefined;
 }
 /** AI Solutions Application Token */
 export interface CloudProjectAiTokenToken {
   /** Application token creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Application token Id */
-  id?: string;
+  id?: string | undefined;
   /** Application token spec */
-  spec?: CloudProjectAiTokenTokenSpec;
+  spec?: CloudProjectAiTokenTokenSpec | undefined;
   /** Application token status */
-  status?: CloudProjectAiTokenTokenStatus;
+  status?: CloudProjectAiTokenTokenStatus | undefined;
   /** Application token update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface CreateCloudProjectChangeContactRequest {
   /** The project id */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateCloudProjectChangeContactResponseBodyList = Array<number>;
 export type CreateCloudProjectChangeContactResponse =
@@ -2873,7 +2892,7 @@ export interface CreateCloudProjectContainerRegistryRequest {
   /** Name of the new registry */
   name: string;
   /** ID of the plan to use for the new registry */
-  planID?: string;
+  planID?: string | undefined;
   /** Region where to deploy the registry. Get available regions with /cloud/project/{serviceName}/capabilities/containerRegistry. */
   region: string;
 }
@@ -2891,27 +2910,27 @@ export type CloudContainerRegistryStatusEnum =
 /** Managed docker registry */
 export interface CloudContainerRegistryRegistry {
   /** Registry creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** OVHcloud IAM enabled */
-  iamEnabled?: boolean;
+  iamEnabled?: boolean | undefined;
   /** Registry ID */
-  id?: string;
+  id?: string | undefined;
   /** Registry name */
-  name?: string;
+  name?: string | undefined;
   /** Project ID of your registry */
-  projectID?: string;
+  projectID?: string | undefined;
   /** Region of the registry. */
-  region?: string;
+  region?: string | undefined;
   /** Current size of the registry (bytes) */
-  size?: number;
+  size?: number | undefined;
   /** Registry status */
-  status?: CloudContainerRegistryStatusEnum;
+  status?: CloudContainerRegistryStatusEnum | undefined;
   /** Registry last update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Access url of the registry */
-  url?: string;
+  url?: string | undefined;
   /** Version of your registry */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreateCloudProjectContainerRegistryIamRequest {
   /** Service name */
@@ -2919,15 +2938,15 @@ export interface CreateCloudProjectContainerRegistryIamRequest {
   /** RegistryID */
   registryID: string;
   /** Delete all previously created users to allow IAM activation */
-  deleteUsers?: boolean | null;
+  deleteUsers?: boolean | null | undefined;
 }
 export interface CreateCloudProjectContainerRegistryIamResponse {}
 /** Docker registry OIDC Configuration */
 export interface CloudContainerRegistryOIDCConfigurationInput {
   /** The OIDC Configuration AdminGroup */
-  adminGroup?: string | null;
+  adminGroup?: string | null | undefined;
   /** The OIDC Configuration AutoOnboard */
-  autoOnboard?: boolean | null;
+  autoOnboard?: boolean | null | undefined;
   /** The OIDC Configuration ClientID */
   clientId: string;
   /** The OIDC Configuration Client Secret */
@@ -2935,17 +2954,17 @@ export interface CloudContainerRegistryOIDCConfigurationInput {
   /** The OIDC Configuration Endpoint */
   endpoint: string;
   /** The OIDC Configuration GroupFilter */
-  groupFilter?: string | null;
+  groupFilter?: string | null | undefined;
   /** The OIDC Configuration GroupsClaim */
-  groupsClaim?: string | null;
+  groupsClaim?: string | null | undefined;
   /** The OIDC Configuration Name */
   name: string;
   /** The OIDC Configuration comma-separated list of Scopes */
   scope: string;
   /** The OIDC Configuration UserClaim */
-  userClaim?: string | null;
+  userClaim?: string | null | undefined;
   /** The OIDC Configuration VerifyCert */
-  verifyCert?: boolean | null;
+  verifyCert?: boolean | null | undefined;
 }
 export interface CreateCloudProjectContainerRegistryOpenIdConnectRequest {
   /** Service name */
@@ -2953,7 +2972,7 @@ export interface CreateCloudProjectContainerRegistryOpenIdConnectRequest {
   /** RegistryID */
   registryID: string;
   /** Delete all previously created users to allow OIDC configuration */
-  deleteUsers?: boolean | null;
+  deleteUsers?: boolean | null | undefined;
   /** The OIDC provider configuration */
   provider: CloudContainerRegistryOIDCConfigurationInput;
 }
@@ -2964,20 +2983,20 @@ export interface CreateCloudProjectContainerRegistryUserRequest {
   /** RegistryID */
   registryID: string;
   /** New user email */
-  email?: string | null;
+  email?: string | null | undefined;
   /** New user login */
-  login?: string | null;
+  login?: string | null | undefined;
 }
 /** Docker registry user */
 export interface CloudContainerRegistryUser {
   /** User email */
-  email?: string;
+  email?: string | undefined;
   /** User ID */
-  id?: string;
+  id?: string | undefined;
   /** User password */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   /** User name */
-  user?: string;
+  user?: string | undefined;
 }
 export interface CreateCloudProjectCreditRequest {
   /** The project id */
@@ -2989,9 +3008,9 @@ export interface CreateCloudProjectCreditResponse {}
 /** Defines the source to fork a cluster from a backup. DEPRECATED: use forkFrom */
 export interface CloudProjectDatabaseServiceCreationBackupFork {
   /** Backup ID (not compatible with pointInTime) */
-  id?: string;
+  id?: string | undefined;
   /** Point in time to restore from (not compatible with id) */
-  pointInTime?: string;
+  pointInTime?: string | undefined;
   /** Service ID to which the backups belong to */
   serviceId: string;
 }
@@ -3000,30 +3019,30 @@ export type CloudProjectDatabaseServiceBackupInputRegionsList = Array<string>;
 /** Cloud database service backups definition */
 export interface CloudProjectDatabaseServiceBackupInput {
   /** Regions on which the backups are stored */
-  regions?: CloudProjectDatabaseServiceBackupInputRegionsList;
+  regions?: CloudProjectDatabaseServiceBackupInputRegionsList | undefined;
   /** Time on which backups start every day */
-  time?: string;
+  time?: string | undefined;
 }
 /** Defines the disk attributes of a service */
 export interface CloudProjectDatabaseServiceDiskInput {
   /** Service disk size */
-  size?: number;
+  size?: number | undefined;
 }
 /** Defines the source to fork a cluster from a backup */
 export interface CloudProjectDatabaseServiceCreationForkFrom {
   /** Backup ID (not compatible with pointInTime) */
-  backupId?: string;
+  backupId?: string | undefined;
   /** Point in time to restore from (not compatible with id) */
-  pointInTime?: string;
+  pointInTime?: string | undefined;
   /** Service ID to which the backups belong to */
   serviceId: string;
 }
 /** Ip Restriction definition for cloud project databases */
 export interface CloudProjectDatabaseServiceIpRestrictionInput {
   /** Description of the ip restriction */
-  description?: string;
+  description?: string | undefined;
   /** Whitelisted IP */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type CreateCloudProjectDatabaseCassandraRequestIpRestrictionsList =
@@ -3033,11 +3052,11 @@ export type CloudProjectDatabaseServiceNodeRoleEnum = "ANALYTICS" | "STANDARD";
 /** Cloud databases cluster new node definition */
 export interface CloudProjectDatabaseServiceNodeCreationInput {
   /** Flavor of the node */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Region of the node */
-  region?: string;
+  region?: string | undefined;
   /** Role of the node */
-  role?: CloudProjectDatabaseServiceNodeRoleEnum | (string & {}) | null;
+  role?: CloudProjectDatabaseServiceNodeRoleEnum | (string & {}) | null | undefined;
 }
 /** List of nodes in the cluster, not compatible with nodesPattern */
 export type CreateCloudProjectDatabaseCassandraRequestNodesListList =
@@ -3045,69 +3064,69 @@ export type CreateCloudProjectDatabaseCassandraRequestNodesListList =
 /** Node pattern definition */
 export interface CloudProjectDatabaseServiceNodePattern {
   /** Flavor of the nodes */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Number of nodes to create */
-  number?: number;
+  number?: number | undefined;
   /** Region of the nodes */
-  region?: string;
+  region?: string | undefined;
 }
 export interface CreateCloudProjectDatabaseCassandraRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseCassandraRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseCassandraRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseCassandraRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseCassandraRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Regions on which the backups are stored */
 export type CloudProjectDatabaseServiceBackupRegionsList = Array<string>;
 /** Cloud database service backups definition */
 export interface CloudProjectDatabaseServiceBackup {
   /** Date until PITR is available */
-  pitr?: string | null;
+  pitr?: string | null | undefined;
   /** Regions on which the backups are stored */
-  regions?: CloudProjectDatabaseServiceBackupRegionsList;
+  regions?: CloudProjectDatabaseServiceBackupRegionsList | undefined;
   /** Number of retention days for the backups */
-  retentionDays?: number | null;
+  retentionDays?: number | null | undefined;
   /** Time on which backups start every day */
-  time?: string;
+  time?: string | undefined;
 }
 /** State of the service capability for the service */
 export type CloudProjectDatabaseServiceCapabilityStateEnum = "disabled" | "enabled";
 /** Cloud database service capability actions definition */
 export interface CloudProjectDatabaseServiceCapabilityActions {
   /** Defines if the capability can be created */
-  create?: CloudProjectDatabaseServiceCapabilityStateEnum | null;
+  create?: CloudProjectDatabaseServiceCapabilityStateEnum | null | undefined;
   /** Defines if the capability can be deleted */
-  delete?: CloudProjectDatabaseServiceCapabilityStateEnum | null;
+  delete?: CloudProjectDatabaseServiceCapabilityStateEnum | null | undefined;
   /** Defines if the capability can be read */
-  read?: CloudProjectDatabaseServiceCapabilityStateEnum | null;
+  read?: CloudProjectDatabaseServiceCapabilityStateEnum | null | undefined;
   /** Defines if the capability can be updated */
-  update?: CloudProjectDatabaseServiceCapabilityStateEnum | null;
+  update?: CloudProjectDatabaseServiceCapabilityStateEnum | null | undefined;
 }
 /** Capabilities of the services */
 export type CloudProjectDatabaseServiceCapabilitiesMap = {
@@ -3118,9 +3137,9 @@ export type CloudProjectDatabaseEngineCategoryEnum = "analysis" | "operational" 
 /** Defines the disk attributes of a service */
 export interface CloudProjectDatabaseServiceDisk {
   /** Service disk size */
-  size?: number;
+  size?: number | undefined;
   /** Service disk size */
-  type?: string;
+  type?: string | undefined;
 }
 /** Defines all the values for the component in the service endpoints */
 export type CloudProjectDatabaseServiceEndpointComponentEnum =
@@ -3156,21 +3175,21 @@ export type CloudProjectDatabaseServiceEndpointComponentEnum =
 /** Defines the endpoint object in a cluster */
 export interface CloudProjectDatabaseServiceEndpoint {
   /** Type of component the URI relates to */
-  component?: CloudProjectDatabaseServiceEndpointComponentEnum;
+  component?: CloudProjectDatabaseServiceEndpointComponentEnum | undefined;
   /** Domain of the cluster */
-  domain?: string;
+  domain?: string | undefined;
   /** Path of the endpoint */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Connection port for the endpoint */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Scheme used to generate the URI */
-  scheme?: string | null;
+  scheme?: string | null | undefined;
   /** Defines whether the endpoint uses SSL */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** SSL mode used to connect to the service if the SSL is enabled */
-  sslMode?: string | null;
+  sslMode?: string | null | undefined;
   /** URI of the endpoint */
-  uri?: string | null;
+  uri?: string | null | undefined;
 }
 /** List of all endpoints of the service */
 export type CloudProjectDatabaseServiceEndpointsList = Array<CloudProjectDatabaseServiceEndpoint>;
@@ -3207,11 +3226,11 @@ export type CloudProjectDatabaseStatusEnum =
 /** Ip Restriction definition for cloud project databases */
 export interface CloudProjectDatabaseServiceIpRestriction {
   /** Description of the ip restriction */
-  description?: string;
+  description?: string | undefined;
   /** Whitelisted IP */
-  ip?: string;
+  ip?: string | undefined;
   /** Current status of the ip restriction */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type CloudProjectDatabaseServiceIpRestrictionsList =
@@ -3221,87 +3240,87 @@ export type CloudProjectDatabaseNetworkTypeEnum = "private" | "public";
 /** Cloud databases cluster node definition */
 export interface CloudProjectDatabaseServiceNode {
   /** Date of the creation of the node */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Flavor of the node */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Node ID */
-  id?: string;
+  id?: string | undefined;
   /** Name of the node */
-  name?: string;
+  name?: string | undefined;
   /** Connection port for the node */
-  port?: number;
+  port?: number | undefined;
   /** Region of the node */
-  region?: string;
+  region?: string | undefined;
   /** Role of the node */
-  role?: CloudProjectDatabaseServiceNodeRoleEnum | null;
+  role?: CloudProjectDatabaseServiceNodeRoleEnum | null | undefined;
   /** Current status of the node */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
 }
 /** Nodes of the cluster */
 export type CloudProjectDatabaseServiceNodesList = Array<CloudProjectDatabaseServiceNode>;
 /** A numeric value tagged with its unit */
 export interface ComplexTypeUnitAndValueWritableLong {
   /** Unit of the value */
-  unit?: string;
-  value?: number;
+  unit?: string | undefined;
+  value?: number | undefined;
 }
 /** Defines the storage attributes of a service */
 export interface CloudProjectDatabaseServiceStorage {
   /** Service storage size */
-  size?: ComplexTypeUnitAndValueWritableLong;
+  size?: ComplexTypeUnitAndValueWritableLong | undefined;
   /** Service storage type */
-  type?: string;
+  type?: string | undefined;
 }
 /** Cloud database service definition */
 export interface CloudProjectDatabaseService {
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackup | null;
+  backups?: CloudProjectDatabaseServiceBackup | null | undefined;
   /** Capabilities of the services */
-  capabilities?: CloudProjectDatabaseServiceCapabilitiesMap;
+  capabilities?: CloudProjectDatabaseServiceCapabilitiesMap | undefined;
   /** Category of the engine */
-  category?: CloudProjectDatabaseEngineCategoryEnum;
+  category?: CloudProjectDatabaseEngineCategoryEnum | undefined;
   /** Date of the creation of the cluster */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDisk;
+  disk?: CloudProjectDatabaseServiceDisk | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** List of all endpoints of the service */
-  endpoints?: CloudProjectDatabaseServiceEndpointsList;
+  endpoints?: CloudProjectDatabaseServiceEndpointsList | undefined;
   /** Name of the engine of the service */
-  engine?: CloudProjectDatabaseEngineEnum;
+  engine?: CloudProjectDatabaseEngineEnum | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Service ID */
-  id?: string;
+  id?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CloudProjectDatabaseServiceIpRestrictionsList;
+  ipRestrictions?: CloudProjectDatabaseServiceIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** Type of network of the cluster */
-  networkType?: CloudProjectDatabaseNetworkTypeEnum;
+  networkType?: CloudProjectDatabaseNetworkTypeEnum | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Nodes of the cluster */
-  nodes?: CloudProjectDatabaseServiceNodesList;
+  nodes?: CloudProjectDatabaseServiceNodesList | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Current status of the cluster */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorage | null;
+  storage?: CloudProjectDatabaseServiceStorage | null | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Parameters for the integration */
 export type CreateCloudProjectDatabaseCassandraIntegrationRequestParametersMap = {
@@ -3326,11 +3345,14 @@ export interface CreateCloudProjectDatabaseCassandraIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabaseCassandraIntegrationRequestParametersMap | null;
+  parameters?:
+    | CreateCloudProjectDatabaseCassandraIntegrationRequestParametersMap
+    | null
+    | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 /** Parameters for the integration */
 export type CloudProjectDatabaseServiceIntegrationParametersMap = {
@@ -3343,15 +3365,15 @@ export interface CloudProjectDatabaseServiceIntegration {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Service ID */
-  id?: string;
+  id?: string | undefined;
   /** Parameters for the integration */
-  parameters?: CloudProjectDatabaseServiceIntegrationParametersMap | null;
+  parameters?: CloudProjectDatabaseServiceIntegrationParametersMap | null | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Current status of the integration */
-  status?: CloudProjectDatabaseServiceIntegrationStatusEnum;
+  status?: CloudProjectDatabaseServiceIntegrationStatusEnum | undefined;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum;
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | undefined;
 }
 export interface CreateCloudProjectDatabaseCassandraLogSubscriptionRequest {
   /** Service name */
@@ -3366,9 +3388,9 @@ export interface CreateCloudProjectDatabaseCassandraLogSubscriptionRequest {
 /** Asynchronous operation after subscribing or unsubscribing to a resource logs */
 export interface DbaasLogsLogSubscriptionResponse {
   /** Identifier of the operation */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Operation owner's service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export interface CreateCloudProjectDatabaseCassandraLogUrlRequest {
   /** Service name */
@@ -3381,9 +3403,9 @@ export interface CreateCloudProjectDatabaseCassandraLogUrlRequest {
 /** Temporary url information */
 export interface DbaasLogsTemporaryLogsLink {
   /** Temporary url expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary url */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateCloudProjectDatabaseCassandraUserRequest {
   /** Service name */
@@ -3391,20 +3413,20 @@ export interface CreateCloudProjectDatabaseCassandraUserRequest {
   /** Cluster ID */
   clusterId: string;
   /** Name of the user */
-  name?: string;
+  name?: string | undefined;
 }
 /** User with password definition */
 export interface CloudProjectDatabaseServiceUserWithPassword {
   /** Date of the creation of the user */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** User ID */
-  id?: string;
+  id?: string | undefined;
   /** Password of the user */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Current status of the user */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Name of the user */
-  username?: string;
+  username?: string | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type CreateCloudProjectDatabaseClickhouseRequestIpRestrictionsList =
@@ -3416,33 +3438,33 @@ export interface CreateCloudProjectDatabaseClickhouseRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseClickhouseRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseClickhouseRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseClickhouseRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseClickhouseRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreateCloudProjectDatabaseClickhouseDatabaseRequest {
   /** Service name */
@@ -3455,9 +3477,9 @@ export interface CreateCloudProjectDatabaseClickhouseDatabaseRequest {
 /** Defines the database object in a cluster */
 export interface CloudProjectDatabaseServiceDatabase {
   /** Defines if the database has been created by default */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Database ID */
-  id?: string;
+  id?: string | undefined;
   /** Database name */
   name: string;
 }
@@ -3473,11 +3495,14 @@ export interface CreateCloudProjectDatabaseClickhouseIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabaseClickhouseIntegrationRequestParametersMap | null;
+  parameters?:
+    | CreateCloudProjectDatabaseClickhouseIntegrationRequestParametersMap
+    | null
+    | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 export interface CreateCloudProjectDatabaseClickhouseLogSubscriptionRequest {
   /** Service name */
@@ -3505,26 +3530,26 @@ export interface CreateCloudProjectDatabaseClickhouseUserRequest {
   /** Cluster ID */
   clusterId: string;
   /** Name of the user */
-  name?: string;
+  name?: string | undefined;
   /** Roles the user belongs to */
-  roles?: CreateCloudProjectDatabaseClickhouseUserRequestRolesList;
+  roles?: CreateCloudProjectDatabaseClickhouseUserRequestRolesList | undefined;
 }
 /** Roles the user belongs to */
 export type CloudProjectDatabaseServiceUserWithPasswordAndRolesRolesList = Array<string>;
 /** User with password definition */
 export interface CloudProjectDatabaseServiceUserWithPasswordAndRoles {
   /** Date of the creation of the user */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** User ID */
-  id?: string;
+  id?: string | undefined;
   /** Password of the user */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Roles the user belongs to */
-  roles?: CloudProjectDatabaseServiceUserWithPasswordAndRolesRolesList;
+  roles?: CloudProjectDatabaseServiceUserWithPasswordAndRolesRolesList | undefined;
   /** Current status of the user */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Name of the user */
-  username?: string;
+  username?: string | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type CreateCloudProjectDatabaseGrafanaRequestIpRestrictionsList =
@@ -3536,33 +3561,33 @@ export interface CreateCloudProjectDatabaseGrafanaRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseGrafanaRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseGrafanaRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseGrafanaRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseGrafanaRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Capabilities of the services */
 export type CloudProjectDatabaseServiceWithoutPrometheusCapabilitiesMap = {
@@ -3580,51 +3605,51 @@ export type CloudProjectDatabaseServiceWithoutPrometheusNodesList =
 /** Cloud database service definition without prometheus enabler */
 export interface CloudProjectDatabaseServiceWithoutPrometheus {
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackup | null;
+  backups?: CloudProjectDatabaseServiceBackup | null | undefined;
   /** Capabilities of the services */
-  capabilities?: CloudProjectDatabaseServiceWithoutPrometheusCapabilitiesMap;
+  capabilities?: CloudProjectDatabaseServiceWithoutPrometheusCapabilitiesMap | undefined;
   /** Category of the engine */
-  category?: CloudProjectDatabaseEngineCategoryEnum;
+  category?: CloudProjectDatabaseEngineCategoryEnum | undefined;
   /** Date of the creation of the cluster */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDisk;
+  disk?: CloudProjectDatabaseServiceDisk | undefined;
   /** List of all endpoints of the service */
-  endpoints?: CloudProjectDatabaseServiceWithoutPrometheusEndpointsList;
+  endpoints?: CloudProjectDatabaseServiceWithoutPrometheusEndpointsList | undefined;
   /** Name of the engine of the service */
-  engine?: CloudProjectDatabaseEngineEnum;
+  engine?: CloudProjectDatabaseEngineEnum | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Service ID */
-  id?: string;
+  id?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CloudProjectDatabaseServiceWithoutPrometheusIpRestrictionsList;
+  ipRestrictions?: CloudProjectDatabaseServiceWithoutPrometheusIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** Type of network of the cluster */
-  networkType?: CloudProjectDatabaseNetworkTypeEnum;
+  networkType?: CloudProjectDatabaseNetworkTypeEnum | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Nodes of the cluster */
-  nodes?: CloudProjectDatabaseServiceWithoutPrometheusNodesList;
+  nodes?: CloudProjectDatabaseServiceWithoutPrometheusNodesList | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Region of the cluster */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Current status of the cluster */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorage | null;
+  storage?: CloudProjectDatabaseServiceStorage | null | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Parameters for the integration */
 export type CreateCloudProjectDatabaseGrafanaIntegrationRequestParametersMap = {
@@ -3638,11 +3663,11 @@ export interface CreateCloudProjectDatabaseGrafanaIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabaseGrafanaIntegrationRequestParametersMap | null;
+  parameters?: CreateCloudProjectDatabaseGrafanaIntegrationRequestParametersMap | null | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 export interface CreateCloudProjectDatabaseGrafanaLogSubscriptionRequest {
   /** Service name */
@@ -3672,33 +3697,33 @@ export interface CreateCloudProjectDatabaseKafkaRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseKafkaRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseKafkaRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseKafkaRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseKafkaRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Capabilities of the services */
 export type CloudProjectDatabaseKafkaServiceCapabilitiesMap = {
@@ -3715,57 +3740,57 @@ export type CloudProjectDatabaseKafkaServiceNodesList = Array<CloudProjectDataba
 /** Cloud database kafka service definition */
 export interface CloudProjectDatabaseKafkaService {
   /** Time on which backups start every day */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackup | null;
+  backups?: CloudProjectDatabaseServiceBackup | null | undefined;
   /** Capabilities of the services */
-  capabilities?: CloudProjectDatabaseKafkaServiceCapabilitiesMap;
+  capabilities?: CloudProjectDatabaseKafkaServiceCapabilitiesMap | undefined;
   /** Category of the engine */
-  category?: CloudProjectDatabaseEngineCategoryEnum;
+  category?: CloudProjectDatabaseEngineCategoryEnum | undefined;
   /** Date of the creation of the cluster */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDisk;
+  disk?: CloudProjectDatabaseServiceDisk | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** List of all endpoints of the service */
-  endpoints?: CloudProjectDatabaseKafkaServiceEndpointsList;
+  endpoints?: CloudProjectDatabaseKafkaServiceEndpointsList | undefined;
   /** Name of the engine of the service */
-  engine?: CloudProjectDatabaseEngineEnum;
+  engine?: CloudProjectDatabaseEngineEnum | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Service ID */
-  id?: string;
+  id?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CloudProjectDatabaseKafkaServiceIpRestrictionsList;
+  ipRestrictions?: CloudProjectDatabaseKafkaServiceIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** Type of network of the cluster */
-  networkType?: CloudProjectDatabaseNetworkTypeEnum;
+  networkType?: CloudProjectDatabaseNetworkTypeEnum | undefined;
   /** Number of nodes in the cluster. DEPRECATED: useNodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Nodes of the cluster */
-  nodes?: CloudProjectDatabaseKafkaServiceNodesList;
+  nodes?: CloudProjectDatabaseKafkaServiceNodesList | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Defines whether the REST API is enabled on the cluster */
-  restApi?: boolean;
+  restApi?: boolean | undefined;
   /** Defines whether the schema registry is enabled on the cluster */
-  schemaRegistry?: boolean;
+  schemaRegistry?: boolean | undefined;
   /** Current status of the cluster */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorage | null;
+  storage?: CloudProjectDatabaseServiceStorage | null | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type CreateCloudProjectDatabaseKafkaConnectRequestIpRestrictionsList =
@@ -3777,33 +3802,33 @@ export interface CreateCloudProjectDatabaseKafkaConnectRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseKafkaConnectRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseKafkaConnectRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseKafkaConnectRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseKafkaConnectRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Configuration of the connector */
 export type CreateCloudProjectDatabaseKafkaConnectConnectorRequestConfigurationMap = {
@@ -3837,13 +3862,13 @@ export interface CloudProjectDatabaseKafkaConnectConnector {
   /** Configuration of the connector */
   configuration: CloudProjectDatabaseKafkaConnectConnectorConfigurationMap;
   /** Connector capability ID */
-  connectorId?: string;
+  connectorId?: string | undefined;
   /** Connector ID */
-  id?: string;
+  id?: string | undefined;
   /** Name of the connector */
-  name?: string;
+  name?: string | undefined;
   /** Status of the connector */
-  status?: CloudProjectDatabaseKafkaConnectConnectorStatusEnum;
+  status?: CloudProjectDatabaseKafkaConnectConnectorStatusEnum | undefined;
 }
 /** Parameters for the integration */
 export type CreateCloudProjectDatabaseKafkaConnectIntegrationRequestParametersMap = {
@@ -3857,11 +3882,14 @@ export interface CreateCloudProjectDatabaseKafkaConnectIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabaseKafkaConnectIntegrationRequestParametersMap | null;
+  parameters?:
+    | CreateCloudProjectDatabaseKafkaConnectIntegrationRequestParametersMap
+    | null
+    | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 export interface CreateCloudProjectDatabaseKafkaConnectLogSubscriptionRequest {
   /** Service name */
@@ -3887,7 +3915,7 @@ export interface CreateCloudProjectDatabaseKafkaConnectUserRequest {
   /** Cluster ID */
   clusterId: string;
   /** Name of the user */
-  name?: string;
+  name?: string | undefined;
 }
 /** Parameters for the integration */
 export type CreateCloudProjectDatabaseKafkaIntegrationRequestParametersMap = {
@@ -3901,11 +3929,11 @@ export interface CreateCloudProjectDatabaseKafkaIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabaseKafkaIntegrationRequestParametersMap | null;
+  parameters?: CreateCloudProjectDatabaseKafkaIntegrationRequestParametersMap | null | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 export interface CreateCloudProjectDatabaseKafkaLogSubscriptionRequest {
   /** Service name */
@@ -3935,33 +3963,33 @@ export interface CreateCloudProjectDatabaseKafkaMirrorMakerRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseKafkaMirrorMakerRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseKafkaMirrorMakerRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseKafkaMirrorMakerRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseKafkaMirrorMakerRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Parameters for the integration */
 export type CreateCloudProjectDatabaseKafkaMirrorMakerIntegrationRequestParametersMap = {
@@ -3975,11 +4003,14 @@ export interface CreateCloudProjectDatabaseKafkaMirrorMakerIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabaseKafkaMirrorMakerIntegrationRequestParametersMap | null;
+  parameters?:
+    | CreateCloudProjectDatabaseKafkaMirrorMakerIntegrationRequestParametersMap
+    | null
+    | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 export interface CreateCloudProjectDatabaseKafkaMirrorMakerLogSubscriptionRequest {
   /** Service name */
@@ -4014,23 +4045,28 @@ export interface CreateCloudProjectDatabaseKafkaMirrorMakerReplicationRequest {
   /** Cluster ID */
   clusterId: string;
   /** Defines whether heartbeats are emitted */
-  emitHeartbeats?: boolean;
+  emitHeartbeats?: boolean | undefined;
   /** Defines whether the replication is actived */
   enabled: boolean;
   /** ReplicationPolicyClass used for the replication */
-  replicationPolicyClass?: CloudProjectDatabaseServiceReplicationPolicyClassEnum | (string & {});
+  replicationPolicyClass?:
+    | CloudProjectDatabaseServiceReplicationPolicyClassEnum
+    | (string & {})
+    | undefined;
   /** ID of the integration source */
   sourceIntegration: string;
   /** Defines whether the group offsets must be sync */
-  syncGroupOffsets?: boolean;
+  syncGroupOffsets?: boolean | undefined;
   /** Defines the interval in second between 2 sync */
-  syncInterval?: number;
+  syncInterval?: number | undefined;
   /** ID of the integration target */
   targetIntegration: string;
   /** Patterns of the topics to exclude from the replication */
-  topicExcludeList?: CreateCloudProjectDatabaseKafkaMirrorMakerReplicationRequestTopicExcludeListList;
+  topicExcludeList?:
+    | CreateCloudProjectDatabaseKafkaMirrorMakerReplicationRequestTopicExcludeListList
+    | undefined;
   /** Patterns of the topics to replicate */
-  topics?: CreateCloudProjectDatabaseKafkaMirrorMakerReplicationRequestTopicsList;
+  topics?: CreateCloudProjectDatabaseKafkaMirrorMakerReplicationRequestTopicsList | undefined;
 }
 /** Patterns of the topics to exclude from the replication */
 export type CloudProjectDatabaseServiceReplicationTopicExcludeListList = Array<string>;
@@ -4039,25 +4075,25 @@ export type CloudProjectDatabaseServiceReplicationTopicsList = Array<string>;
 /** Cloud database service replication definition */
 export interface CloudProjectDatabaseServiceReplication {
   /** Defines whether heartbeats are emitted */
-  emitHeartbeats?: boolean;
+  emitHeartbeats?: boolean | undefined;
   /** Defines whether the replication is actived */
   enabled: boolean;
   /** Service ID */
-  id?: string;
+  id?: string | undefined;
   /** ReplicationPolicyClass used for the replication */
-  replicationPolicyClass?: CloudProjectDatabaseServiceReplicationPolicyClassEnum;
+  replicationPolicyClass?: CloudProjectDatabaseServiceReplicationPolicyClassEnum | undefined;
   /** ID of the integration source */
-  sourceIntegration?: string;
+  sourceIntegration?: string | undefined;
   /** Defines whether the group offsets must be sync */
-  syncGroupOffsets?: boolean;
+  syncGroupOffsets?: boolean | undefined;
   /** Defines the interval in second between 2 sync */
-  syncInterval?: number;
+  syncInterval?: number | undefined;
   /** ID of the integration target */
-  targetIntegration?: string;
+  targetIntegration?: string | undefined;
   /** Patterns of the topics to exclude from the replication */
-  topicExcludeList?: CloudProjectDatabaseServiceReplicationTopicExcludeListList;
+  topicExcludeList?: CloudProjectDatabaseServiceReplicationTopicExcludeListList | undefined;
   /** Patterns of the topics to replicate */
-  topics?: CloudProjectDatabaseServiceReplicationTopicsList;
+  topics?: CloudProjectDatabaseServiceReplicationTopicsList | undefined;
 }
 export interface CreateCloudProjectDatabaseKafkaSchemaRegistryAclRequest {
   /** Service name */
@@ -4074,7 +4110,7 @@ export interface CreateCloudProjectDatabaseKafkaSchemaRegistryAclRequest {
 /** Cloud databases kafka schema registry acl definition */
 export interface CloudProjectDatabaseKafkaSchemaRegistryAcl {
   /** Acl ID */
-  id?: string;
+  id?: string | undefined;
   /** Permission to give to this username on this resource. Permissions values can be retrieved using /cloud/project/{serviceName}/database/kafka/{clusterId}/permissions */
   permission: string;
   /** Resource affected by this acl */
@@ -4088,34 +4124,34 @@ export interface CreateCloudProjectDatabaseKafkaTopicRequest {
   /** Cluster ID */
   clusterId: string;
   /** Minimum insync replica accepted for this topic */
-  minInsyncReplicas?: number;
+  minInsyncReplicas?: number | undefined;
   /** Name of the topic */
   name: string;
   /** Number of partitions for this topic */
-  partitions?: number;
+  partitions?: number | undefined;
   /** Number of replication for this topic */
-  replication?: number;
+  replication?: number | undefined;
   /** Number of bytes for the retention of the data for this topic */
-  retentionBytes?: number;
+  retentionBytes?: number | undefined;
   /** Number of hours for the retention of the data for this topic */
-  retentionHours?: number;
+  retentionHours?: number | undefined;
 }
 /** Cloud database kafka topic definition */
 export interface CloudProjectDatabaseKafkaTopic {
   /** Topic ID */
-  id?: string;
+  id?: string | undefined;
   /** Minimum insync replica accepted for this topic */
-  minInsyncReplicas?: number;
+  minInsyncReplicas?: number | undefined;
   /** Name of the topic */
-  name?: string;
+  name?: string | undefined;
   /** Number of partitions for this topic */
-  partitions?: number;
+  partitions?: number | undefined;
   /** Number of replication for this topic */
-  replication?: number;
+  replication?: number | undefined;
   /** Number of bytes for the retention of the data for this topic */
-  retentionBytes?: number;
+  retentionBytes?: number | undefined;
   /** Number of hours for the retention of the data for this topic */
-  retentionHours?: number;
+  retentionHours?: number | undefined;
 }
 export interface CreateCloudProjectDatabaseKafkaTopicAclRequest {
   /** Service name */
@@ -4132,7 +4168,7 @@ export interface CreateCloudProjectDatabaseKafkaTopicAclRequest {
 /** Cloud databases kafka topic acl definition */
 export interface CloudProjectDatabaseKafkaTopicAcl {
   /** Acl ID */
-  id?: string;
+  id?: string | undefined;
   /** Permission to give to this username on this topic. Permissions values can be retrieved using /cloud/project/{serviceName}/database/kafka/{clusterId}/permissions */
   permission: string;
   /** Topic affected by this acl */
@@ -4146,7 +4182,7 @@ export interface CreateCloudProjectDatabaseKafkaUserRequest {
   /** Cluster ID */
   clusterId: string;
   /** Name of the user */
-  name?: string;
+  name?: string | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type CreateCloudProjectDatabaseM3aggregatorRequestIpRestrictionsList =
@@ -4158,33 +4194,33 @@ export interface CreateCloudProjectDatabaseM3aggregatorRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseM3aggregatorRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseM3aggregatorRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseM3aggregatorRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseM3aggregatorRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Parameters for the integration */
 export type CreateCloudProjectDatabaseM3aggregatorIntegrationRequestParametersMap = {
@@ -4198,11 +4234,14 @@ export interface CreateCloudProjectDatabaseM3aggregatorIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabaseM3aggregatorIntegrationRequestParametersMap | null;
+  parameters?:
+    | CreateCloudProjectDatabaseM3aggregatorIntegrationRequestParametersMap
+    | null
+    | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 export interface CreateCloudProjectDatabaseM3aggregatorLogSubscriptionRequest {
   /** Service name */
@@ -4232,33 +4271,33 @@ export interface CreateCloudProjectDatabaseM3dbRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseM3dbRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseM3dbRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseM3dbRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseM3dbRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Parameters for the integration */
 export type CreateCloudProjectDatabaseM3dbIntegrationRequestParametersMap = {
@@ -4272,11 +4311,11 @@ export interface CreateCloudProjectDatabaseM3dbIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabaseM3dbIntegrationRequestParametersMap | null;
+  parameters?: CreateCloudProjectDatabaseM3dbIntegrationRequestParametersMap | null | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 export interface CreateCloudProjectDatabaseM3dbLogSubscriptionRequest {
   /** Service name */
@@ -4299,15 +4338,15 @@ export interface CreateCloudProjectDatabaseM3dbLogUrlRequest {
 /** M3db namespace retention definition */
 export interface CloudProjectDatabaseM3dbNamespaceRetentionCreation {
   /** Controls how long we wait before expiring stale data */
-  blockDataExpirationDuration?: string | null;
+  blockDataExpirationDuration?: string | null | undefined;
   /** Controls how long to keep a block in memory before flushing to a fileset on disk */
-  blockSizeDuration?: string | null;
+  blockSizeDuration?: string | null | undefined;
   /** Controls how far into the future writes to the namespace will be accepted */
-  bufferFutureDuration?: string | null;
+  bufferFutureDuration?: string | null | undefined;
   /** Controls how far into the past writes to the namespace will be accepted */
-  bufferPastDuration?: string | null;
+  bufferPastDuration?: string | null | undefined;
   /** Controls the duration of time that M3DB will retain data for the namespace */
-  periodDuration?: string | null;
+  periodDuration?: string | null | undefined;
 }
 /** Possible type of the service integration */
 export type CloudProjectDatabaseM3dbNamespaceTypeEnum = "aggregated" | "unaggregated";
@@ -4321,43 +4360,43 @@ export interface CreateCloudProjectDatabaseM3dbNamespaceRequest {
   /** Resolution for an aggregated namespace */
   resolution: string;
   /** Retention configuration */
-  retention?: CloudProjectDatabaseM3dbNamespaceRetentionCreation;
+  retention?: CloudProjectDatabaseM3dbNamespaceRetentionCreation | undefined;
   /** Defines whether M3db will create snapshot files for this namespace */
-  snapshotEnabled?: boolean | null;
+  snapshotEnabled?: boolean | null | undefined;
   /** Type of namespace */
   type: CloudProjectDatabaseM3dbNamespaceTypeEnum | (string & {});
   /** Defines whether M3db will include writes to this namespace in the commit log */
-  writesToCommitLogEnabled?: boolean | null;
+  writesToCommitLogEnabled?: boolean | null | undefined;
 }
 /** M3db namespace retention definition */
 export interface CloudProjectDatabaseM3dbNamespaceRetention {
   /** Controls how long we wait before expiring stale data */
-  blockDataExpirationDuration?: string | null;
+  blockDataExpirationDuration?: string | null | undefined;
   /** Controls how long to keep a block in memory before flushing to a fileset on disk */
-  blockSizeDuration?: string;
+  blockSizeDuration?: string | undefined;
   /** Controls how far into the future writes to the namespace will be accepted */
-  bufferFutureDuration?: string | null;
+  bufferFutureDuration?: string | null | undefined;
   /** Controls how far into the past writes to the namespace will be accepted */
-  bufferPastDuration?: string | null;
+  bufferPastDuration?: string | null | undefined;
   /** Controls the duration of time that M3DB will retain data for the namespace */
-  periodDuration?: string | null;
+  periodDuration?: string | null | undefined;
 }
 /** M3db Namespace definition */
 export interface CloudProjectDatabaseM3dbNamespace {
   /** Namespace ID */
-  id?: string;
+  id?: string | undefined;
   /** Name of the namespace */
-  name?: string;
+  name?: string | undefined;
   /** Resolution for an aggregated namespace */
-  resolution?: string | null;
+  resolution?: string | null | undefined;
   /** Retention configuration */
-  retention?: CloudProjectDatabaseM3dbNamespaceRetention;
+  retention?: CloudProjectDatabaseM3dbNamespaceRetention | undefined;
   /** Defines whether M3db will create snapshot files for this namespace */
-  snapshotEnabled?: boolean | null;
+  snapshotEnabled?: boolean | null | undefined;
   /** Type of namespace */
-  type?: CloudProjectDatabaseM3dbNamespaceTypeEnum;
+  type?: CloudProjectDatabaseM3dbNamespaceTypeEnum | undefined;
   /** Defines whether M3db will include writes to this namespace in the commit log */
-  writesToCommitLogEnabled?: boolean | null;
+  writesToCommitLogEnabled?: boolean | null | undefined;
 }
 export interface CreateCloudProjectDatabaseM3dbUserRequest {
   /** Service name */
@@ -4365,24 +4404,24 @@ export interface CreateCloudProjectDatabaseM3dbUserRequest {
   /** Cluster ID */
   clusterId: string;
   /** Group of the user */
-  group?: string;
+  group?: string | undefined;
   /** Name of the user */
   name: string;
 }
 /** M3db User definition */
 export interface CloudProjectDatabaseM3dbUserWithPassword {
   /** Date of the creation of the user */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Group of the user */
-  group?: string;
+  group?: string | undefined;
   /** User ID */
-  id?: string;
+  id?: string | undefined;
   /** Password of the user */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Current status of the user */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Name of the user */
-  username?: string;
+  username?: string | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type CreateCloudProjectDatabaseMongodbRequestIpRestrictionsList =
@@ -4394,33 +4433,33 @@ export interface CreateCloudProjectDatabaseMongodbRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseMongodbRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseMongodbRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseMongodbRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseMongodbRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreateCloudProjectDatabaseMongodbBackupRequest {
   /** Service name */
@@ -4428,12 +4467,12 @@ export interface CreateCloudProjectDatabaseMongodbBackupRequest {
   /** Cluster ID */
   clusterId: string;
   /** Description of the backup */
-  description?: string;
+  description?: string | undefined;
 }
 /** Cloud database backup region definition */
 export interface CloudProjectDatabaseBackupRegion {
   /** Name of the region where the backup is stored */
-  name?: string;
+  name?: string | undefined;
 }
 /** Regions where the backup are stored */
 export type CloudProjectDatabaseBackupRegionsList = Array<CloudProjectDatabaseBackupRegion>;
@@ -4449,21 +4488,21 @@ export type CloudProjectDatabaseBackupTypeEnum =
 /** Cloud database backup definition */
 export interface CloudProjectDatabaseBackup {
   /** Date of the creation of the backup */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Description of the backup */
-  description?: string;
+  description?: string | undefined;
   /** Backup ID */
-  id?: string;
+  id?: string | undefined;
   /** Region where the backup is stored. DEPRECATED: use regions */
-  region?: string;
+  region?: string | undefined;
   /** Regions where the backup are stored */
-  regions?: CloudProjectDatabaseBackupRegionsList;
+  regions?: CloudProjectDatabaseBackupRegionsList | undefined;
   /** Size of the backup */
-  size?: ComplexTypeUnitAndValueWritableLong;
+  size?: ComplexTypeUnitAndValueWritableLong | undefined;
   /** Current status of the backup */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Type of backup */
-  type?: CloudProjectDatabaseBackupTypeEnum;
+  type?: CloudProjectDatabaseBackupTypeEnum | undefined;
 }
 export interface CreateCloudProjectDatabaseMongodbLogSubscriptionRequest {
   /** Service name */
@@ -4489,11 +4528,11 @@ export interface CreateCloudProjectDatabaseMongodbNodeRequest {
   /** Cluster ID */
   clusterId: string;
   /** Flavor of the node */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Region of the node */
-  region?: string;
+  region?: string | undefined;
   /** Role of the node */
-  role?: CloudProjectDatabaseServiceNodeRoleEnum | (string & {}) | null;
+  role?: CloudProjectDatabaseServiceNodeRoleEnum | (string & {}) | null | undefined;
 }
 /** Roles the user belongs to */
 export type CreateCloudProjectDatabaseMongodbUserRequestRolesList = Array<string>;
@@ -4503,9 +4542,9 @@ export interface CreateCloudProjectDatabaseMongodbUserRequest {
   /** Cluster ID */
   clusterId: string;
   /** Name of the user */
-  name?: string;
+  name?: string | undefined;
   /** Roles the user belongs to */
-  roles?: CreateCloudProjectDatabaseMongodbUserRequestRolesList;
+  roles?: CreateCloudProjectDatabaseMongodbUserRequestRolesList | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type CreateCloudProjectDatabaseMysqlRequestIpRestrictionsList =
@@ -4517,33 +4556,33 @@ export interface CreateCloudProjectDatabaseMysqlRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseMysqlRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseMysqlRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseMysqlRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseMysqlRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreateCloudProjectDatabaseMysqlDatabaseRequest {
   /** Service name */
@@ -4565,11 +4604,11 @@ export interface CreateCloudProjectDatabaseMysqlIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabaseMysqlIntegrationRequestParametersMap | null;
+  parameters?: CreateCloudProjectDatabaseMysqlIntegrationRequestParametersMap | null | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 export interface CreateCloudProjectDatabaseMysqlLogSubscriptionRequest {
   /** Service name */
@@ -4608,13 +4647,13 @@ export interface CreateCloudProjectDatabaseMysqlMigrationRequest {
 /** Cloud database MySQL migration result definition */
 export interface CloudProjectDatabaseMysqlMigrationResult {
   /** Error message */
-  error?: string;
+  error?: string | undefined;
   /** Information message */
-  message?: string;
+  message?: string | undefined;
   /** Method used for the migration */
-  method?: string;
+  method?: string | undefined;
   /** Status of the migration */
-  status?: CloudProjectDatabaseMysqlMigrationStatusEnum;
+  status?: CloudProjectDatabaseMysqlMigrationStatusEnum | undefined;
 }
 export interface CreateCloudProjectDatabaseMysqlUserRequest {
   /** Service name */
@@ -4622,7 +4661,7 @@ export interface CreateCloudProjectDatabaseMysqlUserRequest {
   /** Cluster ID */
   clusterId: string;
   /** Name of the user */
-  name?: string;
+  name?: string | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type CreateCloudProjectDatabaseOpensearchRequestIpRestrictionsList =
@@ -4634,33 +4673,33 @@ export interface CreateCloudProjectDatabaseOpensearchRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseOpensearchRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseOpensearchRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseOpensearchRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseOpensearchRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Capabilities of the services */
 export type CloudProjectDatabaseOpensearchServiceCapabilitiesMap = {
@@ -4677,55 +4716,55 @@ export type CloudProjectDatabaseOpensearchServiceNodesList = Array<CloudProjectD
 /** Cloud database opensearch service definition */
 export interface CloudProjectDatabaseOpensearchService {
   /** Defines whether the acls are enabled on the cluster */
-  aclsEnabled?: boolean;
+  aclsEnabled?: boolean | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackup | null;
+  backups?: CloudProjectDatabaseServiceBackup | null | undefined;
   /** Capabilities of the services */
-  capabilities?: CloudProjectDatabaseOpensearchServiceCapabilitiesMap;
+  capabilities?: CloudProjectDatabaseOpensearchServiceCapabilitiesMap | undefined;
   /** Category of the engine */
-  category?: CloudProjectDatabaseEngineCategoryEnum;
+  category?: CloudProjectDatabaseEngineCategoryEnum | undefined;
   /** Date of the creation of the cluster */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDisk;
+  disk?: CloudProjectDatabaseServiceDisk | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** List of all endpoints of the service */
-  endpoints?: CloudProjectDatabaseOpensearchServiceEndpointsList;
+  endpoints?: CloudProjectDatabaseOpensearchServiceEndpointsList | undefined;
   /** Name of the engine of the service */
-  engine?: CloudProjectDatabaseEngineEnum;
+  engine?: CloudProjectDatabaseEngineEnum | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Service ID */
-  id?: string;
+  id?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CloudProjectDatabaseOpensearchServiceIpRestrictionsList;
+  ipRestrictions?: CloudProjectDatabaseOpensearchServiceIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** Type of network of the cluster */
-  networkType?: CloudProjectDatabaseNetworkTypeEnum;
+  networkType?: CloudProjectDatabaseNetworkTypeEnum | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Nodes of the cluster */
-  nodes?: CloudProjectDatabaseOpensearchServiceNodesList;
+  nodes?: CloudProjectDatabaseOpensearchServiceNodesList | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Current status of the cluster */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorage | null;
+  storage?: CloudProjectDatabaseServiceStorage | null | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Parameters for the integration */
 export type CreateCloudProjectDatabaseOpensearchIntegrationRequestParametersMap = {
@@ -4739,11 +4778,14 @@ export interface CreateCloudProjectDatabaseOpensearchIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabaseOpensearchIntegrationRequestParametersMap | null;
+  parameters?:
+    | CreateCloudProjectDatabaseOpensearchIntegrationRequestParametersMap
+    | null
+    | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 export interface CreateCloudProjectDatabaseOpensearchLogSubscriptionRequest {
   /** Service name */
@@ -4769,16 +4811,16 @@ export interface CreateCloudProjectDatabaseOpensearchPatternRequest {
   /** Cluster ID */
   clusterId: string;
   /** Maximum number of index for this pattern */
-  maxIndexCount?: number;
+  maxIndexCount?: number | undefined;
   /** Pattern format */
   pattern: string;
 }
 /** Cloud database opensearch pattern definition */
 export interface CloudProjectDatabaseOpensearchPattern {
   /** Pattern ID */
-  id?: string;
+  id?: string | undefined;
   /** Maximum number of index for this pattern */
-  maxIndexCount?: number;
+  maxIndexCount?: number | undefined;
   /** Pattern format */
   pattern: string;
 }
@@ -4798,7 +4840,7 @@ export interface CreateCloudProjectDatabaseOpensearchUserRequest {
   /** Cluster ID */
   clusterId: string;
   /** Acls of the user */
-  acls?: CreateCloudProjectDatabaseOpensearchUserRequestAclsList;
+  acls?: CreateCloudProjectDatabaseOpensearchUserRequestAclsList | undefined;
   /** Name of the user */
   name: string;
 }
@@ -4808,17 +4850,17 @@ export type CloudProjectDatabaseOpensearchUserWithPasswordAclsList =
 /** Opensearch user definition */
 export interface CloudProjectDatabaseOpensearchUserWithPassword {
   /** Acls of the user */
-  acls?: CloudProjectDatabaseOpensearchUserWithPasswordAclsList;
+  acls?: CloudProjectDatabaseOpensearchUserWithPasswordAclsList | undefined;
   /** Date of the creation of the user */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** User ID */
-  id?: string;
+  id?: string | undefined;
   /** Password of the user */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Current status of the user */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Name of the user */
-  username?: string;
+  username?: string | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type CreateCloudProjectDatabasePostgresqlRequestIpRestrictionsList =
@@ -4830,33 +4872,33 @@ export interface CreateCloudProjectDatabasePostgresqlRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabasePostgresqlRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabasePostgresqlRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabasePostgresqlRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabasePostgresqlRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Possible modes for the connection pools */
 export type CloudProjectDatabasePostgresqlConnectionpoolModeEnum =
@@ -4877,30 +4919,30 @@ export interface CreateCloudProjectDatabasePostgresqlConnectionPoolRequest {
   /** Size of the connection pool */
   size: number;
   /** User authorized to connect to the pool, if none all the users are allowed */
-  userId?: string | null;
+  userId?: string | null | undefined;
 }
 /** Possible ssl modes for the connection pools */
 export type CloudProjectDatabasePostgresqlConnectionpoolSslModeEnum = "require";
 /** Cloud database postgresql connection pool response body definition */
 export interface CloudProjectDatabasePostgresqlConnectionPool {
   /** Database used for the connection pool */
-  databaseId?: string;
+  databaseId?: string | undefined;
   /** ID of the connection pool */
-  id?: string;
+  id?: string | undefined;
   /** Connection mode to the connection pool */
-  mode?: CloudProjectDatabasePostgresqlConnectionpoolModeEnum;
+  mode?: CloudProjectDatabasePostgresqlConnectionpoolModeEnum | undefined;
   /** Name of the connection pool */
-  name?: string;
+  name?: string | undefined;
   /** Port of the connection pool */
-  port?: number;
+  port?: number | undefined;
   /** Size of the connection pool */
-  size?: number;
+  size?: number | undefined;
   /** Ssl connection mode for the pool */
-  sslMode?: CloudProjectDatabasePostgresqlConnectionpoolSslModeEnum | null;
+  sslMode?: CloudProjectDatabasePostgresqlConnectionpoolSslModeEnum | null | undefined;
   /** Connection URI to the pool */
-  uri?: string;
+  uri?: string | undefined;
   /** User authorized to connect to the pool, if none all the users are allowed */
-  userId?: string | null;
+  userId?: string | null | undefined;
 }
 export interface CreateCloudProjectDatabasePostgresqlDatabaseRequest {
   /** Service name */
@@ -4922,11 +4964,14 @@ export interface CreateCloudProjectDatabasePostgresqlIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabasePostgresqlIntegrationRequestParametersMap | null;
+  parameters?:
+    | CreateCloudProjectDatabasePostgresqlIntegrationRequestParametersMap
+    | null
+    | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 export interface CreateCloudProjectDatabasePostgresqlLogSubscriptionRequest {
   /** Service name */
@@ -4954,9 +4999,9 @@ export interface CreateCloudProjectDatabasePostgresqlUserRequest {
   /** Cluster ID */
   clusterId: string;
   /** Name of the user */
-  name?: string;
+  name?: string | undefined;
   /** Roles the user belongs to */
-  roles?: CreateCloudProjectDatabasePostgresqlUserRequestRolesList;
+  roles?: CreateCloudProjectDatabasePostgresqlUserRequestRolesList | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type CreateCloudProjectDatabaseRedisRequestIpRestrictionsList =
@@ -4968,33 +5013,33 @@ export interface CreateCloudProjectDatabaseRedisRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseRedisRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseRedisRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseRedisRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseRedisRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Parameters for the integration */
 export type CreateCloudProjectDatabaseRedisIntegrationRequestParametersMap = {
@@ -5008,11 +5053,11 @@ export interface CreateCloudProjectDatabaseRedisIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabaseRedisIntegrationRequestParametersMap | null;
+  parameters?: CreateCloudProjectDatabaseRedisIntegrationRequestParametersMap | null | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 export interface CreateCloudProjectDatabaseRedisLogSubscriptionRequest {
   /** Service name */
@@ -5046,13 +5091,13 @@ export interface CreateCloudProjectDatabaseRedisUserRequest {
   /** Cluster ID */
   clusterId: string;
   /** Categories of the user */
-  categories?: CreateCloudProjectDatabaseRedisUserRequestCategoriesList;
+  categories?: CreateCloudProjectDatabaseRedisUserRequestCategoriesList | undefined;
   /** Channels of the user */
-  channels?: CreateCloudProjectDatabaseRedisUserRequestChannelsList;
+  channels?: CreateCloudProjectDatabaseRedisUserRequestChannelsList | undefined;
   /** Commands of the user */
-  commands?: CreateCloudProjectDatabaseRedisUserRequestCommandsList;
+  commands?: CreateCloudProjectDatabaseRedisUserRequestCommandsList | undefined;
   /** Keys of the user */
-  keys?: CreateCloudProjectDatabaseRedisUserRequestKeysList;
+  keys?: CreateCloudProjectDatabaseRedisUserRequestKeysList | undefined;
   /** Name of the user */
   name: string;
 }
@@ -5067,23 +5112,23 @@ export type CloudProjectDatabaseRedisUserWithPasswordKeysList = Array<string>;
 /** Redis user with password definition */
 export interface CloudProjectDatabaseRedisUserWithPassword {
   /** Categories of the user */
-  categories?: CloudProjectDatabaseRedisUserWithPasswordCategoriesList;
+  categories?: CloudProjectDatabaseRedisUserWithPasswordCategoriesList | undefined;
   /** Channels of the user */
-  channels?: CloudProjectDatabaseRedisUserWithPasswordChannelsList;
+  channels?: CloudProjectDatabaseRedisUserWithPasswordChannelsList | undefined;
   /** Commands of the user */
-  commands?: CloudProjectDatabaseRedisUserWithPasswordCommandsList;
+  commands?: CloudProjectDatabaseRedisUserWithPasswordCommandsList | undefined;
   /** Date of the creation of the user */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** User ID */
-  id?: string;
+  id?: string | undefined;
   /** Keys of the user */
-  keys?: CloudProjectDatabaseRedisUserWithPasswordKeysList;
+  keys?: CloudProjectDatabaseRedisUserWithPasswordKeysList | undefined;
   /** Password of the user */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Current status of the user */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Name of the user */
-  username?: string;
+  username?: string | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type CreateCloudProjectDatabaseValkeyRequestIpRestrictionsList =
@@ -5095,33 +5140,33 @@ export interface CreateCloudProjectDatabaseValkeyRequest {
   /** Service name */
   serviceName: string;
   /** Backup from which the new service is created. DEPRECATED: use forkFrom */
-  backup?: CloudProjectDatabaseServiceCreationBackupFork | null;
+  backup?: CloudProjectDatabaseServiceCreationBackupFork | null | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Backup from which the new service is created */
-  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null;
+  forkFrom?: CloudProjectDatabaseServiceCreationForkFrom | null | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: CreateCloudProjectDatabaseValkeyRequestIpRestrictionsList;
+  ipRestrictions?: CreateCloudProjectDatabaseValkeyRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string | null;
+  maintenanceTime?: string | null | undefined;
   /** Private network ID in which the cluster is */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** List of nodes in the cluster, not compatible with nodesPattern */
-  nodesList?: CreateCloudProjectDatabaseValkeyRequestNodesListList | null;
+  nodesList?: CreateCloudProjectDatabaseValkeyRequestNodesListList | null | undefined;
   /** Pattern definition of the nodes in the cluster, not compatible with nodesList */
-  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null;
+  nodesPattern?: CloudProjectDatabaseServiceNodePattern | null | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Private subnet ID in which the cluster is */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Parameters for the integration */
 export type CreateCloudProjectDatabaseValkeyIntegrationRequestParametersMap = {
@@ -5135,11 +5180,11 @@ export interface CreateCloudProjectDatabaseValkeyIntegrationRequest {
   /** ID of the destination service */
   destinationServiceId: string;
   /** Parameters for the integration */
-  parameters?: CreateCloudProjectDatabaseValkeyIntegrationRequestParametersMap | null;
+  parameters?: CreateCloudProjectDatabaseValkeyIntegrationRequestParametersMap | null | undefined;
   /** ID of the source service */
   sourceServiceId: string;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {});
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | (string & {}) | undefined;
 }
 export interface CreateCloudProjectDatabaseValkeyLogSubscriptionRequest {
   /** Service name */
@@ -5173,22 +5218,22 @@ export interface CreateCloudProjectDatabaseValkeyUserRequest {
   /** Cluster ID */
   clusterId: string;
   /** Categories of the user */
-  categories?: CreateCloudProjectDatabaseValkeyUserRequestCategoriesList;
+  categories?: CreateCloudProjectDatabaseValkeyUserRequestCategoriesList | undefined;
   /** Channels of the user */
-  channels?: CreateCloudProjectDatabaseValkeyUserRequestChannelsList;
+  channels?: CreateCloudProjectDatabaseValkeyUserRequestChannelsList | undefined;
   /** Commands of the user */
-  commands?: CreateCloudProjectDatabaseValkeyUserRequestCommandsList;
+  commands?: CreateCloudProjectDatabaseValkeyUserRequestCommandsList | undefined;
   /** Keys of the user */
-  keys?: CreateCloudProjectDatabaseValkeyUserRequestKeysList;
+  keys?: CreateCloudProjectDatabaseValkeyUserRequestKeysList | undefined;
   /** Name of the user */
   name: string;
 }
 /** NetworkParams */
 export interface CloudInstanceNetworkParams {
   /** Static ip (Can only be defined for private networks) */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Private or public network Id */
-  networkId?: string;
+  networkId?: string | undefined;
 }
 /** Create network interfaces */
 export type CreateCloudProjectInstanceRequestNetworksList = Array<CloudInstanceNetworkParams>;
@@ -5196,29 +5241,29 @@ export interface CreateCloudProjectInstanceRequest {
   /** Service name */
   serviceName: string;
   /** Create an autobackup workflow after instance start up */
-  autobackup?: CloudInstanceAutoBackup | null;
+  autobackup?: CloudInstanceAutoBackup | null | undefined;
   /** Availability zone to create the instance on */
-  availabilityZone?: string | null;
+  availabilityZone?: string | null | undefined;
   /** Instance flavor id */
   flavorId: string;
   /** Start instance in group */
-  groupId?: string | null;
+  groupId?: string | null | undefined;
   /** Instance image id */
-  imageId?: string | null;
+  imageId?: string | null | undefined;
   /** Active monthly billing */
-  monthlyBilling?: boolean | null;
+  monthlyBilling?: boolean | null | undefined;
   /** Instance name */
   name: string;
   /** Create network interfaces */
-  networks?: CreateCloudProjectInstanceRequestNetworksList | null;
+  networks?: CreateCloudProjectInstanceRequestNetworksList | null | undefined;
   /** Instance region */
   region: string;
   /** SSH keypair id */
-  sshKeyId?: string | null;
+  sshKeyId?: string | null | undefined;
   /** Configuration information or scripts to use upon launch */
-  userData?: string | null;
+  userData?: string | null | undefined;
   /** Specify a volume id to boot from it */
-  volumeId?: string | null;
+  volumeId?: string | null | undefined;
 }
 export interface CreateCloudProjectInstanceActiveMonthlyBillingRequest {
   /** Service name */
@@ -5235,13 +5280,13 @@ export interface CreateCloudProjectInstanceApplicationAccessRequest {
 /** Access */
 export interface CloudInstanceAccess {
   /** Login */
-  login?: string;
+  login?: string | undefined;
   /** Password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Application access type */
-  type?: string;
+  type?: string | undefined;
   /** Url */
-  url?: string;
+  url?: string | undefined;
 }
 /** List of credentials */
 export type CloudInstanceApplicationAccessAccessesList = Array<CloudInstanceAccess>;
@@ -5250,9 +5295,9 @@ export type CloudInstanceApplicationAccessStateEnum = "installing" | "ok";
 /** ApplicationAccess */
 export interface CloudInstanceApplicationAccess {
   /** List of credentials */
-  accesses?: CloudInstanceApplicationAccessAccessesList;
+  accesses?: CloudInstanceApplicationAccessAccessesList | undefined;
   /** Application status */
-  status?: CloudInstanceApplicationAccessStateEnum;
+  status?: CloudInstanceApplicationAccessStateEnum | undefined;
 }
 /** InstanceGroupTypeEnum */
 export type CloudInstancegroupInstanceGroupTypeEnum = "affinity" | "anti-affinity";
@@ -5271,15 +5316,15 @@ export type CloudInstancegroupInstanceGroupInstanceIdsList = Array<string>;
 /** InstanceGroup */
 export interface CloudInstancegroupInstanceGroup {
   /** Instance group id */
-  id?: string;
+  id?: string | undefined;
   /** Instances ids */
-  instance_ids?: CloudInstancegroupInstanceGroupInstanceIdsList;
+  instance_ids?: CloudInstancegroupInstanceGroupInstanceIdsList | undefined;
   /** Instance group name */
-  name?: string;
+  name?: string | undefined;
   /** region */
-  region?: string;
+  region?: string | undefined;
   /** Instance group type */
-  type?: CloudInstancegroupInstanceGroupTypeEnum;
+  type?: CloudInstancegroupInstanceGroupTypeEnum | undefined;
 }
 export interface CreateCloudProjectInstanceInterfaceRequest {
   /** Service name */
@@ -5287,33 +5332,33 @@ export interface CreateCloudProjectInstanceInterfaceRequest {
   /** Instance ID */
   instanceId: string;
   /** Static ip (Can only be defined for private networks) */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Network id */
   networkId: string;
 }
 /** FixedIp */
 export interface CloudInstanceInterfaceFixedIp {
   /** Ip */
-  ip?: string;
+  ip?: string | undefined;
   /** Subnetwork Id */
-  subnetId?: string;
+  subnetId?: string | undefined;
 }
 /** List of ips of the interface */
 export type CloudInstanceInterfaceInterfaceFixedIpsList = Array<CloudInstanceInterfaceFixedIp>;
 /** Interface */
 export interface CloudInstanceInterfaceInterface {
   /** List of ips of the interface */
-  fixedIps?: CloudInstanceInterfaceInterfaceFixedIpsList;
+  fixedIps?: CloudInstanceInterfaceInterfaceFixedIpsList | undefined;
   /** Interface unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Mac address */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** Network id */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Openstack state */
-  state?: string;
+  state?: string | undefined;
   /** Network type */
-  type?: string;
+  type?: string | undefined;
 }
 export interface CreateCloudProjectInstanceReinstallRequest {
   /** Service name */
@@ -5329,14 +5374,14 @@ export interface CreateCloudProjectInstanceRescueModeRequest {
   /** Instance ID */
   instanceId: string;
   /** Image to boot on */
-  imageId?: string | null;
+  imageId?: string | null | undefined;
   /** Enable rescue mode */
   rescue: boolean;
 }
 /** RescueAdminPassword */
 export interface CloudInstanceRescueAdminPassword {
   /** Admin password to connect to your rescue server with */
-  adminPassword?: string | Redacted.Redacted<string> | null;
+  adminPassword?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface CreateCloudProjectInstanceShelveRequest {
   /** Service name */
@@ -5356,7 +5401,7 @@ export interface CreateCloudProjectInstanceSnapshotRequest {
 /** InstanceSnapshot */
 export interface CloudInstanceInstanceSnapshot {
   /** Snapshot ID */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
 }
 export interface CreateCloudProjectInstanceUnshelveRequest {
   /** Service name */
@@ -5374,9 +5419,9 @@ export interface CreateCloudProjectInstanceVncRequest {
 /** InstanceVnc */
 export interface CloudInstanceInstanceVnc {
   /** VNC type */
-  type?: string;
+  type?: string | undefined;
   /** VNC url */
-  url?: string;
+  url?: string | undefined;
 }
 /** Enum admission plugins */
 export type CloudProjectKubeCustomizationAPIServerAdmissionPluginsEnum =
@@ -5393,14 +5438,14 @@ export type CloudProjectKubeCustomizationAPIServerAdmissionPluginsEnabledList = 
 /** Cluster API server admission plugins customization */
 export interface CloudProjectKubeCustomizationAPIServerAdmissionPlugins {
   /** Array of disabled admission plugins */
-  disabled?: CloudProjectKubeCustomizationAPIServerAdmissionPluginsDisabledList | null;
+  disabled?: CloudProjectKubeCustomizationAPIServerAdmissionPluginsDisabledList | null | undefined;
   /** Array of enabled admission plugins */
-  enabled?: CloudProjectKubeCustomizationAPIServerAdmissionPluginsEnabledList | null;
+  enabled?: CloudProjectKubeCustomizationAPIServerAdmissionPluginsEnabledList | null | undefined;
 }
 /** Cluster API server customization */
 export interface CloudProjectKubeCustomizationAPIServer {
   /** Kubernetes cluster api server admission plugins customization */
-  admissionPlugins?: CloudProjectKubeCustomizationAPIServerAdmissionPlugins | null;
+  admissionPlugins?: CloudProjectKubeCustomizationAPIServerAdmissionPlugins | null | undefined;
 }
 /** Type of service for clustermesh api server */
 export type CloudProjectKubeCustomizationCiliumClusterMeshApiServerServiceTypeEnum =
@@ -5409,128 +5454,129 @@ export type CloudProjectKubeCustomizationCiliumClusterMeshApiServerServiceTypeEn
 /** ClusterMesh customization */
 export interface CloudProjectKubeCustomizationCiliumClusterMeshApiServer {
   /** Node port */
-  nodePort?: number | null;
+  nodePort?: number | null | undefined;
   /** Service type */
   serviceType?:
     | CloudProjectKubeCustomizationCiliumClusterMeshApiServerServiceTypeEnum
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 /** ClusterMesh customization */
 export interface CloudProjectKubeCustomizationCiliumClusterMesh {
   /** API server customization */
-  apiServer?: CloudProjectKubeCustomizationCiliumClusterMeshApiServer | null;
+  apiServer?: CloudProjectKubeCustomizationCiliumClusterMeshApiServer | null | undefined;
   /** Enable cluster mesh */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 /** Hubble relay customization */
 export interface CloudProjectKubeCustomizationCiliumHubbleRelay {
   /** Enable relay */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 /** Kubernetes resources definitions */
 export interface CloudProjectKubeResources {
   /** cpu resource (format according to Kubernetes specification. e.g. cpu: 500m) */
-  cpu?: string | null;
+  cpu?: string | null | undefined;
   /** memory resource (format according to Kubernetes specification. e.g. memory: 512Mi) */
-  memory?: string | null;
+  memory?: string | null | undefined;
 }
 /** Hubble UI Resources customization */
 export interface CloudProjectKubeCustomizationCiliumHubbleUIResources {
   /** Resources limits customizations */
-  limits?: CloudProjectKubeResources | null;
+  limits?: CloudProjectKubeResources | null | undefined;
   /** Resources requests customizations */
-  requests?: CloudProjectKubeResources | null;
+  requests?: CloudProjectKubeResources | null | undefined;
 }
 /** Hubble UI customization */
 export interface CloudProjectKubeCustomizationCiliumHubbleUI {
   /** Hubble UI Backend Resources requests and limits customizations */
-  backendResources?: CloudProjectKubeCustomizationCiliumHubbleUIResources | null;
+  backendResources?: CloudProjectKubeCustomizationCiliumHubbleUIResources | null | undefined;
   /** Enable Hubble UI */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Hubble UI Frontend Resources requests and limits customizations */
-  frontendResources?: CloudProjectKubeCustomizationCiliumHubbleUIResources | null;
+  frontendResources?: CloudProjectKubeCustomizationCiliumHubbleUIResources | null | undefined;
 }
 /** Hubble customization */
 export interface CloudProjectKubeCustomizationCiliumHubble {
   /** Enable hubble */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Relay customization */
-  relay?: CloudProjectKubeCustomizationCiliumHubbleRelay | null;
+  relay?: CloudProjectKubeCustomizationCiliumHubbleRelay | null | undefined;
   /** Hubble UI customization */
-  ui?: CloudProjectKubeCustomizationCiliumHubbleUI | null;
+  ui?: CloudProjectKubeCustomizationCiliumHubbleUI | null | undefined;
 }
 /** Cilium customization */
 export interface CloudProjectKubeCustomizationCilium {
   /** Cilium's clusterID: must be between 1 and 255 if set (mandatory when using clusterMesh feature) */
-  clusterId?: number | null;
+  clusterId?: number | null | undefined;
   /** ClusterMesh customization. */
-  clusterMesh?: CloudProjectKubeCustomizationCiliumClusterMesh | null;
+  clusterMesh?: CloudProjectKubeCustomizationCiliumClusterMesh | null | undefined;
   /** Hubble customization. */
-  hubble?: CloudProjectKubeCustomizationCiliumHubble | null;
+  hubble?: CloudProjectKubeCustomizationCiliumHubble | null | undefined;
 }
 /** Configuration used when kube-proxy is configured with iptables mode (durations format is RFC3339 duration, e.g. 'PT60S') */
 export interface CloudProjectKubeCustomizationKubeProxyIptables {
   /** minSyncPeriod is the minimum period that iptables rules are refreshed, in RFC3339 duration format (e.g. 'PT60S') */
-  minSyncPeriod?: string | null;
+  minSyncPeriod?: string | null | undefined;
   /** syncPeriod is the period that iptables rules are refreshed, in RFC3339 duration format (e.g. 'PT60S'). Must be greater than 0 */
-  syncPeriod?: string | null;
+  syncPeriod?: string | null | undefined;
 }
 /** Enum values for scheduler parameter of cluster kubeProxy custom ipvs config */
 export type CloudKubeKubeProxyIpvsSchedulerEnum = "dh" | "lc" | "nq" | "rr" | "sed" | "sh";
 /** Configuration used when kube-proxy is configured with ipvs mode (durations format is RFC3339 duration, e.g. 'PT60S') */
 export interface CloudProjectKubeCustomizationKubeProxyIpvs {
   /** minSyncPeriod is the minimum period that ipvs rules are refreshed in RFC3339 duration format (e.g. 'PT60S') */
-  minSyncPeriod?: string | null;
+  minSyncPeriod?: string | null | undefined;
   /** ipvs scheduler */
-  scheduler?: CloudKubeKubeProxyIpvsSchedulerEnum | (string & {}) | null;
+  scheduler?: CloudKubeKubeProxyIpvsSchedulerEnum | (string & {}) | null | undefined;
   /** syncPeriod is the period that ipvs rules are refreshed in RFC3339 duration format (e.g. 'PT60S'). Must be greater than 0 */
-  syncPeriod?: string | null;
+  syncPeriod?: string | null | undefined;
   /** tcpFinTimeout is the timeout value used for IPVS TCP sessions after receiving a FIN in RFC3339 duration format (e.g. 'PT60S'). The default value is 'PT0S', which preserves the current timeout value on the system */
-  tcpFinTimeout?: string | null;
+  tcpFinTimeout?: string | null | undefined;
   /** tcpTimeout is the timeout value used for idle IPVS TCP sessions in RFC3339 duration format (e.g. 'PT60S'). The default value is 'PT0S', which preserves the current timeout value on the system. Cannot be set between 'PT0S' and 'PT5S', in order to prevent in-cluster networking issues. */
-  tcpTimeout?: string | null;
+  tcpTimeout?: string | null | undefined;
   /** udpTimeout is the timeout value used for IPVS UDP packets in RFC3339 duration format (e.g. 'PT60S'). The default value is 'PT0S', which preserves the current timeout value on the system */
-  udpTimeout?: string | null;
+  udpTimeout?: string | null | undefined;
 }
 /** Cluster kube-proxy customization: iptables and ipvs configurations can both be set at the same time, kube-proxy will use the one according to the cluster's kubeProxyMode value */
 export interface CloudProjectKubeCustomizationKubeProxy {
   /** Kubernetes cluster kube-proxy customization of iptables specific config (durations format is RFC3339 duration, e.g. 'PT60S') */
-  iptables?: CloudProjectKubeCustomizationKubeProxyIptables | null;
+  iptables?: CloudProjectKubeCustomizationKubeProxyIptables | null | undefined;
   /** Kubernetes cluster kube-proxy customization of ipvs specific config (durations format is RFC3339 duration, e.g. 'PT60S') */
-  ipvs?: CloudProjectKubeCustomizationKubeProxyIpvs | null;
+  ipvs?: CloudProjectKubeCustomizationKubeProxyIpvs | null | undefined;
 }
 /** Cluster customization */
 export interface CloudProjectKubeCustomization {
   /** Kubernetes cluster api server customization */
-  apiServer?: CloudProjectKubeCustomizationAPIServer | null;
+  apiServer?: CloudProjectKubeCustomizationAPIServer | null | undefined;
   /** Kubernetes cluster cilium customization */
-  cilium?: CloudProjectKubeCustomizationCilium | null;
+  cilium?: CloudProjectKubeCustomizationCilium | null | undefined;
   /** Kubernetes cluster kube-proxy customization */
-  kubeProxy?: CloudProjectKubeCustomizationKubeProxy | null;
+  kubeProxy?: CloudProjectKubeCustomizationKubeProxy | null | undefined;
 }
 /** IP allocation policy. */
 export interface CloudProjectKubeIpAllocationPolicy {
   /** CIDR used for pods ip allocation */
-  podsIpv4Cidr?: string | null;
+  podsIpv4Cidr?: string | null | undefined;
   /** CIDR used for services ip allocation */
-  servicesIpv4Cidr?: string | null;
+  servicesIpv4Cidr?: string | null | undefined;
 }
 /** Enum values for cluster kubeProxyMode */
 export type CloudKubeKubeProxyModeEnum = "iptables" | "ipvs";
 /** Parameters for optional node exposition via a floating IP per node */
 export interface CloudProjectKubeNodePoolAttachFloatingIpsParams {
   /** Enable node exposition via floating IP per node */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Missing description */
 export interface CloudProjectKubeNodePoolAutoscalingParams {
   /** How long a node should be unneeded before it is eligible for scale down */
-  scaleDownUnneededTimeSeconds?: number;
+  scaleDownUnneededTimeSeconds?: number | undefined;
   /** How long an unready node should be unneeded before it is eligible for scale down */
-  scaleDownUnreadyTimeSeconds?: number;
+  scaleDownUnreadyTimeSeconds?: number | undefined;
   /** Sum of cpu or memory of all pods running on the node divided by node's corresponding allocatable resource, below which a node can be considered for scale down */
-  scaleDownUtilizationThreshold?: number;
+  scaleDownUtilizationThreshold?: number | undefined;
 }
 /** List of availability zones where nodes will be created (only 1 zone is supported for now) */
 export type CloudProjectKubeCreationNodePoolAvailabilityZonesList = Array<string>;
@@ -5579,38 +5625,38 @@ export interface CloudKubeNodePoolTemplate {
 /** Missing description */
 export interface CloudProjectKubeCreationNodePool {
   /** Enable anti affinity groups for nodes in the pool */
-  antiAffinity?: boolean | null;
+  antiAffinity?: boolean | null | undefined;
   /** Parameters for optional node exposition via a floating IP per node */
-  attachFloatingIps?: CloudProjectKubeNodePoolAttachFloatingIpsParams | null;
+  attachFloatingIps?: CloudProjectKubeNodePoolAttachFloatingIpsParams | null | undefined;
   /** Enable the auto-scaling on the pool */
-  autoscale?: boolean | null;
+  autoscale?: boolean | null | undefined;
   /** Autoscaling customization parameters */
-  autoscaling?: CloudProjectKubeNodePoolAutoscalingParams;
+  autoscaling?: CloudProjectKubeNodePoolAutoscalingParams | undefined;
   /** List of availability zones where nodes will be created (only 1 zone is supported for now) */
-  availabilityZones?: CloudProjectKubeCreationNodePoolAvailabilityZonesList | null;
+  availabilityZones?: CloudProjectKubeCreationNodePoolAvailabilityZonesList | null | undefined;
   /** Number of nodes to instantiate (1 by default) */
-  desiredNodes?: number;
+  desiredNodes?: number | undefined;
   /** Nodes flavor */
   flavorName: string;
   /** Higher limit you accept for the desiredNodes value (100 by default) */
-  maxNodes?: number;
+  maxNodes?: number | undefined;
   /** Lower limit you accept for the desiredNodes value (0 by default) */
-  minNodes?: number;
+  minNodes?: number | undefined;
   /** Enable monthly billing for nodes in the pool */
-  monthlyBilled?: boolean | null;
+  monthlyBilled?: boolean | null | undefined;
   /** NodePool name */
-  name?: string;
+  name?: string | undefined;
   /** NodePool template to apply to each children nodes */
-  template?: CloudKubeNodePoolTemplate;
+  template?: CloudKubeNodePoolTemplate | undefined;
 }
 /** List of nodepools to initialize with cluster creation */
 export type CreateCloudProjectKubeRequestNodepoolsList = Array<CloudProjectKubeCreationNodePool>;
 /** Managed Kubernetes cluster private networking configuration */
 export interface CloudKubePrivateNetworkConfiguration {
   /** If defined, all egress traffic will be routed towards this IP address, which should belong to the private network. Empty string means disabled. */
-  defaultVrackGateway?: string;
+  defaultVrackGateway?: string | undefined;
   /** Defines whether routing should default to using the nodes' private interface, instead of their public interface. Default is false. */
-  privateNetworkRoutingAsDefault?: boolean | null;
+  privateNetworkRoutingAsDefault?: boolean | null | undefined;
 }
 /** Enum values for UpdatePolicy */
 export type CloudKubeUpdatePolicyEnum = "ALWAYS_UPDATE" | "MINIMAL_DOWNTIME" | "NEVER_UPDATE";
@@ -5620,33 +5666,33 @@ export interface CreateCloudProjectKubeRequest {
   /** Service name */
   serviceName: string;
   /** Kubernetes cluster customization */
-  customization?: CloudProjectKubeCustomization | null;
+  customization?: CloudProjectKubeCustomization | null | undefined;
   /** IP allocation policy. This field is optional. */
-  ipAllocationPolicy?: CloudProjectKubeIpAllocationPolicy | null;
+  ipAllocationPolicy?: CloudProjectKubeIpAllocationPolicy | null | undefined;
   /** Selected mode for kube-proxy */
-  kubeProxyMode?: CloudKubeKubeProxyModeEnum | (string & {}) | null;
+  kubeProxyMode?: CloudKubeKubeProxyModeEnum | (string & {}) | null | undefined;
   /** OpenStack subnet ID that the load balancers will use. Optional, can be updated with endpoint /cloud/project/{serviceName}/kube/{kubeId}/updateLoadBalancersSubnetId, can only be set if privateNetworkId and nodesSubnetId are also set */
-  loadBalancersSubnetId?: string;
+  loadBalancersSubnetId?: string | undefined;
   /** Kubernetes cluster name */
-  name?: string;
+  name?: string | undefined;
   /** Nodepool to initialize with cluster creation. Note: this fields is deprecated in favor of 'nodepools' field that allows to create one or more nodepools. */
-  nodepool?: CloudProjectKubeCreationNodePool;
+  nodepool?: CloudProjectKubeCreationNodePool | undefined;
   /** List of nodepools to initialize with cluster creation */
-  nodepools?: CreateCloudProjectKubeRequestNodepoolsList;
+  nodepools?: CreateCloudProjectKubeRequestNodepoolsList | undefined;
   /** OpenStack subnet ID that the cluster nodes will use. Optional, can only be set on cluster creation or reset, can only be set if privateNetworkId is also set. If unspecified, it will be selected automatically when the first node is created. */
-  nodesSubnetId?: string;
+  nodesSubnetId?: string | undefined;
   /** The cluster plan */
-  plan?: string | null;
+  plan?: string | null | undefined;
   /** The private network configuration. */
-  privateNetworkConfiguration?: CloudKubePrivateNetworkConfiguration;
+  privateNetworkConfiguration?: CloudKubePrivateNetworkConfiguration | undefined;
   /** OpenStack private network ID that the cluster will use. Optional, can only be set on cluster creation or reset. If unspecified, the cluster will use the public network. */
-  privateNetworkId?: string;
+  privateNetworkId?: string | undefined;
   /** Kubernetes OpenStack region */
   region: string;
   /** Enum values for UpdatePolicy */
-  updatePolicy?: CloudKubeUpdatePolicyEnum | (string & {}) | null;
+  updatePolicy?: CloudKubeUpdatePolicyEnum | (string & {}) | null | undefined;
   /** Kubernetes version to install */
-  version?: CloudKubeVersionEnum | (string & {});
+  version?: CloudKubeVersionEnum | (string & {}) | undefined;
 }
 /** Kubernetes versions available for upgrade */
 export type CloudKubeClusterNextUpgradeVersionsList = Array<string>;
@@ -5671,49 +5717,49 @@ export type CloudKubeClusterStatusEnum =
 /** Managed Kubernetes cluster description */
 export interface CloudKubeCluster {
   /** True if cluster auditlogs forward has been subscribed */
-  auditLogsSubscribed?: boolean;
+  auditLogsSubscribed?: boolean | undefined;
   /** True if control-plane is up to date */
-  controlPlaneIsUpToDate?: boolean;
+  controlPlaneIsUpToDate?: boolean | undefined;
   /** Cluster creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Kubernetes cluster customization */
-  customization?: CloudProjectKubeCustomization | null;
+  customization?: CloudProjectKubeCustomization | null | undefined;
   /** Cluster ID */
-  id?: string;
+  id?: string | undefined;
   /** IP allocation policy */
-  ipAllocationPolicy?: CloudProjectKubeIpAllocationPolicy | null;
+  ipAllocationPolicy?: CloudProjectKubeIpAllocationPolicy | null | undefined;
   /** True if all nodes and control-plane are up to date */
-  isUpToDate?: boolean;
+  isUpToDate?: boolean | undefined;
   /** Selected mode for kube-proxy */
-  kubeProxyMode?: CloudKubeKubeProxyModeEnum | null;
+  kubeProxyMode?: CloudKubeKubeProxyModeEnum | null | undefined;
   /** OpenStack subnet ID that the load balancers will use. Optional, can be updated with endpoint /cloud/project/{serviceName}/kube/{kubeId}/updateLoadBalancersSubnetId, can only be set if privateNetworkId and nodesSubnetId are also set */
-  loadBalancersSubnetId?: string | null;
+  loadBalancersSubnetId?: string | null | undefined;
   /** Cluster name */
-  name?: string;
+  name?: string | undefined;
   /** Kubernetes versions available for upgrade */
-  nextUpgradeVersions?: CloudKubeClusterNextUpgradeVersionsList | null;
+  nextUpgradeVersions?: CloudKubeClusterNextUpgradeVersionsList | null | undefined;
   /** OpenStack subnet ID that the cluster nodes will use. Optional, can only be set on cluster creation or reset, can only be set if privateNetworkId is also set. If unspecified, it will be selected automatically when the first node is created. */
-  nodesSubnetId?: string | null;
+  nodesSubnetId?: string | null | undefined;
   /** Cluster nodes URL */
-  nodesUrl?: string;
+  nodesUrl?: string | undefined;
   /** The cluster plan */
-  plan?: string;
+  plan?: string | undefined;
   /** The private network configuration. This field is optional. */
-  privateNetworkConfiguration?: CloudKubePrivateNetworkConfiguration | null;
+  privateNetworkConfiguration?: CloudKubePrivateNetworkConfiguration | null | undefined;
   /** OpenStack private network ID that the cluster will use. Optional, can only be set on cluster creation or reset. If unspecified, the cluster will use the public network. */
-  privateNetworkId?: string | null;
+  privateNetworkId?: string | null | undefined;
   /** Cluster region. Example: GRA11. */
-  region?: string;
+  region?: string | undefined;
   /** Cluster status */
-  status?: CloudKubeClusterStatusEnum;
+  status?: CloudKubeClusterStatusEnum | undefined;
   /** Cluster update policy */
-  updatePolicy?: string;
+  updatePolicy?: string | undefined;
   /** Cluster last update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Management URL of your cluster */
-  url?: string;
+  url?: string | undefined;
   /** Kubernetes version of your cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** List of ips to add to the cluster api-server restrictions (format with /subnet available) */
 export type CreateCloudProjectKubeIpRestrictionRequestIpsList = Array<string>;
@@ -5723,7 +5769,7 @@ export interface CreateCloudProjectKubeIpRestrictionRequest {
   /** Kube ID */
   kubeId: string;
   /** List of ips to add to the cluster api-server restrictions (format with /subnet available) */
-  ips?: CreateCloudProjectKubeIpRestrictionRequestIpsList;
+  ips?: CreateCloudProjectKubeIpRestrictionRequestIpsList | undefined;
 }
 export type CreateCloudProjectKubeIpRestrictionResponseBodyList = Array<string>;
 export type CreateCloudProjectKubeIpRestrictionResponse =
@@ -5737,7 +5783,7 @@ export interface CreateCloudProjectKubeKubeconfigRequest {
 /** Kubeconfig description */
 export interface CloudKubeKubeconfig {
   /** kubeconfig file */
-  content?: string;
+  content?: string | undefined;
 }
 export interface CreateCloudProjectKubeLogSubscriptionRequest {
   /** Service name */
@@ -5765,29 +5811,29 @@ export interface CreateCloudProjectKubeNodepoolRequest {
   /** Kube ID */
   kubeId: string;
   /** Enable anti affinity groups for nodes in the pool */
-  antiAffinity?: boolean | null;
+  antiAffinity?: boolean | null | undefined;
   /** Parameters for optional node exposition via a floating IP per node */
-  attachFloatingIps?: CloudProjectKubeNodePoolAttachFloatingIpsParams | null;
+  attachFloatingIps?: CloudProjectKubeNodePoolAttachFloatingIpsParams | null | undefined;
   /** Enable the auto-scaling on the pool */
-  autoscale?: boolean | null;
+  autoscale?: boolean | null | undefined;
   /** Autoscaling customization parameters */
-  autoscaling?: CloudProjectKubeNodePoolAutoscalingParams;
+  autoscaling?: CloudProjectKubeNodePoolAutoscalingParams | undefined;
   /** List of availability zones where nodes will be created (only 1 zone is supported for now) */
-  availabilityZones?: CreateCloudProjectKubeNodepoolRequestAvailabilityZonesList | null;
+  availabilityZones?: CreateCloudProjectKubeNodepoolRequestAvailabilityZonesList | null | undefined;
   /** Number of nodes to instantiate (1 by default) */
-  desiredNodes?: number;
+  desiredNodes?: number | undefined;
   /** Nodes flavor */
   flavorName: string;
   /** Higher limit you accept for the desiredNodes value (100 by default) */
-  maxNodes?: number;
+  maxNodes?: number | undefined;
   /** Lower limit you accept for the desiredNodes value (0 by default) */
-  minNodes?: number;
+  minNodes?: number | undefined;
   /** Enable monthly billing for nodes in the pool */
-  monthlyBilled?: boolean | null;
+  monthlyBilled?: boolean | null | undefined;
   /** NodePool name */
-  name?: string;
+  name?: string | undefined;
   /** NodePool template to apply to each children nodes */
-  template?: CloudKubeNodePoolTemplate;
+  template?: CloudKubeNodePoolTemplate | undefined;
 }
 /** Parameters for optional node exposition via a floating IP per node */
 export type CloudKubeNodePoolAttachFloatingIps = CloudProjectKubeNodePoolAttachFloatingIpsParams;
@@ -5822,47 +5868,47 @@ export type CloudKubeNodePoolStatusEnum =
 /** NodePool created on your cluster to manage your nodes */
 export interface CloudKubeNodePool {
   /** Enable anti affinity groups for nodes in the pool */
-  antiAffinity?: boolean;
+  antiAffinity?: boolean | undefined;
   /** Parameters for optional node exposition via a floating IP per node */
-  attachFloatingIps?: CloudProjectKubeNodePoolAttachFloatingIpsParams | null;
+  attachFloatingIps?: CloudProjectKubeNodePoolAttachFloatingIpsParams | null | undefined;
   /** Enable auto-scaling for the pool */
-  autoscale?: boolean;
+  autoscale?: boolean | undefined;
   /** Autoscaling customization parameters */
-  autoscaling?: CloudProjectKubeNodePoolAutoscalingParams;
+  autoscaling?: CloudProjectKubeNodePoolAutoscalingParams | undefined;
   /** List of availability zones where nodes will be created (only 1 zone is supported for now) */
-  availabilityZones?: CloudKubeNodePoolAvailabilityZonesList | null;
+  availabilityZones?: CloudKubeNodePoolAvailabilityZonesList | null | undefined;
   /** Number of nodes which are actually ready in the pool */
-  availableNodes?: number;
+  availableNodes?: number | undefined;
   /** Creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Number of nodes present in the pool */
-  currentNodes?: number;
+  currentNodes?: number | undefined;
   /** Number of nodes you desire in the pool */
-  desiredNodes?: number;
+  desiredNodes?: number | undefined;
   /** Flavor name */
-  flavor?: string;
+  flavor?: string | undefined;
   /** NodePool ID */
-  id?: string;
+  id?: string | undefined;
   /** Number of nodes you desire in the pool */
-  maxNodes?: number;
+  maxNodes?: number | undefined;
   /** Number of nodes you desire in the pool */
-  minNodes?: number;
+  minNodes?: number | undefined;
   /** Enable monthly billing on all nodes in the pool */
-  monthlyBilled?: boolean;
+  monthlyBilled?: boolean | undefined;
   /** NodePool resource name */
-  name?: string;
+  name?: string | undefined;
   /** Project id */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Status describing the state between number of nodes wanted and available ones */
-  sizeStatus?: CloudKubeNodePoolSizeStatusEnum;
+  sizeStatus?: CloudKubeNodePoolSizeStatusEnum | undefined;
   /** Current status */
-  status?: CloudKubeNodePoolStatusEnum;
+  status?: CloudKubeNodePoolStatusEnum | undefined;
   /** Template of nodes metadata and spec to create in the pool */
-  template?: CloudKubeNodePoolTemplate;
+  template?: CloudKubeNodePoolTemplate | undefined;
   /** Number of nodes with latest version installed in the pool */
-  upToDateNodes?: number;
+  upToDateNodes?: number | undefined;
   /** Last update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** JWT claim to use as the user's group. If the claim is present it must be an array of strings. */
 export type CreateCloudProjectKubeOpenIdConnectRequestGroupsClaimList = Array<string>;
@@ -5889,23 +5935,26 @@ export interface CreateCloudProjectKubeOpenIdConnectRequest {
   /** Kube ID */
   kubeId: string;
   /** Content of the certificate for the CA, in base64 format, that signed your identity provider's web certificate. Defaults to the host's root CAs. */
-  caContent?: string | null;
+  caContent?: string | null | undefined;
   /** Client ID */
   clientId: string;
   /** JWT claim to use as the user's group. If the claim is present it must be an array of strings. */
-  groupsClaim?: CreateCloudProjectKubeOpenIdConnectRequestGroupsClaimList | null;
+  groupsClaim?: CreateCloudProjectKubeOpenIdConnectRequestGroupsClaimList | null | undefined;
   /** Prefix prepended to group claims to prevent clashes with existing names (such as system: groups). For example, the value oidc: will create group names like oidc:engineering and oidc:infra. */
-  groupsPrefix?: string | null;
+  groupsPrefix?: string | null | undefined;
   /** Issuer URL */
   issuerUrl: string;
   /** key=value pairs that describe required claims in the ID Token. If set, the claims are verified to be present in the ID Token with a matching value. */
-  requiredClaim?: CreateCloudProjectKubeOpenIdConnectRequestRequiredClaimList | null;
+  requiredClaim?: CreateCloudProjectKubeOpenIdConnectRequestRequiredClaimList | null | undefined;
   /** The signing algorithms accepted. Default is "RS256". */
-  signingAlgorithms?: CreateCloudProjectKubeOpenIdConnectRequestSigningAlgorithmsList | null;
+  signingAlgorithms?:
+    | CreateCloudProjectKubeOpenIdConnectRequestSigningAlgorithmsList
+    | null
+    | undefined;
   /** JWT claim to use as the user name. By default sub, which is expected to be a unique identifier of the end user. Admins can choose other claims, such as email or name, depending on their provider. However, claims other than email will be prefixed with the issuer URL to prevent naming clashes with other plugins. */
-  usernameClaim?: string | null;
+  usernameClaim?: string | null | undefined;
   /** Prefix prepended to username claims to prevent clashes with existing names (such as system: users). For example, the value oidc: will create usernames like oidc:jane.doe. If this field isn't set and oidcUsernameClaim is a value other than email the prefix defaults to ( Issuer URL )# where ( Issuer URL ) is the value of oidcIssuerUrl. The value - can be used to disable all prefixing. */
-  usernamePrefix?: string | null;
+  usernamePrefix?: string | null | undefined;
 }
 /** JWT claim to use as the user's group. If the claim is present it must be an array of strings. */
 export type CloudKubeOpenIdConnectGroupsClaimList = Array<string>;
@@ -5917,23 +5966,23 @@ export type CloudKubeOpenIdConnectSigningAlgorithmsList =
 /** Managed Kubernetes oidc integration */
 export interface CloudKubeOpenIdConnect {
   /** Content of the certificate for the CA, in base64 format, that signed your identity provider's web certificate. Defaults to the host's root CAs. */
-  caContent?: string | null;
+  caContent?: string | null | undefined;
   /** Client ID */
-  clientId?: string;
+  clientId?: string | undefined;
   /** JWT claim to use as the user's group. If the claim is present it must be an array of strings. */
-  groupsClaim?: CloudKubeOpenIdConnectGroupsClaimList | null;
+  groupsClaim?: CloudKubeOpenIdConnectGroupsClaimList | null | undefined;
   /** Prefix prepended to group claims to prevent clashes with existing names (such as system: groups). For example, the value oidc: will create group names like oidc:engineering and oidc:infra. */
-  groupsPrefix?: string | null;
+  groupsPrefix?: string | null | undefined;
   /** Issuer URL */
-  issuerUrl?: string;
+  issuerUrl?: string | undefined;
   /** key=value pairs that describe required claims in the ID Token. If set, the claims are verified to be present in the ID Token with a matching value. */
-  requiredClaim?: CloudKubeOpenIdConnectRequiredClaimList | null;
+  requiredClaim?: CloudKubeOpenIdConnectRequiredClaimList | null | undefined;
   /** The signing algorithms accepted. Default is "RS256". */
-  signingAlgorithms?: CloudKubeOpenIdConnectSigningAlgorithmsList | null;
+  signingAlgorithms?: CloudKubeOpenIdConnectSigningAlgorithmsList | null | undefined;
   /** JWT claim to use as the user name. By default sub, which is expected to be a unique identifier of the end user. Admins can choose other claims, such as email or name, depending on their provider. However, claims other than email will be prefixed with the issuer URL to prevent naming clashes with other plugins. */
-  usernameClaim?: string | null;
+  usernameClaim?: string | null | undefined;
   /** Prefix prepended to username claims to prevent clashes with existing names (such as system: users). For example, the value oidc: will create usernames like oidc:jane.doe. If this field isn't set and oidcUsernameClaim is a value other than email the prefix defaults to ( Issuer URL )# where ( Issuer URL ) is the value of oidcIssuerUrl. The value - can be used to disable all prefixing. */
-  usernamePrefix?: string | null;
+  usernamePrefix?: string | null | undefined;
 }
 /** Region where to activate private network. No parameters means all region */
 export type CreateCloudProjectNetworkPrivateRequestRegionsList = Array<string>;
@@ -5943,20 +5992,20 @@ export interface CreateCloudProjectNetworkPrivateRequest {
   /** Network name */
   name: string;
   /** Region where to activate private network. No parameters means all region */
-  regions?: CreateCloudProjectNetworkPrivateRequestRegionsList | null;
+  regions?: CreateCloudProjectNetworkPrivateRequestRegionsList | null | undefined;
   /** Vland id, between 0 and 4095. 0 value means no vlan. */
-  vlanId?: number | null;
+  vlanId?: number | null | undefined;
 }
 /** NetworkRegionStatusEnum */
 export type CloudNetworkNetworkRegionStatusEnum = "ACTIVE" | "BUILDING";
 /** NetworkRegion */
 export interface CloudNetworkNetworkRegion {
   /** Network id on openstack region */
-  openstackId?: string | null;
+  openstackId?: string | null | undefined;
   /** Network region */
-  region?: string;
+  region?: string | undefined;
   /** Network region status */
-  status?: CloudNetworkNetworkRegionStatusEnum;
+  status?: CloudNetworkNetworkRegionStatusEnum | undefined;
 }
 /** Details about private network in region */
 export type CloudNetworkNetworkRegionsList = Array<CloudNetworkNetworkRegion>;
@@ -5967,17 +6016,17 @@ export type CloudNetworkNetworkTypeEnum = "private" | "public";
 /** Network */
 export interface CloudNetworkNetwork {
   /** Network id */
-  id?: string;
+  id?: string | undefined;
   /** Network name */
-  name?: string;
+  name?: string | undefined;
   /** Details about private network in region */
-  regions?: CloudNetworkNetworkRegionsList;
+  regions?: CloudNetworkNetworkRegionsList | undefined;
   /** Network status */
-  status?: CloudNetworkNetworkStatusEnum;
+  status?: CloudNetworkNetworkStatusEnum | undefined;
   /** Network type */
-  type?: CloudNetworkNetworkTypeEnum | null;
+  type?: CloudNetworkNetworkTypeEnum | null | undefined;
   /** Network VLAN id */
-  vlanId?: number;
+  vlanId?: number | undefined;
 }
 export interface CreateCloudProjectNetworkPrivateRegionRequest {
   /** Service name */
@@ -6008,30 +6057,30 @@ export interface CreateCloudProjectNetworkPrivateSubnetRequest {
 /** IPPool */
 export interface CloudNetworkIPPool {
   /** Enable DHCP */
-  dhcp?: boolean;
+  dhcp?: boolean | undefined;
   /** Last IP for this region (eg: 192.168.1.24) */
-  end?: string;
+  end?: string | undefined;
   /** Global network with cidr (eg: 192.168.1.0/24) */
-  network?: string;
+  network?: string | undefined;
   /** Region where this subnet will be created */
-  region?: string;
+  region?: string | undefined;
   /** First IP for this region (eg: 192.168.1.12) */
-  start?: string;
+  start?: string | undefined;
 }
 /** List of ip pools allocated in subnet */
 export type CloudNetworkSubnetIpPoolsList = Array<CloudNetworkIPPool>;
 /** Subnet */
 export interface CloudNetworkSubnet {
   /** Subnet CIDR */
-  cidr?: string;
+  cidr?: string | undefined;
   /** Is DHCP enabled for the subnet */
-  dhcpEnabled?: boolean;
+  dhcpEnabled?: boolean | undefined;
   /** Gateway IP in the subnet */
-  gatewayIp?: string | null;
+  gatewayIp?: string | null | undefined;
   /** Subnet id */
-  id?: string;
+  id?: string | undefined;
   /** List of ip pools allocated in subnet */
-  ipPools?: CloudNetworkSubnetIpPoolsList;
+  ipPools?: CloudNetworkSubnetIpPoolsList | undefined;
 }
 export interface CreateCloudProjectRegionRequest {
   /** Service name */
@@ -6322,11 +6371,11 @@ export type CloudServiceStatusEnum = "DOWN" | "UP";
 /** Information about the different components available in the region */
 export interface CloudComponent {
   /** Endpoint URL */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Service name */
-  name?: string;
+  name?: string | undefined;
   /** Service status */
-  status?: CloudServiceStatusEnum;
+  status?: CloudServiceStatusEnum | undefined;
 }
 /** Details about components status */
 export type CloudRegionServicesList = Array<CloudComponent>;
@@ -6337,23 +6386,23 @@ export type CloudRegionTypeEnum = "localzone" | "region" | "region-3-az";
 /** Details about your region */
 export interface CloudRegion {
   /** Availability zones of the region */
-  availabilityZones?: CloudRegionAvailabilityZonesList;
+  availabilityZones?: CloudRegionAvailabilityZonesList | undefined;
   /** Region continent code */
-  continentCode?: CloudRegionContinentEnum;
+  continentCode?: CloudRegionContinentEnum | undefined;
   /** Region country code */
-  countryCode?: CountryCode2LettersEnum;
+  countryCode?: CountryCode2LettersEnum | undefined;
   /** Location of the datacenter where the region is */
-  datacenterLocation?: string;
+  datacenterLocation?: string | undefined;
   /** Allowed countries for failover ip */
-  ipCountries?: CloudRegionIpCountriesList;
+  ipCountries?: CloudRegionIpCountriesList | undefined;
   /** Region name */
-  name?: string;
+  name?: string | undefined;
   /** Details about components status */
-  services?: CloudRegionServicesList;
+  services?: CloudRegionServicesList | undefined;
   /** Openstack region status */
-  status?: CloudRegionStatusEnum;
+  status?: CloudRegionStatusEnum | undefined;
   /** Region type */
-  type?: CloudRegionTypeEnum;
+  type?: CloudRegionTypeEnum | undefined;
 }
 export interface CreateCloudProjectRegionColdArchiveDestroyRequest {
   /** Service name */
@@ -6367,9 +6416,9 @@ export interface CreateCloudProjectRegionColdArchiveDestroyResponse {}
 /** AllocationPool */
 export interface CloudProjectAllocationPool {
   /** Last IP for the pool (eg: 192.168.1.24) */
-  end?: string;
+  end?: string | undefined;
   /** First IP for the pool (eg: 192.168.1.12) */
-  start?: string;
+  start?: string | undefined;
 }
 /** List of ip pools allocated in subnet */
 export type CloudNetworkCreateSubnetForGatewaySummaryAllocationPoolsList =
@@ -6379,32 +6428,32 @@ export type CloudNetworkCreateSubnetForGatewaySummaryDnsNameServersList = Array<
 /** HostRoute */
 export interface CloudNetworkHostRoute {
   /** Host route destination (eg: 192.168.1.0/24) */
-  destination?: string;
+  destination?: string | undefined;
   /** Host route next hop (eg: 192.168.1.254) */
-  nextHop?: string;
+  nextHop?: string | undefined;
 }
 /** Host routes */
 export type CloudNetworkCreateSubnetForGatewaySummaryHostRoutesList = Array<CloudNetworkHostRoute>;
 /** Parameters to create a subnet from another resource creation */
 export interface CloudNetworkCreateSubnetForGatewaySummary {
   /** List of ip pools allocated in subnet */
-  allocationPools?: CloudNetworkCreateSubnetForGatewaySummaryAllocationPoolsList;
+  allocationPools?: CloudNetworkCreateSubnetForGatewaySummaryAllocationPoolsList | undefined;
   /** Subnet range in CIDR notation */
   cidr: string;
   /** DNS nameservers */
-  dnsNameServers?: CloudNetworkCreateSubnetForGatewaySummaryDnsNameServersList;
+  dnsNameServers?: CloudNetworkCreateSubnetForGatewaySummaryDnsNameServersList | undefined;
   /** Enable DHCP for the subnet */
   enableDhcp: boolean;
   /** Gateway IP */
-  gatewayIp?: string;
+  gatewayIp?: string | undefined;
   /** Host routes */
-  hostRoutes?: CloudNetworkCreateSubnetForGatewaySummaryHostRoutesList;
+  hostRoutes?: CloudNetworkCreateSubnetForGatewaySummaryHostRoutesList | undefined;
   /** IP version */
   ipVersion: number;
   /** Subnet name */
-  name?: string;
+  name?: string | undefined;
   /** Use default DNS */
-  useDefaultPublicDNSResolver?: boolean | null;
+  useDefaultPublicDNSResolver?: boolean | null | undefined;
 }
 /** Parameters to create a network from another resource creation */
 export interface CloudNetworkCreateNetworkForGatewaySummary {
@@ -6413,7 +6462,7 @@ export interface CloudNetworkCreateNetworkForGatewaySummary {
   /** Subnet of the network */
   subnet: CloudNetworkCreateSubnetForGatewaySummary;
   /** VLAN id, between 1 and 4095 */
-  vlanId?: number;
+  vlanId?: number | undefined;
 }
 export interface CreateCloudProjectRegionGatewayRequest {
   /** Service name */
@@ -6438,42 +6487,42 @@ export interface CreateCloudProjectRegionGatewayExposeRequest {
 /** IP and subnet information */
 export interface CloudNetworkGatewayIpSubnet {
   /** External IP of the gateway */
-  ip?: string;
+  ip?: string | undefined;
   /** Subnet ID of the ip */
-  subnetId?: string;
+  subnetId?: string | undefined;
 }
 /** External ips of the gateway */
 export type CloudNetworkGatewayExternalInformationIpsList = Array<CloudNetworkGatewayIpSubnet>;
 /** External information of the gateway */
 export interface CloudNetworkGatewayExternalInformation {
   /** External ips of the gateway */
-  ips?: CloudNetworkGatewayExternalInformationIpsList;
+  ips?: CloudNetworkGatewayExternalInformationIpsList | undefined;
   /** External network ID of the gateway */
-  networkId?: string;
+  networkId?: string | undefined;
   /** SNAT enabled for the gateway */
-  snatEnabled?: boolean;
+  snatEnabled?: boolean | undefined;
 }
 /** Subnet attached to gateway */
 export interface CloudNetworkGatewaySubnet {
   /** Cidr of the subnet */
-  cidr?: string;
+  cidr?: string | undefined;
   /** Subnet id */
-  id?: string;
+  id?: string | undefined;
   /** Subnet name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Interface of the gateway */
 export interface CloudNetworkGatewayInterface {
   /** ID of the interface */
-  id?: string;
+  id?: string | undefined;
   /** IP of the interface */
-  ip?: string;
+  ip?: string | undefined;
   /** Network ID of the interface */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Gateway subnet */
-  subnet?: CloudNetworkGatewaySubnet | null;
+  subnet?: CloudNetworkGatewaySubnet | null | undefined;
   /** Subnet ID of the interface */
-  subnetId?: string;
+  subnetId?: string | undefined;
 }
 /** Interfaces list of the gateway */
 export type CloudNetworkGatewayInterfacesList = Array<CloudNetworkGatewayInterface>;
@@ -6484,21 +6533,21 @@ export type CloudProjectGatewayTypeEnum = "private" | "public";
 /** Gateway */
 export interface CloudNetworkGateway {
   /** External information */
-  externalInformation?: CloudNetworkGatewayExternalInformation | null;
+  externalInformation?: CloudNetworkGatewayExternalInformation | null | undefined;
   /** ID of the gateway */
-  id?: string;
+  id?: string | undefined;
   /** Interfaces list of the gateway */
-  interfaces?: CloudNetworkGatewayInterfacesList;
+  interfaces?: CloudNetworkGatewayInterfacesList | undefined;
   /** Model of the gateway */
-  model?: CloudNetworkGatewayModelEnum;
+  model?: CloudNetworkGatewayModelEnum | undefined;
   /** Name of the gateway */
-  name?: string;
+  name?: string | undefined;
   /** Gateway region */
-  region?: string;
+  region?: string | undefined;
   /** Status of the gateway */
-  status?: CloudNetworkGatewayStatusEnum;
+  status?: CloudNetworkGatewayStatusEnum | undefined;
   /** Type fo the gateway */
-  type?: CloudProjectGatewayTypeEnum;
+  type?: CloudProjectGatewayTypeEnum | undefined;
 }
 export interface CreateCloudProjectRegionGatewayInterfaceRequest {
   /** Service name */
@@ -6520,13 +6569,13 @@ export interface CreateCloudProjectRegionInstanceAutobackupRequest {
   /** Unix Cron pattern (eg: '0 0 * * *') */
   cron: string;
   /** Name of the distant image */
-  distantImageName?: string | null;
+  distantImageName?: string | null | undefined;
   /** Name of the distant region */
-  distantRegionName?: string | null;
+  distantRegionName?: string | null | undefined;
   /** Name of the image */
-  imageName?: string;
+  imageName?: string | undefined;
   /** Name of your workflow */
-  name?: string;
+  name?: string | undefined;
   /** Number of backup to keep */
   rotation: number;
 }
@@ -6543,9 +6592,9 @@ export interface CreateCloudProjectRegionInstanceMetricSubscriptionRequest {
 /** Asynchronous operation after subscribing or unsubscribing to a resource metrics */
 export interface DbaasLogsMetricSubscriptionResponse {
   /** Identifier of the operation */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Operation owner's service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export interface CreateCloudProjectRegionKeymanagerCertificateRequest {
   /** Service name */
@@ -6555,33 +6604,33 @@ export interface CreateCloudProjectRegionKeymanagerCertificateRequest {
   /** Content of the certificate */
   certificate: string;
   /** Content of the intermediates certificates if any */
-  intermediates?: string;
+  intermediates?: string | undefined;
   /** Name of the certificate */
   name: string;
   /** Private key */
   privateKey: string | Redacted.Redacted<string>;
   /** Private key passphrase if any */
-  privateKeyPassphrase?: string;
+  privateKeyPassphrase?: string | undefined;
 }
 /** Secret reference */
 export interface CloudKeymanagerSecretRef {
   /** ID of the secret */
-  id?: string;
+  id?: string | undefined;
   /** Name of the secret */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of secrets in certificate container */
 export type CloudKeymanagerCertificateSecretsList = Array<CloudKeymanagerSecretRef>;
 /** Key-manager certificate secret container */
 export interface CloudKeymanagerCertificate {
   /** ID of the certificate */
-  id?: string;
+  id?: string | undefined;
   /** Name of the certificate */
-  name?: string;
+  name?: string | undefined;
   /** Certificate region */
-  region?: string;
+  region?: string | undefined;
   /** List of secrets in certificate container */
-  secrets?: CloudKeymanagerCertificateSecretsList;
+  secrets?: CloudKeymanagerCertificateSecretsList | undefined;
 }
 /** Load balancer Healthmonitor HTTP Method */
 export type CloudLoadbalancingLoadBalancerHealthMonitorHTTPMethodEnum =
@@ -6599,15 +6648,19 @@ export type CloudLoadbalancingLoadBalancerHealthMonitorHTTPVersionEnum = "1.0" |
 /** HTTP configuration for loadbalancer health monitor */
 export interface CloudLoadbalancingHealthMonitorHTTPConfiguration {
   /** Domain name, which be injected into the HTTP Host Header to the backend server for HTTP health check */
-  domainName?: string;
+  domainName?: string | undefined;
   /** Status codes expected in response from the member to declare it healthy; The list of HTTP status codes expected in response from the member to declare it healthy. Specify one of the following values: * A single value, such as 200; * A list, such as 200, 202; * A range, such as 200-204 */
-  expectedCodes?: string;
+  expectedCodes?: string | undefined;
   /** HTTP method that the health monitor uses for requests */
   httpMethod: CloudLoadbalancingLoadBalancerHealthMonitorHTTPMethodEnum | (string & {});
   /** HTTP version that the health monitor uses for requests */
-  httpVersion?: CloudLoadbalancingLoadBalancerHealthMonitorHTTPVersionEnum | (string & {}) | null;
+  httpVersion?:
+    | CloudLoadbalancingLoadBalancerHealthMonitorHTTPVersionEnum
+    | (string & {})
+    | null
+    | undefined;
   /** HTTP URL path of the request sent by the monitor to test the health of a backend member */
-  urlPath?: string;
+  urlPath?: string | undefined;
 }
 /** Load balancer Healthmonitor type */
 export type CloudLoadbalancingLoadBalancerHealthMonitorTypeEnum =
@@ -6626,11 +6679,11 @@ export interface CreateCloudProjectRegionLoadbalancingHealthMonitorRequest {
   /** Duration between sending probes to members, in seconds */
   delay: number;
   /** Monitor HTTP configuration */
-  httpConfiguration?: CloudLoadbalancingHealthMonitorHTTPConfiguration | null;
+  httpConfiguration?: CloudLoadbalancingHealthMonitorHTTPConfiguration | null | undefined;
   /** Number of successful checks before changing the operating status of the member to ONLINE */
   maxRetries: number;
   /** Number of allowed check failures before changing the operating status of the member to ERROR */
-  maxRetriesDown?: number | null;
+  maxRetriesDown?: number | null | undefined;
   /** Type of the monitor */
   monitorType: CloudLoadbalancingLoadBalancerHealthMonitorTypeEnum | (string & {});
   /** The name of the resource */
@@ -6661,23 +6714,23 @@ export interface CloudLoadbalancingHealthMonitor {
   /** Duration between sending probes to members, in seconds */
   delay: number;
   /** Monitor HTTP configuration */
-  httpConfiguration?: CloudLoadbalancingHealthMonitorHTTPConfiguration | null;
+  httpConfiguration?: CloudLoadbalancingHealthMonitorHTTPConfiguration | null | undefined;
   /** The ID of the pool */
-  id?: string;
+  id?: string | undefined;
   /** Number of successful checks before changing the operating status of the member to ONLINE */
   maxRetries: number;
   /** Number of allowed check failures before changing the operating status of the member to ERROR */
-  maxRetriesDown?: number | null;
+  maxRetriesDown?: number | null | undefined;
   /** Type of the monitor */
   monitorType: CloudLoadbalancingLoadBalancerHealthMonitorTypeEnum;
   /** The name of the resource */
   name: string;
   /** The operating status of the resource */
-  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum;
+  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum | undefined;
   /** The ID of the pool */
   poolId: string;
   /** The provisioning status of the resource */
-  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum;
+  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum | undefined;
   /** Maximum time, in seconds, that a monitor waits to connect before it times out. This value must be less than the delay value */
   timeout: number;
 }
@@ -6697,47 +6750,51 @@ export interface CreateCloudProjectRegionLoadbalancingL7PolicyRequest {
   /** The L7 policy action */
   action: CloudLoadbalancingL7PolicyActionEnum | (string & {});
   /** A human-readable description for the resource */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the listener. */
   listenerId: string;
   /** Human-readable name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The position of this policy on the listener. Positions start at 1 */
-  position?: number;
+  position?: number | undefined;
   /** Requests matching this policy will be redirected to the specified URL or Prefix URL with the HTTP response code. Valid if action is "redirect_to" or "redirect_prefix" */
-  redirectHttpCode?: CloudLoadbalancingL7PolicyRedirectHTTPCodeEnum | (number & {}) | null;
+  redirectHttpCode?:
+    | CloudLoadbalancingL7PolicyRedirectHTTPCodeEnum
+    | (number & {})
+    | null
+    | undefined;
   /** Requests matching this policy will be redirected to the pool with this ID. Only valid if action is "redirect_to_pool" */
-  redirectPoolId?: string | null;
+  redirectPoolId?: string | null | undefined;
   /** Requests matching this policy will be redirected to this Prefix URL. Only valid if action is "redirect_prefix" */
-  redirectPrefix?: string | null;
+  redirectPrefix?: string | null | undefined;
   /** Requests matching this policy will be redirected to this URL. Only valid if action is "redirect_to_url" */
-  redirectUrl?: string | null;
+  redirectUrl?: string | null | undefined;
 }
 /** L7 policy */
 export interface CloudLoadbalancingL7Policy {
   /** The L7 policy action */
   action: CloudLoadbalancingL7PolicyActionEnum;
   /** A human-readable description for the resource */
-  description?: string;
-  id?: string;
+  description?: string | undefined;
+  id?: string | undefined;
   /** The ID of the listener. */
   listenerId: string;
   /** Human-readable name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Operating status of the resource */
-  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum;
+  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum | undefined;
   /** The position of this policy on the listener. Positions start at 1 */
-  position?: number;
+  position?: number | undefined;
   /** provisioning status of the resource */
-  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum;
+  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum | undefined;
   /** Requests matching this policy will be redirected to the specified URL or Prefix URL with the HTTP response code. Valid if action is "redirect_to" or "redirect_prefix" */
-  redirectHttpCode?: CloudLoadbalancingL7PolicyRedirectHTTPCodeEnum | null;
+  redirectHttpCode?: CloudLoadbalancingL7PolicyRedirectHTTPCodeEnum | null | undefined;
   /** Requests matching this policy will be redirected to the pool with this ID. Only valid if action is "redirect_to_pool" */
-  redirectPoolId?: string | null;
+  redirectPoolId?: string | null | undefined;
   /** Requests matching this policy will be redirected to this Prefix URL. Only valid if action is "redirect_prefix" */
-  redirectPrefix?: string | null;
+  redirectPrefix?: string | null | undefined;
   /** Requests matching this policy will be redirected to this URL. Only valid if action is "redirect_to_url" */
-  redirectUrl?: string | null;
+  redirectUrl?: string | null | undefined;
 }
 /** Loadbalancer L7 rule compare type */
 export type CloudLoadbalancingL7RuleCompareTypeEnum =
@@ -6766,9 +6823,9 @@ export interface CreateCloudProjectRegionLoadbalancingL7PolicyL7RuleRequest {
   /** The comparison type for the L7 rule */
   compareType: CloudLoadbalancingL7RuleCompareTypeEnum | (string & {});
   /** When true the logic of the rule is inverted. For example, with invert set to true, equal to would become not equal to */
-  invert?: boolean;
+  invert?: boolean | undefined;
   /** The key to use for the comparison. For example, the name of the cookie to evaluate */
-  key?: string;
+  key?: string | undefined;
   /** The L7 rule type */
   ruleType: CloudLoadbalancingL7RuleTypeEnum | (string & {});
   /** The value to use for the comparison. For example, the file type to compare */
@@ -6779,15 +6836,15 @@ export interface CloudLoadbalancingL7Rule {
   /** The comparison type for the L7 rule */
   compareType: CloudLoadbalancingL7RuleCompareTypeEnum;
   /** The ID of the L7 rule */
-  id?: string;
+  id?: string | undefined;
   /** When true the logic of the rule is inverted. For example, with invert set to true, equal to would become not equal to */
-  invert?: boolean;
+  invert?: boolean | undefined;
   /** The key to use for the comparison. For example, the name of the cookie to evaluate */
-  key?: string;
+  key?: string | undefined;
   /** Operating status of the resource */
-  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum;
+  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum | undefined;
   /** provisioning status of the resource */
-  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum;
+  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum | undefined;
   /** The L7 rule type */
   ruleType: CloudLoadbalancingL7RuleTypeEnum;
   /** The value to use for the comparison. For example, the file type to compare */
@@ -6821,13 +6878,13 @@ export interface CreateCloudProjectRegionLoadbalancingListenerRequest {
   /** Region name */
   regionName: string;
   /** The allowed CIDRs */
-  allowedCidrs?: CreateCloudProjectRegionLoadbalancingListenerRequestAllowedCidrsList;
+  allowedCidrs?: CreateCloudProjectRegionLoadbalancingListenerRequestAllowedCidrsList | undefined;
   /** The ID of the secret containing the certificate */
-  certificateId?: string;
+  certificateId?: string | undefined;
   /** The ID of the default pool */
-  defaultPoolId?: string;
+  defaultPoolId?: string | undefined;
   /** The description of the listener */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the loadbalancer */
   loadbalancerId: string;
   /** The name of the listener */
@@ -6837,11 +6894,11 @@ export interface CreateCloudProjectRegionLoadbalancingListenerRequest {
   /** Protocol of the listener */
   protocol: CloudLoadbalancingListenerProtocolEnum | (string & {});
   /** Timeout client data of the listener */
-  timeoutClientData?: number;
+  timeoutClientData?: number | undefined;
   /** Timeout member data of the listener */
-  timeoutMemberData?: number;
+  timeoutMemberData?: number | undefined;
   /** TLS versions of the listener */
-  tlsVersions?: CreateCloudProjectRegionLoadbalancingListenerRequestTlsVersionsList;
+  tlsVersions?: CreateCloudProjectRegionLoadbalancingListenerRequestTlsVersionsList | undefined;
 }
 /** The allowed CIDRs */
 export type CloudLoadbalancingListenerAllowedCidrsList = Array<string>;
@@ -6853,33 +6910,33 @@ export type CloudLoadbalancingListenerTlsVersionsList =
 /** Listener */
 export interface CloudLoadbalancingListener {
   /** The allowed CIDRs */
-  allowedCidrs?: CloudLoadbalancingListenerAllowedCidrsList | null;
+  allowedCidrs?: CloudLoadbalancingListenerAllowedCidrsList | null | undefined;
   /** The ID of the secret containing the certificate */
-  certificateId?: string | null;
+  certificateId?: string | null | undefined;
   /** The ID of the default pool */
-  defaultPoolId?: string | null;
+  defaultPoolId?: string | null | undefined;
   /** Description of the listener */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ID of the resource */
-  id?: string;
+  id?: string | undefined;
   /** A list of load balancer IDs */
-  loadBalancerIds?: CloudLoadbalancingListenerLoadBalancerIdsList;
+  loadBalancerIds?: CloudLoadbalancingListenerLoadBalancerIdsList | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Operating status of the listener */
-  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum;
+  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum | undefined;
   /** Port to listen on */
-  port?: number;
+  port?: number | undefined;
   /** Protocol of the listener */
-  protocol?: CloudLoadbalancingListenerProtocolEnum;
+  protocol?: CloudLoadbalancingListenerProtocolEnum | undefined;
   /** Provisioning status of the listener */
-  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum;
+  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum | undefined;
   /** Timeout client data of the listener */
-  timeoutClientData?: number | null;
+  timeoutClientData?: number | null | undefined;
   /** Timeout member data of the listener */
-  timeoutMemberData?: number | null;
+  timeoutMemberData?: number | null | undefined;
   /** TLS versions of the listener */
-  tlsVersions?: CloudLoadbalancingListenerTlsVersionsList | null;
+  tlsVersions?: CloudLoadbalancingListenerTlsVersionsList | null | undefined;
 }
 /** The allowed CIDRs */
 export type CloudLoadbalancingLoadbalancerListenerCreateInputAllowedCidrsList = Array<string>;
@@ -6890,11 +6947,11 @@ export interface CloudLoadbalancingHealthMonitorCreateInput {
   /** Duration between sending probes to members, in seconds */
   delay: number;
   /** Monitor HTTP configuration */
-  httpConfiguration?: CloudLoadbalancingHealthMonitorHTTPConfiguration | null;
+  httpConfiguration?: CloudLoadbalancingHealthMonitorHTTPConfiguration | null | undefined;
   /** Number of successful checks before changing the operating status of the member to ONLINE */
   maxRetries: number;
   /** Number of allowed check failures before changing the operating status of the member to ERROR */
-  maxRetriesDown?: number | null;
+  maxRetriesDown?: number | null | undefined;
   /** Type of the monitor */
   monitorType: CloudLoadbalancingLoadBalancerHealthMonitorTypeEnum | (string & {});
   /** The name of the resource */
@@ -6907,11 +6964,11 @@ export interface CloudLoadbalancingLoadbalancerMemberCreate {
   /** IP address of the resource */
   address: string;
   /** Name of the member */
-  name?: string;
+  name?: string | undefined;
   /** Protocol port number for the resource */
   protocolPort: number;
   /** Weight of a member determines the portion of requests or connections it services compared to the other members of the pool. Between 1 and 256. */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 /** Pool members */
 export type CloudLoadbalancingLoadbalancerPoolCreateInputMembersList =
@@ -6934,24 +6991,24 @@ export type CloudLoadbalancingPoolSessionPersistenceTypeEnum =
 /** PoolSessionPersistence */
 export interface CloudLoadbalancingPoolSessionPersistence {
   /** Cookie name, only applicable to session persistence through cookie */
-  cookieName?: string;
+  cookieName?: string | undefined;
   /** Type of session persistence */
-  type?: CloudLoadbalancingPoolSessionPersistenceTypeEnum | (string & {});
+  type?: CloudLoadbalancingPoolSessionPersistenceTypeEnum | (string & {}) | undefined;
 }
 /** Create a pool on loadbalancer creation */
 export interface CloudLoadbalancingLoadbalancerPoolCreateInput {
   /** Pool algorithm to split traffic between members */
   algorithm: CloudLoadbalancingPoolAlgorithmEnum | (string & {});
   /** Pool health monitor */
-  healthMonitor?: CloudLoadbalancingHealthMonitorCreateInput | null;
+  healthMonitor?: CloudLoadbalancingHealthMonitorCreateInput | null | undefined;
   /** Pool members */
-  members?: CloudLoadbalancingLoadbalancerPoolCreateInputMembersList;
+  members?: CloudLoadbalancingLoadbalancerPoolCreateInputMembersList | undefined;
   /** Name of the pool */
-  name?: string;
+  name?: string | undefined;
   /** Protocol for the pool */
   protocol: CloudLoadbalancingPoolProtocolEnum | (string & {});
   /** Pool session persistence */
-  sessionPersistence?: CloudLoadbalancingPoolSessionPersistence;
+  sessionPersistence?: CloudLoadbalancingPoolSessionPersistence | undefined;
 }
 /** TLS versions of the listener */
 export type CloudLoadbalancingLoadbalancerListenerCreateInputTlsVersionsList = Array<
@@ -6960,25 +7017,25 @@ export type CloudLoadbalancingLoadbalancerListenerCreateInputTlsVersionsList = A
 /** Create a listener on loadbalancer creation */
 export interface CloudLoadbalancingLoadbalancerListenerCreateInput {
   /** The allowed CIDRs */
-  allowedCidrs?: CloudLoadbalancingLoadbalancerListenerCreateInputAllowedCidrsList;
+  allowedCidrs?: CloudLoadbalancingLoadbalancerListenerCreateInputAllowedCidrsList | undefined;
   /** The description of the listener */
-  description?: string;
+  description?: string | undefined;
   /** Name of the listener */
-  name?: string;
+  name?: string | undefined;
   /** Listener pool */
-  pool?: CloudLoadbalancingLoadbalancerPoolCreateInput;
+  pool?: CloudLoadbalancingLoadbalancerPoolCreateInput | undefined;
   /** Listener port */
   port: number;
   /** Protocol for the listener */
   protocol: CloudLoadbalancingListenerProtocolEnum | (string & {});
   /** Secret ID to get certificate for SSL listener creation */
-  secretId?: string;
+  secretId?: string | undefined;
   /** Timeout client data of the listener */
-  timeoutClientData?: number;
+  timeoutClientData?: number | undefined;
   /** Timeout member data of the listener */
-  timeoutMemberData?: number;
+  timeoutMemberData?: number | undefined;
   /** TLS versions of the listener */
-  tlsVersions?: CloudLoadbalancingLoadbalancerListenerCreateInputTlsVersionsList;
+  tlsVersions?: CloudLoadbalancingLoadbalancerListenerCreateInputTlsVersionsList | undefined;
 }
 /** Listeners to create with the loadbalancer */
 export type CreateCloudProjectRegionLoadbalancingLoadbalancerRequestListenersList =
@@ -7015,13 +7072,15 @@ export interface CloudLoadbalancingLoadbalancerCreateInputNetworkPrivateNetwork 
 /** Network information to create a loadbalancer */
 export interface CloudLoadbalancingLoadbalancerCreateInputNetworkPrivate {
   /** Floating IP to associate */
-  floatingIp?: CloudLoadbalancingLoadbalancerCreateInputNetworkPrivateFloatingIp;
+  floatingIp?: CloudLoadbalancingLoadbalancerCreateInputNetworkPrivateFloatingIp | undefined;
   /** Floating IP to create */
-  floatingIpCreate?: CloudLoadbalancingLoadbalancerCreateInputNetworkPrivateFloatingIpCreate;
+  floatingIpCreate?:
+    | CloudLoadbalancingLoadbalancerCreateInputNetworkPrivateFloatingIpCreate
+    | undefined;
   /** Gateway to associate */
-  gateway?: CloudLoadbalancingLoadbalancerCreateInputNetworkPrivateGateway;
+  gateway?: CloudLoadbalancingLoadbalancerCreateInputNetworkPrivateGateway | undefined;
   /** Gateway to create */
-  gatewayCreate?: CloudLoadbalancingLoadbalancerCreateInputNetworkPrivateGatewayCreate;
+  gatewayCreate?: CloudLoadbalancingLoadbalancerCreateInputNetworkPrivateGatewayCreate | undefined;
   /** Network to associate */
   network: CloudLoadbalancingLoadbalancerCreateInputNetworkPrivateNetwork;
 }
@@ -7038,9 +7097,9 @@ export interface CreateCloudProjectRegionLoadbalancingLoadbalancerRequest {
   /** Loadbalancer flavor id */
   flavorId: string;
   /** Listeners to create with the loadbalancer */
-  listeners?: CreateCloudProjectRegionLoadbalancingLoadbalancerRequestListenersList;
+  listeners?: CreateCloudProjectRegionLoadbalancingLoadbalancerRequestListenersList | undefined;
   /** Name of the member */
-  name?: string;
+  name?: string | undefined;
   /** Network information to create the loadbalancer */
   network: CloudLoadbalancingLoadbalancerCreateInputNetwork;
 }
@@ -7054,7 +7113,7 @@ export interface CreateCloudProjectRegionLoadbalancingLoadbalancerAssociateFloat
   /** Floating IP ID */
   floatingIpId: string;
   /** Parameters to create a gateway if required */
-  gateway?: CloudNetworkCreateGatewaySummary | null;
+  gateway?: CloudNetworkCreateGatewaySummary | null | undefined;
   /** Private loadbalancer IP to associate the floating IP with */
   ip: string;
 }
@@ -7066,7 +7125,7 @@ export interface CreateCloudProjectRegionLoadbalancingLoadbalancerFloatingIpRequ
   /** Load balancer ID */
   loadBalancerId: string;
   /** Parameters to create a gateway if required */
-  gateway?: CloudNetworkCreateGatewaySummary | null;
+  gateway?: CloudNetworkCreateGatewaySummary | null | undefined;
   /** Private loadbalancer IP to associate the floating IP with */
   ip: string;
 }
@@ -7100,47 +7159,47 @@ export interface CreateCloudProjectRegionLoadbalancingPoolRequest {
   /** Algorithm of the pool */
   algorithm: CloudLoadbalancingPoolAlgorithmEnum | (string & {});
   /** ID of the listener */
-  listenerId?: string;
+  listenerId?: string | undefined;
   /** ID of the loadbalancer */
-  loadbalancerId?: string;
+  loadbalancerId?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Protocol of the pool */
   protocol: CloudLoadbalancingPoolProtocolEnum | (string & {});
   /** Information about session persistence */
-  sessionPersistence?: CloudLoadbalancingPoolSessionPersistence | null;
+  sessionPersistence?: CloudLoadbalancingPoolSessionPersistence | null | undefined;
 }
 /** Pool */
 export interface CloudLoadbalancingPool {
   /** Algorithm of the pool */
-  algorithm?: CloudLoadbalancingPoolAlgorithmEnum;
+  algorithm?: CloudLoadbalancingPoolAlgorithmEnum | undefined;
   /** ID of the resource */
-  id?: string;
+  id?: string | undefined;
   /** ID of the listener */
-  listenerId?: string | null;
+  listenerId?: string | null | undefined;
   /** ID of the loadbalancer */
-  loadbalancerId?: string;
+  loadbalancerId?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Operating status of the resource */
-  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum;
+  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum | undefined;
   /** Protocol of the pool */
-  protocol?: CloudLoadbalancingPoolProtocolEnum;
+  protocol?: CloudLoadbalancingPoolProtocolEnum | undefined;
   /** Provisioning status of the resource */
-  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum;
+  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum | undefined;
   /** Information about session persistence */
-  sessionPersistence?: CloudLoadbalancingPoolSessionPersistence | null;
+  sessionPersistence?: CloudLoadbalancingPoolSessionPersistence | null | undefined;
 }
 /** Member */
 export interface CloudLoadbalancingPoolMemberInput {
   /** IP address of the resource */
   address: string;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Protocol port number for the resource */
   protocolPort: number;
   /** Weight of a member determines the portion of requests or connections it services compared to the other members of the pool */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 /** Members of a pool */
 export type CreateCloudProjectRegionLoadbalancingPoolMemberRequestMembersList =
@@ -7160,17 +7219,17 @@ export interface CloudLoadbalancingPoolMember {
   /** IP address of the resource */
   address: string;
   /** ID of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Operating status of the resource */
-  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum;
+  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum | undefined;
   /** Protocol port number for the resource */
   protocolPort: number;
   /** Provisioning status of the resource */
-  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum;
+  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum | undefined;
   /** Weight of a member determines the portion of requests or connections it services compared to the other members of the pool */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export type CreateCloudProjectRegionLoadbalancingPoolMemberResponseBodyList =
   Array<CloudLoadbalancingPoolMember>;
@@ -7203,37 +7262,37 @@ export type CloudNetworkCreateSubnetSummaryHostRoutesList = Array<CloudNetworkHo
 /** Parameters to create a subnet from another resource creation */
 export interface CloudNetworkCreateSubnetSummary {
   /** List of ip pools allocated in subnet */
-  allocationPools?: CloudNetworkCreateSubnetSummaryAllocationPoolsList;
+  allocationPools?: CloudNetworkCreateSubnetSummaryAllocationPoolsList | undefined;
   /** Subnet range in CIDR notation */
   cidr: string;
   /** DNS nameservers */
-  dnsNameServers?: CloudNetworkCreateSubnetSummaryDnsNameServersList;
+  dnsNameServers?: CloudNetworkCreateSubnetSummaryDnsNameServersList | undefined;
   /** Enable DHCP for the subnet */
   enableDhcp: boolean;
   /** Set a gateway ip for the subnet */
   enableGatewayIp: boolean;
   /** Gateway IP */
-  gatewayIp?: string;
+  gatewayIp?: string | undefined;
   /** Host routes */
-  hostRoutes?: CloudNetworkCreateSubnetSummaryHostRoutesList;
+  hostRoutes?: CloudNetworkCreateSubnetSummaryHostRoutesList | undefined;
   /** IP version */
   ipVersion: number;
   /** Subnet name */
-  name?: string;
+  name?: string | undefined;
   /** Use default DNS */
-  useDefaultPublicDNSResolver?: boolean | null;
+  useDefaultPublicDNSResolver?: boolean | null | undefined;
 }
 export interface CreateCloudProjectRegionNetworkRequest {
   /** Service name */
   serviceName: string;
   /** Region name */
   regionName: string;
-  gateway?: CloudNetworkCreateGatewaySummary | null;
+  gateway?: CloudNetworkCreateGatewaySummary | null | undefined;
   /** Network name */
   name: string;
-  subnet?: CloudNetworkCreateSubnetSummary | null;
+  subnet?: CloudNetworkCreateSubnetSummary | null | undefined;
   /** VLAN id, between 1 and 4095 */
-  vlanId?: number;
+  vlanId?: number | undefined;
 }
 /** List of ip pools allocated in subnet */
 export type CreateCloudProjectRegionNetworkSubnetRequestAllocationPoolsList =
@@ -7251,25 +7310,25 @@ export interface CreateCloudProjectRegionNetworkSubnetRequest {
   /** Network ID */
   networkId: string;
   /** List of ip pools allocated in subnet */
-  allocationPools?: CreateCloudProjectRegionNetworkSubnetRequestAllocationPoolsList;
+  allocationPools?: CreateCloudProjectRegionNetworkSubnetRequestAllocationPoolsList | undefined;
   /** Subnet range in CIDR notation */
   cidr: string;
   /** DNS nameservers */
-  dnsNameServers?: CreateCloudProjectRegionNetworkSubnetRequestDnsNameServersList;
+  dnsNameServers?: CreateCloudProjectRegionNetworkSubnetRequestDnsNameServersList | undefined;
   /** Enable DHCP for the subnet */
   enableDhcp: boolean;
   /** Set a gateway IP for the subnet */
   enableGatewayIp: boolean;
   /** Gateway IP */
-  gatewayIp?: string;
+  gatewayIp?: string | undefined;
   /** Host routes */
-  hostRoutes?: CreateCloudProjectRegionNetworkSubnetRequestHostRoutesList;
+  hostRoutes?: CreateCloudProjectRegionNetworkSubnetRequestHostRoutesList | undefined;
   /** IP version */
   ipVersion: number;
   /** Subnet name */
   name: string;
   /** Use default DNS */
-  useDefaultPublicDNSResolver?: boolean | null;
+  useDefaultPublicDNSResolver?: boolean | null | undefined;
 }
 /** List of ip pools allocated in subnet */
 export type CloudProjectSubnetAllocationPoolsList = Array<CloudProjectAllocationPool>;
@@ -7280,23 +7339,23 @@ export type CloudProjectSubnetHostRoutesList = Array<CloudNetworkHostRoute>;
 /** Subnet */
 export interface CloudProjectSubnet {
   /** List of ip pools allocated in subnet */
-  allocationPools?: CloudProjectSubnetAllocationPoolsList;
+  allocationPools?: CloudProjectSubnetAllocationPoolsList | undefined;
   /** Subnet CIDR */
-  cidr?: string;
+  cidr?: string | undefined;
   /** If DHCP is enabled on subnet */
-  dhcpEnabled?: boolean;
+  dhcpEnabled?: boolean | undefined;
   /** DNS nameservers */
-  dnsNameServers?: CloudProjectSubnetDnsNameServersList;
+  dnsNameServers?: CloudProjectSubnetDnsNameServersList | undefined;
   /** Gateway IP */
-  gatewayIp?: string | null;
+  gatewayIp?: string | null | undefined;
   /** Subnet host routes */
-  hostRoutes?: CloudProjectSubnetHostRoutesList;
+  hostRoutes?: CloudProjectSubnetHostRoutesList | undefined;
   /** Subnet id */
-  id?: string;
+  id?: string | undefined;
   /** IP Version (4 or 6) */
-  ipVersion?: number;
+  ipVersion?: number | undefined;
   /** Subnet name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateCloudProjectRegionNetworkSubnetGatewayRequest {
   /** Service name */
@@ -7330,9 +7389,9 @@ export interface CreateCloudProjectRegionShareAclRequest {
   /** Share ID */
   shareId: string;
   /** ACL Access Level */
-  accessLevel?: CloudShareAclAccessLevelEnum | (string & {});
+  accessLevel?: CloudShareAclAccessLevelEnum | (string & {}) | undefined;
   /** ACL Access Resource */
-  accessTo?: string;
+  accessTo?: string | undefined;
 }
 /** ACL Access Type */
 export type CloudShareAclAccessTypeEnum = "ip";
@@ -7347,19 +7406,19 @@ export type CloudShareAclStatusEnum =
 /** Share ACL */
 export interface CloudShareAclACL {
   /** ACL Access Level */
-  accessLevel?: CloudShareAclAccessLevelEnum;
+  accessLevel?: CloudShareAclAccessLevelEnum | undefined;
   /** ACL Access Resource */
-  accessTo?: string;
+  accessTo?: string | undefined;
   /** ACL Access Type */
-  accessType?: CloudShareAclAccessTypeEnum;
+  accessType?: CloudShareAclAccessTypeEnum | undefined;
   /** The date and timestamp when the resource was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** ACL ID */
-  id?: string;
+  id?: string | undefined;
   /** ACL Status */
-  status?: CloudShareAclStatusEnum;
+  status?: CloudShareAclStatusEnum | undefined;
   /** The date and timestamp when the resource was updated for the last time */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface CreateCloudProjectRegionShareSnapshotRequest {
   /** Service name */
@@ -7369,9 +7428,9 @@ export interface CreateCloudProjectRegionShareSnapshotRequest {
   /** Share ID */
   shareId: string;
   /** Snapshot description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Snapshot name */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** Share protocol */
 export type CloudShareProtocolEnum = "NFS";
@@ -7390,23 +7449,23 @@ export type CloudShareSnapshotStatusEnum =
 /** Share snapshot */
 export interface CloudShareSnapshotSnapshot {
   /** The date and timestamp when the resource was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Snapshot description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Snapshot ID */
-  id?: string;
+  id?: string | undefined;
   /** Snapshot name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Share ID */
-  shareId?: string;
+  shareId?: string | undefined;
   /** Share protocol */
-  shareProtocol?: CloudShareProtocolEnum | null;
+  shareProtocol?: CloudShareProtocolEnum | null | undefined;
   /** Share size in GB */
-  shareSize?: number;
+  shareSize?: number | undefined;
   /** Snapshot size in GB */
-  size?: number;
+  size?: number | undefined;
   /** Snapshot status */
-  status?: CloudShareSnapshotStatusEnum;
+  status?: CloudShareSnapshotStatusEnum | undefined;
 }
 export interface CreateCloudProjectRegionVolumeRequest {
   /** Service name */
@@ -7414,32 +7473,32 @@ export interface CreateCloudProjectRegionVolumeRequest {
   /** Region name */
   regionName: string;
   /** Availability zone to create the volume on */
-  availabilityZone?: string | null;
+  availabilityZone?: string | null | undefined;
   /** Backup ID */
-  backupId?: string;
+  backupId?: string | undefined;
   /** Volume description */
-  description?: string;
+  description?: string | undefined;
   /** Image ID */
-  imageId?: string;
+  imageId?: string | undefined;
   /** Instance ID */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Volume name */
-  name?: string;
+  name?: string | undefined;
   /** Volume size */
-  size?: number;
+  size?: number | undefined;
   /** Snapshot ID */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
   /** Type of the volume */
-  type?: CloudVolumeVolumeTypeEnum | (string & {});
+  type?: CloudVolumeVolumeTypeEnum | (string & {}) | undefined;
 }
 /** List of regions */
 export type CloudRegionVolumeCreateResponseRegionsList = Array<string>;
 /** A resource of the volume */
 export interface CloudRegionVolumeCreateResource {
   /** Affected resource of the sub-operation */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The started date of the sub-operation */
-  resourceType?: string | null;
+  resourceType?: string | null | undefined;
 }
 /** Sub-operations of the operation */
 export type CloudRegionVolumeCreateResponseSubOperationsList =
@@ -7447,25 +7506,25 @@ export type CloudRegionVolumeCreateResponseSubOperationsList =
 /** Region volume create response */
 export interface CloudRegionVolumeCreateResponse {
   /** The action of the operation */
-  action?: string;
+  action?: string | undefined;
   /** The completed date of the operation */
-  completedAt?: string | null;
+  completedAt?: string | null | undefined;
   /** The creation date of the operation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Operation ID */
-  id?: string;
+  id?: string | undefined;
   /** Volume status */
-  progress?: number;
+  progress?: number | undefined;
   /** List of regions */
-  regions?: CloudRegionVolumeCreateResponseRegionsList;
+  regions?: CloudRegionVolumeCreateResponseRegionsList | undefined;
   /** Id of the resource */
-  resourceId?: string | null;
+  resourceId?: string | null | undefined;
   /** Datetime of the operation creation */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
   /** Volume status */
-  status?: string;
+  status?: string | undefined;
   /** Sub-operations of the operation */
-  subOperations?: CloudRegionVolumeCreateResponseSubOperationsList | null;
+  subOperations?: CloudRegionVolumeCreateResponseSubOperationsList | null | undefined;
 }
 export interface CreateCloudProjectRegionVolumeBackupRequest {
   /** Service name */
@@ -7473,7 +7532,7 @@ export interface CreateCloudProjectRegionVolumeBackupRequest {
   /** Region name */
   regionName: string;
   /** name of the backup */
-  name?: string;
+  name?: string | undefined;
   /** ID of the volume to backup */
   volumeId: string;
 }
@@ -7487,19 +7546,19 @@ export type CloudVolumeBackupVolumeBackupStatusEnum =
 /** A volume backup */
 export interface CloudVolumeBackupVolumeBackup {
   /** Creation date of the backup */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Volume backup id */
-  id?: string;
+  id?: string | undefined;
   /** Volume backup name */
-  name?: string;
+  name?: string | undefined;
   /** Volume backup region */
-  region?: string;
+  region?: string | undefined;
   /** Size of the backup in GiB */
-  size?: number;
+  size?: number | undefined;
   /** Staus of the backup */
-  status?: CloudVolumeBackupVolumeBackupStatusEnum;
+  status?: CloudVolumeBackupVolumeBackupStatusEnum | undefined;
   /** ID of the volume used to create the backup */
-  volumeId?: string;
+  volumeId?: string | undefined;
 }
 export interface CreateCloudProjectRegionVolumeBackupVolumeRequest {
   /** Service name */
@@ -7509,7 +7568,7 @@ export interface CreateCloudProjectRegionVolumeBackupVolumeRequest {
   /** Volume backup ID */
   volumeBackupId: string;
   /** name of the new volume */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateCloudProjectRegionWorkflowBackupRequest {
   /** Service name */
@@ -7521,7 +7580,7 @@ export interface CreateCloudProjectRegionWorkflowBackupRequest {
   /** Instance ID to backup */
   instanceId: string;
   /** Number of execution to process before ending the job. Null value means that the job will never end. */
-  maxExecutionCount?: number | null;
+  maxExecutionCount?: number | null | undefined;
   /** Name of your backup job */
   name: string;
   /** Number of backup to keep */
@@ -7538,40 +7597,40 @@ export type CloudExecutionStateEnum =
 /** An execution of the backup workflow */
 export interface CloudExecution {
   /** Last date of cron trigger execution */
-  executedAt?: string;
+  executedAt?: string | undefined;
   /** Execution ID */
-  id?: string;
+  id?: string | undefined;
   /** Execution state */
-  state?: CloudExecutionStateEnum;
+  state?: CloudExecutionStateEnum | undefined;
   /** Information about state */
-  stateInfo?: string;
+  stateInfo?: string | undefined;
 }
 /** Executions logs */
 export type CloudBackupExecutionsList = Array<CloudExecution>;
 /** List your automated backups */
 export interface CloudBackup {
   /** Backup name */
-  backupName?: string;
+  backupName?: string | undefined;
   /** Creation date of the workflow */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Workflow cron pattern */
-  cron?: string;
+  cron?: string | undefined;
   /** Name of the distant backup if the workflow creates a distant backup */
-  distantBackupName?: string | null;
+  distantBackupName?: string | null | undefined;
   /** Name of the distant region if the workflow creates a distant backup */
-  distantRegion?: string | null;
+  distantRegion?: string | null | undefined;
   /** Executions logs */
-  executions?: CloudBackupExecutionsList | null;
+  executions?: CloudBackupExecutionsList | null | undefined;
   /** Workflow id */
-  id?: string;
+  id?: string | undefined;
   /** Instance id */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Workflow name identifier */
-  name?: string;
+  name?: string | undefined;
   /** Next execution time */
-  nextExecutionTime?: string;
+  nextExecutionTime?: string | undefined;
   /** Number of backup to keep */
-  rotation?: number;
+  rotation?: number | undefined;
 }
 export interface CreateCloudProjectRetainRequest {
   /** The project id */
@@ -7586,7 +7645,7 @@ export interface CreateCloudProjectSshkeyRequest {
   /** SSH public key */
   publicKey: string;
   /** Region to create SSH key */
-  region?: string | null;
+  region?: string | null | undefined;
 }
 export interface CreateCloudProjectStorageRequest {
   /** Service name */
@@ -7603,18 +7662,18 @@ export type CloudStorageTypeEnum = "private" | "public" | "static";
 /** Container */
 export interface CloudStorageContainer2 {
   /** Whether this is an archive container or not */
-  archive?: boolean | null;
+  archive?: boolean | null | undefined;
   /** Container type */
-  containerType?: CloudStorageTypeEnum | null;
+  containerType?: CloudStorageTypeEnum | null | undefined;
   /** Storage id */
-  id?: string;
+  id?: string | undefined;
   /** Storage name */
-  name?: string;
-  region?: string;
+  name?: string | undefined;
+  region?: string | undefined;
   /** Total bytes stored */
-  storedBytes?: number;
+  storedBytes?: number | undefined;
   /** Total objects stored */
-  storedObjects?: number;
+  storedObjects?: number | undefined;
 }
 export interface CreateCloudProjectStorageAccessRequest {
   /** Service name */
@@ -7623,18 +7682,18 @@ export interface CreateCloudProjectStorageAccessRequest {
 /** Endpoint */
 export interface CloudStorageEndpoint {
   /** Endpoint region */
-  region?: string;
+  region?: string | undefined;
   /** Endpoint URL */
-  url?: string;
+  url?: string | undefined;
 }
 /** Storage access endpoints */
 export type CloudStorageContainerAccessEndpointsList = Array<CloudStorageEndpoint>;
 /** ContainerAccess */
 export interface CloudStorageContainerAccess {
   /** Storage access endpoints */
-  endpoints?: CloudStorageContainerAccessEndpointsList;
+  endpoints?: CloudStorageContainerAccessEndpointsList | undefined;
   /** Storage access token */
-  token?: string;
+  token?: string | undefined;
 }
 export interface CreateCloudProjectStorageCorsRequest {
   /** Service name */
@@ -7658,9 +7717,9 @@ export interface CreateCloudProjectStoragePublicUrlRequest {
 /** ContainerObjectTempURL */
 export interface CloudStorageContainerObjectTempURL {
   /** Temporary URL expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary URL to get object */
-  getURL?: string;
+  getURL?: string | undefined;
 }
 export interface CreateCloudProjectStorageStaticRequest {
   /** Service name */
@@ -7677,7 +7736,7 @@ export interface CreateCloudProjectStorageUserRequest {
   /** Container ID */
   containerId: string;
   /** User description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** User right (all, read, write) */
   right: CloudStorageRightEnum | (string & {});
 }
@@ -7686,13 +7745,13 @@ export type CloudRoleRolePermissionsList = Array<string>;
 /** Role */
 export interface CloudRoleRole {
   /** Role Description */
-  description?: string;
+  description?: string | undefined;
   /** Role id */
-  id?: string;
+  id?: string | undefined;
   /** Role Name */
-  name?: string;
+  name?: string | undefined;
   /** Permissions granted by this role */
-  permissions?: CloudRoleRolePermissionsList;
+  permissions?: CloudRoleRolePermissionsList | undefined;
 }
 /** User roles */
 export type CloudUserUserDetailRolesList = Array<CloudRoleRole>;
@@ -7707,21 +7766,21 @@ export type CloudUserUserStatusEnum =
 /** UserDetail */
 export interface CloudUserUserDetail {
   /** User creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** User description */
-  description?: string;
+  description?: string | undefined;
   /** User id */
-  id?: number;
+  id?: number | undefined;
   /** User id on openstack */
-  openstackId?: string | null;
+  openstackId?: string | null | undefined;
   /** User password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** User roles */
-  roles?: CloudUserUserDetailRolesList;
+  roles?: CloudUserUserDetailRolesList | undefined;
   /** User status */
-  status?: CloudUserUserStatusEnum;
+  status?: CloudUserUserStatusEnum | undefined;
   /** Username */
-  username?: string;
+  username?: string | undefined;
 }
 export interface CreateCloudProjectUnleashRequest {
   /** The project id */
@@ -7754,11 +7813,11 @@ export interface CreateCloudProjectUserRequest {
   /** Service name */
   serviceName: string;
   /** User description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Openstack keystone role name */
-  role?: CloudUserRoleEnum | (string & {}) | null;
+  role?: CloudUserRoleEnum | (string & {}) | null | undefined;
   /** Openstack keystone roles names */
-  roles?: CreateCloudProjectUserRequestRolesList | null;
+  roles?: CreateCloudProjectUserRequestRolesList | null | undefined;
 }
 export interface CreateCloudProjectUserPolicyRequest {
   /** Service name */
@@ -7766,7 +7825,7 @@ export interface CreateCloudProjectUserPolicyRequest {
   /** User ID */
   userId: number;
   /** Raw storage policy. */
-  policy?: string;
+  policy?: string | undefined;
 }
 export interface CreateCloudProjectUserPolicyResponse {}
 export interface CreateCloudProjectUserRoleRequest {
@@ -7786,13 +7845,13 @@ export interface CreateCloudProjectUserS3CredentialsRequest {
 /** S3(TM) compatible credentials with secret */
 export interface CloudUserS3CredentialsWithSecret {
   /** S3(TM) compatible access key */
-  access?: string;
+  access?: string | undefined;
   /** S3(TM) compatible access key secret */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Tenant id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** User id */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface CreateCloudProjectUserS3CredentialsSecretRequest {
   /** Service name */
@@ -7805,7 +7864,7 @@ export interface CreateCloudProjectUserS3CredentialsSecretRequest {
 /** S3(TM) compatible storage credentials secret only */
 export interface CloudUserS3CredentialsSecretOnly {
   /** S3(TM) compatible access key secret */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateCloudProjectUserTokenRequest {
   /** Service name */
@@ -7817,70 +7876,70 @@ export interface CreateCloudProjectUserTokenRequest {
 }
 /** Endpoint */
 export interface CloudAuthenticationEndpoint {
-  id?: string;
-  interface?: string;
-  legacy_endpoint_id?: string;
-  region_id?: string;
-  service_id?: string;
-  url?: string;
+  id?: string | undefined;
+  interface?: string | undefined;
+  legacy_endpoint_id?: string | undefined;
+  region_id?: string | undefined;
+  service_id?: string | undefined;
+  url?: string | undefined;
 }
 export type CloudAuthenticationCatalogEndpointsList = Array<CloudAuthenticationEndpoint>;
 /** Catalog */
 export interface CloudAuthenticationCatalog {
-  endpoints?: CloudAuthenticationCatalogEndpointsList;
-  id?: string;
-  type?: string;
+  endpoints?: CloudAuthenticationCatalogEndpointsList | undefined;
+  id?: string | undefined;
+  type?: string | undefined;
 }
 export type CloudAuthenticationOpenstackTokenCatalogList = Array<CloudAuthenticationCatalog>;
 export type CloudAuthenticationOpenstackTokenMethodsList = Array<string>;
 /** Domain */
 export interface CloudAuthenticationDomain {
-  name?: string;
+  name?: string | undefined;
 }
 /** TokenProject */
 export interface CloudAuthenticationTokenProject {
-  domain?: CloudAuthenticationDomain;
-  id?: string;
-  name?: string;
+  domain?: CloudAuthenticationDomain | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 /** Role */
 export interface CloudAuthenticationRole {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type CloudAuthenticationOpenstackTokenRolesList = Array<CloudAuthenticationRole>;
 /** UserToken */
 export type CloudAuthenticationUserToken = CloudAuthenticationTokenProject;
 /** OpenstackToken */
 export interface CloudAuthenticationOpenstackToken {
-  catalog?: CloudAuthenticationOpenstackTokenCatalogList;
-  expires_at?: string;
-  issued_at?: string;
-  methods?: CloudAuthenticationOpenstackTokenMethodsList;
-  project?: CloudAuthenticationTokenProject;
-  roles?: CloudAuthenticationOpenstackTokenRolesList;
-  user?: CloudAuthenticationTokenProject;
+  catalog?: CloudAuthenticationOpenstackTokenCatalogList | undefined;
+  expires_at?: string | undefined;
+  issued_at?: string | undefined;
+  methods?: CloudAuthenticationOpenstackTokenMethodsList | undefined;
+  project?: CloudAuthenticationTokenProject | undefined;
+  roles?: CloudAuthenticationOpenstackTokenRolesList | undefined;
+  user?: CloudAuthenticationTokenProject | undefined;
 }
 /** Token */
 export interface CloudAuthenticationToken {
-  X_Auth_Token?: string;
-  token?: CloudAuthenticationOpenstackToken;
+  X_Auth_Token?: string | undefined;
+  token?: CloudAuthenticationOpenstackToken | undefined;
 }
 export interface CreateCloudProjectVolumeRequest {
   /** Service name */
   serviceName: string;
   /** Volume description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Id of image to create a bootable volume */
-  imageId?: string | null;
+  imageId?: string | null | undefined;
   /** Volume name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Volume region */
   region: string;
   /** Volume size (in GiB) */
   size: number;
   /** Source snapshot id */
-  snapshotId?: string | null;
+  snapshotId?: string | null | undefined;
   /** Volume type */
   type: CloudVolumeVolumeTypeEnum | (string & {});
 }
@@ -7890,9 +7949,9 @@ export interface CreateCloudProjectVolumeSnapshotRequest {
   /** Volume ID */
   volumeId: string;
   /** Snapshot description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Snapshot name */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** SnapshotStatusEnum */
 export type CloudVolumeSnapshotStatusEnum =
@@ -7904,23 +7963,23 @@ export type CloudVolumeSnapshotStatusEnum =
 /** Snapshot */
 export interface CloudVolumeSnapshot {
   /** Snapshot creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Snapshot description */
-  description?: string;
+  description?: string | undefined;
   /** Snapshot id */
-  id?: string;
+  id?: string | undefined;
   /** Snapshot name */
-  name?: string;
+  name?: string | undefined;
   /** Order plan code */
-  planCode?: string | null;
+  planCode?: string | null | undefined;
   /** Snapshot region */
-  region?: string;
+  region?: string | undefined;
   /** Snapshot size */
-  size?: number;
+  size?: number | undefined;
   /** Snapshot status */
-  status?: CloudVolumeSnapshotStatusEnum;
+  status?: CloudVolumeSnapshotStatusEnum | undefined;
   /** Volume source id */
-  volumeId?: string;
+  volumeId?: string | undefined;
 }
 export interface CreateCloudProjectVolumeUpsizeRequest {
   /** Service name */
@@ -7939,7 +7998,7 @@ export type CloudStorageEncryptionAlgorithmEnum = "AES256" | "plaintext";
 /** Encryption configuration. */
 export interface CloudStorageEncryptionObject {
   /** Encryption algorithm. */
-  sseAlgorithm?: CloudStorageEncryptionAlgorithmEnum | (string & {}) | null;
+  sseAlgorithm?: CloudStorageEncryptionAlgorithmEnum | (string & {}) | null | undefined;
 }
 /** Abort incomplete multipart upload configuration */
 export interface CloudStorageLifecycleRuleAbortIncompleteMultipartUpload {
@@ -7949,40 +8008,40 @@ export interface CloudStorageLifecycleRuleAbortIncompleteMultipartUpload {
 /** Lifecycle rule expiration configuration */
 export interface CloudStorageLifecycleRuleExpiration {
   /** Indicates at what date the objects will be deleted. */
-  date?: string | null;
+  date?: string | null | undefined;
   /** Objects will be deleted past this lifetime. */
-  days?: number | null;
+  days?: number | null | undefined;
   /** Indicates whether a delete marker with no noncurrent versions will be removed. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date. */
-  expiredObjectDeleteMarker?: boolean | null;
+  expiredObjectDeleteMarker?: boolean | null | undefined;
 }
 /** Tags filter */
 export type CloudStorageLifecycleRuleFilterTagsMap = { [key: string]: string | undefined };
 /** Object Storage replication configuration rule filter */
 export interface CloudStorageLifecycleRuleFilter {
   /** Minimum object size in bytes to which the rule applies. */
-  objectSizeGreaterThan?: number | null;
+  objectSizeGreaterThan?: number | null | undefined;
   /** Maximum object size in bytes to which the rule applies. */
-  objectSizeLessThan?: number | null;
+  objectSizeLessThan?: number | null | undefined;
   /** Prefix filter */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Tags filter */
-  tags?: CloudStorageLifecycleRuleFilterTagsMap | null;
+  tags?: CloudStorageLifecycleRuleFilterTagsMap | null | undefined;
 }
 /** Specifies when noncurrent object versions expire */
 export interface CloudStorageLifecycleRuleNoncurrentVersionExpiration {
   /** Specifies how many noncurrent versions to retain. You can specify up to 100 noncurrent versions to retain. All noncurrent versions beyond the specified number to retain will be permanently deleted. */
-  newerNoncurrentVersions?: number | null;
+  newerNoncurrentVersions?: number | null | undefined;
   /** Specifies the number of days an object is noncurrent before the associated action can be performed. */
-  noncurrentDays?: number | null;
+  noncurrentDays?: number | null | undefined;
 }
 /** Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. */
 export interface CloudStorageLifecycleRuleNoncurrentVersionTransition {
   /** Specifies how many noncurrent versions to retain in the same storage class before transitioning objects. You can specify up to 100 noncurrent versions to retain. */
-  newerNoncurrentVersions?: number | null;
+  newerNoncurrentVersions?: number | null | undefined;
   /** Specifies the number of days an object is noncurrent before the associated action can be performed. */
-  noncurrentDays?: number | null;
+  noncurrentDays?: number | null | undefined;
   /** The storage class to which you want the object to transition. */
-  storageClass?: CloudStorageStorageClassEnum | (string & {}) | null;
+  storageClass?: CloudStorageStorageClassEnum | (string & {}) | null | undefined;
 }
 /** Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class */
 export type CloudStorageLifecycleRuleNoncurrentVersionTransitionsList =
@@ -7998,32 +8057,41 @@ export type CloudStorageLifecycleRuleTransitionStorageClassEnum =
 /** Specifies when an object transitions to a specified storage class. */
 export interface CloudStorageLifecycleRuleTransition {
   /** Indicates when objects are transitioned to the specified storage class */
-  date?: string | null;
+  date?: string | null | undefined;
   /** Indicates the number of days after creation when objects are transitioned to the specified storage class */
-  days?: number | null;
+  days?: number | null | undefined;
   /** The storage class to which you want the object to transition. */
-  storageClass?: CloudStorageLifecycleRuleTransitionStorageClassEnum | (string & {});
+  storageClass?: CloudStorageLifecycleRuleTransitionStorageClassEnum | (string & {}) | undefined;
 }
 /** Rule destination configuration */
 export type CloudStorageLifecycleRuleTransitionsList = Array<CloudStorageLifecycleRuleTransition>;
 /** Object Storage lifecycle configuration rule */
 export interface CloudStorageLifecycleRule {
   /** Abort incomplete multipart upload configuration */
-  abortIncompleteMultipartUpload?: CloudStorageLifecycleRuleAbortIncompleteMultipartUpload | null;
+  abortIncompleteMultipartUpload?:
+    | CloudStorageLifecycleRuleAbortIncompleteMultipartUpload
+    | null
+    | undefined;
   /** Lifecycle rule expiration configuration */
-  expiration?: CloudStorageLifecycleRuleExpiration | null;
+  expiration?: CloudStorageLifecycleRuleExpiration | null | undefined;
   /** Rule filters */
-  filter?: CloudStorageLifecycleRuleFilter | null;
+  filter?: CloudStorageLifecycleRuleFilter | null | undefined;
   /** Rule ID */
-  id?: string;
+  id?: string | undefined;
   /** Specifies when noncurrent object versions expire */
-  noncurrentVersionExpiration?: CloudStorageLifecycleRuleNoncurrentVersionExpiration | null;
+  noncurrentVersionExpiration?:
+    | CloudStorageLifecycleRuleNoncurrentVersionExpiration
+    | null
+    | undefined;
   /** Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class */
-  noncurrentVersionTransitions?: CloudStorageLifecycleRuleNoncurrentVersionTransitionsList | null;
+  noncurrentVersionTransitions?:
+    | CloudStorageLifecycleRuleNoncurrentVersionTransitionsList
+    | null
+    | undefined;
   /** Rule status */
   status: CloudStorageLifecycleRuleStatusEnum | (string & {});
   /** Rule destination configuration */
-  transitions?: CloudStorageLifecycleRuleTransitionsList | null;
+  transitions?: CloudStorageLifecycleRuleTransitionsList | null | undefined;
 }
 /** Lifecycle rules */
 export type CloudStorageLifecycleConfigurationRulesList = Array<CloudStorageLifecycleRule>;
@@ -8037,18 +8105,18 @@ export type CloudStorageObjectLockModeEnum = "compliance" | "governance";
 /** Object lock default configuration rule. */
 export interface CloudStorageLockConfigurationRule {
   /** Object lock mode. */
-  mode?: CloudStorageObjectLockModeEnum | (string & {});
+  mode?: CloudStorageObjectLockModeEnum | (string & {}) | undefined;
   /** The retention period that the default retention configuration must apply. */
-  period?: string;
+  period?: string | undefined;
 }
 /** Object lock status */
 export type CloudStorageObjectLockStatusEnum = "disabled" | "enabled";
 /** Object lock configuration. */
 export interface CloudStorageLockConfiguration {
   /** Object lock default rule. */
-  rule?: CloudStorageLockConfigurationRule | null;
+  rule?: CloudStorageLockConfigurationRule | null | undefined;
   /** Object lock status. */
-  status?: CloudStorageObjectLockStatusEnum | (string & {});
+  status?: CloudStorageObjectLockStatusEnum | (string & {}) | undefined;
 }
 /** Replication rule delete marker replication status */
 export type CloudStorageReplicationRuleDeleteMarkerReplicationStatusEnum = "disabled" | "enabled";
@@ -8065,20 +8133,20 @@ export type CloudStorageStorageClassReplicationEnum =
 /** Object Storage replication configuration rule destination. */
 export interface CloudStorageReplicationRuleDestinationIn {
   /** Destination bucket name. */
-  name?: string;
+  name?: string | undefined;
   /** Destination region. */
   region: string;
   /** Destination storage class. */
-  storageClass?: CloudStorageStorageClassReplicationEnum | (string & {}) | null;
+  storageClass?: CloudStorageStorageClassReplicationEnum | (string & {}) | null | undefined;
 }
 /** Tags filter. */
 export type CloudStorageReplicationRuleFilterTagsMap = { [key: string]: string | undefined };
 /** Object Storage replication configuration rule filter. */
 export interface CloudStorageReplicationRuleFilter {
   /** Prefix filter. */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Tags filter. */
-  tags?: CloudStorageReplicationRuleFilterTagsMap | null;
+  tags?: CloudStorageReplicationRuleFilterTagsMap | null | undefined;
 }
 /** Replication rule status */
 export type CloudStorageReplicationRuleStatusEnum = "disabled" | "enabled";
@@ -8087,24 +8155,25 @@ export interface CloudStorageReplicationRuleIn {
   /** Delete marker replication configuration. */
   deleteMarkerReplication?:
     | CloudStorageReplicationRuleDeleteMarkerReplicationStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Rule destination configuration. */
-  destination?: CloudStorageReplicationRuleDestinationIn | null;
+  destination?: CloudStorageReplicationRuleDestinationIn | null | undefined;
   /** Rule filters. */
-  filter?: CloudStorageReplicationRuleFilter | null;
+  filter?: CloudStorageReplicationRuleFilter | null | undefined;
   /** Rule ID. */
-  id?: string;
+  id?: string | undefined;
   /** Rule priority. */
-  priority?: number;
+  priority?: number | undefined;
   /** Rule status. */
-  status?: CloudStorageReplicationRuleStatusEnum | (string & {});
+  status?: CloudStorageReplicationRuleStatusEnum | (string & {}) | undefined;
 }
 /** Replication rules. */
 export type CloudStorageReplicationObjectInRulesList = Array<CloudStorageReplicationRuleIn>;
 /** Object Storage replication configuration. */
 export interface CloudStorageReplicationObjectIn {
   /** Replication rules. */
-  rules?: CloudStorageReplicationObjectInRulesList | null;
+  rules?: CloudStorageReplicationObjectInRulesList | null | undefined;
 }
 /** Container tags. */
 export type CreateColdArchiveContainerOnRegionRequestTagsMap = {
@@ -8115,7 +8184,7 @@ export type CloudStorageVersioningStatusEnum = "disabled" | "enabled" | "suspend
 /** Versioning configuration. */
 export interface CloudStorageVersioningObject {
   /** Versioning status. */
-  status?: CloudStorageVersioningStatusEnum | (string & {}) | null;
+  status?: CloudStorageVersioningStatusEnum | (string & {}) | null | undefined;
 }
 export interface CreateColdArchiveContainerOnRegionRequest {
   /** Service name */
@@ -8123,51 +8192,51 @@ export interface CreateColdArchiveContainerOnRegionRequest {
   /** Region name */
   regionName: string;
   /** Encryption configuration. */
-  encryption?: CloudStorageEncryptionObject | null;
+  encryption?: CloudStorageEncryptionObject | null | undefined;
   /** Lifecycle configuration */
-  lifecycle?: CloudStorageLifecycleConfiguration | null;
+  lifecycle?: CloudStorageLifecycleConfiguration | null | undefined;
   /** Container name. */
   name: string;
   /** Object lock configuration. */
-  objectLock?: CloudStorageLockConfiguration | null;
+  objectLock?: CloudStorageLockConfiguration | null | undefined;
   /** Container owner user ID. */
-  ownerId?: number | null;
+  ownerId?: number | null | undefined;
   /** Replication configuration. */
-  replication?: CloudStorageReplicationObjectIn | null;
+  replication?: CloudStorageReplicationObjectIn | null | undefined;
   /** Container tags. */
-  tags?: CreateColdArchiveContainerOnRegionRequestTagsMap | null;
+  tags?: CreateColdArchiveContainerOnRegionRequestTagsMap | null | undefined;
   /** Versioning configuration. */
-  versioning?: CloudStorageVersioningObject | null;
+  versioning?: CloudStorageVersioningObject | null | undefined;
 }
 /** Specifies the restoration status of an object. Objects in certain storage classes must be restored before they can be retrieved. */
 export interface CloudStorageObjectRestoreStatus {
   /** Indicates when the restored copy will expire. */
-  expireDate?: string | null;
+  expireDate?: string | null | undefined;
   /** Specifies whether the object is currently being restored. */
-  inProgress?: boolean;
+  inProgress?: boolean | undefined;
 }
 /** Object */
 export interface CloudStorageObjectList {
   /** The entity tag is a hash of the object that reflects changes only to the contents. The etag is omitted when isDeleteMarker or isCommonPrefix is true. */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** True when the entry represents a common prefix. This field is included only when specifying a delimiter. */
-  isCommonPrefix?: boolean | null;
+  isCommonPrefix?: boolean | null | undefined;
   /** True when the entry represents a delete marker. This field is included only when using withVersions set to true. */
-  isDeleteMarker?: boolean | null;
+  isDeleteMarker?: boolean | null | undefined;
   /** True when the entry is the latest version of the object or delete marker. */
-  isLatest?: boolean | null;
+  isLatest?: boolean | null | undefined;
   /** The name assigned to an object. Use the object key to retrieve the object. */
-  key?: string;
+  key?: string | undefined;
   /** Last modification date. This field is omitted when isCommonPrefix is true. */
-  lastModified?: string | null;
+  lastModified?: string | null | undefined;
   /** Specifies the restoration status of an object, if any. Objects in certain storage classes must be restored before they can be retrieved. */
-  restoreStatus?: CloudStorageObjectRestoreStatus | null;
+  restoreStatus?: CloudStorageObjectRestoreStatus | null | undefined;
   /** Size in bytes of the object. */
-  size?: number;
+  size?: number | undefined;
   /** The storage class used to store the object. */
-  storageClass?: CloudStorageStorageClassEnum | null;
+  storageClass?: CloudStorageStorageClassEnum | null | undefined;
   /** The version ID of the object. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 /** Container objects (deprecated) */
 export type CloudColdArchiveContainerObjectsList = Array<CloudStorageObjectList>;
@@ -8183,25 +8252,25 @@ export type CloudColdArchiveContainerStatusEnum =
 /** Container */
 export interface CloudColdArchiveContainer {
   /** After restoring your archive, date when the restored files will be deleted */
-  automaticDeletionAt?: string | null;
+  automaticDeletionAt?: string | null | undefined;
   /** The date when the resource was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Archive is locked (cannot be deleted) until this date */
-  lockedUntil?: string | null;
+  lockedUntil?: string | null | undefined;
   /** Container name */
-  name?: string;
+  name?: string | undefined;
   /** Container objects (deprecated) */
-  objects?: CloudColdArchiveContainerObjectsList;
+  objects?: CloudColdArchiveContainerObjectsList | undefined;
   /** Container total objects count */
-  objectsCount?: number;
+  objectsCount?: number | undefined;
   /** Container total objects size (bytes) */
-  objectsSize?: number;
+  objectsSize?: number | undefined;
   /** Container owner user ID */
-  ownerId?: number;
+  ownerId?: number | undefined;
   /** ColdArchive status */
-  status?: CloudColdArchiveContainerStatusEnum;
+  status?: CloudColdArchiveContainerStatusEnum | undefined;
   /** Container virtual host */
-  virtualHost?: string;
+  virtualHost?: string | undefined;
 }
 export interface CreateFloatingIpOnInstanceOnRegionRequest {
   /** Service name */
@@ -8211,7 +8280,7 @@ export interface CreateFloatingIpOnInstanceOnRegionRequest {
   /** Instance ID */
   instanceId: string;
   /** Parameters to create a gateway if required */
-  gateway?: CloudNetworkCreateGatewaySummary | null;
+  gateway?: CloudNetworkCreateGatewaySummary | null | undefined;
   /** Private instance IP to associate the floating IP with */
   ip: string;
 }
@@ -8220,13 +8289,13 @@ export interface CloudInstanceAutoBackup2 {
   /** Unix Cron pattern (eg: '0 0 * * *') */
   cron: string;
   /** Name of the distant image */
-  distantImageName?: string | null;
+  distantImageName?: string | null | undefined;
   /** Name of the distant region */
-  distantRegionName?: string | null;
+  distantRegionName?: string | null | undefined;
   /** Name of the image */
-  imageName?: string;
+  imageName?: string | undefined;
   /** Name of your workflow */
-  name?: string;
+  name?: string | undefined;
   /** Number of backup to keep */
   rotation: number;
 }
@@ -8235,108 +8304,108 @@ export type CloudInstanceCreateInputBillingPeriodEnum = "hourly" | "monthly";
 /** Boot the instance from an image or a volume. Both cannot be null. */
 export interface CloudInstanceCreateInputBootFrom {
   /** Instance image id */
-  imageId?: string | null;
+  imageId?: string | null | undefined;
   /** Region of the instance image */
-  imageRegionName?: string | null;
+  imageRegionName?: string | null | undefined;
   /** Specify a volume id to boot from it */
-  volumeId?: string | null;
+  volumeId?: string | null | undefined;
 }
 /** Flavor information */
 export interface CloudInstanceCreateInputFlavor {
   /** Instance flavor id */
-  id?: string;
+  id?: string | undefined;
 }
 /** Start instance in group */
 export interface CloudInstanceCreateInputGroup {
   /** Group id */
-  id?: string;
+  id?: string | undefined;
 }
 /** Existing floating IP */
 export interface CloudInstanceCreateInputNetworkPrivateFloatingIp {
   /** Floating IP ID */
-  id?: string;
+  id?: string | undefined;
 }
 /** Information to create a new floating IP */
 export interface CloudInstanceCreateInputNetworkPrivateFloatingIpCreate {
   /** Floating IP description */
-  description?: string;
+  description?: string | undefined;
 }
 /** Existing gateway */
 export interface CloudInstanceCreateInputNetworkPrivateGateway {
   /** Gateway ID */
-  id?: string;
+  id?: string | undefined;
 }
 /** Gateway model */
 export type CloudInstanceCreateInputNetworkPrivateGatewayCreateModelEnum = "l" | "m" | "s";
 /** Information to create a new gateway */
 export interface CloudInstanceCreateInputNetworkPrivateGatewayCreate {
   /** Gateway model */
-  model?: CloudInstanceCreateInputNetworkPrivateGatewayCreateModelEnum | (string & {});
+  model?: CloudInstanceCreateInputNetworkPrivateGatewayCreateModelEnum | (string & {}) | undefined;
   /** Gateway name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Existing private network */
 export interface CloudInstanceCreateInputNetworkPrivateNetwork {
   /** Network ID */
-  id?: string;
+  id?: string | undefined;
   /** Existing Subnet ID */
-  subnetId?: string;
+  subnetId?: string | undefined;
 }
 /** New subnet information */
 export interface CloudInstanceCreateInputNetworkPrivateNetworkCreateSubnet {
   /** Subnet range in CIDR notation */
-  cidr?: string;
+  cidr?: string | undefined;
   /** Enable DHCP on the private network */
-  enableDhcp?: boolean;
+  enableDhcp?: boolean | undefined;
   /** Enable gateway IP */
-  enableGatewayIP?: boolean | null;
+  enableGatewayIP?: boolean | null | undefined;
   /** IP version */
-  ipVersion?: number;
+  ipVersion?: number | undefined;
 }
 /** Information to create a new private network */
 export interface CloudInstanceCreateInputNetworkPrivateNetworkCreate {
   /** Network name */
-  name?: string;
+  name?: string | undefined;
   /** New subnet information */
-  subnet?: CloudInstanceCreateInputNetworkPrivateNetworkCreateSubnet;
+  subnet?: CloudInstanceCreateInputNetworkPrivateNetworkCreateSubnet | undefined;
   /** Network vlan ID */
-  vlanId?: number | null;
+  vlanId?: number | null | undefined;
 }
 /** Private network information */
 export interface CloudInstanceCreateInputNetworkPrivate {
   /** Existing floating IP */
-  floatingIp?: CloudInstanceCreateInputNetworkPrivateFloatingIp | null;
+  floatingIp?: CloudInstanceCreateInputNetworkPrivateFloatingIp | null | undefined;
   /** Information to create a new floating IP */
-  floatingIpCreate?: CloudInstanceCreateInputNetworkPrivateFloatingIpCreate | null;
+  floatingIpCreate?: CloudInstanceCreateInputNetworkPrivateFloatingIpCreate | null | undefined;
   /** Existing gateway */
-  gateway?: CloudInstanceCreateInputNetworkPrivateGateway | null;
+  gateway?: CloudInstanceCreateInputNetworkPrivateGateway | null | undefined;
   /** Information to create a new gateway */
-  gatewayCreate?: CloudInstanceCreateInputNetworkPrivateGatewayCreate | null;
+  gatewayCreate?: CloudInstanceCreateInputNetworkPrivateGatewayCreate | null | undefined;
   /** Instance IP in the private network */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Existing private network */
-  network?: CloudInstanceCreateInputNetworkPrivateNetwork | null;
+  network?: CloudInstanceCreateInputNetworkPrivateNetwork | null | undefined;
   /** Information to create a new private network */
-  networkCreate?: CloudInstanceCreateInputNetworkPrivateNetworkCreate | null;
+  networkCreate?: CloudInstanceCreateInputNetworkPrivateNetworkCreate | null | undefined;
 }
 /** Networks information for instance creation. Either a public or private network must be specified. Both cannot be null. */
 export interface CloudInstanceCreateInputNetwork {
   /** Private network information */
-  private?: CloudInstanceCreateInputNetworkPrivate | null;
+  private?: CloudInstanceCreateInputNetworkPrivate | null | undefined;
   /** Set the new instance as public */
-  public?: boolean;
+  public?: boolean | undefined;
 }
 /** Existing SSH Keypair */
 export interface CloudInstanceCreateInputSshKey {
   /** SSH Keypair name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Information to create a new SSH Keypair */
 export interface CloudInstanceCreateInputSshKeyCreate {
   /** SSH key name */
-  name?: string;
+  name?: string | undefined;
   /** SSH public key */
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 export interface CreateInstanceOnRegionRequest {
   /** Service name */
@@ -8344,91 +8413,91 @@ export interface CreateInstanceOnRegionRequest {
   /** Region name */
   regionName: string;
   /** Create an autobackup workflow after instance start up */
-  autobackup?: CloudInstanceAutoBackup2 | null;
+  autobackup?: CloudInstanceAutoBackup2 | null | undefined;
   /** The availability zone where the instance will be created */
-  availabilityZone?: string | null;
+  availabilityZone?: string | null | undefined;
   /** Billing period */
   billingPeriod: CloudInstanceCreateInputBillingPeriodEnum | (string & {});
   /** Boot the instance from an image or a volume */
   bootFrom: CloudInstanceCreateInputBootFrom;
   /** Create multiple instances */
-  bulk?: number;
+  bulk?: number | undefined;
   /** Flavor information */
   flavor: CloudInstanceCreateInputFlavor;
   /** Start instance in group */
-  group?: CloudInstanceCreateInputGroup | null;
+  group?: CloudInstanceCreateInputGroup | null | undefined;
   /** Instance name */
-  name?: string;
+  name?: string | undefined;
   /** Networks information */
   network: CloudInstanceCreateInputNetwork;
   /** Existing SSH Keypair */
-  sshKey?: CloudInstanceCreateInputSshKey | null;
+  sshKey?: CloudInstanceCreateInputSshKey | null | undefined;
   /** Information to create a new SSH Keypair */
-  sshKeyCreate?: CloudInstanceCreateInputSshKeyCreate | null;
+  sshKeyCreate?: CloudInstanceCreateInputSshKeyCreate | null | undefined;
   /** Configuration information or scripts to use upon launch */
-  userData?: string | null;
+  userData?: string | null | undefined;
 }
 export interface CreateLoadBalancerRequest {
   /** Service name */
   serviceName: string;
   /** Description of the load balancer */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the load balancer */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Networking definition */
-  networking?: CloudProjectLoadbalancerNetworkingNetworkingCreation | null;
+  networking?: CloudProjectLoadbalancerNetworkingNetworkingCreation | null | undefined;
   /** Openstack Region where the load balancer is hosted */
-  openstackRegion?: string;
+  openstackRegion?: string | undefined;
   /** Region where the load balancer is hosted */
   region: string;
   /** Size of the load balancer */
-  size?: CloudProjectLoadbalancerSizeEnum | (string & {}) | null;
+  size?: CloudProjectLoadbalancerSizeEnum | (string & {}) | null | undefined;
 }
 /** Networking Egress definition */
 export interface CloudProjectLoadbalancerNetworkingEgress {
   /** vrack networking id */
-  id?: string | null;
+  id?: string | null | undefined;
   /** networking egress kind definition */
   kind: CloudProjectLoadbalancerNetworkingEgressKindEnum;
 }
 /** Networking Ingress definition */
 export interface CloudProjectLoadbalancerNetworkingIngress {
   /** networking ingress kind definition */
-  kind?: CloudProjectLoadbalancerNetworkingIngressKindEnum;
+  kind?: CloudProjectLoadbalancerNetworkingIngressKindEnum | undefined;
 }
 /** Networking object */
 export interface CloudProjectLoadbalancerNetworkingNetworking {
   /** Networking definition for egress */
-  egress?: CloudProjectLoadbalancerNetworkingEgress;
+  egress?: CloudProjectLoadbalancerNetworkingEgress | undefined;
   /** Networking definition for ingress */
-  ingress?: CloudProjectLoadbalancerNetworkingIngress;
+  ingress?: CloudProjectLoadbalancerNetworkingIngress | undefined;
 }
 /** A load balancer to handle workload */
 export interface CloudProjectLoadBalancer {
   /** Address to reach the load balancer */
-  address?: CloudProjectLoadbalancerAddress;
+  address?: CloudProjectLoadbalancerAddress | undefined;
   /** Information about version of the configuration */
-  configuration?: CloudProjectLoadbalancerConfigurationVersion;
+  configuration?: CloudProjectLoadbalancerConfigurationVersion | undefined;
   /** Creation date and time of the load balancer */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Description of the load balancer */
-  description?: string | null;
+  description?: string | null | undefined;
   /** IPs used by the load balancer to contact backend's servers */
-  egressAddress?: CloudProjectLoadbalancerAddresses;
+  egressAddress?: CloudProjectLoadbalancerAddresses | undefined;
   /** ID of the load balancer */
-  id?: string;
+  id?: string | undefined;
   /** Name of the load balancer */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Networking definition */
-  networking?: CloudProjectLoadbalancerNetworkingNetworking;
+  networking?: CloudProjectLoadbalancerNetworkingNetworking | undefined;
   /** Openstack region where the load balancer is hosted */
-  openstackRegion?: string;
+  openstackRegion?: string | undefined;
   /** Region where the load balancer is hosted */
-  region?: string;
+  region?: string | undefined;
   /** Size of the load balancer */
-  size?: CloudProjectLoadbalancerSizeEnum;
+  size?: CloudProjectLoadbalancerSizeEnum | undefined;
   /** Status of a load balancer */
-  status?: CloudProjectLoadbalancerStatusEnum;
+  status?: CloudProjectLoadbalancerStatusEnum | undefined;
 }
 /** List of backends */
 export type CreateLoadBalancerConfigurationRequestBackendsList =
@@ -8444,54 +8513,54 @@ export interface CreateLoadBalancerConfigurationRequest {
   /** Load balancer ID */
   loadBalancerId: string;
   /** List of backends */
-  backends?: CreateLoadBalancerConfigurationRequestBackendsList;
+  backends?: CreateLoadBalancerConfigurationRequestBackendsList | undefined;
   /** List of certificate ID */
-  certificates?: CreateLoadBalancerConfigurationRequestCertificatesList;
+  certificates?: CreateLoadBalancerConfigurationRequestCertificatesList | undefined;
   /** List of frontends */
-  frontends?: CreateLoadBalancerConfigurationRequestFrontendsList;
+  frontends?: CreateLoadBalancerConfigurationRequestFrontendsList | undefined;
   /** networking configuration */
-  networking?: CloudProjectLoadbalancerConfigurationNetworkingNetworking | null;
+  networking?: CloudProjectLoadbalancerConfigurationNetworkingNetworking | null | undefined;
 }
 export interface CreateNetworkLoadBalancerRequest {
   /** Service name */
   serviceName: string;
   /** Description of the load balancer */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the load balancer */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Networking definition */
-  networking?: CloudProjectLoadbalancerNetworkingNetworkingCreation | null;
+  networking?: CloudProjectLoadbalancerNetworkingNetworkingCreation | null | undefined;
   /** Openstack Region where the load balancer is hosted */
-  openstackRegion?: string;
+  openstackRegion?: string | undefined;
   /** Region where the load balancer is hosted */
   region: string;
   /** Size of the load balancer */
-  size?: CloudProjectLoadbalancerSizeEnum | (string & {}) | null;
+  size?: CloudProjectLoadbalancerSizeEnum | (string & {}) | null | undefined;
 }
 /** A network load balancer for TCP/UDP workloads */
 export interface CloudProjectNetworkLoadBalancer {
   /** Address to reach the load balancer */
-  address?: CloudProjectLoadbalancerAddress;
+  address?: CloudProjectLoadbalancerAddress | undefined;
   /** Information about version of the configuration */
-  configuration?: CloudProjectLoadbalancerConfigurationVersion;
+  configuration?: CloudProjectLoadbalancerConfigurationVersion | undefined;
   /** Creation date and time of the load balancer */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Description of the load balancer */
-  description?: string | null;
+  description?: string | null | undefined;
   /** IPs used by the load balancer to contact backend's servers */
-  egressAddress?: CloudProjectLoadbalancerAddresses;
+  egressAddress?: CloudProjectLoadbalancerAddresses | undefined;
   /** ID of the load balancer */
-  id?: string;
+  id?: string | undefined;
   /** Name of the load balancer */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Openstack region where the load balancer is hosted */
-  openstackRegion?: string;
+  openstackRegion?: string | undefined;
   /** Region where the load balancer is hosted */
-  region?: string;
+  region?: string | undefined;
   /** Size of the load balancer */
-  size?: CloudProjectLoadbalancerSizeEnum;
+  size?: CloudProjectLoadbalancerSizeEnum | undefined;
   /** Status of a load balancer */
-  status?: CloudProjectLoadbalancerStatusEnum;
+  status?: CloudProjectLoadbalancerStatusEnum | undefined;
 }
 /** List of conditions */
 export type CreateNetworkLoadBalancerConfigurationRequestConditionsList =
@@ -8508,15 +8577,15 @@ export interface CreateNetworkLoadBalancerConfigurationRequest {
   /** Network load balancer ID */
   networkLoadBalancerId: string;
   /** All actions */
-  actions?: CloudProjectNetworkloadbalancerActions | null;
+  actions?: CloudProjectNetworkloadbalancerActions | null | undefined;
   /** List of conditions */
-  conditions?: CreateNetworkLoadBalancerConfigurationRequestConditionsList | null;
+  conditions?: CreateNetworkLoadBalancerConfigurationRequestConditionsList | null | undefined;
   /** List of entryPointss */
-  entryPoints?: CreateNetworkLoadBalancerConfigurationRequestEntryPointsList;
+  entryPoints?: CreateNetworkLoadBalancerConfigurationRequestEntryPointsList | undefined;
   /** networking configuration */
-  networking?: CloudProjectLoadbalancerConfigurationNetworkingNetworking | null;
+  networking?: CloudProjectLoadbalancerConfigurationNetworkingNetworking | null | undefined;
   /** List of targets */
-  targets?: CreateNetworkLoadBalancerConfigurationRequestTargetsList | null;
+  targets?: CreateNetworkLoadBalancerConfigurationRequestTargetsList | null | undefined;
 }
 /** Presigned URL method */
 export type CloudStoragePresignedURLMethodEnum = "DELETE" | "GET" | "PUT";
@@ -8528,26 +8597,26 @@ export interface CreatePresignedUrlOnRegionRequest {
   /** Name */
   name: string;
   /** URL expiration in seconds. */
-  expire?: number;
+  expire?: number | undefined;
   /** Presigned URL method. */
-  method?: CloudStoragePresignedURLMethodEnum | (string & {});
+  method?: CloudStoragePresignedURLMethodEnum | (string & {}) | undefined;
   /** Object key. */
-  object?: string;
+  object?: string | undefined;
   /** When using PUT method, specifies the created object storage class. */
-  storageClass?: CloudStorageStorageClassEnum | (string & {});
+  storageClass?: CloudStorageStorageClassEnum | (string & {}) | undefined;
   /** Version ID of the object to download or delete when using GET or DELETE methods. */
-  versionId?: string;
+  versionId?: string | undefined;
 }
 /** Signed headers. */
 export type CloudStoragePresignedURLSignedHeadersMap = { [key: string]: string | undefined };
 /** Presigned URL. */
 export interface CloudStoragePresignedURL {
   /** Presigned URL method. */
-  method?: CloudStoragePresignedURLMethodEnum;
+  method?: CloudStoragePresignedURLMethodEnum | undefined;
   /** Signed headers. */
-  signedHeaders?: CloudStoragePresignedURLSignedHeadersMap;
+  signedHeaders?: CloudStoragePresignedURLSignedHeadersMap | undefined;
   /** Presigned URL. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateReplicationJobOnStorageContainerRequest {
   /** Service name */
@@ -8567,19 +8636,19 @@ export type CloudStorageStorageJobReplicationStatusEnum =
 /** Replication storage job */
 export interface CloudStorageJobReplication {
   /** Number of successfully replicated objects */
-  completed?: number;
+  completed?: number | undefined;
   /** Job creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Number of failed replicated objects */
-  failed?: number;
+  failed?: number | undefined;
   /** Job ID */
-  id?: string;
+  id?: string | undefined;
   /** Job replication status */
-  status?: CloudStorageStorageJobReplicationStatusEnum;
+  status?: CloudStorageStorageJobReplicationStatusEnum | undefined;
   /** Number of stuck replicated objects */
-  stuck?: number;
+  stuck?: number | undefined;
   /** Total number of objects to replicate */
-  total?: number;
+  total?: number | undefined;
 }
 /** Container tags. */
 export type CreateStorageContainerOnRegionRequestTagsMap = { [key: string]: string | undefined };
@@ -8589,87 +8658,89 @@ export interface CreateStorageContainerOnRegionRequest {
   /** Region name */
   regionName: string;
   /** Encryption configuration. */
-  encryption?: CloudStorageEncryptionObject | null;
+  encryption?: CloudStorageEncryptionObject | null | undefined;
   /** Lifecycle configuration */
-  lifecycle?: CloudStorageLifecycleConfiguration | null;
+  lifecycle?: CloudStorageLifecycleConfiguration | null | undefined;
   /** Container name. */
   name: string;
   /** Object lock configuration. */
-  objectLock?: CloudStorageLockConfiguration | null;
+  objectLock?: CloudStorageLockConfiguration | null | undefined;
   /** Container owner user ID. */
-  ownerId?: number | null;
+  ownerId?: number | null | undefined;
   /** Replication configuration. */
-  replication?: CloudStorageReplicationObjectIn | null;
+  replication?: CloudStorageReplicationObjectIn | null | undefined;
   /** Container tags. */
-  tags?: CreateStorageContainerOnRegionRequestTagsMap | null;
+  tags?: CreateStorageContainerOnRegionRequestTagsMap | null | undefined;
   /** Versioning configuration. */
-  versioning?: CloudStorageVersioningObject | null;
+  versioning?: CloudStorageVersioningObject | null | undefined;
 }
 /** Container objects (deprecated). */
 export type CloudStorageContainerObjectsList = Array<CloudStorageObjectList>;
 /** Object Storage replication configuration rule destination. */
 export interface CloudStorageReplicationRuleDestination {
   /** Destination bucket name. */
-  name?: string;
+  name?: string | undefined;
   /** Destination region, can be null if destination bucket has been deleted. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Destination storage class. */
-  storageClass?: CloudStorageStorageClassReplicationEnum | null;
+  storageClass?: CloudStorageStorageClassReplicationEnum | null | undefined;
 }
 /** Object Storage replication configuration rule. */
 export interface CloudStorageReplicationRule {
   /** Delete marker replication configuration. */
-  deleteMarkerReplication?: CloudStorageReplicationRuleDeleteMarkerReplicationStatusEnum;
+  deleteMarkerReplication?:
+    | CloudStorageReplicationRuleDeleteMarkerReplicationStatusEnum
+    | undefined;
   /** Rule destination configuration. */
-  destination?: CloudStorageReplicationRuleDestination | null;
+  destination?: CloudStorageReplicationRuleDestination | null | undefined;
   /** Rule filters. */
-  filter?: CloudStorageReplicationRuleFilter | null;
+  filter?: CloudStorageReplicationRuleFilter | null | undefined;
   /** Rule ID. */
-  id?: string;
+  id?: string | undefined;
   /** Rule priority. */
-  priority?: number;
+  priority?: number | undefined;
   /** Rule status. */
-  status?: CloudStorageReplicationRuleStatusEnum;
+  status?: CloudStorageReplicationRuleStatusEnum | undefined;
 }
 /** Replication rules. */
 export type CloudStorageReplicationObjectRulesList = Array<CloudStorageReplicationRule>;
 /** Object Storage replication configuration. */
 export interface CloudStorageReplicationObject {
   /** Replication rules. */
-  rules?: CloudStorageReplicationObjectRulesList | null;
+  rules?: CloudStorageReplicationObjectRulesList | null | undefined;
 }
 /** Container tags. */
 export type CloudStorageContainerTagsMap = { [key: string]: string | undefined };
 /** Object storage container. */
 export interface CloudStorageContainer {
   /** The date and timestamp when the container was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Encryption configuration. */
-  encryption?: CloudStorageEncryptionObject | null;
+  encryption?: CloudStorageEncryptionObject | null | undefined;
   /** Lifecycle configuration */
-  lifecycle?: CloudStorageLifecycleConfiguration | null;
+  lifecycle?: CloudStorageLifecycleConfiguration | null | undefined;
   /** Container name. */
-  name?: string;
+  name?: string | undefined;
   /** Object lock configuration. */
-  objectLock?: CloudStorageLockConfiguration | null;
+  objectLock?: CloudStorageLockConfiguration | null | undefined;
   /** Container objects (deprecated). */
-  objects?: CloudStorageContainerObjectsList;
+  objects?: CloudStorageContainerObjectsList | undefined;
   /** Container total objects count. */
-  objectsCount?: number;
+  objectsCount?: number | undefined;
   /** Container total objects size in bytes. */
-  objectsSize?: number;
+  objectsSize?: number | undefined;
   /** Container owner user ID. */
-  ownerId?: number;
+  ownerId?: number | undefined;
   /** Container region. */
-  region?: string;
+  region?: string | undefined;
   /** Replication configuration. */
-  replication?: CloudStorageReplicationObject | null;
+  replication?: CloudStorageReplicationObject | null | undefined;
   /** Container tags. */
-  tags?: CloudStorageContainerTagsMap | null;
+  tags?: CloudStorageContainerTagsMap | null | undefined;
   /** Versioning configuration. */
-  versioning?: CloudStorageVersioningObject | null;
+  versioning?: CloudStorageVersioningObject | null | undefined;
   /** Container virtual host. */
-  virtualHost?: string;
+  virtualHost?: string | undefined;
 }
 /** Storage policy role */
 export type CloudStoragePolicyRoleEnum = "admin" | "deny" | "readOnly" | "readWrite";
@@ -8683,7 +8754,7 @@ export interface CreateStorageContainerPolicyOnRegionRequest {
   /** User ID */
   userId: string;
   /** Container object key */
-  objectKey?: string;
+  objectKey?: string | undefined;
   /** Policy role */
   roleName: CloudStoragePolicyRoleEnum | (string & {});
 }
@@ -8731,7 +8802,7 @@ export interface DeleteCloudProjectAiAppRequest {
   /** App ID */
   appId: string;
   /** Force app deletion by killing it if at a running state */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteCloudProjectAiAppResponse {}
 export interface DeleteCloudProjectAiDataRegionAliasRequest {
@@ -8749,7 +8820,7 @@ export interface DeleteCloudProjectAiJobRequest {
   /** Job ID */
   jobId: string;
   /** Force job deletion by killing it if at a running state */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteCloudProjectAiJobResponse {}
 export interface DeleteCloudProjectAiNotebookRequest {
@@ -8758,7 +8829,7 @@ export interface DeleteCloudProjectAiNotebookRequest {
   /** Notebook ID */
   notebookId: string;
   /** Force notebook deletion by killing it if at a running state */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteCloudProjectAiNotebookResponse {}
 export interface DeleteCloudProjectAiRegistryRequest {
@@ -9691,7 +9762,7 @@ export interface DeleteCloudProjectStorageRequest {
   /** Container ID */
   containerId: string;
   /** Recursively delete objects and container */
-  recursive?: boolean;
+  recursive?: boolean | undefined;
 }
 export interface DeleteCloudProjectStorageResponse {}
 export interface DeleteCloudProjectStorageCorsRequest {
@@ -9860,7 +9931,7 @@ export interface EnableCloudProjectDatabaseClickhouseWritesRequest {
 /** Cloud databases temporary write deadline definition */
 export interface CloudProjectDatabaseTemporaryWriteDeadline {
   /** Date on which the temporary write permissions would be lifted */
-  until?: string;
+  until?: string | undefined;
 }
 export interface EnableCloudProjectDatabaseMysqlWritesRequest {
   /** Service name */
@@ -9882,7 +9953,7 @@ export interface ForkCloudProjectAiNotebookBackupRequest {
   /** Backup ID */
   backupId: string;
   /** Forked notebook name */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface GetAlertRequest {
   /** Service name */
@@ -9897,11 +9968,11 @@ export type CloudAlertingAlertEmailsList = Array<string>;
 /** Sent Alert to client */
 export interface CloudAlertingAlert {
   /** Send date */
-  alertDate?: string;
+  alertDate?: string | undefined;
   /** Alert ID */
-  alertId?: number;
+  alertId?: number | undefined;
   /** Receivers of the alert */
-  emails?: CloudAlertingAlertEmailsList | null;
+  emails?: CloudAlertingAlertEmailsList | null | undefined;
 }
 export interface GetAlertingConfigurationRequest {
   /** Service name */
@@ -9959,9 +10030,9 @@ export type CloudProjectLoadbalancerStatsTargetServerStatusEnum =
 /** Loadbalancer target server stats */
 export interface CloudProjectLoadbalancerStatsTargetServer {
   /** Target name */
-  name?: string;
+  name?: string | undefined;
   /** Server status */
-  status?: CloudProjectLoadbalancerStatsTargetServerStatusEnum;
+  status?: CloudProjectLoadbalancerStatsTargetServerStatusEnum | undefined;
 }
 /** Concurrent connections */
 export type CloudProjectLoadbalancerStatsTargetServersList =
@@ -9969,33 +10040,33 @@ export type CloudProjectLoadbalancerStatsTargetServersList =
 /** Loadbalancer target stats */
 export interface CloudProjectLoadbalancerStatsTarget {
   /** Target name */
-  name?: string;
+  name?: string | undefined;
   /** Concurrent connections */
-  servers?: CloudProjectLoadbalancerStatsTargetServersList;
+  servers?: CloudProjectLoadbalancerStatsTargetServersList | undefined;
 }
 /** Targets state */
 export type CloudProjectLoadbalancerStatsTargetsList = Array<CloudProjectLoadbalancerStatsTarget>;
 /** Loadbalancer bandwidth stats */
 export interface CloudProjectLoadbalancerStatsThroughput {
   /** Consumed inbound bandwidth (bytes/s) */
-  in?: number;
+  in?: number | undefined;
   /** Consumed outbound bandwidth (bytes/s) */
-  out?: number;
+  out?: number | undefined;
 }
 /** Loadbalancer stats */
 export interface CloudProjectLoadbalancerStats {
   /** Concurrent connections */
-  concurrentFlows?: number;
+  concurrentFlows?: number | undefined;
   /** HTTP requests made */
-  httpRequestsPerSecond?: number | null;
+  httpRequestsPerSecond?: number | null | undefined;
   /** Main loadbalancer status */
-  status?: CloudProjectLoadbalancerStatsStatusEnum;
+  status?: CloudProjectLoadbalancerStatsStatusEnum | undefined;
   /** Targets state */
-  targets?: CloudProjectLoadbalancerStatsTargetsList;
+  targets?: CloudProjectLoadbalancerStatsTargetsList | undefined;
   /** New connections opened per second */
-  tcpConnectionsPerSecond?: number;
+  tcpConnectionsPerSecond?: number | undefined;
   /** Throughput consumed on the entrypoints */
-  throughput?: CloudProjectLoadbalancerStatsThroughput;
+  throughput?: CloudProjectLoadbalancerStatsThroughput | undefined;
 }
 export interface GetCertificateRequest {
   /** Service name */
@@ -10022,7 +10093,7 @@ export interface GetCloudProjectAiAuthorizationRequest {
 /** Authorization status */
 export interface CloudProjectAiAuthorizationStatus {
   /** True if project is authorized to use AI Solutions Platform */
-  authorized?: boolean;
+  authorized?: boolean | undefined;
 }
 export interface GetCloudProjectAiCapabilityFeatureRequest {
   /** Service name */
@@ -10031,9 +10102,9 @@ export interface GetCloudProjectAiCapabilityFeatureRequest {
 /** AI Solutions Features */
 export interface CloudProjectAiCapabilitiesFeatures {
   /** Inform if the AI Solutions is in Lab mode or not */
-  lab?: boolean;
+  lab?: boolean | undefined;
   /** Capability to add registry */
-  registry?: boolean;
+  registry?: boolean | undefined;
 }
 export interface GetCloudProjectAiCapabilityQuotaRequest {
   /** Service name */
@@ -10046,9 +10117,9 @@ export type CloudProjectAiCapabilitiesProjectQuotasResourcesMap = {
 /** AI Solutions Project Quotas */
 export interface CloudProjectAiCapabilitiesProjectQuotas {
   /** Project's quotas per compute-type resource (e.g CPU/GPU) */
-  resources?: CloudProjectAiCapabilitiesProjectQuotasResourcesMap;
+  resources?: CloudProjectAiCapabilitiesProjectQuotasResourcesMap | undefined;
   /** Storage quota (in bits) that is allocated to the project */
-  storage?: number;
+  storage?: number | undefined;
 }
 export interface GetCloudProjectAiCapabilityRegionRequest {
   /** Service name */
@@ -10059,15 +10130,15 @@ export interface GetCloudProjectAiCapabilityRegionRequest {
 /** AI Solutions Region */
 export interface CloudProjectAiCapabilitiesRegion {
   /** Client Install Url */
-  cliInstallUrl?: string;
+  cliInstallUrl?: string | undefined;
   /** Documentation Url */
-  documentationUrl?: string;
+  documentationUrl?: string | undefined;
   /** Region id */
-  id?: string;
+  id?: string | undefined;
   /** Region Registry Url */
-  registryUrl?: string;
+  registryUrl?: string | undefined;
   /** Region version */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetCloudProjectAiCapabilityRegionFlavorRequest {
   /** Service name */
@@ -10080,45 +10151,45 @@ export interface GetCloudProjectAiCapabilityRegionFlavorRequest {
 /** AI Solutions Global GPU information */
 export interface CloudProjectAiCapabilitiesFlavorGpuInformation {
   /** The GPU Brand */
-  gpuBrand?: string;
+  gpuBrand?: string | undefined;
   /** The GPU Memory in bits */
-  gpuMemory?: number;
+  gpuMemory?: number | undefined;
   /** The GPU Model */
-  gpuModel?: string;
+  gpuModel?: string | undefined;
 }
 /** AI Solutions Global Resource per flavor unit */
 export interface CloudProjectAiCapabilitiesFlavorResourcesPerUnit {
   /** The amount of cpu for one unit of the flavor */
-  cpu?: number;
+  cpu?: number | undefined;
   /** The amount of ephemeral storage in bytes */
-  ephemeralStorage?: number;
+  ephemeralStorage?: number | undefined;
   /** The amount of gpu for one unit of the flavor */
-  gpu?: number;
+  gpu?: number | undefined;
   /** The amount of memory in bytes */
-  memory?: number;
+  memory?: number | undefined;
   /** The guarantee private bandwidth in bytes per seconds */
-  privateNetwork?: number;
+  privateNetwork?: number | undefined;
   /** The guarantee public bandwidth in bytes per seconds */
-  publicNetwork?: number;
+  publicNetwork?: number | undefined;
 }
 /** Flavor Type */
 export type CloudProjectAiCapabilitiesFlavorTypeEnum = "cpu" | "gpu";
 /** AI Solutions Flavor */
 export interface CloudProjectAiCapabilitiesFlavor {
   /** Is the flavor the default one for a flavor type */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Flavor description */
-  description?: string;
+  description?: string | undefined;
   /** Describe GPU information */
-  gpuInformation?: CloudProjectAiCapabilitiesFlavorGpuInformation | null;
+  gpuInformation?: CloudProjectAiCapabilitiesFlavorGpuInformation | null | undefined;
   /** Flavor id */
-  id?: string;
+  id?: string | undefined;
   /** Maximum amount available for a job / notebook */
-  max?: number;
+  max?: number | undefined;
   /** Describe the amount of resources given per unit of the flavor */
-  resourcesPerUnit?: CloudProjectAiCapabilitiesFlavorResourcesPerUnit;
+  resourcesPerUnit?: CloudProjectAiCapabilitiesFlavorResourcesPerUnit | undefined;
   /** Flavor type */
-  type?: CloudProjectAiCapabilitiesFlavorTypeEnum;
+  type?: CloudProjectAiCapabilitiesFlavorTypeEnum | undefined;
 }
 export interface GetCloudProjectAiCapabilityRegionNotebookEditorRequest {
   /** Service name */
@@ -10133,17 +10204,17 @@ export type CloudProjectAiCapabilitiesNotebookEditorVersionsList = Array<string>
 /** AI Solutions Notebook editor object */
 export interface CloudProjectAiCapabilitiesNotebookEditor {
   /** Short description of the editor */
-  description?: string;
+  description?: string | undefined;
   /** URL of the editor documentation */
-  docUrl?: string;
+  docUrl?: string | undefined;
   /** Unique identifier of the editor */
-  id?: string;
+  id?: string | undefined;
   /** URL of the logo of the editor */
-  logoUrl?: string;
+  logoUrl?: string | undefined;
   /** Name of the editor */
-  name?: string;
+  name?: string | undefined;
   /** List of available versions of this editor */
-  versions?: CloudProjectAiCapabilitiesNotebookEditorVersionsList;
+  versions?: CloudProjectAiCapabilitiesNotebookEditorVersionsList | undefined;
 }
 export interface GetCloudProjectAiCapabilityRegionNotebookFrameworkRequest {
   /** Service name */
@@ -10162,23 +10233,23 @@ export type CloudProjectAiCapabilitiesNotebookFrameworkVersionsList = Array<stri
 /** AI Solutions Notebook framework object */
 export interface CloudProjectAiCapabilitiesNotebookFramework {
   /** Short description of the framework */
-  description?: string;
+  description?: string | undefined;
   /** URL of the framework documentation */
-  docUrl?: string;
+  docUrl?: string | undefined;
   /** Unique identifier of the framework */
-  id?: string;
+  id?: string | undefined;
   /** URL of the logo of the framework */
-  logoUrl?: string;
+  logoUrl?: string | undefined;
   /** Name of the framework */
-  name?: string;
+  name?: string | undefined;
   /** List of paths that are automatically saved */
-  savedPaths?: CloudProjectAiCapabilitiesNotebookFrameworkSavedPathsList | null;
+  savedPaths?: CloudProjectAiCapabilitiesNotebookFrameworkSavedPathsList | null | undefined;
   /** List of the QPU flavors that are supported by this framework */
-  supportedQpus?: CloudProjectAiCapabilitiesNotebookFrameworkSupportedQpusList | null;
+  supportedQpus?: CloudProjectAiCapabilitiesNotebookFrameworkSupportedQpusList | null | undefined;
   /** Type of given framework eg. ai, quantum, quantum-qpu */
-  type?: string;
+  type?: string | undefined;
   /** List of available versions of this framework */
-  versions?: CloudProjectAiCapabilitiesNotebookFrameworkVersionsList;
+  versions?: CloudProjectAiCapabilitiesNotebookFrameworkVersionsList | undefined;
 }
 export interface GetCloudProjectAiCapabilityRegionNotebookWorkspacebackupretentionpolicyRequest {
   /** Service name */
@@ -10189,11 +10260,11 @@ export interface GetCloudProjectAiCapabilityRegionNotebookWorkspacebackupretenti
 /** Representation of a notebook workspace backup retention policy */
 export interface CloudProjectAiNotebookNotebookWorkspaceBackupRetentionPolicy {
   /** Position in the backup history from which the lifetime-based eviction can be applied to a workspace backup */
-  lifetimeEvictionThreshold?: number;
+  lifetimeEvictionThreshold?: number | undefined;
   /** Maximum number of retention days for a given notebook's workspace backups which is at or after lifetime_eviction_threshold index in history */
-  lifetimeInDays?: number;
+  lifetimeInDays?: number | undefined;
   /** The number of retained workspace backups for a given notebook */
-  retainedNumber?: number;
+  retainedNumber?: number | undefined;
 }
 export interface GetCloudProjectAiCapabilityRegionPresetRequest {
   /** Service name */
@@ -10209,31 +10280,31 @@ export type CloudProjectAiCapabilitiesPresetCapabilitiesFlavorTypesList =
 /** AI Solutions Preset resources requirements */
 export interface CloudProjectAiCapabilitiesPresetResources {
   /** Maximum number of GPUs supported */
-  maxGpu?: number;
+  maxGpu?: number | undefined;
 }
 /** AI Solutions Preset image enabled features */
 export interface CloudProjectAiCapabilitiesPresetCapabilities {
   /** Exec enabled */
-  exec?: boolean;
+  exec?: boolean | undefined;
   /** Flavor types */
-  flavorTypes?: CloudProjectAiCapabilitiesPresetCapabilitiesFlavorTypesList;
+  flavorTypes?: CloudProjectAiCapabilitiesPresetCapabilitiesFlavorTypesList | undefined;
   /** Log enabled */
-  log?: boolean;
+  log?: boolean | undefined;
   /** Resources requirements */
-  resources?: CloudProjectAiCapabilitiesPresetResources;
+  resources?: CloudProjectAiCapabilitiesPresetResources | undefined;
   /** SSH enabled */
-  ssh?: boolean;
+  ssh?: boolean | undefined;
   /** Volume enabled */
-  volume?: boolean;
+  volume?: boolean | undefined;
 }
 /** Preset description */
 export type CloudProjectAiCapabilitiesPresetDescriptionsList = Array<string>;
 /** AI Solutions Preset image */
 export interface CloudProjectAiCapabilitiesPresetDocumentationUrl {
   /** Documentation Name */
-  name?: string;
+  name?: string | undefined;
   /** Documentation URL */
-  url?: string;
+  url?: string | undefined;
 }
 /** URL toward the preset image documentation */
 export type CloudProjectAiCapabilitiesPresetDocUrlList =
@@ -10241,34 +10312,34 @@ export type CloudProjectAiCapabilitiesPresetDocUrlList =
 /** AI Solutions Partner Object */
 export interface CloudProjectAiJobPartner {
   /** Partner flavor */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Partner ID */
-  id?: string;
+  id?: string | undefined;
   /** Partner name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Preset Type */
 export type CloudProjectAiCapabilitiesPresetTypeEnum = "app" | "job" | "notebook";
 /** AI Solutions Preset image */
 export interface CloudProjectAiCapabilitiesPreset {
   /** Preset capabilities */
-  capabilities?: CloudProjectAiCapabilitiesPresetCapabilities;
+  capabilities?: CloudProjectAiCapabilitiesPresetCapabilities | undefined;
   /** Preset description */
-  descriptions?: CloudProjectAiCapabilitiesPresetDescriptionsList;
+  descriptions?: CloudProjectAiCapabilitiesPresetDescriptionsList | undefined;
   /** URL toward the preset image documentation */
-  docUrl?: CloudProjectAiCapabilitiesPresetDocUrlList;
+  docUrl?: CloudProjectAiCapabilitiesPresetDocUrlList | undefined;
   /** Preset id */
-  id?: string;
+  id?: string | undefined;
   /** URL toward the logo to illustrate the preset */
-  logoUrl?: string;
+  logoUrl?: string | undefined;
   /** Preset name */
-  name?: string;
+  name?: string | undefined;
   /** Partner name */
-  partner?: CloudProjectAiJobPartner;
+  partner?: CloudProjectAiJobPartner | undefined;
   /** Snippet example of the doc */
-  snippet?: string;
+  snippet?: string | undefined;
   /** Preset type */
-  type?: CloudProjectAiCapabilitiesPresetTypeEnum;
+  type?: CloudProjectAiCapabilitiesPresetTypeEnum | undefined;
 }
 export interface GetCloudProjectAiDataRegionRequest {
   /** Service name */
@@ -10295,17 +10366,17 @@ export interface GetCloudProjectAiDataRegionAliasAuthRequest {
 /** AI Solutions data store auth */
 export interface CloudProjectAiDataStoreAuth {
   /** Access key to the datastore */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Region of the datastore */
-  region?: string | null;
+  region?: string | null | undefined;
   /** S3(TM) compatible URL of the datastore */
-  s3Url?: string | null;
+  s3Url?: string | null | undefined;
   /** Secret key to the datastore */
-  secretKey?: string | Redacted.Redacted<string> | null;
+  secretKey?: string | Redacted.Redacted<string> | null | undefined;
   /** Swift (or S3(TM) compatible) Auth token */
-  token?: string | null;
+  token?: string | null | undefined;
   /** Swift storage URL */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface GetCloudProjectAiJobRequest {
   /** Service name */
@@ -10330,13 +10401,13 @@ export interface GetCloudProjectAiNotebookBackupRequest {
 /** AI Solutions Platform Notebook Backup Object */
 export interface CloudProjectAiNotebookBackup {
   /** Backup creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** date at which the notebook backup will be evicted/deleted according to applicable notebook workspace backup retention policy */
-  evictionDate?: string | null;
+  evictionDate?: string | null | undefined;
   /** Backup Id */
-  id?: string;
+  id?: string | undefined;
   /** Backup last update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetCloudProjectAiNotebookWorkspacebackupretentionpolicyRequest {
   /** Service name */
@@ -10361,7 +10432,7 @@ export interface GetCloudProjectAiPartnerRegionPartnerRequest {
 /** Representation of a partner's contract on a given language */
 export interface CloudProjectAiPartnerContractTermsLocale {
   /** Contract file URL for a given language */
-  url?: string;
+  url?: string | undefined;
 }
 /** Map of terms of service details per locale */
 export type CloudProjectAiPartnerContractTermsOfServiceMap = {
@@ -10370,22 +10441,22 @@ export type CloudProjectAiPartnerContractTermsOfServiceMap = {
 /** Representation of a partner's contract with logged in user's tenant */
 export interface CloudProjectAiPartnerContract {
   /** Contract signature date for the logged in user's tenant */
-  signedAt?: string | null;
+  signedAt?: string | null | undefined;
   /** Map of terms of service details per locale */
-  termsOfService?: CloudProjectAiPartnerContractTermsOfServiceMap;
+  termsOfService?: CloudProjectAiPartnerContractTermsOfServiceMap | undefined;
 }
 /** Representation of a partner */
 export interface CloudProjectAiPartnerPartner {
   /** Partner contract with logged in user's tenant */
-  contract?: CloudProjectAiPartnerContract | null;
+  contract?: CloudProjectAiPartnerContract | null | undefined;
   /** Partner creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Partner Description */
-  description?: string;
+  description?: string | undefined;
   /** Partner Id */
-  id?: string;
+  id?: string | undefined;
   /** Partner Name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetCloudProjectAiRegistryRequest {
   /** Service name */
@@ -10408,7 +10479,7 @@ export interface GetCloudProjectCapabilityApplicationloadbalancerRegionRequest {
 /** Region information */
 export interface CloudProjectLoadbalancerRegion {
   /** Region name */
-  region?: string;
+  region?: string | undefined;
 }
 /** Size of the load balancer */
 export type GetCloudProjectCapabilityApplicationloadbalancerSizeRequestSize = "L" | "M" | "S";
@@ -10421,13 +10492,13 @@ export interface GetCloudProjectCapabilityApplicationloadbalancerSizeRequest {
 /** Application load balancer size capability */
 export interface CloudProjectLoadbalancerApplicationLoadBalancerSizeCapability {
   /** Bandwidth allowed in Mb/s */
-  bandwidth?: number;
+  bandwidth?: number | undefined;
   /** Maximum connection allowed on the load balancer */
-  maximumConnection?: number;
+  maximumConnection?: number | undefined;
   /** Number of requests allowed per second */
-  requestsPerSecond?: number;
+  requestsPerSecond?: number | undefined;
   /** Size of the load balancer */
-  size?: CloudProjectLoadbalancerSizeEnum;
+  size?: CloudProjectLoadbalancerSizeEnum | undefined;
 }
 export interface GetCloudProjectCapabilityKubeLogKindRequest {
   /** Service name */
@@ -10440,17 +10511,17 @@ export type DbaasLogsLogKindAdditionalReturnedFieldsList = Array<string>;
 /** Log kind */
 export interface DbaasLogsLogKind {
   /** List of additional log fields managed in this log kind */
-  additionalReturnedFields?: DbaasLogsLogKindAdditionalReturnedFieldsList;
+  additionalReturnedFields?: DbaasLogsLogKindAdditionalReturnedFieldsList | undefined;
   /** Creation date of the log kind */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Log kind ID */
-  kindId?: string;
+  kindId?: string | undefined;
   /** Log kind name */
-  name?: string;
+  name?: string | undefined;
   /** Last update date of the log kind */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetCloudProjectCapabilityLoadbalancerRegionRequest {
   /** Service name */
@@ -10469,13 +10540,13 @@ export interface GetCloudProjectCapabilityLoadbalancerSizeRequest {
 /** Network load balancer size capability */
 export interface CloudProjectLoadbalancerLoadBalancerSizeCapability {
   /** Bandwidth allowed in Mb/s */
-  bandwidth?: number;
+  bandwidth?: number | undefined;
   /** Maximum connection allowed on the load balancer */
-  maximumConnection?: number;
+  maximumConnection?: number | undefined;
   /** Number of new connection allowed per second */
-  newConnectionPerSecond?: number;
+  newConnectionPerSecond?: number | undefined;
   /** Size of the load balancer */
-  size?: CloudProjectLoadbalancerSizeEnum;
+  size?: CloudProjectLoadbalancerSizeEnum | undefined;
 }
 export interface GetCloudProjectCapabilityNetworkloadbalancerRegionRequest {
   /** Service name */
@@ -10494,13 +10565,13 @@ export interface GetCloudProjectCapabilityNetworkloadbalancerSizeRequest {
 /** Network load balancer size capability */
 export interface CloudProjectNetworkloadbalancerLoadBalancerSizeCapability {
   /** Bandwidth allowed in Mb/s */
-  bandwidth?: number;
+  bandwidth?: number | undefined;
   /** Maximum connection allowed on the load balancer */
-  maximumConnection?: number;
+  maximumConnection?: number | undefined;
   /** Maximum number of connections opened per second */
-  newConnectionPerSecond?: number;
+  newConnectionPerSecond?: number | undefined;
   /** Size of the load balancer */
-  size?: CloudProjectLoadbalancerSizeEnum;
+  size?: CloudProjectLoadbalancerSizeEnum | undefined;
 }
 export interface GetCloudProjectContainerRegistryRequest {
   /** Service name */
@@ -10525,35 +10596,35 @@ export type CloudContainerRegistryOIDCStatusEnum =
 /** Docker registry OIDC Configuration */
 export interface CloudContainerRegistryOIDCConfiguration {
   /** The OIDC Configuration AdminGroup */
-  adminGroup?: string | null;
+  adminGroup?: string | null | undefined;
   /** The OIDC Configuration AutoOnboard */
-  autoOnboard?: boolean | null;
+  autoOnboard?: boolean | null | undefined;
   /** The OIDC Configuration ClientID */
   clientId: string;
   /** The OIDC Configuration Client Secret */
   clientSecret: string | Redacted.Redacted<string> | null;
   /** The OIDC Configuration creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The OIDC Configuration Endpoint */
   endpoint: string;
   /** The OIDC Configuration GroupFilter */
-  groupFilter?: string | null;
+  groupFilter?: string | null | undefined;
   /** The OIDC Configuration GroupsClaim */
-  groupsClaim?: string | null;
+  groupsClaim?: string | null | undefined;
   /** The OIDC Configuration ID */
-  id?: string;
+  id?: string | undefined;
   /** The OIDC Configuration Name */
   name: string;
   /** The OIDC Configuration comma-separated list of Scopes */
   scope: string;
   /** The OIDC Configuration status */
-  status?: CloudContainerRegistryOIDCStatusEnum;
+  status?: CloudContainerRegistryOIDCStatusEnum | undefined;
   /** The OIDC Configuration last update date */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** The OIDC Configuration UserClaim */
-  userClaim?: string | null;
+  userClaim?: string | null | undefined;
   /** The OIDC Configuration VerifyCert */
-  verifyCert?: boolean | null;
+  verifyCert?: boolean | null | undefined;
 }
 export interface GetCloudProjectContainerRegistryPlanRequest {
   /** Service name */
@@ -10564,31 +10635,31 @@ export interface GetCloudProjectContainerRegistryPlanRequest {
 /** Features list, enabled or not */
 export interface CloudContainerRegistryFeatures {
   /** Vulnerability scanning */
-  vulnerability?: boolean;
+  vulnerability?: boolean | undefined;
 }
 /** Limitation of a docker registry */
 export interface CloudContainerRegistryLimits {
   /** Docker image storage limits in bytes */
-  imageStorage?: number;
+  imageStorage?: number | undefined;
   /** Parallel requests on Docker image API (/v2 Docker registry API) */
-  parallelRequest?: number;
+  parallelRequest?: number | undefined;
 }
 /** Plan of the registry */
 export interface CloudContainerRegistryPlan {
   /** Plan code from catalog */
-  code?: string;
+  code?: string | undefined;
   /** Plan creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Features of the plan */
-  features?: CloudContainerRegistryFeatures;
+  features?: CloudContainerRegistryFeatures | undefined;
   /** Plan ID */
-  id?: string;
+  id?: string | undefined;
   /** Plan name */
-  name?: string;
+  name?: string | undefined;
   /** Container registry limits */
-  registryLimits?: CloudContainerRegistryLimits;
+  registryLimits?: CloudContainerRegistryLimits | undefined;
   /** Plan last update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetCloudProjectContainerRegistryUserRequest {
   /** Service name */
@@ -10609,30 +10680,30 @@ export type CloudCreditProductsList = Array<string>;
 /** Voucher validity range */
 export interface CloudCommonVoucherValidity {
   /** Valid from */
-  from?: string | null;
+  from?: string | null | undefined;
   /** Valid to */
-  to?: string | null;
+  to?: string | null | undefined;
 }
 /** Cloud credit */
 export interface CloudCredit {
   /** Available credit */
-  available_credit?: OrderPrice;
+  available_credit?: OrderPrice | undefined;
   /** Credit bill id */
-  bill?: string | null;
+  bill?: string | null | undefined;
   /** Credit description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Credit id */
-  id?: number;
+  id?: number | undefined;
   /** Use credits on following products */
-  products?: CloudCreditProductsList | null;
+  products?: CloudCreditProductsList | null | undefined;
   /** Total credit */
-  total_credit?: OrderPrice;
+  total_credit?: OrderPrice | undefined;
   /** Used credit */
-  used_credit?: OrderPrice;
+  used_credit?: OrderPrice | undefined;
   /** Credit validity */
-  validity?: CloudCommonVoucherValidity | null;
+  validity?: CloudCommonVoucherValidity | null | undefined;
   /** Voucher code */
-  voucher?: string | null;
+  voucher?: string | null | undefined;
 }
 export interface GetCloudProjectDatabaseCassandraRequest {
   /** Service name */
@@ -10668,7 +10739,7 @@ export interface GetCloudProjectDatabaseCassandraCertificatesRequest {
 /** Certificates definition for cloud project databases */
 export interface CloudProjectDatabaseServiceCertificates {
   /** CA certificate used for the service */
-  ca?: string;
+  ca?: string | undefined;
 }
 export interface GetCloudProjectDatabaseCassandraIntegrationRequest {
   /** Service name */
@@ -10697,26 +10768,26 @@ export interface GetCloudProjectDatabaseCassandraLogSubscriptionRequest {
 /** Log subscription resource */
 export interface DbaasLogsSubscriptionResource {
   /** Name of subscribed resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of subscribed resource */
-  type?: string;
+  type?: string | undefined;
 }
 /** Log subscription */
 export interface DbaasLogsLogSubscription {
   /** Creation date of the subscription */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind name of this subscription */
-  kind?: string;
+  kind?: string | undefined;
   /** Subscribed resource, where the logs come from */
-  resource?: DbaasLogsSubscriptionResource;
+  resource?: DbaasLogsSubscriptionResource | undefined;
   /** Name of the destination log service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Id of the destination log stream */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Subscription ID */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Last update date of the subscription */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetCloudProjectDatabaseCassandraMaintenanceRequest {
   /** Service name */
@@ -10746,9 +10817,9 @@ export interface GetCloudProjectDatabaseCassandraMetricRequest {
 /** A single value from a metric */
 export interface CloudProjectDatabaseServiceDataPoint {
   /** Timestamp in seconds since epoch time */
-  timestamp?: number;
+  timestamp?: number | undefined;
   /** Value of this datapoint */
-  value?: number;
+  value?: number | undefined;
 }
 /** List of metric's samples */
 export type CloudProjectDatabaseServiceHostMetricDataPointsList =
@@ -10756,9 +10827,9 @@ export type CloudProjectDatabaseServiceHostMetricDataPointsList =
 /** Metrics datapoints from a specific host */
 export interface CloudProjectDatabaseServiceHostMetric {
   /** List of metric's samples */
-  dataPoints?: CloudProjectDatabaseServiceHostMetricDataPointsList;
+  dataPoints?: CloudProjectDatabaseServiceHostMetricDataPointsList | undefined;
   /** Name of the originating host */
-  hostname?: string;
+  hostname?: string | undefined;
 }
 /** Metric values for each cluster's host */
 export type CloudProjectDatabaseServiceMetricMetricsList =
@@ -10780,11 +10851,11 @@ export type CloudProjectDatabaseServiceMetricUnitEnum =
 /** Metric definition for cloud project databases */
 export interface CloudProjectDatabaseServiceMetric {
   /** Metric values for each cluster's host */
-  metrics?: CloudProjectDatabaseServiceMetricMetricsList;
+  metrics?: CloudProjectDatabaseServiceMetricMetricsList | undefined;
   /** Name of the metric */
-  name?: string;
+  name?: string | undefined;
   /** Unit of the metric */
-  units?: CloudProjectDatabaseServiceMetricUnitEnum;
+  units?: CloudProjectDatabaseServiceMetricUnitEnum | undefined;
 }
 export interface GetCloudProjectDatabaseCassandraNodeRequest {
   /** Service name */
@@ -10805,13 +10876,13 @@ export interface GetCloudProjectDatabaseCassandraUserRequest {
 /** User definition */
 export interface CloudProjectDatabaseServiceUser {
   /** Date of the creation of the user */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** User ID */
-  id?: string;
+  id?: string | undefined;
   /** Current status of the user */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Name of the user */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetCloudProjectDatabaseClickhouseRequest {
   /** Service name */
@@ -10904,15 +10975,15 @@ export type CloudProjectDatabaseServiceUserWithRolesRolesList = Array<string>;
 /** User definition */
 export interface CloudProjectDatabaseServiceUserWithRoles {
   /** Date of the creation of the user */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** User ID */
-  id?: string;
+  id?: string | undefined;
   /** Roles the user belongs to */
-  roles?: CloudProjectDatabaseServiceUserWithRolesRolesList;
+  roles?: CloudProjectDatabaseServiceUserWithRolesRolesList | undefined;
   /** Current status of the user */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Name of the user */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetCloudProjectDatabaseGrafanaRequest {
   /** Service name */
@@ -11050,21 +11121,21 @@ export type CloudProjectDatabaseKafkaConnectCapabilitiesConnectorTypeEnum = "sin
 /** KafkaConnect connector capability definition */
 export interface CloudProjectDatabaseKafkaConnectCapabilitiesConnector {
   /** Name of the connector's author */
-  author?: string;
+  author?: string | undefined;
   /** URL of the official documentation of the connector */
-  documentationUrl?: string;
+  documentationUrl?: string | undefined;
   /** Connector ID */
-  id?: string;
+  id?: string | undefined;
   /** Defines whether this connector and version is the latest available */
-  latest?: boolean;
+  latest?: boolean | undefined;
   /** Name of the connector */
-  name?: string;
+  name?: string | undefined;
   /** Defines whether the connector is in preview */
-  preview?: boolean;
+  preview?: boolean | undefined;
   /** Type of connector */
-  type?: CloudProjectDatabaseKafkaConnectCapabilitiesConnectorTypeEnum;
+  type?: CloudProjectDatabaseKafkaConnectCapabilitiesConnectorTypeEnum | undefined;
   /** Version of the connector */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetCloudProjectDatabaseKafkaConnectConnectorRequest {
   /** Service name */
@@ -11092,11 +11163,11 @@ export type CloudProjectDatabaseKafkaConnectConnectorTaskStatusEnum =
 /** KafkaConnect connector definition */
 export interface CloudProjectDatabaseKafkaConnectConnectorTask {
   /** Task ID */
-  id?: number;
+  id?: number | undefined;
   /** Status of the task */
-  status?: CloudProjectDatabaseKafkaConnectConnectorTaskStatusEnum;
+  status?: CloudProjectDatabaseKafkaConnectConnectorTaskStatusEnum | undefined;
   /** Trace of the task */
-  trace?: string;
+  trace?: string | undefined;
 }
 export interface GetCloudProjectDatabaseKafkaConnectIntegrationRequest {
   /** Service name */
@@ -11313,9 +11384,9 @@ export interface GetCloudProjectDatabaseKafkaUserAccessRequest {
 /** Cloud databases kafka user access definition */
 export interface CloudProjectDatabaseKafkaUserAccess {
   /** User cert */
-  cert?: string;
+  cert?: string | undefined;
   /** User key for the cert */
-  key?: string;
+  key?: string | undefined;
 }
 export interface GetCloudProjectDatabaseM3aggregatorRequest {
   /** Service name */
@@ -11467,15 +11538,15 @@ export interface GetCloudProjectDatabaseM3dbUserRequest {
 /** M3db User definition */
 export interface CloudProjectDatabaseM3dbUser {
   /** Date of the creation of the user */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Group of the user */
-  group?: string;
+  group?: string | undefined;
   /** User ID */
-  id?: string;
+  id?: string | undefined;
   /** Current status of the user */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Name of the user */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetCloudProjectDatabaseMongodbRequest {
   /** Service name */
@@ -11542,9 +11613,9 @@ export interface GetCloudProjectDatabaseMongodbPrometheusRequest {
 /** Prometheus Endpoint for MongoDB */
 export interface CloudProjectDatabaseMongodbPrometheusEndpoint {
   /** Prometheus SRV domain for mongodb cluster */
-  srvDomain?: string;
+  srvDomain?: string | undefined;
   /** Name of the Prometheus access */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetCloudProjectDatabaseMongodbUserRequest {
   /** Service name */
@@ -11699,19 +11770,19 @@ export interface GetCloudProjectDatabaseOpensearchIndexRequest {
 /** Cloud database opensearch index definition */
 export interface CloudProjectDatabaseOpensearchIndex {
   /** Date of the creation of the index */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Number of documents hold by the index */
-  documents?: number;
+  documents?: number | undefined;
   /** Index ID */
-  id?: string;
+  id?: string | undefined;
   /** Name of the index */
-  name?: string;
+  name?: string | undefined;
   /** Number of replicas of the index */
-  replicasNumber?: number;
+  replicasNumber?: number | undefined;
   /** Number of shards of the index */
-  shardsNumber?: number;
+  shardsNumber?: number | undefined;
   /** Size of the index */
-  size?: number;
+  size?: number | undefined;
 }
 export interface GetCloudProjectDatabaseOpensearchIntegrationRequest {
   /** Service name */
@@ -11785,15 +11856,15 @@ export type CloudProjectDatabaseOpensearchUserAclsList =
 /** Opensearch user definition */
 export interface CloudProjectDatabaseOpensearchUser {
   /** Acls of the user */
-  acls?: CloudProjectDatabaseOpensearchUserAclsList;
+  acls?: CloudProjectDatabaseOpensearchUserAclsList | undefined;
   /** Date of the creation of the user */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** User ID */
-  id?: string;
+  id?: string | undefined;
   /** Current status of the user */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Name of the user */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetCloudProjectDatabasePostgresqlRequest {
   /** Service name */
@@ -11994,21 +12065,21 @@ export type CloudProjectDatabaseRedisUserKeysList = Array<string>;
 /** Redis user definition */
 export interface CloudProjectDatabaseRedisUser {
   /** Categories of the user */
-  categories?: CloudProjectDatabaseRedisUserCategoriesList;
+  categories?: CloudProjectDatabaseRedisUserCategoriesList | undefined;
   /** Channels of the user */
-  channels?: CloudProjectDatabaseRedisUserChannelsList;
+  channels?: CloudProjectDatabaseRedisUserChannelsList | undefined;
   /** Commands of the user */
-  commands?: CloudProjectDatabaseRedisUserCommandsList;
+  commands?: CloudProjectDatabaseRedisUserCommandsList | undefined;
   /** Date of the creation of the user */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** User ID */
-  id?: string;
+  id?: string | undefined;
   /** Keys of the user */
-  keys?: CloudProjectDatabaseRedisUserKeysList;
+  keys?: CloudProjectDatabaseRedisUserKeysList | undefined;
   /** Current status of the user */
-  status?: CloudProjectDatabaseStatusEnum;
+  status?: CloudProjectDatabaseStatusEnum | undefined;
   /** Name of the user */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetCloudProjectDatabaseServiceRequest {
   /** Service name */
@@ -12117,7 +12188,7 @@ export interface GetCloudProjectInstanceGroupRequest {
   /** Group ID */
   groupId: string;
   /** Instance region */
-  region?: string;
+  region?: string | undefined;
 }
 export interface GetCloudProjectInstanceInterfaceRequest {
   /** Service name */
@@ -12162,9 +12233,9 @@ export interface GetCloudProjectKubeMetricsEtcdUsageRequest {
 /** Etcd usage and quota for a given cluster */
 export interface CloudKubeEtcdUsage {
   /** Maximum allowed size of etcd data for the cluster (bytes) */
-  quota?: number;
+  quota?: number | undefined;
   /** Size of etcd data used by the cluster (bytes) */
-  usage?: number;
+  usage?: number | undefined;
 }
 export interface GetCloudProjectKubeNodeRequest {
   /** Service name */
@@ -12198,31 +12269,31 @@ export type CloudKubeNodeStatusEnum =
 /** Node installed on your cluster */
 export interface CloudKubeNode {
   /** Creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Node deletion date */
-  deletedAt?: string | null;
+  deletedAt?: string | null | undefined;
   /** Node deployment date */
-  deployedAt?: string | null;
+  deployedAt?: string | null | undefined;
   /** Flavor name */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Node ID */
-  id?: string;
+  id?: string | undefined;
   /** Public Cloud instance id */
-  instanceId?: string | null;
+  instanceId?: string | null | undefined;
   /** True if the node is up to date */
-  isUpToDate?: boolean;
+  isUpToDate?: boolean | undefined;
   /** Node name */
-  name?: string;
+  name?: string | undefined;
   /** NodePool parent id */
-  nodePoolId?: string;
+  nodePoolId?: string | undefined;
   /** Project id */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Status */
-  status?: CloudKubeNodeStatusEnum;
+  status?: CloudKubeNodeStatusEnum | undefined;
   /** Node last update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Node version */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetCloudProjectKubeNodepoolRequest {
   /** Service name */
@@ -12255,11 +12326,11 @@ export type CloudLabStatusEnum = "activated" | "activating" | "closed" | "open";
 /** A public cloud lab permits to activate a feature in beta */
 export interface CloudLab {
   /** Lab ID */
-  id?: string;
+  id?: string | undefined;
   /** Lab name */
-  name?: string;
+  name?: string | undefined;
   /** Lab status */
-  status?: CloudLabStatusEnum;
+  status?: CloudLabStatusEnum | undefined;
 }
 export interface GetCloudProjectNetworkPrivateRequest {
   /** Service name */
@@ -12290,15 +12361,15 @@ export interface GetCloudProjectQuantumCapabilityRegionRequest {
 /** Quantum Region */
 export interface CloudProjectQuantumCapabilitiesRegion {
   /** Client Install Url */
-  cliInstallUrl?: string;
+  cliInstallUrl?: string | undefined;
   /** Documentation Url */
-  documentationUrl?: string;
+  documentationUrl?: string | undefined;
   /** Region id */
-  id?: string;
+  id?: string | undefined;
   /** Region Registry Url */
-  registryUrl?: string;
+  registryUrl?: string | undefined;
   /** Region version */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetCloudProjectQuantumCapabilityRegionQpuRequest {
   /** Service name */
@@ -12311,13 +12382,13 @@ export interface GetCloudProjectQuantumCapabilityRegionQpuRequest {
 /** Quantum QPU flavor object */
 export interface CloudProjectQuantumCapabilitiesQPUFlavor {
   /** Short description of the QPU flavor */
-  description?: string;
+  description?: string | undefined;
   /** Unique identifier of the QPU flavor */
-  id?: string;
+  id?: string | undefined;
   /** Name of the QPU flavor */
-  name?: string;
+  name?: string | undefined;
   /** Qubits capacity of the QPU flavor */
-  qubits?: number;
+  qubits?: number | undefined;
 }
 export interface GetCloudProjectRegionRequest {
   /** Service name */
@@ -12356,17 +12427,17 @@ export interface GetCloudProjectRegionInstanceMetricSubscriptionRequest {
 /** Metric subscription */
 export interface DbaasLogsMetricSubscription {
   /** Creation date of the subscription */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Subscribed resource, where the metric come from */
-  resource?: DbaasLogsSubscriptionResource;
+  resource?: DbaasLogsSubscriptionResource | undefined;
   /** Name of the destination metric service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Subscription ID */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Id of the destination metric tenant */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Last update date of the subscription */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetCloudProjectRegionKeymanagerCertificateRequest {
   /** Service name */
@@ -12387,11 +12458,11 @@ export interface GetCloudProjectRegionKeymanagerSecretRequest {
 /** secret */
 export interface CloudKeymanagerSecret {
   /** ID of the secret */
-  id?: string;
+  id?: string | undefined;
   /** Name of the secret */
-  name?: string;
+  name?: string | undefined;
   /** Secret region */
-  region?: string;
+  region?: string | undefined;
 }
 export interface GetCloudProjectRegionLoadbalancingFlavorRequest {
   /** Service name */
@@ -12404,11 +12475,11 @@ export interface GetCloudProjectRegionLoadbalancingFlavorRequest {
 /** Flavor */
 export interface CloudLoadbalancingFlavor {
   /** Flavor id */
-  id?: string;
+  id?: string | undefined;
   /** Flavor name */
-  name?: string;
+  name?: string | undefined;
   /** Region name */
-  region?: string;
+  region?: string | undefined;
 }
 export interface GetCloudProjectRegionLoadbalancingHealthMonitorRequest {
   /** Service name */
@@ -12455,36 +12526,36 @@ export interface GetCloudProjectRegionLoadbalancingLoadbalancerRequest {
 /** LoadBalancerFloatingIp */
 export interface CloudLoadbalancingLoadBalancerFloatingIp {
   /** ID of the resource */
-  id?: string;
+  id?: string | undefined;
   /** IP Address of the resource */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** LoadBalancer */
 export interface CloudLoadbalancingLoadBalancer {
   /** The UTC date and timestamp when the resource was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** ID of the flavor */
-  flavorId?: string;
+  flavorId?: string | undefined;
   /** Information about floating IP */
-  floatingIp?: CloudLoadbalancingLoadBalancerFloatingIp | null;
+  floatingIp?: CloudLoadbalancingLoadBalancerFloatingIp | null | undefined;
   /** ID of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Operating status of the resource */
-  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum;
+  operatingStatus?: CloudLoadbalancingLoadBalancerOperatingStatusEnum | undefined;
   /** Provisioning status of the resource */
-  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum;
+  provisioningStatus?: CloudLoadbalancingLoadBalancerProvisioningStatusEnum | undefined;
   /** Region of the resource */
-  region?: string;
+  region?: string | undefined;
   /** UTC date and timestamp when the resource was created */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** IP address of the Virtual IP */
-  vipAddress?: string;
+  vipAddress?: string | undefined;
   /** Openstack ID of the network for the Virtual IP */
-  vipNetworkId?: string;
+  vipNetworkId?: string | undefined;
   /** ID of the subnet for the Virtual IP */
-  vipSubnetId?: string;
+  vipSubnetId?: string | undefined;
 }
 export interface GetCloudProjectRegionLoadbalancingLoadbalancerLogSubscriptionRequest {
   /** Service name */
@@ -12507,15 +12578,15 @@ export interface GetCloudProjectRegionLoadbalancingLoadbalancerStatsRequest {
 /** Loadbalancer statistics */
 export interface CloudLoadbalancingLoadbalancerStats {
   /** Number of currently active connections */
-  activeConnections?: number;
+  activeConnections?: number | undefined;
   /** Total bytes received */
-  bytesIn?: number;
+  bytesIn?: number | undefined;
   /** Total bytes sent */
-  bytesOut?: number;
+  bytesOut?: number | undefined;
   /** Total requests that were unable to be fulfilled */
-  requestErrors?: number;
+  requestErrors?: number | undefined;
   /** Total connections handled */
-  totalConnections?: number;
+  totalConnections?: number | undefined;
 }
 export interface GetCloudProjectRegionLoadbalancingLogKindRequest {
   /** Service name */
@@ -12574,19 +12645,19 @@ export type CloudNetworkNetworkVisibilityEnum = "private" | "public";
 /** Network */
 export interface CloudProjectNetwork {
   /** Network id */
-  id?: string;
+  id?: string | undefined;
   /** Network name */
-  name?: string;
+  name?: string | undefined;
   /** Network region */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Network status */
-  status?: CloudNetworkNetworkStatusEnum;
+  status?: CloudNetworkNetworkStatusEnum | undefined;
   /** Network subnet ids */
-  subnetIds?: CloudProjectNetworkSubnetIdsList;
+  subnetIds?: CloudProjectNetworkSubnetIdsList | undefined;
   /** Network visibility */
-  visibility?: CloudNetworkNetworkVisibilityEnum;
+  visibility?: CloudNetworkNetworkVisibilityEnum | undefined;
   /** Network VLAN id */
-  vlanId?: number | null;
+  vlanId?: number | null | undefined;
 }
 export interface GetCloudProjectRegionNetworkSubnetRequest {
   /** Service name */
@@ -12607,117 +12678,117 @@ export interface GetCloudProjectRegionQuotaRequest {
 /** Quotas on instances */
 export interface CloudQuotaInstanceUsageQuotas {
   /** Maximum total cores allowed in your project */
-  maxCores?: number;
+  maxCores?: number | undefined;
   /** Maximum total cores allowed in your project */
-  maxInstances?: number;
-  maxRam?: number;
+  maxInstances?: number | undefined;
+  maxRam?: number | undefined;
   /** Current used cores number */
-  usedCores?: number;
+  usedCores?: number | undefined;
   /** Current used instances */
-  usedInstances?: number;
+  usedInstances?: number | undefined;
   /** Current used ram */
-  usedRAM?: number;
+  usedRAM?: number | undefined;
 }
 /** Quotas on keymanager */
 export interface CloudQuotaKeymanagerQuotas {
   /** Maximum number of secrets allowed in your project */
-  maxSecrets?: number;
+  maxSecrets?: number | undefined;
   /** Current number of used secrets */
-  usedSecrets?: number;
+  usedSecrets?: number | undefined;
 }
 /** Quotas on keypairs */
 export interface CloudQuotaKeypairQuotas {
   /** Maximum keypairs count allowed in your project */
-  maxCount?: number;
+  maxCount?: number | undefined;
 }
 /** Quotas on loadbalancer */
 export interface CloudQuotaLoadbalancerQuotas {
   /** Maximum number of loadbalancers allowed in your project */
-  maxLoadbalancers?: number;
+  maxLoadbalancers?: number | undefined;
   /** Current number of used loadbalancers */
-  usedLoadbalancers?: number;
+  usedLoadbalancers?: number | undefined;
 }
 /** Quotas on network */
 export interface CloudQuotaNetworkQuotas {
   /** Maximum number of floating ips allowed in your project */
-  maxFloatingIPs?: number;
+  maxFloatingIPs?: number | undefined;
   /** Maximum number of gateways allowed in your project */
-  maxGateways?: number;
+  maxGateways?: number | undefined;
   /** Maximum networks allowed in your project */
-  maxNetworks?: number;
+  maxNetworks?: number | undefined;
   /** Maximum subnets allowed in your project */
-  maxSubnets?: number;
+  maxSubnets?: number | undefined;
   /** Current number of used floating ips */
-  usedFloatingIPs?: number;
+  usedFloatingIPs?: number | undefined;
   /** Current number of used gateways */
-  usedGateways?: number;
+  usedGateways?: number | undefined;
   /** Current used networks */
-  usedNetworks?: number;
+  usedNetworks?: number | undefined;
   /** Current used subnets */
-  usedSubnets?: number;
+  usedSubnets?: number | undefined;
 }
 /** Share Quota */
 export interface CloudQuotaShareQuota {
   /** Maximum share backup gigabytes */
-  maxShareBackupGigabytes?: number;
+  maxShareBackupGigabytes?: number | undefined;
   /** Maximum number of share backups */
-  maxShareBackups?: number;
+  maxShareBackups?: number | undefined;
   /** Maximum share size of a share */
-  maxShareSizePerShare?: number;
+  maxShareSizePerShare?: number | undefined;
   /** Maximum share total size for project */
-  maxShareSizeTotal?: number;
+  maxShareSizeTotal?: number | undefined;
   /** Maximum number of share snapshots */
-  maxShareSnapshots?: number;
+  maxShareSnapshots?: number | undefined;
   /** Maximum number of shares in the quota */
-  maxSharesNumber?: number;
+  maxSharesNumber?: number | undefined;
   /** Used share backup gigabytes */
-  usedShareBackupGigabytes?: number;
+  usedShareBackupGigabytes?: number | undefined;
   /** Used number of share backups */
-  usedShareBackups?: number;
+  usedShareBackups?: number | undefined;
   /** Used share total size for project */
-  usedShareSizeTotal?: number;
+  usedShareSizeTotal?: number | undefined;
   /** Used number of share snapshot */
-  usedShareSnapshots?: number;
+  usedShareSnapshots?: number | undefined;
   /** Used number of shares in the quota */
-  usedSharesNumber?: number;
+  usedSharesNumber?: number | undefined;
 }
 /** Quotas on volumes */
 export interface CloudQuotaVolumeUsageQuotas {
   /** Maximum total volume backup capacity allowed in your project */
-  maxBackupGigabytes?: number;
+  maxBackupGigabytes?: number | undefined;
   /** Maximum total volume capacity allowed in your project */
-  maxGigabytes?: number;
+  maxGigabytes?: number | undefined;
   /** Maximum volumes backup count */
-  maxVolumeBackupCount?: number;
+  maxVolumeBackupCount?: number | undefined;
   /** Maximum volumes count */
-  maxVolumeCount?: number;
+  maxVolumeCount?: number | undefined;
   /** Current used volume backup gigabytes */
-  usedBackupGigabytes?: number;
+  usedBackupGigabytes?: number | undefined;
   /** Current used volume gigabytes */
-  usedGigabytes?: number;
+  usedGigabytes?: number | undefined;
   /** Current volumes backup count */
-  volumeBackupCount?: number;
+  volumeBackupCount?: number | undefined;
   /** Current volumes count */
-  volumeCount?: number;
+  volumeCount?: number | undefined;
 }
 /** Quotas */
 export interface CloudQuotaQuotas {
   /** Quotas on instances */
-  instance?: CloudQuotaInstanceUsageQuotas | null;
+  instance?: CloudQuotaInstanceUsageQuotas | null | undefined;
   /** Quotas on keymanager */
-  keymanager?: CloudQuotaKeymanagerQuotas | null;
+  keymanager?: CloudQuotaKeymanagerQuotas | null | undefined;
   /** Quotas on keypairs */
-  keypair?: CloudQuotaKeypairQuotas | null;
+  keypair?: CloudQuotaKeypairQuotas | null | undefined;
   /** Quotas on loadbalancer */
-  loadbalancer?: CloudQuotaLoadbalancerQuotas | null;
+  loadbalancer?: CloudQuotaLoadbalancerQuotas | null | undefined;
   /** Quotas on network */
-  network?: CloudQuotaNetworkQuotas | null;
+  network?: CloudQuotaNetworkQuotas | null | undefined;
   /** Region */
-  region?: string;
+  region?: string | undefined;
   /** Quotas on shares */
-  share?: CloudQuotaShareQuota | null;
+  share?: CloudQuotaShareQuota | null | undefined;
   /** Quotas on volumes */
-  volume?: CloudQuotaVolumeUsageQuotas | null;
+  volume?: CloudQuotaVolumeUsageQuotas | null | undefined;
 }
 export interface GetCloudProjectRegionQuotaShareRequest {
   /** Service name */
@@ -12734,13 +12805,13 @@ export interface GetCloudProjectRegionQuotaStorageRequest {
 /** Cloud Storage Quota */
 export interface CloudQuotaStorageQuota {
   /** Quota used in bytes */
-  bytesUsed?: number;
+  bytesUsed?: number | undefined;
   /** Number of containers on account */
-  containerCount?: number;
+  containerCount?: number | undefined;
   /** Number of objects on account */
-  objectCount?: number;
+  objectCount?: number | undefined;
   /** Quota in bytes */
-  quotaBytes?: number | null;
+  quotaBytes?: number | null | undefined;
 }
 export interface GetCloudProjectRegionShareRequest {
   /** Service name */
@@ -12753,18 +12824,18 @@ export interface GetCloudProjectRegionShareRequest {
 /** Capability */
 export interface CloudShareCapability {
   /** Whether the capability is enabled or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Capability name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Share capabilities */
 export type CloudShareShareCapabilitiesList = Array<CloudShareCapability>;
 /** Object */
 export interface CloudShareExportLocationObject {
   /** Export location id */
-  id?: string;
+  id?: string | undefined;
   /** Export location mount path */
-  path?: string;
+  path?: string | undefined;
 }
 /** Share export locations */
 export type CloudShareShareExportLocationsList = Array<CloudShareExportLocationObject>;
@@ -12802,37 +12873,37 @@ export type CloudShareTypeEnum = "standard-1az";
 /** Share */
 export interface CloudShareShare {
   /** Availability zone */
-  availabilityZone?: string | null;
+  availabilityZone?: string | null | undefined;
   /** Share capabilities */
-  capabilities?: CloudShareShareCapabilitiesList | null;
+  capabilities?: CloudShareShareCapabilitiesList | null | undefined;
   /** The date and timestamp when the resource was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Share description */
-  description?: string;
+  description?: string | undefined;
   /** Share export locations */
-  exportLocations?: CloudShareShareExportLocationsList | null;
+  exportLocations?: CloudShareShareExportLocationsList | null | undefined;
   /** Share ID */
-  id?: string;
+  id?: string | undefined;
   /** Whether the share is public */
-  isPublic?: boolean;
+  isPublic?: boolean | undefined;
   /** Share name */
-  name?: string;
+  name?: string | undefined;
   /** Private network ID */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** Share protocol */
-  protocol?: CloudShareProtocolEnum;
+  protocol?: CloudShareProtocolEnum | undefined;
   /** Region */
-  region?: string;
+  region?: string | undefined;
   /** Share network ID */
-  shareNetworkId?: string | null;
+  shareNetworkId?: string | null | undefined;
   /** Share size in GB */
-  size?: number;
+  size?: number | undefined;
   /** Share status */
-  status?: CloudShareStatusEnum;
+  status?: CloudShareStatusEnum | undefined;
   /** Subnet ID */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
   /** Share type */
-  type?: CloudShareTypeEnum;
+  type?: CloudShareTypeEnum | undefined;
 }
 export interface GetCloudProjectRegionShareAclRequest {
   /** Service name */
@@ -12865,15 +12936,15 @@ export interface GetCloudProjectRegionSshkeyRequest {
 /** Region SSHKey */
 export interface CloudRegionSSHKey {
   /** SSHKey fingerPrint */
-  fingerPrint?: string;
+  fingerPrint?: string | undefined;
   /** SSHKey ID */
-  id?: string;
+  id?: string | undefined;
   /** SSHKey name */
-  name?: string;
+  name?: string | undefined;
   /** SSHKey publicKey */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** SSHKey region */
-  region?: string;
+  region?: string | undefined;
 }
 export interface GetCloudProjectRegionVolumeRequest {
   /** Service name */
@@ -12886,26 +12957,26 @@ export interface GetCloudProjectRegionVolumeRequest {
 /** Region volume attached to */
 export interface CloudRegionVolumeAttachedTo {
   /** Instance ID */
-  id?: string;
+  id?: string | undefined;
 }
 /** Volume attached to list */
 export type CloudRegionVolumeAttachedToList = Array<CloudRegionVolumeAttachedTo>;
 /** Region volume */
 export interface CloudRegionVolume {
   /** Volume attached to list */
-  attachedTo?: CloudRegionVolumeAttachedToList;
+  attachedTo?: CloudRegionVolumeAttachedToList | undefined;
   /** Availability zone of the volume */
-  availabilityZone?: string | null;
+  availabilityZone?: string | null | undefined;
   /** Volume ID */
-  id?: string;
+  id?: string | undefined;
   /** Volume name */
-  name?: string;
+  name?: string | undefined;
   /** Volume size */
-  size?: number;
+  size?: number | undefined;
   /** Volume status */
-  status?: CloudVolumeVolumeStatusEnum;
+  status?: CloudVolumeVolumeStatusEnum | undefined;
   /** Volume type */
-  type?: CloudVolumeVolumeTypeEnum;
+  type?: CloudVolumeVolumeTypeEnum | undefined;
 }
 export interface GetCloudProjectRegionVolumeBackupRequest {
   /** Service name */
@@ -12932,15 +13003,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -12962,21 +13033,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetCloudProjectSnapshotRequest {
   /** Service name */
@@ -12996,9 +13067,9 @@ export interface GetCloudProjectStorageRequest {
   /** Container ID */
   containerId: string;
   /** Do not return container objects */
-  noObjects?: boolean;
+  noObjects?: boolean | undefined;
   /** Filter objects by name prefix */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 /** Origins allowed to make Cross Origin Requests */
 export type CloudStorageContainerDetailCorsList = Array<string>;
@@ -13007,42 +13078,42 @@ export type CloudStorageRetrievalStateEnum = "sealed" | "unsealed" | "unsealing"
 /** ContainerObject */
 export interface CloudStorageContainerObject {
   /** Object content type */
-  contentType?: string;
+  contentType?: string | undefined;
   /** Last modification date */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** Object name */
-  name?: string;
+  name?: string | undefined;
   /** Object retrieval delay (when unsealing) */
-  retrievalDelay?: number;
+  retrievalDelay?: number | undefined;
   /** Object retrieval state */
-  retrievalState?: CloudStorageRetrievalStateEnum;
+  retrievalState?: CloudStorageRetrievalStateEnum | undefined;
   /** Object size */
-  size?: number;
+  size?: number | undefined;
 }
 /** Objects stored in container */
 export type CloudStorageContainerDetailObjectsList = Array<CloudStorageContainerObject>;
 /** ContainerDetail */
 export interface CloudStorageContainerDetail {
   /** Whether this is an archive container or not */
-  archive?: boolean;
+  archive?: boolean | undefined;
   /** Container type */
-  containerType?: CloudStorageTypeEnum;
+  containerType?: CloudStorageTypeEnum | undefined;
   /** Origins allowed to make Cross Origin Requests */
-  cors?: CloudStorageContainerDetailCorsList;
+  cors?: CloudStorageContainerDetailCorsList | undefined;
   /** Container name */
-  name?: string;
+  name?: string | undefined;
   /** Objects stored in container */
-  objects?: CloudStorageContainerDetailObjectsList;
+  objects?: CloudStorageContainerDetailObjectsList | undefined;
   /** Public container (DEPRECATED: see containerType) */
-  public?: boolean;
+  public?: boolean | undefined;
   /** Container region */
-  region?: string;
+  region?: string | undefined;
   /** Container static URL */
-  staticUrl?: string;
+  staticUrl?: string | undefined;
   /** Total bytes stored */
-  storedBytes?: number;
+  storedBytes?: number | undefined;
   /** Total objects stored */
-  storedObjects?: number;
+  storedObjects?: number | undefined;
 }
 export interface GetCloudProjectStorageQuotaRequest {
   /** Service name */
@@ -13051,9 +13122,9 @@ export interface GetCloudProjectStorageQuotaRequest {
 /** Cloud Storage Quota. */
 export interface CloudStorageQuota {
   /** Current number of buckets. */
-  buckets?: number;
+  buckets?: number | undefined;
   /** Maximum number of buckets. */
-  maxBuckets?: number;
+  maxBuckets?: number | undefined;
 }
 export interface GetCloudProjectUsageCurrentRequest {
   /** Service name */
@@ -13072,20 +13143,20 @@ export type CloudBillingViewUnitQuantityEnum =
 /** Quantity */
 export interface CloudBillingViewQuantity {
   /** Quantity unit */
-  unit?: CloudBillingViewUnitQuantityEnum;
+  unit?: CloudBillingViewUnitQuantityEnum | undefined;
   /** Quantity value */
-  value?: number;
+  value?: number | undefined;
 }
 /** HourlyInstanceDetail */
 export interface CloudBillingViewHourlyInstanceDetail {
   /** Instance ID */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Hours of run instances */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Resource ID */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** Details about hourly instances */
 export type CloudBillingViewHourlyInstanceDetailsList = Array<CloudBillingViewHourlyInstanceDetail>;
@@ -13094,41 +13165,41 @@ export type CloudBillingViewHourlyInstanceSavingsPlanIdsList = Array<string>;
 /** HourlyInstance */
 export interface CloudBillingViewHourlyInstance {
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Details about hourly instances */
-  details?: CloudBillingViewHourlyInstanceDetailsList;
+  details?: CloudBillingViewHourlyInstanceDetailsList | undefined;
   /** Hours of run instances */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Instance reference */
-  reference?: string;
+  reference?: string | undefined;
   /** Instance region */
-  region?: string;
+  region?: string | undefined;
   /** Savings Plan IDs */
-  savingsPlanIds?: CloudBillingViewHourlyInstanceSavingsPlanIdsList | null;
+  savingsPlanIds?: CloudBillingViewHourlyInstanceSavingsPlanIdsList | null | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** Details about hourly instances */
 export type CloudBillingViewHourlyResourcesInstanceList = Array<CloudBillingViewHourlyInstance>;
 /** BandwidthInstance */
 export interface CloudBillingViewBandwidthInstance {
   /** Total bandwidth in GiB */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** HourlyInstanceBandwidth */
 export interface CloudBillingViewHourlyInstanceBandwidth {
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Instance incoming bandwidth details */
-  incomingBandwidth?: CloudBillingViewBandwidthInstance | null;
+  incomingBandwidth?: CloudBillingViewBandwidthInstance | null | undefined;
   /** Instance outgoing bandwidth details */
-  outgoingBandwidth?: CloudBillingViewBandwidthInstance | null;
+  outgoingBandwidth?: CloudBillingViewBandwidthInstance | null | undefined;
   /** Region */
-  region?: string;
+  region?: string | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** Details about instances bandwidth consumption */
 export type CloudBillingViewHourlyResourcesInstanceBandwidthList =
@@ -13136,11 +13207,11 @@ export type CloudBillingViewHourlyResourcesInstanceBandwidthList =
 /** HourlyInstanceOptionDetail */
 export interface CloudBillingViewHourlyInstanceOptionDetail {
   /** Instance ID */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Quantity of instance hours running with this option */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** Details about hourly instances option */
 export type CloudBillingViewHourlyInstanceOptionDetailsList =
@@ -13148,17 +13219,17 @@ export type CloudBillingViewHourlyInstanceOptionDetailsList =
 /** HourlyInstanceOption */
 export interface CloudBillingViewHourlyInstanceOption {
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Details about hourly instances option */
-  details?: CloudBillingViewHourlyInstanceOptionDetailsList;
+  details?: CloudBillingViewHourlyInstanceOptionDetailsList | undefined;
   /** Quantity of instance hours running with this option */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Instance reference */
-  reference?: string;
+  reference?: string | undefined;
   /** Instance region */
-  region?: string;
+  region?: string | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** Details about hourly instances options */
 export type CloudBillingViewHourlyResourcesInstanceOptionList =
@@ -13166,13 +13237,13 @@ export type CloudBillingViewHourlyResourcesInstanceOptionList =
 /** HourlyDetail */
 export interface CloudBillingViewHourlyDetail {
   /** ID */
-  id?: string;
+  id?: string | undefined;
   /** Quantity */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Resource ID */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Total price */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 /** Details about managed kubernetes services */
 export type CloudBillingViewHourlyManagedKubernetesServiceDetailsList =
@@ -13180,17 +13251,17 @@ export type CloudBillingViewHourlyManagedKubernetesServiceDetailsList =
 /** HourlyManagedKubernetesService */
 export interface CloudBillingViewHourlyManagedKubernetesService {
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Details about managed kubernetes services */
-  details?: CloudBillingViewHourlyManagedKubernetesServiceDetailsList | null;
+  details?: CloudBillingViewHourlyManagedKubernetesServiceDetailsList | null | undefined;
   /** Total hours of usage */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Reference */
-  reference?: string | null;
+  reference?: string | null | undefined;
   /** Region */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Total price */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 /** Details about managed kubernetes services */
 export type CloudBillingViewHourlyResourcesManagedKubernetesServiceList =
@@ -13200,17 +13271,17 @@ export type CloudBillingViewHourlyQuantumNotebookDetailsList = Array<CloudBillin
 /** HourlyQuantumNotebook */
 export interface CloudBillingViewHourlyQuantumNotebook {
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Details about quantums */
-  details?: CloudBillingViewHourlyQuantumNotebookDetailsList;
+  details?: CloudBillingViewHourlyQuantumNotebookDetailsList | undefined;
   /** Quantum quantity */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Quantum reference */
-  reference?: string;
+  reference?: string | undefined;
   /** Quantum region */
-  region?: string;
+  region?: string | undefined;
   /** Total price */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 /** Details about hourly quantum notebooks */
 export type CloudBillingViewHourlyQuantumNotebookList =
@@ -13221,17 +13292,17 @@ export type CloudBillingViewHourlyQuantumProcessingUnitDetailsList =
 /** HourlyQuantumProcessingUnit */
 export interface CloudBillingViewHourlyQuantumProcessingUnit {
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Details about quantums */
-  details?: CloudBillingViewHourlyQuantumProcessingUnitDetailsList;
+  details?: CloudBillingViewHourlyQuantumProcessingUnitDetailsList | undefined;
   /** Quantum quantity */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Quantum reference */
-  reference?: string;
+  reference?: string | undefined;
   /** Quantum region */
-  region?: string;
+  region?: string | undefined;
   /** Total price */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 /** Details about hourly quantum processing unit */
 export type CloudBillingViewHourlyQuantumProcessingUnitList =
@@ -13239,20 +13310,20 @@ export type CloudBillingViewHourlyQuantumProcessingUnitList =
 /** HourlyQuantum */
 export interface CloudBillingViewHourlyQuantum {
   /** Details about hourly quantum notebooks */
-  notebook?: CloudBillingViewHourlyQuantumNotebookList;
+  notebook?: CloudBillingViewHourlyQuantumNotebookList | undefined;
   /** Details about hourly quantum processing unit */
-  processingUnit?: CloudBillingViewHourlyQuantumProcessingUnitList;
+  processingUnit?: CloudBillingViewHourlyQuantumProcessingUnitList | undefined;
 }
 /** HourlyRancherDetail */
 export interface CloudBillingViewHourlyRancherDetail {
   /** Hours of Rancher */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Rancher ID */
-  rancherId?: string;
+  rancherId?: string | undefined;
   /** Resource ID */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Total price */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 /** Details about hourly Rancher */
 export type CloudBillingViewHourlyRancherDetailsList = Array<CloudBillingViewHourlyRancherDetail>;
@@ -13261,43 +13332,43 @@ export type CloudBillingViewHourlyRancherSavingsPlanIdsList = Array<string>;
 /** HourlyRancher */
 export interface CloudBillingViewHourlyRancher {
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Details about hourly Rancher */
-  details?: CloudBillingViewHourlyRancherDetailsList;
+  details?: CloudBillingViewHourlyRancherDetailsList | undefined;
   /** Hours of Rancher */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Instance reference */
-  reference?: string;
+  reference?: string | undefined;
   /** Instance region */
-  region?: string;
+  region?: string | undefined;
   /** Savings Plan IDs */
-  savingsPlanIds?: CloudBillingViewHourlyRancherSavingsPlanIdsList | null;
+  savingsPlanIds?: CloudBillingViewHourlyRancherSavingsPlanIdsList | null | undefined;
   /** Total price */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 /** Details about hourly Rancher */
 export type CloudBillingViewHourlyResourcesRancherList = Array<CloudBillingViewHourlyRancher>;
 /** InstanceSnapshot */
 export interface CloudBillingViewInstanceSnapshot {
   /** GiBh stored */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** VolumeSnapshot */
 export type CloudBillingViewVolumeSnapshot = CloudBillingViewInstanceSnapshot;
 /** HourlySnapshot */
 export interface CloudBillingViewHourlySnapshot {
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Instance snapshot details */
-  instance?: CloudBillingViewInstanceSnapshot | null;
+  instance?: CloudBillingViewInstanceSnapshot | null | undefined;
   /** Region */
-  region?: string;
+  region?: string | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
   /** Volume snapshot details */
-  volume?: CloudBillingViewInstanceSnapshot | null;
+  volume?: CloudBillingViewInstanceSnapshot | null | undefined;
 }
 /** Details about hourly snapshots */
 export type CloudBillingViewHourlyResourcesSnapshotList = Array<CloudBillingViewHourlySnapshot>;
@@ -13306,33 +13377,33 @@ export type CloudBillingViewBandwidthStorageResourceIdsList = Array<string>;
 /** BandwidthStorage */
 export interface CloudBillingViewBandwidthStorage {
   /** Total bandwidth in GiB */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** List of resource IDs */
-  resourceIds?: CloudBillingViewBandwidthStorageResourceIdsList;
+  resourceIds?: CloudBillingViewBandwidthStorageResourceIdsList | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** List of resource IDs */
 export type CloudBillingViewRetrievalFeesResourceIdsList = Array<string>;
 /** RetrievalFees */
 export interface CloudBillingViewRetrievalFees {
   /** Total retrieval fees in GiB */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** List of resource IDs */
-  resourceIds?: CloudBillingViewRetrievalFeesResourceIdsList;
+  resourceIds?: CloudBillingViewRetrievalFeesResourceIdsList | undefined;
   /** Total price */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 /** List of resource IDs */
 export type CloudBillingViewStoredStorageResourceIdsList = Array<string>;
 /** StoredStorage */
 export interface CloudBillingViewStoredStorage {
   /** GiBh stored */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** List of resource IDs */
-  resourceIds?: CloudBillingViewStoredStorageResourceIdsList;
+  resourceIds?: CloudBillingViewStoredStorageResourceIdsList | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** StorageTypeEnum */
 export type CloudBillingViewStorageTypeEnum =
@@ -13346,87 +13417,89 @@ export type CloudBillingViewStorageTypeEnum =
 /** HourlyStorage */
 export interface CloudBillingViewHourlyStorage {
   /** Bucket Name */
-  bucketName?: string | null;
+  bucketName?: string | null | undefined;
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Storage incoming bandwidth details */
-  incomingBandwidth?: CloudBillingViewBandwidthStorage | null;
+  incomingBandwidth?: CloudBillingViewBandwidthStorage | null | undefined;
   /** Storage incoming internal bandwidth details */
-  incomingInternalBandwidth?: CloudBillingViewBandwidthStorage | null;
+  incomingInternalBandwidth?: CloudBillingViewBandwidthStorage | null | undefined;
   /** Storage outgoing bandwidth details */
-  outgoingBandwidth?: CloudBillingViewBandwidthStorage | null;
+  outgoingBandwidth?: CloudBillingViewBandwidthStorage | null | undefined;
   /** Storage outgoing internal bandwidth details */
-  outgoingInternalBandwidth?: CloudBillingViewBandwidthStorage | null;
+  outgoingInternalBandwidth?: CloudBillingViewBandwidthStorage | null | undefined;
   /** Region */
-  region?: string;
+  region?: string | undefined;
   /** Storage retrieval fee details */
-  retrievalFees?: CloudBillingViewRetrievalFees | null;
+  retrievalFees?: CloudBillingViewRetrievalFees | null | undefined;
   /** Information about stored data */
-  stored?: CloudBillingViewStoredStorage | null;
+  stored?: CloudBillingViewStoredStorage | null | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
   /** Storage type */
-  type?: CloudBillingViewStorageTypeEnum;
+  type?: CloudBillingViewStorageTypeEnum | undefined;
 }
 /** Details about hourly storage */
 export type CloudBillingViewHourlyResourcesStorageList = Array<CloudBillingViewHourlyStorage>;
 /** HourlyVolumeDetail */
 export interface CloudBillingViewHourlyVolumeDetail {
   /** GiBh of volume */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Resource ID */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
   /** Volume ID */
-  volumeId?: string;
+  volumeId?: string | undefined;
 }
 /** Detail about volume consumption */
 export type CloudBillingViewHourlyVolumeDetailsList = Array<CloudBillingViewHourlyVolumeDetail>;
 /** HourlyVolume */
 export interface CloudBillingViewHourlyVolume {
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Detail about volume consumption */
-  details?: CloudBillingViewHourlyVolumeDetailsList;
+  details?: CloudBillingViewHourlyVolumeDetailsList | undefined;
   /** Total GiBh of volume */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Region */
-  region?: string;
+  region?: string | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
   /** Volume type */
-  type?: string;
+  type?: string | undefined;
 }
 /** Details about hourly volumes */
 export type CloudBillingViewHourlyResourcesVolumeList = Array<CloudBillingViewHourlyVolume>;
 /** HourlyResources */
 export interface CloudBillingViewHourlyResources {
   /** Details about hourly instances */
-  instance?: CloudBillingViewHourlyResourcesInstanceList;
+  instance?: CloudBillingViewHourlyResourcesInstanceList | undefined;
   /** Details about instances bandwidth consumption */
-  instanceBandwidth?: CloudBillingViewHourlyResourcesInstanceBandwidthList;
+  instanceBandwidth?: CloudBillingViewHourlyResourcesInstanceBandwidthList | undefined;
   /** Details about hourly instances options */
-  instanceOption?: CloudBillingViewHourlyResourcesInstanceOptionList;
+  instanceOption?: CloudBillingViewHourlyResourcesInstanceOptionList | undefined;
   /** Details about managed kubernetes services */
-  managedKubernetesService?: CloudBillingViewHourlyResourcesManagedKubernetesServiceList;
+  managedKubernetesService?:
+    | CloudBillingViewHourlyResourcesManagedKubernetesServiceList
+    | undefined;
   /** Details about hourly quantums */
-  quantum?: CloudBillingViewHourlyQuantum;
+  quantum?: CloudBillingViewHourlyQuantum | undefined;
   /** Details about hourly Rancher */
-  rancher?: CloudBillingViewHourlyResourcesRancherList;
+  rancher?: CloudBillingViewHourlyResourcesRancherList | undefined;
   /** Details about hourly snapshots */
-  snapshot?: CloudBillingViewHourlyResourcesSnapshotList;
+  snapshot?: CloudBillingViewHourlyResourcesSnapshotList | undefined;
   /** Details about hourly storage */
-  storage?: CloudBillingViewHourlyResourcesStorageList;
+  storage?: CloudBillingViewHourlyResourcesStorageList | undefined;
   /** Details about hourly volumes */
-  volume?: CloudBillingViewHourlyResourcesVolumeList;
+  volume?: CloudBillingViewHourlyResourcesVolumeList | undefined;
 }
 /** MonthlyCertificationDetail */
 export interface CloudBillingViewMonthlyCertificationDetail {
   /** Certification activation */
-  activation?: string;
+  activation?: string | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** Details about certifications */
 export type CloudBillingViewMonthlyCertificationDetailsList =
@@ -13434,11 +13507,11 @@ export type CloudBillingViewMonthlyCertificationDetailsList =
 /** MonthlyCertification */
 export interface CloudBillingViewMonthlyCertification {
   /** Details about certifications */
-  details?: CloudBillingViewMonthlyCertificationDetailsList;
+  details?: CloudBillingViewMonthlyCertificationDetailsList | undefined;
   /** Certification reference */
-  reference?: string;
+  reference?: string | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** Details about certifications */
 export type CloudBillingViewMonthlyResourcesCertificationList =
@@ -13446,13 +13519,13 @@ export type CloudBillingViewMonthlyResourcesCertificationList =
 /** MonthlyInstanceDetail */
 export interface CloudBillingViewMonthlyInstanceDetail {
   /** Monthly instance activation */
-  activation?: string;
+  activation?: string | undefined;
   /** Instance ID */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Resource ID */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** Details about monthly instances */
 export type CloudBillingViewMonthlyInstanceDetailsList =
@@ -13460,24 +13533,24 @@ export type CloudBillingViewMonthlyInstanceDetailsList =
 /** MonthlyInstance */
 export interface CloudBillingViewMonthlyInstance {
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Details about monthly instances */
-  details?: CloudBillingViewMonthlyInstanceDetailsList;
+  details?: CloudBillingViewMonthlyInstanceDetailsList | undefined;
   /** Instance reference */
-  reference?: string;
+  reference?: string | undefined;
   /** Instance region */
-  region?: string;
+  region?: string | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** Details about monthly instances */
 export type CloudBillingViewMonthlyResourcesInstanceList = Array<CloudBillingViewMonthlyInstance>;
 /** MonthlyInstanceOptionDetail */
 export interface CloudBillingViewMonthlyInstanceOptionDetail {
   /** Instance ID */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** Details about monthly instances */
 export type CloudBillingViewMonthlyInstanceOptionDetailsList =
@@ -13485,15 +13558,15 @@ export type CloudBillingViewMonthlyInstanceOptionDetailsList =
 /** MonthlyInstanceOption */
 export interface CloudBillingViewMonthlyInstanceOption {
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Details about monthly instances */
-  details?: CloudBillingViewMonthlyInstanceOptionDetailsList;
+  details?: CloudBillingViewMonthlyInstanceOptionDetailsList | undefined;
   /** Instance reference */
-  reference?: string;
+  reference?: string | undefined;
   /** Instance region */
-  region?: string;
+  region?: string | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** Details about monthly instances options */
 export type CloudBillingViewMonthlyResourcesInstanceOptionList =
@@ -13501,35 +13574,35 @@ export type CloudBillingViewMonthlyResourcesInstanceOptionList =
 /** Period */
 export interface CloudUsagePeriod {
   /** Usage from */
-  from?: string;
+  from?: string | undefined;
   /** Usage to */
-  to?: string;
+  to?: string | undefined;
 }
 /** Fee detail */
 export interface CloudPlanDetail {
   /** The plan id */
-  id?: string;
+  id?: string | undefined;
   /** Plan period */
-  period?: CloudUsagePeriod;
+  period?: CloudUsagePeriod | undefined;
   /** Name of the plan */
-  planName?: string | null;
+  planName?: string | null | undefined;
   /** The plan size (ex: number of instances) */
-  size?: number;
+  size?: number | undefined;
   /** Total price of the plan, computed from size and unit price */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
   /** Unit price of the plan */
-  unitPrice?: OrderPrice;
+  unitPrice?: OrderPrice | undefined;
 }
 /** Detailed listing of all flat fees */
 export type CloudBillingViewMonthlySavingsPlanDetailsList = Array<CloudPlanDetail>;
 /** MonthlySavingsPlan */
 export interface CloudBillingViewMonthlySavingsPlan {
   /** Detailed listing of all flat fees */
-  details?: CloudBillingViewMonthlySavingsPlanDetailsList;
+  details?: CloudBillingViewMonthlySavingsPlanDetailsList | undefined;
   /** Flavor of the savings plan */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Total price of the flat fee part of associated savings plans */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 /** Details about savings plan subscriptions */
 export type CloudBillingViewMonthlyResourcesSavingsPlanList =
@@ -13537,37 +13610,37 @@ export type CloudBillingViewMonthlyResourcesSavingsPlanList =
 /** MonthlyResources */
 export interface CloudBillingViewMonthlyResources {
   /** Details about certifications */
-  certification?: CloudBillingViewMonthlyResourcesCertificationList;
+  certification?: CloudBillingViewMonthlyResourcesCertificationList | undefined;
   /** Details about monthly instances */
-  instance?: CloudBillingViewMonthlyResourcesInstanceList;
+  instance?: CloudBillingViewMonthlyResourcesInstanceList | undefined;
   /** Details about monthly instances options */
-  instanceOption?: CloudBillingViewMonthlyResourcesInstanceOptionList;
+  instanceOption?: CloudBillingViewMonthlyResourcesInstanceOptionList | undefined;
   /** Details about savings plan subscriptions */
-  savingsPlan?: CloudBillingViewMonthlyResourcesSavingsPlanList;
+  savingsPlan?: CloudBillingViewMonthlyResourcesSavingsPlanList | undefined;
 }
 /** Component */
 export interface CloudBillingViewComponent {
   /** Component ID */
-  id?: string;
+  id?: string | undefined;
   /** Name of the component */
-  name?: string;
+  name?: string | undefined;
   /** Total quantity for the component */
-  quantity?: CloudBillingViewQuantity;
+  quantity?: CloudBillingViewQuantity | undefined;
   /** Resource ID */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Total price for this component */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
 }
 /** List of components */
 export type CloudBillingViewRegionalizedResourceComponentsList = Array<CloudBillingViewComponent>;
 /** RegionalizedResource */
 export interface CloudBillingViewRegionalizedResource {
   /** List of components */
-  components?: CloudBillingViewRegionalizedResourceComponentsList;
+  components?: CloudBillingViewRegionalizedResourceComponentsList | undefined;
   /** Specifies the deployment mode of the region where the resource is deployed (for example, 1-AZ or 3-AZ). Products that are grouped by project or have no region do not include a deployment mode */
-  deploymentMode?: CommonRegionTypeEnum | null;
+  deploymentMode?: CommonRegionTypeEnum | null | undefined;
   /** Region of the resource */
-  region?: string;
+  region?: string | undefined;
 }
 /** Resources per region */
 export type CloudBillingViewTypedResourcesResourcesList =
@@ -13575,28 +13648,28 @@ export type CloudBillingViewTypedResourcesResourcesList =
 /** TypedResources */
 export interface CloudBillingViewTypedResources {
   /** Resources per region */
-  resources?: CloudBillingViewTypedResourcesResourcesList;
+  resources?: CloudBillingViewTypedResourcesResourcesList | undefined;
   /** Total price */
-  totalPrice?: number;
+  totalPrice?: number | undefined;
   /** Type of the resources */
-  type?: string;
+  type?: string | undefined;
 }
 /** Resource usage (billed per hour/minute/second/unit) */
 export type CloudUsageUsageCurrentResourcesUsageList = Array<CloudBillingViewTypedResources>;
 /** UsageCurrent */
 export interface CloudUsageUsageCurrent {
   /** Hourly usage */
-  hourlyUsage?: CloudBillingViewHourlyResources | null;
+  hourlyUsage?: CloudBillingViewHourlyResources | null | undefined;
   /** Entry last update */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Monthly usage */
-  monthlyUsage?: CloudBillingViewMonthlyResources | null;
+  monthlyUsage?: CloudBillingViewMonthlyResources | null | undefined;
   /** Usage dates (from/to) */
-  period?: CloudUsagePeriod;
+  period?: CloudUsagePeriod | undefined;
   /** Resource usage (billed per hour/minute/second/unit) */
-  resourcesUsage?: CloudUsageUsageCurrentResourcesUsageList | null;
+  resourcesUsage?: CloudUsageUsageCurrentResourcesUsageList | null | undefined;
   /** Total price */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 export interface GetCloudProjectUsageForecastRequest {
   /** Service name */
@@ -13607,37 +13680,37 @@ export type CloudUsageUsageForecastResourcesUsageList = Array<CloudBillingViewTy
 /** UsedCredit */
 export interface CloudBillingViewUsedCredit {
   /** Credit description */
-  description?: string;
+  description?: string | undefined;
   /** Credit ID */
-  id?: number;
+  id?: number | undefined;
   /** Total credit used */
-  usedAmount?: number;
+  usedAmount?: number | undefined;
 }
 /** Details about credits that will be used */
 export type CloudBillingViewUsedCreditsDetailsList = Array<CloudBillingViewUsedCredit>;
 /** UsedCredits */
 export interface CloudBillingViewUsedCredits {
   /** Details about credits that will be used */
-  details?: CloudBillingViewUsedCreditsDetailsList;
+  details?: CloudBillingViewUsedCreditsDetailsList | undefined;
   /** Total credit that will be used to pay the bill */
-  totalCredit?: number;
+  totalCredit?: number | undefined;
 }
 /** UsageForecast */
 export interface CloudUsageUsageForecast {
   /** Hourly forecast */
-  hourlyUsage?: CloudBillingViewHourlyResources | null;
+  hourlyUsage?: CloudBillingViewHourlyResources | null | undefined;
   /** Entry last update */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Monthly forecast */
-  monthlyUsage?: CloudBillingViewMonthlyResources | null;
+  monthlyUsage?: CloudBillingViewMonthlyResources | null | undefined;
   /** Forecast dates (from/to) */
-  period?: CloudUsagePeriod;
+  period?: CloudUsagePeriod | undefined;
   /** Resource usage forecast (billed per hour/minute/second/unit) */
-  resourcesUsage?: CloudUsageUsageForecastResourcesUsageList | null;
+  resourcesUsage?: CloudUsageUsageForecastResourcesUsageList | null | undefined;
   /** Total price */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
   /** Usable credit to pay next bill */
-  usableCredits?: CloudBillingViewUsedCredits | null;
+  usableCredits?: CloudBillingViewUsedCredits | null | undefined;
 }
 export interface GetCloudProjectUsageHistoryRequest {
   /** Service name */
@@ -13650,19 +13723,19 @@ export type CloudUsageUsageHistoryDetailResourcesUsageList = Array<CloudBillingV
 /** UsageHistoryDetail */
 export interface CloudUsageUsageHistoryDetail {
   /** Hourly usage */
-  hourlyUsage?: CloudBillingViewHourlyResources | null;
+  hourlyUsage?: CloudBillingViewHourlyResources | null | undefined;
   /** Usage id */
-  id?: string;
+  id?: string | undefined;
   /** Entry last update */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Monthly usage */
-  monthlyUsage?: CloudBillingViewMonthlyResources | null;
+  monthlyUsage?: CloudBillingViewMonthlyResources | null | undefined;
   /** Usage dates (from/to) */
-  period?: CloudUsagePeriod;
+  period?: CloudUsagePeriod | undefined;
   /** Resource usage (billed per hour/minute/second/unit) */
-  resourcesUsage?: CloudUsageUsageHistoryDetailResourcesUsageList | null;
+  resourcesUsage?: CloudUsageUsageHistoryDetailResourcesUsageList | null | undefined;
   /** Total price */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 export interface GetCloudProjectUserRequest {
   /** Service name */
@@ -13675,19 +13748,19 @@ export type CloudUserUserRolesList = Array<CloudRoleRole>;
 /** User */
 export interface CloudUserUser {
   /** User creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** User description */
-  description?: string;
+  description?: string | undefined;
   /** User id */
-  id?: number;
+  id?: number | undefined;
   /** User id on openstack */
-  openstackId?: string | null;
+  openstackId?: string | null | undefined;
   /** User roles */
-  roles?: CloudUserUserRolesList;
+  roles?: CloudUserUserRolesList | undefined;
   /** User status */
-  status?: CloudUserUserStatusEnum;
+  status?: CloudUserUserStatusEnum | undefined;
   /** Username */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetCloudProjectUserConfigurationRequest {
   /** Service name */
@@ -13695,12 +13768,12 @@ export interface GetCloudProjectUserConfigurationRequest {
   /** User ID */
   userId: number;
   /** Region */
-  region?: string;
+  region?: string | undefined;
 }
 /** Client Cloud Configuration */
 export interface CloudUserConfiguration {
   /** Client configuration */
-  content?: string;
+  content?: string | undefined;
 }
 /** OpenrcVersionEnum */
 export type CloudUserOpenrcVersionEnum = "v2.0" | "v3";
@@ -13712,12 +13785,12 @@ export interface GetCloudProjectUserOpenrcRequest {
   /** Region */
   region: string;
   /** Identity API version */
-  version?: CloudUserOpenrcVersionEnum | (string & {});
+  version?: CloudUserOpenrcVersionEnum | (string & {}) | undefined;
 }
 /** Openrc */
 export interface CloudUserOpenrc {
   /** openrc file */
-  content?: string;
+  content?: string | undefined;
 }
 export interface GetCloudProjectUserPolicyRequest {
   /** Service name */
@@ -13728,7 +13801,7 @@ export interface GetCloudProjectUserPolicyRequest {
 /** Raw storage policy. */
 export interface CloudStoragePolicyRaw {
   /** Raw storage policy. */
-  policy?: string;
+  policy?: string | undefined;
 }
 /** RCloneServiceEnum */
 export type CloudUserRCloneServiceEnum = "storage" | "storage-s3";
@@ -13740,12 +13813,12 @@ export interface GetCloudProjectUserRcloneRequest {
   /** Region */
   region: string;
   /** Service */
-  service?: CloudUserRCloneServiceEnum | (string & {});
+  service?: CloudUserRCloneServiceEnum | (string & {}) | undefined;
 }
 /** Rclone */
 export interface CloudUserRclone {
   /** rclone configuration file */
-  content?: string;
+  content?: string | undefined;
 }
 export interface GetCloudProjectUserRoleRequest {
   /** Service name */
@@ -13766,11 +13839,11 @@ export interface GetCloudProjectUserS3CredentialsRequest {
 /** S3(TM) compatible storage credentials */
 export interface CloudUserS3Credentials {
   /** S3(TM) compatible access key */
-  access?: string;
+  access?: string | undefined;
   /** Tenant id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** User id */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface GetCloudProjectVolumeRequest {
   /** Service name */
@@ -13791,11 +13864,11 @@ export interface GetCloudProjectVrackRequest {
 /** A vRack allows to connect your OVH infrastructures accross products and datacenters */
 export interface CloudVrack {
   /** Description of your vRack */
-  description?: string;
+  description?: string | undefined;
   /** Vrack ID */
-  id?: string;
+  id?: string | undefined;
   /** Name of your vRack */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetColdArchiveContainerOnRegionRequest {
   /** Service name */
@@ -13805,11 +13878,11 @@ export interface GetColdArchiveContainerOnRegionRequest {
   /** Name */
   name: string;
   /** Limits the number of objects in the result */
-  limit?: number;
+  limit?: number | undefined;
   /** Constrains the list to objects whose names are greater than the marker */
-  marker?: string;
+  marker?: string | undefined;
   /** Filter objects by name prefix */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export interface GetColdArchiveContainersOnRegionRequest {
   /** Service name */
@@ -13845,23 +13918,23 @@ export interface GetFlavorOnRegionRequest {
 /** Region flavor */
 export interface CloudRegionFlavor {
   /** Flavor disk size in GB */
-  disk?: number;
+  disk?: number | undefined;
   /** Flavor ID */
-  id?: string;
+  id?: string | undefined;
   /** Flavor name */
-  name?: string;
+  name?: string | undefined;
   /** Flavor ram size in MB */
-  ram?: number;
+  ram?: number | undefined;
   /** Flavor region */
-  region?: string;
+  region?: string | undefined;
   /** Flavor VCPUs number */
-  vcpus?: number;
+  vcpus?: number | undefined;
 }
 export interface GetFlavorsRequest {
   /** Service name */
   serviceName: string;
   /** Flavor region */
-  region?: string;
+  region?: string | undefined;
 }
 export type GetFlavorsResponseBodyList = Array<CloudFlavorFlavor>;
 export type GetFlavorsResponse = GetFlavorsResponseBodyList;
@@ -13891,30 +13964,30 @@ export type CloudProjectFloatingIpAssociatedEntityTypeEnum =
 /** Associated entity with a floating ip */
 export interface CloudProjectFloatingIpAssociatedEntity {
   /** ID of the gateway */
-  gatewayId?: string;
+  gatewayId?: string | undefined;
   /** ID of the port */
-  id?: string;
+  id?: string | undefined;
   /** IP of the port */
-  ip?: string;
+  ip?: string | undefined;
   /** Type of the port */
-  type?: CloudProjectFloatingIpAssociatedEntityTypeEnum;
+  type?: CloudProjectFloatingIpAssociatedEntityTypeEnum | undefined;
 }
 /** Status of a floating ip */
 export type CloudProjectFloatingIpStatusEnum = "active" | "down" | "error";
 /** A floating ip */
 export interface CloudProjectFloatingIp {
   /** Associated entity with the floating ip */
-  associatedEntity?: CloudProjectFloatingIpAssociatedEntity | null;
+  associatedEntity?: CloudProjectFloatingIpAssociatedEntity | null | undefined;
   /** ID of the floating ip */
-  id?: string;
+  id?: string | undefined;
   /** Value of the floating ip */
-  ip?: string;
+  ip?: string | undefined;
   /** ID of the network */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Floating ip region */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Status of the floating ip */
-  status?: CloudProjectFloatingIpStatusEnum;
+  status?: CloudProjectFloatingIpStatusEnum | undefined;
 }
 export interface GetFloatingIpsOnRegionRequest {
   /** Service name */
@@ -13932,15 +14005,15 @@ export interface GetInstanceOnRegionRequest {
   /** Instance ID */
   instanceId: string;
   /** Return instance even if it is deleted */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Add backup information in response */
-  withBackups?: boolean;
+  withBackups?: boolean | undefined;
   /** Add image information in response */
-  withImage?: boolean;
+  withImage?: boolean | undefined;
   /** Add network information in response */
-  withNetworks?: boolean;
+  withNetworks?: boolean | undefined;
   /** Add volume information in response */
-  withVolumes?: boolean;
+  withVolumes?: boolean | undefined;
 }
 /** group of the action */
 export type CloudAggregatedInstanceActionGroupEnum =
@@ -13952,49 +14025,49 @@ export type CloudAggregatedInstanceActionGroupEnum =
 /** Action */
 export interface CloudInstanceAction {
   /** Action group */
-  group?: CloudAggregatedInstanceActionGroupEnum;
+  group?: CloudAggregatedInstanceActionGroupEnum | undefined;
   /** Action name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Actions that can be done on the instance */
 export type CloudInstanceInstanceListActionsList = Array<CloudInstanceAction>;
 /** Network of the subnet */
 export interface CloudInstanceInstanceAddressSubnetNetwork {
   /** Network id */
-  id?: string;
+  id?: string | undefined;
   /** Network name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Subnet of the address */
 export interface CloudInstanceInstanceAddressSubnet {
   /** Subnet gateway ip */
-  gatewayIP?: string | null;
+  gatewayIP?: string | null | undefined;
   /** Subnet id */
-  id?: string;
+  id?: string | undefined;
   /** Subnet name */
-  name?: string;
+  name?: string | undefined;
   /** Subnet network */
-  network?: CloudInstanceInstanceAddressSubnetNetwork;
+  network?: CloudInstanceInstanceAddressSubnetNetwork | undefined;
 }
 /** IPAddressTypeEnum */
 export type CloudInstanceIPAddressTypeEnum = "floating" | "private" | "public";
 /** IP address */
 export interface CloudInstanceInstanceAddress {
   /** IP address */
-  ip?: string;
+  ip?: string | undefined;
   /** Subnet of the address */
-  subnet?: CloudInstanceInstanceAddressSubnet | null;
+  subnet?: CloudInstanceInstanceAddressSubnet | null | undefined;
   /** Address type */
-  type?: CloudInstanceIPAddressTypeEnum | null;
+  type?: CloudInstanceIPAddressTypeEnum | null | undefined;
   /** IP version */
-  version?: number;
+  version?: number | undefined;
 }
 /** Instance IP addresses */
 export type CloudInstanceInstanceListAddressesList = Array<CloudInstanceInstanceAddress>;
 /** Volumes attached to your instance */
 export interface CloudInstanceInstanceSummaryVolumeValue {
   /** Volume Id */
-  id?: string;
+  id?: string | undefined;
 }
 /** Volumes attached to the instance */
 export type CloudInstanceInstanceListAttachedVolumesList =
@@ -14002,58 +14075,58 @@ export type CloudInstanceInstanceListAttachedVolumesList =
 /** Backups of the instance */
 export interface CloudInstanceInstanceBackup {
   /** backup creation date (format RFC3339) */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Backup id */
-  id?: string;
+  id?: string | undefined;
   /** Backup name */
-  name?: string;
+  name?: string | undefined;
   /** Region of the backup */
-  region?: string;
+  region?: string | undefined;
 }
 /** Instance Backups */
 export type CloudInstanceInstanceListBackupsList = Array<CloudInstanceInstanceBackup>;
 /** Spec with unit */
 export interface CloudInstanceInstanceFlavorSpecWithUnit {
   /** Spec unit */
-  unit?: string;
+  unit?: string | undefined;
   /** Spec value */
-  value?: number;
+  value?: number | undefined;
 }
 /** Bandwidth of the flavor */
 export interface CloudInstanceInstanceFlavorSpecBandwidth {
   /** Private bandwidth */
-  private?: CloudInstanceInstanceFlavorSpecWithUnit;
+  private?: CloudInstanceInstanceFlavorSpecWithUnit | undefined;
   /** Public bandwidth */
-  public?: CloudInstanceInstanceFlavorSpecWithUnit;
+  public?: CloudInstanceInstanceFlavorSpecWithUnit | undefined;
 }
 /** Specs of the flavor */
 export interface CloudInstanceInstanceFlavorSpecs {
   /** Flavor bandwidth */
-  bandwidth?: CloudInstanceInstanceFlavorSpecBandwidth;
+  bandwidth?: CloudInstanceInstanceFlavorSpecBandwidth | undefined;
   /** Flavor CPU */
-  cpu?: CloudInstanceInstanceFlavorSpecWithUnit;
+  cpu?: CloudInstanceInstanceFlavorSpecWithUnit | undefined;
   /** Flavor RAM */
-  ram?: CloudInstanceInstanceFlavorSpecWithUnit;
+  ram?: CloudInstanceInstanceFlavorSpecWithUnit | undefined;
   /** Flavor storage */
-  storage?: CloudInstanceInstanceFlavorSpecWithUnit;
+  storage?: CloudInstanceInstanceFlavorSpecWithUnit | undefined;
 }
 /** Flavor of the instance */
 export interface CloudInstanceInstanceFlavor {
   /** Flavor id */
-  id?: string;
+  id?: string | undefined;
   /** Flavor name */
-  name?: string;
+  name?: string | undefined;
   /** Flavor specs */
-  specs?: CloudInstanceInstanceFlavorSpecs;
+  specs?: CloudInstanceInstanceFlavorSpecs | undefined;
 }
 /** Instance Image */
 export interface CloudInstanceInstanceImage {
   /** Is image deprecated */
-  deprecated?: boolean;
+  deprecated?: boolean | undefined;
   /** Image id */
-  id?: string;
+  id?: string | undefined;
   /** Image name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Instance price status */
 export type CloudInstanceInstancePriceStatusEnum = "available" | "enabled";
@@ -14062,13 +14135,13 @@ export type CloudInstanceInstancePriceTypeEnum = "hour" | "licence" | "licenceMo
 /** Price of the instance */
 export interface CloudInstanceInstancePrice {
   /** is vat included in price */
-  includeVat?: boolean;
+  includeVat?: boolean | undefined;
   /** Instance price */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** Instance price status */
-  status?: CloudInstanceInstancePriceStatusEnum;
+  status?: CloudInstanceInstancePriceStatusEnum | undefined;
   /** Instance price type */
-  type?: CloudInstanceInstancePriceTypeEnum;
+  type?: CloudInstanceInstancePriceTypeEnum | undefined;
 }
 /** Instance Price */
 export type CloudInstanceInstanceListPricingsList = Array<CloudInstanceInstancePrice>;
@@ -14126,58 +14199,58 @@ export type CloudInstanceInstanceSummaryTaskStateEnum =
 /** Volumes attached to your instance */
 export interface CloudInstanceInstanceVolume {
   /** Volume id */
-  id?: string;
+  id?: string | undefined;
   /** Volume name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Volume size in GB */
-  size?: number | null;
+  size?: number | null | undefined;
 }
 /** Instance volumes */
 export type CloudInstanceInstanceListVolumesList = Array<CloudInstanceInstanceVolume>;
 /** Instance */
 export interface CloudInstanceInstanceList {
   /** Actions that can be done on the instance */
-  actions?: CloudInstanceInstanceListActionsList | null;
+  actions?: CloudInstanceInstanceListActionsList | null | undefined;
   /** Instance IP addresses */
-  addresses?: CloudInstanceInstanceListAddressesList;
+  addresses?: CloudInstanceInstanceListAddressesList | undefined;
   /** Volumes attached to the instance */
-  attachedVolumes?: CloudInstanceInstanceListAttachedVolumesList;
+  attachedVolumes?: CloudInstanceInstanceListAttachedVolumesList | undefined;
   /** Availability zone of the instance */
-  availabilityZone?: string | null;
+  availabilityZone?: string | null | undefined;
   /** Instance Backups */
-  backups?: CloudInstanceInstanceListBackupsList | null;
+  backups?: CloudInstanceInstanceListBackupsList | null | undefined;
   /** Instance flavor */
-  flavor?: CloudInstanceInstanceFlavor | null;
+  flavor?: CloudInstanceInstanceFlavor | null | undefined;
   /** Flavor id */
-  flavorId?: string;
+  flavorId?: string | undefined;
   /** Flavor name */
-  flavorName?: string;
+  flavorName?: string | undefined;
   /** Instance id */
-  id?: string;
+  id?: string | undefined;
   /** Instance image */
-  image?: CloudInstanceInstanceImage | null;
+  image?: CloudInstanceInstanceImage | null | undefined;
   /** Image id */
-  imageId?: string | null;
+  imageId?: string | null | undefined;
   /** User and address to SSH to your instance */
-  login?: string | null;
+  login?: string | null | undefined;
   /** Instance name */
-  name?: string;
+  name?: string | undefined;
   /** A task is pending for the instance */
-  pendingTask?: boolean | null;
+  pendingTask?: boolean | null | undefined;
   /** Instance Price */
-  pricings?: CloudInstanceInstanceListPricingsList | null;
+  pricings?: CloudInstanceInstanceListPricingsList | null | undefined;
   /** Instance region */
-  region?: string;
+  region?: string | undefined;
   /** Type of the region */
-  regionType?: CloudRegionTypeEnum;
+  regionType?: CloudRegionTypeEnum | undefined;
   /** Instance SSH key name */
-  sshKey?: string;
+  sshKey?: string | undefined;
   /** Instance status */
-  status?: CloudInstanceInstanceStatusEnum;
+  status?: CloudInstanceInstanceStatusEnum | undefined;
   /** Instance task state */
-  taskState?: CloudInstanceInstanceSummaryTaskStateEnum;
+  taskState?: CloudInstanceInstanceSummaryTaskStateEnum | undefined;
   /** Instance volumes */
-  volumes?: CloudInstanceInstanceListVolumesList | null;
+  volumes?: CloudInstanceInstanceListVolumesList | null | undefined;
 }
 export interface GetInstancesOnRegionRequest {
   /** Service name */
@@ -14245,29 +14318,29 @@ export type CloudStorageObjectReplicationStatusEnum = "COMPLETED" | "FAILED" | "
 /** Object */
 export interface CloudStorageObject {
   /** The entity tag is a hash of the object that reflects changes only to the contents. The etag is omitted when isDeleteMarker is true. */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** True when the entry represents a delete marker. This field is included only when using withVersions set to true. */
-  isDeleteMarker?: boolean | null;
+  isDeleteMarker?: boolean | null | undefined;
   /** True when the entry is the latest version of the object or delete marker. */
-  isLatest?: boolean | null;
+  isLatest?: boolean | null | undefined;
   /** The name assigned to an object. Use the object key to retrieve the object. */
-  key?: string;
+  key?: string | undefined;
   /** Last modification date. */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** Object legal hold status. */
-  legalHold?: CloudStorageObjectLegalHoldStatusEnum | null;
+  legalHold?: CloudStorageObjectLegalHoldStatusEnum | null | undefined;
   /** Object lock retention configuration, if any. */
-  lock?: CloudStorageObjectRetentionConfiguration | null;
+  lock?: CloudStorageObjectRetentionConfiguration | null | undefined;
   /** Object replication status. */
-  replicationStatus?: CloudStorageObjectReplicationStatusEnum | null;
+  replicationStatus?: CloudStorageObjectReplicationStatusEnum | null | undefined;
   /** Specifies the restoration status of an object, if any. Objects in certain storage classes must be restored before they can be retrieved. */
-  restoreStatus?: CloudStorageObjectRestoreStatus | null;
+  restoreStatus?: CloudStorageObjectRestoreStatus | null | undefined;
   /** Size in bytes of the object. */
-  size?: number;
+  size?: number | undefined;
   /** The storage class used to store the object. */
-  storageClass?: CloudStorageStorageClassEnum | null;
+  storageClass?: CloudStorageStorageClassEnum | null | undefined;
   /** The version ID of the object. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 export interface GetObjectsInformationOnContainerOnRegionRequest {
   /** Service name */
@@ -14277,17 +14350,17 @@ export interface GetObjectsInformationOnContainerOnRegionRequest {
   /** Name */
   name: string;
   /** A delimiter is a character that you use to group keys */
-  delimiter?: string;
+  delimiter?: string | undefined;
   /** Key to start with when listing objects */
-  keyMarker?: string;
+  keyMarker?: string | undefined;
   /** Limit the number of objects returned (1000 maximum, defaults to 1000) */
-  limit?: number;
+  limit?: number | undefined;
   /** List objects whose key begins with this prefix */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Version ID to start listing from */
-  versionIdMarker?: string;
+  versionIdMarker?: string | undefined;
   /** List object versions */
-  withVersions?: boolean;
+  withVersions?: boolean | undefined;
 }
 export type GetObjectsInformationOnContainerOnRegionResponseBodyList =
   Array<CloudStorageObjectList>;
@@ -14308,27 +14381,27 @@ export interface GetObjectVersionOnContainerOnRegionRequest {
 /** Object */
 export interface CloudStorageObjectVersion {
   /** The entity tag is a hash of the object that reflects changes only to the contents. The etag is omitted when isDeleteMarker is true. */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** True when the entry represents a delete marker. This field is included only when using withVersions set to true. */
-  isDeleteMarker?: boolean | null;
+  isDeleteMarker?: boolean | null | undefined;
   /** True when the entry is the latest version of the object or delete marker. */
-  isLatest?: boolean | null;
+  isLatest?: boolean | null | undefined;
   /** The name assigned to an object. Use the object key to retrieve the object. */
-  key?: string;
+  key?: string | undefined;
   /** Last modification date. */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** Object legal hold status. */
-  legalHold?: CloudStorageObjectLegalHoldStatusEnum | null;
+  legalHold?: CloudStorageObjectLegalHoldStatusEnum | null | undefined;
   /** Object lock retention configuration, if any. */
-  lock?: CloudStorageObjectRetentionConfiguration | null;
+  lock?: CloudStorageObjectRetentionConfiguration | null | undefined;
   /** Specifies the restoration status of an object, if any. Objects in certain storage classes must be restored before they can be retrieved. */
-  restoreStatus?: CloudStorageObjectRestoreStatus | null;
+  restoreStatus?: CloudStorageObjectRestoreStatus | null | undefined;
   /** Size in bytes of the object. */
-  size?: number;
+  size?: number | undefined;
   /** The storage class used to store the object. */
-  storageClass?: CloudStorageStorageClassEnum | null;
+  storageClass?: CloudStorageStorageClassEnum | null | undefined;
   /** The version ID of the object. */
-  versionId?: string;
+  versionId?: string | undefined;
 }
 export interface GetObjectVersionsOnContainerOnRegionRequest {
   /** Service name */
@@ -14340,9 +14413,9 @@ export interface GetObjectVersionsOnContainerOnRegionRequest {
   /** Key */
   key: string;
   /** Limit the number of object versions returned (1000 maximum, defaults to 1000) */
-  limit?: number;
+  limit?: number | undefined;
   /** List object versions starting after this version ID */
-  versionIdMarker?: string;
+  versionIdMarker?: string | undefined;
 }
 export type GetObjectVersionsOnContainerOnRegionResponseBodyList = Array<CloudStorageObjectVersion>;
 export type GetObjectVersionsOnContainerOnRegionResponse =
@@ -14360,15 +14433,15 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource state */
-  state?: IamResourceMetadataStateEnum | null;
+  state?: IamResourceMetadataStateEnum | null | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Possible values for project status */
 export type CloudProjectProjectStatusEnum =
@@ -14380,29 +14453,29 @@ export type CloudProjectProjectStatusEnum =
 /** Project */
 export interface CloudProjectWithIAM {
   /** Project access */
-  access?: CloudAccessTypeEnum;
+  access?: CloudAccessTypeEnum | undefined;
   /** Project creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Description of your project */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Expiration date of your project. After this date, your project will be deleted */
-  expiration?: string | null;
+  expiration?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Manual quota prevent automatic quota upgrade */
-  manualQuota?: boolean;
+  manualQuota?: boolean | undefined;
   /** Project order id */
-  orderId?: number | null;
+  orderId?: number | null | undefined;
   /** Order plan code */
-  planCode?: string;
+  planCode?: string | undefined;
   /** Project name */
-  projectName?: string | null;
+  projectName?: string | null | undefined;
   /** Project id */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Current status */
-  status?: CloudProjectProjectStatusEnum;
+  status?: CloudProjectProjectStatusEnum | undefined;
   /** Project unleashed */
-  unleash?: boolean;
+  unleash?: boolean | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -14412,7 +14485,7 @@ export type GetProjectsRequestIamTagsMap = {
 };
 export interface GetProjectsRequest {
   /** Filter resources on IAM tags */
-  iamTags?: GetProjectsRequestIamTagsMap;
+  iamTags?: GetProjectsRequestIamTagsMap | undefined;
 }
 export type GetProjectsResponseBodyList = Array<string>;
 export type GetProjectsResponse = GetProjectsResponseBodyList;
@@ -14430,7 +14503,7 @@ export interface GetQuotasRequest {
   /** Service name */
   serviceName: string;
   /** allows to filter on categories */
-  categories?: GetQuotasRequestCategoriesList;
+  categories?: GetQuotasRequestCategoriesList | undefined;
 }
 export type GetQuotasResponseBodyList = Array<CloudQuotaQuotas>;
 export type GetQuotasResponse = GetQuotasResponseBodyList;
@@ -14454,13 +14527,13 @@ export interface GetStorageContainerOnRegionRequest {
   /** Name */
   name: string;
   /** Limit the number of objects returned (1000 maximum, defaults to 1000) */
-  limit?: number;
+  limit?: number | undefined;
   /** Key to start with when listing objects */
-  marker?: string;
+  marker?: string | undefined;
   /** Do not return container objects */
-  noObjects?: boolean;
+  noObjects?: boolean | undefined;
   /** List objects whose key begins with this prefix */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export interface GetStorageContainersOnRegionRequest {
   /** Service name */
@@ -14473,21 +14546,21 @@ export type CloudStorageContainerListObjectsList = Array<CloudStorageObjectList>
 /** Object storage container. */
 export interface CloudStorageContainerList {
   /** The date and timestamp when the container was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Container name. */
-  name?: string;
+  name?: string | undefined;
   /** Container objects (deprecated). */
-  objects?: CloudStorageContainerListObjectsList;
+  objects?: CloudStorageContainerListObjectsList | undefined;
   /** Container total objects count. */
-  objectsCount?: number;
+  objectsCount?: number | undefined;
   /** Container total objects size in bytes. */
-  objectsSize?: number;
+  objectsSize?: number | undefined;
   /** Container owner user ID. */
-  ownerId?: number;
+  ownerId?: number | undefined;
   /** Container region. */
-  region?: string;
+  region?: string | undefined;
   /** Container virtual host. */
-  virtualHost?: string;
+  virtualHost?: string | undefined;
 }
 export type GetStorageContainersOnRegionResponseBodyList = Array<CloudStorageContainerList>;
 export type GetStorageContainersOnRegionResponse = GetStorageContainersOnRegionResponseBodyList;
@@ -14525,13 +14598,13 @@ export type CloudProjectProductAgreementsAgreementsValidatedList = Array<number>
 /** Product agreements */
 export interface CloudProjectProductAgreements {
   /** Agreements to validate */
-  agreementsToValidate?: CloudProjectProductAgreementsAgreementsToValidateList | null;
+  agreementsToValidate?: CloudProjectProductAgreementsAgreementsToValidateList | null | undefined;
   /** Agreements already validated */
-  agreementsValidated?: CloudProjectProductAgreementsAgreementsValidatedList | null;
+  agreementsValidated?: CloudProjectProductAgreementsAgreementsValidatedList | null | undefined;
 }
 export interface ListCloudEligibilityRequest {
   /** Voucher code */
-  voucher?: string;
+  voucher?: string | undefined;
 }
 /** Possible eligibility actions */
 export type CloudProjectEligibilityAction =
@@ -14555,38 +14628,41 @@ export type CloudProjectEligibilityInfoPaymentMethodsAuthorizedList =
 /** Information about voucher */
 export interface CloudProjectNewProjectInfoVoucher {
   /** Credit added thanks to the voucher */
-  credit?: OrderPrice;
+  credit?: OrderPrice | undefined;
   /** A valid registered payment method is required to use the voucher */
-  paymentMethodRequired?: boolean;
+  paymentMethodRequired?: boolean | undefined;
 }
 /** Eligibility information */
 export interface CloudProjectEligibilityInfo {
   /** Actions to perform to be eligible */
-  actionsRequired?: CloudProjectEligibilityInfoActionsRequiredList | null;
+  actionsRequired?: CloudProjectEligibilityInfoActionsRequiredList | null | undefined;
   /** Cloud project order */
-  minimumCredit?: OrderPrice | null;
+  minimumCredit?: OrderPrice | null | undefined;
   /** Payment method accepted to order Public Cloud project */
-  paymentMethodsAuthorized?: CloudProjectEligibilityInfoPaymentMethodsAuthorizedList | null;
+  paymentMethodsAuthorized?:
+    | CloudProjectEligibilityInfoPaymentMethodsAuthorizedList
+    | null
+    | undefined;
   /** Information about voucher code */
-  voucher?: CloudProjectNewProjectInfoVoucher | null;
+  voucher?: CloudProjectNewProjectInfoVoucher | null | undefined;
 }
 export interface ListCloudOrderRequest {
   /** Order plan code */
-  planCode?: string;
+  planCode?: string | undefined;
 }
 /** Order status */
 export type CloudOrderStatusEnum = "delivered" | "delivering" | "unknown" | "unpaid";
 /** Cloud Order */
 export interface CloudOrderOrder {
   /** Order creation date */
-  date?: string;
+  date?: string | undefined;
   /** Order id */
-  orderId?: number;
+  orderId?: number | undefined;
   /** Order plan code */
-  planCode?: string;
+  planCode?: string | undefined;
   /** Service created */
-  serviceName?: string | null;
-  status?: CloudOrderStatusEnum;
+  serviceName?: string | null | undefined;
+  status?: CloudOrderStatusEnum | undefined;
 }
 export type ListCloudOrderResponseBodyList = Array<CloudOrderOrder>;
 export type ListCloudOrderResponse = ListCloudOrderResponseBodyList;
@@ -14610,20 +14686,20 @@ export type NichandleOvhSubsidiaryEnum =
   | "TN";
 export interface ListCloudOrderRuleAvailabilityRequest {
   /** Addon family filter */
-  addonFamily?: string;
+  addonFamily?: string | undefined;
   /** OVH subsidiary */
   ovhSubsidiary: NichandleOvhSubsidiaryEnum | (string & {});
   /** Plan code filter */
-  planCode?: string;
+  planCode?: string | undefined;
 }
 /** Plan is available on those regions */
 export type CloudOrderRuleAvailabilityPlanRegionsList = Array<string>;
 /** Public Cloud plan availability */
 export interface CloudOrderRuleAvailabilityPlan {
   /** Plan code */
-  code?: string;
+  code?: string | undefined;
   /** Plan is available on those regions */
-  regions?: CloudOrderRuleAvailabilityPlanRegionsList;
+  regions?: CloudOrderRuleAvailabilityPlanRegionsList | undefined;
 }
 /** Plan availability */
 export type CloudOrderRuleAvailabilityPlansList = Array<CloudOrderRuleAvailabilityPlan>;
@@ -14632,24 +14708,24 @@ export type CloudOrderRuleAvailabilityProductRegionsList = Array<string>;
 /** Public Cloud product availability */
 export interface CloudOrderRuleAvailabilityProduct {
   /** Product name */
-  name?: string;
+  name?: string | undefined;
   /** Product is available on those regions */
-  regions?: CloudOrderRuleAvailabilityProductRegionsList;
+  regions?: CloudOrderRuleAvailabilityProductRegionsList | undefined;
 }
 /** Product availability */
 export type CloudOrderRuleAvailabilityProductsList = Array<CloudOrderRuleAvailabilityProduct>;
 /** Public Cloud products availability */
 export interface CloudOrderRuleAvailability {
   /** Plan availability */
-  plans?: CloudOrderRuleAvailabilityPlansList;
+  plans?: CloudOrderRuleAvailabilityPlansList | undefined;
   /** Product availability */
-  products?: CloudOrderRuleAvailabilityProductsList;
+  products?: CloudOrderRuleAvailabilityProductsList | undefined;
 }
 export interface ListCloudProjectAclRequest {
   /** The project id */
   serviceName: string;
   /** Filter the value of type property (=) */
-  type?: CloudAclTypeEnum | (string & {});
+  type?: CloudAclTypeEnum | (string & {}) | undefined;
 }
 export type ListCloudProjectAclResponseBodyList = Array<string>;
 export type ListCloudProjectAclResponse = ListCloudProjectAclResponseBodyList;
@@ -14662,23 +14738,23 @@ export interface ListCloudProjectAiAppRequest {
   /** Service name */
   serviceName: string;
   /** Filter on app label (e.g. 'app_name=kind_of_magic') */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** Order the result set */
-  order?: CloudProjectAiOrderEnum | (string & {});
+  order?: CloudProjectAiOrderEnum | (string & {}) | undefined;
   /** Page of the result set */
-  page?: number;
+  page?: number | undefined;
   /** Size of the result set */
-  size?: number;
+  size?: number | undefined;
   /** Sort the result with this field */
-  sort?: string;
+  sort?: string | undefined;
   /** Filter on status state */
-  statusState?: ListCloudProjectAiAppRequestStatusStateList;
+  statusState?: ListCloudProjectAiAppRequestStatusStateList | undefined;
   /** Filter on updatedAt property (>) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** Filter on updatedAt property (<) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** User that submit the job */
-  userName?: string;
+  userName?: string | undefined;
 }
 export type ListCloudProjectAiAppResponseBodyList = Array<CloudProjectAiAppApp>;
 export type ListCloudProjectAiAppResponse = ListCloudProjectAiAppResponseBodyList;
@@ -14688,27 +14764,27 @@ export interface ListCloudProjectAiAppLogRequest {
   /** App ID */
   appId: string;
   /** Page of the result set */
-  page?: number;
+  page?: number | undefined;
   /** Only show logs from this replica */
-  replica?: string;
+  replica?: string | undefined;
   /** Size of the result set */
-  size?: number;
+  size?: number | undefined;
 }
 /** Log line */
 export interface CloudProjectAiLogLine {
   /** Content of the log */
-  content?: string | null;
+  content?: string | null | undefined;
   /** Datetime of the log */
-  timestamp?: string | null;
+  timestamp?: string | null | undefined;
 }
 /** Logs lines */
 export type CloudProjectAiLogsLogsList = Array<CloudProjectAiLogLine>;
 /** Instance Logs */
 export interface CloudProjectAiLogs {
   /** Last activity date */
-  lastActivity?: string | null;
+  lastActivity?: string | null | undefined;
   /** Logs lines */
-  logs?: CloudProjectAiLogsLogsList;
+  logs?: CloudProjectAiLogsLogsList | undefined;
 }
 export interface ListCloudProjectAiCapabilityRegionRequest {
   /** Service name */
@@ -14735,23 +14811,23 @@ export type CloudProjectAiCapabilitiesAppImageVersionsList = Array<string>;
 /** AI Solutions App image object */
 export interface CloudProjectAiCapabilitiesAppImage {
   /** Short description of the image */
-  description?: string;
+  description?: string | undefined;
   /** URL of the image documentation */
-  docUrl?: string;
+  docUrl?: string | undefined;
   /** Unique identifier of the image */
-  id?: string;
+  id?: string | undefined;
   /** Type of licensing */
-  licensing?: CloudProjectAiCapabilitiesLicensingTypeEnum;
+  licensing?: CloudProjectAiCapabilitiesLicensingTypeEnum | undefined;
   /** URL of the logo of the image */
-  logoUrl?: string;
+  logoUrl?: string | undefined;
   /** Name of the image */
-  name?: string;
+  name?: string | undefined;
   /** ID of the partner providing the image */
-  partnerId?: string;
+  partnerId?: string | undefined;
   /** Name of the partner providing the image */
-  partnerName?: string;
+  partnerName?: string | undefined;
   /** List of available versions of this image */
-  versions?: CloudProjectAiCapabilitiesAppImageVersionsList;
+  versions?: CloudProjectAiCapabilitiesAppImageVersionsList | undefined;
 }
 export type ListCloudProjectAiCapabilityRegionAppImageResponseBodyList =
   Array<CloudProjectAiCapabilitiesAppImage>;
@@ -14787,17 +14863,17 @@ export type CloudProjectAiCapabilitiesJobImageVersionsList = Array<string>;
 /** AI Solutions Job image object */
 export interface CloudProjectAiCapabilitiesJobImage {
   /** Short description of the image */
-  description?: string;
+  description?: string | undefined;
   /** URL of the image documentation */
-  docUrl?: string;
+  docUrl?: string | undefined;
   /** Unique identifier of the image */
-  id?: string;
+  id?: string | undefined;
   /** URL of the logo of the image */
-  logoUrl?: string;
+  logoUrl?: string | undefined;
   /** Name of the image */
-  name?: string;
+  name?: string | undefined;
   /** List of available versions of this image */
-  versions?: CloudProjectAiCapabilitiesJobImageVersionsList;
+  versions?: CloudProjectAiCapabilitiesJobImageVersionsList | undefined;
 }
 export type ListCloudProjectAiCapabilityRegionJobImageResponseBodyList =
   Array<CloudProjectAiCapabilitiesJobImage>;
@@ -14809,7 +14885,7 @@ export interface ListCloudProjectAiCapabilityRegionNotebookEditorRequest {
   /** Region */
   region: string;
   /** Only list editors compatible with this framework */
-  compatibleWithFramework?: string;
+  compatibleWithFramework?: string | undefined;
 }
 export type ListCloudProjectAiCapabilityRegionNotebookEditorResponseBodyList =
   Array<CloudProjectAiCapabilitiesNotebookEditor>;
@@ -14821,9 +14897,9 @@ export interface ListCloudProjectAiCapabilityRegionNotebookFrameworkRequest {
   /** Region */
   region: string;
   /** Only list frameworks compatible with this editor */
-  compatibleWithEditor?: string;
+  compatibleWithEditor?: string | undefined;
   /** Only list frameworks of this type */
-  type?: string;
+  type?: string | undefined;
 }
 export type ListCloudProjectAiCapabilityRegionNotebookFrameworkResponseBodyList =
   Array<CloudProjectAiCapabilitiesNotebookFramework>;
@@ -14835,7 +14911,7 @@ export interface ListCloudProjectAiCapabilityRegionPresetRequest {
   /** Region */
   region: string;
   /** Filter on type of preset image */
-  type?: string;
+  type?: string | undefined;
 }
 export type ListCloudProjectAiCapabilityRegionPresetResponseBodyList =
   Array<CloudProjectAiCapabilitiesPreset>;
@@ -14863,23 +14939,23 @@ export interface ListCloudProjectAiJobRequest {
   /** Service name */
   serviceName: string;
   /** Filter on job label (e.g. 'job_name=potions_cooking') */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** Order the result set */
-  order?: CloudProjectAiOrderEnum | (string & {});
+  order?: CloudProjectAiOrderEnum | (string & {}) | undefined;
   /** Page of the result set */
-  page?: number;
+  page?: number | undefined;
   /** Size of the result set */
-  size?: number;
+  size?: number | undefined;
   /** Sort the result with this field */
-  sort?: string;
+  sort?: string | undefined;
   /** Filter on status state */
-  statusState?: ListCloudProjectAiJobRequestStatusStateList;
+  statusState?: ListCloudProjectAiJobRequestStatusStateList | undefined;
   /** Filter on updatedAt property (>) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** Filter on updatedAt property (<) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** User that submit the job */
-  userName?: string;
+  userName?: string | undefined;
 }
 export type ListCloudProjectAiJobResponseBodyList = Array<CloudProjectAiJobJob>;
 export type ListCloudProjectAiJobResponse = ListCloudProjectAiJobResponseBodyList;
@@ -14890,15 +14966,15 @@ export interface ListCloudProjectAiJobCapabilityPresetImageRequest {
 /** A Image of a preset data science image */
 export interface CloudProjectAiJobPresetImage {
   /** Model Image Description */
-  description?: string;
+  description?: string | undefined;
   /** Image id */
-  id?: string;
+  id?: string | undefined;
   /** Link to the Opensource Model */
-  link?: string | null;
+  link?: string | null | undefined;
   /** Framework logo */
-  logo?: string | null;
+  logo?: string | null | undefined;
   /** Model Image Name */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListCloudProjectAiJobCapabilityPresetImageResponseBodyList =
   Array<CloudProjectAiJobPresetImage>;
@@ -14910,9 +14986,9 @@ export interface ListCloudProjectAiJobLogRequest {
   /** Job ID */
   jobId: string;
   /** Page of the result set */
-  page?: number;
+  page?: number | undefined;
   /** Size of the result set */
-  size?: number;
+  size?: number | undefined;
 }
 export type ListCloudProjectAiNotebookRequestStatusStateList = Array<
   CloudProjectAiNotebookNotebookStateEnum | (string & {})
@@ -14921,25 +14997,25 @@ export interface ListCloudProjectAiNotebookRequest {
   /** Service name */
   serviceName: string;
   /** Filter on notebook label (e.g. 'notebook_name=spell_book') */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** Order the result set */
-  order?: CloudProjectAiOrderEnum | (string & {});
+  order?: CloudProjectAiOrderEnum | (string & {}) | undefined;
   /** Page of the result set */
-  page?: number;
+  page?: number | undefined;
   /** Size of the result set */
-  size?: number;
+  size?: number | undefined;
   /** Sort the result with this field */
-  sort?: string;
+  sort?: string | undefined;
   /** Filter on status state */
-  statusState?: ListCloudProjectAiNotebookRequestStatusStateList;
+  statusState?: ListCloudProjectAiNotebookRequestStatusStateList | undefined;
   /** Filter on updatedAt property (>) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** Filter on updatedAt property (<) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** User that submit the job */
-  userName?: string;
+  userName?: string | undefined;
   /** Whether or not to include spark notebooks in search results */
-  withSpark?: boolean;
+  withSpark?: boolean | undefined;
 }
 export type ListCloudProjectAiNotebookResponseBodyList = Array<CloudProjectAiNotebookNotebook>;
 export type ListCloudProjectAiNotebookResponse = ListCloudProjectAiNotebookResponseBodyList;
@@ -14949,17 +15025,17 @@ export interface ListCloudProjectAiNotebookBackupRequest {
   /** Notebook ID */
   notebookId: string;
   /** Order the result set */
-  order?: CloudProjectAiOrderEnum | (string & {});
+  order?: CloudProjectAiOrderEnum | (string & {}) | undefined;
   /** Page of the result set */
-  page?: number;
+  page?: number | undefined;
   /** Size of the result set */
-  size?: number;
+  size?: number | undefined;
   /** Sort the result with this field */
-  sort?: string;
+  sort?: string | undefined;
   /** Filter on updatedAt property (>) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** Filter on updatedAt property (<) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
 }
 export type ListCloudProjectAiNotebookBackupResponseBodyList = Array<CloudProjectAiNotebookBackup>;
 export type ListCloudProjectAiNotebookBackupResponse =
@@ -14968,22 +15044,22 @@ export interface ListCloudProjectAiNotebookCapabilityEditorRequest {
   /** Service name */
   serviceName: string;
   /** Only list editors compatible with this framework */
-  compatibleWithFramework?: string;
+  compatibleWithFramework?: string | undefined;
 }
 /** AI Solutions Data Object */
 export interface CloudProjectAiNotebookEditor {
   /** Short description of the code editor */
-  description?: string;
+  description?: string | undefined;
   /** URL toward the code editor documentation */
-  docUrl?: string;
+  docUrl?: string | undefined;
   /** Unique identifier of the code editor */
-  id?: string;
+  id?: string | undefined;
   /** URL toward the logo to illustrate the editor */
-  logoUrl?: string;
+  logoUrl?: string | undefined;
   /** Name of the code editor */
-  name?: string;
+  name?: string | undefined;
   /** Version of the code editor */
-  version?: string;
+  version?: string | undefined;
 }
 export type ListCloudProjectAiNotebookCapabilityEditorResponseBodyList =
   Array<CloudProjectAiNotebookEditor>;
@@ -14993,26 +15069,26 @@ export interface ListCloudProjectAiNotebookCapabilityFrameworkRequest {
   /** Service name */
   serviceName: string;
   /** Only list frameworks compatible with this editor */
-  compatibleWithEditor?: string;
+  compatibleWithEditor?: string | undefined;
   /** Only list frameworks of this type */
-  type?: string;
+  type?: string | undefined;
 }
 /** Available versions for the framework (default is the first one) */
 export type CloudProjectAiNotebookFrameworkVersionsList = Array<string>;
 /** AI Solutions Data Object */
 export interface CloudProjectAiNotebookFramework {
   /** Short description of the framework */
-  description?: string;
+  description?: string | undefined;
   /** URL toward the framework documentation */
-  docUrl?: string;
+  docUrl?: string | undefined;
   /** Unique identifier of the framework */
-  id?: string;
+  id?: string | undefined;
   /** URL toward the logo to illustrate the framework */
-  logoUrl?: string;
+  logoUrl?: string | undefined;
   /** Name of the framework */
-  name?: string;
+  name?: string | undefined;
   /** Available versions for the framework (default is the first one) */
-  versions?: CloudProjectAiNotebookFrameworkVersionsList;
+  versions?: CloudProjectAiNotebookFrameworkVersionsList | undefined;
 }
 export type ListCloudProjectAiNotebookCapabilityFrameworkResponseBodyList =
   Array<CloudProjectAiNotebookFramework>;
@@ -15070,9 +15146,9 @@ export type CloudProjectBillTypeEnum =
 /** Project bill */
 export interface CloudProjectBill {
   /** Bill id */
-  billId?: string;
+  billId?: string | undefined;
   /** Bill type */
-  type?: CloudProjectBillTypeEnum;
+  type?: CloudProjectBillTypeEnum | undefined;
 }
 export type ListCloudProjectBillResponseBodyList = Array<CloudProjectBill>;
 export type ListCloudProjectBillResponse = ListCloudProjectBillResponseBodyList;
@@ -15100,11 +15176,11 @@ export type CloudContainerRegistryCapabilityPlansList = Array<CloudContainerRegi
 /** The container registry capability for a single region */
 export interface CloudContainerRegistryCapability {
   /** Available plans in the region */
-  plans?: CloudContainerRegistryCapabilityPlansList;
+  plans?: CloudContainerRegistryCapabilityPlansList | undefined;
   /** The region name */
-  regionName?: string;
+  regionName?: string | undefined;
   /** The type of region ("REGION-1-AZ" or "REGION-3-AZ") */
-  regionType?: CommonRegionTypeEnum;
+  regionType?: CommonRegionTypeEnum | undefined;
 }
 export type ListCloudProjectCapabilityContainerRegistryResponseBodyList =
   Array<CloudContainerRegistryCapability>;
@@ -15122,7 +15198,7 @@ export interface ListCloudProjectCapabilityKubeFlavorsRequest {
   /** Service name */
   serviceName: string;
   /** The region to list available flavors from. Example: GRA11. */
-  region?: string;
+  region?: string | undefined;
 }
 /** Enum values for category */
 export type CloudKubeFlavorCategoryEnum = "a" | "b" | "c" | "d" | "g" | "h" | "i" | "l" | "r" | "t";
@@ -15131,17 +15207,17 @@ export type CloudKubeFlavorStateEnum = "available" | "unavailable";
 /** a flavor kind */
 export interface CloudKubeFlavor {
   /** Flavor family */
-  category?: CloudKubeFlavorCategoryEnum;
+  category?: CloudKubeFlavorCategoryEnum | undefined;
   /** Number of GPUs */
-  gpus?: number;
+  gpus?: number | undefined;
   /** Flavor name */
-  name?: string;
+  name?: string | undefined;
   /** Ram quantity (GB) */
-  ram?: number;
+  ram?: number | undefined;
   /** Flavor state */
-  state?: CloudKubeFlavorStateEnum;
+  state?: CloudKubeFlavorStateEnum | undefined;
   /** Number of VCPUs */
-  vCPUs?: number;
+  vCPUs?: number | undefined;
 }
 export type ListCloudProjectCapabilityKubeFlavorsResponseBodyList = Array<CloudKubeFlavor>;
 export type ListCloudProjectCapabilityKubeFlavorsResponse =
@@ -15194,34 +15270,34 @@ export interface ListCloudProjectCapabilityProductAvailabilityRequest {
   /** Service name */
   serviceName: string;
   /** Addon family filter */
-  addonFamily?: string;
+  addonFamily?: string | undefined;
   /** OVH subsidiary */
   ovhSubsidiary: NichandleOvhSubsidiaryEnum | (string & {});
   /** Plan code filter */
-  planCode?: string;
+  planCode?: string | undefined;
   /** Plan family filter (deprecated, use addonFamily instead) */
-  planFamily?: string;
+  planFamily?: string | undefined;
   /** Product filter */
-  product?: string;
+  product?: string | undefined;
 }
 /** Availability zones of the region */
 export type CloudCapabilitiesAvailabilityRegionAvailabilityZonesList = Array<string>;
 /** Details about a region */
 export interface CloudCapabilitiesAvailabilityRegion {
   /** Availability zones of the region */
-  availabilityZones?: CloudCapabilitiesAvailabilityRegionAvailabilityZonesList;
+  availabilityZones?: CloudCapabilitiesAvailabilityRegionAvailabilityZonesList | undefined;
   /** Region continent code */
-  continentCode?: CloudRegionContinentEnum;
+  continentCode?: CloudRegionContinentEnum | undefined;
   /** Region country code */
-  countryCode?: CountryCode2LettersEnum;
+  countryCode?: CountryCode2LettersEnum | undefined;
   /** Location of the datacenter where the region is */
-  datacenter?: string;
+  datacenter?: string | undefined;
   /** Region is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Region name */
-  name?: string;
+  name?: string | undefined;
   /** Region type */
-  type?: CloudRegionTypeEnum;
+  type?: CloudRegionTypeEnum | undefined;
 }
 /** Plan is available on those regions */
 export type CloudCapabilitiesAvailabilityPlanRegionsList =
@@ -15229,9 +15305,9 @@ export type CloudCapabilitiesAvailabilityPlanRegionsList =
 /** Public Cloud plan availability */
 export interface CloudCapabilitiesAvailabilityPlan {
   /** Plan code */
-  code?: string;
+  code?: string | undefined;
   /** Plan is available on those regions */
-  regions?: CloudCapabilitiesAvailabilityPlanRegionsList;
+  regions?: CloudCapabilitiesAvailabilityPlanRegionsList | undefined;
 }
 /** Plan availability */
 export type CloudCapabilitiesAvailabilityPlansList = Array<CloudCapabilitiesAvailabilityPlan>;
@@ -15241,18 +15317,18 @@ export type CloudCapabilitiesAvailabilityProductRegionsList =
 /** Public Cloud product availability */
 export interface CloudCapabilitiesAvailabilityProduct {
   /** Product name */
-  name?: string;
+  name?: string | undefined;
   /** Product is available on those regions */
-  regions?: CloudCapabilitiesAvailabilityProductRegionsList;
+  regions?: CloudCapabilitiesAvailabilityProductRegionsList | undefined;
 }
 /** Product availability */
 export type CloudCapabilitiesAvailabilityProductsList = Array<CloudCapabilitiesAvailabilityProduct>;
 /** Public Cloud products availability */
 export interface CloudCapabilitiesAvailability {
   /** Plan availability */
-  plans?: CloudCapabilitiesAvailabilityPlansList;
+  plans?: CloudCapabilitiesAvailabilityPlansList | undefined;
   /** Product availability */
-  products?: CloudCapabilitiesAvailabilityProductsList;
+  products?: CloudCapabilitiesAvailabilityProductsList | undefined;
 }
 export interface ListCloudProjectContainerRegistryRequest {
   /** Service name */
@@ -15281,13 +15357,13 @@ export interface ListCloudProjectContainerRegistryIpRestrictionManagementRequest
 /** Container registry Get IP Restrictions */
 export interface CloudContainerRegistryIPRestrictions {
   /** IP Restrictions creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The Description of Whitelisted IpBlock */
-  description?: string;
+  description?: string | undefined;
   /** Whitelisted IpBlock */
-  ipBlock?: string;
+  ipBlock?: string | undefined;
   /** IP Restrictions update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export type ListCloudProjectContainerRegistryIpRestrictionManagementResponseBodyList =
   Array<CloudContainerRegistryIPRestrictions>;
@@ -15327,18 +15403,18 @@ export interface ListCloudProjectDatabaseAvailabilityRequest {
   /** Service name */
   serviceName: string;
   /** Type of action on which restrict the availabilities */
-  action?: CloudProjectDatabaseAvailabilityActionEnum | (string & {});
+  action?: CloudProjectDatabaseAvailabilityActionEnum | (string & {}) | undefined;
   /** Cluster ID on which restrict the availabilities */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Type of target on which restrict the availabilities */
-  target?: CloudProjectDatabaseAvailabilityTargetEnum | (string & {});
+  target?: CloudProjectDatabaseAvailabilityTargetEnum | (string & {}) | undefined;
 }
 /** Backups availability of databases engines on cloud projects */
 export interface CloudProjectDatabaseAvailabilityBackups {
   /** Defines whether the backups are available for this offer */
-  available?: boolean;
+  available?: boolean | undefined;
   /** Number of retention days for the backups */
-  retentionDays?: number | null;
+  retentionDays?: number | null | undefined;
 }
 /** Possible status for the availability */
 export type CloudProjectDatabaseAvailabilityStatusEnum =
@@ -15351,91 +15427,91 @@ export type CloudProjectDatabaseAvailabilityStatusEnum =
 /** Availability of databases engines on cloud projects */
 export interface CloudProjectDatabaseAvailabilityLifecycle {
   /** End of life of the product */
-  endOfLife?: string | null;
+  endOfLife?: string | null | undefined;
   /** End of sale of the product */
-  endOfSale?: string | null;
+  endOfSale?: string | null | undefined;
   /** Date of the release of the product */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Status of the availability */
-  status?: CloudProjectDatabaseAvailabilityStatusEnum;
+  status?: CloudProjectDatabaseAvailabilityStatusEnum | undefined;
 }
 /** Specifications of the nodes for availabilities of databases engines on cloud projects */
 export interface CloudProjectDatabaseAvailabilitySpecificationsNodes {
   /** Maximum number of nodes of the availability */
-  maximum?: number;
+  maximum?: number | undefined;
   /** Minimum number of nodes of the availability */
-  minimum?: number;
+  minimum?: number | undefined;
 }
 /** Specifications of the storage for availabilities of databases engines on cloud projects */
 export interface CloudProjectDatabaseAvailabilitySpecificationsStorage {
   /** Maximum storage of the availability */
-  maximum?: ComplexTypeUnitAndValueWritableLong;
+  maximum?: ComplexTypeUnitAndValueWritableLong | undefined;
   /** Minimum storage of the availability */
-  minimum?: ComplexTypeUnitAndValueWritableLong;
+  minimum?: ComplexTypeUnitAndValueWritableLong | undefined;
   /** Memory step that can be added between minimum and maximum */
-  step?: ComplexTypeUnitAndValueWritableLong | null;
+  step?: ComplexTypeUnitAndValueWritableLong | null | undefined;
 }
 /** Specifications of the availability of databases engines on cloud projects */
 export interface CloudProjectDatabaseAvailabilitySpecifications {
   /** Flavor name */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Type of network */
-  network?: CloudProjectDatabaseNetworkTypeEnum;
+  network?: CloudProjectDatabaseNetworkTypeEnum | undefined;
   /** Specification of the nodes */
-  nodes?: CloudProjectDatabaseAvailabilitySpecificationsNodes;
+  nodes?: CloudProjectDatabaseAvailabilitySpecificationsNodes | undefined;
   /** Specification of the storage */
-  storage?: CloudProjectDatabaseAvailabilitySpecificationsStorage | null;
+  storage?: CloudProjectDatabaseAvailabilitySpecificationsStorage | null | undefined;
 }
 /** Availability of databases engines on cloud projects */
 export interface CloudProjectDatabaseAvailability {
   /** Defines the type of backup. DEPRECATED: use backups.enable */
-  backup?: CloudProjectDatabaseBackupTypeEnum;
+  backup?: CloudProjectDatabaseBackupTypeEnum | undefined;
   /** Backup retention time of the availability in days. DEPRECATED: use backups.retentionDays */
-  backupRetentionDays?: number;
+  backupRetentionDays?: number | undefined;
   /** Defines backups strategy for the availability */
-  backups?: CloudProjectDatabaseAvailabilityBackups;
+  backups?: CloudProjectDatabaseAvailabilityBackups | undefined;
   /** Category of the engine */
-  category?: CloudProjectDatabaseEngineCategoryEnum;
+  category?: CloudProjectDatabaseEngineCategoryEnum | undefined;
   /** Whether this availability can be used by default */
-  default?: boolean;
+  default?: boolean | undefined;
   /** End of life of the product. DEPRECATED: use lifecycle.endOfLife */
-  endOfLife?: string | null;
+  endOfLife?: string | null | undefined;
   /** Database engine name */
-  engine?: string;
+  engine?: string | undefined;
   /** Flavor name. DEPRECATED: use specifications.flavor */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Defines the lifecycle of the availability */
-  lifecycle?: CloudProjectDatabaseAvailabilityLifecycle;
+  lifecycle?: CloudProjectDatabaseAvailabilityLifecycle | undefined;
   /** Maximum possible disk size in GB. DEPRECATED: use specifications.storage.maximum */
-  maxDiskSize?: number;
+  maxDiskSize?: number | undefined;
   /** Maximum nodes of the cluster. DEPRECATED: use specifications.nodes.maximum */
-  maxNodeNumber?: number;
+  maxNodeNumber?: number | undefined;
   /** Minimum possible disk size in GB. DEPRECATED: use specifications.storage.minimum */
-  minDiskSize?: number;
+  minDiskSize?: number | undefined;
   /** Minimum nodes of the cluster. DEPRECATED: use specifications.nodes.minimum */
-  minNodeNumber?: number;
+  minNodeNumber?: number | undefined;
   /** Type of network. DEPRECATED: use specifications.network */
-  network?: CloudProjectDatabaseNetworkTypeEnum;
+  network?: CloudProjectDatabaseNetworkTypeEnum | undefined;
   /** Plan name */
-  plan?: string;
+  plan?: string | undefined;
   /** Billing plan code */
-  planCode?: string;
+  planCode?: string | undefined;
   /** Billing plan code for storage */
-  planCodeStorage?: string;
+  planCodeStorage?: string | undefined;
   /** Region name */
-  region?: string;
+  region?: string | undefined;
   /** Defines the technical specifications of the availability */
-  specifications?: CloudProjectDatabaseAvailabilitySpecifications;
+  specifications?: CloudProjectDatabaseAvailabilitySpecifications | undefined;
   /** Date of the release of the product. DEPRECATED: use lifecycle.startDate */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Status of the availability. DEPRECATED: use lifecycle.status */
-  status?: CloudProjectDatabaseAvailabilityStatusEnum;
+  status?: CloudProjectDatabaseAvailabilityStatusEnum | undefined;
   /** Flex disk size step in GB. DEPRECATED: use specifications.storage.step */
-  stepDiskSize?: number;
+  stepDiskSize?: number | undefined;
   /** End of life of the upstream product. DEPRECATED: use lifecycle */
-  upstreamEndOfLife?: string | null;
+  upstreamEndOfLife?: string | null | undefined;
   /** Version name */
-  version?: string;
+  version?: string | undefined;
 }
 export type ListCloudProjectDatabaseAvailabilityResponseBodyList =
   Array<CloudProjectDatabaseAvailability>;
@@ -15459,19 +15535,19 @@ export type CloudProjectDatabaseCapabilitiesEngineVersionsList = Array<string>;
 /** Specific database engine capability */
 export interface CloudProjectDatabaseCapabilitiesEngine {
   /** Category of the engine */
-  category?: CloudProjectDatabaseEngineCategoryEnum;
+  category?: CloudProjectDatabaseEngineCategoryEnum | undefined;
   /** Default version used for the engine */
-  defaultVersion?: string;
+  defaultVersion?: string | undefined;
   /** Description of the engine */
-  description?: string;
+  description?: string | undefined;
   /** Engine name */
-  name?: string;
+  name?: string | undefined;
   /** SSL modes for this engine */
-  sslModes?: CloudProjectDatabaseCapabilitiesEngineSslModesList;
+  sslModes?: CloudProjectDatabaseCapabilitiesEngineSslModesList | undefined;
   /** Storage strategy of the engine */
-  storage?: CloudProjectDatabaseCapabilitiesEngineStorageStrategyEnum;
+  storage?: CloudProjectDatabaseCapabilitiesEngineStorageStrategyEnum | undefined;
   /** Versions available for this engine */
-  versions?: CloudProjectDatabaseCapabilitiesEngineVersionsList;
+  versions?: CloudProjectDatabaseCapabilitiesEngineVersionsList | undefined;
 }
 /** Database engines available */
 export type CloudProjectDatabaseCapabilitiesEnginesList =
@@ -15479,32 +15555,32 @@ export type CloudProjectDatabaseCapabilitiesEnginesList =
 /** Cloud Database flavor specifications definition */
 export interface CloudProjectDatabaseCapabilitiesFlavorSpecifications {
   /** Flavor core number */
-  core?: number;
+  core?: number | undefined;
   /** Flavor ram size */
-  memory?: ComplexTypeUnitAndValueWritableLong;
+  memory?: ComplexTypeUnitAndValueWritableLong | undefined;
   /** Flavor disk size */
-  storage?: ComplexTypeUnitAndValueWritableLong;
+  storage?: ComplexTypeUnitAndValueWritableLong | undefined;
 }
 /** Display tags */
 export type CloudProjectDatabaseCapabilitiesFlavorTagsList = Array<string>;
 /** Cloud Database flavor definition */
 export interface CloudProjectDatabaseCapabilitiesFlavor {
   /** Flavor core number. DEPRECATED: use specifications.core */
-  core?: number;
+  core?: number | undefined;
   /** Defines the lifecycle of the flavor */
-  lifecycle?: CloudProjectDatabaseAvailabilityLifecycle;
+  lifecycle?: CloudProjectDatabaseAvailabilityLifecycle | undefined;
   /** Flavor ram size in GB. DEPRECATED: use specifications.memory */
-  memory?: number;
+  memory?: number | undefined;
   /** Name of the flavor */
-  name?: string;
+  name?: string | undefined;
   /** Display order */
-  order?: number;
+  order?: number | undefined;
   /** Technical specifications of the flavor */
-  specifications?: CloudProjectDatabaseCapabilitiesFlavorSpecifications;
+  specifications?: CloudProjectDatabaseCapabilitiesFlavorSpecifications | undefined;
   /** Flavor disk size in GB. DEPRECATED: use specifications.storage */
-  storage?: number;
+  storage?: number | undefined;
   /** Display tags */
-  tags?: CloudProjectDatabaseCapabilitiesFlavorTagsList;
+  tags?: CloudProjectDatabaseCapabilitiesFlavorTagsList | undefined;
 }
 /** Flavors available */
 export type CloudProjectDatabaseCapabilitiesFlavorsList =
@@ -15514,9 +15590,9 @@ export type CloudProjectDatabaseTypeEnum = "boolean" | "double" | "duration" | "
 /** Cloud Database option definition */
 export interface CloudProjectDatabaseCapabilitiesOption {
   /** Name of the option */
-  name?: string;
+  name?: string | undefined;
   /** Type of the option */
-  type?: CloudProjectDatabaseTypeEnum;
+  type?: CloudProjectDatabaseTypeEnum | undefined;
 }
 /** Options available */
 export type CloudProjectDatabaseCapabilitiesOptionsList =
@@ -15526,17 +15602,17 @@ export type CloudProjectDatabaseCapabilitiesPlanTagsList = Array<string>;
 /** Cloud Database plan definition */
 export interface CloudProjectDatabaseCapabilitiesPlan {
   /** Automatic backup retention duration */
-  backupRetention?: string;
+  backupRetention?: string | undefined;
   /** Description of the plan */
-  description?: string;
+  description?: string | undefined;
   /** Defines the lifecycle of the availability */
-  lifecycle?: CloudProjectDatabaseAvailabilityLifecycle;
+  lifecycle?: CloudProjectDatabaseAvailabilityLifecycle | undefined;
   /** Name of the plan */
-  name?: string;
+  name?: string | undefined;
   /** Display order */
-  order?: number;
+  order?: number | undefined;
   /** Display tags */
-  tags?: CloudProjectDatabaseCapabilitiesPlanTagsList;
+  tags?: CloudProjectDatabaseCapabilitiesPlanTagsList | undefined;
 }
 /** Plans available */
 export type CloudProjectDatabaseCapabilitiesPlansList = Array<CloudProjectDatabaseCapabilitiesPlan>;
@@ -15545,17 +15621,17 @@ export type CloudProjectDatabaseCapabilitiesRegionsList = Array<string>;
 /** Capabilities available for the databases engines on cloud projects */
 export interface CloudProjectDatabaseCapabilities {
   /** Disks available */
-  disks?: CloudProjectDatabaseCapabilitiesDisksList;
+  disks?: CloudProjectDatabaseCapabilitiesDisksList | undefined;
   /** Database engines available */
-  engines?: CloudProjectDatabaseCapabilitiesEnginesList;
+  engines?: CloudProjectDatabaseCapabilitiesEnginesList | undefined;
   /** Flavors available */
-  flavors?: CloudProjectDatabaseCapabilitiesFlavorsList;
+  flavors?: CloudProjectDatabaseCapabilitiesFlavorsList | undefined;
   /** Options available */
-  options?: CloudProjectDatabaseCapabilitiesOptionsList;
+  options?: CloudProjectDatabaseCapabilitiesOptionsList | undefined;
   /** Plans available */
-  plans?: CloudProjectDatabaseCapabilitiesPlansList;
+  plans?: CloudProjectDatabaseCapabilitiesPlansList | undefined;
   /** Regions available */
-  regions?: CloudProjectDatabaseCapabilitiesRegionsList;
+  regions?: CloudProjectDatabaseCapabilitiesRegionsList | undefined;
 }
 export interface ListCloudProjectDatabaseCassandraRequest {
   /** Service name */
@@ -15590,17 +15666,20 @@ export type CloudProjectDatabaseCapabilitiesAdvancedConfigurationPropertyValuesL
 /** Specific database engine capability */
 export interface CloudProjectDatabaseCapabilitiesAdvancedConfigurationProperty {
   /** Description of the property */
-  description?: string;
+  description?: string | undefined;
   /** Maximum value for the property if numeric and applicable */
-  maximum?: number | null;
+  maximum?: number | null | undefined;
   /** Minimum value for the property if numeric and applicable */
-  minimum?: number | null;
+  minimum?: number | null | undefined;
   /** Property name */
-  name?: string;
+  name?: string | undefined;
   /** Data type of the property */
-  type?: CloudProjectDatabaseCapabilitiesAdvancedConfigurationPropertyTypeEnum;
+  type?: CloudProjectDatabaseCapabilitiesAdvancedConfigurationPropertyTypeEnum | undefined;
   /** Possible values for the property if string and applicable */
-  values?: CloudProjectDatabaseCapabilitiesAdvancedConfigurationPropertyValuesList | null;
+  values?:
+    | CloudProjectDatabaseCapabilitiesAdvancedConfigurationPropertyValuesList
+    | null
+    | undefined;
 }
 export type ListCloudProjectDatabaseCassandraCapabilityAdvancedConfigurationResponseBodyList =
   Array<CloudProjectDatabaseCapabilitiesAdvancedConfigurationProperty>;
@@ -15617,9 +15696,9 @@ export type CloudProjectDatabaseCapabilitiesIntegrationParameterTypeEnum = "inte
 /** Integration capability parameter */
 export interface CloudProjectDatabaseCapabilitiesIntegrationParameter {
   /** Name of the integration parameter */
-  name?: string;
+  name?: string | undefined;
   /** Type of the integration parameter */
-  type?: CloudProjectDatabaseCapabilitiesIntegrationParameterTypeEnum;
+  type?: CloudProjectDatabaseCapabilitiesIntegrationParameterTypeEnum | undefined;
 }
 /** Parameters for the integration capability */
 export type CloudProjectDatabaseCapabilitiesIntegrationParametersList =
@@ -15627,13 +15706,13 @@ export type CloudProjectDatabaseCapabilitiesIntegrationParametersList =
 /** Integration capability between database engines */
 export interface CloudProjectDatabaseCapabilitiesIntegration {
   /** Destination engine for the integration */
-  destinationEngine?: CloudProjectDatabaseEngineEnum;
+  destinationEngine?: CloudProjectDatabaseEngineEnum | undefined;
   /** Parameters for the integration capability */
-  parameters?: CloudProjectDatabaseCapabilitiesIntegrationParametersList | null;
+  parameters?: CloudProjectDatabaseCapabilitiesIntegrationParametersList | null | undefined;
   /** Source engine for the integration */
-  sourceEngine?: CloudProjectDatabaseEngineEnum;
+  sourceEngine?: CloudProjectDatabaseEngineEnum | undefined;
   /** Type of the integration */
-  type?: CloudProjectDatabaseServiceIntegrationTypeEnum;
+  type?: CloudProjectDatabaseServiceIntegrationTypeEnum | undefined;
 }
 export type ListCloudProjectDatabaseCassandraCapabilityIntegrationResponseBodyList =
   Array<CloudProjectDatabaseCapabilitiesIntegration>;
@@ -15666,11 +15745,11 @@ export interface ListCloudProjectDatabaseCassandraLogsRequest {
 /** A single log entry */
 export interface CloudProjectDatabaseServiceLogEntry {
   /** Host from which the log is coming from */
-  hostname?: string;
+  hostname?: string | undefined;
   /** The log message */
-  message?: string;
+  message?: string | undefined;
   /** Timestamp in seconds since epoch time */
-  timestamp?: number;
+  timestamp?: number | undefined;
 }
 export type ListCloudProjectDatabaseCassandraLogsResponseBodyList =
   Array<CloudProjectDatabaseServiceLogEntry>;
@@ -15682,7 +15761,7 @@ export interface ListCloudProjectDatabaseCassandraLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseCassandraLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseCassandraLogSubscriptionResponse =
@@ -15702,7 +15781,7 @@ export interface ListCloudProjectDatabaseCassandraMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseCassandraMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseCassandraMetricResponse =
@@ -15725,9 +15804,9 @@ export interface ListCloudProjectDatabaseCassandraPrometheusRequest {
 /** Prometheus endpoint target */
 export interface CloudProjectDatabaseServicePrometheusTarget {
   /** Hostname of the prometheus target */
-  host?: string;
+  host?: string | undefined;
   /** Port of the prometheus target */
-  port?: number;
+  port?: number | undefined;
 }
 /** Endpoint target for Prometheus */
 export type CloudProjectDatabaseServicePrometheusEndpointTargetsList =
@@ -15735,9 +15814,9 @@ export type CloudProjectDatabaseServicePrometheusEndpointTargetsList =
 /** Prometheus Endpoint */
 export interface CloudProjectDatabaseServicePrometheusEndpoint {
   /** Endpoint target for Prometheus */
-  targets?: CloudProjectDatabaseServicePrometheusEndpointTargetsList;
+  targets?: CloudProjectDatabaseServicePrometheusEndpointTargetsList | undefined;
   /** Name of the Prometheus access */
-  username?: string;
+  username?: string | undefined;
 }
 export interface ListCloudProjectDatabaseCassandraUserRequest {
   /** Service name */
@@ -15790,9 +15869,9 @@ export interface ListCloudProjectDatabaseClickhouseCurrentQueriesRequest {
   /** Cluster ID */
   clusterId: string;
   /** Limit size of the result set returned by the pagination */
-  limit?: number;
+  limit?: number | undefined;
   /** Offset of the result set returned by the pagination */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Possible state of a query */
 export type CloudProjectDatabaseServiceCurrentqueriesStateEnum =
@@ -15816,49 +15895,49 @@ export type CloudProjectDatabaseServiceCurrentqueriesWaitEventTypeEnum =
 /** Cloud database service current queries query definition */
 export interface CloudProjectDatabaseServiceCurrentqueriesQuery {
   /** Application name */
-  applicationName?: string;
+  applicationName?: string | undefined;
   /** Backend start timestamp */
-  backendStart?: string | null;
+  backendStart?: string | null | undefined;
   /** Backend type */
-  backendType?: string | null;
+  backendType?: string | null | undefined;
   /** XID for current backend */
-  backendXid?: number | null;
+  backendXid?: number | null | undefined;
   /** Xmin for current backend */
-  backendXmin?: number | null;
+  backendXmin?: number | null | undefined;
   /** Client hostname */
-  clientHostname?: string | null;
+  clientHostname?: string | null | undefined;
   /** Client ip address */
-  clientIp?: string | null;
+  clientIp?: string | null | undefined;
   /** Client port */
-  clientPort?: number | null;
+  clientPort?: number | null | undefined;
   /** Database ID */
-  databaseId?: number | null;
+  databaseId?: number | null | undefined;
   /** Database name */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Leader process ID */
-  leaderPid?: number | null;
+  leaderPid?: number | null | undefined;
   /** Connection process ID */
-  pid?: number;
+  pid?: number | undefined;
   /** Current query running on this connection */
-  query?: string;
+  query?: string | undefined;
   /** Duration of the query in seconds */
-  queryDuration?: number;
+  queryDuration?: number | undefined;
   /** Query start timestamp */
-  queryStart?: string | null;
+  queryStart?: string | null | undefined;
   /** Connection state */
-  state?: CloudProjectDatabaseServiceCurrentqueriesStateEnum;
+  state?: CloudProjectDatabaseServiceCurrentqueriesStateEnum | undefined;
   /** Connection state change timestamp */
-  stateChange?: string | null;
+  stateChange?: string | null | undefined;
   /** Transaction start timestamp */
-  transactionStart?: string | null;
+  transactionStart?: string | null | undefined;
   /** User ID */
-  userId?: number | null;
+  userId?: number | null | undefined;
   /** User name */
-  userName?: string;
+  userName?: string | undefined;
   /** Connection wait event */
-  waitEvent?: string | null;
+  waitEvent?: string | null | undefined;
   /** Connection wait event type */
-  waitEventType?: CloudProjectDatabaseServiceCurrentqueriesWaitEventTypeEnum | null;
+  waitEventType?: CloudProjectDatabaseServiceCurrentqueriesWaitEventTypeEnum | null | undefined;
 }
 /** Current queries list */
 export type CloudProjectDatabaseServiceCurrentQueriesQueriesList =
@@ -15866,7 +15945,7 @@ export type CloudProjectDatabaseServiceCurrentQueriesQueriesList =
 /** Cloud database current queries */
 export interface CloudProjectDatabaseServiceCurrentQueries {
   /** Current queries list */
-  queries?: CloudProjectDatabaseServiceCurrentQueriesQueriesList;
+  queries?: CloudProjectDatabaseServiceCurrentQueriesQueriesList | undefined;
 }
 export interface ListCloudProjectDatabaseClickhouseDatabaseRequest {
   /** Service name */
@@ -15901,7 +15980,7 @@ export interface ListCloudProjectDatabaseClickhouseLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseClickhouseLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseClickhouseLogSubscriptionResponse =
@@ -15921,7 +16000,7 @@ export interface ListCloudProjectDatabaseClickhouseMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseClickhouseMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseClickhouseMetricResponse =
@@ -15947,32 +16026,32 @@ export interface ListCloudProjectDatabaseClickhouseQueryStatisticsRequest {
   /** Cluster ID */
   clusterId: string;
   /** Limit size of the result set returned by the pagination */
-  limit?: number;
+  limit?: number | undefined;
   /** Offset of the result set returned by the pagination */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Cloud database clickhouse single query statistic definition */
 export interface CloudProjectDatabaseClickhouseQuerystatisticsQuery {
   /** Number of times this function has been called */
-  calls?: number;
+  calls?: number | undefined;
   /** Name of the database */
-  database?: string;
+  database?: string | undefined;
   /** Maximum query duration in milliseconds */
-  maxTime?: number;
+  maxTime?: number | undefined;
   /** Average query duration in milliseconds */
-  meanTime?: number;
+  meanTime?: number | undefined;
   /** Minimum query duration in milliseconds */
-  minTime?: number;
+  minTime?: number | undefined;
   /** Query duration 95th percentile in milliseconds */
-  p95Time?: number;
+  p95Time?: number | undefined;
   /** Normalized query */
-  query?: string;
+  query?: string | undefined;
   /** Average number of rows per call */
-  rows?: number;
+  rows?: number | undefined;
   /** Query duration standard deviation in milliseconds */
-  stddevTime?: number;
+  stddevTime?: number | undefined;
   /** Total duration of all calls in milliseconds */
-  totalTime?: number;
+  totalTime?: number | undefined;
 }
 /** Statistics of the queries */
 export type CloudProjectDatabaseClickhouseQueryStatisticsQueriesList =
@@ -15980,7 +16059,7 @@ export type CloudProjectDatabaseClickhouseQueryStatisticsQueriesList =
 /** Cloud database clickhouse query statistics response body definition */
 export interface CloudProjectDatabaseClickhouseQueryStatistics {
   /** Statistics of the queries */
-  queries?: CloudProjectDatabaseClickhouseQueryStatisticsQueriesList;
+  queries?: CloudProjectDatabaseClickhouseQueryStatisticsQueriesList | undefined;
 }
 export interface ListCloudProjectDatabaseClickhouseRolesRequest {
   /** Service name */
@@ -16079,7 +16158,7 @@ export interface ListCloudProjectDatabaseGrafanaLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseGrafanaLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseGrafanaLogSubscriptionResponse =
@@ -16099,7 +16178,7 @@ export interface ListCloudProjectDatabaseGrafanaMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseGrafanaMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseGrafanaMetricResponse =
@@ -16224,23 +16303,28 @@ export type CloudProjectDatabaseKafkaConnectCapabilitiesConnectorConfigurationPr
 /** KafkaConnect connector config property definition */
 export interface CloudProjectDatabaseKafkaConnectCapabilitiesConnectorConfigurationProperty {
   /** Defines the default value is exists */
-  defaultValue?: string | null;
+  defaultValue?: string | null | undefined;
   /** Description of the property */
-  description?: string;
+  description?: string | undefined;
   /** Pretty name of the property */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Group to which belongs the property */
-  group?: string;
+  group?: string | undefined;
   /** Importance of the property */
-  importance?: CloudProjectDatabaseKafkaConnectCapabilitiesConnectorPropertyImportanceEnum;
+  importance?:
+    | CloudProjectDatabaseKafkaConnectCapabilitiesConnectorPropertyImportanceEnum
+    | undefined;
   /** Name of the property */
-  name?: string;
+  name?: string | undefined;
   /** Defines whether the property is required */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Type of data of the property */
-  type?: CloudProjectDatabaseKafkaConnectConnectorPropertyTypeEnum;
+  type?: CloudProjectDatabaseKafkaConnectConnectorPropertyTypeEnum | undefined;
   /** Possible values for the property if string and applicable */
-  values?: CloudProjectDatabaseKafkaConnectCapabilitiesConnectorConfigurationPropertyValuesList | null;
+  values?:
+    | CloudProjectDatabaseKafkaConnectCapabilitiesConnectorConfigurationPropertyValuesList
+    | null
+    | undefined;
 }
 export type ListCloudProjectDatabaseKafkaConnectCapabilityConnectorConfigurationResponseBodyList =
   Array<CloudProjectDatabaseKafkaConnectCapabilitiesConnectorConfigurationProperty>;
@@ -16260,19 +16344,22 @@ export type CloudProjectDatabaseKafkaConnectCapabilitiesConnectorTransformValues
 /** KafkaConnect connector transform definition */
 export interface CloudProjectDatabaseKafkaConnectCapabilitiesConnectorTransform {
   /** Description of the transform */
-  description?: string;
+  description?: string | undefined;
   /** Pretty name of the transform */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Name of the transform */
-  name?: string;
+  name?: string | undefined;
   /** Defines whether the transform is required */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Transform type this transform relates to */
-  transformType?: string;
+  transformType?: string | undefined;
   /** Type of data of the transform */
-  type?: CloudProjectDatabaseKafkaConnectConnectorPropertyTypeEnum;
+  type?: CloudProjectDatabaseKafkaConnectConnectorPropertyTypeEnum | undefined;
   /** Possible values for the transform if applicable */
-  values?: CloudProjectDatabaseKafkaConnectCapabilitiesConnectorTransformValuesList | null;
+  values?:
+    | CloudProjectDatabaseKafkaConnectCapabilitiesConnectorTransformValuesList
+    | null
+    | undefined;
 }
 export type ListCloudProjectDatabaseKafkaConnectCapabilityConnectorTransformsResponseBodyList =
   Array<CloudProjectDatabaseKafkaConnectCapabilitiesConnectorTransform>;
@@ -16342,7 +16429,7 @@ export interface ListCloudProjectDatabaseKafkaConnectLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseKafkaConnectLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseKafkaConnectLogSubscriptionResponse =
@@ -16362,7 +16449,7 @@ export interface ListCloudProjectDatabaseKafkaConnectMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseKafkaConnectMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseKafkaConnectMetricResponse =
@@ -16425,7 +16512,7 @@ export interface ListCloudProjectDatabaseKafkaLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseKafkaLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseKafkaLogSubscriptionResponse =
@@ -16445,7 +16532,7 @@ export interface ListCloudProjectDatabaseKafkaMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseKafkaMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseKafkaMetricResponse =
@@ -16501,7 +16588,7 @@ export interface ListCloudProjectDatabaseKafkaMirrorMakerLogSubscriptionRequest 
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseKafkaMirrorMakerLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseKafkaMirrorMakerLogSubscriptionResponse =
@@ -16521,7 +16608,7 @@ export interface ListCloudProjectDatabaseKafkaMirrorMakerMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseKafkaMirrorMakerMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseKafkaMirrorMakerMetricResponse =
@@ -16574,11 +16661,11 @@ export type CloudProjectDatabaseKafkaPermissionsTopicList = Array<string>;
 /** Cloud databases kafka permissions definition */
 export interface CloudProjectDatabaseKafkaPermissions {
   /** Names of the topic permissions (DEPRECATED) */
-  names?: CloudProjectDatabaseKafkaPermissionsNamesList;
+  names?: CloudProjectDatabaseKafkaPermissionsNamesList | undefined;
   /** Names of the schema registry permissions */
-  schemaRegistry?: CloudProjectDatabaseKafkaPermissionsSchemaRegistryList;
+  schemaRegistry?: CloudProjectDatabaseKafkaPermissionsSchemaRegistryList | undefined;
   /** Names of the topic permissions */
-  topic?: CloudProjectDatabaseKafkaPermissionsTopicList;
+  topic?: CloudProjectDatabaseKafkaPermissionsTopicList | undefined;
 }
 export interface ListCloudProjectDatabaseKafkaPrometheusRequest {
   /** Service name */
@@ -16673,7 +16760,7 @@ export interface ListCloudProjectDatabaseM3aggregatorLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseM3aggregatorLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseM3aggregatorLogSubscriptionResponse =
@@ -16693,7 +16780,7 @@ export interface ListCloudProjectDatabaseM3aggregatorMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseM3aggregatorMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseM3aggregatorMetricResponse =
@@ -16776,7 +16863,7 @@ export interface ListCloudProjectDatabaseM3dbLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseM3dbLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseM3dbLogSubscriptionResponse =
@@ -16796,7 +16883,7 @@ export interface ListCloudProjectDatabaseM3dbMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseM3dbMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseM3dbMetricResponse =
@@ -16869,7 +16956,7 @@ export interface ListCloudProjectDatabaseMongodbLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseMongodbLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseMongodbLogSubscriptionResponse =
@@ -16889,7 +16976,7 @@ export interface ListCloudProjectDatabaseMongodbMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseMongodbMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseMongodbMetricResponse =
@@ -16909,7 +16996,7 @@ export interface ListCloudProjectDatabaseMongodbRolesRequest {
   /** Cluster ID */
   clusterId: string;
   /** Adds the advanced roles to the list of the roles */
-  advanced?: boolean;
+  advanced?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseMongodbRolesResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseMongodbRolesResponse =
@@ -16973,9 +17060,9 @@ export interface ListCloudProjectDatabaseMysqlCurrentQueriesRequest {
   /** Cluster ID */
   clusterId: string;
   /** Limit size of the result set returned by the pagination */
-  limit?: number;
+  limit?: number | undefined;
   /** Offset of the result set returned by the pagination */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListCloudProjectDatabaseMysqlDatabaseRequest {
   /** Service name */
@@ -17020,7 +17107,7 @@ export interface ListCloudProjectDatabaseMysqlLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseMysqlLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseMysqlLogSubscriptionResponse =
@@ -17040,7 +17127,7 @@ export interface ListCloudProjectDatabaseMysqlMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseMysqlMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseMysqlMetricResponse =
@@ -17066,82 +17153,82 @@ export interface ListCloudProjectDatabaseMysqlQueryStatisticsRequest {
   /** Cluster ID */
   clusterId: string;
   /** Limit size of the result set returned by the pagination */
-  limit?: number;
+  limit?: number | undefined;
   /** Offset of the result set returned by the pagination */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Cloud database MySQL single query statistic definition */
 export interface CloudProjectDatabaseMysqlQuerystatisticsQuery {
   /** Average wait time of the summarized timed events, in milliseconds */
-  avgTimerWait?: number;
+  avgTimerWait?: number | undefined;
   /** Number of summarized events. This value includes all events, whether timed or nontimed */
-  countStar?: number;
+  countStar?: number | undefined;
   /** Digest of the summarized events */
-  digest?: string;
+  digest?: string | undefined;
   /** Text of the summarized digest events */
-  digestText?: string;
+  digestText?: string | undefined;
   /** First appearance of the events */
-  firstSeen?: string;
+  firstSeen?: string | undefined;
   /** Last appearance of the events */
-  lastSeen?: string;
+  lastSeen?: string | undefined;
   /** Maximum wait time of the summarized timed events, in milliseconds */
-  maxTimerWait?: number;
+  maxTimerWait?: number | undefined;
   /** Mininum wait time of the summarized timed events, in milliseconds */
-  minTimerWait?: number;
+  minTimerWait?: number | undefined;
   /** 95th percentile of the statement latency, in picoseconds */
-  quantile95?: number;
+  quantile95?: number | undefined;
   /** 99th percentile of the statement latency, in picoseconds */
-  quantile99?: number;
+  quantile99?: number | undefined;
   /** 99.9th percentile of the statement latency, in picoseconds */
-  quantile999?: number;
+  quantile999?: number | undefined;
   /** Datetime when the querySampleText column was seen */
-  querySampleSeen?: string;
+  querySampleSeen?: string | undefined;
   /** Sample SQL statement that produces the digest value in the row */
-  querySampleText?: string;
+  querySampleText?: string | undefined;
   /** Wait time for the sample statement in the querySampleText column, in milliseconds */
-  querySampleTimerWait?: number;
+  querySampleTimerWait?: number | undefined;
   /** SchemaName of the summarized events */
-  schemaName?: string;
+  schemaName?: string | undefined;
   /** Number of internal on-disk temporary tables created */
-  sumCreatedTmpDiskTables?: number;
+  sumCreatedTmpDiskTables?: number | undefined;
   /** Number of internal temporary tables created */
-  sumCreatedTmpTables?: number;
+  sumCreatedTmpTables?: number | undefined;
   /** Number of errors */
-  sumErrors?: number;
+  sumErrors?: number | undefined;
   /** Sum of lock time of the summarized timed events, in milliseconds */
-  sumLockTime?: number;
+  sumLockTime?: number | undefined;
   /** Sum of not good indexes of the summarized timed events */
-  sumNoGoodIndexUsed?: number;
+  sumNoGoodIndexUsed?: number | undefined;
   /** Sum of no indexes of the summarized timed events */
-  sumNoIndexUsed?: number;
+  sumNoIndexUsed?: number | undefined;
   /** Sum of rows affected of the summarized timed events */
-  sumRowsAffected?: number;
+  sumRowsAffected?: number | undefined;
   /** Sum of rows examined of the summarized timed events */
-  sumRowsExamined?: number;
+  sumRowsExamined?: number | undefined;
   /** Sum of rows sent of the summarized timed events */
-  sumRowsSent?: number;
+  sumRowsSent?: number | undefined;
   /** Sum of select full join of the summarized timed events */
-  sumSelectFullJoin?: number;
+  sumSelectFullJoin?: number | undefined;
   /** Sum of select full range join of the summarized timed events */
-  sumSelectFullRangeJoin?: number;
+  sumSelectFullRangeJoin?: number | undefined;
   /** Sum of select range of the summarized timed events */
-  sumSelectRange?: number;
+  sumSelectRange?: number | undefined;
   /** Sum of select range check of the summarized timed events */
-  sumSelectRangeCheck?: number;
+  sumSelectRangeCheck?: number | undefined;
   /** Sum of select scan of the summarized timed events */
-  sumSelectScan?: number;
+  sumSelectScan?: number | undefined;
   /** Sum of sorted merge passes of the summarized timed events */
-  sumSortMergePasses?: number;
+  sumSortMergePasses?: number | undefined;
   /** Sum of sorted range of the summarized timed events */
-  sumSortRange?: number;
+  sumSortRange?: number | undefined;
   /** Sum of sorted rows of the summarized timed events */
-  sumSortRows?: number;
+  sumSortRows?: number | undefined;
   /** Sum of sort scan of the summarized timed events */
-  sumSortScan?: number;
+  sumSortScan?: number | undefined;
   /** Sum of wait time of the summarized timed events, in milliseconds */
-  sumTimerWait?: number;
+  sumTimerWait?: number | undefined;
   /** Number of warnings */
-  sumWarnings?: number;
+  sumWarnings?: number | undefined;
 }
 /** Statistics of the queries */
 export type CloudProjectDatabaseMysqlQueryStatisticsQueriesList =
@@ -17149,7 +17236,7 @@ export type CloudProjectDatabaseMysqlQueryStatisticsQueriesList =
 /** Cloud database MySQL query statistics response body definition */
 export interface CloudProjectDatabaseMysqlQueryStatistics {
   /** Statistics of the queries */
-  queries?: CloudProjectDatabaseMysqlQueryStatisticsQueriesList;
+  queries?: CloudProjectDatabaseMysqlQueryStatisticsQueriesList | undefined;
 }
 export interface ListCloudProjectDatabaseMysqlUserRequest {
   /** Service name */
@@ -17249,7 +17336,7 @@ export interface ListCloudProjectDatabaseOpensearchLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseOpensearchLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseOpensearchLogSubscriptionResponse =
@@ -17269,7 +17356,7 @@ export interface ListCloudProjectDatabaseOpensearchMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseOpensearchMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseOpensearchMetricResponse =
@@ -17303,7 +17390,7 @@ export type CloudProjectDatabaseOpensearchPermissionsNamesList = Array<string>;
 /** Cloud database opensearch permissions definition */
 export interface CloudProjectDatabaseOpensearchPermissions {
   /** Possible values for the permissions */
-  names?: CloudProjectDatabaseOpensearchPermissionsNamesList;
+  names?: CloudProjectDatabaseOpensearchPermissionsNamesList | undefined;
 }
 export interface ListCloudProjectDatabaseOpensearchPrometheusRequest {
   /** Service name */
@@ -17381,9 +17468,9 @@ export interface ListCloudProjectDatabasePostgresqlCurrentQueriesRequest {
   /** Cluster ID */
   clusterId: string;
   /** Limit size of the result set returned by the pagination */
-  limit?: number;
+  limit?: number | undefined;
   /** Offset of the result set returned by the pagination */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListCloudProjectDatabasePostgresqlDatabaseRequest {
   /** Service name */
@@ -17428,7 +17515,7 @@ export interface ListCloudProjectDatabasePostgresqlLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabasePostgresqlLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabasePostgresqlLogSubscriptionResponse =
@@ -17448,7 +17535,7 @@ export interface ListCloudProjectDatabasePostgresqlMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabasePostgresqlMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabasePostgresqlMetricResponse =
@@ -17474,72 +17561,72 @@ export interface ListCloudProjectDatabasePostgresqlQueryStatisticsRequest {
   /** Cluster ID */
   clusterId: string;
   /** Limit size of the result set returned by the pagination */
-  limit?: number;
+  limit?: number | undefined;
   /** Offset of the result set returned by the pagination */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Cloud database postgresql single query statistic definition */
 export interface CloudProjectDatabasePostgresqlQuerystatisticsQuery {
   /** Time spent reading data file blocks by backends in this database, in milliseconds */
-  blkReadTime?: number;
+  blkReadTime?: number | undefined;
   /** Time spent writing data file blocks by backends in this database, in milliseconds */
-  blkWriteTime?: number;
+  blkWriteTime?: number | undefined;
   /** Number of times this function has been called */
-  calls?: number;
+  calls?: number | undefined;
   /** Name of the database */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Total number of local blocks dirtied by the statement */
-  localBlksDirtied?: number;
+  localBlksDirtied?: number | undefined;
   /** Total number of local block cache hits by the statement */
-  localBlksHit?: number;
+  localBlksHit?: number | undefined;
   /** Total number of local blocks read by the statement */
-  localBlksRead?: number;
+  localBlksRead?: number | undefined;
   /** Total number of local blocks written by the statement */
-  localBlksWritten?: number;
+  localBlksWritten?: number | undefined;
   /** Maximum time spent planning the statement, in milliseconds */
-  maxPlanTime?: number;
+  maxPlanTime?: number | undefined;
   /** Maximum time spent for the statement, in milliseconds */
-  maxTime?: number;
+  maxTime?: number | undefined;
   /** Mean time spent planning the statement, in milliseconds */
-  meanPlanTime?: number;
+  meanPlanTime?: number | undefined;
   /** Mean time spent for the statement, in milliseconds */
-  meanTime?: number;
+  meanTime?: number | undefined;
   /** Minimum time spent planning the statement, in milliseconds */
-  minPlanTime?: number;
+  minPlanTime?: number | undefined;
   /** Minimum time spent for the statement, in milliseconds */
-  minTime?: number;
+  minTime?: number | undefined;
   /** Text of a representative statement */
-  query?: string;
+  query?: string | undefined;
   /** Total number of rows retrieved or affected by the statement */
-  rows?: number;
+  rows?: number | undefined;
   /** Total number of shared blocks dirtied by the statement */
-  sharedBlksDirtied?: number;
+  sharedBlksDirtied?: number | undefined;
   /** Total number of shared block cache hits by the statement */
-  sharedBlksHit?: number;
+  sharedBlksHit?: number | undefined;
   /** Total number of shared blocks read by the statement */
-  sharedBlksRead?: number;
+  sharedBlksRead?: number | undefined;
   /** Total number of shared blocks written by the statement */
-  sharedBlksWritten?: number;
+  sharedBlksWritten?: number | undefined;
   /** Population standard deviation of time spent planning the statement, in milliseconds */
-  stddevPlanTime?: number;
+  stddevPlanTime?: number | undefined;
   /** Population standard deviation of time spent for the statement, in milliseconds */
-  stddevTime?: number;
+  stddevTime?: number | undefined;
   /** Total number of temp blocks read by the statement */
-  tempBlksRead?: number;
+  tempBlksRead?: number | undefined;
   /** Total number of temp blocks written by the statement */
-  tempBlksWritten?: number;
+  tempBlksWritten?: number | undefined;
   /** Total time spent planning the statement, in milliseconds */
-  totalPlanTime?: number;
+  totalPlanTime?: number | undefined;
   /** Total time spent for the statement, in milliseconds */
-  totalTime?: number;
+  totalTime?: number | undefined;
   /** Name of the user who executed the statement */
-  username?: string;
+  username?: string | undefined;
   /** Total amount of WAL generated by the statement in bytes */
-  walBytes?: ComplexTypeUnitAndValueWritableLong;
+  walBytes?: ComplexTypeUnitAndValueWritableLong | undefined;
   /** Total number of WAL full page images generated by the statement */
-  walFpi?: number;
+  walFpi?: number | undefined;
   /** Total number of WAL records generated by the statement */
-  walRecords?: number;
+  walRecords?: number | undefined;
 }
 /** Statistics of the queries */
 export type CloudProjectDatabasePostgresqlQueryStatisticsQueriesList =
@@ -17547,7 +17634,7 @@ export type CloudProjectDatabasePostgresqlQueryStatisticsQueriesList =
 /** Cloud database postgresql query statistics response body definition */
 export interface CloudProjectDatabasePostgresqlQueryStatistics {
   /** Statistics of the queries */
-  queries?: CloudProjectDatabasePostgresqlQueryStatisticsQueriesList;
+  queries?: CloudProjectDatabasePostgresqlQueryStatisticsQueriesList | undefined;
 }
 export interface ListCloudProjectDatabasePostgresqlRolesRequest {
   /** Service name */
@@ -17654,7 +17741,7 @@ export interface ListCloudProjectDatabaseRedisLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseRedisLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseRedisLogSubscriptionResponse =
@@ -17674,7 +17761,7 @@ export interface ListCloudProjectDatabaseRedisMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseRedisMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseRedisMetricResponse =
@@ -17707,7 +17794,7 @@ export interface ListCloudProjectDatabaseServiceRequest {
   /** Service name */
   serviceName: string;
   /** Category on which restrict the search on services */
-  category?: CloudProjectDatabaseEngineCategoryEnum | (string & {});
+  category?: CloudProjectDatabaseEngineCategoryEnum | (string & {}) | undefined;
 }
 export type ListCloudProjectDatabaseServiceResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseServiceResponse =
@@ -17808,7 +17895,7 @@ export interface ListCloudProjectDatabaseValkeyLogSubscriptionRequest {
   /** Cluster ID */
   clusterId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectDatabaseValkeyLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseValkeyLogSubscriptionResponse =
@@ -17828,7 +17915,7 @@ export interface ListCloudProjectDatabaseValkeyMetricRequest {
   /** Cluster ID */
   clusterId: string;
   /** Display DB specific metrics */
-  extended?: boolean;
+  extended?: boolean | undefined;
 }
 export type ListCloudProjectDatabaseValkeyMetricResponseBodyList = Array<string>;
 export type ListCloudProjectDatabaseValkeyMetricResponse =
@@ -17863,11 +17950,11 @@ export interface ListCloudProjectImageRequest {
   /** Service name */
   serviceName: string;
   /** Get compatible images with flavor type */
-  flavorType?: string;
+  flavorType?: string | undefined;
   /** Image OS */
-  osType?: CloudImageOSTypeEnum | (string & {});
+  osType?: CloudImageOSTypeEnum | (string & {}) | undefined;
   /** Image region */
-  region?: string;
+  region?: string | undefined;
 }
 export type ListCloudProjectImageResponseBodyList = Array<CloudImageImage>;
 export type ListCloudProjectImageResponse = ListCloudProjectImageResponseBodyList;
@@ -17875,7 +17962,7 @@ export interface ListCloudProjectInstanceRequest {
   /** Service name */
   serviceName: string;
   /** Instance region */
-  region?: string;
+  region?: string | undefined;
 }
 export type ListCloudProjectInstanceResponseBodyList = Array<CloudInstanceInstance>;
 export type ListCloudProjectInstanceResponse = ListCloudProjectInstanceResponseBodyList;
@@ -17883,7 +17970,7 @@ export interface ListCloudProjectInstanceGroupRequest {
   /** Service name */
   serviceName: string;
   /** Instance region */
-  region?: string;
+  region?: string | undefined;
 }
 export type ListCloudProjectInstanceGroupResponseBodyList = Array<CloudInstancegroupInstanceGroup>;
 export type ListCloudProjectInstanceGroupResponse = ListCloudProjectInstanceGroupResponseBodyList;
@@ -17904,13 +17991,13 @@ export interface ListCloudProjectIpRequest {
 /** CloudIp */
 export interface CloudIpCloudIp {
   /** Ip id */
-  id?: string;
+  id?: string | undefined;
   /** Ip */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Ip status */
-  status?: CloudIpIpStatusEnum;
+  status?: CloudIpIpStatusEnum | undefined;
   /** Ip type */
-  type?: string;
+  type?: string | undefined;
 }
 export type ListCloudProjectIpResponseBodyList = Array<CloudIpCloudIp>;
 export type ListCloudProjectIpResponse = ListCloudProjectIpResponseBodyList;
@@ -17949,7 +18036,7 @@ export interface ListCloudProjectKubeLogSubscriptionRequest {
   /** Kube ID */
   kubeId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectKubeLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectKubeLogSubscriptionResponse =
@@ -17960,9 +18047,9 @@ export interface ListCloudProjectKubeNodeRequest {
   /** Kube ID */
   kubeId: string;
   /** If set to true then returns DELETED nodes ordered by deletion date (most recently deleted first). Returns non-DELETED nodes if false or not set. */
-  history?: boolean;
+  history?: boolean | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
 }
 export type ListCloudProjectKubeNodeResponseBodyList = Array<CloudKubeNode>;
 export type ListCloudProjectKubeNodeResponse = ListCloudProjectKubeNodeResponseBodyList;
@@ -17982,9 +18069,9 @@ export interface ListCloudProjectKubeNodepoolNodesRequest {
   /** Node pool ID */
   nodePoolId: string;
   /** If set to true then returns DELETED nodes ordered by deletion date (most recently deleted first). Returns non-DELETED nodes if false or not set. */
-  history?: boolean;
+  history?: boolean | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
 }
 export type ListCloudProjectKubeNodepoolNodesResponseBodyList = Array<CloudKubeNode>;
 export type ListCloudProjectKubeNodepoolNodesResponse =
@@ -18008,9 +18095,9 @@ export type CloudLabAgreementsToAcceptList = Array<number>;
 /** List of required agreements to activate the lab */
 export interface CloudLabAgreements {
   /** List of agreements already accepted to activate the lab */
-  accepted?: CloudLabAgreementsAcceptedList;
+  accepted?: CloudLabAgreementsAcceptedList | undefined;
   /** List of agreements to accept before activate the lab */
-  toAccept?: CloudLabAgreementsToAcceptList;
+  toAccept?: CloudLabAgreementsToAcceptList | undefined;
 }
 export interface ListCloudProjectNetworkRequest {
   /** Service name */
@@ -18037,7 +18124,7 @@ export interface ListCloudProjectOperationRequest {
   /** Service name */
   serviceName: string;
   /** Instance ID used to filter operations */
-  instanceId?: string;
+  instanceId?: string | undefined;
 }
 export type ListCloudProjectOperationResponseBodyList = Array<CloudOperation>;
 export type ListCloudProjectOperationResponse = ListCloudProjectOperationResponseBodyList;
@@ -18055,7 +18142,7 @@ export interface ListCloudProjectQuantumCapabilityRegionQpuRequest {
   /** Region */
   region: string;
   /** Only list QPU flavors that are compatible with this framework */
-  compatibleWithFramework?: string;
+  compatibleWithFramework?: string | undefined;
 }
 export type ListCloudProjectQuantumCapabilityRegionQpuResponseBodyList =
   Array<CloudProjectQuantumCapabilitiesQPUFlavor>;
@@ -18074,13 +18161,13 @@ export interface ListCloudProjectRegionAvailableRequest {
 /** Details about an available region that can be activated on your project */
 export interface CloudAvailableRegion {
   /** Region continent code */
-  continentCode?: CloudRegionContinentEnum;
+  continentCode?: CloudRegionContinentEnum | undefined;
   /** Location of the datacenter where the region is */
-  datacenterLocation?: string;
+  datacenterLocation?: string | undefined;
   /** Region name */
-  name?: string;
+  name?: string | undefined;
   /** Region type */
-  type?: CloudRegionTypeEnum;
+  type?: CloudRegionTypeEnum | undefined;
 }
 export type ListCloudProjectRegionAvailableResponseBodyList = Array<CloudAvailableRegion>;
 export type ListCloudProjectRegionAvailableResponse =
@@ -18091,13 +18178,13 @@ export interface ListCloudProjectRegionGatewayRequest {
   /** Region name */
   regionName: string;
   /** Gateway listing limit (default and max is 50) */
-  limit?: number;
+  limit?: number | undefined;
   /** Gateway to start listing from */
-  marker?: string;
+  marker?: string | undefined;
   /** Attached interface's subnet id */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** Include subnets to response */
-  withSubnets?: boolean;
+  withSubnets?: boolean | undefined;
 }
 export type ListCloudProjectRegionGatewayResponseBodyList = Array<CloudNetworkGateway>;
 export type ListCloudProjectRegionGatewayResponse = ListCloudProjectRegionGatewayResponseBodyList;
@@ -18159,7 +18246,7 @@ export interface ListCloudProjectRegionLoadbalancingHealthMonitorRequest {
   /** Region name */
   regionName: string;
   /** Linked pool id */
-  poolId?: string;
+  poolId?: string | undefined;
 }
 export type ListCloudProjectRegionLoadbalancingHealthMonitorResponseBodyList =
   Array<CloudLoadbalancingHealthMonitor>;
@@ -18171,7 +18258,7 @@ export interface ListCloudProjectRegionLoadbalancingL7PolicyRequest {
   /** Region name */
   regionName: string;
   /** Linked listener id */
-  listenerId?: string;
+  listenerId?: string | undefined;
 }
 export type ListCloudProjectRegionLoadbalancingL7PolicyResponseBodyList =
   Array<CloudLoadbalancingL7Policy>;
@@ -18195,7 +18282,7 @@ export interface ListCloudProjectRegionLoadbalancingListenerRequest {
   /** Region name */
   regionName: string;
   /** Filter by loadbalancer */
-  loadbalancerId?: string;
+  loadbalancerId?: string | undefined;
 }
 export type ListCloudProjectRegionLoadbalancingListenerResponseBodyList =
   Array<CloudLoadbalancingListener>;
@@ -18219,7 +18306,7 @@ export interface ListCloudProjectRegionLoadbalancingLoadbalancerLogSubscriptionR
   /** Load balancer ID */
   loadBalancerId: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectRegionLoadbalancingLoadbalancerLogSubscriptionResponseBodyList =
   Array<string>;
@@ -18240,7 +18327,7 @@ export interface ListCloudProjectRegionLoadbalancingPoolRequest {
   /** Region name */
   regionName: string;
   /** Filter by loadbalancer */
-  loadbalancerId?: string;
+  loadbalancerId?: string | undefined;
 }
 export type ListCloudProjectRegionLoadbalancingPoolResponseBodyList = Array<CloudLoadbalancingPool>;
 export type ListCloudProjectRegionLoadbalancingPoolResponse =
@@ -18271,7 +18358,7 @@ export interface ListCloudProjectRegionLogSubscriptionRequest {
   /** Region name */
   regionName: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCloudProjectRegionLogSubscriptionResponseBodyList = Array<string>;
 export type ListCloudProjectRegionLogSubscriptionResponse =
@@ -18304,40 +18391,40 @@ export interface ListCloudProjectRegionQuotaAllowedRequest {
 /** Quotas for compute */
 export interface CloudQuotaComputeQuota {
   /** Maximum total cores allowed in your project */
-  cores?: number;
+  cores?: number | undefined;
   /** Maximum number of instances allowed in your project */
-  instances?: number;
+  instances?: number | undefined;
   /** Maximum total ram allowed in your project */
-  ram?: number;
+  ram?: number | undefined;
 }
 /** Quotas for network */
 export interface CloudQuotaNetworkQuota {
   /** Maximum number of networks allowed in your project */
-  networks?: number;
+  networks?: number | undefined;
   /** Maximum number of ports allowed in your project */
-  ports?: number;
+  ports?: number | undefined;
   /** Maximum number of subnets allowed in your project */
-  subnets?: number;
+  subnets?: number | undefined;
 }
 /** Quotas for volume */
 export interface CloudQuotaVolumeQuota {
   /** Maximum total volume capacity allowed in your project */
-  gigabytes?: number;
+  gigabytes?: number | undefined;
   /** Maximum number of snapshots allowed in your project */
-  snapshots?: number;
+  snapshots?: number | undefined;
   /** Maximum number of volumes allowed in your project */
-  volumes?: number;
+  volumes?: number | undefined;
 }
 /** Quotas */
 export interface CloudQuotaAllowedQuota {
   /** Quotas for compute */
-  compute?: CloudQuotaComputeQuota;
+  compute?: CloudQuotaComputeQuota | undefined;
   /** Name */
-  name?: string;
+  name?: string | undefined;
   /** Quotas for network */
-  network?: CloudQuotaNetworkQuota;
+  network?: CloudQuotaNetworkQuota | undefined;
   /** Quotas for volume */
-  volume?: CloudQuotaVolumeQuota;
+  volume?: CloudQuotaVolumeQuota | undefined;
 }
 export type ListCloudProjectRegionQuotaAllowedResponseBodyList = Array<CloudQuotaAllowedQuota>;
 export type ListCloudProjectRegionQuotaAllowedResponse =
@@ -18406,7 +18493,7 @@ export interface ListCloudProjectRegionVolumeTypeRequest {
 /** Volume type */
 export interface CloudRegionVolumeType {
   /** Name of the volume type */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListCloudProjectRegionVolumeTypeResponseBodyList = Array<CloudRegionVolumeType>;
 export type ListCloudProjectRegionVolumeTypeResponse =
@@ -18431,35 +18518,35 @@ export type CloudRolePermissionRolesList = Array<string>;
 /** Role permissions */
 export interface CloudRolePermission {
   /** Permission label */
-  label?: string;
+  label?: string | undefined;
   /** Roles having this permission */
-  roles?: CloudRolePermissionRolesList;
+  roles?: CloudRolePermissionRolesList | undefined;
 }
 /** List of permissions */
 export type CloudRoleServicePermissionsList = Array<CloudRolePermission>;
 /** OpenStack service */
 export interface CloudRoleService {
   /** Name of the service */
-  name?: string;
+  name?: string | undefined;
   /** List of permissions */
-  permissions?: CloudRoleServicePermissionsList;
+  permissions?: CloudRoleServicePermissionsList | undefined;
 }
 /** OpenStack services */
 export type CloudRoleRolesServicesList = Array<CloudRoleService>;
 /** OpenStack role */
 export interface CloudRoleRoles {
   /** OpenStack roles */
-  roles?: CloudRoleRolesRolesList;
+  roles?: CloudRoleRolesRolesList | undefined;
   /** OpenStack services */
-  services?: CloudRoleRolesServicesList;
+  services?: CloudRoleRolesServicesList | undefined;
 }
 export interface ListCloudProjectSnapshotRequest {
   /** Service name */
   serviceName: string;
   /** Get compatible snapshots with flavor type */
-  flavorType?: string;
+  flavorType?: string | undefined;
   /** Region */
-  region?: string;
+  region?: string | undefined;
 }
 export type ListCloudProjectSnapshotResponseBodyList = Array<CloudImageImage>;
 export type ListCloudProjectSnapshotResponse = ListCloudProjectSnapshotResponseBodyList;
@@ -18467,20 +18554,20 @@ export interface ListCloudProjectSshkeyRequest {
   /** Service name */
   serviceName: string;
   /** Region */
-  region?: string;
+  region?: string | undefined;
 }
 /** SSH key regions */
 export type CloudSshkeySshKeyRegionsList = Array<string>;
 /** SshKey */
 export interface CloudSshkeySshKey {
   /** SSH key id */
-  id?: string;
+  id?: string | undefined;
   /** SSH key name */
-  name?: string;
+  name?: string | undefined;
   /** SSH public key */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** SSH key regions */
-  regions?: CloudSshkeySshKeyRegionsList;
+  regions?: CloudSshkeySshKeyRegionsList | undefined;
 }
 export type ListCloudProjectSshkeyResponseBodyList = Array<CloudSshkeySshKey>;
 export type ListCloudProjectSshkeyResponse = ListCloudProjectSshkeyResponseBodyList;
@@ -18488,7 +18575,7 @@ export interface ListCloudProjectStorageRequest {
   /** Service name */
   serviceName: string;
   /** Include container type */
-  includeType?: boolean;
+  includeType?: boolean | undefined;
 }
 export type ListCloudProjectStorageResponseBodyList = Array<CloudStorageContainer2>;
 export type ListCloudProjectStorageResponse = ListCloudProjectStorageResponseBodyList;
@@ -18496,18 +18583,18 @@ export interface ListCloudProjectUsageHistoryRequest {
   /** Service name */
   serviceName: string;
   /** Filter results having date superior to from */
-  from?: string;
+  from?: string | undefined;
   /** Filter results having date inferior to */
-  to?: string;
+  to?: string | undefined;
 }
 /** UsageHistory */
 export interface CloudUsageUsageHistory {
   /** Usage id */
-  id?: string;
+  id?: string | undefined;
   /** Entry last update */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Usage dates (from/to) */
-  period?: CloudUsagePeriod;
+  period?: CloudUsagePeriod | undefined;
 }
 export type ListCloudProjectUsageHistoryResponseBodyList = Array<CloudUsageUsageHistory>;
 export type ListCloudProjectUsageHistoryResponse = ListCloudProjectUsageHistoryResponseBodyList;
@@ -18515,44 +18602,44 @@ export interface ListCloudProjectUsagePlansRequest {
   /** Service name */
   serviceName: string;
   /** Flavor to filter plans on */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Month of the period to extract plans consumption */
-  month?: number;
+  month?: number | undefined;
   /** Year of the period to extract plans consumption */
-  year?: number;
+  year?: number | undefined;
 }
 /** Detailed listing of all flat fees */
 export type CloudPlanFlatFeeDetailsList = Array<CloudPlanDetail>;
 /** Details of fees regardless of the consumption */
 export interface CloudPlanFlatFee {
   /** Detailed listing of all flat fees */
-  details?: CloudPlanFlatFeeDetailsList;
+  details?: CloudPlanFlatFeeDetailsList | undefined;
   /** Total price of the flat fee part of associated plans */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 /** List of plan ids */
 export type CloudPlanOverQuotaIdsList = Array<string>;
 /** Details of fees when the consumption exceeds the size of the plans */
 export interface CloudPlanOverQuota {
   /** List of plan ids */
-  ids?: CloudPlanOverQuotaIdsList;
+  ids?: CloudPlanOverQuotaIdsList | undefined;
   /** Quantity consumed over the size of the plans */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Total price of the over quota, computed from quantity and unit price */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
   /** Unit price for the over quota */
-  unitPrice?: OrderPrice;
+  unitPrice?: OrderPrice | undefined;
 }
 /** Details of fees for all plan subscriptions for this flavor */
 export interface CloudPlanFees {
   /** Description of the flat fee for the plan */
-  flatFee?: CloudPlanFlatFee;
+  flatFee?: CloudPlanFlatFee | undefined;
   /** Detailed of fees when the consumption exceeds the size of the plans */
-  overQuota?: CloudPlanOverQuota;
+  overQuota?: CloudPlanOverQuota | undefined;
   /** Total amount saved by using plans */
-  savedAmount?: OrderPrice;
+  savedAmount?: OrderPrice | undefined;
   /** Total price of plan subscriptions for this flavor */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 /** List of plans Ids */
 export type CloudPlanPlanPeriodPlansIdsList = Array<string>;
@@ -18561,67 +18648,67 @@ export type CloudPlanPlanPeriodResourceIdsList = Array<string>;
 /** Consumption period for a flavor */
 export interface CloudPlanPlanPeriod {
   /** Begin date of the period */
-  begin?: string;
+  begin?: string | undefined;
   /** Size of the plan consumed */
-  consumptionSize?: number;
+  consumptionSize?: number | undefined;
   /** Human readable percentage of usages covered by the plan */
-  coverage?: string;
+  coverage?: string | undefined;
   /** Size of all plans combined */
-  cumulPlanSize?: number;
+  cumulPlanSize?: number | undefined;
   /** End date of the period */
-  end?: string;
+  end?: string | undefined;
   /** List of plans Ids */
-  plansIds?: CloudPlanPlanPeriodPlansIdsList;
+  plansIds?: CloudPlanPlanPeriodPlansIdsList | undefined;
   /** List of resource IDs that could be covered by this plan */
-  resourceIds?: CloudPlanPlanPeriodResourceIdsList;
+  resourceIds?: CloudPlanPlanPeriodResourceIdsList | undefined;
   /** Human readable percentage of the savings plan utilization */
-  utilization?: string;
+  utilization?: string | undefined;
 }
 /** Listing of all periods concerning this flavor saving plans : every change in usage or plans will make a new period */
 export type CloudPlanFlavorPeriodsList = Array<CloudPlanPlanPeriod>;
 /** Plan subscription for a flavor */
 export interface CloudPlanSubscription {
   /** Start date of the savings plan */
-  begin?: string;
+  begin?: string | undefined;
   /** End date of the savings plan */
-  end?: string;
+  end?: string | undefined;
   /** Id of the plan */
-  id?: string;
+  id?: string | undefined;
   /** Size of the plans */
-  size?: number;
+  size?: number | undefined;
 }
 /** List of existing plan subscriptions for the flavor */
 export type CloudPlanFlavorSubscriptionsList = Array<CloudPlanSubscription>;
 /** Consumption details by flavor */
 export interface CloudPlanFlavor {
   /** Fees associated to the plans for this flavor */
-  fees?: CloudPlanFees;
+  fees?: CloudPlanFees | undefined;
   /** The flavor for the plans */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Listing of all periods concerning this flavor saving plans : every change in usage or plans will make a new period */
-  periods?: CloudPlanFlavorPeriodsList;
+  periods?: CloudPlanFlavorPeriodsList | undefined;
   /** List of existing plan subscriptions for the flavor */
-  subscriptions?: CloudPlanFlavorSubscriptionsList;
+  subscriptions?: CloudPlanFlavorSubscriptionsList | undefined;
 }
 /** List of consumption details by flavor */
 export type CloudUsagePlanResponseFlavorsList = Array<CloudPlanFlavor>;
 /** Period */
 export interface CloudPlanPeriod {
   /** Start of the period */
-  from?: string;
+  from?: string | undefined;
   /** End of the period */
-  to?: string;
+  to?: string | undefined;
 }
 /** Usage of plans */
 export interface CloudUsagePlanResponse {
   /** List of consumption details by flavor */
-  flavors?: CloudUsagePlanResponseFlavorsList;
+  flavors?: CloudUsagePlanResponseFlavorsList | undefined;
   /** Requested period */
-  period?: CloudPlanPeriod;
+  period?: CloudPlanPeriod | undefined;
   /** Project ID of the fetched plans */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Total savings for all the flavors */
-  totalSavings?: OrderPrice;
+  totalSavings?: OrderPrice | undefined;
 }
 export interface ListCloudProjectUserRequest {
   /** Service name */
@@ -18650,7 +18737,7 @@ export interface ListCloudProjectVolumeRequest {
   /** Service name */
   serviceName: string;
   /** Volume region */
-  region?: string;
+  region?: string | undefined;
 }
 export type ListCloudProjectVolumeResponseBodyList = Array<CloudVolumeVolume>;
 export type ListCloudProjectVolumeResponse = ListCloudProjectVolumeResponseBodyList;
@@ -18658,7 +18745,7 @@ export interface ListCloudProjectVolumeSnapshotRequest {
   /** Service name */
   serviceName: string;
   /** Snapshots region */
-  region?: string;
+  region?: string | undefined;
 }
 export type ListCloudProjectVolumeSnapshotResponseBodyList = Array<CloudVolumeSnapshot>;
 export type ListCloudProjectVolumeSnapshotResponse = ListCloudProjectVolumeSnapshotResponseBodyList;
@@ -18708,23 +18795,23 @@ export interface PresignCloudProjectRegionColdArchiveRequest {
   /** Name */
   name: string;
   /** URL expiration in seconds. */
-  expire?: number;
+  expire?: number | undefined;
   /** Presigned URL method. */
-  method?: CloudStoragePresignedURLMethodEnum | (string & {});
+  method?: CloudStoragePresignedURLMethodEnum | (string & {}) | undefined;
   /** Object key. */
-  object?: string;
+  object?: string | undefined;
   /** When using PUT method, specifies the created object storage class. */
-  storageClass?: CloudStorageStorageClassEnum | (string & {});
+  storageClass?: CloudStorageStorageClassEnum | (string & {}) | undefined;
   /** Version ID of the object to download or delete when using GET or DELETE methods. */
-  versionId?: string;
+  versionId?: string | undefined;
 }
 export interface PutCloudProjectRequest {
   /** Service name */
   serviceName: string;
   /** Description of your project */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Manual quota prevent automatic quota upgrade */
-  manualQuota?: boolean;
+  manualQuota?: boolean | undefined;
 }
 export interface PutCloudProjectResponse {}
 /** App command and arguments. Pass empty list to reset */
@@ -18734,7 +18821,7 @@ export interface CloudProjectAiEnv {
   /** Name of the environment variable to set inside the AI Solutions instance */
   name: string;
   /** Value of the environment variable to set inside the AI Solutions instance */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 /** Environment variables to be patched (empty/null value to remove) */
 export type PutCloudProjectAiAppRequestEnvVarsList = Array<CloudProjectAiEnv>;
@@ -18744,27 +18831,27 @@ export interface PutCloudProjectAiAppRequest {
   /** App ID */
   appId: string;
   /** App command and arguments. Pass empty list to reset */
-  command?: PutCloudProjectAiAppRequestCommandList | null;
+  command?: PutCloudProjectAiAppRequestCommandList | null | undefined;
   /** Number of CPU resources requested (applies to CPU flavors) */
-  cpu?: number | null;
+  cpu?: number | null | undefined;
   /** Default port to access http service inside the app */
-  defaultHttpPort?: number | null;
+  defaultHttpPort?: number | null | undefined;
   /** Deployment strategy to use when updating this AI App */
-  deploymentStrategy?: CloudProjectAiAppDeploymentStrategy | null;
+  deploymentStrategy?: CloudProjectAiAppDeploymentStrategy | null | undefined;
   /** Environment variables to be patched (empty/null value to remove) */
-  envVars?: PutCloudProjectAiAppRequestEnvVarsList | null;
+  envVars?: PutCloudProjectAiAppRequestEnvVarsList | null | undefined;
   /** App instance flavor */
-  flavor?: string | null;
+  flavor?: string | null | undefined;
   /** Number of GPU resources requested (applies to GPU flavors) */
-  gpu?: number | null;
+  gpu?: number | null | undefined;
   /** GRPC Port that we want to expose in case workload HTTP & gRPC servers cannot be multiplexed to listen on the same port */
-  grpcPort?: number | null;
+  grpcPort?: number | null | undefined;
   /** App liveness probe */
-  livenessProbe?: CloudProjectAiAppProbeInput | null;
+  livenessProbe?: CloudProjectAiAppProbeInput | null | undefined;
   /** App readiness probe */
-  probe?: CloudProjectAiAppProbeInput | null;
+  probe?: CloudProjectAiAppProbeInput | null | undefined;
   /** URL of the Docker image for this AI deployment */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface PutCloudProjectAiAppImageRequest {
   /** Service name */
@@ -18776,7 +18863,7 @@ export interface PutCloudProjectAiAppImageRequest {
 }
 /** Basic model with a single message field */
 export interface CloudProjectAiGenericResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface PutCloudProjectAiAppLabelRequest {
   /** Service name */
@@ -18786,7 +18873,7 @@ export interface PutCloudProjectAiAppLabelRequest {
   /** Name of the label to update/add */
   name: string;
   /** Value of the label to update/add, is there is no value the label is deleted */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface PutCloudProjectAiAppLabelResponse {}
 export interface PutCloudProjectAiAppScalingstrategyRequest {
@@ -18795,9 +18882,9 @@ export interface PutCloudProjectAiAppScalingstrategyRequest {
   /** App ID */
   appId: string;
   /** Strategy setting a variable number of replicas, based on an average resource usage threshold (conflicts with 'fixed' property when both are not null) */
-  automatic?: CloudProjectAiAppScalingAutomaticStrategyInput | null;
+  automatic?: CloudProjectAiAppScalingAutomaticStrategyInput | null | undefined;
   /** Strategy setting a fix number of replicas (conflicts with 'automatic' property when both are not null) */
-  fixed?: CloudProjectAiAppScalingFixedStrategyInput | null;
+  fixed?: CloudProjectAiAppScalingFixedStrategyInput | null | undefined;
 }
 export interface PutCloudProjectAiAppScalingstrategyResponse {}
 export interface PutCloudProjectAiAppStartRequest {
@@ -18820,11 +18907,11 @@ export interface PutCloudProjectAiCapabilityRegionNotebookWorkspacebackupretenti
   /** Region */
   region: string;
   /** Position in the backup history from which the lifetime-based eviction can be applied to a workspace backup */
-  lifetimeEvictionThreshold?: number | null;
+  lifetimeEvictionThreshold?: number | null | undefined;
   /** Maximum number of retention days for a given notebook's workspace backups which is at or after lifetime_eviction_threshold index in history */
-  lifetimeInDays?: number | null;
+  lifetimeInDays?: number | null | undefined;
   /** The number of retained workspace backups for a given notebook */
-  retainedNumber?: number | null;
+  retainedNumber?: number | null | undefined;
 }
 export interface PutCloudProjectAiDataRegionAliasRequest {
   /** Service name */
@@ -18840,7 +18927,7 @@ export interface PutCloudProjectAiDataRegionAliasRequest {
   /** Data store owner */
   owner: CloudProjectAiDataStoreOwnerEnum | (string & {});
   /** Data store prefix */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Data store type */
   type: CloudProjectAiDataStoreTypeEnum | (string & {});
 }
@@ -18860,7 +18947,7 @@ export interface PutCloudProjectAiJobLabelRequest {
   /** Name of the label to update/add */
   name: string;
   /** Value of the label to update/add, is there is no value the label is deleted */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface PutCloudProjectAiJobLabelResponse {}
 /** Labels for the notebook */
@@ -18875,23 +18962,23 @@ export interface PutCloudProjectAiNotebookRequest {
   /** Notebook ID */
   notebookId: string;
   /** Framework version */
-  frameworkVersion?: string | null;
+  frameworkVersion?: string | null | undefined;
   /** Labels for the notebook */
-  labels?: PutCloudProjectAiNotebookRequestLabelsMap | null;
+  labels?: PutCloudProjectAiNotebookRequestLabelsMap | null | undefined;
   /** Notebook name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Quantum resources */
-  quantumResources?: CloudProjectQuantumQuantumResourcesInput | null;
+  quantumResources?: CloudProjectQuantumQuantumResourcesInput | null | undefined;
   /** Notebook resources */
-  resources?: CloudProjectAiResourcesInput | null;
+  resources?: CloudProjectAiResourcesInput | null | undefined;
   /** SSH keys authorized to access the notebook */
-  sshPublicKeys?: PutCloudProjectAiNotebookRequestSshPublicKeysList | null;
+  sshPublicKeys?: PutCloudProjectAiNotebookRequestSshPublicKeysList | null | undefined;
   /** Whether notebook is set to be restarted after timeout */
-  timeoutAutoRestart?: boolean | null;
+  timeoutAutoRestart?: boolean | null | undefined;
   /** Whether notebook api port can be accessed without any authentication token */
-  unsecureHttp?: boolean | null;
+  unsecureHttp?: boolean | null | undefined;
   /** Notebook Data linked */
-  volumes?: PutCloudProjectAiNotebookRequestVolumesList | null;
+  volumes?: PutCloudProjectAiNotebookRequestVolumesList | null | undefined;
 }
 export interface PutCloudProjectAiNotebookResponse {}
 export interface PutCloudProjectAiNotebookLabelRequest {
@@ -18902,7 +18989,7 @@ export interface PutCloudProjectAiNotebookLabelRequest {
   /** Name of the label to update/add */
   name: string;
   /** Value of the label to update/add, is there is no value the label is deleted */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface PutCloudProjectAiNotebookLabelResponse {}
 export interface PutCloudProjectAiNotebookRestartRequest {
@@ -18932,11 +19019,11 @@ export interface PutCloudProjectAiNotebookWorkspacebackupretentionpolicyRequest 
   /** Notebook ID */
   notebookId: string;
   /** Position in the backup history from which the lifetime-based eviction can be applied to a workspace backup */
-  lifetimeEvictionThreshold?: number | null;
+  lifetimeEvictionThreshold?: number | null | undefined;
   /** Maximum number of retention days for a given notebook's workspace backups which is at or after lifetime_eviction_threshold index in history */
-  lifetimeInDays?: number | null;
+  lifetimeInDays?: number | null | undefined;
   /** The number of retained workspace backups for a given notebook */
-  retainedNumber?: number | null;
+  retainedNumber?: number | null | undefined;
 }
 export interface PutCloudProjectAiRegistryRequest {
   /** Service name */
@@ -18944,11 +19031,11 @@ export interface PutCloudProjectAiRegistryRequest {
   /** Registry ID */
   registryId: string;
   /** Docker registry password */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   /** Docker registry URL */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Docker registry username */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export interface PutCloudProjectAiRegistryResponse {}
 export interface PutCloudProjectContainerRegistryRequest {
@@ -18963,9 +19050,9 @@ export interface PutCloudProjectContainerRegistryResponse {}
 /** Container registry Get IP Restrictions */
 export interface CloudContainerRegistryIPRestrictionsInput {
   /** The Description of Whitelisted IpBlock */
-  description?: string;
+  description?: string | undefined;
   /** Whitelisted IpBlock */
-  ipBlock?: string;
+  ipBlock?: string | undefined;
 }
 export type PutCloudProjectContainerRegistryIpRestrictionManagementRequestBodyList =
   Array<CloudContainerRegistryIPRestrictionsInput>;
@@ -18999,27 +19086,27 @@ export interface PutCloudProjectContainerRegistryOpenIdConnectRequest {
   /** RegistryID */
   registryID: string;
   /** The OIDC Configuration AdminGroup */
-  adminGroup?: string | null;
+  adminGroup?: string | null | undefined;
   /** The OIDC Configuration AutoOnboard */
-  autoOnboard?: boolean | null;
+  autoOnboard?: boolean | null | undefined;
   /** The OIDC Configuration ClientID */
-  clientId?: string | null;
+  clientId?: string | null | undefined;
   /** The OIDC Configuration Client Secret */
-  clientSecret?: string | Redacted.Redacted<string> | null;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
   /** The OIDC Configuration Endpoint */
-  endpoint?: string | null;
+  endpoint?: string | null | undefined;
   /** The OIDC Configuration GroupFilter */
-  groupFilter?: string | null;
+  groupFilter?: string | null | undefined;
   /** The OIDC Configuration GroupsClaim */
-  groupsClaim?: string | null;
+  groupsClaim?: string | null | undefined;
   /** The OIDC Configuration Name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The OIDC Configuration comma-separated list of Scopes */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The OIDC Configuration UserClaim */
-  userClaim?: string | null;
+  userClaim?: string | null | undefined;
   /** The OIDC Configuration VerifyCert */
-  verifyCert?: boolean | null;
+  verifyCert?: boolean | null | undefined;
 }
 export interface PutCloudProjectContainerRegistryOpenIdConnectResponse {}
 export interface PutCloudProjectContainerRegistryPlanRequest {
@@ -19046,7 +19133,7 @@ export type PutCloudProjectDatabaseCassandraRequestIpRestrictionsList =
 /** Defines the storage attributes of a service */
 export interface CloudProjectDatabaseServiceStorageInput {
   /** Service storage size */
-  size?: ComplexTypeUnitAndValueWritableLong;
+  size?: ComplexTypeUnitAndValueWritableLong | undefined;
 }
 export interface PutCloudProjectDatabaseCassandraRequest {
   /** Service name */
@@ -19054,31 +19141,31 @@ export interface PutCloudProjectDatabaseCassandraRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseCassandraRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseCassandraRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export type PutCloudProjectDatabaseCassandraAdvancedConfigurationRequestBodyMap = {
   [key: string]: string | undefined;
@@ -19104,31 +19191,31 @@ export interface PutCloudProjectDatabaseClickhouseRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseClickhouseRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseClickhouseRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Roles the user belongs to */
 export type PutCloudProjectDatabaseClickhouseUserRequestRolesList = Array<string>;
@@ -19140,7 +19227,7 @@ export interface PutCloudProjectDatabaseClickhouseUserRequest {
   /** User ID */
   userId: string;
   /** Roles the user belongs to */
-  roles?: PutCloudProjectDatabaseClickhouseUserRequestRolesList;
+  roles?: PutCloudProjectDatabaseClickhouseUserRequestRolesList | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type PutCloudProjectDatabaseGrafanaRequestIpRestrictionsList =
@@ -19151,29 +19238,29 @@ export interface PutCloudProjectDatabaseGrafanaRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseGrafanaRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseGrafanaRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Region of the cluster */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export type PutCloudProjectDatabaseGrafanaAdvancedConfigurationRequestBodyMap = {
   [key: string]: string | undefined;
@@ -19199,35 +19286,35 @@ export interface PutCloudProjectDatabaseKafkaRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseKafkaRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseKafkaRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: useNodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Defines whether the REST API is enabled on the cluster */
-  restApi?: boolean;
+  restApi?: boolean | undefined;
   /** Defines whether the schema registry is enabled on the cluster */
-  schemaRegistry?: boolean;
+  schemaRegistry?: boolean | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export type PutCloudProjectDatabaseKafkaAdvancedConfigurationRequestBodyMap = {
   [key: string]: string | undefined;
@@ -19253,31 +19340,31 @@ export interface PutCloudProjectDatabaseKafkaConnectRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseKafkaConnectRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseKafkaConnectRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export type PutCloudProjectDatabaseKafkaConnectAdvancedConfigurationRequestBodyMap = {
   [key: string]: string | undefined;
@@ -19317,31 +19404,31 @@ export interface PutCloudProjectDatabaseKafkaMirrorMakerRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseKafkaMirrorMakerRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseKafkaMirrorMakerRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** Patterns of the topics to exclude from the replication */
 export type PutCloudProjectDatabaseKafkaMirrorMakerReplicationRequestTopicExcludeListList =
@@ -19356,19 +19443,24 @@ export interface PutCloudProjectDatabaseKafkaMirrorMakerReplicationRequest {
   /** Replication ID */
   replicationId: string;
   /** Defines whether heartbeats are emitted */
-  emitHeartbeats?: boolean;
+  emitHeartbeats?: boolean | undefined;
   /** Defines whether the replication is actived */
   enabled: boolean;
   /** ReplicationPolicyClass used for the replication */
-  replicationPolicyClass?: CloudProjectDatabaseServiceReplicationPolicyClassEnum | (string & {});
+  replicationPolicyClass?:
+    | CloudProjectDatabaseServiceReplicationPolicyClassEnum
+    | (string & {})
+    | undefined;
   /** Defines whether the group offsets must be sync */
-  syncGroupOffsets?: boolean;
+  syncGroupOffsets?: boolean | undefined;
   /** Defines the interval in second between 2 sync */
-  syncInterval?: number;
+  syncInterval?: number | undefined;
   /** Patterns of the topics to exclude from the replication */
-  topicExcludeList?: PutCloudProjectDatabaseKafkaMirrorMakerReplicationRequestTopicExcludeListList;
+  topicExcludeList?:
+    | PutCloudProjectDatabaseKafkaMirrorMakerReplicationRequestTopicExcludeListList
+    | undefined;
   /** Patterns of the topics to replicate */
-  topics?: PutCloudProjectDatabaseKafkaMirrorMakerReplicationRequestTopicsList;
+  topics?: PutCloudProjectDatabaseKafkaMirrorMakerReplicationRequestTopicsList | undefined;
 }
 export interface PutCloudProjectDatabaseKafkaTopicRequest {
   /** Service name */
@@ -19378,15 +19470,15 @@ export interface PutCloudProjectDatabaseKafkaTopicRequest {
   /** Topic ID */
   topicId: string;
   /** Minimum insync replica accepted for this topic */
-  minInsyncReplicas?: number;
+  minInsyncReplicas?: number | undefined;
   /** Number of partitions for this topic */
-  partitions?: number;
+  partitions?: number | undefined;
   /** Number of replication for this topic */
-  replication?: number;
+  replication?: number | undefined;
   /** Number of bytes for the retention of the data for this topic */
-  retentionBytes?: number;
+  retentionBytes?: number | undefined;
   /** Number of hours for the retention of the data for this topic */
-  retentionHours?: number;
+  retentionHours?: number | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type PutCloudProjectDatabaseM3aggregatorRequestIpRestrictionsList =
@@ -19397,29 +19489,29 @@ export interface PutCloudProjectDatabaseM3aggregatorRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseM3aggregatorRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseM3aggregatorRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Region of the cluster */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type PutCloudProjectDatabaseM3dbRequestIpRestrictionsList =
@@ -19430,29 +19522,29 @@ export interface PutCloudProjectDatabaseM3dbRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseM3dbRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseM3dbRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Region of the cluster */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export type PutCloudProjectDatabaseM3dbAdvancedConfigurationRequestBodyMap = {
   [key: string]: string | undefined;
@@ -19472,13 +19564,13 @@ export type PutCloudProjectDatabaseM3dbAdvancedConfigurationResponse =
 /** M3db namespace retention definition */
 export interface CloudProjectDatabaseM3dbNamespaceRetentionInput {
   /** Controls how long we wait before expiring stale data */
-  blockDataExpirationDuration?: string | null;
+  blockDataExpirationDuration?: string | null | undefined;
   /** Controls how far into the future writes to the namespace will be accepted */
-  bufferFutureDuration?: string | null;
+  bufferFutureDuration?: string | null | undefined;
   /** Controls how far into the past writes to the namespace will be accepted */
-  bufferPastDuration?: string | null;
+  bufferPastDuration?: string | null | undefined;
   /** Controls the duration of time that M3DB will retain data for the namespace */
-  periodDuration?: string | null;
+  periodDuration?: string | null | undefined;
 }
 export interface PutCloudProjectDatabaseM3dbNamespaceRequest {
   /** Service name */
@@ -19488,13 +19580,13 @@ export interface PutCloudProjectDatabaseM3dbNamespaceRequest {
   /** Namespace ID */
   namespaceId: string;
   /** Resolution for an aggregated namespace */
-  resolution?: string | null;
+  resolution?: string | null | undefined;
   /** Retention configuration */
-  retention?: CloudProjectDatabaseM3dbNamespaceRetentionInput;
+  retention?: CloudProjectDatabaseM3dbNamespaceRetentionInput | undefined;
   /** Defines whether M3db will create snapshot files for this namespace */
-  snapshotEnabled?: boolean | null;
+  snapshotEnabled?: boolean | null | undefined;
   /** Defines whether M3db will include writes to this namespace in the commit log */
-  writesToCommitLogEnabled?: boolean | null;
+  writesToCommitLogEnabled?: boolean | null | undefined;
 }
 export interface PutCloudProjectDatabaseM3dbUserRequest {
   /** Service name */
@@ -19504,7 +19596,7 @@ export interface PutCloudProjectDatabaseM3dbUserRequest {
   /** User ID */
   userId: string;
   /** Group of the user */
-  group?: string;
+  group?: string | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type PutCloudProjectDatabaseMongodbRequestIpRestrictionsList =
@@ -19515,31 +19607,31 @@ export interface PutCloudProjectDatabaseMongodbRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseMongodbRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseMongodbRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export interface PutCloudProjectDatabaseMongodbNodeRequest {
   /** Service name */
@@ -19549,7 +19641,7 @@ export interface PutCloudProjectDatabaseMongodbNodeRequest {
   /** Node ID */
   nodeId: string;
   /** Role of the node */
-  role?: CloudProjectDatabaseServiceNodeRoleEnum | (string & {}) | null;
+  role?: CloudProjectDatabaseServiceNodeRoleEnum | (string & {}) | null | undefined;
 }
 /** Roles the user belongs to */
 export type PutCloudProjectDatabaseMongodbUserRequestRolesList = Array<string>;
@@ -19561,9 +19653,9 @@ export interface PutCloudProjectDatabaseMongodbUserRequest {
   /** User ID */
   userId: string;
   /** Password of the user */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Roles the user belongs to */
-  roles?: PutCloudProjectDatabaseMongodbUserRequestRolesList;
+  roles?: PutCloudProjectDatabaseMongodbUserRequestRolesList | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type PutCloudProjectDatabaseMysqlRequestIpRestrictionsList =
@@ -19574,31 +19666,31 @@ export interface PutCloudProjectDatabaseMysqlRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseMysqlRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseMysqlRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export type PutCloudProjectDatabaseMysqlAdvancedConfigurationRequestBodyMap = {
   [key: string]: string | undefined;
@@ -19624,33 +19716,33 @@ export interface PutCloudProjectDatabaseOpensearchRequest {
   /** Cluster ID */
   clusterId: string;
   /** Defines whether the acls are enabled on the cluster */
-  aclsEnabled?: boolean;
+  aclsEnabled?: boolean | undefined;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseOpensearchRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseOpensearchRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export type PutCloudProjectDatabaseOpensearchAdvancedConfigurationRequestBodyMap = {
   [key: string]: string | undefined;
@@ -19678,7 +19770,7 @@ export interface PutCloudProjectDatabaseOpensearchUserRequest {
   /** User ID */
   userId: string;
   /** Acls of the user */
-  acls?: PutCloudProjectDatabaseOpensearchUserRequestAclsList;
+  acls?: PutCloudProjectDatabaseOpensearchUserRequestAclsList | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type PutCloudProjectDatabasePostgresqlRequestIpRestrictionsList =
@@ -19689,31 +19781,31 @@ export interface PutCloudProjectDatabasePostgresqlRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabasePostgresqlRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabasePostgresqlRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export type PutCloudProjectDatabasePostgresqlAdvancedConfigurationRequestBodyMap = {
   [key: string]: string | undefined;
@@ -19738,13 +19830,13 @@ export interface PutCloudProjectDatabasePostgresqlConnectionPoolRequest {
   /** Connection pool ID */
   connectionPoolId: string;
   /** Database used for the connection pool */
-  databaseId?: string;
+  databaseId?: string | undefined;
   /** Connection mode to the connection pool */
-  mode?: CloudProjectDatabasePostgresqlConnectionpoolModeEnum | (string & {});
+  mode?: CloudProjectDatabasePostgresqlConnectionpoolModeEnum | (string & {}) | undefined;
   /** Size of the connection pool */
-  size?: number;
+  size?: number | undefined;
   /** User authorized to connect to the pool, if none all the users are allowed */
-  userId?: string | null;
+  userId?: string | null | undefined;
 }
 /** Roles the user belongs to */
 export type PutCloudProjectDatabasePostgresqlUserRequestRolesList = Array<string>;
@@ -19756,7 +19848,7 @@ export interface PutCloudProjectDatabasePostgresqlUserRequest {
   /** User ID */
   userId: string;
   /** Roles the user belongs to */
-  roles?: PutCloudProjectDatabasePostgresqlUserRequestRolesList;
+  roles?: PutCloudProjectDatabasePostgresqlUserRequestRolesList | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type PutCloudProjectDatabaseRedisRequestIpRestrictionsList =
@@ -19767,31 +19859,31 @@ export interface PutCloudProjectDatabaseRedisRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseRedisRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseRedisRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export type PutCloudProjectDatabaseRedisAdvancedConfigurationRequestBodyMap = {
   [key: string]: string | undefined;
@@ -19824,13 +19916,13 @@ export interface PutCloudProjectDatabaseRedisUserRequest {
   /** User ID */
   userId: string;
   /** Categories of the user */
-  categories?: PutCloudProjectDatabaseRedisUserRequestCategoriesList;
+  categories?: PutCloudProjectDatabaseRedisUserRequestCategoriesList | undefined;
   /** Channels of the user */
-  channels?: PutCloudProjectDatabaseRedisUserRequestChannelsList;
+  channels?: PutCloudProjectDatabaseRedisUserRequestChannelsList | undefined;
   /** Commands of the user */
-  commands?: PutCloudProjectDatabaseRedisUserRequestCommandsList;
+  commands?: PutCloudProjectDatabaseRedisUserRequestCommandsList | undefined;
   /** Keys of the user */
-  keys?: PutCloudProjectDatabaseRedisUserRequestKeysList;
+  keys?: PutCloudProjectDatabaseRedisUserRequestKeysList | undefined;
 }
 /** IP Blocks authorized to access to the cluster */
 export type PutCloudProjectDatabaseValkeyRequestIpRestrictionsList =
@@ -19841,31 +19933,31 @@ export interface PutCloudProjectDatabaseValkeyRequest {
   /** Cluster ID */
   clusterId: string;
   /** Time on which backups start every day. DEPRECATED: use backups.time */
-  backupTime?: string;
+  backupTime?: string | undefined;
   /** Information related to the backups, null if the engine does not support backups */
-  backups?: CloudProjectDatabaseServiceBackupInput | null;
+  backups?: CloudProjectDatabaseServiceBackupInput | null | undefined;
   /** Enable deletion protection */
-  deletionProtection?: boolean | null;
+  deletionProtection?: boolean | null | undefined;
   /** Description of the cluster */
-  description?: string;
+  description?: string | undefined;
   /** Disk attributes of the cluster. DEPRECATED: use storage */
-  disk?: CloudProjectDatabaseServiceDiskInput;
+  disk?: CloudProjectDatabaseServiceDiskInput | undefined;
   /** Enable Prometheus */
-  enablePrometheus?: boolean | null;
+  enablePrometheus?: boolean | null | undefined;
   /** The VM flavor used for this cluster */
-  flavor?: string;
+  flavor?: string | undefined;
   /** IP Blocks authorized to access to the cluster */
-  ipRestrictions?: PutCloudProjectDatabaseValkeyRequestIpRestrictionsList;
+  ipRestrictions?: PutCloudProjectDatabaseValkeyRequestIpRestrictionsList | undefined;
   /** Time on which maintenances can start every day */
-  maintenanceTime?: string;
+  maintenanceTime?: string | undefined;
   /** Number of nodes in the cluster. DEPRECATED: use nodes */
-  nodeNumber?: number;
+  nodeNumber?: number | undefined;
   /** Plan of the cluster */
-  plan?: string;
+  plan?: string | undefined;
   /** Storage attributes of the cluster */
-  storage?: CloudProjectDatabaseServiceStorageInput | null;
+  storage?: CloudProjectDatabaseServiceStorageInput | null | undefined;
   /** Version of the engine deployed on the cluster */
-  version?: string;
+  version?: string | undefined;
 }
 export type PutCloudProjectDatabaseValkeyAdvancedConfigurationRequestBodyMap = {
   [key: string]: string | undefined;
@@ -19898,13 +19990,13 @@ export interface PutCloudProjectDatabaseValkeyUserRequest {
   /** User ID */
   userId: string;
   /** Categories of the user */
-  categories?: PutCloudProjectDatabaseValkeyUserRequestCategoriesList;
+  categories?: PutCloudProjectDatabaseValkeyUserRequestCategoriesList | undefined;
   /** Channels of the user */
-  channels?: PutCloudProjectDatabaseValkeyUserRequestChannelsList;
+  channels?: PutCloudProjectDatabaseValkeyUserRequestChannelsList | undefined;
   /** Commands of the user */
-  commands?: PutCloudProjectDatabaseValkeyUserRequestCommandsList;
+  commands?: PutCloudProjectDatabaseValkeyUserRequestCommandsList | undefined;
   /** Keys of the user */
-  keys?: PutCloudProjectDatabaseValkeyUserRequestKeysList;
+  keys?: PutCloudProjectDatabaseValkeyUserRequestKeysList | undefined;
 }
 export interface PutCloudProjectInstanceRequest {
   /** Service name */
@@ -19921,9 +20013,9 @@ export interface PutCloudProjectKubeRequest {
   /** Kube ID */
   kubeId: string;
   /** Cluster new name */
-  name?: string;
+  name?: string | undefined;
   /** Enum values for UpdatePolicy */
-  updatePolicy?: CloudKubeUpdatePolicyEnum | (string & {});
+  updatePolicy?: CloudKubeUpdatePolicyEnum | (string & {}) | undefined;
 }
 export interface PutCloudProjectKubeResponse {}
 export interface PutCloudProjectKubeCustomizationRequest {
@@ -19932,16 +20024,16 @@ export interface PutCloudProjectKubeCustomizationRequest {
   /** Kube ID */
   kubeId: string;
   /** Kubernetes cluster api server customization */
-  apiServer?: CloudProjectKubeCustomizationAPIServer | null;
+  apiServer?: CloudProjectKubeCustomizationAPIServer | null | undefined;
   /** Kubernetes cluster cilium customization */
-  cilium?: CloudProjectKubeCustomizationCilium | null;
+  cilium?: CloudProjectKubeCustomizationCilium | null | undefined;
   /** Kubernetes cluster kube-proxy customization */
-  kubeProxy?: CloudProjectKubeCustomizationKubeProxy | null;
+  kubeProxy?: CloudProjectKubeCustomizationKubeProxy | null | undefined;
 }
 /** A generic object for response message */
 export interface CloudKubeResponseMessage {
   /** The response message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** List of ips to add to the cluster api-server restrictions (format with /subnet available) */
 export type PutCloudProjectKubeIpRestrictionsRequestIpsList = Array<string>;
@@ -19951,7 +20043,7 @@ export interface PutCloudProjectKubeIpRestrictionsRequest {
   /** Kube ID */
   kubeId: string;
   /** List of ips to add to the cluster api-server restrictions (format with /subnet available) */
-  ips?: PutCloudProjectKubeIpRestrictionsRequestIpsList;
+  ips?: PutCloudProjectKubeIpRestrictionsRequestIpsList | undefined;
 }
 export type PutCloudProjectKubeIpRestrictionsResponseBodyList = Array<string>;
 export type PutCloudProjectKubeIpRestrictionsResponse =
@@ -19966,21 +20058,21 @@ export interface PutCloudProjectKubeNodepoolRequest {
   /** Node pool ID */
   nodePoolId: string;
   /** Parameters for optional node exposition via a floating IP per node */
-  attachFloatingIps?: CloudProjectKubeNodePoolAttachFloatingIpsParams | null;
+  attachFloatingIps?: CloudProjectKubeNodePoolAttachFloatingIpsParams | null | undefined;
   /** Enable the auto-scaling on the pool */
-  autoscale?: boolean | null;
+  autoscale?: boolean | null | undefined;
   /** Autoscaling customization parameters */
-  autoscaling?: CloudProjectKubeNodePoolAutoscalingParams;
+  autoscaling?: CloudProjectKubeNodePoolAutoscalingParams | undefined;
   /** New number of nodes wanted in the nodepool */
-  desiredNodes?: number;
+  desiredNodes?: number | undefined;
   /** New maximal number of nodes wanted in the nodepool */
-  maxNodes?: number;
+  maxNodes?: number | undefined;
   /** New minimal number of nodes wanted in the nodepool */
-  minNodes?: number;
+  minNodes?: number | undefined;
   /** List of specific node IDs, openstack instance IDs or Node.Spec.providerIDs to delete during downscale */
-  nodesToRemove?: PutCloudProjectKubeNodepoolRequestNodesToRemoveList;
+  nodesToRemove?: PutCloudProjectKubeNodepoolRequestNodesToRemoveList | undefined;
   /** NodePool template to apply to each children nodes */
-  template?: CloudKubeNodePoolTemplate;
+  template?: CloudKubeNodePoolTemplate | undefined;
 }
 export interface PutCloudProjectKubeNodepoolResponse {}
 /** JWT claim to use as the user's group. If the claim is present it must be an array of strings. */
@@ -19997,23 +20089,26 @@ export interface PutCloudProjectKubeOpenIdConnectRequest {
   /** Kube ID */
   kubeId: string;
   /** Content of the certificate for the CA, in base64 format, that signed your identity provider's web certificate. Defaults to the host's root CAs. */
-  caContent?: string | null;
+  caContent?: string | null | undefined;
   /** Client ID */
-  clientId?: string;
+  clientId?: string | undefined;
   /** JWT claim to use as the user's group. If the claim is present it must be an array of strings. */
-  groupsClaim?: PutCloudProjectKubeOpenIdConnectRequestGroupsClaimList | null;
+  groupsClaim?: PutCloudProjectKubeOpenIdConnectRequestGroupsClaimList | null | undefined;
   /** Prefix prepended to group claims to prevent clashes with existing names (such as system: groups). For example, the value oidc: will create group names like oidc:engineering and oidc:infra. */
-  groupsPrefix?: string | null;
+  groupsPrefix?: string | null | undefined;
   /** Issuer URL */
-  issuerUrl?: string;
+  issuerUrl?: string | undefined;
   /** key=value pairs that describe required claims in the ID Token. If set, the claims are verified to be present in the ID Token with a matching value. */
-  requiredClaim?: PutCloudProjectKubeOpenIdConnectRequestRequiredClaimList | null;
+  requiredClaim?: PutCloudProjectKubeOpenIdConnectRequestRequiredClaimList | null | undefined;
   /** The signing algorithms accepted. Default is "RS256". */
-  signingAlgorithms?: PutCloudProjectKubeOpenIdConnectRequestSigningAlgorithmsList | null;
+  signingAlgorithms?:
+    | PutCloudProjectKubeOpenIdConnectRequestSigningAlgorithmsList
+    | null
+    | undefined;
   /** JWT claim to use as the user name. By default sub, which is expected to be a unique identifier of the end user. Admins can choose other claims, such as email or name, depending on their provider. However, claims other than email will be prefixed with the issuer URL to prevent naming clashes with other plugins. */
-  usernameClaim?: string | null;
+  usernameClaim?: string | null | undefined;
   /** Prefix prepended to username claims to prevent clashes with existing names (such as system: users). For example, the value oidc: will create usernames like oidc:jane.doe. If this field isn't set and oidcUsernameClaim is a value other than email the prefix defaults to ( Issuer URL )# where ( Issuer URL ) is the value of oidcIssuerUrl. The value - can be used to disable all prefixing. */
-  usernamePrefix?: string | null;
+  usernamePrefix?: string | null | undefined;
 }
 export interface PutCloudProjectKubeOpenIdConnectResponse {}
 export interface PutCloudProjectKubePrivateNetworkConfigurationRequest {
@@ -20022,9 +20117,9 @@ export interface PutCloudProjectKubePrivateNetworkConfigurationRequest {
   /** Kube ID */
   kubeId: string;
   /** If defined, all egress traffic will be routed towards this IP address, which should belong to the private network. Empty string means disabled. */
-  defaultVrackGateway?: string;
+  defaultVrackGateway?: string | undefined;
   /** Defines whether routing should default to using the nodes' private interface, instead of their public interface. Default is false. */
-  privateNetworkRoutingAsDefault?: boolean | null;
+  privateNetworkRoutingAsDefault?: boolean | null | undefined;
 }
 export interface PutCloudProjectKubeUpdateLoadBalancersSubnetIdRequest {
   /** Service name */
@@ -20032,7 +20127,7 @@ export interface PutCloudProjectKubeUpdateLoadBalancersSubnetIdRequest {
   /** Kube ID */
   kubeId: string;
   /** OpenStack subnet ID that the load balancers will use */
-  loadBalancersSubnetId?: string | null;
+  loadBalancersSubnetId?: string | null | undefined;
 }
 export interface PutCloudProjectKubeUpdateLoadBalancersSubnetIdResponse {}
 export interface PutCloudProjectKubeUpdatePolicyRequest {
@@ -20065,7 +20160,7 @@ export interface PutCloudProjectNetworkPrivateSubnetRequest {
   /** Set to true if you want to disable the default gateway */
   disableGateway: boolean;
   /** Gateway IP (this field is used if noGateway = false) */
-  gatewayIp?: string | null;
+  gatewayIp?: string | null | undefined;
 }
 export interface PutCloudProjectNetworkPrivateSubnetResponse {}
 export interface PutCloudProjectRegionGatewayRequest {
@@ -20088,17 +20183,17 @@ export interface PutCloudProjectRegionLoadbalancingHealthMonitorRequest {
   /** Health monitor ID */
   healthMonitorId: string;
   /** Duration between sending probes to members, in seconds */
-  delay?: number;
+  delay?: number | undefined;
   /** Monitor HTTP configuration */
-  httpConfiguration?: CloudLoadbalancingHealthMonitorHTTPConfiguration;
+  httpConfiguration?: CloudLoadbalancingHealthMonitorHTTPConfiguration | undefined;
   /** Number of successful checks before changing the operating status of the member to ONLINE */
-  maxRetries?: number;
+  maxRetries?: number | undefined;
   /** Number of allowed check failures before changing the operating status of the member to ERROR */
-  maxRetriesDown?: number;
+  maxRetriesDown?: number | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Maximum time, in seconds, that a monitor waits to connect before it times out. This value must be less than the delay value */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export interface PutCloudProjectRegionLoadbalancingL7PolicyRequest {
   /** Service name */
@@ -20110,21 +20205,21 @@ export interface PutCloudProjectRegionLoadbalancingL7PolicyRequest {
   /** The L7 policy action */
   action: CloudLoadbalancingL7PolicyActionEnum | (string & {});
   /** A human-readable description for the resource */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the listener. */
-  listenerId?: string;
+  listenerId?: string | undefined;
   /** Human-readable name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The position of this policy on the listener. Positions start at 1 */
-  position?: number;
+  position?: number | undefined;
   /** Requests matching this policy will be redirected to the specified URL or Prefix URL with the HTTP response code. Valid if action is "redirect_to" or "redirect_prefix" */
-  redirectHttpCode?: number | null;
+  redirectHttpCode?: number | null | undefined;
   /** Requests matching this policy will be redirected to the pool with this ID. Only valid if action is "redirect_to_pool" */
-  redirectPoolId?: string | null;
+  redirectPoolId?: string | null | undefined;
   /** Requests matching this policy will be redirected to this Prefix URL. Only valid if action is "redirect_prefix" */
-  redirectPrefix?: string | null;
+  redirectPrefix?: string | null | undefined;
   /** Requests matching this policy will be redirected to this URL. Only valid if action is "redirect_to_url" */
-  redirectUrl?: string | null;
+  redirectUrl?: string | null | undefined;
 }
 export interface PutCloudProjectRegionLoadbalancingL7PolicyL7RuleRequest {
   /** Service name */
@@ -20138,9 +20233,9 @@ export interface PutCloudProjectRegionLoadbalancingL7PolicyL7RuleRequest {
   /** The comparison type for the L7 rule */
   compareType: CloudLoadbalancingL7RuleCompareTypeEnum | (string & {});
   /** When true the logic of the rule is inverted. For example, with invert set to true, equal to would become not equal to */
-  invert?: boolean;
+  invert?: boolean | undefined;
   /** The key to use for the comparison. For example, the name of the cookie to evaluate */
-  key?: string;
+  key?: string | undefined;
   /** The L7 rule type */
   ruleType: CloudLoadbalancingL7RuleTypeEnum | (string & {});
   /** The value to use for the comparison. For example, the file type to compare */
@@ -20156,15 +20251,15 @@ export interface PutCloudProjectRegionLoadbalancingListenerRequest {
   /** Listener ID */
   listenerId: string;
   /** The allowed CIDRs */
-  allowedCidrs?: PutCloudProjectRegionLoadbalancingListenerRequestAllowedCidrsList;
+  allowedCidrs?: PutCloudProjectRegionLoadbalancingListenerRequestAllowedCidrsList | undefined;
   /** ID of the secret containing the certificate */
-  certificateId?: string;
+  certificateId?: string | undefined;
   /** ID of the default pool */
-  defaultPoolId?: string;
+  defaultPoolId?: string | undefined;
   /** Description of the listener */
-  description?: string;
+  description?: string | undefined;
   /** Name of the listener */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutCloudProjectRegionLoadbalancingLoadbalancerRequest {
   /** Service name */
@@ -20174,11 +20269,11 @@ export interface PutCloudProjectRegionLoadbalancingLoadbalancerRequest {
   /** Load balancer ID */
   loadBalancerId: string;
   /** Description of the loadbalancer */
-  description?: string;
+  description?: string | undefined;
   /** Loadbalancer new flavor id */
-  flavorId?: string;
+  flavorId?: string | undefined;
   /** Name of the member */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutCloudProjectRegionLoadbalancingPoolRequest {
   /** Service name */
@@ -20188,10 +20283,10 @@ export interface PutCloudProjectRegionLoadbalancingPoolRequest {
   /** Pool ID */
   poolId: string;
   /** Algorithm of the pool */
-  algorithm?: CloudLoadbalancingPoolAlgorithmEnum | (string & {}) | null;
+  algorithm?: CloudLoadbalancingPoolAlgorithmEnum | (string & {}) | null | undefined;
   /** Name of the resource */
-  name?: string | null;
-  sessionPersistence?: CloudLoadbalancingPoolSessionPersistence | null;
+  name?: string | null | undefined;
+  sessionPersistence?: CloudLoadbalancingPoolSessionPersistence | null | undefined;
 }
 export interface PutCloudProjectRegionLoadbalancingPoolMemberRequest {
   /** Service name */
@@ -20203,9 +20298,9 @@ export interface PutCloudProjectRegionLoadbalancingPoolMemberRequest {
   /** Member ID */
   memberId: string;
   /** Name of the resource */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Weight of a member determines the portion of requests or connections it services compared to the other members of the pool */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export interface PutCloudProjectRegionQuotaStorageRequest {
   /** Service name */
@@ -20224,11 +20319,11 @@ export interface PutCloudProjectRegionShareRequest {
   /** Share ID */
   shareId: string;
   /** Share description */
-  description?: string;
+  description?: string | undefined;
   /** Share name */
-  name?: string;
+  name?: string | undefined;
   /** New share size in GB */
-  newSize?: number;
+  newSize?: number | undefined;
 }
 export interface PutCloudProjectRegionVolumeRequest {
   /** Service name */
@@ -20238,19 +20333,19 @@ export interface PutCloudProjectRegionVolumeRequest {
   /** Volume ID */
   volumeId: string;
   /** New volume description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** New volume name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** New volume size */
-  size?: number | null;
+  size?: number | null | undefined;
   /** New volume type */
-  type?: CloudVolumeVolumeTypeEnum | (string & {}) | null;
+  type?: CloudVolumeVolumeTypeEnum | (string & {}) | null | undefined;
 }
 export interface PutCloudProjectServiceInfosRequest {
   /** The project id */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutCloudProjectServiceInfosResponse {}
 export interface PutCloudProjectStorageRequest {
@@ -20259,7 +20354,7 @@ export interface PutCloudProjectStorageRequest {
   /** Container ID */
   containerId: string;
   /** Container type */
-  containerType?: CloudStorageTypeEnum | (string & {}) | null;
+  containerType?: CloudStorageTypeEnum | (string & {}) | null | undefined;
 }
 export interface PutCloudProjectStorageResponse {}
 /** Roles ids */
@@ -20278,9 +20373,9 @@ export interface PutCloudProjectVolumeRequest {
   /** Volume ID */
   volumeId: string;
   /** Volume description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Volume name */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** RebootTypeEnum */
 export type CloudInstanceRebootTypeEnum = "hard" | "soft";
@@ -20307,7 +20402,7 @@ export interface ReinstallOnRegionRequest {
   /** Instance ID */
   instanceId: string;
   /** Image ID */
-  imageId?: string;
+  imageId?: string | undefined;
   /** Region of the image to reinstall */
   imageRegionName: string;
 }
@@ -20326,9 +20421,9 @@ export interface ResetCloudProjectDatabaseCassandraPrometheusCredentialsRequest 
 /** Prometheus credentials */
 export interface CloudProjectDatabaseServicePrometheusAccess {
   /** Password of the Prometheus access */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Name of the Prometheus access */
-  username?: string;
+  username?: string | undefined;
 }
 export interface ResetCloudProjectDatabaseCassandraUserCredentialsRequest {
   /** Service name */
@@ -20508,27 +20603,27 @@ export interface ResetCloudProjectKubeRequest {
   /** Kube ID */
   kubeId: string;
   /** Kubernetes cluster customization */
-  customization?: CloudProjectKubeCustomization;
+  customization?: CloudProjectKubeCustomization | undefined;
   /** IP allocation policy. This field is optional. */
-  ipAllocationPolicy?: CloudProjectKubeIpAllocationPolicy;
+  ipAllocationPolicy?: CloudProjectKubeIpAllocationPolicy | undefined;
   /** Selected mode for kube-proxy */
-  kubeProxyMode?: CloudKubeKubeProxyModeEnum | (string & {}) | null;
+  kubeProxyMode?: CloudKubeKubeProxyModeEnum | (string & {}) | null | undefined;
   /** OpenStack subnet ID that the load balancers will use. Optional, can be updated with endpoint /cloud/project/{serviceName}/kube/{kubeId}/updateLoadBalancersSubnetId, can only be set if privateNetworkId and nodesSubnetId are also set */
-  loadBalancersSubnetId?: string;
+  loadBalancersSubnetId?: string | undefined;
   /** New cluster name */
-  name?: string;
+  name?: string | undefined;
   /** OpenStack subnet ID that the cluster nodes will use. Optional, can only be set on cluster creation or reset, can only be set if privateNetworkId is also set. If unspecified, it will be selected automatically when the first node is created. */
-  nodesSubnetId?: string;
+  nodesSubnetId?: string | undefined;
   /** The private network configuration. */
-  privateNetworkConfiguration?: CloudKubePrivateNetworkConfiguration;
+  privateNetworkConfiguration?: CloudKubePrivateNetworkConfiguration | undefined;
   /** OpenStack private network ID that the cluster will use. Optional, can only be set on cluster creation or reset. If unspecified, the cluster will use the public network. */
-  privateNetworkId?: string;
+  privateNetworkId?: string | undefined;
   /** Enum values for UpdatePolicy */
-  updatePolicy?: CloudKubeUpdatePolicyEnum | (string & {});
+  updatePolicy?: CloudKubeUpdatePolicyEnum | (string & {}) | undefined;
   /** Kubernetes version to use after reset, by default it keeps the current version */
-  version?: CloudKubeVersionEnum | (string & {});
+  version?: CloudKubeVersionEnum | (string & {}) | undefined;
   /** Worker nodes reset policy, default is delete */
-  workerNodesPolicy?: CloudKubeResetWorkerNodesPolicyEnum | (string & {});
+  workerNodesPolicy?: CloudKubeResetWorkerNodesPolicyEnum | (string & {}) | undefined;
 }
 export interface ResetCloudProjectKubeResponse {}
 export interface ResetCloudProjectKubeKubeconfigRequest {
@@ -20572,7 +20667,7 @@ export interface RestartCloudProjectKubeRequest {
   /** Kube ID */
   kubeId: string;
   /** Force restarting control plane apiserver (will create a slight downtime) */
-  force?: boolean | null;
+  force?: boolean | null | undefined;
 }
 export interface RestartCloudProjectKubeResponse {}
 export interface RestoreCloudProjectDatabaseMongodbRequest {
@@ -20661,19 +20756,19 @@ export interface ShareCloudProjectRegionRequest {
   /** Region name */
   regionName: string;
   /** Availability zone for the share (required in 3AZ regions) */
-  availabilityZone?: string | null;
+  availabilityZone?: string | null | undefined;
   /** Share description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Share name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Network ID */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Share size in GB */
-  size?: number;
+  size?: number | undefined;
   /** Snapshot ID to create the share from */
-  snapshotId?: string | null;
+  snapshotId?: string | null | undefined;
   /** Subnet ID */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** Share type */
   type: CloudShareTypeEnum | (string & {});
 }
@@ -20685,18 +20780,18 @@ export interface SnapshotOnRegionRequest {
   /** Instance ID */
   instanceId: string;
   /** Name of the remote region where the distant snapshot will be created (optional) */
-  distantRegionName?: string | null;
+  distantRegionName?: string | null | undefined;
   /** Name for the snapshot that will be created in the distant region (optional) */
-  distantSnapshotName?: string | null;
+  distantSnapshotName?: string | null | undefined;
   /** Name for the snapshot that will be created in the current region */
-  snapshotName?: string;
+  snapshotName?: string | undefined;
 }
 /** Instance snapshot */
 export interface CloudInstanceSnapshot {
   /** Instance image id */
-  imageId?: string;
+  imageId?: string | undefined;
   /** Id of pending public cloud operation */
-  operationId?: string;
+  operationId?: string | undefined;
 }
 export interface StartCloudProjectInstanceRequest {
   /** Service name */
@@ -20732,19 +20827,19 @@ export interface UpdateAlertingRequest {
   /** Id */
   id: string;
   /** Delay of the alert in seconds */
-  delay?: number;
+  delay?: number | undefined;
   /** Email. DEPRECATED: use emails */
-  email?: string;
+  email?: string | undefined;
   /** Receiver of the alert */
-  emails?: UpdateAlertingRequestEmailsList;
+  emails?: UpdateAlertingRequestEmailsList | undefined;
   /** Monthly threshold */
-  monthlyThreshold?: number;
+  monthlyThreshold?: number | undefined;
   /** Name of the alert */
-  name?: string;
+  name?: string | undefined;
   /** Service of the alert */
-  service?: CloudAlertingServiceEnum | (string & {});
+  service?: CloudAlertingServiceEnum | (string & {}) | undefined;
   /** Status of the alert */
-  status?: CloudAlertingStatusEnum | (string & {});
+  status?: CloudAlertingStatusEnum | (string & {}) | undefined;
 }
 export interface UpdateAlertingResponse {}
 export interface UpdateApplicationLoadBalancerRequest {
@@ -20753,11 +20848,11 @@ export interface UpdateApplicationLoadBalancerRequest {
   /** Application load balancer ID */
   applicationLoadBalancerId: string;
   /** Description of the load balancer */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the load balancer */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Size of the load balancer */
-  size?: CloudProjectLoadbalancerSizeEnum | (string & {});
+  size?: CloudProjectLoadbalancerSizeEnum | (string & {}) | undefined;
 }
 /** Enum values for UpdateStrategy */
 export type CloudKubeUpdateStrategyEnum = "LATEST_PATCH" | "NEXT_MINOR";
@@ -20767,9 +20862,9 @@ export interface UpdateCloudProjectKubeRequest {
   /** Kube ID */
   kubeId: string;
   /** Deprecated, has no effect */
-  force?: boolean | null;
+  force?: boolean | null | undefined;
   /** The update strategy to apply on your service (next patch or minor version) */
-  strategy?: CloudKubeUpdateStrategyEnum | (string & {});
+  strategy?: CloudKubeUpdateStrategyEnum | (string & {}) | undefined;
 }
 export interface UpdateCloudProjectKubeResponse {}
 export interface UpdateCloudProjectLabRequest {
@@ -20788,7 +20883,7 @@ export interface UpdateCloudProjectRegionColdArchivePolicyRequest {
   /** User ID */
   userId: string;
   /** Container object key */
-  objectKey?: string;
+  objectKey?: string | undefined;
   /** Policy role */
   roleName: CloudStoragePolicyRoleEnum | (string & {});
 }
@@ -20812,11 +20907,11 @@ export interface UpdateLoadBalancerRequest {
   /** Load balancer ID */
   loadBalancerId: string;
   /** Description of the load balancer */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the load balancer */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Size of the load balancer */
-  size?: CloudProjectLoadbalancerSizeEnum | (string & {});
+  size?: CloudProjectLoadbalancerSizeEnum | (string & {}) | undefined;
 }
 export interface UpdateNetworkLoadBalancerRequest {
   /** Service name */
@@ -20824,11 +20919,11 @@ export interface UpdateNetworkLoadBalancerRequest {
   /** Network load balancer ID */
   networkLoadBalancerId: string;
   /** Description of the load balancer */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the load balancer */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Size of the load balancer */
-  size?: CloudProjectLoadbalancerSizeEnum | (string & {});
+  size?: CloudProjectLoadbalancerSizeEnum | (string & {}) | undefined;
 }
 export interface UpdateObjectOnContainerOnRegionRequest {
   /** Service name */
@@ -20840,9 +20935,9 @@ export interface UpdateObjectOnContainerOnRegionRequest {
   /** Key */
   key: string;
   /** Object legal hold status. */
-  legalHold?: CloudStorageObjectLegalHoldStatusEnum | (string & {}) | null;
+  legalHold?: CloudStorageObjectLegalHoldStatusEnum | (string & {}) | null | undefined;
   /** Object lock retention configuration. */
-  lock?: CloudStorageObjectRetentionConfiguration | null;
+  lock?: CloudStorageObjectRetentionConfiguration | null | undefined;
 }
 export interface UpdateObjectVersionOnContainerOnRegionRequest {
   /** Service name */
@@ -20856,9 +20951,9 @@ export interface UpdateObjectVersionOnContainerOnRegionRequest {
   /** Version ID */
   versionId: string;
   /** Object legal hold status. */
-  legalHold?: CloudStorageObjectLegalHoldStatusEnum | (string & {}) | null;
+  legalHold?: CloudStorageObjectLegalHoldStatusEnum | (string & {}) | null | undefined;
   /** Object lock retention configuration. */
-  lock?: CloudStorageObjectRetentionConfiguration | null;
+  lock?: CloudStorageObjectRetentionConfiguration | null | undefined;
 }
 /** Container tags. */
 export type UpdateStorageContainerOnRegionRequestTagsMap = { [key: string]: string | undefined };
@@ -20870,17 +20965,17 @@ export interface UpdateStorageContainerOnRegionRequest {
   /** Name */
   name: string;
   /** Encryption configuration. */
-  encryption?: CloudStorageEncryptionObject | null;
+  encryption?: CloudStorageEncryptionObject | null | undefined;
   /** Lifecycle configuration */
-  lifecycle?: CloudStorageLifecycleConfiguration | null;
+  lifecycle?: CloudStorageLifecycleConfiguration | null | undefined;
   /** Object lock configuration. */
-  objectLock?: CloudStorageLockConfiguration | null;
+  objectLock?: CloudStorageLockConfiguration | null | undefined;
   /** Replication configuration. */
-  replication?: CloudStorageReplicationObjectIn | null;
+  replication?: CloudStorageReplicationObjectIn | null | undefined;
   /** Container tags. */
-  tags?: UpdateStorageContainerOnRegionRequestTagsMap | null;
+  tags?: UpdateStorageContainerOnRegionRequestTagsMap | null | undefined;
   /** Versioning configuration. */
-  versioning?: CloudStorageVersioningObject | null;
+  versioning?: CloudStorageVersioningObject | null | undefined;
 }
 export type AbortSnapshotOnRegionError = OvhOpError;
 /** Abort an instance snapshot creation for a specific instance on a specific region for a public cloud project */

@@ -74,7 +74,7 @@ export interface OidcCustomSub {
   /** Array of unique strings. Each claim key can only contain alphanumeric characters and underscores. */
   include_claim_keys: OidcCustomSubIncludeClaimKeysList;
   /** Whether to opt in to the immutable OIDC subject claim format for the organization. When `true`, new OIDC tokens will use a stable, repository-ID-based `sub` claim instead of the name-based format. */
-  use_immutable_subject?: boolean;
+  use_immutable_subject?: boolean | undefined;
 }
 export interface ListOidcCustomPropertyInclusionsForEnterpriseRequest {
   /** The slug version of the enterprise name. */
@@ -98,13 +98,13 @@ export interface UpdateOidcCustomSubTemplateForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Array of unique strings. Each claim key can only contain alphanumeric characters and underscores. */
-  include_claim_keys?: UpdateOidcCustomSubTemplateForOrgRequestIncludeClaimKeysList;
+  include_claim_keys?: UpdateOidcCustomSubTemplateForOrgRequestIncludeClaimKeysList | undefined;
   /** Whether to opt in to the immutable OIDC subject claim format for the organization. When `true`, new OIDC tokens will use a stable, repository-ID-based `sub` claim instead of the name-based format. */
-  use_immutable_subject?: boolean;
+  use_immutable_subject?: boolean | undefined;
 }
 export type UpdateOidcCustomSubTemplateForOrgResponse = unknown;
 export type CreateOidcCustomPropertyInclusionForEnterpriseError = GithubOpError;
-/** Create an OIDC custom property inclusion for an enterprise Adds a repository custom property to be included in the OIDC token for repository actions in an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. */
+/** Create an OIDC custom property inclusion for an enterprise Adds a repository custom property to be included in the OIDC token for repository actions in an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
 export const createOidcCustomPropertyInclusionForEnterprise: API.OperationMethod<
   CreateOidcCustomPropertyInclusionForEnterpriseRequest,
   OidcCustomPropertyInclusion,
@@ -138,7 +138,7 @@ export const createOidcCustomPropertyInclusionForOrg: API.OperationMethod<
 }));
 
 export type DeleteOidcCustomPropertyInclusionForEnterpriseError = GithubOpError;
-/** Delete an OIDC custom property inclusion for an enterprise Removes a repository custom property from being included in the OIDC token for repository actions in an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. */
+/** Delete an OIDC custom property inclusion for an enterprise Removes a repository custom property from being included in the OIDC token for repository actions in an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
 export const deleteOidcCustomPropertyInclusionForEnterprise: API.OperationMethod<
   DeleteOidcCustomPropertyInclusionForEnterpriseRequest,
   DeleteOidcCustomPropertyInclusionForEnterpriseResponse,
@@ -193,7 +193,7 @@ export const getOidcCustomSubTemplateForOrg: API.OperationMethod<
 }));
 
 export type ListOidcCustomPropertyInclusionsForEnterpriseError = GithubOpError;
-/** List OIDC custom property inclusions for an enterprise Lists the repository custom properties that are included in the OIDC token for repository actions in an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. */
+/** List OIDC custom property inclusions for an enterprise Lists the repository custom properties that are included in the OIDC token for repository actions in an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
 export const listOidcCustomPropertyInclusionsForEnterprise: API.OperationMethod<
   ListOidcCustomPropertyInclusionsForEnterpriseRequest,
   ListOidcCustomPropertyInclusionsForEnterpriseResponse,

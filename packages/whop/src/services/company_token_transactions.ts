@@ -68,11 +68,11 @@ export interface CreateCompanyTokenTransactionRequestBodyCase0 {
   /** The positive number of tokens to transact. For example, 100.0 for 100 tokens. */
   amount: number;
   /** A human-readable description of why the transaction was created. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The unique identifier of the user receiving the tokens. Required when the transaction type is 'transfer'. */
   destination_user_id: string;
   /** A unique key to prevent duplicate transactions. Use a UUID or similar unique string. */
-  idempotency_key?: string | null;
+  idempotency_key?: string | null | undefined;
   transaction_type: string;
   /** The unique identifier of the user whose token balance will be affected, starting with 'user_'. */
   user_id: string;
@@ -84,9 +84,9 @@ export interface CreateCompanyTokenTransactionRequestBodyCase1 {
   /** The positive number of tokens to transact. For example, 100.0 for 100 tokens. */
   amount: number;
   /** A human-readable description of why the transaction was created. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** A unique key to prevent duplicate transactions. Use a UUID or similar unique string. */
-  idempotency_key?: string | null;
+  idempotency_key?: string | null | undefined;
   transaction_type: string;
   /** The unique identifier of the user whose token balance will be affected, starting with 'user_'. */
   user_id: string;
@@ -155,12 +155,12 @@ export interface GetCompanyTokenTransactionRequest {
   id: string;
 }
 export interface ListCompanyTokenTransactionRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  user_id?: string;
-  transaction_type?: CompanyTokenTransactionTypes | (string & {});
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  user_id?: string | undefined;
+  transaction_type?: CompanyTokenTransactionTypes | (string & {}) | undefined;
   account_id: string;
 }
 /** The company whose token balance this transaction affects. */
