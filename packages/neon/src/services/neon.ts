@@ -81,20 +81,24 @@ export interface AcceptProjectTransferRequestRequest {
   org_id?: string | undefined;
 }
 export interface AcceptProjectTransferRequestResponse {}
-export type NeonAuthOauthProviderId = "google" | "github" | "microsoft" | "vercel";
+export type NeonAuthOauthProviderId = "google" | "github" | "microsoft" | "vercel" | "apple";
 export interface AddBranchNeonAuthOauthProviderRequest {
   /** The Neon project ID */
   project_id: string;
   /** The Neon branch ID */
   branch_id: string;
-  /** OAuth provider to configure for Neon Auth. Known values: `google`, `github`, `microsoft`, `vercel`. */
+  /** OAuth provider to configure for Neon Auth. Known values: `google`, `github`, `microsoft`, `vercel`, `apple`. `apple` requires custom credentials: set `client_id` to the Services ID, `client_secret` to the contents of the `.p8` private key, and supply `apple_team_id` and `apple_key_id`. */
   id: NeonAuthOauthProviderId | (string & {});
   /** The client ID issued by the OAuth provider for your application. Used to identify the application during the OAuth flow. */
   client_id?: string | undefined;
-  /** OAuth client secret for the provider. */
+  /** OAuth client secret for the provider. For `apple`, the contents of the Sign in with Apple `.p8` private key. For `microsoft`, the client secret value from Microsoft Entra ID. */
   client_secret?: string | Redacted.Redacted<string> | undefined;
   /** Tenant ID for the Microsoft OAuth provider. Only relevant when the OAuth provider is Microsoft; omit or leave blank for other providers. */
   microsoft_tenant_id?: string | undefined;
+  /** Apple Developer Team ID. Only relevant when the OAuth provider is Apple; omit for other providers. */
+  apple_team_id?: string | undefined;
+  /** Key ID of the Sign in with Apple private key supplied in `client_secret`. Only relevant when the OAuth provider is Apple; omit for other providers. */
+  apple_key_id?: string | undefined;
 }
 export type NeonAuthOauthProviderType = "standard" | "shared";
 export interface NeonAuthOauthProvider {
@@ -104,8 +108,14 @@ export interface NeonAuthOauthProvider {
   type: NeonAuthOauthProviderType;
   /** Public identifier for the OAuth application, issued by the provider when the application is registered. */
   client_id?: string | undefined;
-  /** OAuth client secret for the provider. */
+  /** Masked OAuth client secret for the provider. For `apple`, a masked fingerprint of the Sign in with Apple `.p8` private key; the key itself is never returned. */
   client_secret?: string | Redacted.Redacted<string> | undefined;
+  /** Tenant ID of the Microsoft OAuth provider. Present only for the Microsoft OAuth provider when a tenant is configured. */
+  microsoft_tenant_id?: string | undefined;
+  /** Apple Developer Team ID. Present only for the Apple OAuth provider. */
+  apple_team_id?: string | undefined;
+  /** Key ID of the Sign in with Apple private key. Present only for the Apple OAuth provider. */
+  apple_key_id?: string | undefined;
 }
 /** Authentication provider integrated with this Neon Auth configuration. `better_auth` integrates with Better Auth (the current, recommended provider). `stack` integrates with Stack Auth (deprecated). `mock` is a simulated provider for local development and testing only. */
 export type NeonAuthSupportedAuthProvider = "mock" | "stack" | "better_auth";
@@ -269,6 +279,14 @@ export interface CountProjectBranchesResponse {
   /** Total number of branches in the project. */
   count: number;
 }
+export interface CountProjectsRequest {
+  /** Count projects in the organization with this `org_id`. */
+  org_id?: string | undefined;
+}
+export interface ProjectsCountResponse {
+  /** The total number of projects matching the query criteria. */
+  count: number;
+}
 export interface CreateApiKeyRequest {
   /** A user-specified API key name. This value is required when creating an API key. */
   key_name: string;
@@ -369,6 +387,50 @@ export interface NeonAuthCreateIntegrationResponse {
   table_name: string;
   /** Base URL of the Neon Auth service for this integration. Set as the NEON_AUTH_BASE_URL environment variable in your application. */
   base_url?: string | undefined;
+}
+/** Redirect URIs the client may use. Must be https, or http on loopback hosts when localhost is allowed. */
+export type CreateNeonAuthOAuthClientRequestRedirectUrisList = Array<string>;
+/** Confidential clients authenticate with a client secret. Public clients have no secret. */
+export type NeonAuthOAuthClientType = "confidential" | "public";
+/** Identifiers of the protected resources to link the client to. Each must be configured on the OAuth provider plugin. */
+export type CreateNeonAuthOAuthClientRequestResourcesList = Array<string>;
+export interface CreateNeonAuthOAuthClientRequest {
+  /** The Neon project ID */
+  project_id: string;
+  /** The Neon branch ID */
+  branch_id: string;
+  /** Display name of the client. */
+  name: string;
+  /** Redirect URIs the client may use. Must be https, or http on loopback hosts when localhost is allowed. */
+  redirect_uris: CreateNeonAuthOAuthClientRequestRedirectUrisList;
+  type: NeonAuthOAuthClientType | (string & {});
+  /** Identifiers of the protected resources to link the client to. Each must be configured on the OAuth provider plugin. */
+  resources: CreateNeonAuthOAuthClientRequestResourcesList;
+  /** Whether to skip the consent prompt for this client. */
+  skip_consent?: boolean | undefined;
+}
+/** Redirect URIs the client may use. */
+export type CreateNeonAuthOAuthClientResponseRedirectUrisList = Array<string>;
+/** Identifiers of the protected resources the client is linked to. */
+export type CreateNeonAuthOAuthClientResponseResourcesList = Array<string>;
+export interface CreateNeonAuthOAuthClientResponse {
+  /** The OAuth client ID. */
+  client_id: string;
+  /** Display name of the client. */
+  name: string;
+  type: NeonAuthOAuthClientType;
+  /** Redirect URIs the client may use. */
+  redirect_uris: CreateNeonAuthOAuthClientResponseRedirectUrisList;
+  /** Identifiers of the protected resources the client is linked to. */
+  resources: CreateNeonAuthOAuthClientResponseResourcesList;
+  /** Whether users are not asked for consent when authorizing this client. */
+  skip_consent: boolean;
+  /** Whether the client is disabled. */
+  disabled: boolean;
+  /** When the client was created. */
+  created_at?: string | undefined;
+  /** The client secret. Returned only for confidential clients and only in this response. */
+  client_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateNeonAuthProviderSDKKeysRequest {
   /** The Neon project ID. Returned as `id` from `GET /projects`. */
@@ -491,6 +553,12 @@ export interface ProjectSettingsData {
   hipaa?: boolean | undefined;
   preload_libraries?: PreloadLibraries | undefined;
 }
+/** The browser origins allowed to connect, each `http` or `https` with a host and optional port and no path. An empty list, or `*` alone, allows any origin. Omitted keeps the current or inherited value. */
+export type RealtimeOptionsAllowedOriginsList = Array<string>;
+export interface RealtimeOptions {
+  /** The browser origins allowed to connect, each `http` or `https` with a host and optional port and no path. An empty list, or `*` alone, allows any origin. Omitted keeps the current or inherited value. */
+  allowed_origins?: RealtimeOptionsAllowedOriginsList | undefined;
+}
 /** A free-form map of string key-value pairs for attaching metadata to a resource (for example, a git commit reference). Maximum 50 entries. */
 export type AnnotationValueData = { [key: string]: string | undefined };
 /** Configuration for the initial branch created with the project. */
@@ -526,6 +594,8 @@ export interface CreateProjectRequestProject {
   settings?: ProjectSettingsData | undefined;
   /** The project name. If not specified, the name will be identical to the generated project ID */
   name?: string | undefined;
+  /** Enable Realtime for the default branch with these options. */
+  realtime?: RealtimeOptions | undefined;
   /** Configuration for the initial branch created with the project. */
   branch?: CreateProjectRequestProjectBranch | undefined;
   /** Deprecated. Use `default_endpoint_settings.autoscaling_limit_min_cu` instead. The minimum number of Compute Units. The minimum value is `0.25`. See [Compute size and Autoscaling configuration](https://neon.com/docs/manage/endpoints#compute-size-and-autoscaling-configuration) for more information. */
@@ -557,6 +627,7 @@ export type BillingSubscriptionType =
   | "aws_marketplace"
   | "free_v2"
   | "free_v3"
+  | "build"
   | "launch"
   | "launch_v3"
   | "scale"
@@ -577,13 +648,13 @@ export type ProjectPermissionLevel = "VIEWER" | "EDITOR" | "ADMIN";
 export interface Project {
   /** Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. Bytes-Hour. Project consumed that much Postgres storage hourly during the billing period. The value has some lag. The value is reset at the beginning of each billing period. */
   data_storage_bytes_hour: number;
-  /** Bytes. Egress traffic from the Neon cloud to the client for given project over the billing period. Includes deleted endpoints. The value has some lag. The value is reset at the beginning of each billing period. */
+  /** Bytes. Egress traffic from the Neon cloud to the client for given project over the billing period. Includes deleted endpoints. The value has some lag. The value is reset at the beginning of each billing period. Not intended for billing or metering. For billing, use `/consumption_history/v2/projects`. */
   data_transfer_bytes: number;
-  /** Bytes. Amount of WAL that travelled through Postgres storage for given project across all branches. The value has some lag. The value is reset at the beginning of each billing period. */
+  /** Bytes. Amount of WAL that travelled through Postgres storage for given project across all branches. The value has some lag. The value is reset at the beginning of each billing period. Not intended for billing or metering. For billing, use `/consumption_history/v2/projects`. */
   written_data_bytes: number;
-  /** Seconds. The number of CPU seconds used by the project's compute endpoints, including compute endpoints that have been deleted. The value has some lag. The value is reset at the beginning of each billing period. Examples: 1. An endpoint that uses 1 CPU for 1 second is equal to `compute_time=1`. 2. An endpoint that uses 2 CPUs simultaneously for 1 second is equal to `compute_time=2`. */
+  /** Seconds. The number of CPU seconds used by the project's compute endpoints, including compute endpoints that have been deleted. The value has some lag. The value is reset at the beginning of each billing period. Examples: 1. An endpoint that uses 1 CPU for 1 second is equal to `compute_time=1`. 2. An endpoint that uses 2 CPUs simultaneously for 1 second is equal to `compute_time=2`. Not intended for billing or metering. For billing, use `/consumption_history/v2/projects`. */
   compute_time_seconds: number;
-  /** Seconds. Control plane observed endpoints of this project being active this amount of wall-clock time. The value has some lag. The value is reset at the beginning of each billing period. */
+  /** Seconds. Control plane observed endpoints of this project being active this amount of wall-clock time. The value has some lag. The value is reset at the beginning of each billing period. Not intended for billing or metering. For billing, use `/consumption_history/v2/projects`. */
   active_time_seconds: number;
   /** Deprecated. Use `compute_time_seconds` instead. */
   cpu_used_sec: number;
@@ -619,7 +690,7 @@ export interface Project {
   created_at: string;
   /** A timestamp indicating when the project was last updated */
   updated_at: string;
-  /** The current space occupied by the project in Postgres storage, in bytes. Synthetic Postgres storage size combines the logical data size and Write-Ahead Log (WAL) size for all branches in a project. */
+  /** Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. The current space occupied by the project in Postgres storage, in bytes. Synthetic Postgres storage size combines the logical data size and Write-Ahead Log (WAL) size for all branches in a project. */
   synthetic_storage_size?: number | undefined;
   /** A date-time indicating when Neon Cloud started measuring consumption for current consumption period. */
   consumption_period_start: string;
@@ -670,7 +741,7 @@ export interface Role {
   password?: string | Redacted.Redacted<string> | undefined;
   /** Whether or not the role is system-protected */
   protected?: boolean | undefined;
-  /** Authentication method configured for this role: `password`, `oauth`, or `no_login`. */
+  /** Authentication method configured for this role: `password`, `oauth`, `oidc`, or `no_login`. */
   authentication_method?: string | undefined;
   /** A timestamp indicating when the role was created */
   created_at: string;
@@ -752,13 +823,13 @@ export interface Branch {
   protected: boolean;
   /** Deprecated. Use `compute_time_seconds` instead. CPU seconds used by all of the branch's compute endpoints, including deleted ones. This value is reset at the beginning of each billing period. */
   cpu_used_sec: number;
-  /** Total Postgres compute time consumed by this branch during the current billing period, in CU-seconds (weighted by compute size). Divide by 3600 for CU-hours. */
+  /** Total Postgres compute time consumed by this branch during the current billing period, in CU-seconds (weighted by compute size). Divide by 3600 for CU-hours. Not intended for billing or metering. For billing, use `/consumption_history/v2/branches`. */
   compute_time_seconds: number;
-  /** Total time this branch's compute has been active during the current billing period, in seconds (not weighted by compute size). Distinct from `compute_time_seconds`, which is CU-weighted. */
+  /** Total time this branch's compute has been active during the current billing period, in seconds (not weighted by compute size). Distinct from `compute_time_seconds`, which is CU-weighted. Not intended for billing or metering. For billing, use `/consumption_history/v2/branches`. */
   active_time_seconds: number;
-  /** Data written by this branch during the current billing period, in bytes. */
+  /** Data written by this branch during the current billing period, in bytes. Not intended for billing or metering. For billing, use `/consumption_history/v2/branches`. */
   written_data_bytes: number;
-  /** Total data transferred out of the branch, in bytes. Used as a consumption metric. */
+  /** Total data transferred out of the branch, in bytes. Used as a consumption metric. Not intended for billing or metering. For billing, use `/consumption_history/v2/branches`. */
   data_transfer_bytes: number;
   /** A timestamp indicating when the branch was created */
   created_at: string;
@@ -891,6 +962,8 @@ export interface CreateProjectBranchRequestBranch {
   parent_timestamp?: string | undefined;
   /** Whether the branch is protected. Protected branches (and their computes) cannot be deleted, archived, or reset, and block deletion of the project. Can be gated by `protected_branches_only` in the IP allowlist. Paid plans only. */
   protected?: boolean | undefined;
+  /** Enable Realtime for the branch with these options. A child of a Realtime branch is enabled even when this is omitted. */
+  realtime?: RealtimeOptions | undefined;
   /** Whether to create the branch in the archived state. When omitted, the branch is created as a normal (non-archived) branch. */
   archived?: boolean | undefined;
   /** Source of initialization for the branch. `parent-data` copies schema and data from the parent branch. `parent-schema` copies schema only from the parent branch. `schema-only` creates a new root branch containing schema only, using `parent_id` as the source; optionally, `parent_lsn` or `parent_timestamp` can narrow the source point. `import` initializes the branch from an external import. */
@@ -987,7 +1060,7 @@ export interface CreateProjectBranchAnonymizedResponse {
   /** Connection URIs for the compute endpoint, including credentials. */
   connection_uris?: CreateProjectBranchAnonymizedResponseConnectionUrisList | undefined;
 }
-/** Access level for the bucket. Defaults to `private`. Set to `public_read` to allow anonymous `GetObject`/`HeadObject` on objects in this bucket. */
+/** Access level for the bucket. Defaults to `private`. Set to `public_read` to allow anonymous `GetObject`/`HeadObject` on objects in this bucket. For organizations on the per-project role model, creating a `public_read` bucket requires the project Admin role or an organization API key. */
 export type CreateProjectBranchBucketRequestAccessLevel = "private" | "public_read";
 export interface CreateProjectBranchBucketRequest {
   /** The Neon project ID */
@@ -996,7 +1069,7 @@ export interface CreateProjectBranchBucketRequest {
   branch_id: string;
   /** The bucket name. */
   name: string;
-  /** Access level for the bucket. Defaults to `private`. Set to `public_read` to allow anonymous `GetObject`/`HeadObject` on objects in this bucket. */
+  /** Access level for the bucket. Defaults to `private`. Set to `public_read` to allow anonymous `GetObject`/`HeadObject` on objects in this bucket. For organizations on the per-project role model, creating a `public_read` bucket requires the project Admin role or an organization API key. */
   access_level?: CreateProjectBranchBucketRequestAccessLevel | (string & {}) | undefined;
 }
 /** Controls anonymous access to objects in the bucket. - `private`: all reads and writes require authenticated requests (default). - `public_read`: anonymous `GetObject`/`HeadObject` requests succeed; listing, writes, and deletes still require authenticated requests. */
@@ -1094,7 +1167,7 @@ export interface CreateProjectBranchFunctionDeploymentRequest {
   branch_id: string;
   /** The function slug */
   slug: string;
-  /** Optional ZIP archive of the function source code. Omit to reuse the latest version's bundle (a config-only change). Required for the first deployment of a function. */
+  /** Optional ZIP archive of the function source code. Omit to reuse the latest version's bundle (a config-only change). Required for the first deployment of a function. Place `index.mjs` or `index.js` at the archive root, without a containing directory. If both exist, `index.mjs` is loaded. Export a request handler function or an object with a `fetch` method. Use `export default` for ESM or `module.exports` for CommonJS; prefer `index.mjs` for ESM. Upload JavaScript ready to run on Node.js 24. Compile TypeScript before uploading. Bundle dependencies into the entry module, or include the required modules and assets in the archive with their relative paths preserved (including `node_modules` for external packages). Node.js built-in modules do not need to be bundled. The API does not transpile, bundle, or install dependencies. The ZIP is limited to 32 MiB compressed and 128 MiB extracted, with at most 32,768 entries and 64 MiB per file. Bundle large dependency trees to keep the archive small. ZIPs larger than 32 MiB are rejected with HTTP 413 before creating a deployment. The extracted-size, entry-count, and per-file limits are enforced during the asynchronous build; an accepted upload that exceeds them fails the build. For example, a self-contained ESM bundle needs only `index.mjs` at the ZIP root. The Neon CLI bundles source into this layout by default; `neon function deploy --no-bundle` packages a prebuilt directory or an entry file named `index.mjs` or `index.js`. */
   zip?: Blob | Uint8Array | ArrayBuffer | undefined;
   runtime?: CreateProjectBranchFunctionDeploymentRequestRuntime | (string & {}) | undefined;
   /** Optional JSON object (a string-to-string map) of environment variables for the deployment, e.g. {"KEY":"VALUE"}. Carried as a JSON-encoded string because multipart form data does not support typed object parts. Values are write-only: they are encrypted at rest, and responses carry only the variable names (the `environment` array), never the values. */
@@ -1341,7 +1414,8 @@ export type DeleteBranchNeonAuthOauthProviderRequestOauthProviderId =
   | "google"
   | "github"
   | "microsoft"
-  | "vercel";
+  | "vercel"
+  | "apple";
 export interface DeleteBranchNeonAuthOauthProviderRequest {
   /** The Neon project ID */
   project_id: string;
@@ -1377,6 +1451,15 @@ export interface DeleteBranchNeonAuthUserRequest {
   auth_user_id: string;
 }
 export interface DeleteBranchNeonAuthUserResponse {}
+export interface DeleteNeonAuthOAuthClientRequest {
+  /** The Neon project ID */
+  project_id: string;
+  /** The Neon branch ID */
+  branch_id: string;
+  /** The OAuth client ID */
+  client_id: string;
+}
+export interface DeleteNeonAuthOAuthClientResponse {}
 export interface DeleteOrganizationSpendingLimitRequest {
   /** The Neon organization ID */
   org_id: string;
@@ -1552,6 +1635,24 @@ export interface DisableNeonAuthRequest {
   delete_data?: boolean | undefined;
 }
 export interface DisableNeonAuthResponse {}
+export interface DisableProjectBranchRealtimeRequest {
+  /** The project ID */
+  project_id: string;
+  /** The branch ID */
+  branch_id: string;
+}
+export interface DisableProjectBranchRealtimeResponse {}
+/** The browser origins allowed to connect, each `http` or `https` with a host and optional port and no path. An empty list, or `*` alone, allows any origin. Omitted keeps the current or inherited value. */
+export type EnableProjectBranchRealtimeRequestAllowedOriginsList = Array<string>;
+export interface EnableProjectBranchRealtimeRequest {
+  /** The project ID */
+  project_id: string;
+  /** The branch ID */
+  branch_id: string;
+  /** The browser origins allowed to connect, each `http` or `https` with a host and optional port and no path. An empty list, or `*` alone, allows any origin. Omitted keeps the current or inherited value. */
+  allowed_origins?: EnableProjectBranchRealtimeRequestAllowedOriginsList | undefined;
+}
+export interface EnableProjectBranchRealtimeResponse {}
 export interface FinalizeRestoreBranchRequest {
   /** The Neon project ID */
   project_id: string;
@@ -1697,7 +1798,7 @@ export interface GetConsumptionHistoryPerBranchV2Request {
   granularity: ConsumptionHistoryGranularity | (string & {});
   /** Organization ID. Metrics are returned for projects in this organization. */
   org_id: string;
-  /** Required. List the metrics to return. Only these values are supported: - `compute_unit_seconds` - `root_branch_bytes_month` - `child_branch_bytes_month` - `instant_restore_bytes_month` - `public_network_transfer_bytes` - `private_network_transfer_bytes` Not supported on this endpoint: `extra_branches_month`, `snapshot_storage_bytes_month`. Use `GET /consumption_history/v2/projects` for those. Pass multiple values as repeated query parameters or a comma-separated list: - `metrics=compute_unit_seconds&metrics=public_network_transfer_bytes` - `metrics=compute_unit_seconds,public_network_transfer_bytes` */
+  /** Required. List the metrics to return. Only these values are supported: - `compute_unit_seconds` - `root_branch_bytes_month` - `child_branch_bytes_month` - `instant_restore_bytes_month` - `public_network_transfer_bytes` - `private_network_transfer_bytes` - `functions_active_capacity_microseconds` - `functions_waiting_capacity_microseconds` - `functions_invocations` - `functions_egress_bytes` Not supported on this endpoint: `extra_branches_month`, `snapshot_storage_bytes_month`. Use `GET /consumption_history/v2/projects` for those. Pass multiple values as repeated query parameters or a comma-separated list: - `metrics=compute_unit_seconds&metrics=public_network_transfer_bytes` - `metrics=compute_unit_seconds,public_network_transfer_bytes` */
   metrics: ConsumptionHistoryQueryMetrics;
 }
 export interface ConsumptionMetricValue {
@@ -1840,7 +1941,7 @@ export interface GetConsumptionHistoryPerProjectV2Request {
   granularity: ConsumptionHistoryGranularity | (string & {});
   /** Organization ID. Metrics are returned for projects in this organization. */
   org_id: string;
-  /** Required. List the metrics to return. Supported values: - `compute_unit_seconds` - `root_branch_bytes_month` - `child_branch_bytes_month` - `instant_restore_bytes_month` - `public_network_transfer_bytes` - `private_network_transfer_bytes` - `extra_branches_month` - `snapshot_storage_bytes_month` Pass multiple values as repeated query parameters or a comma-separated list: - `metrics=compute_unit_seconds&metrics=extra_branches_month` - `metrics=compute_unit_seconds,extra_branches_month` */
+  /** Required. List the metrics to return. Supported values: - `compute_unit_seconds` - `root_branch_bytes_month` - `child_branch_bytes_month` - `instant_restore_bytes_month` - `public_network_transfer_bytes` - `private_network_transfer_bytes` - `extra_branches_month` - `snapshot_storage_bytes_month` - `functions_active_capacity_microseconds` - `functions_waiting_capacity_microseconds` - `functions_invocations` - `functions_egress_bytes` Pass multiple values as repeated query parameters or a comma-separated list: - `metrics=compute_unit_seconds&metrics=extra_branches_month` - `metrics=compute_unit_seconds,extra_branches_month` */
   metrics: ConsumptionHistoryQueryMetrics;
 }
 /** Consumption periods recorded for this project. */
@@ -2102,6 +2203,8 @@ export interface NeonAuthEmailAndPasswordConfig {
   send_verification_email_on_sign_in: boolean;
   /** Whether to disable new user sign ups */
   disable_sign_up: boolean;
+  /** Whether all of a user's sessions are revoked when their password is reset */
+  revoke_sessions_on_password_reset: boolean;
 }
 export interface GetNeonAuthEmailProviderRequest {
   /** The Neon project ID */
@@ -2139,6 +2242,67 @@ export interface SharedEmailServer {
 }
 export type NeonAuthEmailServerConfigResponse = StandardEmailServerResponse | SharedEmailServer;
 export type GetNeonAuthEmailProviderResponse = NeonAuthEmailServerConfigResponse;
+export interface GetNeonAuthOAuthClientRequest {
+  /** The Neon project ID */
+  project_id: string;
+  /** The Neon branch ID */
+  branch_id: string;
+  /** The OAuth client ID */
+  client_id: string;
+}
+/** Redirect URIs the client may use. */
+export type NeonAuthOAuthClientRedirectUrisList = Array<string>;
+/** Identifiers of the protected resources the client is linked to. */
+export type NeonAuthOAuthClientResourcesList = Array<string>;
+export interface NeonAuthOAuthClient {
+  /** The OAuth client ID. */
+  client_id: string;
+  /** Display name of the client. */
+  name: string;
+  type: NeonAuthOAuthClientType;
+  /** Redirect URIs the client may use. */
+  redirect_uris: NeonAuthOAuthClientRedirectUrisList;
+  /** Identifiers of the protected resources the client is linked to. */
+  resources: NeonAuthOAuthClientResourcesList;
+  /** Whether users are not asked for consent when authorizing this client. */
+  skip_consent: boolean;
+  /** Whether the client is disabled. */
+  disabled: boolean;
+  /** When the client was created. */
+  created_at?: string | undefined;
+}
+export interface GetNeonAuthOAuthProviderPluginRequest {
+  /** The Neon project ID */
+  project_id: string;
+  /** The Neon branch ID */
+  branch_id: string;
+}
+export interface NeonAuthOAuthProviderMcp {
+  /** The MCP server URL that MCP clients (Client ID Metadata Document and dynamically registered) are linked to. Required for either to be accepted. */
+  resource?: string | undefined;
+  /** Legacy: whether MCP clients may register themselves via dynamic client registration (RFC 7591). Deprecated in favor of Client ID Metadata Documents (CIMD), which are controlled by `client_id_metadata_documents`. Defaults to false, and takes effect only when an MCP resource is configured; reads report false otherwise. When false, only CIMD clients and clients created through the OAuth clients API can be used, and they can still be linked to the MCP resource. */
+  dynamic_registration?: boolean | undefined;
+  /** Whether MCP clients may identify themselves with an https Client ID Metadata Document (CIMD) URL. Recommended over dynamic registration. When false, new CIMD clients are rejected and existing CIMD clients fail closed. */
+  client_id_metadata_documents?: boolean | undefined;
+}
+export interface NeonAuthOAuthProviderResource {
+  /** Absolute URL identifying a protected resource. Issued access tokens carry it as their audience. */
+  identifier: string;
+}
+/** Protected resources that clients can be linked to. */
+export type NeonAuthOAuthProviderConfigResourcesList = Array<NeonAuthOAuthProviderResource>;
+export interface NeonAuthOAuthProviderConfig {
+  /** Whether the OAuth provider plugin is enabled. */
+  enabled: boolean;
+  /** URL of the page that authorization requests redirect to for sign-in. */
+  login_page?: string | undefined;
+  /** URL of the page that authorization requests redirect to for consent. */
+  consent_page?: string | undefined;
+  /** MCP resource configuration. */
+  mcp?: NeonAuthOAuthProviderMcp | undefined;
+  /** Protected resources that clients can be linked to. */
+  resources?: NeonAuthOAuthProviderConfigResourcesList | undefined;
+}
 export interface GetNeonAuthPhoneNumberPluginRequest {
   /** The Neon project ID */
   project_id: string;
@@ -2181,6 +2345,10 @@ export interface NeonAuthMagicLinkConfig {
 }
 /** OAuth provider configurations enabled for this auth setup. */
 export type NeonAuthPluginConfigsOauthProvidersList = Array<NeonAuthOauthProvider>;
+export interface NeonAuthLogsExportConfig {
+  /** Whether Neon Auth events are exported to Neon Platform logs. */
+  enabled: boolean;
+}
 /** Aggregated plugin configurations for Neon Auth */
 export interface NeonAuthPluginConfigs {
   /** Configuration for the Neon Auth organization plugin, which enables user organizations within the authentication system. This is distinct from a Neon platform organization. */
@@ -2189,6 +2357,8 @@ export interface NeonAuthPluginConfigs {
   magic_link?: NeonAuthMagicLinkConfig | undefined;
   /** Configuration for the phone number authentication plugin. */
   phone_number?: NeonAuthPhoneNumberConfig | undefined;
+  /** Configuration for the OAuth provider plugin, which lets Neon Auth act as an OAuth authorization server for your own clients. */
+  oauth_provider?: NeonAuthOAuthProviderConfig | undefined;
   /** Email server configuration used to send authentication emails. */
   email_provider?: NeonAuthEmailServerConfigResponse | undefined;
   /** Configuration for email and password authentication. */
@@ -2197,6 +2367,8 @@ export interface NeonAuthPluginConfigs {
   oauth_providers?: NeonAuthPluginConfigsOauthProvidersList | undefined;
   /** Permits authentication requests from localhost origins when true. Intended for local development; disable in production environments. */
   allow_localhost?: boolean | undefined;
+  /** Whether Neon Auth events for the branch are exported to Neon Platform logs. */
+  logs_export?: NeonAuthLogsExportConfig | undefined;
 }
 export interface GetNeonAuthWebhookConfigRequest {
   /** The Neon project ID */
@@ -2434,6 +2606,8 @@ export interface GetProjectBranchDataAPIRequest {
 }
 /** List of available database schemas (SubZero only) */
 export type DataAPIReponseAvailableSchemasList = Array<string>;
+/** How this Data API verifies JWTs, as recorded by the last create that named a provider. `neon_auth` verifies Neon Auth tokens; `external` verifies tokens from a third-party identity provider via `jwks_url`. Absent when no provider is recorded: the Data API was created before providers were recorded, or it was created without naming one. Treat an absent value as unknown and fall back to the branch's Neon Auth state (`GET /projects/{project_id}/branches/{branch_id}/auth`). The value can differ from the current setup (for example, a JWKS added later), and it is also absent in responses served from the state cache while the compute is suspended. A child branch inherits its parent's Data API and reports the parent's provider. */
+export type DataAPIReponseAuthProvider = "neon_auth" | "external";
 /** Neon Data API response */
 export interface DataAPIReponse {
   /** The URL of the Neon Data API */
@@ -2444,6 +2618,16 @@ export interface DataAPIReponse {
   settings?: DataAPISettings | null | undefined;
   /** List of available database schemas (SubZero only) */
   available_schemas?: DataAPIReponseAvailableSchemasList | null | undefined;
+  /** When `settings` and `available_schemas` were read from the database. While the compute is suspended they are served from that read, so a change made directly in the database since then shows up in the first response served while the compute is active. */
+  observed_at?: string | undefined;
+  /** How this Data API verifies JWTs, as recorded by the last create that named a provider. `neon_auth` verifies Neon Auth tokens; `external` verifies tokens from a third-party identity provider via `jwks_url`. Absent when no provider is recorded: the Data API was created before providers were recorded, or it was created without naming one. Treat an absent value as unknown and fall back to the branch's Neon Auth state (`GET /projects/{project_id}/branches/{branch_id}/auth`). The value can differ from the current setup (for example, a JWKS added later), and it is also absent in responses served from the state cache while the compute is suspended. A child branch inherits its parent's Data API and reports the parent's provider. */
+  auth_provider?: DataAPIReponseAuthProvider | undefined;
+  /** URL of the JWKS endpoint the Data API verifies JWTs against. Only set when `auth_provider` is `external`. */
+  jwks_url?: string | undefined;
+  /** Display name of the external authentication provider, as given at creation (for example "Clerk"). Only set when `auth_provider` is `external` and a name was given. */
+  provider_name?: string | undefined;
+  /** Expected `aud` claim in incoming JWTs, as given at creation. Only set when `auth_provider` is `external` and an audience was given. */
+  jwt_audience?: string | undefined;
 }
 export interface GetProjectBranchDatabaseRequest {
   /** The Neon project ID */
@@ -2482,6 +2666,34 @@ export interface NeonFunction {
 }
 export interface NeonFunctionResponse {
   function: NeonFunction;
+}
+export interface GetProjectBranchRealtimeRequest {
+  /** The project ID */
+  project_id: string;
+  /** The branch ID */
+  branch_id: string;
+}
+export type RealtimeAllowedOriginsList = Array<string>;
+export interface Realtime {
+  /** Whether Realtime is enabled for the branch. */
+  enabled: boolean;
+  /** Whether a provisioning, settings, rotation or deprovisioning change is still being applied. */
+  pending: boolean;
+  invocation_url?: string | undefined;
+  revision?: number | undefined;
+  allowed_origins?: RealtimeAllowedOriginsList | undefined;
+}
+export interface GetProjectBranchRealtimeSecretRequest {
+  /** The project ID */
+  project_id: string;
+  /** The branch ID */
+  branch_id: string;
+}
+export interface RealtimeSecret {
+  /** The key the application backend issues Realtime tokens with, `nrt_live_1` followed by the unpadded base64url 32-byte AES-256-GCM key. */
+  secret: string | Redacted.Redacted<string>;
+  /** Whether a change is still being applied. After a rotation, the secret changes when this becomes false. */
+  pending: boolean;
 }
 export interface GetProjectBranchRoleRequest {
   /** The Neon project ID */
@@ -2777,6 +2989,18 @@ export interface CredentialMeta {
 export type ListCredentialsResponseCredentialsList = Array<CredentialMeta>;
 export interface ListCredentialsResponse {
   credentials: ListCredentialsResponseCredentialsList;
+}
+export interface ListNeonAuthOAuthClientsRequest {
+  /** The Neon project ID */
+  project_id: string;
+  /** The Neon branch ID */
+  branch_id: string;
+}
+/** OAuth clients registered for the branch. */
+export type ListNeonAuthOAuthClientsResponseClientsList = Array<NeonAuthOAuthClient>;
+export interface ListNeonAuthOAuthClientsResponse {
+  /** OAuth clients registered for the branch. */
+  clients: ListNeonAuthOAuthClientsResponseClientsList;
 }
 export interface ListOrganizationVPCEndpointsRequest {
   /** The Neon organization ID */
@@ -3150,7 +3374,7 @@ export interface ProjectListItem {
   branch_logical_size_limit_bytes: number;
   /** Whether or not passwords are stored for roles in the Neon project. Storing passwords facilitates access to Neon features that require authorization. */
   store_passwords: boolean;
-  /** Control plane observed endpoints of this project being active this amount of wall-clock time. */
+  /** Control plane observed endpoints of this project being active this amount of wall-clock time. Not intended for billing or metering. For billing, use `/consumption_history/v2/projects`. */
   active_time: number;
   /** Deprecated. Use `compute_time_seconds` from `GET /projects/{project_id}` instead. */
   cpu_used_sec: number;
@@ -3162,7 +3386,7 @@ export interface ProjectListItem {
   created_at: string;
   /** A timestamp indicating when the project was last updated */
   updated_at: string;
-  /** The current space occupied by the project in Postgres storage, in bytes. Synthetic Postgres storage size combines the logical data size and Write-Ahead Log (WAL) size for all branches in a project. */
+  /** Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. The current space occupied by the project in Postgres storage, in bytes. Synthetic Postgres storage size combines the logical data size and Write-Ahead Log (WAL) size for all branches in a project. */
   synthetic_storage_size?: number | undefined;
   /** Deprecated. Use `consumption_period_end` from `GET /projects/{project_id}` instead. A timestamp indicating when the project quota resets. */
   quota_reset_at?: string | undefined;
@@ -3572,6 +3796,27 @@ export interface RotateCredentialResponse {
   /** When the credential expires; absent means never expires. Rotation does not extend it. */
   expires_at?: string | undefined;
 }
+export interface RotateNeonAuthOAuthClientSecretRequest {
+  /** The Neon project ID */
+  project_id: string;
+  /** The Neon branch ID */
+  branch_id: string;
+  /** The OAuth client ID */
+  client_id: string;
+}
+export interface NeonAuthOAuthClientSecret {
+  /** The OAuth client ID. */
+  client_id: string;
+  /** The new client secret. Shown only once. */
+  client_secret: string | Redacted.Redacted<string>;
+}
+export interface RotateProjectBranchRealtimeSecretRequest {
+  /** The project ID */
+  project_id: string;
+  /** The branch ID */
+  branch_id: string;
+}
+export interface RotateProjectBranchRealtimeSecretResponse {}
 export interface SendNeonAuthEmailProviderTestRequest {
   /** The Neon project ID */
   project_id: string;
@@ -3675,7 +3920,8 @@ export type UpdateBranchNeonAuthOauthProviderRequestOauthProviderId =
   | "google"
   | "github"
   | "microsoft"
-  | "vercel";
+  | "vercel"
+  | "apple";
 export interface UpdateBranchNeonAuthOauthProviderRequest {
   /** The Neon project ID */
   project_id: string;
@@ -3685,10 +3931,14 @@ export interface UpdateBranchNeonAuthOauthProviderRequest {
   oauth_provider_id: UpdateBranchNeonAuthOauthProviderRequestOauthProviderId | (string & {});
   /** The OAuth client ID registered with the provider. Omit to keep the currently configured value. */
   client_id?: string | undefined;
-  /** OAuth client secret for the provider. Omit to leave the existing secret unchanged. */
+  /** OAuth client secret for the provider. Omit to leave the existing secret unchanged. For `apple`, a new `.p8` private key must be sent together with its `apple_key_id` in the same request; omit both to keep the stored key. */
   client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The tenant ID scoping the Microsoft OAuth provider. Supply this field when the provider type is microsoft; it has no effect for other provider types. */
   microsoft_tenant_id?: string | undefined;
+  /** Apple Developer Team ID. Supply this field when the provider is apple; it has no effect for other providers. */
+  apple_team_id?: string | undefined;
+  /** Key ID of the Sign in with Apple private key supplied in `client_secret`. Supply this field when the provider is apple; it has no effect for other providers. */
+  apple_key_id?: string | undefined;
 }
 /** List of masking rules to apply to the branch. This will replace all existing masking rules for the branch. */
 export type UpdateMaskingRulesRequestMaskingRulesList = Array<MaskingRule>;
@@ -3739,6 +3989,8 @@ export interface UpdateNeonAuthEmailAndPasswordConfigRequest {
   send_verification_email_on_sign_in?: boolean | undefined;
   /** Whether to disable new user sign ups. When omitted, the current setting is not changed. */
   disable_sign_up?: boolean | undefined;
+  /** Whether all of a user's sessions are revoked when their password is reset. When omitted, the current setting is not changed. */
+  revoke_sessions_on_password_reset?: boolean | undefined;
 }
 /** Use a custom SMTP server to send authentication emails. */
 export type StandardEmailServerType = "standard";
@@ -3767,6 +4019,14 @@ export interface UpdateNeonAuthEmailProviderRequest {
   body: NeonAuthEmailServerConfig;
 }
 export type UpdateNeonAuthEmailProviderResponse = NeonAuthEmailServerConfigResponse;
+export interface UpdateNeonAuthLogsExportRequest {
+  /** The Neon project ID */
+  project_id: string;
+  /** The Neon branch ID */
+  branch_id: string;
+  /** Whether Neon Auth events are exported to Neon Platform logs. */
+  enabled: boolean;
+}
 export interface UpdateNeonAuthMagicLinkPluginRequest {
   /** The Neon project ID */
   project_id: string;
@@ -3778,6 +4038,55 @@ export interface UpdateNeonAuthMagicLinkPluginRequest {
   expires_in?: number | undefined;
   /** When true, sign-up via magic link is disabled. */
   disable_sign_up?: boolean | undefined;
+}
+/** Redirect URIs the client may use. When provided, replaces the stored list. */
+export type UpdateNeonAuthOAuthClientRequestRedirectUrisList = Array<string>;
+/** Identifiers of the protected resources to link the client to. When provided, replaces the stored list. */
+export type UpdateNeonAuthOAuthClientRequestResourcesList = Array<string>;
+export interface UpdateNeonAuthOAuthClientRequest {
+  /** The Neon project ID */
+  project_id: string;
+  /** The Neon branch ID */
+  branch_id: string;
+  /** The OAuth client ID */
+  client_id: string;
+  /** Display name of the client. */
+  name?: string | undefined;
+  /** Redirect URIs the client may use. When provided, replaces the stored list. */
+  redirect_uris?: UpdateNeonAuthOAuthClientRequestRedirectUrisList | undefined;
+  /** Whether to skip the consent prompt for this client. */
+  skip_consent?: boolean | undefined;
+  /** Whether the client is disabled. */
+  disabled?: boolean | undefined;
+  /** Identifiers of the protected resources to link the client to. When provided, replaces the stored list. */
+  resources?: UpdateNeonAuthOAuthClientRequestResourcesList | undefined;
+}
+export interface NeonAuthOAuthProviderMcpUpdate {
+  /** The MCP server URL that MCP clients (Client ID Metadata Document and dynamically registered) are linked to. Required for either to be accepted. */
+  resource: string;
+  /** Whether MCP clients may register themselves via dynamic client registration (RFC 7591). When omitted, the stored value is kept. */
+  dynamic_registration?: boolean | undefined;
+  /** Whether MCP clients may identify themselves with an https Client ID Metadata Document (CIMD) URL. When omitted, the stored value is kept. */
+  client_id_metadata_documents?: boolean | undefined;
+}
+/** Protected resources that clients can be linked to. When provided, replaces the stored list. */
+export type UpdateNeonAuthOAuthProviderPluginRequestResourcesList =
+  Array<NeonAuthOAuthProviderResource>;
+export interface UpdateNeonAuthOAuthProviderPluginRequest {
+  /** The Neon project ID */
+  project_id: string;
+  /** The Neon branch ID */
+  branch_id: string;
+  /** Whether the OAuth provider plugin is enabled. */
+  enabled?: boolean | undefined;
+  /** URL of the page that authorization requests redirect to for sign-in. */
+  login_page?: string | undefined;
+  /** URL of the page that authorization requests redirect to for consent. */
+  consent_page?: string | undefined;
+  /** MCP resource configuration. When provided, `resource` is required and the stored MCP configuration is replaced as a whole. */
+  mcp?: NeonAuthOAuthProviderMcpUpdate | undefined;
+  /** Protected resources that clients can be linked to. When provided, replaces the stored list. */
+  resources?: UpdateNeonAuthOAuthProviderPluginRequestResourcesList | undefined;
 }
 /** Role of the organization's creator. `owner`: full control, including deleting the org and transferring ownership. `admin`: manage members and settings only. */
 export type UpdateNeonAuthOrganizationPluginRequestCreatorRole = "admin" | "owner";
@@ -3990,7 +4299,7 @@ export interface UpdateProjectEndpointRequestEndpoint {
   autoscaling_limit_min_cu?: number | undefined;
   /** The maximum number of Compute Units. See [Compute size and Autoscaling configuration](https://neon.com/docs/manage/endpoints#compute-size-and-autoscaling-configuration) for more information. */
   autoscaling_limit_max_cu?: number | undefined;
-  /** Compute provisioner. `k8s-neonvm` (default) supports Autoscaling; `k8s-pod` is fixed-size compute. Also `docker` and `serverless-platform`. */
+  /** Legacy field; do not send it. An update never changes the provisioner: `k8s-neonvm` is accepted and ignored for backward compatibility, and any other value is rejected. On Lakebase, any value is rejected. */
   provisioner?: string | undefined;
   settings?: EndpointSettingsData | undefined;
   /** Deprecated. To enable connection pooling, append `-pooler` to the endpoint ID in the connection string. See [How to use connection pooling](https://neon.com/docs/connect/connection-pooling#how-to-use-connection-pooling) */
@@ -4046,8 +4355,8 @@ export const acceptProjectTransferRequest: API.OperationMethod<
   AcceptProjectTransferRequestError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Codec<AcceptProjectTransferRequestRequest>,
-  output: __S(2336, __c146, 0) as any as S.Codec<AcceptProjectTransferRequestResponse>,
+  input: __S(2624, __c164, 0) as any as S.Codec<AcceptProjectTransferRequestRequest>,
+  output: __S(2640, __c165, 0) as any as S.Codec<AcceptProjectTransferRequestResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4063,8 +4372,8 @@ export const addBranchNeonAuthOauthProvider: API.OperationMethod<
   AddBranchNeonAuthOauthProviderError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Codec<AddBranchNeonAuthOauthProviderRequest>,
-  output: __S(2576, __c161, 0) as any as S.Codec<NeonAuthOauthProvider>,
+  input: __S(2832, __c177, 0) as any as S.Codec<AddBranchNeonAuthOauthProviderRequest>,
+  output: __S(2848, __c178, 0) as any as S.Codec<NeonAuthOauthProvider>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4080,8 +4389,8 @@ export const addBranchNeonAuthTrustedDomain: API.OperationMethod<
   AddBranchNeonAuthTrustedDomainError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c182, 0) as any as S.Codec<AddBranchNeonAuthTrustedDomainRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<AddBranchNeonAuthTrustedDomainResponse>,
+  input: __S(3088, __c193, 0) as any as S.Codec<AddBranchNeonAuthTrustedDomainRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<AddBranchNeonAuthTrustedDomainResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4097,8 +4406,8 @@ export const addProjectJWKS: API.OperationMethod<
   AddProjectJWKSError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Codec<AddProjectJWKSRequest>,
-  output: __S(3185, __c199, 1) as any as S.Codec<AddProjectJWKSResponse>,
+  input: __S(3456, __c216, 0) as any as S.Codec<AddProjectJWKSRequest>,
+  output: __S(3457, __c216, 1) as any as S.Codec<AddProjectJWKSResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4114,8 +4423,8 @@ export const assignOrganizationVPCEndpoint: API.OperationMethod<
   AssignOrganizationVPCEndpointError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c216, 0) as any as S.Codec<AssignOrganizationVPCEndpointRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<AssignOrganizationVPCEndpointResponse>,
+  input: __S(3776, __c236, 0) as any as S.Codec<AssignOrganizationVPCEndpointRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<AssignOrganizationVPCEndpointResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4132,7 +4441,7 @@ export const assignProjectVPCEndpoint: API.OperationMethod<
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Codec<AssignProjectVPCEndpointRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<AssignProjectVPCEndpointResponse>,
+  output: __S(2640, __c165, 0) as any as S.Schema<AssignProjectVPCEndpointResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4148,13 +4457,30 @@ export const countProjectBranches: API.OperationMethod<
   CountProjectBranchesError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Codec<CountProjectBranchesRequest>,
-  output: __S(241, __c15, 1) as any as S.Codec<CountProjectBranchesResponse>,
+  input: __S(224, __c14, 0) as any as S.Codec<CountProjectBranchesRequest>,
+  output: __S(240, __c15, 0) as any as S.Codec<CountProjectBranchesResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CountProjectBranches",
+}));
+
+export type CountProjectsError = NeonOpError;
+/** Retrieve projects count Retrieves the number of active projects you can access in the specified organization, without paging through the list of projects. Projects that are being created or deleted are not counted. If using a personal API key, include the `org_id` parameter to specify which organization to work with. If using an org API key, `org_id` is automatically inferred from the key. */
+export const countProjects: API.OperationMethod<
+  CountProjectsRequest,
+  ProjectsCountResponse,
+  CountProjectsError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c30, 0) as any as S.Codec<CountProjectsRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<ProjectsCountResponse>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountProjects",
 }));
 
 export type CreateApiKeyError = NeonOpError;
@@ -4165,8 +4491,8 @@ export const createApiKey: API.OperationMethod<
   CreateApiKeyError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Codec<CreateApiKeyRequest>,
-  output: __S(433, __c27, 1) as any as S.Codec<ApiKeyCreateResponse>,
+  input: __S(672, __c42, 0) as any as S.Codec<CreateApiKeyRequest>,
+  output: __S(673, __c42, 1) as any as S.Codec<ApiKeyCreateResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4182,8 +4508,8 @@ export const createBranchNeonAuthNewUser: API.OperationMethod<
   CreateBranchNeonAuthNewUserError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Codec<CreateBranchNeonAuthNewUserRequest>,
-  output: __S(640, __c40, 0) as any as S.Codec<NeonAuthCreateNewUserResponse>,
+  input: __S(864, __c54, 0) as any as S.Codec<CreateBranchNeonAuthNewUserRequest>,
+  output: __S(880, __c55, 0) as any as S.Codec<NeonAuthCreateNewUserResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4199,8 +4525,8 @@ export const createCredential: API.OperationMethod<
   CreateCredentialError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Codec<CreateCredentialRequest>,
-  output: __S(817, __c51, 1) as any as S.Codec<CreateCredentialResponse>,
+  input: __S(1056, __c66, 0) as any as S.Codec<CreateCredentialRequest>,
+  output: __S(1057, __c66, 1) as any as S.Codec<CreateCredentialResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4216,13 +4542,30 @@ export const createNeonAuth: API.OperationMethod<
   CreateNeonAuthError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Codec<CreateNeonAuthRequest>,
-  output: __S(1024, __c64, 0) as any as S.Codec<NeonAuthCreateIntegrationResponse>,
+  input: __S(1248, __c78, 0) as any as S.Codec<CreateNeonAuthRequest>,
+  output: __S(1264, __c79, 0) as any as S.Codec<NeonAuthCreateIntegrationResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateNeonAuth",
+}));
+
+export type CreateNeonAuthOAuthClientError = NeonOpError;
+/** Create an OAuth client Registers an OAuth client with the branch's Neon Auth OAuth provider. For `confidential` clients the response includes the `client_secret`, which is shown only once. Every entry in `resources` must be configured on the OAuth provider plugin. */
+export const createNeonAuthOAuthClient: API.OperationMethod<
+  CreateNeonAuthOAuthClientRequest,
+  CreateNeonAuthOAuthClientResponse,
+  CreateNeonAuthOAuthClientError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1440, __c90, 0) as any as S.Codec<CreateNeonAuthOAuthClientRequest>,
+  output: __S(1441, __c90, 1) as any as S.Codec<CreateNeonAuthOAuthClientResponse>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNeonAuthOAuthClient",
 }));
 
 export type CreateNeonAuthProviderSDKKeysError = NeonOpError;
@@ -4233,8 +4576,8 @@ export const createNeonAuthProviderSDKKeys: API.OperationMethod<
   CreateNeonAuthProviderSDKKeysError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Codec<CreateNeonAuthProviderSDKKeysRequest>,
-  output: __S(1024, __c64, 0) as any as S.Codec<NeonAuthCreateIntegrationResponse>,
+  input: __S(1616, __c101, 0) as any as S.Codec<CreateNeonAuthProviderSDKKeysRequest>,
+  output: __S(1264, __c79, 0) as any as S.Codec<NeonAuthCreateIntegrationResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4250,8 +4593,8 @@ export const createOrganizationInvitations: API.OperationMethod<
   CreateOrganizationInvitationsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1346, __c84, 2) as any as S.Codec<CreateOrganizationInvitationsRequest>,
-  output: __S(1362, __c85, 2) as any as S.Codec<OrganizationInvitationsResponse>,
+  input: __S(1682, __c105, 2) as any as S.Codec<CreateOrganizationInvitationsRequest>,
+  output: __S(1698, __c106, 2) as any as S.Codec<OrganizationInvitationsResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4267,8 +4610,8 @@ export const createOrgApiKey: API.OperationMethod<
   CreateOrgApiKeyError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Codec<CreateOrgApiKeyRequest>,
-  output: __S(1377, __c86, 1) as any as S.Codec<CreateOrgApiKeyResponse>,
+  input: __S(1712, __c107, 0) as any as S.Codec<CreateOrgApiKeyRequest>,
+  output: __S(1713, __c107, 1) as any as S.Codec<CreateOrgApiKeyResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4284,8 +4627,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1394, __c87, 2) as any as S.Codec<CreateProjectRequest>,
-  output: __S(1395, __c87, 3) as any as S.Codec<CreateProjectResponse>,
+  input: __S(1730, __c108, 2) as any as S.Codec<CreateProjectRequest>,
+  output: __S(1731, __c108, 3) as any as S.Codec<CreateProjectResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4301,8 +4644,8 @@ export const createProjectBranch: API.OperationMethod<
   CreateProjectBranchError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Codec<CreateProjectBranchRequest>,
-  output: __S(1619, __c101, 3) as any as S.Codec<CreateProjectBranchResponse>,
+  input: __S(1936, __c121, 0) as any as S.Codec<CreateProjectBranchRequest>,
+  output: __S(1955, __c122, 3) as any as S.Codec<CreateProjectBranchResponse>,
   errors: [Conflict, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4318,8 +4661,8 @@ export const createProjectBranchAnonymized: API.OperationMethod<
   CreateProjectBranchAnonymizedError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1633, __c102, 1) as any as S.Codec<CreateProjectBranchAnonymizedRequest>,
-  output: __S(1619, __c101, 3) as any as S.Schema<CreateProjectBranchAnonymizedResponse>,
+  input: __S(1969, __c123, 1) as any as S.Codec<CreateProjectBranchAnonymizedRequest>,
+  output: __S(1955, __c122, 3) as any as S.Schema<CreateProjectBranchAnonymizedResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4327,7 +4670,7 @@ export const createProjectBranchAnonymized: API.OperationMethod<
   span: "CreateProjectBranchAnonymized",
 }));
 
-export type CreateProjectBranchBucketError = NeonOpError;
+export type CreateProjectBranchBucketError = Forbidden | NeonOpError;
 /** Create a bucket on the branch Creates a new branchable object storage bucket on the specified branch. Buckets are managed by the Neon Platform branchable object storage service. **Note**: This endpoint is currently in Beta. */
 export const createProjectBranchBucket: API.OperationMethod<
   CreateProjectBranchBucketRequest,
@@ -4335,9 +4678,9 @@ export const createProjectBranchBucket: API.OperationMethod<
   CreateProjectBranchBucketError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Codec<CreateProjectBranchBucketRequest>,
-  output: __S(1665, __c104, 1) as any as S.Codec<BucketResponse>,
-  errors: [UnknownNeonError],
+  input: __S(2000, __c125, 0) as any as S.Codec<CreateProjectBranchBucketRequest>,
+  output: __S(2001, __c125, 1) as any as S.Codec<BucketResponse>,
+  errors: [Forbidden, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4352,8 +4695,8 @@ export const createProjectBranchDataAPI: API.OperationMethod<
   CreateProjectBranchDataAPIError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Codec<CreateProjectBranchDataAPIRequest>,
-  output: __S(1712, __c107, 0) as any as S.Codec<DataAPICreateResponse>,
+  input: __S(2032, __c127, 0) as any as S.Codec<CreateProjectBranchDataAPIRequest>,
+  output: __S(2048, __c128, 0) as any as S.Codec<DataAPICreateResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4374,8 +4717,8 @@ export const createProjectBranchDatabase: API.OperationMethod<
   CreateProjectBranchDatabaseError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1745, __c109, 1) as any as S.Codec<CreateProjectBranchDatabaseRequest>,
-  output: __S(1760, __c110, 0) as any as S.Codec<CreateProjectBranchDatabaseResponse>,
+  input: __S(2081, __c130, 1) as any as S.Codec<CreateProjectBranchDatabaseRequest>,
+  output: __S(2096, __c131, 0) as any as S.Codec<CreateProjectBranchDatabaseResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4391,8 +4734,8 @@ export const createProjectBranchFunctionDeployment: API.OperationMethod<
   CreateProjectBranchFunctionDeploymentError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Codec<CreateProjectBranchFunctionDeploymentRequest>,
-  output: __S(1777, __c111, 1) as any as S.Codec<NeonFunctionDeploymentResponse>,
+  input: __S(2112, __c132, 0) as any as S.Codec<CreateProjectBranchFunctionDeploymentRequest>,
+  output: __S(2113, __c132, 1) as any as S.Codec<NeonFunctionDeploymentResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4408,8 +4751,8 @@ export const createProjectBranchRole: API.OperationMethod<
   CreateProjectBranchRoleError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1809, __c113, 1) as any as S.Codec<CreateProjectBranchRoleRequest>,
-  output: __S(1824, __c114, 0) as any as S.Codec<CreateProjectBranchRoleResponse>,
+  input: __S(2145, __c134, 1) as any as S.Codec<CreateProjectBranchRoleRequest>,
+  output: __S(2160, __c135, 0) as any as S.Codec<CreateProjectBranchRoleResponse>,
   errors: [NotFound, Conflict, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4425,8 +4768,8 @@ export const createProjectBranchTrigger: API.OperationMethod<
   CreateProjectBranchTriggerError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1843, __c115, 3) as any as S.Codec<CreateProjectBranchTriggerRequest>,
-  output: __S(1872, __c117, 0) as any as S.Codec<TriggerResponse>,
+  input: __S(2179, __c136, 3) as any as S.Codec<CreateProjectBranchTriggerRequest>,
+  output: __S(2208, __c138, 0) as any as S.Codec<TriggerResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4442,8 +4785,8 @@ export const createProjectEndpoint: API.OperationMethod<
   CreateProjectEndpointError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1889, __c118, 1) as any as S.Codec<CreateProjectEndpointRequest>,
-  output: __S(1904, __c119, 0) as any as S.Codec<CreateProjectEndpointResponse>,
+  input: __S(2225, __c139, 1) as any as S.Codec<CreateProjectEndpointRequest>,
+  output: __S(2240, __c140, 0) as any as S.Codec<CreateProjectEndpointResponse>,
   errors: [NotFound, Conflict, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4459,8 +4802,8 @@ export const createProjectTransferRequest: API.OperationMethod<
   CreateProjectTransferRequestError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Codec<CreateProjectTransferRequestRequest>,
-  output: __S(1921, __c120, 1) as any as S.Codec<ProjectTransferRequestResponse>,
+  input: __S(2256, __c141, 0) as any as S.Codec<CreateProjectTransferRequestRequest>,
+  output: __S(2257, __c141, 1) as any as S.Codec<ProjectTransferRequestResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4476,8 +4819,8 @@ export const createSnapshot: API.OperationMethod<
   CreateSnapshotError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Codec<CreateSnapshotRequest>,
-  output: __S(1937, __c121, 1) as any as S.Codec<CreateSnapshotResponse>,
+  input: __S(2272, __c142, 0) as any as S.Codec<CreateSnapshotRequest>,
+  output: __S(2273, __c142, 1) as any as S.Codec<CreateSnapshotResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4493,8 +4836,8 @@ export const deleteBranchNeonAuthOauthProvider: API.OperationMethod<
   DeleteBranchNeonAuthOauthProviderError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Codec<DeleteBranchNeonAuthOauthProviderRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<DeleteBranchNeonAuthOauthProviderResponse>,
+  input: __S(2304, __c144, 0) as any as S.Codec<DeleteBranchNeonAuthOauthProviderRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DeleteBranchNeonAuthOauthProviderResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4510,8 +4853,8 @@ export const deleteBranchNeonAuthTrustedDomain: API.OperationMethod<
   DeleteBranchNeonAuthTrustedDomainError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1986, __c124, 2) as any as S.Codec<DeleteBranchNeonAuthTrustedDomainRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<DeleteBranchNeonAuthTrustedDomainResponse>,
+  input: __S(2322, __c145, 2) as any as S.Codec<DeleteBranchNeonAuthTrustedDomainRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DeleteBranchNeonAuthTrustedDomainResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4527,13 +4870,30 @@ export const deleteBranchNeonAuthUser: API.OperationMethod<
   DeleteBranchNeonAuthUserError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Codec<DeleteBranchNeonAuthUserRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<DeleteBranchNeonAuthUserResponse>,
+  input: __S(2336, __c146, 0) as any as S.Codec<DeleteBranchNeonAuthUserRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DeleteBranchNeonAuthUserResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteBranchNeonAuthUser",
+}));
+
+export type DeleteNeonAuthOAuthClientError = NeonOpError;
+/** Delete an OAuth client Deletes an OAuth client. Tokens already issued to the client are not revoked. */
+export const deleteNeonAuthOAuthClient: API.OperationMethod<
+  DeleteNeonAuthOAuthClientRequest,
+  DeleteNeonAuthOAuthClientResponse,
+  DeleteNeonAuthOAuthClientError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2352, __c147, 0) as any as S.Codec<DeleteNeonAuthOAuthClientRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DeleteNeonAuthOAuthClientResponse>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNeonAuthOAuthClient",
 }));
 
 export type DeleteOrganizationSpendingLimitError = NeonOpError;
@@ -4544,8 +4904,8 @@ export const deleteOrganizationSpendingLimit: API.OperationMethod<
   DeleteOrganizationSpendingLimitError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Codec<DeleteOrganizationSpendingLimitRequest>,
-  output: __S(2032, __c127, 0) as any as S.Codec<DeleteOrganizationSpendingLimitResponse>,
+  input: __S(2368, __c148, 0) as any as S.Codec<DeleteOrganizationSpendingLimitRequest>,
+  output: __S(2384, __c149, 0) as any as S.Codec<DeleteOrganizationSpendingLimitResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4561,8 +4921,8 @@ export const deleteOrganizationVPCEndpoint: API.OperationMethod<
   DeleteOrganizationVPCEndpointError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Codec<DeleteOrganizationVPCEndpointRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<DeleteOrganizationVPCEndpointResponse>,
+  input: __S(2400, __c150, 0) as any as S.Codec<DeleteOrganizationVPCEndpointRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DeleteOrganizationVPCEndpointResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4578,8 +4938,8 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Codec<DeleteProjectRequest>,
-  output: __S(2080, __c130, 0) as any as S.Codec<ProjectResponse>,
+  input: __S(2416, __c151, 0) as any as S.Codec<DeleteProjectRequest>,
+  output: __S(2432, __c152, 0) as any as S.Codec<ProjectResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4595,8 +4955,8 @@ export const deleteProjectBranch: API.OperationMethod<
   DeleteProjectBranchError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Codec<DeleteProjectBranchRequest>,
-  output: __S(2112, __c132, 0) as any as S.Codec<DeleteProjectBranchResponse>,
+  input: __S(2448, __c153, 0) as any as S.Codec<DeleteProjectBranchRequest>,
+  output: __S(2464, __c154, 0) as any as S.Codec<DeleteProjectBranchResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4612,8 +4972,8 @@ export const deleteProjectBranchBucket: API.OperationMethod<
   DeleteProjectBranchBucketError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Codec<DeleteProjectBranchBucketRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<DeleteProjectBranchBucketResponse>,
+  input: __S(2480, __c155, 0) as any as S.Codec<DeleteProjectBranchBucketRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DeleteProjectBranchBucketResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4629,8 +4989,8 @@ export const deleteProjectBranchBucketObject: API.OperationMethod<
   DeleteProjectBranchBucketObjectError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Codec<DeleteProjectBranchBucketObjectRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<DeleteProjectBranchBucketObjectResponse>,
+  input: __S(2496, __c156, 0) as any as S.Codec<DeleteProjectBranchBucketObjectRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DeleteProjectBranchBucketObjectResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4646,8 +5006,8 @@ export const deleteProjectBranchBucketObjectsByPrefix: API.OperationMethod<
   DeleteProjectBranchBucketObjectsByPrefixError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Codec<DeleteProjectBranchBucketObjectsByPrefixRequest>,
-  output: __S(2161, __c135, 1) as any as S.Codec<BucketObjectsDeletePrefixResponse>,
+  input: __S(2512, __c157, 0) as any as S.Codec<DeleteProjectBranchBucketObjectsByPrefixRequest>,
+  output: __S(2513, __c157, 1) as any as S.Codec<BucketObjectsDeletePrefixResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4656,15 +5016,15 @@ export const deleteProjectBranchBucketObjectsByPrefix: API.OperationMethod<
 }));
 
 export type DeleteProjectBranchCustomDomainError = NeonOpError;
-/** Delete a custom domain from a branch Removes a custom domain registered on the branch and stops routing it. **Note**: This endpoint is currently in Beta. */
+/** Delete a custom domain from a branch Removes a custom domain registered on the branch and stops routing it. For organizations on the per-project role model, deleting a custom domain requires the project Admin role. Other callers receive `403` with code `CUSTOM_DOMAIN_ADMIN_REQUIRED`. Organization API keys keep write-level access. **Note**: This endpoint is currently in Beta. */
 export const deleteProjectBranchCustomDomain: API.OperationMethod<
   DeleteProjectBranchCustomDomainRequest,
   DeleteProjectBranchCustomDomainResponse,
   DeleteProjectBranchCustomDomainError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Codec<DeleteProjectBranchCustomDomainRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<DeleteProjectBranchCustomDomainResponse>,
+  input: __S(2528, __c158, 0) as any as S.Codec<DeleteProjectBranchCustomDomainRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DeleteProjectBranchCustomDomainResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4680,8 +5040,8 @@ export const deleteProjectBranchDataAPI: API.OperationMethod<
   DeleteProjectBranchDataAPIError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Codec<DeleteProjectBranchDataAPIRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<DeleteProjectBranchDataAPIResponse>,
+  input: __S(2544, __c159, 0) as any as S.Codec<DeleteProjectBranchDataAPIRequest>,
+  output: __S(2384, __c149, 0) as any as S.Schema<DeleteProjectBranchDataAPIResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4697,8 +5057,8 @@ export const deleteProjectBranchDatabase: API.OperationMethod<
   DeleteProjectBranchDatabaseError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Codec<DeleteProjectBranchDatabaseRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<DeleteProjectBranchDatabaseResponse>,
+  input: __S(2560, __c160, 0) as any as S.Codec<DeleteProjectBranchDatabaseRequest>,
+  output: __S(2096, __c131, 0) as any as S.Schema<DeleteProjectBranchDatabaseResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4714,8 +5074,8 @@ export const deleteProjectBranchFunction: API.OperationMethod<
   DeleteProjectBranchFunctionError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Codec<DeleteProjectBranchFunctionRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<DeleteProjectBranchFunctionResponse>,
+  input: __S(2576, __c161, 0) as any as S.Codec<DeleteProjectBranchFunctionRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DeleteProjectBranchFunctionResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4731,8 +5091,8 @@ export const deleteProjectBranchRole: API.OperationMethod<
   DeleteProjectBranchRoleError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Codec<DeleteProjectBranchRoleRequest>,
-  output: __S(1824, __c114, 0) as any as S.Schema<DeleteProjectBranchRoleResponse>,
+  input: __S(2592, __c162, 0) as any as S.Codec<DeleteProjectBranchRoleRequest>,
+  output: __S(2160, __c135, 0) as any as S.Schema<DeleteProjectBranchRoleResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4748,8 +5108,8 @@ export const deleteProjectBranchTrigger: API.OperationMethod<
   DeleteProjectBranchTriggerError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Codec<DeleteProjectBranchTriggerRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<DeleteProjectBranchTriggerResponse>,
+  input: __S(2608, __c163, 0) as any as S.Codec<DeleteProjectBranchTriggerRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DeleteProjectBranchTriggerResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4765,8 +5125,8 @@ export const deleteProjectEndpoint: API.OperationMethod<
   DeleteProjectEndpointError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Codec<DeleteProjectEndpointRequest>,
-  output: __S(1904, __c119, 0) as any as S.Schema<DeleteProjectEndpointResponse>,
+  input: __S(2656, __c166, 0) as any as S.Codec<DeleteProjectEndpointRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<DeleteProjectEndpointResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4782,8 +5142,8 @@ export const deleteProjectJWKS: API.OperationMethod<
   DeleteProjectJWKSError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Codec<DeleteProjectJWKSRequest>,
-  output: __S(3248, __c203, 0) as any as S.Codec<JWKS>,
+  input: __S(2672, __c167, 0) as any as S.Codec<DeleteProjectJWKSRequest>,
+  output: __S(3520, __c220, 0) as any as S.Codec<JWKS>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4799,8 +5159,8 @@ export const deleteProjectVPCEndpoint: API.OperationMethod<
   DeleteProjectVPCEndpointError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Codec<DeleteProjectVPCEndpointRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<DeleteProjectVPCEndpointResponse>,
+  input: __S(2688, __c168, 0) as any as S.Codec<DeleteProjectVPCEndpointRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DeleteProjectVPCEndpointResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4816,8 +5176,8 @@ export const deleteSnapshot: API.OperationMethod<
   DeleteSnapshotError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Codec<DeleteSnapshotRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<DeleteSnapshotResponse>,
+  input: __S(2704, __c169, 0) as any as S.Codec<DeleteSnapshotRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DeleteSnapshotResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4833,13 +5193,47 @@ export const disableNeonAuth: API.OperationMethod<
   DisableNeonAuthError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Codec<DisableNeonAuthRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<DisableNeonAuthResponse>,
+  input: __S(2720, __c170, 0) as any as S.Codec<DisableNeonAuthRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DisableNeonAuthResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableNeonAuth",
+}));
+
+export type DisableProjectBranchRealtimeError = NeonOpError;
+/** Disable Realtime Disables Realtime for the branch and discards its shared secret. Deprovisioning is asynchronous. */
+export const disableProjectBranchRealtime: API.OperationMethod<
+  DisableProjectBranchRealtimeRequest,
+  DisableProjectBranchRealtimeResponse,
+  DisableProjectBranchRealtimeError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2736, __c171, 0) as any as S.Codec<DisableProjectBranchRealtimeRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<DisableProjectBranchRealtimeResponse>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableProjectBranchRealtime",
+}));
+
+export type EnableProjectBranchRealtimeError = NeonOpError;
+/** Enable Realtime Enables Realtime for the branch, or applies new options to an enabled branch. Provisioning is asynchronous; poll the Realtime state until it is no longer pending. */
+export const enableProjectBranchRealtime: API.OperationMethod<
+  EnableProjectBranchRealtimeRequest,
+  EnableProjectBranchRealtimeResponse,
+  EnableProjectBranchRealtimeError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2752, __c172, 0) as any as S.Codec<EnableProjectBranchRealtimeRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<EnableProjectBranchRealtimeResponse>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableProjectBranchRealtime",
 }));
 
 export type FinalizeRestoreBranchError = NeonOpError;
@@ -4850,8 +5244,8 @@ export const finalizeRestoreBranch: API.OperationMethod<
   FinalizeRestoreBranchError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Codec<FinalizeRestoreBranchRequest>,
-  output: __S(2385, __c149, 1) as any as S.Codec<OperationsResponse>,
+  input: __S(2768, __c173, 0) as any as S.Codec<FinalizeRestoreBranchRequest>,
+  output: __S(2769, __c173, 1) as any as S.Codec<OperationsResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4867,8 +5261,8 @@ export const getActiveRegions: API.OperationMethod<
   GetActiveRegionsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Codec<GetActiveRegionsRequest>,
-  output: __S(2403, __c150, 3) as any as S.Codec<ActiveRegionsResponse>,
+  input: __S(2784, __c174, 0) as any as S.Codec<GetActiveRegionsRequest>,
+  output: __S(2787, __c174, 3) as any as S.Codec<ActiveRegionsResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4884,8 +5278,8 @@ export const getAnonymizedBranchStatus: API.OperationMethod<
   GetAnonymizedBranchStatusError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Codec<GetAnonymizedBranchStatusRequest>,
-  output: __S(2433, __c152, 1) as any as S.Codec<AnonymizedBranchStatusResponse>,
+  input: __S(2800, __c175, 0) as any as S.Codec<GetAnonymizedBranchStatusRequest>,
+  output: __S(2817, __c176, 1) as any as S.Codec<AnonymizedBranchStatusResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4901,8 +5295,8 @@ export const getAuthDetails: API.OperationMethod<
   GetAuthDetailsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Codec<GetAuthDetailsRequest>,
-  output: __S(2449, __c153, 1) as any as S.Codec<AuthDetailsResponse>,
+  input: __S(2864, __c179, 0) as any as S.Codec<GetAuthDetailsRequest>,
+  output: __S(2865, __c179, 1) as any as S.Codec<AuthDetailsResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4918,8 +5312,8 @@ export const getAvailablePreloadLibraries: API.OperationMethod<
   GetAvailablePreloadLibrariesError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Codec<GetAvailablePreloadLibrariesRequest>,
-  output: __S(2467, __c154, 3) as any as S.Codec<AvailablePreloadLibraries>,
+  input: __S(2880, __c180, 0) as any as S.Codec<GetAvailablePreloadLibrariesRequest>,
+  output: __S(2883, __c180, 3) as any as S.Codec<AvailablePreloadLibraries>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4935,8 +5329,8 @@ export const getConnectionURI: API.OperationMethod<
   GetConnectionURIError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Codec<GetConnectionURIRequest>,
-  output: __S(2481, __c155, 1) as any as S.Codec<ConnectionURIResponse>,
+  input: __S(2896, __c181, 0) as any as S.Codec<GetConnectionURIRequest>,
+  output: __S(2897, __c181, 1) as any as S.Codec<ConnectionURIResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -4945,7 +5339,7 @@ export const getConnectionURI: API.OperationMethod<
 }));
 
 export type GetConsumptionHistoryPerBranchV2Error = Forbidden | NotFound | NeonOpError;
-/** Retrieve branch consumption metrics Returns consumption metrics for each branch across one or more projects listed in `project_ids` (1 to 100 projects). Available for accounts on paid usage-based Launch, Scale, Agent, and Enterprise plans. History starts when the account first ingests branch-level consumption data. The `metrics` query parameter is required. Only these six values are supported on this endpoint: `compute_unit_seconds`, `root_branch_bytes_month`, `child_branch_bytes_month`, `instant_restore_bytes_month`, `public_network_transfer_bytes`, `private_network_transfer_bytes`. This endpoint does not support `extra_branches_month` or `snapshot_storage_bytes_month`. Use `GET /consumption_history/v2/projects` for those. Consumption metrics within each branch are returned in ascending time order (oldest first). This request does not wake project computes. */
+/** Retrieve branch consumption metrics Returns consumption metrics for each branch across one or more projects listed in `project_ids` (1 to 100 projects). Available for accounts on paid usage-based Launch, Scale, Agent, and Enterprise plans. History starts when the account first ingests branch-level consumption data. The `metrics` query parameter is required. These values are supported on this endpoint: `compute_unit_seconds`, `root_branch_bytes_month`, `child_branch_bytes_month`, `instant_restore_bytes_month`, `public_network_transfer_bytes`, `private_network_transfer_bytes`, `functions_active_capacity_microseconds`, `functions_waiting_capacity_microseconds`, `functions_invocations`, `functions_egress_bytes`. This endpoint does not support `extra_branches_month` or `snapshot_storage_bytes_month`. Use `GET /consumption_history/v2/projects` for those. Consumption metrics within each branch are returned in ascending time order (oldest first). This request does not wake project computes. */
 export const getConsumptionHistoryPerBranchV2: API.PaginatedOperationMethod<
   GetConsumptionHistoryPerBranchV2Request,
   GetConsumptionHistoryPerBranchV2Response,
@@ -4954,8 +5348,8 @@ export const getConsumptionHistoryPerBranchV2: API.PaginatedOperationMethod<
   ConsumptionHistoryPerBranchV2
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2496, __c156, 0) as any as S.Codec<GetConsumptionHistoryPerBranchV2Request>,
-    output: __S(2499, __c156, 3) as any as S.Codec<GetConsumptionHistoryPerBranchV2Response>,
+    input: __S(2912, __c182, 0) as any as S.Codec<GetConsumptionHistoryPerBranchV2Request>,
+    output: __S(2915, __c182, 3) as any as S.Codec<GetConsumptionHistoryPerBranchV2Response>,
     errors: [Forbidden, NotFound, UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
@@ -4981,8 +5375,8 @@ export const getConsumptionHistoryPerProject: API.PaginatedOperationMethod<
   ConsumptionHistoryPerProject
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2544, __c159, 0) as any as S.Codec<GetConsumptionHistoryPerProjectRequest>,
-    output: __S(2551, __c159, 7) as any as S.Codec<GetConsumptionHistoryPerProjectResponse>,
+    input: __S(2960, __c185, 0) as any as S.Codec<GetConsumptionHistoryPerProjectRequest>,
+    output: __S(2967, __c185, 7) as any as S.Codec<GetConsumptionHistoryPerProjectResponse>,
     errors: [Forbidden, NotFound, UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
@@ -4999,7 +5393,7 @@ export const getConsumptionHistoryPerProject: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetConsumptionHistoryPerProjectV2Error = Forbidden | NotFound | NeonOpError;
-/** Retrieve project consumption metrics Returns consumption metrics for up to `limit` projects per page. If `project_ids` is omitted, projects in the organization are included across pages (use `cursor`). If `project_ids` is provided, the response is limited to those projects (up to 100). Available for accounts on Launch, Scale, Agent, Business, and Enterprise plans. History starts when the account upgrades to an eligible plan. The `metrics` query parameter is required. Supported values: `compute_unit_seconds`, `root_branch_bytes_month`, `child_branch_bytes_month`, `instant_restore_bytes_month`, `public_network_transfer_bytes`, `private_network_transfer_bytes`, `extra_branches_month`, `snapshot_storage_bytes_month`. Consumption metrics within each project are returned in ascending time order (oldest first). This request does not wake project computes. */
+/** Retrieve project consumption metrics Returns consumption metrics for up to `limit` projects per page. If `project_ids` is omitted, projects in the organization are included across pages (use `cursor`). If `project_ids` is provided, the response is limited to those projects (up to 100). Available for accounts on Launch, Scale, Agent, Business, and Enterprise plans. History starts when the account upgrades to an eligible plan. The `metrics` query parameter is required. Supported values: `compute_unit_seconds`, `root_branch_bytes_month`, `child_branch_bytes_month`, `instant_restore_bytes_month`, `public_network_transfer_bytes`, `private_network_transfer_bytes`, `extra_branches_month`, `snapshot_storage_bytes_month`, `functions_active_capacity_microseconds`, `functions_waiting_capacity_microseconds`, `functions_invocations`, `functions_egress_bytes`. Consumption metrics within each project are returned in ascending time order (oldest first). This request does not wake project computes. */
 export const getConsumptionHistoryPerProjectV2: API.PaginatedOperationMethod<
   GetConsumptionHistoryPerProjectV2Request,
   GetConsumptionHistoryPerProjectV2Response,
@@ -5008,8 +5402,8 @@ export const getConsumptionHistoryPerProjectV2: API.PaginatedOperationMethod<
   ConsumptionHistoryPerProjectV2
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2592, __c162, 0) as any as S.Codec<GetConsumptionHistoryPerProjectV2Request>,
-    output: __S(2595, __c162, 3) as any as S.Codec<GetConsumptionHistoryPerProjectV2Response>,
+    input: __S(2976, __c186, 0) as any as S.Codec<GetConsumptionHistoryPerProjectV2Request>,
+    output: __S(2979, __c186, 3) as any as S.Codec<GetConsumptionHistoryPerProjectV2Response>,
     errors: [Forbidden, NotFound, UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
@@ -5033,8 +5427,8 @@ export const getCurrentUserInfo: API.OperationMethod<
   GetCurrentUserInfoError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Codec<GetCurrentUserInfoRequest>,
-  output: __S(2616, __c163, 8) as any as S.Codec<CurrentUserInfoResponse>,
+  input: __S(2992, __c187, 0) as any as S.Codec<GetCurrentUserInfoRequest>,
+  output: __S(3000, __c187, 8) as any as S.Codec<CurrentUserInfoResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5050,8 +5444,8 @@ export const getCurrentUserOrganizations: API.OperationMethod<
   GetCurrentUserOrganizationsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Codec<GetCurrentUserOrganizationsRequest>,
-  output: __S(2626, __c164, 2) as any as S.Codec<OrganizationsResponse>,
+  input: __S(3008, __c188, 0) as any as S.Codec<GetCurrentUserOrganizationsRequest>,
+  output: __S(3010, __c188, 2) as any as S.Codec<OrganizationsResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5067,8 +5461,8 @@ export const getMaskingRules: API.OperationMethod<
   GetMaskingRulesError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Codec<GetMaskingRulesRequest>,
-  output: __S(2672, __c167, 0) as any as S.Codec<MaskingRulesResponse>,
+  input: __S(3040, __c190, 0) as any as S.Codec<GetMaskingRulesRequest>,
+  output: __S(3056, __c191, 0) as any as S.Codec<MaskingRulesResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5084,8 +5478,8 @@ export const getNeonAuth: API.OperationMethod<
   GetNeonAuthError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Codec<GetNeonAuthRequest>,
-  output: __S(2689, __c168, 1) as any as S.Codec<NeonAuthIntegration>,
+  input: __S(3072, __c192, 0) as any as S.Codec<GetNeonAuthRequest>,
+  output: __S(3073, __c192, 1) as any as S.Codec<NeonAuthIntegration>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5101,8 +5495,8 @@ export const getNeonAuthAllowLocalhost: API.OperationMethod<
   GetNeonAuthAllowLocalhostError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Codec<GetNeonAuthAllowLocalhostRequest>,
-  output: __S(2720, __c170, 0) as any as S.Codec<NeonAuthAllowLocalhostResponse>,
+  input: __S(3104, __c194, 0) as any as S.Codec<GetNeonAuthAllowLocalhostRequest>,
+  output: __S(3120, __c195, 0) as any as S.Codec<NeonAuthAllowLocalhostResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5118,8 +5512,8 @@ export const getNeonAuthEmailAndPasswordConfig: API.OperationMethod<
   GetNeonAuthEmailAndPasswordConfigError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Codec<GetNeonAuthEmailAndPasswordConfigRequest>,
-  output: __S(2752, __c172, 0) as any as S.Codec<NeonAuthEmailAndPasswordConfig>,
+  input: __S(3136, __c196, 0) as any as S.Codec<GetNeonAuthEmailAndPasswordConfigRequest>,
+  output: __S(3152, __c197, 0) as any as S.Codec<NeonAuthEmailAndPasswordConfig>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5135,13 +5529,47 @@ export const getNeonAuthEmailProvider: API.OperationMethod<
   GetNeonAuthEmailProviderError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Codec<GetNeonAuthEmailProviderRequest>,
-  output: __S(2784, __c174, 0) as any as S.Codec<GetNeonAuthEmailProviderResponse>,
+  input: __S(3168, __c198, 0) as any as S.Codec<GetNeonAuthEmailProviderRequest>,
+  output: __S(3184, __c199, 0) as any as S.Codec<GetNeonAuthEmailProviderResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNeonAuthEmailProvider",
+}));
+
+export type GetNeonAuthOAuthClientError = NeonOpError;
+/** Retrieve an OAuth client Returns an OAuth client registered with the branch's Neon Auth OAuth provider. The client secret is never returned. */
+export const getNeonAuthOAuthClient: API.OperationMethod<
+  GetNeonAuthOAuthClientRequest,
+  NeonAuthOAuthClient,
+  GetNeonAuthOAuthClientError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3216, __c201, 0) as any as S.Codec<GetNeonAuthOAuthClientRequest>,
+  output: __S(3232, __c202, 0) as any as S.Codec<NeonAuthOAuthClient>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNeonAuthOAuthClient",
+}));
+
+export type GetNeonAuthOAuthProviderPluginError = NeonOpError;
+/** Retrieve OAuth provider plugin configuration Returns the OAuth provider plugin configuration for Neon Auth. The OAuth provider plugin lets Neon Auth act as an OAuth 2.1 authorization server for your own clients, such as MCP clients. */
+export const getNeonAuthOAuthProviderPlugin: API.OperationMethod<
+  GetNeonAuthOAuthProviderPluginRequest,
+  NeonAuthOAuthProviderConfig,
+  GetNeonAuthOAuthProviderPluginError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3248, __c203, 0) as any as S.Codec<GetNeonAuthOAuthProviderPluginRequest>,
+  output: __S(3267, __c204, 3) as any as S.Codec<NeonAuthOAuthProviderConfig>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNeonAuthOAuthProviderPlugin",
 }));
 
 export type GetNeonAuthPhoneNumberPluginError = NeonOpError;
@@ -5152,8 +5580,8 @@ export const getNeonAuthPhoneNumberPlugin: API.OperationMethod<
   GetNeonAuthPhoneNumberPluginError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Codec<GetNeonAuthPhoneNumberPluginRequest>,
-  output: __S(2832, __c177, 0) as any as S.Codec<NeonAuthPhoneNumberConfig>,
+  input: __S(3280, __c205, 0) as any as S.Codec<GetNeonAuthPhoneNumberPluginRequest>,
+  output: __S(3296, __c206, 0) as any as S.Codec<NeonAuthPhoneNumberConfig>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5169,8 +5597,8 @@ export const getNeonAuthPluginConfigs: API.OperationMethod<
   GetNeonAuthPluginConfigsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c178, 0) as any as S.Codec<GetNeonAuthPluginConfigsRequest>,
-  output: __S(2849, __c178, 1) as any as S.Codec<NeonAuthPluginConfigs>,
+  input: __S(3312, __c207, 0) as any as S.Codec<GetNeonAuthPluginConfigsRequest>,
+  output: __S(3313, __c207, 1) as any as S.Codec<NeonAuthPluginConfigs>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5186,8 +5614,8 @@ export const getNeonAuthWebhookConfig: API.OperationMethod<
   GetNeonAuthWebhookConfigError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Codec<GetNeonAuthWebhookConfigRequest>,
-  output: __S(2944, __c184, 0) as any as S.Codec<NeonAuthWebhookConfig>,
+  input: __S(3392, __c212, 0) as any as S.Codec<GetNeonAuthWebhookConfigRequest>,
+  output: __S(3408, __c213, 0) as any as S.Codec<NeonAuthWebhookConfig>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5203,8 +5631,8 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Codec<GetOrganizationRequest>,
-  output: __S(2640, __c165, 0) as any as S.Codec<Organization>,
+  input: __S(3424, __c214, 0) as any as S.Codec<GetOrganizationRequest>,
+  output: __S(3024, __c189, 0) as any as S.Codec<Organization>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5220,8 +5648,8 @@ export const getOrganizationInvitations: API.OperationMethod<
   GetOrganizationInvitationsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Codec<GetOrganizationInvitationsRequest>,
-  output: __S(1362, __c85, 2) as any as S.Codec<OrganizationInvitationsResponse>,
+  input: __S(3440, __c215, 0) as any as S.Codec<GetOrganizationInvitationsRequest>,
+  output: __S(1698, __c106, 2) as any as S.Codec<OrganizationInvitationsResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5237,8 +5665,8 @@ export const getOrganizationMember: API.OperationMethod<
   GetOrganizationMemberError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Codec<GetOrganizationMemberRequest>,
-  output: __S(3008, __c188, 0) as any as S.Codec<Member>,
+  input: __S(3536, __c221, 0) as any as S.Codec<GetOrganizationMemberRequest>,
+  output: __S(3552, __c222, 0) as any as S.Codec<Member>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5256,8 +5684,8 @@ export const getOrganizationMembers: API.PaginatedOperationMethod<
   MemberWithUser
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3024, __c189, 0) as any as S.Codec<GetOrganizationMembersRequest>,
-    output: __S(3028, __c189, 4) as any as S.Codec<GetOrganizationMembersResponse>,
+    input: __S(3568, __c223, 0) as any as S.Codec<GetOrganizationMembersRequest>,
+    output: __S(3572, __c223, 4) as any as S.Codec<GetOrganizationMembersResponse>,
     errors: [UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
@@ -5281,8 +5709,8 @@ export const getOrganizationSpendingLimit: API.OperationMethod<
   GetOrganizationSpendingLimitError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Codec<GetOrganizationSpendingLimitRequest>,
-  output: __S(3072, __c192, 0) as any as S.Codec<SpendingLimitResponse>,
+  input: __S(3600, __c225, 0) as any as S.Codec<GetOrganizationSpendingLimitRequest>,
+  output: __S(3616, __c226, 0) as any as S.Codec<SpendingLimitResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5298,8 +5726,8 @@ export const getOrganizationVPCEndpointDetails: API.OperationMethod<
   GetOrganizationVPCEndpointDetailsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Codec<GetOrganizationVPCEndpointDetailsRequest>,
-  output: __S(3089, __c193, 1) as any as S.Codec<VPCEndpointDetails>,
+  input: __S(3632, __c227, 0) as any as S.Codec<GetOrganizationVPCEndpointDetailsRequest>,
+  output: __S(3633, __c227, 1) as any as S.Codec<VPCEndpointDetails>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5308,15 +5736,15 @@ export const getOrganizationVPCEndpointDetails: API.OperationMethod<
 }));
 
 export type GetProjectError = BadRequest | NotFound | NeonOpError;
-/** Retrieve project details Retrieves information about the specified project. Returned details include the project settings, compute configuration, history retention, owner information, and current usage metrics. */
+/** Retrieve project details Retrieves information about the specified project. Returned details include the project settings, compute configuration, history retention, owner information, and current usage metrics. The usage metrics are not intended for billing or metering. For billing, use `/consumption_history/v2/projects`. */
 export const getProject: API.OperationMethod<
   GetProjectRequest,
   ProjectResponse,
   GetProjectError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Codec<GetProjectRequest>,
-  output: __S(2080, __c130, 0) as any as S.Codec<ProjectResponse>,
+  input: __S(3648, __c228, 0) as any as S.Codec<GetProjectRequest>,
+  output: __S(2432, __c152, 0) as any as S.Codec<ProjectResponse>,
   errors: [BadRequest, NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5332,8 +5760,8 @@ export const getProjectAdvisorSecurityIssues: API.OperationMethod<
   GetProjectAdvisorSecurityIssuesError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Codec<GetProjectAdvisorSecurityIssuesRequest>,
-  output: __S(3123, __c195, 3) as any as S.Codec<GetProjectAdvisorSecurityIssuesResponse>,
+  input: __S(3664, __c229, 0) as any as S.Codec<GetProjectAdvisorSecurityIssuesRequest>,
+  output: __S(3667, __c229, 3) as any as S.Codec<GetProjectAdvisorSecurityIssuesResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5342,15 +5770,15 @@ export const getProjectAdvisorSecurityIssues: API.OperationMethod<
 }));
 
 export type GetProjectBranchError = NotFound | NeonOpError;
-/** Retrieve branch details Retrieves information about the specified branch. A `branch_id` value has a `br-` prefix. Each Neon project is initially created with a root and default branch named `main`. A project can contain one or more branches. A parent branch is identified by a `parent_id` value, which is the `id` of the parent branch. For related information, see [Manage branches](https://neon.com/docs/manage/branches/). */
+/** Retrieve branch details Retrieves information about the specified branch. A `branch_id` value has a `br-` prefix. Each Neon project is initially created with a root and default branch named `main`. A project can contain one or more branches. A parent branch is identified by a `parent_id` value, which is the `id` of the parent branch. For related information, see [Manage branches](https://neon.com/docs/manage/branches/). The usage metrics are not intended for billing or metering. For billing, use `/consumption_history/v2/branches`. */
 export const getProjectBranch: API.OperationMethod<
   GetProjectBranchRequest,
   GetProjectBranchResponse,
   GetProjectBranchError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Codec<GetProjectBranchRequest>,
-  output: __S(3153, __c197, 1) as any as S.Codec<GetProjectBranchResponse>,
+  input: __S(3696, __c231, 0) as any as S.Codec<GetProjectBranchRequest>,
+  output: __S(3697, __c231, 1) as any as S.Codec<GetProjectBranchResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5366,8 +5794,8 @@ export const getProjectBranchAiGateway: API.OperationMethod<
   GetProjectBranchAiGatewayError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Codec<GetProjectBranchAiGatewayRequest>,
-  output: __S(3265, __c204, 1) as any as S.Codec<BranchAiGateway>,
+  input: __S(3728, __c233, 0) as any as S.Codec<GetProjectBranchAiGatewayRequest>,
+  output: __S(3729, __c233, 1) as any as S.Codec<BranchAiGateway>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5375,17 +5803,17 @@ export const getProjectBranchAiGateway: API.OperationMethod<
   span: "GetProjectBranchAiGateway",
 }));
 
-export type GetProjectBranchBucketObjectError = NotFound | NeonOpError;
-/** Download an object's bytes Streams the raw bytes of the named object from the bucket on the specified branch, including objects inherited from ancestor branches. Served by the user's session (no customer S3 credentials required). The body is returned as `application/octet-stream` so a browser treats it as a download; the `Content-Length` and `ETag` response headers echo the stored object metadata. BINARY-STREAM EXCEPTION TO THE BUILD-GENERATED-TYPES RULE (#7029): the successful 200 body is the raw object stream, proxied verbatim from the platform object storage admin endpoint. It is modeled as an `application/octet-stream` binary body (not a JSON response schema) and is streamed without buffering the whole object in memory. Error responses still use the generated `GeneralError` shape. **Note**: This endpoint is currently in Beta. */
+export type GetProjectBranchBucketObjectError = Forbidden | NotFound | NeonOpError;
+/** Download an object's bytes Streams the raw bytes of the named object from the bucket on the specified branch, including objects inherited from ancestor branches. Served by the user's session (no customer S3 credentials required). For organizations on the per-project role model, downloading object bytes requires the Editor role or higher. Viewers can list objects but not download them. The body is returned as `application/octet-stream` so a browser treats it as a download; the `Content-Length` and `ETag` response headers echo the stored object metadata. BINARY-STREAM EXCEPTION TO THE BUILD-GENERATED-TYPES RULE (#7029): the successful 200 body is the raw object stream, proxied verbatim from the platform object storage admin endpoint. It is modeled as an `application/octet-stream` binary body (not a JSON response schema) and is streamed without buffering the whole object in memory. Error responses still use the generated `GeneralError` shape. **Note**: This endpoint is currently in Beta. */
 export const getProjectBranchBucketObject: API.OperationMethod<
   GetProjectBranchBucketObjectRequest,
   GetProjectBranchBucketObjectResponse,
   GetProjectBranchBucketObjectError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Codec<GetProjectBranchBucketObjectRequest>,
-  output: __S(3281, __c205, 1) as any as S.Codec<GetProjectBranchBucketObjectResponse>,
-  errors: [NotFound, UnknownNeonError],
+  input: __S(3744, __c234, 0) as any as S.Codec<GetProjectBranchBucketObjectRequest>,
+  output: __S(3745, __c234, 1) as any as S.Codec<GetProjectBranchBucketObjectResponse>,
+  errors: [Forbidden, NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5400,8 +5828,8 @@ export const getProjectBranchDataAPI: API.OperationMethod<
   GetProjectBranchDataAPIError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Codec<GetProjectBranchDataAPIRequest>,
-  output: __S(3297, __c206, 1) as any as S.Codec<DataAPIReponse>,
+  input: __S(3760, __c235, 0) as any as S.Codec<GetProjectBranchDataAPIRequest>,
+  output: __S(3761, __c235, 1) as any as S.Codec<DataAPIReponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5417,8 +5845,8 @@ export const getProjectBranchDatabase: API.OperationMethod<
   GetProjectBranchDatabaseError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Codec<GetProjectBranchDatabaseRequest>,
-  output: __S(3313, __c207, 1) as any as S.Codec<DatabaseResponse>,
+  input: __S(3792, __c237, 0) as any as S.Codec<GetProjectBranchDatabaseRequest>,
+  output: __S(3793, __c237, 1) as any as S.Codec<DatabaseResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5434,13 +5862,47 @@ export const getProjectBranchFunction: API.OperationMethod<
   GetProjectBranchFunctionError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c208, 0) as any as S.Codec<GetProjectBranchFunctionRequest>,
-  output: __S(3360, __c210, 0) as any as S.Codec<NeonFunctionResponse>,
+  input: __S(3808, __c238, 0) as any as S.Codec<GetProjectBranchFunctionRequest>,
+  output: __S(3840, __c240, 0) as any as S.Codec<NeonFunctionResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectBranchFunction",
+}));
+
+export type GetProjectBranchRealtimeError = NeonOpError;
+/** Retrieve Realtime state Retrieves whether Realtime is enabled for the branch, whether a change is still being applied, and, once provisioned, its invocation URL and allowed origins. The shared secret is returned by `GET /projects/{project_id}/branches/{branch_id}/realtime/secret`. */
+export const getProjectBranchRealtime: API.OperationMethod<
+  GetProjectBranchRealtimeRequest,
+  Realtime,
+  GetProjectBranchRealtimeError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3856, __c241, 0) as any as S.Codec<GetProjectBranchRealtimeRequest>,
+  output: __S(3857, __c241, 1) as any as S.Codec<Realtime>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchRealtime",
+}));
+
+export type GetProjectBranchRealtimeSecretError = NeonOpError;
+/** Retrieve the Realtime shared secret Retrieves the secret the application backend issues Realtime tokens with. Requires permission to read the project's credentials. Returns 404 while Realtime is disabled or before the secret is provisioned. After a rotation, this returns the previous secret until `pending` is false. */
+export const getProjectBranchRealtimeSecret: API.OperationMethod<
+  GetProjectBranchRealtimeSecretRequest,
+  RealtimeSecret,
+  GetProjectBranchRealtimeSecretError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3872, __c242, 0) as any as S.Codec<GetProjectBranchRealtimeSecretRequest>,
+  output: __S(3873, __c242, 1) as any as S.Codec<RealtimeSecret>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchRealtimeSecret",
 }));
 
 export type GetProjectBranchRoleError = NotFound | NeonOpError;
@@ -5451,8 +5913,8 @@ export const getProjectBranchRole: API.OperationMethod<
   GetProjectBranchRoleError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Codec<GetProjectBranchRoleRequest>,
-  output: __S(3377, __c211, 1) as any as S.Codec<RoleResponse>,
+  input: __S(3888, __c243, 0) as any as S.Codec<GetProjectBranchRoleRequest>,
+  output: __S(3889, __c243, 1) as any as S.Codec<RoleResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5468,8 +5930,8 @@ export const getProjectBranchRolePassword: API.OperationMethod<
   GetProjectBranchRolePasswordError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c212, 0) as any as S.Codec<GetProjectBranchRolePasswordRequest>,
-  output: __S(3393, __c212, 1) as any as S.Codec<RolePasswordResponse>,
+  input: __S(3904, __c244, 0) as any as S.Codec<GetProjectBranchRolePasswordRequest>,
+  output: __S(3905, __c244, 1) as any as S.Codec<RolePasswordResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5485,8 +5947,8 @@ export const getProjectBranchSchema: API.OperationMethod<
   GetProjectBranchSchemaError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Codec<GetProjectBranchSchemaRequest>,
-  output: __S(3417, __c213, 9) as any as S.Codec<BranchSchemaResponse>,
+  input: __S(3920, __c245, 0) as any as S.Codec<GetProjectBranchSchemaRequest>,
+  output: __S(3929, __c245, 9) as any as S.Codec<BranchSchemaResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5502,8 +5964,8 @@ export const getProjectBranchSchemaComparison: API.OperationMethod<
   GetProjectBranchSchemaComparisonError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Codec<GetProjectBranchSchemaComparisonRequest>,
-  output: __S(3425, __c214, 1) as any as S.Codec<BranchSchemaCompareResponse>,
+  input: __S(3936, __c246, 0) as any as S.Codec<GetProjectBranchSchemaComparisonRequest>,
+  output: __S(3937, __c246, 1) as any as S.Codec<BranchSchemaCompareResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5519,8 +5981,8 @@ export const getProjectBranchStorage: API.OperationMethod<
   GetProjectBranchStorageError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3440, __c215, 0) as any as S.Codec<GetProjectBranchStorageRequest>,
-  output: __S(3441, __c215, 1) as any as S.Codec<BranchStorage>,
+  input: __S(3952, __c247, 0) as any as S.Codec<GetProjectBranchStorageRequest>,
+  output: __S(3953, __c247, 1) as any as S.Codec<BranchStorage>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5536,8 +5998,8 @@ export const getProjectBranchTrigger: API.OperationMethod<
   GetProjectBranchTriggerError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Codec<GetProjectBranchTriggerRequest>,
-  output: __S(1872, __c117, 0) as any as S.Codec<TriggerResponse>,
+  input: __S(3968, __c248, 0) as any as S.Codec<GetProjectBranchTriggerRequest>,
+  output: __S(2208, __c138, 0) as any as S.Codec<TriggerResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5553,8 +6015,8 @@ export const getProjectEndpoint: API.OperationMethod<
   GetProjectEndpointError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c218, 0) as any as S.Codec<GetProjectEndpointRequest>,
-  output: __S(3489, __c218, 1) as any as S.Codec<EndpointResponse>,
+  input: __S(16, __c1, 0) as any as S.Codec<GetProjectEndpointRequest>,
+  output: __S(17, __c1, 1) as any as S.Codec<EndpointResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5570,8 +6032,8 @@ export const getProjectJWKS: API.OperationMethod<
   GetProjectJWKSError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3504, __c219, 0) as any as S.Codec<GetProjectJWKSRequest>,
-  output: __S(3506, __c219, 2) as any as S.Codec<ProjectJWKSResponse>,
+  input: __S(32, __c2, 0) as any as S.Codec<GetProjectJWKSRequest>,
+  output: __S(34, __c2, 2) as any as S.Codec<ProjectJWKSResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5587,8 +6049,8 @@ export const getProjectOperation: API.OperationMethod<
   GetProjectOperationError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c220, 0) as any as S.Codec<GetProjectOperationRequest>,
-  output: __S(3521, __c220, 1) as any as S.Codec<OperationResponse>,
+  input: __S(48, __c3, 0) as any as S.Codec<GetProjectOperationRequest>,
+  output: __S(49, __c3, 1) as any as S.Codec<OperationResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5604,8 +6066,8 @@ export const getSnapshotSchedule: API.OperationMethod<
   GetSnapshotScheduleError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3536, __c221, 0) as any as S.Codec<GetSnapshotScheduleRequest>,
-  output: __S(3537, __c221, 1) as any as S.Codec<BackupSchedule>,
+  input: __S(64, __c4, 0) as any as S.Codec<GetSnapshotScheduleRequest>,
+  output: __S(65, __c4, 1) as any as S.Codec<BackupSchedule>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5621,8 +6083,8 @@ export const grantPermissionToProject: API.OperationMethod<
   GrantPermissionToProjectError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3568, __c223, 0) as any as S.Codec<GrantPermissionToProjectRequest>,
-  output: __S(3584, __c224, 0) as any as S.Codec<ProjectPermission>,
+  input: __S(96, __c6, 0) as any as S.Codec<GrantPermissionToProjectRequest>,
+  output: __S(112, __c7, 0) as any as S.Codec<ProjectPermission>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5638,8 +6100,8 @@ export const listApiKeys: API.OperationMethod<
   ListApiKeysError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3600, __c225, 0) as any as S.Codec<ListApiKeysRequest>,
-  output: __S(3603, __c225, 3) as any as S.Codec<ListApiKeysResponse>,
+  input: __S(128, __c8, 0) as any as S.Codec<ListApiKeysRequest>,
+  output: __S(131, __c8, 3) as any as S.Codec<ListApiKeysResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5655,8 +6117,8 @@ export const listBranchNeonAuthOauthProviders: API.OperationMethod<
   ListBranchNeonAuthOauthProvidersError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3632, __c227, 0) as any as S.Codec<ListBranchNeonAuthOauthProvidersRequest>,
-  output: __S(3633, __c227, 1) as any as S.Codec<ListNeonAuthOauthProvidersResponse>,
+  input: __S(160, __c10, 0) as any as S.Codec<ListBranchNeonAuthOauthProvidersRequest>,
+  output: __S(161, __c10, 1) as any as S.Codec<ListNeonAuthOauthProvidersResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5672,8 +6134,8 @@ export const listBranchNeonAuthTrustedDomains: API.OperationMethod<
   ListBranchNeonAuthTrustedDomainsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c228, 0) as any as S.Codec<ListBranchNeonAuthTrustedDomainsRequest>,
-  output: __S(3651, __c228, 3) as any as S.Codec<NeonAuthRedirectURIWhitelistResponse>,
+  input: __S(176, __c11, 0) as any as S.Codec<ListBranchNeonAuthTrustedDomainsRequest>,
+  output: __S(179, __c11, 3) as any as S.Codec<NeonAuthRedirectURIWhitelistResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5689,13 +6151,30 @@ export const listCredentials: API.OperationMethod<
   ListCredentialsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3664, __c229, 0) as any as S.Codec<ListCredentialsRequest>,
-  output: __S(3667, __c229, 3) as any as S.Codec<ListCredentialsResponse>,
+  input: __S(192, __c12, 0) as any as S.Codec<ListCredentialsRequest>,
+  output: __S(195, __c12, 3) as any as S.Codec<ListCredentialsResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCredentials",
+}));
+
+export type ListNeonAuthOAuthClientsError = NeonOpError;
+/** List OAuth clients Lists the OAuth clients registered for the branch's Neon Auth OAuth provider. Client secrets are never returned. */
+export const listNeonAuthOAuthClients: API.OperationMethod<
+  ListNeonAuthOAuthClientsRequest,
+  ListNeonAuthOAuthClientsResponse,
+  ListNeonAuthOAuthClientsError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c13, 0) as any as S.Codec<ListNeonAuthOAuthClientsRequest>,
+  output: __S(210, __c13, 2) as any as S.Codec<ListNeonAuthOAuthClientsResponse>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNeonAuthOAuthClients",
 }));
 
 export type ListOrganizationVPCEndpointsError = NeonOpError;
@@ -5706,8 +6185,8 @@ export const listOrganizationVPCEndpoints: API.OperationMethod<
   ListOrganizationVPCEndpointsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Codec<ListOrganizationVPCEndpointsRequest>,
-  output: __S(34, __c2, 2) as any as S.Codec<VPCEndpointsResponse>,
+  input: __S(256, __c16, 0) as any as S.Codec<ListOrganizationVPCEndpointsRequest>,
+  output: __S(274, __c17, 2) as any as S.Codec<VPCEndpointsResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5723,8 +6202,8 @@ export const listOrganizationVPCEndpointsAllRegions: API.OperationMethod<
   ListOrganizationVPCEndpointsAllRegionsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Codec<ListOrganizationVPCEndpointsAllRegionsRequest>,
-  output: __S(51, __c3, 3) as any as S.Codec<VPCEndpointsWithRegionResponse>,
+  input: __S(288, __c18, 0) as any as S.Codec<ListOrganizationVPCEndpointsAllRegionsRequest>,
+  output: __S(291, __c18, 3) as any as S.Codec<VPCEndpointsWithRegionResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5740,8 +6219,8 @@ export const listOrgApiKeys: API.OperationMethod<
   ListOrgApiKeysError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Codec<ListOrgApiKeysRequest>,
-  output: __S(67, __c4, 3) as any as S.Codec<ListOrgApiKeysResponse>,
+  input: __S(304, __c19, 0) as any as S.Codec<ListOrgApiKeysRequest>,
+  output: __S(307, __c19, 3) as any as S.Codec<ListOrgApiKeysResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5757,8 +6236,8 @@ export const listProjectBranchBucketObjects: API.OperationMethod<
   ListProjectBranchBucketObjectsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Codec<ListProjectBranchBucketObjectsRequest>,
-  output: __S(83, __c5, 3) as any as S.Codec<BucketObjectsListResponse>,
+  input: __S(320, __c20, 0) as any as S.Codec<ListProjectBranchBucketObjectsRequest>,
+  output: __S(323, __c20, 3) as any as S.Codec<BucketObjectsListResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5774,8 +6253,8 @@ export const listProjectBranchBuckets: API.OperationMethod<
   ListProjectBranchBucketsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Codec<ListProjectBranchBucketsRequest>,
-  output: __S(98, __c6, 2) as any as S.Codec<BucketsListResponse>,
+  input: __S(336, __c21, 0) as any as S.Codec<ListProjectBranchBucketsRequest>,
+  output: __S(338, __c21, 2) as any as S.Codec<BucketsListResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5793,8 +6272,8 @@ export const listProjectBranchCustomDomains: API.PaginatedOperationMethod<
   CustomDomain
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(112, __c7, 0) as any as S.Codec<ListProjectBranchCustomDomainsRequest>,
-    output: __S(114, __c7, 2) as any as S.Codec<ListProjectBranchCustomDomainsResponse>,
+    input: __S(352, __c22, 0) as any as S.Codec<ListProjectBranchCustomDomainsRequest>,
+    output: __S(354, __c22, 2) as any as S.Codec<ListProjectBranchCustomDomainsResponse>,
     errors: [UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
@@ -5818,8 +6297,8 @@ export const listProjectBranchDatabases: API.OperationMethod<
   ListProjectBranchDatabasesError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Codec<ListProjectBranchDatabasesRequest>,
-  output: __S(145, __c9, 1) as any as S.Codec<DatabasesResponse>,
+  input: __S(384, __c24, 0) as any as S.Codec<ListProjectBranchDatabasesRequest>,
+  output: __S(385, __c24, 1) as any as S.Codec<DatabasesResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5835,8 +6314,8 @@ export const listProjectBranchEndpoints: API.OperationMethod<
   ListProjectBranchEndpointsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Codec<ListProjectBranchEndpointsRequest>,
-  output: __S(176, __c11, 0) as any as S.Codec<EndpointsResponse>,
+  input: __S(400, __c25, 0) as any as S.Codec<ListProjectBranchEndpointsRequest>,
+  output: __S(416, __c26, 0) as any as S.Codec<EndpointsResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5854,8 +6333,8 @@ export const listProjectBranches: API.PaginatedOperationMethod<
   Branch
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(192, __c12, 0) as any as S.Codec<ListProjectBranchesRequest>,
-    output: __S(194, __c12, 2) as any as S.Codec<ListProjectBranchesResponse>,
+    input: __S(432, __c27, 0) as any as S.Codec<ListProjectBranchesRequest>,
+    output: __S(434, __c27, 2) as any as S.Codec<ListProjectBranchesResponse>,
     errors: [NotFound, UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
@@ -5881,8 +6360,8 @@ export const listProjectBranchFunctions: API.PaginatedOperationMethod<
   NeonFunction
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(224, __c14, 0) as any as S.Codec<ListProjectBranchFunctionsRequest>,
-    output: __S(226, __c14, 2) as any as S.Codec<ListProjectBranchFunctionsResponse>,
+    input: __S(464, __c29, 0) as any as S.Codec<ListProjectBranchFunctionsRequest>,
+    output: __S(466, __c29, 2) as any as S.Codec<ListProjectBranchFunctionsResponse>,
     errors: [UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
@@ -5906,8 +6385,8 @@ export const listProjectBranchLogFields: API.OperationMethod<
   ListProjectBranchLogFieldsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Codec<ListProjectBranchLogFieldsRequest>,
-  output: __S(257, __c16, 1) as any as S.Codec<ProjectBranchLogFieldsResponse>,
+  input: __S(496, __c31, 0) as any as S.Codec<ListProjectBranchLogFieldsRequest>,
+  output: __S(497, __c31, 1) as any as S.Codec<ProjectBranchLogFieldsResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5923,8 +6402,8 @@ export const listProjectBranchLogFieldValues: API.OperationMethod<
   ListProjectBranchLogFieldValuesError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Codec<ListProjectBranchLogFieldValuesRequest>,
-  output: __S(273, __c17, 1) as any as S.Codec<ProjectBranchLogFieldValuesResponse>,
+  input: __S(512, __c32, 0) as any as S.Codec<ListProjectBranchLogFieldValuesRequest>,
+  output: __S(513, __c32, 1) as any as S.Codec<ProjectBranchLogFieldValuesResponse>,
   errors: [BadRequest, NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5940,8 +6419,8 @@ export const listProjectBranchRoles: API.OperationMethod<
   ListProjectBranchRolesError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Codec<ListProjectBranchRolesRequest>,
-  output: __S(289, __c18, 1) as any as S.Codec<RolesResponse>,
+  input: __S(528, __c33, 0) as any as S.Codec<ListProjectBranchRolesRequest>,
+  output: __S(529, __c33, 1) as any as S.Codec<RolesResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5957,8 +6436,8 @@ export const listProjectBranchTriggers: API.OperationMethod<
   ListProjectBranchTriggersError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Codec<ListProjectBranchTriggersRequest>,
-  output: __S(306, __c19, 2) as any as S.Codec<TriggersListResponse>,
+  input: __S(544, __c34, 0) as any as S.Codec<ListProjectBranchTriggersRequest>,
+  output: __S(546, __c34, 2) as any as S.Codec<TriggersListResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5974,8 +6453,8 @@ export const listProjectEndpoints: API.OperationMethod<
   ListProjectEndpointsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Codec<ListProjectEndpointsRequest>,
-  output: __S(176, __c11, 0) as any as S.Codec<EndpointsResponse>,
+  input: __S(560, __c35, 0) as any as S.Codec<ListProjectEndpointsRequest>,
+  output: __S(416, __c26, 0) as any as S.Codec<EndpointsResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -5993,8 +6472,8 @@ export const listProjectMembers: API.PaginatedOperationMethod<
   ProjectMember
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(336, __c21, 0) as any as S.Codec<ListProjectMembersRequest>,
-    output: __S(339, __c21, 3) as any as S.Codec<ProjectMembers>,
+    input: __S(576, __c36, 0) as any as S.Codec<ListProjectMembersRequest>,
+    output: __S(579, __c36, 3) as any as S.Codec<ProjectMembers>,
     errors: [UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
@@ -6020,8 +6499,8 @@ export const listProjectOperations: API.PaginatedOperationMethod<
   Operation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(352, __c22, 0) as any as S.Codec<ListProjectOperationsRequest>,
-    output: __S(353, __c22, 1) as any as S.Codec<ListProjectOperationsResponse>,
+    input: __S(592, __c37, 0) as any as S.Codec<ListProjectOperationsRequest>,
+    output: __S(593, __c37, 1) as any as S.Codec<ListProjectOperationsResponse>,
     errors: [NotFound, UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
@@ -6045,8 +6524,8 @@ export const listProjectPermissions: API.OperationMethod<
   ListProjectPermissionsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Codec<ListProjectPermissionsRequest>,
-  output: __S(370, __c23, 2) as any as S.Codec<ProjectPermissions>,
+  input: __S(608, __c38, 0) as any as S.Codec<ListProjectPermissionsRequest>,
+  output: __S(610, __c38, 2) as any as S.Codec<ProjectPermissions>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6064,8 +6543,8 @@ export const listProjects: API.PaginatedOperationMethod<
   ProjectListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(384, __c24, 0) as any as S.Codec<ListProjectsRequest>,
-    output: __S(386, __c24, 2) as any as S.Codec<ListProjectsResponse>,
+    input: __S(624, __c39, 0) as any as S.Codec<ListProjectsRequest>,
+    output: __S(626, __c39, 2) as any as S.Codec<ListProjectsResponse>,
     errors: [UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
@@ -6089,8 +6568,8 @@ export const listProjectVPCEndpoints: API.OperationMethod<
   ListProjectVPCEndpointsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Codec<ListProjectVPCEndpointsRequest>,
-  output: __S(34, __c2, 2) as any as S.Codec<VPCEndpointsResponse>,
+  input: __S(656, __c41, 0) as any as S.Codec<ListProjectVPCEndpointsRequest>,
+  output: __S(274, __c17, 2) as any as S.Codec<VPCEndpointsResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6108,8 +6587,8 @@ export const listSharedProjects: API.PaginatedOperationMethod<
   ProjectListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(448, __c28, 0) as any as S.Codec<ListSharedProjectsRequest>,
-    output: __S(449, __c28, 1) as any as S.Codec<ListSharedProjectsResponse>,
+    input: __S(688, __c43, 0) as any as S.Codec<ListSharedProjectsRequest>,
+    output: __S(689, __c43, 1) as any as S.Codec<ListSharedProjectsResponse>,
     errors: [UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
@@ -6133,8 +6612,8 @@ export const listSnapshots: API.OperationMethod<
   ListSnapshotsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Codec<ListSnapshotsRequest>,
-  output: __S(466, __c29, 2) as any as S.Codec<ListSnapshotsResponse>,
+  input: __S(704, __c44, 0) as any as S.Codec<ListSnapshotsRequest>,
+  output: __S(706, __c44, 2) as any as S.Codec<ListSnapshotsResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6142,17 +6621,17 @@ export const listSnapshots: API.OperationMethod<
   span: "ListSnapshots",
 }));
 
-export type PresignProjectBranchBucketObjectError = NotFound | NeonOpError;
-/** Presign an upload or download for an object in a bucket Returns a presigned URL that transfers bytes directly to or from the object's bucket on the specified branch, without the caller ever handling S3 credentials. The `operation` field selects the direction: - `upload` returns a presigned `PUT` URL (the caller `PUT`s the file bytes straight to `url` with the returned `headers`). Authorized with project write access. - `download` returns a presigned `GET` URL (the caller `GET`s the bytes straight from `url`). Authorized with project read access. The platform mints a short-lived credential and builds the SigV4-signed URL against the branch's S3 data-plane host, returning it together with the HTTP method, any headers the caller must echo, and the URL's expiry. Served by the user's session (no customer S3 credentials required). **Note**: This endpoint is currently in Beta. */
+export type PresignProjectBranchBucketObjectError = Forbidden | NotFound | NeonOpError;
+/** Presign an upload or download for an object in a bucket Returns a presigned URL that transfers bytes directly to or from the object's bucket on the specified branch, without the caller ever handling S3 credentials. The `operation` field selects the direction: - `upload` returns a presigned `PUT` URL (the caller `PUT`s the file bytes straight to `url` with the returned `headers`). Authorized with project write access. - `download` returns a presigned `GET` URL (the caller `GET`s the bytes straight from `url`). Authorized with project read access. For organizations on the per-project role model, it also requires the Editor role or higher, because the URL grants access to the object's bytes. The platform mints a short-lived credential and builds the SigV4-signed URL against the branch's S3 data-plane host, returning it together with the HTTP method, any headers the caller must echo, and the URL's expiry. Served by the user's session (no customer S3 credentials required). **Note**: This endpoint is currently in Beta. */
 export const presignProjectBranchBucketObject: API.OperationMethod<
   PresignProjectBranchBucketObjectRequest,
   PresignResponse,
   PresignProjectBranchBucketObjectError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Codec<PresignProjectBranchBucketObjectRequest>,
-  output: __S(481, __c30, 1) as any as S.Codec<PresignResponse>,
-  errors: [NotFound, UnknownNeonError],
+  input: __S(720, __c45, 0) as any as S.Codec<PresignProjectBranchBucketObjectRequest>,
+  output: __S(721, __c45, 1) as any as S.Codec<PresignResponse>,
+  errors: [Forbidden, NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6167,8 +6646,8 @@ export const queryProjectBranchLogs: API.OperationMethod<
   QueryProjectBranchLogsError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Codec<QueryProjectBranchLogsRequest>,
-  output: __S(499, __c31, 3) as any as S.Codec<ProjectBranchLogsQueryResponse>,
+  input: __S(736, __c46, 0) as any as S.Codec<QueryProjectBranchLogsRequest>,
+  output: __S(739, __c46, 3) as any as S.Codec<ProjectBranchLogsQueryResponse>,
   errors: [BadRequest, NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6184,8 +6663,8 @@ export const recoverProject: API.OperationMethod<
   RecoverProjectError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Codec<RecoverProjectRequest>,
-  output: __S(513, __c32, 1) as any as S.Codec<RecoverProjectResponse>,
+  input: __S(752, __c47, 0) as any as S.Codec<RecoverProjectRequest>,
+  output: __S(753, __c47, 1) as any as S.Codec<RecoverProjectResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6194,15 +6673,15 @@ export const recoverProject: API.OperationMethod<
 }));
 
 export type RegisterProjectBranchCustomDomainError = NeonOpError;
-/** Register a custom domain on a branch Registers a customer-owned domain (for example `dashboard.acme.com`) on the branch and points it at a target entity, chosen by `entity_type` + `entity_id`. In v1 only `entity_type: function` is supported (an unsupported type is rejected with `400`), where `entity_id` is the function slug and the function must already exist on the branch (else `404`). The response includes the `cname_target` the customer must point their domain at with a CNAME record; the domain goes live only once that DNS resolves and a certificate is issued on the first request. A domain already registered to another resource is rejected with `409` and no detail about the owner. Re-registering the same domain for the same entity is idempotent. **Note**: This endpoint is currently in Beta. */
+/** Register a custom domain on a branch Registers a customer-owned domain (for example `dashboard.acme.com`) on the branch and points it at a target entity, chosen by `entity_type` + `entity_id`. In v1 only `entity_type: function` is supported (an unsupported type is rejected with `400`), where `entity_id` is the function slug and the function must already exist on the branch (else `404`). The response includes the `cname_target` the customer must point their domain at with a CNAME record; the domain goes live only once that DNS resolves and a certificate is issued on the first request. A domain already registered to another resource is rejected with `409` and no detail about the owner. Re-registering the same domain for the same entity is idempotent. For organizations on the per-project role model, registering a custom domain requires the project Admin role. Other callers receive `403` with code `CUSTOM_DOMAIN_ADMIN_REQUIRED`. Organization API keys keep write-level access. **Note**: This endpoint is currently in Beta. */
 export const registerProjectBranchCustomDomain: API.OperationMethod<
   RegisterProjectBranchCustomDomainRequest,
   CustomDomain,
   RegisterProjectBranchCustomDomainError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Codec<RegisterProjectBranchCustomDomainRequest>,
-  output: __S(128, __c8, 0) as any as S.Codec<CustomDomain>,
+  input: __S(768, __c48, 0) as any as S.Codec<RegisterProjectBranchCustomDomainRequest>,
+  output: __S(368, __c23, 0) as any as S.Codec<CustomDomain>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6218,8 +6697,8 @@ export const removeOrganizationMember: API.OperationMethod<
   RemoveOrganizationMemberError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Codec<RemoveOrganizationMemberRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<RemoveOrganizationMemberResponse>,
+  input: __S(784, __c49, 0) as any as S.Codec<RemoveOrganizationMemberRequest>,
+  output: __S(2384, __c149, 0) as any as S.Schema<RemoveOrganizationMemberResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6235,8 +6714,8 @@ export const removeProjectMemberRole: API.OperationMethod<
   RemoveProjectMemberRoleError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Codec<RemoveProjectMemberRoleRequest>,
-  output: __S(576, __c36, 0) as any as S.Codec<ProjectMemberRoleResponse>,
+  input: __S(800, __c50, 0) as any as S.Codec<RemoveProjectMemberRoleRequest>,
+  output: __S(816, __c51, 0) as any as S.Codec<ProjectMemberRoleResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6252,8 +6731,8 @@ export const resetProjectBranchRolePassword: API.OperationMethod<
   ResetProjectBranchRolePasswordError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Codec<ResetProjectBranchRolePasswordRequest>,
-  output: __S(1824, __c114, 0) as any as S.Schema<ResetProjectBranchRolePasswordResponse>,
+  input: __S(832, __c52, 0) as any as S.Codec<ResetProjectBranchRolePasswordRequest>,
+  output: __S(2160, __c135, 0) as any as S.Schema<ResetProjectBranchRolePasswordResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6269,8 +6748,8 @@ export const restartProjectEndpoint: API.OperationMethod<
   RestartProjectEndpointError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Codec<RestartProjectEndpointRequest>,
-  output: __S(1904, __c119, 0) as any as S.Schema<RestartProjectEndpointResponse>,
+  input: __S(848, __c53, 0) as any as S.Codec<RestartProjectEndpointRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<RestartProjectEndpointResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6286,8 +6765,8 @@ export const restoreProjectBranch: API.OperationMethod<
   RestoreProjectBranchError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Codec<RestoreProjectBranchRequest>,
-  output: __S(2112, __c132, 0) as any as S.Schema<RestoreProjectBranchResponse>,
+  input: __S(896, __c56, 0) as any as S.Codec<RestoreProjectBranchRequest>,
+  output: __S(2464, __c154, 0) as any as S.Schema<RestoreProjectBranchResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6303,8 +6782,8 @@ export const restoreSnapshot: API.OperationMethod<
   RestoreSnapshotError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Codec<RestoreSnapshotRequest>,
-  output: __S(673, __c42, 1) as any as S.Codec<RestoreSnapshotResponse>,
+  input: __S(912, __c57, 0) as any as S.Codec<RestoreSnapshotRequest>,
+  output: __S(913, __c57, 1) as any as S.Codec<RestoreSnapshotResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6320,8 +6799,8 @@ export const revealCredential: API.OperationMethod<
   RevealCredentialError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Codec<RevealCredentialRequest>,
-  output: __S(689, __c43, 1) as any as S.Codec<CredentialSecret>,
+  input: __S(928, __c58, 0) as any as S.Codec<RevealCredentialRequest>,
+  output: __S(929, __c58, 1) as any as S.Codec<CredentialSecret>,
   errors: [NotFound, Conflict, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6337,8 +6816,8 @@ export const revokeApiKey: API.OperationMethod<
   RevokeApiKeyError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Codec<RevokeApiKeyRequest>,
-  output: __S(705, __c44, 1) as any as S.Codec<ApiKeyRevokeResponse>,
+  input: __S(944, __c59, 0) as any as S.Codec<RevokeApiKeyRequest>,
+  output: __S(945, __c59, 1) as any as S.Codec<ApiKeyRevokeResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6354,8 +6833,8 @@ export const revokeCredential: API.OperationMethod<
   RevokeCredentialError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Codec<RevokeCredentialRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<RevokeCredentialResponse>,
+  input: __S(960, __c60, 0) as any as S.Codec<RevokeCredentialRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<RevokeCredentialResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6371,8 +6850,8 @@ export const revokeOrgApiKey: API.OperationMethod<
   RevokeOrgApiKeyError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Codec<RevokeOrgApiKeyRequest>,
-  output: __S(737, __c46, 1) as any as S.Codec<RevokeOrgApiKeyResponse>,
+  input: __S(976, __c61, 0) as any as S.Codec<RevokeOrgApiKeyRequest>,
+  output: __S(977, __c61, 1) as any as S.Codec<RevokeOrgApiKeyResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6388,8 +6867,8 @@ export const revokePermissionFromProject: API.OperationMethod<
   RevokePermissionFromProjectError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Codec<RevokePermissionFromProjectRequest>,
-  output: __S(3584, __c224, 0) as any as S.Codec<ProjectPermission>,
+  input: __S(992, __c62, 0) as any as S.Codec<RevokePermissionFromProjectRequest>,
+  output: __S(112, __c7, 0) as any as S.Codec<ProjectPermission>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6405,13 +6884,47 @@ export const rotateCredential: API.OperationMethod<
   RotateCredentialError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Codec<RotateCredentialRequest>,
-  output: __S(769, __c48, 1) as any as S.Codec<RotateCredentialResponse>,
+  input: __S(1008, __c63, 0) as any as S.Codec<RotateCredentialRequest>,
+  output: __S(1009, __c63, 1) as any as S.Codec<RotateCredentialResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RotateCredential",
+}));
+
+export type RotateNeonAuthOAuthClientSecretError = NeonOpError;
+/** Rotate an OAuth client secret Generates a new secret for a confidential OAuth client and invalidates the previous one. The new secret is shown only once. */
+export const rotateNeonAuthOAuthClientSecret: API.OperationMethod<
+  RotateNeonAuthOAuthClientSecretRequest,
+  NeonAuthOAuthClientSecret,
+  RotateNeonAuthOAuthClientSecretError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1024, __c64, 0) as any as S.Codec<RotateNeonAuthOAuthClientSecretRequest>,
+  output: __S(1025, __c64, 1) as any as S.Codec<NeonAuthOAuthClientSecret>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateNeonAuthOAuthClientSecret",
+}));
+
+export type RotateProjectBranchRealtimeSecretError = NeonOpError;
+/** Rotate the Realtime shared secret Replaces the branch's Realtime shared secret. Rotation is asynchronous: once the Realtime state is no longer pending, the previous secret stops working and `GET /projects/{project_id}/branches/{branch_id}/realtime/secret` returns the new one. */
+export const rotateProjectBranchRealtimeSecret: API.OperationMethod<
+  RotateProjectBranchRealtimeSecretRequest,
+  RotateProjectBranchRealtimeSecretResponse,
+  RotateProjectBranchRealtimeSecretError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1040, __c65, 0) as any as S.Codec<RotateProjectBranchRealtimeSecretRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<RotateProjectBranchRealtimeSecretResponse>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateProjectBranchRealtimeSecret",
 }));
 
 export type SendNeonAuthEmailProviderTestError = NeonOpError;
@@ -6422,8 +6935,8 @@ export const sendNeonAuthEmailProviderTest: API.OperationMethod<
   SendNeonAuthEmailProviderTestError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Codec<SendNeonAuthEmailProviderTestRequest>,
-  output: __S(785, __c49, 1) as any as S.Codec<SendNeonAuthTestEmailResponse>,
+  input: __S(1088, __c68, 0) as any as S.Codec<SendNeonAuthEmailProviderTestRequest>,
+  output: __S(1089, __c68, 1) as any as S.Codec<SendNeonAuthTestEmailResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6439,8 +6952,8 @@ export const setDefaultProjectBranch: API.OperationMethod<
   SetDefaultProjectBranchError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Codec<SetDefaultProjectBranchRequest>,
-  output: __S(2112, __c132, 0) as any as S.Schema<SetDefaultProjectBranchResponse>,
+  input: __S(1104, __c69, 0) as any as S.Codec<SetDefaultProjectBranchRequest>,
+  output: __S(2464, __c154, 0) as any as S.Schema<SetDefaultProjectBranchResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6456,8 +6969,8 @@ export const setOrganizationSpendingLimit: API.OperationMethod<
   SetOrganizationSpendingLimitError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Codec<SetOrganizationSpendingLimitRequest>,
-  output: __S(3072, __c192, 0) as any as S.Codec<SpendingLimitResponse>,
+  input: __S(1120, __c70, 0) as any as S.Codec<SetOrganizationSpendingLimitRequest>,
+  output: __S(3616, __c226, 0) as any as S.Codec<SpendingLimitResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6473,8 +6986,8 @@ export const setProjectMemberRole: API.OperationMethod<
   SetProjectMemberRoleError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Codec<SetProjectMemberRoleRequest>,
-  output: __S(576, __c36, 0) as any as S.Codec<ProjectMemberRoleResponse>,
+  input: __S(1136, __c71, 0) as any as S.Codec<SetProjectMemberRoleRequest>,
+  output: __S(816, __c51, 0) as any as S.Codec<ProjectMemberRoleResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6490,8 +7003,8 @@ export const setSnapshotSchedule: API.OperationMethod<
   SetSnapshotScheduleError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Codec<SetSnapshotScheduleRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<SetSnapshotScheduleResponse>,
+  input: __S(1152, __c72, 0) as any as S.Codec<SetSnapshotScheduleRequest>,
+  output: __S(2384, __c149, 0) as any as S.Schema<SetSnapshotScheduleResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6507,8 +7020,8 @@ export const startAnonymization: API.OperationMethod<
   StartAnonymizationError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Codec<StartAnonymizationRequest>,
-  output: __S(2433, __c152, 1) as any as S.Codec<AnonymizedBranchStatusResponse>,
+  input: __S(1168, __c73, 0) as any as S.Codec<StartAnonymizationRequest>,
+  output: __S(2817, __c176, 1) as any as S.Codec<AnonymizedBranchStatusResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6524,8 +7037,8 @@ export const startProjectEndpoint: API.OperationMethod<
   StartProjectEndpointError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Codec<StartProjectEndpointRequest>,
-  output: __S(1904, __c119, 0) as any as S.Schema<StartProjectEndpointResponse>,
+  input: __S(1184, __c74, 0) as any as S.Codec<StartProjectEndpointRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<StartProjectEndpointResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6541,8 +7054,8 @@ export const suspendProjectEndpoint: API.OperationMethod<
   SuspendProjectEndpointError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Codec<SuspendProjectEndpointRequest>,
-  output: __S(1904, __c119, 0) as any as S.Schema<SuspendProjectEndpointResponse>,
+  input: __S(1200, __c75, 0) as any as S.Codec<SuspendProjectEndpointRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<SuspendProjectEndpointResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6558,8 +7071,8 @@ export const transferNeonAuthProviderProject: API.OperationMethod<
   TransferNeonAuthProviderProjectError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Codec<TransferNeonAuthProviderProjectRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<NeonAuthTransferAuthProviderProjectResponse>,
+  input: __S(1216, __c76, 0) as any as S.Codec<TransferNeonAuthProviderProjectRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<NeonAuthTransferAuthProviderProjectResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6575,8 +7088,8 @@ export const transferProjectsFromOrgToOrg: API.OperationMethod<
   TransferProjectsFromOrgToOrgError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Codec<TransferProjectsFromOrgToOrgRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<TransferProjectsFromOrgToOrgResponse>,
+  input: __S(1232, __c77, 0) as any as S.Codec<TransferProjectsFromOrgToOrgRequest>,
+  output: __S(2384, __c149, 0) as any as S.Schema<TransferProjectsFromOrgToOrgResponse>,
   errors: [UnprocessableEntity, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6592,8 +7105,8 @@ export const updateBranchNeonAuthOauthProvider: API.OperationMethod<
   UpdateBranchNeonAuthOauthProviderError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Codec<UpdateBranchNeonAuthOauthProviderRequest>,
-  output: __S(2576, __c161, 0) as any as S.Codec<NeonAuthOauthProvider>,
+  input: __S(1280, __c80, 0) as any as S.Codec<UpdateBranchNeonAuthOauthProviderRequest>,
+  output: __S(2848, __c178, 0) as any as S.Codec<NeonAuthOauthProvider>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6609,8 +7122,8 @@ export const updateMaskingRules: API.OperationMethod<
   UpdateMaskingRulesError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Codec<UpdateMaskingRulesRequest>,
-  output: __S(2672, __c167, 0) as any as S.Codec<MaskingRulesResponse>,
+  input: __S(1296, __c81, 0) as any as S.Codec<UpdateMaskingRulesRequest>,
+  output: __S(3056, __c191, 0) as any as S.Codec<MaskingRulesResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6626,8 +7139,8 @@ export const updateNeonAuthAllowLocalhost: API.OperationMethod<
   UpdateNeonAuthAllowLocalhostError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Codec<UpdateNeonAuthAllowLocalhostRequest>,
-  output: __S(2720, __c170, 0) as any as S.Codec<NeonAuthAllowLocalhostResponse>,
+  input: __S(1312, __c82, 0) as any as S.Codec<UpdateNeonAuthAllowLocalhostRequest>,
+  output: __S(3120, __c195, 0) as any as S.Codec<NeonAuthAllowLocalhostResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6643,8 +7156,8 @@ export const updateNeonAuthConfig: API.OperationMethod<
   UpdateNeonAuthConfigError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Codec<UpdateNeonAuthConfigRequest>,
-  output: __S(1057, __c66, 1) as any as S.Codec<NeonAuthConfigResponse>,
+  input: __S(1328, __c83, 0) as any as S.Codec<UpdateNeonAuthConfigRequest>,
+  output: __S(1329, __c83, 1) as any as S.Codec<NeonAuthConfigResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6660,8 +7173,8 @@ export const updateNeonAuthEmailAndPasswordConfig: API.OperationMethod<
   UpdateNeonAuthEmailAndPasswordConfigError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Codec<UpdateNeonAuthEmailAndPasswordConfigRequest>,
-  output: __S(2752, __c172, 0) as any as S.Codec<NeonAuthEmailAndPasswordConfig>,
+  input: __S(1344, __c84, 0) as any as S.Codec<UpdateNeonAuthEmailAndPasswordConfigRequest>,
+  output: __S(3152, __c197, 0) as any as S.Codec<NeonAuthEmailAndPasswordConfig>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6677,13 +7190,30 @@ export const updateNeonAuthEmailProvider: API.OperationMethod<
   UpdateNeonAuthEmailProviderError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1090, __c68, 2) as any as S.Codec<UpdateNeonAuthEmailProviderRequest>,
-  output: __S(2784, __c174, 0) as any as S.Schema<UpdateNeonAuthEmailProviderResponse>,
+  input: __S(1362, __c85, 2) as any as S.Codec<UpdateNeonAuthEmailProviderRequest>,
+  output: __S(3184, __c199, 0) as any as S.Schema<UpdateNeonAuthEmailProviderResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateNeonAuthEmailProvider",
+}));
+
+export type UpdateNeonAuthLogsExportError = NeonOpError;
+/** Update Neon Auth logs export setting Enables or disables exporting Neon Auth events for the branch to Neon Platform logs. Only supported for Neon Auth (`better_auth`) integrations. When logs export is not available for the project, only disabling is accepted. */
+export const updateNeonAuthLogsExport: API.OperationMethod<
+  UpdateNeonAuthLogsExportRequest,
+  NeonAuthLogsExportConfig,
+  UpdateNeonAuthLogsExportError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1376, __c86, 0) as any as S.Codec<UpdateNeonAuthLogsExportRequest>,
+  output: __S(3344, __c209, 0) as any as S.Codec<NeonAuthLogsExportConfig>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNeonAuthLogsExport",
 }));
 
 export type UpdateNeonAuthMagicLinkPluginError = NeonOpError;
@@ -6694,13 +7224,47 @@ export const updateNeonAuthMagicLinkPlugin: API.OperationMethod<
   UpdateNeonAuthMagicLinkPluginError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Codec<UpdateNeonAuthMagicLinkPluginRequest>,
-  output: __S(2864, __c179, 0) as any as S.Codec<NeonAuthMagicLinkConfig>,
+  input: __S(1392, __c87, 0) as any as S.Codec<UpdateNeonAuthMagicLinkPluginRequest>,
+  output: __S(3360, __c210, 0) as any as S.Codec<NeonAuthMagicLinkConfig>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateNeonAuthMagicLinkPlugin",
+}));
+
+export type UpdateNeonAuthOAuthClientError = NeonOpError;
+/** Update an OAuth client Updates an OAuth client. Only the fields provided in the request body are updated. A provided `resources` list replaces the client's stored list. The client `type` cannot be changed. */
+export const updateNeonAuthOAuthClient: API.OperationMethod<
+  UpdateNeonAuthOAuthClientRequest,
+  NeonAuthOAuthClient,
+  UpdateNeonAuthOAuthClientError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1408, __c88, 0) as any as S.Codec<UpdateNeonAuthOAuthClientRequest>,
+  output: __S(3232, __c202, 0) as any as S.Codec<NeonAuthOAuthClient>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNeonAuthOAuthClient",
+}));
+
+export type UpdateNeonAuthOAuthProviderPluginError = NeonOpError;
+/** Update OAuth provider plugin configuration Updates the OAuth provider plugin configuration for Neon Auth. Only the fields provided in the request body are updated; omitted fields retain their current values. A provided `resources` list replaces the stored list. A provided `mcp` object replaces the stored MCP configuration and must include `resource`. The plugin can only be enabled on the project's root branch. */
+export const updateNeonAuthOAuthProviderPlugin: API.OperationMethod<
+  UpdateNeonAuthOAuthProviderPluginRequest,
+  NeonAuthOAuthProviderConfig,
+  UpdateNeonAuthOAuthProviderPluginError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1425, __c89, 1) as any as S.Codec<UpdateNeonAuthOAuthProviderPluginRequest>,
+  output: __S(3267, __c204, 3) as any as S.Codec<NeonAuthOAuthProviderConfig>,
+  errors: [UnknownNeonError],
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNeonAuthOAuthProviderPlugin",
 }));
 
 export type UpdateNeonAuthOrganizationPluginError = NeonOpError;
@@ -6711,8 +7275,8 @@ export const updateNeonAuthOrganizationPlugin: API.OperationMethod<
   UpdateNeonAuthOrganizationPluginError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Codec<UpdateNeonAuthOrganizationPluginRequest>,
-  output: __S(2880, __c180, 0) as any as S.Codec<NeonAuthOrganizationConfig>,
+  input: __S(1456, __c91, 0) as any as S.Codec<UpdateNeonAuthOrganizationPluginRequest>,
+  output: __S(3376, __c211, 0) as any as S.Codec<NeonAuthOrganizationConfig>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6728,8 +7292,8 @@ export const updateNeonAuthPhoneNumberPlugin: API.OperationMethod<
   UpdateNeonAuthPhoneNumberPluginError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Codec<UpdateNeonAuthPhoneNumberPluginRequest>,
-  output: __S(2832, __c177, 0) as any as S.Codec<NeonAuthPhoneNumberConfig>,
+  input: __S(1472, __c92, 0) as any as S.Codec<UpdateNeonAuthPhoneNumberPluginRequest>,
+  output: __S(3296, __c206, 0) as any as S.Codec<NeonAuthPhoneNumberConfig>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6745,8 +7309,8 @@ export const updateNeonAuthUserRole: API.OperationMethod<
   UpdateNeonAuthUserRoleError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Codec<UpdateNeonAuthUserRoleRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<UpdateNeonAuthUserRoleResponse>,
+  input: __S(1488, __c93, 0) as any as S.Codec<UpdateNeonAuthUserRoleRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<UpdateNeonAuthUserRoleResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6762,8 +7326,8 @@ export const updateNeonAuthWebhookConfig: API.OperationMethod<
   UpdateNeonAuthWebhookConfigError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Codec<UpdateNeonAuthWebhookConfigRequest>,
-  output: __S(2944, __c184, 0) as any as S.Codec<NeonAuthWebhookConfig>,
+  input: __S(1504, __c94, 0) as any as S.Codec<UpdateNeonAuthWebhookConfigRequest>,
+  output: __S(3408, __c213, 0) as any as S.Codec<NeonAuthWebhookConfig>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6779,8 +7343,8 @@ export const updateOrganizationMember: API.OperationMethod<
   UpdateOrganizationMemberError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Codec<UpdateOrganizationMemberRequest>,
-  output: __S(3008, __c188, 0) as any as S.Codec<Member>,
+  input: __S(1520, __c95, 0) as any as S.Codec<UpdateOrganizationMemberRequest>,
+  output: __S(3552, __c222, 0) as any as S.Codec<Member>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6796,8 +7360,8 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1217, __c76, 1) as any as S.Codec<UpdateProjectRequest>,
-  output: __S(1218, __c76, 2) as any as S.Codec<UpdateProjectResponse>,
+  input: __S(1537, __c96, 1) as any as S.Codec<UpdateProjectRequest>,
+  output: __S(1538, __c96, 2) as any as S.Codec<UpdateProjectResponse>,
   errors: [BadRequest, NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6813,8 +7377,8 @@ export const updateProjectBranch: API.OperationMethod<
   UpdateProjectBranchError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1233, __c77, 1) as any as S.Codec<UpdateProjectBranchRequest>,
-  output: __S(2112, __c132, 0) as any as S.Schema<UpdateProjectBranchResponse>,
+  input: __S(1553, __c97, 1) as any as S.Codec<UpdateProjectBranchRequest>,
+  output: __S(2464, __c154, 0) as any as S.Schema<UpdateProjectBranchResponse>,
   errors: [BadRequest, NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6830,8 +7394,8 @@ export const updateProjectBranchDataAPI: API.OperationMethod<
   UpdateProjectBranchDataAPIError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Codec<UpdateProjectBranchDataAPIRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<UpdateProjectBranchDataAPIResponse>,
+  input: __S(1568, __c98, 0) as any as S.Codec<UpdateProjectBranchDataAPIRequest>,
+  output: __S(2384, __c149, 0) as any as S.Schema<UpdateProjectBranchDataAPIResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6847,8 +7411,8 @@ export const updateProjectBranchDatabase: API.OperationMethod<
   UpdateProjectBranchDatabaseError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1265, __c79, 1) as any as S.Codec<UpdateProjectBranchDatabaseRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<UpdateProjectBranchDatabaseResponse>,
+  input: __S(1585, __c99, 1) as any as S.Codec<UpdateProjectBranchDatabaseRequest>,
+  output: __S(2096, __c131, 0) as any as S.Schema<UpdateProjectBranchDatabaseResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6864,8 +7428,8 @@ export const updateProjectBranchFunction: API.OperationMethod<
   UpdateProjectBranchFunctionError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Codec<UpdateProjectBranchFunctionRequest>,
-  output: __S(3360, __c210, 0) as any as S.Codec<NeonFunctionResponse>,
+  input: __S(1600, __c100, 0) as any as S.Codec<UpdateProjectBranchFunctionRequest>,
+  output: __S(3840, __c240, 0) as any as S.Codec<NeonFunctionResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6881,8 +7445,8 @@ export const updateProjectBranchTrigger: API.OperationMethod<
   UpdateProjectBranchTriggerError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1299, __c81, 3) as any as S.Codec<UpdateProjectBranchTriggerRequest>,
-  output: __S(1872, __c117, 0) as any as S.Codec<TriggerResponse>,
+  input: __S(1635, __c102, 3) as any as S.Codec<UpdateProjectBranchTriggerRequest>,
+  output: __S(2208, __c138, 0) as any as S.Codec<TriggerResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6898,8 +7462,8 @@ export const updateProjectEndpoint: API.OperationMethod<
   UpdateProjectEndpointError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1313, __c82, 1) as any as S.Codec<UpdateProjectEndpointRequest>,
-  output: __S(1904, __c119, 0) as any as S.Schema<UpdateProjectEndpointResponse>,
+  input: __S(1649, __c103, 1) as any as S.Codec<UpdateProjectEndpointRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<UpdateProjectEndpointResponse>,
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6915,8 +7479,8 @@ export const updateSnapshot: API.OperationMethod<
   UpdateSnapshotError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1329, __c83, 1) as any as S.Codec<UpdateSnapshotRequest>,
-  output: __S(1330, __c83, 2) as any as S.Codec<UpdateSnapshotResponse>,
+  input: __S(1665, __c104, 1) as any as S.Codec<UpdateSnapshotRequest>,
+  output: __S(1666, __c104, 2) as any as S.Codec<UpdateSnapshotResponse>,
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
@@ -6948,6 +7512,312 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          endpoint_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/endpoints/{endpoint_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectEndpointRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          endpoint: __S(1873, __c117, 1),
+        }),
+      ).annotate({ identifier: "EndpointResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/jwks", code: 200 })),
+      ).annotate({ identifier: "GetProjectJWKSRequest" });
+    case 1:
+      return S.Array(__S(3520, __c220, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          jwks: __S(33, __c2, 1),
+        }),
+      ).annotate({ identifier: "ProjectJWKSResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          operation_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/operations/{operation_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectOperationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          operation: __S(3488, __c218, 0),
+        }),
+      ).annotate({ identifier: "OperationResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/backup_schedule",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSnapshotScheduleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          schedule: __S(81, __c5, 1),
+        }),
+      ).annotate({ identifier: "BackupSchedule" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          frequency: S.String,
+          hour: S.optional(S.Number),
+          day: S.optional(S.Number),
+          month: S.optional(S.Number),
+          retention_seconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BackupScheduleItem" });
+    case 1:
+      return S.Array(__S(80, __c5, 0));
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          email: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/permissions", code: 200 })),
+      ).annotate({ identifier: "GrantPermissionToProjectRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          granted_to_email: S.String,
+          granted_at: S.String,
+          revoked_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProjectPermission" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api_keys", code: 200 })),
+      ).annotate({ identifier: "ListApiKeysRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          name: S.String,
+          created_at: S.String,
+          created_by: __S(144, __c9, 0),
+          last_used_at: S.optional(S.NullOr(S.String)),
+          last_used_from_addr: S.String,
+        }),
+      ).annotate({ identifier: "ApiKeysListResponseItem" });
+    case 2:
+      return S.Array(__S(129, __c8, 1));
+    case 3:
+      return S.suspend(() => __S(130, __c8, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListApiKeysResponse",
+      });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          image: S.String,
+        }),
+      ).annotate({ identifier: "ApiKeyCreatorData" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListBranchNeonAuthOauthProvidersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          providers: __S(3328, __c208, 0),
+        }),
+      ).annotate({ identifier: "ListNeonAuthOauthProvidersResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/domains",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListBranchNeonAuthTrustedDomainsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String,
+          auth_provider: S.String,
+        }),
+      ).annotate({ identifier: "NeonAuthRedirectURIWhitelistDomain" });
+    case 2:
+      return S.Array(__S(177, __c11, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          domains: __S(178, __c11, 2),
+        }),
+      ).annotate({ identifier: "NeonAuthRedirectURIWhitelistResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/credentials",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          token_id: S.String,
+          token_id_short: S.String,
+          name: S.optional(S.String),
+          scopes: __S(1072, __c67, 0),
+          branch_id: S.optional(S.String),
+          principal_type: S.String,
+          function_id: S.optional(S.String),
+          created_at: S.String,
+          last_used_at: S.optional(S.String),
+          revoked_at: S.optional(S.String),
+          expires_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CredentialMeta" });
+    case 2:
+      return S.Array(__S(193, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          credentials: __S(194, __c12, 2),
+        }),
+      ).annotate({ identifier: "ListCredentialsResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/oauth-provider/clients",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListNeonAuthOAuthClientsRequest" });
+    case 1:
+      return S.Array(__S(3232, __c202, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          clients: __S(209, __c13, 1),
+        }),
+      ).annotate({ identifier: "ListNeonAuthOAuthClientsResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/branches/count", code: 200 })),
+      ).annotate({ identifier: "CountProjectBranchesRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+        }),
+      ).annotate({ identifier: "CountProjectBranchesResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           org_id: S.String.pipe(T.Label()),
           region_id: S.String.pipe(T.Label()),
         }).pipe(
@@ -6960,7 +7830,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ListOrganizationVPCEndpointsRequest" });
   }
 }
-function __c2(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6970,16 +7840,16 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "VPCEndpoint" });
     case 1:
-      return S.Array(__S(32, __c2, 0));
+      return S.Array(__S(272, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          endpoints: __S(33, __c2, 1),
+          endpoints: __S(273, __c17, 1),
         }),
       ).annotate({ identifier: "VPCEndpointsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6998,16 +7868,16 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "VPCEndpointWithRegion" });
     case 2:
-      return S.Array(__S(49, __c3, 1));
+      return S.Array(__S(289, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          endpoints: __S(50, __c3, 2),
+          endpoints: __S(290, __c18, 2),
         }),
       ).annotate({ identifier: "VPCEndpointsWithRegionResponse" });
   }
 }
-function __c4(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7021,21 +7891,21 @@ function __c4(j: number): any {
           id: S.Number,
           name: S.String,
           created_at: S.String,
-          created_by: __S(3616, __c226, 0),
+          created_by: __S(144, __c9, 0),
           last_used_at: S.optional(S.NullOr(S.String)),
           last_used_from_addr: S.String,
           project_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrgApiKeysListResponseItem" });
     case 2:
-      return S.Array(__S(65, __c4, 1));
+      return S.Array(__S(305, __c19, 1));
     case 3:
-      return S.suspend(() => __S(66, __c4, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(306, __c19, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrgApiKeysResponse",
       });
   }
 }
-function __c5(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7065,12 +7935,12 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "BucketObject" });
     case 2:
-      return S.Array(__S(81, __c5, 1));
+      return S.Array(__S(321, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          folders: __S(3200, __c200, 0),
-          objects: __S(82, __c5, 2),
+          folders: __S(3472, __c217, 0),
+          objects: __S(322, __c20, 2),
           prefix: S.String,
           next_cursor: S.optional(S.String),
           is_truncated: S.Boolean,
@@ -7078,7 +7948,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "BucketObjectsListResponse" });
   }
 }
-function __c6(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7094,16 +7964,16 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectBranchBucketsRequest" });
     case 1:
-      return S.Array(__S(1680, __c105, 0));
+      return S.Array(__S(2016, __c126, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          buckets: __S(97, __c6, 1),
+          buckets: __S(337, __c21, 1),
         }),
       ).annotate({ identifier: "BucketsListResponse" });
   }
 }
-function __c7(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7121,17 +7991,17 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectBranchCustomDomainsRequest" });
     case 1:
-      return S.Array(__S(128, __c8, 0));
+      return S.Array(__S(368, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          custom_domains: __S(113, __c7, 1),
-          pagination: S.optional(__S(3040, __c190, 0)),
+          custom_domains: __S(353, __c22, 1),
+          pagination: S.optional(__S(3584, __c224, 0)),
         }),
       ).annotate({ identifier: "ListProjectBranchCustomDomainsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7148,7 +8018,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CustomDomain" });
   }
 }
-function __c9(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7166,12 +8036,12 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          databases: __S(1424, __c89, 0),
+          databases: __S(1760, __c110, 0),
         }),
       ).annotate({ identifier: "DatabasesResponse" });
   }
 }
-function __c10(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7188,17 +8058,17 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ListProjectBranchEndpointsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endpoints: __S(1440, __c90, 0),
+          endpoints: __S(1776, __c111, 0),
         }),
       ).annotate({ identifier: "EndpointsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7213,24 +8083,24 @@ function __c12(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/branches", code: 200 })),
       ).annotate({ identifier: "ListProjectBranchesRequest" });
     case 1:
-      return S.Record(S.String, __S(3169, __c198, 1));
+      return S.Record(S.String, __S(3713, __c232, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          branches: __S(208, __c13, 0),
-          annotations: __S(193, __c12, 1),
-          pagination: S.optional(__S(3040, __c190, 0)),
+          branches: __S(448, __c28, 0),
+          annotations: __S(433, __c27, 1),
+          pagination: S.optional(__S(3584, __c224, 0)),
         }),
       ).annotate({ identifier: "ListProjectBranchesResponse" });
   }
 }
-function __c13(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1556, __c97, 4));
+      return S.Array(__S(1892, __c118, 4));
   }
 }
-function __c14(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7248,34 +8118,27 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectBranchFunctionsRequest" });
     case 1:
-      return S.Array(__S(3344, __c209, 0));
+      return S.Array(__S(3824, __c239, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          functions: __S(225, __c14, 1),
-          pagination: S.optional(__S(3040, __c190, 0)),
+          functions: __S(465, __c29, 1),
+          pagination: S.optional(__S(3584, __c224, 0)),
         }),
       ).annotate({ identifier: "ListProjectBranchFunctionsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          search: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/branches/count", code: 200 })),
-      ).annotate({ identifier: "CountProjectBranchesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-        }),
-      ).annotate({ identifier: "CountProjectBranchesResponse" });
+          org_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/projects/count", code: 200 })),
+      ).annotate({ identifier: "CountProjectsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7293,12 +8156,12 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          fields: __S(3200, __c200, 0),
+          fields: __S(3472, __c217, 0),
         }),
       ).annotate({ identifier: "ProjectBranchLogFieldsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7322,13 +8185,13 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          values: __S(3200, __c200, 0),
+          values: __S(3472, __c217, 0),
           is_truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ProjectBranchLogFieldValuesResponse" });
   }
 }
-function __c18(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7346,12 +8209,12 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          roles: __S(1456, __c91, 0),
+          roles: __S(1792, __c112, 0),
         }),
       ).annotate({ identifier: "RolesResponse" });
   }
 }
-function __c19(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7367,16 +8230,16 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectBranchTriggersRequest" });
     case 1:
-      return S.Array(__S(1862, __c116, 6));
+      return S.Array(__S(2198, __c137, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          triggers: __S(305, __c19, 1),
+          triggers: __S(545, __c34, 1),
         }),
       ).annotate({ identifier: "TriggersListResponse" });
   }
 }
-function __c20(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7386,7 +8249,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ListProjectEndpointsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7412,17 +8275,17 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "ProjectMember" });
     case 2:
-      return S.Array(__S(337, __c21, 1));
+      return S.Array(__S(577, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          project_members: __S(338, __c21, 2),
-          pagination: S.optional(__S(3040, __c190, 0)),
+          project_members: __S(578, __c36, 2),
+          pagination: S.optional(__S(3584, __c224, 0)),
         }),
       ).annotate({ identifier: "ProjectMembers" });
   }
 }
-function __c22(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7435,13 +8298,13 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operations: __S(3216, __c201, 0),
-          pagination: S.optional(__S(2512, __c157, 0)),
+          operations: __S(3504, __c219, 0),
+          pagination: S.optional(__S(2928, __c183, 0)),
         }),
       ).annotate({ identifier: "ListProjectOperationsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7450,16 +8313,16 @@ function __c23(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/permissions", code: 200 })),
       ).annotate({ identifier: "ListProjectPermissionsRequest" });
     case 1:
-      return S.Array(__S(3584, __c224, 0));
+      return S.Array(__S(112, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          project_permissions: __S(369, __c23, 1),
+          project_permissions: __S(609, __c38, 1),
         }),
       ).annotate({ identifier: "ProjectPermissions" });
   }
 }
-function __c24(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7473,20 +8336,20 @@ function __c24(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/projects", code: 200 })),
       ).annotate({ identifier: "ListProjectsRequest" });
     case 1:
-      return S.Record(S.String, __S(832, __c52, 0));
+      return S.Record(S.String, __S(1072, __c67, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(401, __c25, 1),
-          unavailable_project_ids: S.optional(__S(3200, __c200, 0)),
-          pagination: S.optional(__S(2512, __c157, 0)),
-          applications: __S(385, __c24, 1),
-          integrations: __S(385, __c24, 1),
+          projects: __S(641, __c40, 1),
+          unavailable_project_ids: S.optional(__S(3472, __c217, 0)),
+          pagination: S.optional(__S(2928, __c183, 0)),
+          applications: __S(625, __c39, 1),
+          integrations: __S(625, __c39, 1),
         }),
       ).annotate({ identifier: "ListProjectsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7496,8 +8359,8 @@ function __c25(j: number): any {
           region_id: S.String,
           name: S.String,
           provisioner: S.String,
-          default_endpoint_settings: S.optional(__S(1573, __c98, 5)),
-          settings: S.optional(__S(1572, __c98, 4)),
+          default_endpoint_settings: S.optional(__S(1909, __c119, 5)),
+          settings: S.optional(__S(1908, __c119, 4)),
           pg_version: S.Number,
           proxy_host: S.String,
           branch_logical_size_limit: S.Number,
@@ -7523,10 +8386,10 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "ProjectListItem" });
     case 1:
-      return S.Array(__S(400, __c25, 0));
+      return S.Array(__S(640, __c40, 0));
   }
 }
-function __c26(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7536,7 +8399,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ListProjectVPCEndpointsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7558,7 +8421,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ApiKeyCreateResponse" });
   }
 }
-function __c28(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7572,14 +8435,14 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(401, __c25, 1),
-          unavailable_project_ids: S.optional(__S(3200, __c200, 0)),
-          pagination: S.optional(__S(2512, __c157, 0)),
+          projects: __S(641, __c40, 1),
+          unavailable_project_ids: S.optional(__S(3472, __c217, 0)),
+          pagination: S.optional(__S(2928, __c183, 0)),
         }),
       ).annotate({ identifier: "ListSharedProjectsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7588,16 +8451,16 @@ function __c29(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/snapshots", code: 200 })),
       ).annotate({ identifier: "ListSnapshotsRequest" });
     case 1:
-      return S.Array(__S(1952, __c122, 0));
+      return S.Array(__S(2288, __c143, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snapshots: __S(465, __c29, 1),
+          snapshots: __S(705, __c44, 1),
         }),
       ).annotate({ identifier: "ListSnapshotsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7624,13 +8487,13 @@ function __c30(j: number): any {
             T.SensitiveValue({}),
           ),
           method: S.String,
-          headers: __S(1504, __c94, 0),
+          headers: __S(1856, __c116, 0),
           expires_at: S.String,
         }),
       ).annotate({ identifier: "PresignResponse" });
   }
 }
-function __c31(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7672,22 +8535,22 @@ function __c31(j: number): any {
           severity_text: S.optional(S.String),
           trace_id: S.optional(S.String),
           span_id: S.optional(S.String),
-          attributes: __S(3136, __c196, 0),
+          attributes: __S(3680, __c230, 0),
         }),
       ).annotate({ identifier: "ProjectBranchLogRecord" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(737, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          logs: __S(498, __c31, 2),
+          logs: __S(738, __c46, 2),
           next_cursor: S.optional(S.String),
           is_truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ProjectBranchLogsQueryResponse" });
   }
 }
-function __c32(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7698,13 +8561,13 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          project: __S(1585, __c99, 1),
-          branches: __S(208, __c13, 0),
+          project: __S(1921, __c120, 1),
+          branches: __S(448, __c28, 0),
         }),
       ).annotate({ identifier: "RecoverProjectResponse" });
   }
 }
-function __c33(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7724,7 +8587,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "RegisterProjectBranchCustomDomainRequest" });
   }
 }
-function __c34(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7741,7 +8604,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "RemoveOrganizationMemberRequest" });
   }
 }
-function __c35(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7759,7 +8622,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "RemoveProjectMemberRoleRequest" });
   }
 }
-function __c36(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7780,7 +8643,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ProjectMemberRoleResponse" });
   }
 }
-function __c37(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7798,7 +8661,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "ResetProjectBranchRolePasswordRequest" });
   }
 }
-function __c38(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7815,7 +8678,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "RestartProjectEndpointRequest" });
   }
 }
-function __c39(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7834,7 +8697,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateBranchNeonAuthNewUserRequest" });
   }
 }
-function __c40(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7844,7 +8707,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "NeonAuthCreateNewUserResponse" });
   }
 }
-function __c41(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7865,7 +8728,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "RestoreProjectBranchRequest" });
   }
 }
-function __c42(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7886,14 +8749,14 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          branch: __S(1556, __c97, 4),
-          endpoints: S.optional(__S(1440, __c90, 0)),
-          operations: __S(3216, __c201, 0),
+          branch: __S(1892, __c118, 4),
+          endpoints: S.optional(__S(1776, __c111, 0)),
+          operations: __S(3504, __c219, 0),
         }),
       ).annotate({ identifier: "RestoreSnapshotResponse" });
   }
 }
-function __c43(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7924,7 +8787,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CredentialSecret" });
   }
 }
-function __c44(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7946,7 +8809,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ApiKeyRevokeResponse" });
   }
 }
-function __c45(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7964,7 +8827,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "RevokeCredentialRequest" });
   }
 }
-function __c46(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7990,7 +8853,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "RevokeOrgApiKeyResponse" });
   }
 }
-function __c47(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8007,7 +8870,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "RevokePermissionFromProjectRequest" });
   }
 }
-function __c48(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8036,7 +8899,7 @@ function __c48(j: number): any {
             S.String,
             S.Redacted(S.String, { disallowJsonEncode: true }),
           ]).pipe(T.SensitiveValue({})),
-          scopes: __S(832, __c52, 0),
+          scopes: __S(1072, __c67, 0),
           branch_id: S.String,
           principal_type: S.String,
           created_at: S.String,
@@ -8045,7 +8908,97 @@ function __c48(j: number): any {
       ).annotate({ identifier: "RotateCredentialResponse" });
   }
 }
-function __c49(j: number): any {
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          client_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/oauth-provider/clients/{client_id}/rotate_secret",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RotateNeonAuthOAuthClientSecretRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.String,
+          client_secret: S.Union([
+            S.String,
+            S.Redacted(S.String, { disallowJsonEncode: true }),
+          ]).pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "NeonAuthOAuthClientSecret" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/branches/{branch_id}/realtime/rotate_secret",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RotateProjectBranchRealtimeSecretRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          scopes: __S(1072, __c67, 0),
+          principal_type: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/branches/{branch_id}/credentials",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateCredentialRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          token_id: S.String,
+          token_id_short: S.String,
+          name: S.optional(S.String),
+          api_token: S.Union([S.String, S.Redacted(S.String, { disallowJsonEncode: true })]).pipe(
+            T.SensitiveValue({}),
+          ),
+          s3_secret_access_key: S.Union([
+            S.String,
+            S.Redacted(S.String, { disallowJsonEncode: true }),
+          ]).pipe(T.SensitiveValue({})),
+          scopes: __S(1072, __c67, 0),
+          branch_id: S.String,
+          created_at: S.String,
+          expires_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCredentialResponse" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8070,7 +9023,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "SendNeonAuthTestEmailResponse" });
   }
 }
-function __c50(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8087,52 +9040,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "SetDefaultProjectBranchRequest" });
   }
 }
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          scopes: __S(832, __c52, 0),
-          principal_type: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/projects/{project_id}/branches/{branch_id}/credentials",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateCredentialRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          token_id: S.String,
-          token_id_short: S.String,
-          name: S.optional(S.String),
-          api_token: S.Union([S.String, S.Redacted(S.String, { disallowJsonEncode: true })]).pipe(
-            T.SensitiveValue({}),
-          ),
-          s3_secret_access_key: S.Union([
-            S.String,
-            S.Redacted(S.String, { disallowJsonEncode: true }),
-          ]).pipe(T.SensitiveValue({})),
-          scopes: __S(832, __c52, 0),
-          branch_id: S.String,
-          created_at: S.String,
-          expires_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateCredentialResponse" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c53(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8149,7 +9057,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "SetOrganizationSpendingLimitRequest" });
   }
 }
-function __c54(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8168,14 +9076,14 @@ function __c54(j: number): any {
       ).annotate({ identifier: "SetProjectMemberRoleRequest" });
   }
 }
-function __c55(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           branch_id: S.String.pipe(T.Label()),
-          schedule: __S(3553, __c222, 1),
+          schedule: __S(81, __c5, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -8186,7 +9094,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "SetSnapshotScheduleRequest" });
   }
 }
-function __c56(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8203,7 +9111,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "StartAnonymizationRequest" });
   }
 }
-function __c57(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8220,7 +9128,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "StartProjectEndpointRequest" });
   }
 }
-function __c58(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8237,7 +9145,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "SuspendProjectEndpointRequest" });
   }
 }
-function __c59(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8248,14 +9156,14 @@ function __c59(j: number): any {
       ).annotate({ identifier: "TransferNeonAuthProviderProjectRequest" });
   }
 }
-function __c60(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           source_org_id: S.String.pipe(T.Label()),
           destination_org_id: S.String,
-          project_ids: __S(3200, __c200, 0),
+          project_ids: __S(3472, __c217, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8266,50 +9174,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "TransferProjectsFromOrgToOrgRequest" });
   }
 }
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-          oauth_provider_id: S.String.pipe(T.Label()),
-          client_id: S.optional(S.String),
-          client_secret: S.optional(
-            S.Union([S.String, S.Redacted(S.String, { disallowJsonEncode: true })]).pipe(
-              T.SensitiveValue({}),
-            ),
-          ),
-          microsoft_tenant_id: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers/{oauth_provider_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateBranchNeonAuthOauthProviderRequest" });
-  }
-}
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-          masking_rules: __S(1649, __c103, 1),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/projects/{project_id}/branches/{branch_id}/masking_rules",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateMaskingRulesRequest" });
-  }
-}
-function __c63(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8328,7 +9193,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreateNeonAuthRequest" });
   }
 }
-function __c64(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8345,7 +9210,52 @@ function __c64(j: number): any {
       ).annotate({ identifier: "NeonAuthCreateIntegrationResponse" });
   }
 }
-function __c65(j: number): any {
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          oauth_provider_id: S.String.pipe(T.Label()),
+          client_id: S.optional(S.String),
+          client_secret: S.optional(
+            S.Union([S.String, S.Redacted(S.String, { disallowJsonEncode: true })]).pipe(
+              T.SensitiveValue({}),
+            ),
+          ),
+          microsoft_tenant_id: S.optional(S.String),
+          apple_team_id: S.optional(S.String),
+          apple_key_id: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers/{oauth_provider_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateBranchNeonAuthOauthProviderRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          masking_rules: __S(1985, __c124, 1),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/projects/{project_id}/branches/{branch_id}/masking_rules",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateMaskingRulesRequest" });
+  }
+}
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8363,7 +9273,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UpdateNeonAuthAllowLocalhostRequest" });
   }
 }
-function __c66(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8387,7 +9297,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "NeonAuthConfigResponse" });
   }
 }
-function __c67(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8401,6 +9311,7 @@ function __c67(j: number): any {
           send_verification_email_on_sign_up: S.optional(S.Boolean),
           send_verification_email_on_sign_in: S.optional(S.Boolean),
           disable_sign_up: S.optional(S.Boolean),
+          revoke_sessions_on_password_reset: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8411,7 +9322,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "UpdateNeonAuthEmailAndPasswordConfigRequest" });
   }
 }
-function __c68(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8426,17 +9337,17 @@ function __c68(j: number): any {
           ),
           sender_email: S.optional(S.String),
           sender_name: S.optional(S.String),
-          type: __S(2800, __c175, 0),
+          type: __S(3200, __c200, 0),
         }),
       ).annotate({ identifier: "StandardEmailServer" });
     case 1:
-      return S.suspend(() => S.Union([__S(1088, __c68, 0), __S(2803, __c175, 3)]));
+      return S.suspend(() => S.Union([__S(1360, __c85, 0), __S(3203, __c200, 3)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           branch_id: S.String.pipe(T.Label()),
-          body: __S(1089, __c68, 1).pipe(T.HttpBody()),
+          body: __S(1361, __c85, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8447,7 +9358,25 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UpdateNeonAuthEmailProviderRequest" });
   }
 }
-function __c69(j: number): any {
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          enabled: S.Boolean,
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/logs_export",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateNeonAuthLogsExportRequest" });
+  }
+}
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8467,7 +9396,100 @@ function __c69(j: number): any {
       ).annotate({ identifier: "UpdateNeonAuthMagicLinkPluginRequest" });
   }
 }
-function __c70(j: number): any {
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          client_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          redirect_uris: S.optional(__S(3472, __c217, 0)),
+          skip_consent: S.optional(S.Boolean),
+          disabled: S.optional(S.Boolean),
+          resources: S.optional(__S(3472, __c217, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/oauth-provider/clients/{client_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateNeonAuthOAuthClientRequest" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String,
+          dynamic_registration: S.optional(S.Boolean),
+          client_id_metadata_documents: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "NeonAuthOAuthProviderMcpUpdate" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          enabled: S.optional(S.Boolean),
+          login_page: S.optional(S.String),
+          consent_page: S.optional(S.String),
+          mcp: S.optional(__S(1424, __c89, 0)),
+          resources: S.optional(__S(3266, __c204, 2)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/plugins/oauth-provider",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateNeonAuthOAuthProviderPluginRequest" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          name: S.String,
+          redirect_uris: __S(3472, __c217, 0),
+          type: S.String,
+          resources: __S(3472, __c217, 0),
+          skip_consent: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/oauth-provider/clients",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateNeonAuthOAuthClientRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.String,
+          name: S.String,
+          type: S.String,
+          redirect_uris: __S(3472, __c217, 0),
+          resources: __S(3472, __c217, 0),
+          skip_consent: S.Boolean,
+          disabled: S.Boolean,
+          created_at: S.optional(S.String),
+          client_secret: S.optional(
+            S.Union([S.String, S.Redacted(S.String, { disallowJsonEncode: true })]).pipe(
+              T.SensitiveValue({}),
+            ),
+          ),
+        }),
+      ).annotate({ identifier: "CreateNeonAuthOAuthClientResponse" });
+  }
+}
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8489,7 +9511,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "UpdateNeonAuthOrganizationPluginRequest" });
   }
 }
-function __c71(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8508,7 +9530,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "UpdateNeonAuthPhoneNumberPluginRequest" });
   }
 }
-function __c72(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8516,7 +9538,7 @@ function __c72(j: number): any {
           project_id: S.String.pipe(T.Label()),
           branch_id: S.String.pipe(T.Label()),
           auth_user_id: S.String.pipe(T.Label()),
-          roles: __S(3200, __c200, 0),
+          roles: __S(3472, __c217, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -8527,7 +9549,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "UpdateNeonAuthUserRoleRequest" });
   }
 }
-function __c73(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8536,7 +9558,7 @@ function __c73(j: number): any {
           branch_id: S.String.pipe(T.Label()),
           enabled: S.Boolean,
           webhook_url: S.optional(S.String),
-          enabled_events: S.optional(__S(832, __c52, 0)),
+          enabled_events: S.optional(__S(1072, __c67, 0)),
           timeout_seconds: S.optional(S.Number),
         }).pipe(
           T.Http({
@@ -8548,7 +9570,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "UpdateNeonAuthWebhookConfigRequest" });
   }
 }
-function __c74(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8566,25 +9588,14 @@ function __c74(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationMemberRequest" });
   }
 }
-function __c75(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.String,
-          auth_provider: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/projects/auth/keys", code: 200 })),
-      ).annotate({ identifier: "CreateNeonAuthProviderSDKKeysRequest" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          settings: S.optional(__S(1572, __c98, 4)),
+          settings: S.optional(__S(1908, __c119, 4)),
           name: S.optional(S.String),
-          default_endpoint_settings: S.optional(__S(1573, __c98, 5)),
+          default_endpoint_settings: S.optional(__S(1909, __c119, 5)),
           history_retention_seconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UpdateProjectRequestProject" });
@@ -8592,19 +9603,19 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          project: __S(1216, __c76, 0),
+          project: __S(1536, __c96, 0),
         }).pipe(T.Http({ method: "PATCH", uri: "/projects/{project_id}", code: 200 })),
       ).annotate({ identifier: "UpdateProjectRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          project: __S(1585, __c99, 1),
-          operations: __S(3216, __c201, 0),
+          project: __S(1921, __c120, 1),
+          operations: __S(3504, __c219, 0),
         }),
       ).annotate({ identifier: "UpdateProjectResponse" });
   }
 }
-function __c77(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8619,7 +9630,7 @@ function __c77(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           branch_id: S.String.pipe(T.Label()),
-          branch: __S(1232, __c77, 0),
+          branch: __S(1552, __c97, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8630,7 +9641,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateProjectBranchRequest" });
   }
 }
-function __c78(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8638,7 +9649,7 @@ function __c78(j: number): any {
           project_id: S.String.pipe(T.Label()),
           branch_id: S.String.pipe(T.Label()),
           database_name: S.String.pipe(T.Label()),
-          settings: S.optional(__S(1728, __c108, 0)),
+          settings: S.optional(__S(2064, __c129, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8649,7 +9660,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "UpdateProjectBranchDataAPIRequest" });
   }
 }
-function __c79(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8664,7 +9675,7 @@ function __c79(j: number): any {
           project_id: S.String.pipe(T.Label()),
           branch_id: S.String.pipe(T.Label()),
           database_name: S.String.pipe(T.Label()),
-          database: __S(1264, __c79, 0),
+          database: __S(1584, __c99, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8675,7 +9686,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "UpdateProjectBranchDatabaseRequest" });
   }
 }
-function __c80(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8694,39 +9705,50 @@ function __c80(j: number): any {
       ).annotate({ identifier: "UpdateProjectBranchFunctionRequest" });
   }
 }
-function __c81(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: __S(1856, __c116, 0),
+          project_id: S.String,
+          auth_provider: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/projects/auth/keys", code: 200 })),
+      ).annotate({ identifier: "CreateNeonAuthProviderSDKKeysRequest" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: __S(2192, __c137, 0),
           function_slug: S.optional(S.String),
           name: S.optional(S.String),
           function_path: S.optional(S.String),
-          schedule: S.optional(__S(1857, __c116, 1)),
+          schedule: S.optional(__S(2193, __c137, 1)),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ScheduleTriggerUpdateRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: __S(1858, __c116, 2),
+          type: __S(2194, __c137, 2),
           function_slug: S.optional(S.String),
           name: S.optional(S.String),
           function_path: S.optional(S.String),
-          storage_object_created: S.optional(__S(1859, __c116, 3)),
+          storage_object_created: S.optional(__S(2195, __c137, 3)),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "StorageObjectCreatedTriggerUpdateRequest" });
     case 2:
-      return S.suspend(() => S.Union([__S(1296, __c81, 0), __S(1297, __c81, 1)]));
+      return S.suspend(() => S.Union([__S(1632, __c102, 0), __S(1633, __c102, 1)]));
     case 3:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           branch_id: S.String.pipe(T.Label()),
           trigger_id: S.String.pipe(T.Label()),
-          body: __S(1298, __c81, 2).pipe(T.HttpBody()),
+          body: __S(1634, __c102, 2).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8737,7 +9759,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "UpdateProjectBranchTriggerRequest" });
   }
 }
-function __c82(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8746,7 +9768,7 @@ function __c82(j: number): any {
           autoscaling_limit_min_cu: S.optional(S.Number),
           autoscaling_limit_max_cu: S.optional(S.Number),
           provisioner: S.optional(S.String),
-          settings: S.optional(__S(1536, __c96, 0)),
+          settings: S.optional(__S(1872, __c117, 0)),
           pooler_enabled: S.optional(S.Boolean),
           pooler_mode: S.optional(S.String),
           disabled: S.optional(S.Boolean),
@@ -8760,7 +9782,7 @@ function __c82(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           endpoint_id: S.String.pipe(T.Label()),
-          endpoint: __S(1312, __c82, 0),
+          endpoint: __S(1648, __c103, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8771,7 +9793,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "UpdateProjectEndpointRequest" });
   }
 }
-function __c83(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8785,7 +9807,7 @@ function __c83(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           snapshot_id: S.String.pipe(T.Label()),
-          snapshot: __S(1328, __c83, 0),
+          snapshot: __S(1664, __c104, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8797,12 +9819,12 @@ function __c83(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snapshot: __S(1952, __c122, 0),
+          snapshot: __S(2288, __c143, 0),
         }),
       ).annotate({ identifier: "UpdateSnapshotResponse" });
   }
 }
-function __c84(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8812,17 +9834,17 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationInviteCreateRequest" });
     case 1:
-      return S.Array(__S(1344, __c84, 0));
+      return S.Array(__S(1680, __c105, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           org_id: S.String.pipe(T.Label()),
-          invitations: __S(1345, __c84, 1),
+          invitations: __S(1681, __c105, 1),
         }).pipe(T.Http({ method: "POST", uri: "/organizations/{org_id}/invitations", code: 200 })),
       ).annotate({ identifier: "CreateOrganizationInvitationsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8836,16 +9858,16 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "Invitation" });
     case 1:
-      return S.Array(__S(1360, __c85, 0));
+      return S.Array(__S(1696, __c106, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          invitations: __S(1361, __c85, 1),
+          invitations: __S(1697, __c106, 1),
         }),
       ).annotate({ identifier: "OrganizationInvitationsResponse" });
   }
 }
-function __c86(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8870,7 +9892,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "CreateOrgApiKeyResponse" });
   }
 }
-function __c87(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8878,20 +9900,21 @@ function __c87(j: number): any {
           name: S.optional(S.String),
           role_name: S.optional(S.String),
           database_name: S.optional(S.String),
-          annotations: S.optional(__S(1504, __c94, 0)),
+          annotations: S.optional(__S(1856, __c116, 0)),
         }),
       ).annotate({ identifier: "CreateProjectRequestProjectBranch" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          settings: S.optional(__S(1572, __c98, 4)),
+          settings: S.optional(__S(1908, __c119, 4)),
           name: S.optional(S.String),
-          branch: S.optional(__S(1392, __c87, 0)),
+          realtime: S.optional(__S(1744, __c109, 0)),
+          branch: S.optional(__S(1728, __c108, 0)),
           autoscaling_limit_min_cu: S.optional(S.Number),
           autoscaling_limit_max_cu: S.optional(S.Number),
           provisioner: S.optional(S.String),
           region_id: S.optional(S.String),
-          default_endpoint_settings: S.optional(__S(1573, __c98, 5)),
+          default_endpoint_settings: S.optional(__S(1909, __c119, 5)),
           pg_version: S.optional(S.Number),
           store_passwords: S.optional(S.Boolean),
           history_retention_seconds: S.optional(S.Number),
@@ -8901,26 +9924,32 @@ function __c87(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          project: __S(1393, __c87, 1),
+          project: __S(1729, __c108, 1),
         }).pipe(T.Http({ method: "POST", uri: "/projects", code: 200 })),
       ).annotate({ identifier: "CreateProjectRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          project: __S(1585, __c99, 1),
-          connection_uris: __S(1410, __c88, 2),
-          roles: __S(1456, __c91, 0),
-          databases: __S(1424, __c89, 0),
-          operations: __S(3216, __c201, 0),
-          branch: __S(1556, __c97, 4),
-          endpoints: __S(1440, __c90, 0),
+          project: __S(1921, __c120, 1),
+          connection_uris: __S(1747, __c109, 3),
+          roles: __S(1792, __c112, 0),
+          databases: __S(1760, __c110, 0),
+          operations: __S(3504, __c219, 0),
+          branch: __S(1892, __c118, 4),
+          endpoints: __S(1776, __c111, 0),
         }),
       ).annotate({ identifier: "CreateProjectResponse" });
   }
 }
-function __c88(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowed_origins: S.optional(__S(3472, __c217, 0)),
+        }),
+      ).annotate({ identifier: "RealtimeOptions" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           database: S.String,
@@ -8932,39 +9961,39 @@ function __c88(j: number): any {
           pooler_host: S.String,
         }),
       ).annotate({ identifier: "ConnectionParameters" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           connection_uri: S.Union([
             S.String,
             S.Redacted(S.String, { disallowJsonEncode: true }),
           ]).pipe(T.SensitiveValue({})),
-          connection_parameters: __S(1408, __c88, 0),
+          connection_parameters: __S(1745, __c109, 1),
         }),
       ).annotate({ identifier: "ConnectionDetails" });
-    case 2:
-      return S.Array(__S(1409, __c88, 1));
+    case 3:
+      return S.Array(__S(1746, __c109, 2));
   }
 }
-function __c89(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1472, __c92, 0));
+      return S.Array(__S(1808, __c113, 0));
   }
 }
-function __c90(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1537, __c96, 1));
+      return S.Array(__S(1873, __c117, 1));
   }
 }
-function __c91(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1488, __c93, 0));
+      return S.Array(__S(1824, __c114, 0));
   }
 }
-function __c92(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8979,7 +10008,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "Database" });
   }
 }
-function __c93(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8999,31 +10028,31 @@ function __c93(j: number): any {
       ).annotate({ identifier: "Role" });
   }
 }
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c95(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           use_defaults: S.optional(S.Boolean),
-          enabled_libraries: S.optional(__S(3200, __c200, 0)),
+          enabled_libraries: S.optional(__S(3472, __c217, 0)),
         }),
       ).annotate({ identifier: "PreloadLibraries" });
   }
 }
-function __c96(j: number): any {
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pg_settings: S.optional(__S(1504, __c94, 0)),
-          pgbouncer_settings: S.optional(__S(1504, __c94, 0)),
-          preload_libraries: S.optional(__S(1520, __c95, 0)),
+          pg_settings: S.optional(__S(1856, __c116, 0)),
+          pgbouncer_settings: S.optional(__S(1856, __c116, 0)),
+          preload_libraries: S.optional(__S(1840, __c115, 0)),
         }),
       ).annotate({ identifier: "EndpointSettingsData" });
     case 1:
@@ -9040,7 +10069,7 @@ function __c96(j: number): any {
           type: S.String,
           current_state: S.String,
           pending_state: S.optional(S.String),
-          settings: __S(1536, __c96, 0),
+          settings: __S(1872, __c117, 0),
           pooler_enabled: S.Boolean,
           pooler_mode: S.String,
           disabled: S.Boolean,
@@ -9059,7 +10088,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "Endpoint" });
   }
 }
-function __c97(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9076,7 +10105,7 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "BranchRestrictedAction" });
     case 2:
-      return S.Array(__S(1553, __c97, 1));
+      return S.Array(__S(1889, __c118, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9112,18 +10141,18 @@ function __c97(j: number): any {
           ttl_interval_seconds: S.optional(S.Number),
           expires_at: S.optional(S.String),
           last_reset_at: S.optional(S.String),
-          created_by: S.optional(__S(1552, __c97, 0)),
+          created_by: S.optional(__S(1888, __c118, 0)),
           init_source: S.optional(S.String),
           restore_status: S.optional(S.String),
           restored_from: S.optional(S.String),
           restored_as: S.optional(S.String),
-          restricted_actions: S.optional(__S(1554, __c97, 2)),
-          recovery: S.optional(__S(1555, __c97, 3)),
+          restricted_actions: S.optional(__S(1890, __c118, 2)),
+          recovery: S.optional(__S(1891, __c118, 3)),
         }),
       ).annotate({ identifier: "Branch" });
   }
 }
-function __c98(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9138,7 +10167,7 @@ function __c98(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ips: S.optional(__S(3200, __c200, 0)),
+          ips: S.optional(__S(3472, __c217, 0)),
           protected_branches_only: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AllowedIps" });
@@ -9147,7 +10176,7 @@ function __c98(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          weekdays: __S(1570, __c98, 2),
+          weekdays: __S(1906, __c119, 2),
           start_time: S.String,
           end_time: S.String,
         }),
@@ -9155,22 +10184,22 @@ function __c98(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          quota: S.optional(__S(1568, __c98, 0)),
-          allowed_ips: S.optional(__S(1569, __c98, 1)),
+          quota: S.optional(__S(1904, __c119, 0)),
+          allowed_ips: S.optional(__S(1905, __c119, 1)),
           enable_logical_replication: S.optional(S.Boolean),
-          maintenance_window: S.optional(__S(1571, __c98, 3)),
+          maintenance_window: S.optional(__S(1907, __c119, 3)),
           block_public_connections: S.optional(S.Boolean),
           block_vpc_connections: S.optional(S.Boolean),
           audit_log_level: S.optional(S.String),
           hipaa: S.optional(S.Boolean),
-          preload_libraries: S.optional(__S(1520, __c95, 0)),
+          preload_libraries: S.optional(__S(1840, __c115, 0)),
         }),
       ).annotate({ identifier: "ProjectSettingsData" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          pg_settings: S.optional(__S(1504, __c94, 0)),
-          pgbouncer_settings: S.optional(__S(1504, __c94, 0)),
+          pg_settings: S.optional(__S(1856, __c116, 0)),
+          pgbouncer_settings: S.optional(__S(1856, __c116, 0)),
           autoscaling_limit_min_cu: S.optional(S.Number),
           autoscaling_limit_max_cu: S.optional(S.Number),
           suspend_timeout_seconds: S.optional(S.Number),
@@ -9178,7 +10207,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DefaultEndpointSettings" });
   }
 }
-function __c99(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9203,8 +10232,8 @@ function __c99(j: number): any {
           region_id: S.String,
           name: S.String,
           provisioner: S.String,
-          default_endpoint_settings: S.optional(__S(1573, __c98, 5)),
-          settings: S.optional(__S(1572, __c98, 4)),
+          default_endpoint_settings: S.optional(__S(1909, __c119, 5)),
+          settings: S.optional(__S(1908, __c119, 4)),
           pg_version: S.Number,
           proxy_host: S.String,
           branch_logical_size_limit: S.Number,
@@ -9220,7 +10249,7 @@ function __c99(j: number): any {
           consumption_period_end: S.String,
           quota_reset_at: S.optional(S.String),
           owner_id: S.String,
-          owner: S.optional(__S(1584, __c99, 0)),
+          owner: S.optional(__S(1920, __c120, 0)),
           compute_last_active_at: S.optional(S.String),
           org_id: S.optional(S.String),
           maintenance_scheduled_for: S.optional(S.String),
@@ -9230,26 +10259,26 @@ function __c99(j: number): any {
       ).annotate({ identifier: "Project" });
   }
 }
-function __c100(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          endpoints: S.optional(__S(1617, __c101, 1)),
-          branch: S.optional(__S(1618, __c101, 2)),
-          annotation_value: S.optional(__S(1504, __c94, 0)),
+          endpoints: S.optional(__S(1953, __c122, 1)),
+          branch: S.optional(__S(1954, __c122, 2)),
+          annotation_value: S.optional(__S(1856, __c116, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/branches", code: 200 })),
       ).annotate({ identifier: "CreateProjectBranchRequest" });
   }
 }
-function __c101(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          settings: S.optional(__S(1536, __c96, 0)),
+          settings: S.optional(__S(1872, __c117, 0)),
           autoscaling_limit_min_cu: S.optional(S.Number),
           autoscaling_limit_max_cu: S.optional(S.Number),
           provisioner: S.optional(S.String),
@@ -9257,7 +10286,7 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "BranchCreateRequestEndpointOptions" });
     case 1:
-      return S.Array(__S(1616, __c101, 0));
+      return S.Array(__S(1952, __c122, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9266,6 +10295,7 @@ function __c101(j: number): any {
           parent_lsn: S.optional(S.String),
           parent_timestamp: S.optional(S.String),
           protected: S.optional(S.Boolean),
+          realtime: S.optional(__S(1744, __c109, 0)),
           archived: S.optional(S.Boolean),
           init_source: S.optional(S.String),
           expires_at: S.optional(S.String),
@@ -9274,32 +10304,32 @@ function __c101(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          branch: __S(1556, __c97, 4),
-          endpoints: __S(1440, __c90, 0),
-          operations: __S(3216, __c201, 0),
-          roles: __S(1456, __c91, 0),
-          databases: __S(1424, __c89, 0),
-          connection_uris: S.optional(__S(1410, __c88, 2)),
+          branch: __S(1892, __c118, 4),
+          endpoints: __S(1776, __c111, 0),
+          operations: __S(3504, __c219, 0),
+          roles: __S(1792, __c112, 0),
+          databases: __S(1760, __c110, 0),
+          connection_uris: S.optional(__S(1747, __c109, 3)),
         }),
       ).annotate({ identifier: "CreateProjectBranchResponse" });
   }
 }
-function __c102(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endpoints: S.optional(__S(1617, __c101, 1)),
-          branch: S.optional(__S(1618, __c101, 2)),
+          endpoints: S.optional(__S(1953, __c122, 1)),
+          branch: S.optional(__S(1954, __c122, 2)),
         }),
       ).annotate({ identifier: "BranchCreateRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          annotation_value: S.optional(__S(1504, __c94, 0)),
-          branch_create: S.optional(__S(1632, __c102, 0)),
-          masking_rules: S.optional(__S(1649, __c103, 1)),
+          annotation_value: S.optional(__S(1856, __c116, 0)),
+          branch_create: S.optional(__S(1968, __c123, 0)),
+          masking_rules: S.optional(__S(1985, __c124, 1)),
           start_anonymization: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/projects/{project_id}/branch_anonymized", code: 200 }),
@@ -9307,7 +10337,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "CreateProjectBranchAnonymizedRequest" });
   }
 }
-function __c103(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9321,10 +10351,10 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "MaskingRule" });
     case 1:
-      return S.Array(__S(1648, __c103, 0));
+      return S.Array(__S(1984, __c124, 0));
   }
 }
-function __c104(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9344,12 +10374,12 @@ function __c104(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          bucket: __S(1680, __c105, 0),
+          bucket: __S(2016, __c126, 0),
         }),
       ).annotate({ identifier: "BucketResponse" });
   }
 }
-function __c105(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9361,7 +10391,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "Bucket" });
   }
 }
-function __c106(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9375,7 +10405,7 @@ function __c106(j: number): any {
           jwt_audience: S.optional(S.String),
           add_default_grants: S.optional(S.Boolean),
           skip_auth_schema: S.optional(S.Boolean),
-          settings: S.optional(__S(1728, __c108, 0)),
+          settings: S.optional(__S(2064, __c129, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9386,7 +10416,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "CreateProjectBranchDataAPIRequest" });
   }
 }
-function __c107(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9396,7 +10426,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "DataAPICreateResponse" });
   }
 }
-function __c108(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9405,7 +10435,7 @@ function __c108(j: number): any {
           db_anon_role: S.optional(S.String),
           db_extra_search_path: S.optional(S.String),
           db_max_rows: S.optional(S.Number),
-          db_schemas: S.optional(__S(3200, __c200, 0)),
+          db_schemas: S.optional(__S(3472, __c217, 0)),
           jwt_role_claim_key: S.optional(S.String),
           jwt_cache_max_lifetime: S.optional(S.Number),
           openapi_mode: S.optional(S.String),
@@ -9415,7 +10445,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "DataAPISettings" });
   }
 }
-function __c109(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9429,7 +10459,7 @@ function __c109(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           branch_id: S.String.pipe(T.Label()),
-          database: __S(1744, __c109, 0),
+          database: __S(2080, __c130, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9440,18 +10470,18 @@ function __c109(j: number): any {
       ).annotate({ identifier: "CreateProjectBranchDatabaseRequest" });
   }
 }
-function __c110(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          database: __S(1472, __c92, 0),
-          operations: __S(3216, __c201, 0),
+          database: __S(1808, __c113, 0),
+          operations: __S(3504, __c219, 0),
         }),
       ).annotate({ identifier: "CreateProjectBranchDatabaseResponse" });
   }
 }
-function __c111(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9480,12 +10510,12 @@ function __c111(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deployment: __S(1792, __c112, 0),
+          deployment: __S(2128, __c133, 0),
         }),
       ).annotate({ identifier: "NeonFunctionDeploymentResponse" });
   }
 }
-function __c112(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9495,13 +10525,13 @@ function __c112(j: number): any {
           memory_mib: S.Number,
           runtime: S.String,
           created_at: S.String,
-          environment: S.optional(S.NullOr(__S(3200, __c200, 0))),
+          environment: S.optional(S.NullOr(__S(3472, __c217, 0))),
           error: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "NeonFunctionDeployment" });
   }
 }
-function __c113(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9515,7 +10545,7 @@ function __c113(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           branch_id: S.String.pipe(T.Label()),
-          role: __S(1808, __c113, 0),
+          role: __S(2144, __c134, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9526,49 +10556,49 @@ function __c113(j: number): any {
       ).annotate({ identifier: "CreateProjectBranchRoleRequest" });
   }
 }
-function __c114(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          role: __S(1488, __c93, 0),
-          operations: __S(3216, __c201, 0),
+          role: __S(1824, __c114, 0),
+          operations: __S(3504, __c219, 0),
         }),
       ).annotate({ identifier: "CreateProjectBranchRoleResponse" });
   }
 }
-function __c115(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: __S(1856, __c116, 0),
+          type: __S(2192, __c137, 0),
           function_slug: S.String,
           name: S.String,
           function_path: S.optional(S.String),
-          schedule: __S(1857, __c116, 1),
+          schedule: __S(2193, __c137, 1),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ScheduleTriggerCreateRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: __S(1858, __c116, 2),
+          type: __S(2194, __c137, 2),
           function_slug: S.String,
           name: S.String,
           function_path: S.optional(S.String),
-          storage_object_created: __S(1859, __c116, 3),
+          storage_object_created: __S(2195, __c137, 3),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "StorageObjectCreatedTriggerCreateRequest" });
     case 2:
-      return S.suspend(() => S.Union([__S(1840, __c115, 0), __S(1841, __c115, 1)]));
+      return S.suspend(() => S.Union([__S(2176, __c136, 0), __S(2177, __c136, 1)]));
     case 3:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           branch_id: S.String.pipe(T.Label()),
-          body: __S(1842, __c115, 2).pipe(T.HttpBody()),
+          body: __S(2178, __c136, 2).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9579,7 +10609,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "CreateProjectBranchTriggerRequest" });
   }
 }
-function __c116(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.Literals(["schedule"]);
@@ -9601,12 +10631,12 @@ function __c116(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          type: __S(1856, __c116, 0),
+          type: __S(2192, __c137, 0),
           trigger_id: S.String,
           function_slug: S.String,
           name: S.String,
           function_path: S.String,
-          schedule: __S(1857, __c116, 1),
+          schedule: __S(2193, __c137, 1),
           enabled: S.Boolean,
           version: S.Number,
           next_run_at: S.NullOr(S.String),
@@ -9616,32 +10646,32 @@ function __c116(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          type: __S(1858, __c116, 2),
+          type: __S(2194, __c137, 2),
           trigger_id: S.String,
           function_slug: S.String,
           name: S.String,
           function_path: S.String,
-          storage_object_created: __S(1859, __c116, 3),
+          storage_object_created: __S(2195, __c137, 3),
           enabled: S.Boolean,
           version: S.Number,
           inherited: S.Boolean,
         }),
       ).annotate({ identifier: "StorageObjectCreatedTrigger" });
     case 6:
-      return S.suspend(() => S.Union([__S(1860, __c116, 4), __S(1861, __c116, 5)]));
+      return S.suspend(() => S.Union([__S(2196, __c137, 4), __S(2197, __c137, 5)]));
   }
 }
-function __c117(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          trigger: __S(1862, __c116, 6),
+          trigger: __S(2198, __c137, 6),
         }),
       ).annotate({ identifier: "TriggerResponse" });
   }
 }
-function __c118(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9649,7 +10679,7 @@ function __c118(j: number): any {
           branch_id: S.String,
           region_id: S.optional(S.String),
           type: S.String,
-          settings: S.optional(__S(1536, __c96, 0)),
+          settings: S.optional(__S(1872, __c117, 0)),
           autoscaling_limit_min_cu: S.optional(S.Number),
           autoscaling_limit_max_cu: S.optional(S.Number),
           provisioner: S.optional(S.String),
@@ -9665,23 +10695,23 @@ function __c118(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          endpoint: __S(1888, __c118, 0),
+          endpoint: __S(2224, __c139, 0),
         }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/endpoints", code: 200 })),
       ).annotate({ identifier: "CreateProjectEndpointRequest" });
   }
 }
-function __c119(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endpoint: __S(1537, __c96, 1),
-          operations: __S(3216, __c201, 0),
+          endpoint: __S(1873, __c117, 1),
+          operations: __S(3504, __c219, 0),
         }),
       ).annotate({ identifier: "CreateProjectEndpointResponse" });
   }
 }
-function __c120(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9703,7 +10733,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ProjectTransferRequestResponse" });
   }
 }
-function __c121(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9725,13 +10755,13 @@ function __c121(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshot: __S(1952, __c122, 0),
-          operations: __S(3216, __c201, 0),
+          snapshot: __S(2288, __c143, 0),
+          operations: __S(3504, __c219, 0),
         }),
       ).annotate({ identifier: "CreateSnapshotResponse" });
   }
 }
-function __c122(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9750,7 +10780,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "Snapshot" });
   }
 }
-function __c123(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9768,7 +10798,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "DeleteBranchNeonAuthOauthProviderRequest" });
   }
 }
-function __c124(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9777,14 +10807,14 @@ function __c124(j: number): any {
         }),
       ).annotate({ identifier: "NeonAuthDeleteDomainFromRedirectURIWhitelistItem" });
     case 1:
-      return S.Array(__S(1984, __c124, 0));
+      return S.Array(__S(2320, __c145, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           branch_id: S.String.pipe(T.Label()),
           auth_provider: S.String,
-          domains: __S(1985, __c124, 1),
+          domains: __S(2321, __c145, 1),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -9795,7 +10825,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "DeleteBranchNeonAuthTrustedDomainRequest" });
   }
 }
-function __c125(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9813,7 +10843,25 @@ function __c125(j: number): any {
       ).annotate({ identifier: "DeleteBranchNeonAuthUserRequest" });
   }
 }
-function __c126(j: number): any {
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          client_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/oauth-provider/clients/{client_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteNeonAuthOAuthClientRequest" });
+  }
+}
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9829,7 +10877,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationSpendingLimitRequest" });
   }
 }
-function __c127(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -9837,7 +10885,7 @@ function __c127(j: number): any {
       });
   }
 }
-function __c128(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9855,7 +10903,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationVPCEndpointRequest" });
   }
 }
-function __c129(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9865,17 +10913,17 @@ function __c129(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c130(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project: __S(1585, __c99, 1),
+          project: __S(1921, __c120, 1),
         }),
       ).annotate({ identifier: "ProjectResponse" });
   }
 }
-function __c131(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9893,18 +10941,18 @@ function __c131(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchRequest" });
   }
 }
-function __c132(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          branch: __S(1556, __c97, 4),
-          operations: __S(3216, __c201, 0),
+          branch: __S(1892, __c118, 4),
+          operations: __S(3504, __c219, 0),
         }),
       ).annotate({ identifier: "DeleteProjectBranchResponse" });
   }
 }
-function __c133(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9922,7 +10970,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchBucketRequest" });
   }
 }
-function __c134(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9941,7 +10989,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchBucketObjectRequest" });
   }
 }
-function __c135(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9966,7 +11014,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "BucketObjectsDeletePrefixResponse" });
   }
 }
-function __c136(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9984,7 +11032,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchCustomDomainRequest" });
   }
 }
-function __c137(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10002,7 +11050,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchDataAPIRequest" });
   }
 }
-function __c138(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10020,7 +11068,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchDatabaseRequest" });
   }
 }
-function __c139(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10038,7 +11086,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchFunctionRequest" });
   }
 }
-function __c140(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10056,7 +11104,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchRoleRequest" });
   }
 }
-function __c141(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10074,54 +11122,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchTriggerRequest" });
   }
 }
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          endpoint_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/projects/{project_id}/endpoints/{endpoint_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectEndpointRequest" });
-  }
-}
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          jwks_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/projects/{project_id}/jwks/{jwks_id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteProjectJWKSRequest" });
-  }
-}
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          vpc_endpoint_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/projects/{project_id}/vpc_endpoints/{vpc_endpoint_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectVPCEndpointRequest" });
-  }
-}
-function __c145(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10139,7 +11140,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "AcceptProjectTransferRequestRequest" });
   }
 }
-function __c146(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -10147,7 +11148,54 @@ function __c146(j: number): any {
       });
   }
 }
-function __c147(j: number): any {
+function __c166(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          endpoint_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/projects/{project_id}/endpoints/{endpoint_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectEndpointRequest" });
+  }
+}
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          jwks_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/projects/{project_id}/jwks/{jwks_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteProjectJWKSRequest" });
+  }
+}
+function __c168(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          vpc_endpoint_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/projects/{project_id}/vpc_endpoints/{vpc_endpoint_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectVPCEndpointRequest" });
+  }
+}
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10164,7 +11212,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "DeleteSnapshotRequest" });
   }
 }
-function __c148(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10182,7 +11230,42 @@ function __c148(j: number): any {
       ).annotate({ identifier: "DisableNeonAuthRequest" });
   }
 }
-function __c149(j: number): any {
+function __c171(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/projects/{project_id}/branches/{branch_id}/realtime",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DisableProjectBranchRealtimeRequest" });
+  }
+}
+function __c172(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          allowed_origins: S.optional(__S(3472, __c217, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/branches/{branch_id}/realtime",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "EnableProjectBranchRealtimeRequest" });
+  }
+}
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10201,12 +11284,12 @@ function __c149(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operations: __S(3216, __c201, 0),
+          operations: __S(3504, __c219, 0),
         }),
       ).annotate({ identifier: "OperationsResponse" });
   }
 }
-function __c150(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10225,16 +11308,16 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "RegionResponse" });
     case 2:
-      return S.Array(__S(2401, __c150, 1));
+      return S.Array(__S(2785, __c174, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          regions: __S(2402, __c150, 2),
+          regions: __S(2786, __c174, 2),
         }),
       ).annotate({ identifier: "ActiveRegionsResponse" });
   }
 }
-function __c151(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10251,7 +11334,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GetAnonymizedBranchStatusRequest" });
   }
 }
-function __c152(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10273,12 +11356,59 @@ function __c152(j: number): any {
           created_at: S.String,
           updated_at: S.String,
           failed_at: S.optional(S.String),
-          last_run: S.optional(__S(2432, __c152, 0)),
+          last_run: S.optional(__S(2816, __c176, 0)),
         }),
       ).annotate({ identifier: "AnonymizedBranchStatusResponse" });
   }
 }
-function __c153(j: number): any {
+function __c177(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          id: S.String,
+          client_id: S.optional(S.String),
+          client_secret: S.optional(
+            S.Union([S.String, S.Redacted(S.String, { disallowJsonEncode: true })]).pipe(
+              T.SensitiveValue({}),
+            ),
+          ),
+          microsoft_tenant_id: S.optional(S.String),
+          apple_team_id: S.optional(S.String),
+          apple_key_id: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddBranchNeonAuthOauthProviderRequest" });
+  }
+}
+function __c178(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          client_id: S.optional(S.String),
+          client_secret: S.optional(
+            S.Union([S.String, S.Redacted(S.String, { disallowJsonEncode: true })]).pipe(
+              T.SensitiveValue({}),
+            ),
+          ),
+          microsoft_tenant_id: S.optional(S.String),
+          apple_team_id: S.optional(S.String),
+          apple_key_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NeonAuthOauthProvider" });
+  }
+}
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10294,7 +11424,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "AuthDetailsResponse" });
   }
 }
-function __c154(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10319,16 +11449,16 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "AvailablePreloadLibrary" });
     case 2:
-      return S.Array(__S(2465, __c154, 1));
+      return S.Array(__S(2881, __c180, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          libraries: S.optional(__S(2466, __c154, 2)),
+          libraries: S.optional(__S(2882, __c180, 2)),
         }),
       ).annotate({ identifier: "AvailablePreloadLibraries" });
   }
 }
-function __c155(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10349,20 +11479,20 @@ function __c155(j: number): any {
       ).annotate({ identifier: "ConnectionURIResponse" });
   }
 }
-function __c156(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          project_ids: __S(3200, __c200, 0).pipe(T.Query()),
-          branch_ids: S.optional(__S(3200, __c200, 0).pipe(T.Query())),
+          project_ids: __S(3472, __c217, 0).pipe(T.Query()),
+          branch_ids: S.optional(__S(3472, __c217, 0).pipe(T.Query())),
           from: S.String.pipe(T.Query()),
           to: S.String.pipe(T.Query()),
           granularity: S.String.pipe(T.Query()),
           org_id: S.String.pipe(T.Query()),
-          metrics: __S(3200, __c200, 0).pipe(T.Query()),
+          metrics: __S(3472, __c217, 0).pipe(T.Query()),
         }).pipe(T.Http({ method: "GET", uri: "/consumption_history/v2/branches", code: 200 })),
       ).annotate({ identifier: "GetConsumptionHistoryPerBranchV2Request" });
     case 1:
@@ -10370,21 +11500,21 @@ function __c156(j: number): any {
         S.Struct({
           project_id: S.String,
           branch_id: S.String,
-          periods: __S(2533, __c158, 5),
+          periods: __S(2949, __c184, 5),
         }),
       ).annotate({ identifier: "ConsumptionHistoryPerBranchV2" });
     case 2:
-      return S.Array(__S(2497, __c156, 1));
+      return S.Array(__S(2913, __c182, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          branches: __S(2498, __c156, 2),
-          pagination: S.optional(__S(2512, __c157, 0)),
+          branches: __S(2914, __c182, 2),
+          pagination: S.optional(__S(2928, __c183, 0)),
         }),
       ).annotate({ identifier: "GetConsumptionHistoryPerBranchV2Response" });
   }
 }
-function __c157(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10394,7 +11524,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "Pagination" });
   }
 }
-function __c158(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10404,17 +11534,17 @@ function __c158(j: number): any {
         }),
       ).annotate({ identifier: "ConsumptionMetricValue" });
     case 1:
-      return S.Array(__S(2528, __c158, 0));
+      return S.Array(__S(2944, __c184, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           timeframe_start: S.optional(S.String),
           timeframe_end: S.optional(S.String),
-          metrics: S.optional(__S(2529, __c158, 1)),
+          metrics: S.optional(__S(2945, __c184, 1)),
         }),
       ).annotate({ identifier: "ConsumptionHistoryPerTimeframeV2" });
     case 3:
-      return S.Array(__S(2530, __c158, 2));
+      return S.Array(__S(2946, __c184, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -10422,27 +11552,27 @@ function __c158(j: number): any {
           period_plan: S.String,
           period_start: S.String,
           period_end: S.optional(S.String),
-          consumption: __S(2531, __c158, 3),
+          consumption: __S(2947, __c184, 3),
         }),
       ).annotate({ identifier: "ConsumptionHistoryPerPeriodV2" });
     case 5:
-      return S.Array(__S(2532, __c158, 4));
+      return S.Array(__S(2948, __c184, 4));
   }
 }
-function __c159(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          project_ids: S.optional(__S(3200, __c200, 0).pipe(T.Query())),
+          project_ids: S.optional(__S(3472, __c217, 0).pipe(T.Query())),
           from: S.String.pipe(T.Query()),
           to: S.String.pipe(T.Query()),
           granularity: S.String.pipe(T.Query()),
           org_id: S.optional(S.String.pipe(T.Query())),
           include_v1_metrics: S.optional(S.Boolean.pipe(T.Query())),
-          metrics: S.optional(__S(3200, __c200, 0).pipe(T.Query())),
+          metrics: S.optional(__S(3472, __c217, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/consumption_history/projects", code: 200 })),
       ).annotate({ identifier: "GetConsumptionHistoryPerProjectRequest" });
     case 1:
@@ -10460,7 +11590,7 @@ function __c159(j: number): any {
         }),
       ).annotate({ identifier: "ConsumptionHistoryPerTimeframe" });
     case 2:
-      return S.Array(__S(2545, __c159, 1));
+      return S.Array(__S(2961, __c185, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10468,105 +11598,63 @@ function __c159(j: number): any {
           period_plan: S.String,
           period_start: S.String,
           period_end: S.optional(S.String),
-          consumption: __S(2546, __c159, 2),
+          consumption: __S(2962, __c185, 2),
         }),
       ).annotate({ identifier: "ConsumptionHistoryPerPeriod" });
     case 4:
-      return S.Array(__S(2547, __c159, 3));
+      return S.Array(__S(2963, __c185, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String,
-          periods: __S(2548, __c159, 4),
+          periods: __S(2964, __c185, 4),
         }),
       ).annotate({ identifier: "ConsumptionHistoryPerProject" });
     case 6:
-      return S.Array(__S(2549, __c159, 5));
+      return S.Array(__S(2965, __c185, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(2550, __c159, 6),
-          pagination: S.optional(__S(2512, __c157, 0)),
+          projects: __S(2966, __c185, 6),
+          pagination: S.optional(__S(2928, __c183, 0)),
         }),
       ).annotate({ identifier: "GetConsumptionHistoryPerProjectResponse" });
   }
 }
-function __c160(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-          id: S.String,
-          client_id: S.optional(S.String),
-          client_secret: S.optional(
-            S.Union([S.String, S.Redacted(S.String, { disallowJsonEncode: true })]).pipe(
-              T.SensitiveValue({}),
-            ),
-          ),
-          microsoft_tenant_id: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddBranchNeonAuthOauthProviderRequest" });
-  }
-}
-function __c161(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          client_id: S.optional(S.String),
-          client_secret: S.optional(
-            S.Union([S.String, S.Redacted(S.String, { disallowJsonEncode: true })]).pipe(
-              T.SensitiveValue({}),
-            ),
-          ),
-        }),
-      ).annotate({ identifier: "NeonAuthOauthProvider" });
-  }
-}
-function __c162(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          project_ids: S.optional(__S(3200, __c200, 0).pipe(T.Query())),
+          project_ids: S.optional(__S(3472, __c217, 0).pipe(T.Query())),
           from: S.String.pipe(T.Query()),
           to: S.String.pipe(T.Query()),
           granularity: S.String.pipe(T.Query()),
           org_id: S.String.pipe(T.Query()),
-          metrics: __S(3200, __c200, 0).pipe(T.Query()),
+          metrics: __S(3472, __c217, 0).pipe(T.Query()),
         }).pipe(T.Http({ method: "GET", uri: "/consumption_history/v2/projects", code: 200 })),
       ).annotate({ identifier: "GetConsumptionHistoryPerProjectV2Request" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String,
-          periods: __S(2533, __c158, 5),
+          periods: __S(2949, __c184, 5),
         }),
       ).annotate({ identifier: "ConsumptionHistoryPerProjectV2" });
     case 2:
-      return S.Array(__S(2593, __c162, 1));
+      return S.Array(__S(2977, __c186, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(2594, __c162, 2),
-          pagination: S.optional(__S(2512, __c157, 0)),
+          projects: __S(2978, __c186, 2),
+          pagination: S.optional(__S(2928, __c183, 0)),
         }),
       ).annotate({ identifier: "GetConsumptionHistoryPerProjectV2Response" });
   }
 }
-function __c163(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10585,7 +11673,7 @@ function __c163(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          card: S.optional(__S(2609, __c163, 1)),
+          card: S.optional(__S(2993, __c187, 1)),
         }),
       ).annotate({ identifier: "PaymentSource" });
     case 3:
@@ -10599,14 +11687,14 @@ function __c163(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          version: S.optional(__S(2611, __c163, 3)),
+          version: S.optional(__S(2995, __c187, 3)),
         }),
       ).annotate({ identifier: "PlanDetails" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           state: S.String,
-          payment_source: __S(2610, __c163, 2),
+          payment_source: __S(2994, __c187, 2),
           subscription_type: S.String,
           payment_method: S.String,
           quota_reset_at_last: S.String,
@@ -10622,7 +11710,7 @@ function __c163(j: number): any {
           orb_portal_url: S.optional(S.String),
           tax_id: S.optional(S.String),
           tax_id_type: S.optional(S.String),
-          plan_details: S.optional(__S(2612, __c163, 4)),
+          plan_details: S.optional(__S(2996, __c187, 4)),
           spending_limit_cents: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "BillingAccount" });
@@ -10637,13 +11725,13 @@ function __c163(j: number): any {
         }),
       ).annotate({ identifier: "CurrentUserAuthAccount" });
     case 7:
-      return S.Array(__S(2614, __c163, 6));
+      return S.Array(__S(2998, __c187, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           active_seconds_limit: S.Number,
-          billing_account: S.optional(__S(2613, __c163, 5)),
-          auth_accounts: __S(2615, __c163, 7),
+          billing_account: S.optional(__S(2997, __c187, 5)),
+          auth_accounts: __S(2999, __c187, 7),
           email: S.String,
           id: S.String,
           image: S.String,
@@ -10659,23 +11747,23 @@ function __c163(j: number): any {
       ).annotate({ identifier: "CurrentUserInfoResponse" });
   }
 }
-function __c164(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/users/me/organizations", code: 200 })),
       ).annotate({ identifier: "GetCurrentUserOrganizationsRequest" });
     case 1:
-      return S.Array(__S(2640, __c165, 0));
+      return S.Array(__S(3024, __c189, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          organizations: __S(2625, __c164, 1),
+          organizations: __S(3009, __c188, 1),
         }),
       ).annotate({ identifier: "OrganizationsResponse" });
   }
 }
-function __c165(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10693,7 +11781,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "Organization" });
   }
 }
-function __c166(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10710,17 +11798,17 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetMaskingRulesRequest" });
   }
 }
-function __c167(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          masking_rules: __S(1649, __c103, 1),
+          masking_rules: __S(1985, __c124, 1),
         }),
       ).annotate({ identifier: "MaskingRulesResponse" });
   }
 }
-function __c168(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10752,213 +11840,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "NeonAuthIntegration" });
   }
 }
-function __c169(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/branches/{branch_id}/auth/allow_localhost",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetNeonAuthAllowLocalhostRequest" });
-  }
-}
-function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allow_localhost: S.Boolean,
-        }),
-      ).annotate({ identifier: "NeonAuthAllowLocalhostResponse" });
-  }
-}
-function __c171(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/branches/{branch_id}/auth/email_and_password",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetNeonAuthEmailAndPasswordConfigRequest" });
-  }
-}
-function __c172(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-          email_verification_method: S.String,
-          require_email_verification: S.Boolean,
-          auto_sign_in_after_verification: S.Boolean,
-          send_verification_email_on_sign_up: S.Boolean,
-          send_verification_email_on_sign_in: S.Boolean,
-          disable_sign_up: S.Boolean,
-        }),
-      ).annotate({ identifier: "NeonAuthEmailAndPasswordConfig" });
-  }
-}
-function __c173(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/branches/{branch_id}/auth/email_provider",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetNeonAuthEmailProviderRequest" });
-  }
-}
-function __c174(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => __S(2804, __c175, 4).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetNeonAuthEmailProviderResponse",
-      });
-  }
-}
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Literals(["standard"]);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String,
-          port: S.Number,
-          username: S.String,
-          password: S.Union([S.String, S.Redacted(S.String, { disallowJsonEncode: true })]).pipe(
-            T.SensitiveValue({}),
-          ),
-          sender_email: S.String,
-          sender_name: S.String,
-          type: __S(2800, __c175, 0),
-        }),
-      ).annotate({ identifier: "StandardEmailServerResponse" });
-    case 2:
-      return S.Literals(["shared"]);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          sender_email: S.optional(S.String),
-          sender_name: S.optional(S.String),
-          type: __S(2802, __c175, 2),
-        }),
-      ).annotate({ identifier: "SharedEmailServer" });
-    case 4:
-      return S.suspend(() => S.Union([__S(2801, __c175, 1), __S(2803, __c175, 3)]));
-  }
-}
-function __c176(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/branches/{branch_id}/auth/plugins/phone-number",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetNeonAuthPhoneNumberPluginRequest" });
-  }
-}
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-          otp_expires_in: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "NeonAuthPhoneNumberConfig" });
-  }
-}
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/branches/{branch_id}/auth/plugins",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetNeonAuthPluginConfigsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          organization: S.optional(__S(2880, __c180, 0)),
-          magic_link: S.optional(__S(2864, __c179, 0)),
-          phone_number: S.optional(__S(2832, __c177, 0)),
-          email_provider: S.optional(__S(2804, __c175, 4)),
-          email_and_password: S.optional(__S(2752, __c172, 0)),
-          oauth_providers: S.optional(__S(2896, __c181, 0)),
-          allow_localhost: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "NeonAuthPluginConfigs" });
-  }
-}
-function __c179(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-          expires_in: S.Number,
-          disable_sign_up: S.Boolean,
-        }),
-      ).annotate({ identifier: "NeonAuthMagicLinkConfig" });
-  }
-}
-function __c180(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-          organization_limit: S.Number,
-          membership_limit: S.Number,
-          creator_role: S.String,
-          send_invitation_email: S.Boolean,
-        }),
-      ).annotate({ identifier: "NeonAuthOrganizationConfig" });
-  }
-}
-function __c181(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2576, __c161, 0));
-  }
-}
-function __c182(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10977,7 +11859,308 @@ function __c182(j: number): any {
       ).annotate({ identifier: "AddBranchNeonAuthTrustedDomainRequest" });
   }
 }
-function __c183(j: number): any {
+function __c194(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/allow_localhost",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetNeonAuthAllowLocalhostRequest" });
+  }
+}
+function __c195(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allow_localhost: S.Boolean,
+        }),
+      ).annotate({ identifier: "NeonAuthAllowLocalhostResponse" });
+  }
+}
+function __c196(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/email_and_password",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetNeonAuthEmailAndPasswordConfigRequest" });
+  }
+}
+function __c197(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          email_verification_method: S.String,
+          require_email_verification: S.Boolean,
+          auto_sign_in_after_verification: S.Boolean,
+          send_verification_email_on_sign_up: S.Boolean,
+          send_verification_email_on_sign_in: S.Boolean,
+          disable_sign_up: S.Boolean,
+          revoke_sessions_on_password_reset: S.Boolean,
+        }),
+      ).annotate({ identifier: "NeonAuthEmailAndPasswordConfig" });
+  }
+}
+function __c198(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/email_provider",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetNeonAuthEmailProviderRequest" });
+  }
+}
+function __c199(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(3204, __c200, 4).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetNeonAuthEmailProviderResponse",
+      });
+  }
+}
+function __c200(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Literals(["standard"]);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String,
+          port: S.Number,
+          username: S.String,
+          password: S.Union([S.String, S.Redacted(S.String, { disallowJsonEncode: true })]).pipe(
+            T.SensitiveValue({}),
+          ),
+          sender_email: S.String,
+          sender_name: S.String,
+          type: __S(3200, __c200, 0),
+        }),
+      ).annotate({ identifier: "StandardEmailServerResponse" });
+    case 2:
+      return S.Literals(["shared"]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          sender_email: S.optional(S.String),
+          sender_name: S.optional(S.String),
+          type: __S(3202, __c200, 2),
+        }),
+      ).annotate({ identifier: "SharedEmailServer" });
+    case 4:
+      return S.suspend(() => S.Union([__S(3201, __c200, 1), __S(3203, __c200, 3)]));
+  }
+}
+function __c201(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          client_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/oauth-provider/clients/{client_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetNeonAuthOAuthClientRequest" });
+  }
+}
+function __c202(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.String,
+          name: S.String,
+          type: S.String,
+          redirect_uris: __S(3472, __c217, 0),
+          resources: __S(3472, __c217, 0),
+          skip_consent: S.Boolean,
+          disabled: S.Boolean,
+          created_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NeonAuthOAuthClient" });
+  }
+}
+function __c203(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/plugins/oauth-provider",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetNeonAuthOAuthProviderPluginRequest" });
+  }
+}
+function __c204(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.optional(S.String),
+          dynamic_registration: S.optional(S.Boolean),
+          client_id_metadata_documents: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "NeonAuthOAuthProviderMcp" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          identifier: S.String,
+        }),
+      ).annotate({ identifier: "NeonAuthOAuthProviderResource" });
+    case 2:
+      return S.Array(__S(3265, __c204, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          login_page: S.optional(S.String),
+          consent_page: S.optional(S.String),
+          mcp: S.optional(__S(3264, __c204, 0)),
+          resources: S.optional(__S(3266, __c204, 2)),
+        }),
+      ).annotate({ identifier: "NeonAuthOAuthProviderConfig" });
+  }
+}
+function __c205(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/plugins/phone-number",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetNeonAuthPhoneNumberPluginRequest" });
+  }
+}
+function __c206(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          otp_expires_in: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NeonAuthPhoneNumberConfig" });
+  }
+}
+function __c207(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/auth/plugins",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetNeonAuthPluginConfigsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          organization: S.optional(__S(3376, __c211, 0)),
+          magic_link: S.optional(__S(3360, __c210, 0)),
+          phone_number: S.optional(__S(3296, __c206, 0)),
+          oauth_provider: S.optional(__S(3267, __c204, 3)),
+          email_provider: S.optional(__S(3204, __c200, 4)),
+          email_and_password: S.optional(__S(3152, __c197, 0)),
+          oauth_providers: S.optional(__S(3328, __c208, 0)),
+          allow_localhost: S.optional(S.Boolean),
+          logs_export: S.optional(__S(3344, __c209, 0)),
+        }),
+      ).annotate({ identifier: "NeonAuthPluginConfigs" });
+  }
+}
+function __c208(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2848, __c178, 0));
+  }
+}
+function __c209(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "NeonAuthLogsExportConfig" });
+  }
+}
+function __c210(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          expires_in: S.Number,
+          disable_sign_up: S.Boolean,
+        }),
+      ).annotate({ identifier: "NeonAuthMagicLinkConfig" });
+  }
+}
+function __c211(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          organization_limit: S.Number,
+          membership_limit: S.Number,
+          creator_role: S.String,
+          send_invitation_email: S.Boolean,
+        }),
+      ).annotate({ identifier: "NeonAuthOrganizationConfig" });
+  }
+}
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10994,20 +12177,20 @@ function __c183(j: number): any {
       ).annotate({ identifier: "GetNeonAuthWebhookConfigRequest" });
   }
 }
-function __c184(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
           webhook_url: S.optional(S.String),
-          enabled_events: S.optional(__S(832, __c52, 0)),
+          enabled_events: S.optional(__S(1072, __c67, 0)),
           timeout_seconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "NeonAuthWebhookConfig" });
   }
 }
-function __c185(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11017,7 +12200,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "GetOrganizationRequest" });
   }
 }
-function __c186(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11027,7 +12210,81 @@ function __c186(j: number): any {
       ).annotate({ identifier: "GetOrganizationInvitationsRequest" });
   }
 }
-function __c187(j: number): any {
+function __c216(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          jwks_url: S.String,
+          provider_name: S.String,
+          branch_id: S.optional(S.String),
+          jwt_audience: S.optional(S.String),
+          role_names: S.optional(__S(3472, __c217, 0)),
+          skip_role_creation: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/jwks", code: 200 })),
+      ).annotate({ identifier: "AddProjectJWKSRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jwks: __S(3520, __c220, 0),
+          operations: __S(3504, __c219, 0),
+        }),
+      ).annotate({ identifier: "AddProjectJWKSResponse" });
+  }
+}
+function __c217(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c218(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          project_id: S.String,
+          branch_id: S.optional(S.String),
+          endpoint_id: S.optional(S.String),
+          action: S.String,
+          status: S.String,
+          error: S.optional(S.String),
+          failures_count: S.Number,
+          retry_at: S.optional(S.String),
+          created_at: S.String,
+          updated_at: S.String,
+          total_duration_ms: S.Number,
+        }),
+      ).annotate({ identifier: "Operation" });
+  }
+}
+function __c219(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(3488, __c218, 0));
+  }
+}
+function __c220(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          project_id: S.String,
+          branch_id: S.optional(S.String),
+          jwks_url: S.String,
+          provider_name: S.String,
+          created_at: S.String,
+          updated_at: S.String,
+          jwt_audience: S.optional(S.String),
+          role_names: S.optional(__S(3472, __c217, 0)),
+        }),
+      ).annotate({ identifier: "JWKS" });
+  }
+}
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11040,7 +12297,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "GetOrganizationMemberRequest" });
   }
 }
-function __c188(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11054,7 +12311,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "Member" });
   }
 }
-function __c189(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11077,22 +12334,22 @@ function __c189(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          member: __S(3008, __c188, 0),
-          user: __S(3025, __c189, 1),
+          member: __S(3552, __c222, 0),
+          user: __S(3569, __c223, 1),
         }),
       ).annotate({ identifier: "MemberWithUser" });
     case 3:
-      return S.Array(__S(3026, __c189, 2));
+      return S.Array(__S(3570, __c223, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          members: __S(3027, __c189, 3),
-          pagination: S.optional(__S(3040, __c190, 0)),
+          members: __S(3571, __c223, 3),
+          pagination: S.optional(__S(3584, __c224, 0)),
         }),
       ).annotate({ identifier: "GetOrganizationMembersResponse" });
   }
 }
-function __c190(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11104,7 +12361,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "CursorPagination" });
   }
 }
-function __c191(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11120,7 +12377,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "GetOrganizationSpendingLimitRequest" });
   }
 }
-function __c192(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11130,7 +12387,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "SpendingLimitResponse" });
   }
 }
-function __c193(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11153,12 +12410,12 @@ function __c193(j: number): any {
           label: S.String,
           state: S.String,
           num_restricted_projects: S.Number,
-          example_restricted_projects: __S(3200, __c200, 0),
+          example_restricted_projects: __S(3472, __c217, 0),
         }),
       ).annotate({ identifier: "VPCEndpointDetails" });
   }
 }
-function __c194(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11168,7 +12425,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c195(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11187,31 +12444,31 @@ function __c195(j: number): any {
           title: S.String,
           level: S.String,
           facing: S.String,
-          categories: __S(832, __c52, 0),
+          categories: __S(1072, __c67, 0),
           description: S.String,
           detail: S.String,
           remediation: S.String,
-          metadata: __S(3136, __c196, 0),
+          metadata: __S(3680, __c230, 0),
           cache_key: S.String,
         }),
       ).annotate({ identifier: "AdvisorIssue" });
     case 2:
-      return S.Array(__S(3121, __c195, 1));
+      return S.Array(__S(3665, __c229, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          issues: __S(3122, __c195, 2),
+          issues: __S(3666, __c229, 2),
         }),
       ).annotate({ identifier: "GetProjectAdvisorSecurityIssuesResponse" });
   }
 }
-function __c196(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c197(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11225,13 +12482,13 @@ function __c197(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          branch: __S(1556, __c97, 4),
-          annotation: __S(3169, __c198, 1),
+          branch: __S(1892, __c118, 4),
+          annotation: __S(3713, __c232, 1),
         }),
       ).annotate({ identifier: "GetProjectBranchResponse" });
   }
 }
-function __c198(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11243,89 +12500,15 @@ function __c198(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          object: __S(3168, __c198, 0),
-          value: __S(1504, __c94, 0),
+          object: __S(3712, __c232, 0),
+          value: __S(1856, __c116, 0),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnnotationData" });
   }
 }
-function __c199(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          jwks_url: S.String,
-          provider_name: S.String,
-          branch_id: S.optional(S.String),
-          jwt_audience: S.optional(S.String),
-          role_names: S.optional(__S(3200, __c200, 0)),
-          skip_role_creation: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/jwks", code: 200 })),
-      ).annotate({ identifier: "AddProjectJWKSRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          jwks: __S(3248, __c203, 0),
-          operations: __S(3216, __c201, 0),
-        }),
-      ).annotate({ identifier: "AddProjectJWKSResponse" });
-  }
-}
-function __c200(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c201(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(3232, __c202, 0));
-  }
-}
-function __c202(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          project_id: S.String,
-          branch_id: S.optional(S.String),
-          endpoint_id: S.optional(S.String),
-          action: S.String,
-          status: S.String,
-          error: S.optional(S.String),
-          failures_count: S.Number,
-          retry_at: S.optional(S.String),
-          created_at: S.String,
-          updated_at: S.String,
-          total_duration_ms: S.Number,
-        }),
-      ).annotate({ identifier: "Operation" });
-  }
-}
-function __c203(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          project_id: S.String,
-          branch_id: S.optional(S.String),
-          jwks_url: S.String,
-          provider_name: S.String,
-          created_at: S.String,
-          updated_at: S.String,
-          jwt_audience: S.optional(S.String),
-          role_names: S.optional(__S(3200, __c200, 0)),
-        }),
-      ).annotate({ identifier: "JWKS" });
-  }
-}
-function __c204(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11349,7 +12532,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "BranchAiGateway" });
   }
 }
-function __c205(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11370,7 +12553,7 @@ function __c205(j: number): any {
       return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
-function __c206(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11391,13 +12574,37 @@ function __c206(j: number): any {
         S.Struct({
           url: S.String,
           status: S.String,
-          settings: S.optional(S.NullOr(__S(1728, __c108, 0))),
-          available_schemas: S.optional(S.NullOr(__S(3200, __c200, 0))),
+          settings: S.optional(S.NullOr(__S(2064, __c129, 0))),
+          available_schemas: S.optional(S.NullOr(__S(3472, __c217, 0))),
+          observed_at: S.optional(S.String),
+          auth_provider: S.optional(S.String),
+          jwks_url: S.optional(S.String),
+          provider_name: S.optional(S.String),
+          jwt_audience: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataAPIReponse" });
   }
 }
-function __c207(j: number): any {
+function __c236(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org_id: S.String.pipe(T.Label()),
+          region_id: S.String.pipe(T.Label()),
+          vpc_endpoint_id: S.String.pipe(T.Label()),
+          label: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/organizations/{org_id}/vpc/region/{region_id}/vpc_endpoints/{vpc_endpoint_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AssignOrganizationVPCEndpointRequest" });
+  }
+}
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11416,12 +12623,12 @@ function __c207(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          database: __S(1472, __c92, 0),
+          database: __S(1808, __c113, 0),
         }),
       ).annotate({ identifier: "DatabaseResponse" });
   }
 }
-function __c208(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11439,7 +12646,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "GetProjectBranchFunctionRequest" });
   }
 }
-function __c209(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11448,24 +12655,77 @@ function __c209(j: number): any {
           slug: S.String,
           name: S.String,
           invocation_url: S.String,
-          current_deployment: S.optional(S.NullOr(__S(1792, __c112, 0))),
-          active_deployment: S.optional(S.NullOr(__S(1792, __c112, 0))),
+          current_deployment: S.optional(S.NullOr(__S(2128, __c133, 0))),
+          active_deployment: S.optional(S.NullOr(__S(2128, __c133, 0))),
           created_at: S.String,
         }),
       ).annotate({ identifier: "NeonFunction" });
   }
 }
-function __c210(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          function: __S(3344, __c209, 0),
+          function: __S(3824, __c239, 0),
         }),
       ).annotate({ identifier: "NeonFunctionResponse" });
   }
 }
-function __c211(j: number): any {
+function __c241(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/realtime",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectBranchRealtimeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          pending: S.Boolean,
+          invocation_url: S.optional(S.String),
+          revision: S.optional(S.Number),
+          allowed_origins: S.optional(__S(3472, __c217, 0)),
+        }),
+      ).annotate({ identifier: "Realtime" });
+  }
+}
+function __c242(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/realtime/secret",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectBranchRealtimeSecretRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          secret: S.Union([S.String, S.Redacted(S.String, { disallowJsonEncode: true })]).pipe(
+            T.SensitiveValue({}),
+          ),
+          pending: S.Boolean,
+        }),
+      ).annotate({ identifier: "RealtimeSecret" });
+  }
+}
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11484,12 +12744,12 @@ function __c211(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          role: __S(1488, __c93, 0),
+          role: __S(1824, __c114, 0),
         }),
       ).annotate({ identifier: "RoleResponse" });
   }
 }
-function __c212(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11515,7 +12775,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "RolePasswordResponse" });
   }
 }
-function __c213(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11544,53 +12804,53 @@ function __c213(j: number): any {
         }),
       ).annotate({ identifier: "BranchSchemaJSONTablesItemColumnsItem" });
     case 2:
-      return S.Array(__S(3409, __c213, 1));
+      return S.Array(__S(3921, __c245, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           schema: S.String,
           table: S.String,
-          columns: __S(3200, __c200, 0),
+          columns: __S(3472, __c217, 0),
         }),
       ).annotate({ identifier: "BranchSchemaJSONTablesItemConstraintsItemReferencedTable" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          columns: __S(3200, __c200, 0),
+          columns: __S(3472, __c217, 0),
           name: S.optional(S.String),
-          referenced_table: S.optional(__S(3411, __c213, 3)),
+          referenced_table: S.optional(__S(3923, __c245, 3)),
         }),
       ).annotate({ identifier: "BranchSchemaJSONTablesItemConstraintsItem" });
     case 5:
-      return S.Array(__S(3412, __c213, 4));
+      return S.Array(__S(3924, __c245, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           schema: S.String,
           name: S.String,
-          columns: __S(3410, __c213, 2),
-          constraints: S.optional(__S(3413, __c213, 5)),
+          columns: __S(3922, __c245, 2),
+          constraints: S.optional(__S(3925, __c245, 5)),
         }),
       ).annotate({ identifier: "BranchSchemaJSONTablesItem" });
     case 7:
-      return S.Array(__S(3414, __c213, 6));
+      return S.Array(__S(3926, __c245, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          tables: __S(3415, __c213, 7),
+          tables: __S(3927, __c245, 7),
         }),
       ).annotate({ identifier: "BranchSchemaJSON" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           sql: S.optional(S.String),
-          json: S.optional(__S(3416, __c213, 8)),
+          json: S.optional(__S(3928, __c245, 8)),
         }),
       ).annotate({ identifier: "BranchSchemaResponse" });
   }
 }
-function __c214(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11619,7 +12879,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "BranchSchemaCompareResponse" });
   }
 }
-function __c215(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11645,26 +12905,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "BranchStorage" });
   }
 }
-function __c216(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org_id: S.String.pipe(T.Label()),
-          region_id: S.String.pipe(T.Label()),
-          vpc_endpoint_id: S.String.pipe(T.Label()),
-          label: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/organizations/{org_id}/vpc/region/{region_id}/vpc_endpoints/{vpc_endpoint_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AssignOrganizationVPCEndpointRequest" });
-  }
-}
-function __c217(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11680,266 +12921,6 @@ function __c217(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectBranchTriggerRequest" });
-  }
-}
-function __c218(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          endpoint_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/endpoints/{endpoint_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectEndpointRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          endpoint: __S(1537, __c96, 1),
-        }),
-      ).annotate({ identifier: "EndpointResponse" });
-  }
-}
-function __c219(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/jwks", code: 200 })),
-      ).annotate({ identifier: "GetProjectJWKSRequest" });
-    case 1:
-      return S.Array(__S(3248, __c203, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          jwks: __S(3505, __c219, 1),
-        }),
-      ).annotate({ identifier: "ProjectJWKSResponse" });
-  }
-}
-function __c220(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          operation_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/operations/{operation_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectOperationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          operation: __S(3232, __c202, 0),
-        }),
-      ).annotate({ identifier: "OperationResponse" });
-  }
-}
-function __c221(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/branches/{branch_id}/backup_schedule",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetSnapshotScheduleRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          schedule: __S(3553, __c222, 1),
-        }),
-      ).annotate({ identifier: "BackupSchedule" });
-  }
-}
-function __c222(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          frequency: S.String,
-          hour: S.optional(S.Number),
-          day: S.optional(S.Number),
-          month: S.optional(S.Number),
-          retention_seconds: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "BackupScheduleItem" });
-    case 1:
-      return S.Array(__S(3552, __c222, 0));
-  }
-}
-function __c223(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          email: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/permissions", code: 200 })),
-      ).annotate({ identifier: "GrantPermissionToProjectRequest" });
-  }
-}
-function __c224(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          granted_to_email: S.String,
-          granted_at: S.String,
-          revoked_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProjectPermission" });
-  }
-}
-function __c225(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api_keys", code: 200 })),
-      ).annotate({ identifier: "ListApiKeysRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          name: S.String,
-          created_at: S.String,
-          created_by: __S(3616, __c226, 0),
-          last_used_at: S.optional(S.NullOr(S.String)),
-          last_used_from_addr: S.String,
-        }),
-      ).annotate({ identifier: "ApiKeysListResponseItem" });
-    case 2:
-      return S.Array(__S(3601, __c225, 1));
-    case 3:
-      return S.suspend(() => __S(3602, __c225, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListApiKeysResponse",
-      });
-  }
-}
-function __c226(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          image: S.String,
-        }),
-      ).annotate({ identifier: "ApiKeyCreatorData" });
-  }
-}
-function __c227(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListBranchNeonAuthOauthProvidersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          providers: __S(2896, __c181, 0),
-        }),
-      ).annotate({ identifier: "ListNeonAuthOauthProvidersResponse" });
-  }
-}
-function __c228(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/branches/{branch_id}/auth/domains",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListBranchNeonAuthTrustedDomainsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String,
-          auth_provider: S.String,
-        }),
-      ).annotate({ identifier: "NeonAuthRedirectURIWhitelistDomain" });
-    case 2:
-      return S.Array(__S(3649, __c228, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          domains: __S(3650, __c228, 2),
-        }),
-      ).annotate({ identifier: "NeonAuthRedirectURIWhitelistResponse" });
-  }
-}
-function __c229(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/branches/{branch_id}/credentials",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListCredentialsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          token_id: S.String,
-          token_id_short: S.String,
-          name: S.optional(S.String),
-          scopes: __S(832, __c52, 0),
-          branch_id: S.optional(S.String),
-          principal_type: S.String,
-          function_id: S.optional(S.String),
-          created_at: S.String,
-          last_used_at: S.optional(S.String),
-          revoked_at: S.optional(S.String),
-          expires_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CredentialMeta" });
-    case 2:
-      return S.Array(__S(3665, __c229, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          credentials: __S(3666, __c229, 2),
-        }),
-      ).annotate({ identifier: "ListCredentialsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

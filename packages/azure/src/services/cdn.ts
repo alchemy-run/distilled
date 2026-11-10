@@ -872,6 +872,208 @@ export interface CreateCustomDomainResponse {
   retryAfter?: number | undefined;
 }
 /** Resource tags. */
+export type CreateEdgeActionRequestTagsMap = { [key: string]: string | undefined };
+/** Represents an edge action properties */
+export interface EdgeActionPropertiesInput {}
+/** The SKU type for the edge action */
+export interface SkuType {
+  /** The name of the SKU */
+  name: string;
+  /** The tier of the SKU */
+  tier: string;
+}
+export interface CreateEdgeActionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** Resource tags. */
+  tags?: CreateEdgeActionRequestTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionPropertiesInput | undefined;
+  /** The sku type of the edge action */
+  sku: SkuType;
+}
+/** Resource tags. */
+export type CreateEdgeActionResponseTagsMap = { [key: string]: string | undefined };
+/** The status of the current operation */
+export type ProvisioningState_2 =
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Provisioning"
+  | "Upgrading";
+/** Edge action attachment information */
+export interface EdgeActionAttachment {
+  /** The edge action attachment id */
+  id?: string | undefined;
+  /** The attached resource Id */
+  attachedResourceId: string;
+}
+/** A list of attachments for the edge action */
+export type EdgeActionPropertiesAttachmentsList = Array<EdgeActionAttachment>;
+/** Represents an edge action properties */
+export interface EdgeActionProperties {
+  /** The provisioning state of the edge action */
+  provisioningState?: ProvisioningState_2 | undefined;
+  /** A list of attachments for the edge action */
+  attachments: EdgeActionPropertiesAttachmentsList;
+}
+export interface CreateEdgeActionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: CreateEdgeActionResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionProperties | undefined;
+  /** The sku type of the edge action */
+  sku: SkuType;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+/** Resource tags. */
+export type CreateEdgeActionExecutionFilterRequestTagsMap = { [key: string]: string | undefined };
+/** Properties for edge action execution filter */
+export interface EdgeActionExecutionFilterPropertiesInput {
+  /** The referenced versionId of the edgeaction version */
+  versionId: string;
+  /** Custom Header Key associated with the execution filter */
+  executionFilterIdentifierHeaderName: string;
+  /** Custom Header Value associated with the execution filter */
+  executionFilterIdentifierHeaderValue: string;
+}
+export interface CreateEdgeActionExecutionFilterRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** The name of the execution filter */
+  executionFilter: string;
+  /** Resource tags. */
+  tags?: CreateEdgeActionExecutionFilterRequestTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionExecutionFilterPropertiesInput | undefined;
+}
+/** Resource tags. */
+export type CreateEdgeActionExecutionFilterResponseTagsMap = { [key: string]: string | undefined };
+/** Properties for edge action execution filter */
+export interface EdgeActionExecutionFilterProperties {
+  /** The referenced versionId of the edgeaction version */
+  versionId: string;
+  /** The last update time in UTC for the execution filter */
+  lastUpdateTime?: string | undefined;
+  /** Custom Header Key associated with the execution filter */
+  executionFilterIdentifierHeaderName: string;
+  /** Custom Header Value associated with the execution filter */
+  executionFilterIdentifierHeaderValue: string;
+  /** The provisioning state */
+  provisioningState?: ProvisioningState_2 | undefined;
+}
+export interface CreateEdgeActionExecutionFilterResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: CreateEdgeActionExecutionFilterResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionExecutionFilterProperties | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+/** Resource tags. */
+export type CreateEdgeActionVersionRequestTagsMap = { [key: string]: string | undefined };
+/** The deployment type for edge action versions */
+export type EdgeActionVersionDeploymentType = "zip" | "file" | "others";
+/** Indicates whether this is the default version */
+export type EdgeActionIsDefaultVersion = "True" | "False";
+/** Represents an edge action version */
+export interface EdgeActionVersionPropertiesInput {
+  /** The deployment type for the Edge Action version. Set this value when creating the version. When updating an existing version, any supplied value must match the existing value. */
+  deploymentType: EdgeActionVersionDeploymentType | (string & {});
+  /** Indicates whether this is the default version. When creating a version, if the Edge Action has no default version, the service makes the new version the default even when false is supplied. If another default version exists, supplying true is rejected. When updating an existing version, any supplied value must match the existing value. Use swapDefault to change the default version. */
+  isDefaultVersion: EdgeActionIsDefaultVersion | (string & {});
+}
+export interface CreateEdgeActionVersionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** The name of the Edge Action version */
+  version: string;
+  /** Resource tags. */
+  tags?: CreateEdgeActionVersionRequestTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionVersionPropertiesInput | undefined;
+}
+/** Resource tags. */
+export type CreateEdgeActionVersionResponseTagsMap = { [key: string]: string | undefined };
+/** The validation status for edge action versions */
+export type EdgeActionVersionValidationStatus = "Succeeded" | "Failed";
+/** Represents an edge action version */
+export interface EdgeActionVersionProperties {
+  /** The deployment type for the Edge Action version. Set this value when creating the version. When updating an existing version, any supplied value must match the existing value. */
+  deploymentType: EdgeActionVersionDeploymentType;
+  /** The validation status */
+  validationStatus?: EdgeActionVersionValidationStatus | undefined;
+  /** The provisioning state */
+  provisioningState?: ProvisioningState_2 | undefined;
+  /** Indicates whether this is the default version. When creating a version, if the Edge Action has no default version, the service makes the new version the default even when false is supplied. If another default version exists, supplying true is rejected. When updating an existing version, any supplied value must match the existing value. Use swapDefault to change the default version. */
+  isDefaultVersion: EdgeActionIsDefaultVersion;
+  /** The last update time in UTC for package update */
+  lastPackageUpdateTime?: string | undefined;
+}
+export interface CreateEdgeActionVersionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: CreateEdgeActionVersionResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionVersionProperties | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+/** Resource tags. */
 export type CreateEndpointRequestTagsMap = { [key: string]: string | undefined };
 /** List of content types on which compression applies. The value should be a valid MIME type. */
 export type EndpointPropertiesInputContentTypesToCompressList = Array<string>;
@@ -968,8 +1170,7 @@ export type DeliveryRuleActionName =
   | "UrlSigning"
   | "OriginGroupOverride"
   | "RouteConfigurationOverride"
-  | "EdgeAction"
-  | "AfdUrlSigning";
+  | "EdgeAction";
 /** An action for the delivery rule. */
 export interface DeliveryRuleAction {
   /** The name of the action for the delivery rule. */
@@ -1388,10 +1589,10 @@ export interface ProfilePropertiesInput {
   logScrubbing?: ProfileLogScrubbing | undefined;
 }
 /** User assigned identity properties */
-export interface UserAssignedIdentityInput {}
+export type UserAssignedIdentityInput = EdgeActionPropertiesInput;
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateProfileRequestIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentityInput | null | undefined;
+  [key: string]: EdgeActionPropertiesInput | null | undefined;
 };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateProfileRequestIdentity {
@@ -1995,6 +2196,58 @@ export interface DeleteCustomDomainResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string | undefined;
 }
+export interface DeleteEdgeActionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+}
+export interface DeleteEdgeActionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+export interface DeleteEdgeActionExecutionFilterRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** The name of the execution filter */
+  executionFilter: string;
+}
+export interface DeleteEdgeActionExecutionFilterResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+export interface DeleteEdgeActionVersionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** The name of the Edge Action version */
+  version: string;
+}
+export interface DeleteEdgeActionVersionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
 export interface DeleteEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2153,6 +2406,46 @@ export interface DeleteSecurityPolicyResponse {
   azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+export interface DeployEdgeActionVersionVersionCodeRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** The name of the Edge Action version */
+  version: string;
+  /** The version code deployment content */
+  content: string;
+  /** The version code name */
+  name: string;
+}
+/** Resource tags. */
+export type DeployEdgeActionVersionVersionCodeResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export interface DeployEdgeActionVersionVersionCodeResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: DeployEdgeActionVersionVersionCodeResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionVersionProperties | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
@@ -2366,6 +2659,113 @@ export interface GetCustomDomainResponse {
   systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the custom domain to create. */
   properties?: CustomDomainProperties | undefined;
+}
+export interface GetEdgeActionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+}
+/** Resource tags. */
+export type GetEdgeActionResponseTagsMap = { [key: string]: string | undefined };
+export interface GetEdgeActionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: GetEdgeActionResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionProperties | undefined;
+  /** The sku type of the edge action */
+  sku: SkuType;
+}
+export interface GetEdgeActionExecutionFilterRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** The name of the execution filter */
+  executionFilter: string;
+}
+/** Resource tags. */
+export type GetEdgeActionExecutionFilterResponseTagsMap = { [key: string]: string | undefined };
+export interface GetEdgeActionExecutionFilterResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: GetEdgeActionExecutionFilterResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionExecutionFilterProperties | undefined;
+}
+export interface GetEdgeActionVersionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** The name of the Edge Action version */
+  version: string;
+}
+/** Resource tags. */
+export type GetEdgeActionVersionResponseTagsMap = { [key: string]: string | undefined };
+export interface GetEdgeActionVersionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: GetEdgeActionVersionResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionVersionProperties | undefined;
+}
+export interface GetEdgeActionVersionVersionCodeRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** The name of the Edge Action version */
+  version: string;
+}
+/** Version code information for edge action */
+export interface VersionCode {
+  /** The version code deployment content */
+  content: string;
+  /** The version code name */
+  name: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
 }
 export interface GetEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3364,6 +3764,118 @@ export interface CustomDomainListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
+export interface ListEdgeActionByResourceGroupRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+}
+/** Resource tags. */
+export type EdgeActionTagsMap = { [key: string]: string | undefined };
+/** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
+export interface EdgeAction {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: EdgeActionTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionProperties | undefined;
+  /** The sku type of the edge action */
+  sku: SkuType;
+}
+/** The EdgeAction items on this page */
+export type EdgeActionListResultValueList = Array<EdgeAction>;
+/** The response of a EdgeAction list operation. */
+export interface EdgeActionListResult {
+  /** The EdgeAction items on this page */
+  value: EdgeActionListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListEdgeActionBySubscriptionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+}
+export interface ListEdgeActionExecutionFilterByEdgeActionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+}
+/** Resource tags. */
+export type EdgeActionExecutionFilterTagsMap = { [key: string]: string | undefined };
+/** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
+export interface EdgeActionExecutionFilter {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: EdgeActionExecutionFilterTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionExecutionFilterProperties | undefined;
+}
+/** The EdgeActionExecutionFilter items on this page */
+export type EdgeActionExecutionFilterListResultValueList = Array<EdgeActionExecutionFilter>;
+/** The response of a EdgeActionExecutionFilter list operation. */
+export interface EdgeActionExecutionFilterListResult {
+  /** The EdgeActionExecutionFilter items on this page */
+  value: EdgeActionExecutionFilterListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListEdgeActionVersionByEdgeActionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+}
+/** Resource tags. */
+export type EdgeActionVersionTagsMap = { [key: string]: string | undefined };
+/** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
+export interface EdgeActionVersion {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: EdgeActionVersionTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionVersionProperties | undefined;
+}
+/** The EdgeActionVersion items on this page */
+export type EdgeActionVersionListResultValueList = Array<EdgeActionVersion>;
+/** The response of a EdgeActionVersion list operation. */
+export interface EdgeActionVersionListResult {
+  /** The EdgeActionVersion items on this page */
+  value: EdgeActionVersionListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
 export interface ListEdgeNodesRequest {}
 /** CIDR Ip address */
 export interface CidrIpAddress {
@@ -4335,6 +4847,24 @@ export interface StopEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   locationHeader?: string | undefined;
 }
+export interface SwapEdgeActionVersionDefaultRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** The name of the Edge Action version */
+  version: string;
+}
+export interface SwapEdgeActionVersionDefaultResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
 /** The JSON object that contains the properties of the domain to create. */
 export interface AFDDomainUpdatePropertiesParametersInput {
   /** The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user's own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. */
@@ -4514,6 +5044,151 @@ export interface UpdateAFDOriginGroupResponse {
   azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+/** The SKU fields in the update model. Do not include sku in PATCH requests; any supplied sku, including null or the existing value, is rejected. */
+export interface SkuTypeUpdate {
+  /** The name of the SKU */
+  name?: string | undefined;
+  /** The tier of the SKU */
+  tier?: string | undefined;
+}
+/** Resource tags. For PATCH requests, omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. */
+export type UpdateEdgeActionRequestTagsMap = { [key: string]: string | undefined };
+export interface UpdateEdgeActionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** The resource-specific properties for this resource. */
+  properties?: unknown | undefined;
+  /** The SKU of the Edge Action. Do not include sku in PATCH requests; any supplied sku, including null or the existing value, is rejected. */
+  sku?: SkuTypeUpdate | undefined;
+  /** Resource tags. For PATCH requests, omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. */
+  tags?: UpdateEdgeActionRequestTagsMap | undefined;
+}
+/** Resource tags. */
+export type UpdateEdgeActionResponseTagsMap = { [key: string]: string | undefined };
+export interface UpdateEdgeActionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: UpdateEdgeActionResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionProperties | undefined;
+  /** The sku type of the edge action */
+  sku: SkuType;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+/** Resource tags. */
+export type UpdateEdgeActionExecutionFilterRequestTagsMap = { [key: string]: string | undefined };
+/** The updatable properties of the EdgeActionExecutionFilter. */
+export interface EdgeActionExecutionFilterUpdateProperties {
+  /** The referenced versionId of the edgeaction version */
+  versionId?: string | undefined;
+  /** Custom Header Key associated with the execution filter */
+  executionFilterIdentifierHeaderName?: string | undefined;
+  /** Custom Header Value associated with the execution filter */
+  executionFilterIdentifierHeaderValue?: string | undefined;
+}
+export interface UpdateEdgeActionExecutionFilterRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** The name of the execution filter */
+  executionFilter: string;
+  /** Resource tags. */
+  tags?: UpdateEdgeActionExecutionFilterRequestTagsMap | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionExecutionFilterUpdateProperties | undefined;
+}
+/** Resource tags. */
+export type UpdateEdgeActionExecutionFilterResponseTagsMap = { [key: string]: string | undefined };
+export interface UpdateEdgeActionExecutionFilterResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: UpdateEdgeActionExecutionFilterResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionExecutionFilterProperties | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+/** Resource tags. */
+export type UpdateEdgeActionVersionRequestTagsMap = { [key: string]: string | undefined };
+/** The updatable properties of the EdgeActionVersion. */
+export interface EdgeActionVersionUpdateProperties {
+  /** The deployment type for the Edge Action version. Set this value when creating the version. When updating an existing version, any supplied value must match the existing value. */
+  deploymentType?: EdgeActionVersionDeploymentType | (string & {}) | undefined;
+  /** Indicates whether this is the default version. When creating a version, if the Edge Action has no default version, the service makes the new version the default even when false is supplied. If another default version exists, supplying true is rejected. When updating an existing version, any supplied value must match the existing value. Use swapDefault to change the default version. */
+  isDefaultVersion?: EdgeActionIsDefaultVersion | (string & {}) | undefined;
+}
+export interface UpdateEdgeActionVersionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Edge Action */
+  edgeActionName: string;
+  /** The name of the Edge Action version */
+  version: string;
+  /** Resource tags. */
+  tags?: UpdateEdgeActionVersionRequestTagsMap | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionVersionUpdateProperties | undefined;
+}
+/** Resource tags. */
+export type UpdateEdgeActionVersionResponseTagsMap = { [key: string]: string | undefined };
+export interface UpdateEdgeActionVersionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: UpdateEdgeActionVersionResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeActionVersionProperties | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
@@ -4735,7 +5410,7 @@ export interface UpdatePolicyResponse {
 export type UpdateProfileRequestTagsMap = { [key: string]: string | undefined };
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateProfileRequestIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentityInput | null | undefined;
+  [key: string]: EdgeActionPropertiesInput | null | undefined;
 };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateProfileRequestIdentity {
@@ -5049,8 +5724,8 @@ export const CheckAFDProfileEndpointNameAvailability: API.OperationMethod<
   CheckAFDProfileEndpointNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<CheckAFDProfileEndpointNameAvailabilityRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<CheckEndpointNameAvailabilityOutput>,
+  input: __S(2400, __c75, 0) as any as S.Schema<CheckAFDProfileEndpointNameAvailabilityRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<CheckEndpointNameAvailabilityOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5066,8 +5741,8 @@ export const CheckAFDProfileHostNameAvailability: API.OperationMethod<
   CheckAFDProfileHostNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<CheckAFDProfileHostNameAvailabilityRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<CheckNameAvailabilityOutput>,
+  input: __S(3072, __c96, 0) as any as S.Schema<CheckAFDProfileHostNameAvailabilityRequest>,
+  output: __S(3104, __c97, 0) as any as S.Schema<CheckNameAvailabilityOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5083,8 +5758,8 @@ export const CheckEndpointNameAvailability: API.OperationMethod<
   CheckEndpointNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<CheckEndpointNameAvailabilityRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<CheckEndpointNameAvailabilityOutput>,
+  input: __S(3456, __c108, 0) as any as S.Schema<CheckEndpointNameAvailabilityRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<CheckEndpointNameAvailabilityOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5100,8 +5775,8 @@ export const CheckNameAvailability: API.OperationMethod<
   CheckNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<CheckNameAvailabilityRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<CheckNameAvailabilityOutput>,
+  input: __S(3968, __c124, 0) as any as S.Schema<CheckNameAvailabilityRequest>,
+  output: __S(3104, __c97, 0) as any as S.Schema<CheckNameAvailabilityOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5117,8 +5792,8 @@ export const CheckNameAvailabilityWithSubscription: API.OperationMethod<
   CheckNameAvailabilityWithSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<CheckNameAvailabilityWithSubscriptionRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<CheckNameAvailabilityOutput>,
+  input: __S(4576, __c143, 0) as any as S.Schema<CheckNameAvailabilityWithSubscriptionRequest>,
+  output: __S(3104, __c97, 0) as any as S.Schema<CheckNameAvailabilityOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5134,8 +5809,8 @@ export const CommitProfilesMigration: API.OperationMethod<
   CommitProfilesMigrationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<CommitProfilesMigrationRequest>,
-  output: __S(4416, __c138, 0) as any as S.Schema<CommitProfilesMigrationResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<CommitProfilesMigrationRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<CommitProfilesMigrationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5151,8 +5826,8 @@ export const CreateAFDCustomDomain: API.OperationMethod<
   CreateAFDCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4833, __c151, 1) as any as S.Schema<CreateAFDCustomDomainRequest>,
-  output: __S(4834, __c151, 2) as any as S.Schema<CreateAFDCustomDomainResponse>,
+  input: __S(5697, __c178, 1) as any as S.Schema<CreateAFDCustomDomainRequest>,
+  output: __S(5698, __c178, 2) as any as S.Schema<CreateAFDCustomDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5168,8 +5843,8 @@ export const CreateAFDEndpoint: API.OperationMethod<
   CreateAFDEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5281, __c165, 1) as any as S.Schema<CreateAFDEndpointRequest>,
-  output: __S(5282, __c165, 2) as any as S.Schema<CreateAFDEndpointResponse>,
+  input: __S(6177, __c193, 1) as any as S.Schema<CreateAFDEndpointRequest>,
+  output: __S(6178, __c193, 2) as any as S.Schema<CreateAFDEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5202,8 +5877,8 @@ export const CreateAFDOriginGroup: API.OperationMethod<
   CreateAFDOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<CreateAFDOriginGroupRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<CreateAFDOriginGroupResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<CreateAFDOriginGroupRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<CreateAFDOriginGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5219,13 +5894,64 @@ export const CreateCustomDomain: API.OperationMethod<
   CreateCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1057, __c33, 1) as any as S.Schema<CreateCustomDomainRequest>,
-  output: __S(1058, __c33, 2) as any as S.Schema<CreateCustomDomainResponse>,
+  input: __S(1281, __c40, 1) as any as S.Schema<CreateCustomDomainRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<CreateCustomDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateCustomDomain",
+}));
+
+export type CreateEdgeActionError = AzureOpError;
+/** Create a EdgeAction */
+export const CreateEdgeAction: API.OperationMethod<
+  CreateEdgeActionRequest,
+  CreateEdgeActionResponse,
+  CreateEdgeActionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1664, __c52, 0) as any as S.Schema<CreateEdgeActionRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<CreateEdgeActionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEdgeAction",
+}));
+
+export type CreateEdgeActionExecutionFilterError = AzureOpError;
+/** Create a EdgeActionExecutionFilter */
+export const CreateEdgeActionExecutionFilter: API.OperationMethod<
+  CreateEdgeActionExecutionFilterRequest,
+  CreateEdgeActionExecutionFilterResponse,
+  CreateEdgeActionExecutionFilterError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1921, __c60, 1) as any as S.Schema<CreateEdgeActionExecutionFilterRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<CreateEdgeActionExecutionFilterResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEdgeActionExecutionFilter",
+}));
+
+export type CreateEdgeActionVersionError = AzureOpError;
+/** Create a EdgeActionVersion */
+export const CreateEdgeActionVersion: API.OperationMethod<
+  CreateEdgeActionVersionRequest,
+  CreateEdgeActionVersionResponse,
+  CreateEdgeActionVersionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1985, __c62, 1) as any as S.Schema<CreateEdgeActionVersionRequest>,
+  output: __S(1986, __c62, 2) as any as S.Schema<CreateEdgeActionVersionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEdgeActionVersion",
 }));
 
 export type CreateEndpointError = AzureOpError;
@@ -5236,8 +5962,8 @@ export const CreateEndpoint: API.OperationMethod<
   CreateEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1121, __c35, 1) as any as S.Schema<CreateEndpointRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<CreateEndpointResponse>,
+  input: __S(2049, __c64, 1) as any as S.Schema<CreateEndpointRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<CreateEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5253,8 +5979,8 @@ export const CreateOrigin: API.OperationMethod<
   CreateOriginError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<CreateOriginRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<CreateOriginResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<CreateOriginRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<CreateOriginResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5270,8 +5996,8 @@ export const CreateOriginGroup: API.OperationMethod<
   CreateOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<CreateOriginGroupRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<CreateOriginGroupResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<CreateOriginGroupRequest>,
+  output: __S(2273, __c71, 1) as any as S.Schema<CreateOriginGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5287,8 +6013,8 @@ export const CreateProfile: API.OperationMethod<
   CreateProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<CreateProfileRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<CreateProfileResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<CreateProfileRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<CreateProfileResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5304,8 +6030,8 @@ export const CreateRoute: API.OperationMethod<
   CreateRouteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<CreateRouteRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<CreateRouteResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<CreateRouteRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<CreateRouteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5321,8 +6047,8 @@ export const CreateRule: API.OperationMethod<
   CreateRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<CreateRuleRequest>,
-  output: __S(1601, __c50, 1) as any as S.Schema<CreateRuleResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<CreateRuleRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<CreateRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5338,8 +6064,8 @@ export const CreateRuleSet: API.OperationMethod<
   CreateRuleSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1699, __c53, 3) as any as S.Schema<CreateRuleSetRequest>,
-  output: __S(1700, __c53, 4) as any as S.Schema<CreateRuleSetResponse>,
+  input: __S(2659, __c83, 3) as any as S.Schema<CreateRuleSetRequest>,
+  output: __S(2660, __c83, 4) as any as S.Schema<CreateRuleSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5355,8 +6081,8 @@ export const CreateSecret: API.OperationMethod<
   CreateSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1825, __c57, 1) as any as S.Schema<CreateSecretRequest>,
-  output: __S(1826, __c57, 2) as any as S.Schema<CreateSecretResponse>,
+  input: __S(2721, __c85, 1) as any as S.Schema<CreateSecretRequest>,
+  output: __S(2722, __c85, 2) as any as S.Schema<CreateSecretResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5372,8 +6098,8 @@ export const CreateSecurityPolicy: API.OperationMethod<
   CreateSecurityPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<CreateSecurityPolicyRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<CreateSecurityPolicyResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<CreateSecurityPolicyRequest>,
+  output: __S(2785, __c87, 1) as any as S.Schema<CreateSecurityPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5389,8 +6115,8 @@ export const DeleteAFDCustomDomain: API.OperationMethod<
   DeleteAFDCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<DeleteAFDCustomDomainRequest>,
-  output: __S(4416, __c138, 0) as any as S.Schema<DeleteAFDCustomDomainResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<DeleteAFDCustomDomainRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<DeleteAFDCustomDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5406,8 +6132,8 @@ export const DeleteAFDEndpoint: API.OperationMethod<
   DeleteAFDEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<DeleteAFDEndpointRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<DeleteAFDEndpointResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<DeleteAFDEndpointRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<DeleteAFDEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5423,8 +6149,8 @@ export const DeleteAFDOrigin: API.OperationMethod<
   DeleteAFDOriginError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<DeleteAFDOriginRequest>,
-  output: __S(4416, __c138, 0) as any as S.Schema<DeleteAFDOriginResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<DeleteAFDOriginRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<DeleteAFDOriginResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5440,8 +6166,8 @@ export const DeleteAFDOriginGroup: API.OperationMethod<
   DeleteAFDOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<DeleteAFDOriginGroupRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<DeleteAFDOriginGroupResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<DeleteAFDOriginGroupRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<DeleteAFDOriginGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5457,13 +6183,64 @@ export const DeleteCustomDomain: API.OperationMethod<
   DeleteCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<DeleteCustomDomainRequest>,
+  input: __S(3040, __c95, 0) as any as S.Schema<DeleteCustomDomainRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteCustomDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteCustomDomain",
+}));
+
+export type DeleteEdgeActionError = AzureOpError;
+/** Delete a EdgeAction */
+export const DeleteEdgeAction: API.OperationMethod<
+  DeleteEdgeActionRequest,
+  DeleteEdgeActionResponse,
+  DeleteEdgeActionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3136, __c98, 0) as any as S.Schema<DeleteEdgeActionRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<DeleteEdgeActionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeAction",
+}));
+
+export type DeleteEdgeActionExecutionFilterError = AzureOpError;
+/** Delete a EdgeActionExecutionFilter */
+export const DeleteEdgeActionExecutionFilter: API.OperationMethod<
+  DeleteEdgeActionExecutionFilterRequest,
+  DeleteEdgeActionExecutionFilterResponse,
+  DeleteEdgeActionExecutionFilterError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3168, __c99, 0) as any as S.Schema<DeleteEdgeActionExecutionFilterRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<DeleteEdgeActionExecutionFilterResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeActionExecutionFilter",
+}));
+
+export type DeleteEdgeActionVersionError = AzureOpError;
+/** Delete a EdgeActionVersion */
+export const DeleteEdgeActionVersion: API.OperationMethod<
+  DeleteEdgeActionVersionRequest,
+  DeleteEdgeActionVersionResponse,
+  DeleteEdgeActionVersionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3200, __c100, 0) as any as S.Schema<DeleteEdgeActionVersionRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<DeleteEdgeActionVersionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeActionVersion",
 }));
 
 export type DeleteEndpointError = AzureOpError;
@@ -5474,7 +6251,7 @@ export const DeleteEndpoint: API.OperationMethod<
   DeleteEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<DeleteEndpointRequest>,
+  input: __S(3232, __c101, 0) as any as S.Schema<DeleteEndpointRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -5491,7 +6268,7 @@ export const DeleteOrigin: API.OperationMethod<
   DeleteOriginError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<DeleteOriginRequest>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DeleteOriginRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteOriginResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -5508,7 +6285,7 @@ export const DeleteOriginGroup: API.OperationMethod<
   DeleteOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<DeleteOriginGroupRequest>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DeleteOriginGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteOriginGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -5525,8 +6302,8 @@ export const DeletePolicy: API.OperationMethod<
   DeletePolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<DeletePolicyResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<DeletePolicyRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<DeletePolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5542,7 +6319,7 @@ export const DeleteProfile: API.OperationMethod<
   DeleteProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<DeleteProfileRequest>,
+  input: __S(3360, __c105, 0) as any as S.Schema<DeleteProfileRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteProfileResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -5559,8 +6336,8 @@ export const DeleteRoute: API.OperationMethod<
   DeleteRouteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<DeleteRouteRequest>,
-  output: __S(4416, __c138, 0) as any as S.Schema<DeleteRouteResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<DeleteRouteRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<DeleteRouteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5576,8 +6353,8 @@ export const DeleteRule: API.OperationMethod<
   DeleteRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<DeleteRuleRequest>,
-  output: __S(4416, __c138, 0) as any as S.Schema<DeleteRuleResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DeleteRuleRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<DeleteRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5593,8 +6370,8 @@ export const DeleteRuleSet: API.OperationMethod<
   DeleteRuleSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<DeleteRuleSetRequest>,
-  output: __S(4416, __c138, 0) as any as S.Schema<DeleteRuleSetResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<DeleteRuleSetRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<DeleteRuleSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5610,8 +6387,8 @@ export const DeleteSecret: API.OperationMethod<
   DeleteSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<DeleteSecretRequest>,
-  output: __S(4416, __c138, 0) as any as S.Schema<DeleteSecretResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DeleteSecretRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<DeleteSecretResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5627,13 +6404,30 @@ export const DeleteSecurityPolicy: API.OperationMethod<
   DeleteSecurityPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<DeleteSecurityPolicyRequest>,
-  output: __S(4416, __c138, 0) as any as S.Schema<DeleteSecurityPolicyResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<DeleteSecurityPolicyRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<DeleteSecurityPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSecurityPolicy",
+}));
+
+export type DeployEdgeActionVersionVersionCodeError = AzureOpError;
+/** A long-running resource action. */
+export const DeployEdgeActionVersionVersionCode: API.OperationMethod<
+  DeployEdgeActionVersionVersionCodeRequest,
+  DeployEdgeActionVersionVersionCodeResponse,
+  DeployEdgeActionVersionVersionCodeError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3584, __c112, 0) as any as S.Schema<DeployEdgeActionVersionVersionCodeRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeployEdgeActionVersionVersionCodeResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployEdgeActionVersionVersionCode",
 }));
 
 export type DisableCustomDomainCustomHttpsError = AzureOpError;
@@ -5644,8 +6438,8 @@ export const DisableCustomDomainCustomHttps: API.OperationMethod<
   DisableCustomDomainCustomHttpsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<DisableCustomDomainCustomHttpsRequest>,
-  output: __S(2592, __c81, 0) as any as S.Schema<DisableCustomDomainCustomHttpsResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<DisableCustomDomainCustomHttpsRequest>,
+  output: __S(3680, __c115, 0) as any as S.Schema<DisableCustomDomainCustomHttpsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5661,8 +6455,8 @@ export const EnableCustomDomainCustomHttps: API.OperationMethod<
   EnableCustomDomainCustomHttpsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<EnableCustomDomainCustomHttpsRequest>,
-  output: __S(2592, __c81, 0) as any as S.Schema<EnableCustomDomainCustomHttpsResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<EnableCustomDomainCustomHttpsRequest>,
+  output: __S(3680, __c115, 0) as any as S.Schema<EnableCustomDomainCustomHttpsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5678,8 +6472,8 @@ export const EndpointsLoadContent: API.OperationMethod<
   EndpointsLoadContentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<EndpointsLoadContentRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<EndpointsLoadContentResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<EndpointsLoadContentRequest>,
+  output: __S(3776, __c118, 0) as any as S.Schema<EndpointsLoadContentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5695,8 +6489,8 @@ export const GenerateProfileSsoUri: API.OperationMethod<
   GenerateProfileSsoUriError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<GenerateProfileSsoUriRequest>,
-  output: __S(2753, __c86, 1) as any as S.Schema<SsoUri>,
+  input: __S(3808, __c119, 0) as any as S.Schema<GenerateProfileSsoUriRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<SsoUri>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5712,8 +6506,8 @@ export const GetAFDCustomDomain: API.OperationMethod<
   GetAFDCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<GetAFDCustomDomainRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<GetAFDCustomDomainResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<GetAFDCustomDomainRequest>,
+  output: __S(3872, __c121, 0) as any as S.Schema<GetAFDCustomDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5729,8 +6523,8 @@ export const GetAFDEndpoint: API.OperationMethod<
   GetAFDEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<GetAFDEndpointRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<GetAFDEndpointResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<GetAFDEndpointRequest>,
+  output: __S(3936, __c123, 0) as any as S.Schema<GetAFDEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5746,8 +6540,8 @@ export const GetAFDOrigin: API.OperationMethod<
   GetAFDOriginError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<GetAFDOriginRequest>,
-  output: __S(2944, __c92, 0) as any as S.Schema<GetAFDOriginResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetAFDOriginRequest>,
+  output: __S(4032, __c126, 0) as any as S.Schema<GetAFDOriginResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5763,8 +6557,8 @@ export const GetAFDOriginGroup: API.OperationMethod<
   GetAFDOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<GetAFDOriginGroupRequest>,
-  output: __S(3008, __c94, 0) as any as S.Schema<GetAFDOriginGroupResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetAFDOriginGroupRequest>,
+  output: __S(4096, __c128, 0) as any as S.Schema<GetAFDOriginGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5780,13 +6574,81 @@ export const GetCustomDomain: API.OperationMethod<
   GetCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<GetCustomDomainRequest>,
-  output: __S(3072, __c96, 0) as any as S.Schema<GetCustomDomainResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetCustomDomainRequest>,
+  output: __S(4160, __c130, 0) as any as S.Schema<GetCustomDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCustomDomain",
+}));
+
+export type GetEdgeActionError = AzureOpError;
+/** Get a EdgeAction */
+export const GetEdgeAction: API.OperationMethod<
+  GetEdgeActionRequest,
+  GetEdgeActionResponse,
+  GetEdgeActionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4192, __c131, 0) as any as S.Schema<GetEdgeActionRequest>,
+  output: __S(4224, __c132, 0) as any as S.Schema<GetEdgeActionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeAction",
+}));
+
+export type GetEdgeActionExecutionFilterError = AzureOpError;
+/** Get a EdgeActionExecutionFilter */
+export const GetEdgeActionExecutionFilter: API.OperationMethod<
+  GetEdgeActionExecutionFilterRequest,
+  GetEdgeActionExecutionFilterResponse,
+  GetEdgeActionExecutionFilterError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4256, __c133, 0) as any as S.Schema<GetEdgeActionExecutionFilterRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<GetEdgeActionExecutionFilterResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeActionExecutionFilter",
+}));
+
+export type GetEdgeActionVersionError = AzureOpError;
+/** Get a EdgeActionVersion */
+export const GetEdgeActionVersion: API.OperationMethod<
+  GetEdgeActionVersionRequest,
+  GetEdgeActionVersionResponse,
+  GetEdgeActionVersionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4320, __c135, 0) as any as S.Schema<GetEdgeActionVersionRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GetEdgeActionVersionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeActionVersion",
+}));
+
+export type GetEdgeActionVersionVersionCodeError = AzureOpError;
+/** Get the version code for the edge action version. */
+export const GetEdgeActionVersionVersionCode: API.OperationMethod<
+  GetEdgeActionVersionVersionCodeRequest,
+  VersionCode,
+  GetEdgeActionVersionVersionCodeError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4384, __c137, 0) as any as S.Schema<GetEdgeActionVersionVersionCodeRequest>,
+  output: __S(4385, __c137, 1) as any as S.Schema<VersionCode>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeActionVersionVersionCode",
 }));
 
 export type GetEndpointError = AzureOpError;
@@ -5797,8 +6659,8 @@ export const GetEndpoint: API.OperationMethod<
   GetEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<GetEndpointRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<GetEndpointResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<GetEndpointRequest>,
+  output: __S(4448, __c139, 0) as any as S.Schema<GetEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5814,8 +6676,8 @@ export const GetLogAnalyticsLogAnalyticsLocations: API.OperationMethod<
   GetLogAnalyticsLogAnalyticsLocationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<GetLogAnalyticsLogAnalyticsLocationsRequest>,
-  output: __S(3171, __c99, 3) as any as S.Schema<ContinentsResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetLogAnalyticsLogAnalyticsLocationsRequest>,
+  output: __S(4483, __c140, 3) as any as S.Schema<ContinentsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5831,8 +6693,8 @@ export const GetLogAnalyticsLogAnalyticsMetrics: API.OperationMethod<
   GetLogAnalyticsLogAnalyticsMetricsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<GetLogAnalyticsLogAnalyticsMetricsRequest>,
-  output: __S(3238, __c101, 6) as any as S.Schema<MetricsResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetLogAnalyticsLogAnalyticsMetricsRequest>,
+  output: __S(4550, __c142, 6) as any as S.Schema<MetricsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5848,8 +6710,8 @@ export const GetLogAnalyticsLogAnalyticsRankings: API.OperationMethod<
   GetLogAnalyticsLogAnalyticsRankingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<GetLogAnalyticsLogAnalyticsRankingsRequest>,
-  output: __S(3269, __c102, 5) as any as S.Schema<RankingsResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetLogAnalyticsLogAnalyticsRankingsRequest>,
+  output: __S(4613, __c144, 5) as any as S.Schema<RankingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5865,8 +6727,8 @@ export const GetLogAnalyticsLogAnalyticsResources: API.OperationMethod<
   GetLogAnalyticsLogAnalyticsResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<GetLogAnalyticsLogAnalyticsResourcesRequest>,
-  output: __S(3365, __c105, 5) as any as S.Schema<ResourcesResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetLogAnalyticsLogAnalyticsResourcesRequest>,
+  output: __S(4677, __c146, 5) as any as S.Schema<ResourcesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5882,8 +6744,8 @@ export const GetLogAnalyticsWafLogAnalyticsMetrics: API.OperationMethod<
   GetLogAnalyticsWafLogAnalyticsMetricsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<GetLogAnalyticsWafLogAnalyticsMetricsRequest>,
-  output: __S(3238, __c101, 6) as any as S.Schema<WafMetricsResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetLogAnalyticsWafLogAnalyticsMetricsRequest>,
+  output: __S(4550, __c142, 6) as any as S.Schema<WafMetricsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5899,8 +6761,8 @@ export const GetLogAnalyticsWafLogAnalyticsRankings: API.OperationMethod<
   GetLogAnalyticsWafLogAnalyticsRankingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetLogAnalyticsWafLogAnalyticsRankingsRequest>,
-  output: __S(3427, __c107, 3) as any as S.Schema<WafRankingsResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetLogAnalyticsWafLogAnalyticsRankingsRequest>,
+  output: __S(4739, __c148, 3) as any as S.Schema<WafRankingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5916,8 +6778,8 @@ export const GetOrigin: API.OperationMethod<
   GetOriginError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<GetOriginRequest>,
-  output: __S(3488, __c109, 0) as any as S.Schema<GetOriginResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetOriginRequest>,
+  output: __S(4800, __c150, 0) as any as S.Schema<GetOriginResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5933,8 +6795,8 @@ export const GetOriginGroup: API.OperationMethod<
   GetOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<GetOriginGroupRequest>,
-  output: __S(3552, __c111, 0) as any as S.Schema<GetOriginGroupResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetOriginGroupRequest>,
+  output: __S(4864, __c152, 0) as any as S.Schema<GetOriginGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5950,8 +6812,8 @@ export const GetPolicy: API.OperationMethod<
   GetPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetPolicyRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<GetPolicyResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetPolicyRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<GetPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5967,8 +6829,8 @@ export const GetProfile: API.OperationMethod<
   GetProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetProfileRequest>,
-  output: __S(3712, __c116, 0) as any as S.Schema<GetProfileResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<GetProfileRequest>,
+  output: __S(5024, __c157, 0) as any as S.Schema<GetProfileResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5984,8 +6846,8 @@ export const GetRoute: API.OperationMethod<
   GetRouteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetRouteRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<GetRouteResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<GetRouteRequest>,
+  output: __S(5088, __c159, 0) as any as S.Schema<GetRouteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6001,8 +6863,8 @@ export const GetRule: API.OperationMethod<
   GetRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<GetRuleRequest>,
-  output: __S(3840, __c120, 0) as any as S.Schema<GetRuleResponse>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetRuleRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<GetRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6018,8 +6880,8 @@ export const GetRuleSet: API.OperationMethod<
   GetRuleSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetRuleSetRequest>,
-  output: __S(3904, __c122, 0) as any as S.Schema<GetRuleSetResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<GetRuleSetRequest>,
+  output: __S(5280, __c165, 0) as any as S.Schema<GetRuleSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6035,8 +6897,8 @@ export const GetSecret: API.OperationMethod<
   GetSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<GetSecretRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<GetSecretResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<GetSecretRequest>,
+  output: __S(5344, __c167, 0) as any as S.Schema<GetSecretResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6052,8 +6914,8 @@ export const GetSecurityPolicy: API.OperationMethod<
   GetSecurityPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetSecurityPolicyRequest>,
-  output: __S(4064, __c127, 0) as any as S.Schema<GetSecurityPolicyResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<GetSecurityPolicyRequest>,
+  output: __S(5408, __c169, 0) as any as S.Schema<GetSecurityPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6069,8 +6931,8 @@ export const ListAFDCustomDomainByProfile: API.OperationMethod<
   ListAFDCustomDomainByProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<ListAFDCustomDomainByProfileRequest>,
-  output: __S(4098, __c128, 2) as any as S.Schema<AFDDomainListResult>,
+  input: __S(5440, __c170, 0) as any as S.Schema<ListAFDCustomDomainByProfileRequest>,
+  output: __S(5442, __c170, 2) as any as S.Schema<AFDDomainListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6086,8 +6948,8 @@ export const ListAFDEndpointByProfile: API.OperationMethod<
   ListAFDEndpointByProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<ListAFDEndpointByProfileRequest>,
-  output: __S(4130, __c129, 2) as any as S.Schema<AFDEndpointListResult>,
+  input: __S(5472, __c171, 0) as any as S.Schema<ListAFDEndpointByProfileRequest>,
+  output: __S(5474, __c171, 2) as any as S.Schema<AFDEndpointListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6103,8 +6965,8 @@ export const ListAFDEndpointResourceUsage: API.OperationMethod<
   ListAFDEndpointResourceUsageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<ListAFDEndpointResourceUsageRequest>,
-  output: __S(4195, __c131, 3) as any as S.Schema<UsagesListResult>,
+  input: __S(5504, __c172, 0) as any as S.Schema<ListAFDEndpointResourceUsageRequest>,
+  output: __S(5539, __c173, 3) as any as S.Schema<UsagesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6120,8 +6982,8 @@ export const ListAFDOriginByOriginGroup: API.OperationMethod<
   ListAFDOriginByOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<ListAFDOriginByOriginGroupRequest>,
-  output: __S(4226, __c132, 2) as any as S.Schema<AFDOriginListResult>,
+  input: __S(5568, __c174, 0) as any as S.Schema<ListAFDOriginByOriginGroupRequest>,
+  output: __S(5570, __c174, 2) as any as S.Schema<AFDOriginListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6137,8 +6999,8 @@ export const ListAFDOriginGroupByProfile: API.OperationMethod<
   ListAFDOriginGroupByProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<ListAFDOriginGroupByProfileRequest>,
-  output: __S(4258, __c133, 2) as any as S.Schema<AFDOriginGroupListResult>,
+  input: __S(5600, __c175, 0) as any as S.Schema<ListAFDOriginGroupByProfileRequest>,
+  output: __S(5602, __c175, 2) as any as S.Schema<AFDOriginGroupListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6154,8 +7016,8 @@ export const ListAFDOriginGroupResourceUsage: API.OperationMethod<
   ListAFDOriginGroupResourceUsageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ListAFDOriginGroupResourceUsageRequest>,
-  output: __S(4195, __c131, 3) as any as S.Schema<UsagesListResult>,
+  input: __S(5632, __c176, 0) as any as S.Schema<ListAFDOriginGroupResourceUsageRequest>,
+  output: __S(5539, __c173, 3) as any as S.Schema<UsagesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6171,8 +7033,8 @@ export const ListAFDProfileResourceUsage: API.OperationMethod<
   ListAFDProfileResourceUsageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<ListAFDProfileResourceUsageRequest>,
-  output: __S(4195, __c131, 3) as any as S.Schema<UsagesListResult>,
+  input: __S(5664, __c177, 0) as any as S.Schema<ListAFDProfileResourceUsageRequest>,
+  output: __S(5539, __c173, 3) as any as S.Schema<UsagesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6188,13 +7050,81 @@ export const ListCustomDomainByEndpoint: API.OperationMethod<
   ListCustomDomainByEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<ListCustomDomainByEndpointRequest>,
-  output: __S(4354, __c136, 2) as any as S.Schema<CustomDomainListResult>,
+  input: __S(5792, __c181, 0) as any as S.Schema<ListCustomDomainByEndpointRequest>,
+  output: __S(5794, __c181, 2) as any as S.Schema<CustomDomainListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCustomDomainByEndpoint",
+}));
+
+export type ListEdgeActionByResourceGroupError = AzureOpError;
+/** List EdgeAction resources by resource group */
+export const ListEdgeActionByResourceGroup: API.OperationMethod<
+  ListEdgeActionByResourceGroupRequest,
+  EdgeActionListResult,
+  ListEdgeActionByResourceGroupError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5824, __c182, 0) as any as S.Schema<ListEdgeActionByResourceGroupRequest>,
+  output: __S(5857, __c183, 1) as any as S.Schema<EdgeActionListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeActionByResourceGroup",
+}));
+
+export type ListEdgeActionBySubscriptionError = AzureOpError;
+/** List EdgeAction resources by subscription ID */
+export const ListEdgeActionBySubscription: API.OperationMethod<
+  ListEdgeActionBySubscriptionRequest,
+  EdgeActionListResult,
+  ListEdgeActionBySubscriptionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5888, __c184, 0) as any as S.Schema<ListEdgeActionBySubscriptionRequest>,
+  output: __S(5857, __c183, 1) as any as S.Schema<EdgeActionListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeActionBySubscription",
+}));
+
+export type ListEdgeActionExecutionFilterByEdgeActionError = AzureOpError;
+/** List EdgeActionExecutionFilter resources by EdgeAction */
+export const ListEdgeActionExecutionFilterByEdgeAction: API.OperationMethod<
+  ListEdgeActionExecutionFilterByEdgeActionRequest,
+  EdgeActionExecutionFilterListResult,
+  ListEdgeActionExecutionFilterByEdgeActionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5920, __c185, 0) as any as S.Schema<ListEdgeActionExecutionFilterByEdgeActionRequest>,
+  output: __S(5922, __c185, 2) as any as S.Schema<EdgeActionExecutionFilterListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeActionExecutionFilterByEdgeAction",
+}));
+
+export type ListEdgeActionVersionByEdgeActionError = AzureOpError;
+/** List EdgeActionVersion resources by EdgeAction */
+export const ListEdgeActionVersionByEdgeAction: API.OperationMethod<
+  ListEdgeActionVersionByEdgeActionRequest,
+  EdgeActionVersionListResult,
+  ListEdgeActionVersionByEdgeActionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5952, __c186, 0) as any as S.Schema<ListEdgeActionVersionByEdgeActionRequest>,
+  output: __S(5954, __c186, 2) as any as S.Schema<EdgeActionVersionListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeActionVersionByEdgeAction",
 }));
 
 export type ListEdgeNodesError = AzureOpError;
@@ -6205,8 +7135,8 @@ export const ListEdgeNodes: API.OperationMethod<
   ListEdgeNodesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<ListEdgeNodesRequest>,
-  output: __S(4456, __c139, 8) as any as S.Schema<EdgenodeResult>,
+  input: __S(5984, __c187, 0) as any as S.Schema<ListEdgeNodesRequest>,
+  output: __S(5992, __c187, 8) as any as S.Schema<EdgenodeResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6222,8 +7152,8 @@ export const ListEndpointByProfile: API.OperationMethod<
   ListEndpointByProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<ListEndpointByProfileRequest>,
-  output: __S(4482, __c140, 2) as any as S.Schema<EndpointListResult>,
+  input: __S(6016, __c188, 0) as any as S.Schema<ListEndpointByProfileRequest>,
+  output: __S(6018, __c188, 2) as any as S.Schema<EndpointListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6239,8 +7169,8 @@ export const ListEndpointResourceUsage: API.OperationMethod<
   ListEndpointResourceUsageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<ListEndpointResourceUsageRequest>,
-  output: __S(4546, __c142, 2) as any as S.Schema<ResourceUsageListResult>,
+  input: __S(6048, __c189, 0) as any as S.Schema<ListEndpointResourceUsageRequest>,
+  output: __S(6082, __c190, 2) as any as S.Schema<ResourceUsageListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6256,8 +7186,8 @@ export const ListManagedRuleSets: API.OperationMethod<
   ListManagedRuleSetsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<ListManagedRuleSetsRequest>,
-  output: __S(4584, __c143, 8) as any as S.Schema<ManagedRuleSetDefinitionList>,
+  input: __S(6112, __c191, 0) as any as S.Schema<ListManagedRuleSetsRequest>,
+  output: __S(6120, __c191, 8) as any as S.Schema<ManagedRuleSetDefinitionList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6273,8 +7203,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(4622, __c144, 14) as any as S.Schema<OperationsListResult>,
+  input: __S(6144, __c192, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(6158, __c192, 14) as any as S.Schema<OperationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6290,8 +7220,8 @@ export const ListOriginByEndpoint: API.OperationMethod<
   ListOriginByEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<ListOriginByEndpointRequest>,
-  output: __S(4642, __c145, 2) as any as S.Schema<OriginListResult>,
+  input: __S(6240, __c195, 0) as any as S.Schema<ListOriginByEndpointRequest>,
+  output: __S(6242, __c195, 2) as any as S.Schema<OriginListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6307,8 +7237,8 @@ export const ListOriginGroupByEndpoint: API.OperationMethod<
   ListOriginGroupByEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<ListOriginGroupByEndpointRequest>,
-  output: __S(4674, __c146, 2) as any as S.Schema<OriginGroupListResult>,
+  input: __S(6272, __c196, 0) as any as S.Schema<ListOriginGroupByEndpointRequest>,
+  output: __S(6274, __c196, 2) as any as S.Schema<OriginGroupListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6324,8 +7254,8 @@ export const ListPolicies: API.OperationMethod<
   ListPoliciesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<ListPoliciesRequest>,
-  output: __S(4706, __c147, 2) as any as S.Schema<CdnWebApplicationFirewallPolicyList>,
+  input: __S(6304, __c197, 0) as any as S.Schema<ListPoliciesRequest>,
+  output: __S(6306, __c197, 2) as any as S.Schema<CdnWebApplicationFirewallPolicyList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6341,8 +7271,8 @@ export const ListProfileByResourceGroup: API.OperationMethod<
   ListProfileByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<ListProfileByResourceGroupRequest>,
-  output: __S(4769, __c149, 1) as any as S.Schema<ProfileListResult>,
+  input: __S(6336, __c198, 0) as any as S.Schema<ListProfileByResourceGroupRequest>,
+  output: __S(6369, __c199, 1) as any as S.Schema<ProfileListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6358,8 +7288,8 @@ export const ListProfileResourceUsage: API.OperationMethod<
   ListProfileResourceUsageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<ListProfileResourceUsageRequest>,
-  output: __S(4546, __c142, 2) as any as S.Schema<ResourceUsageListResult>,
+  input: __S(6400, __c200, 0) as any as S.Schema<ListProfileResourceUsageRequest>,
+  output: __S(6082, __c190, 2) as any as S.Schema<ResourceUsageListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6375,8 +7305,8 @@ export const ListProfiles: API.OperationMethod<
   ListProfilesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<ListProfilesRequest>,
-  output: __S(4769, __c149, 1) as any as S.Schema<ProfileListResult>,
+  input: __S(6432, __c201, 0) as any as S.Schema<ListProfilesRequest>,
+  output: __S(6369, __c199, 1) as any as S.Schema<ProfileListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6392,8 +7322,8 @@ export const ListProfileSupportedOptimizationTypes: API.OperationMethod<
   ListProfileSupportedOptimizationTypesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<ListProfileSupportedOptimizationTypesRequest>,
-  output: __S(4961, __c155, 1) as any as S.Schema<SupportedOptimizationTypesListResult>,
+  input: __S(6464, __c202, 0) as any as S.Schema<ListProfileSupportedOptimizationTypesRequest>,
+  output: __S(6465, __c202, 1) as any as S.Schema<SupportedOptimizationTypesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6409,8 +7339,8 @@ export const ListResourceUsage: API.OperationMethod<
   ListResourceUsageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<ListResourceUsageRequest>,
-  output: __S(4546, __c142, 2) as any as S.Schema<ResourceUsageListResult>,
+  input: __S(6496, __c203, 0) as any as S.Schema<ListResourceUsageRequest>,
+  output: __S(6082, __c190, 2) as any as S.Schema<ResourceUsageListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6426,8 +7356,8 @@ export const ListRouteByEndpoint: API.OperationMethod<
   ListRouteByEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<ListRouteByEndpointRequest>,
-  output: __S(5026, __c157, 2) as any as S.Schema<RouteListResult>,
+  input: __S(6528, __c204, 0) as any as S.Schema<ListRouteByEndpointRequest>,
+  output: __S(6530, __c204, 2) as any as S.Schema<RouteListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6443,8 +7373,8 @@ export const ListRuleByRuleSet: API.OperationMethod<
   ListRuleByRuleSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<ListRuleByRuleSetRequest>,
-  output: __S(5058, __c158, 2) as any as S.Schema<RuleListResult>,
+  input: __S(6560, __c205, 0) as any as S.Schema<ListRuleByRuleSetRequest>,
+  output: __S(6562, __c205, 2) as any as S.Schema<RuleListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6460,8 +7390,8 @@ export const ListRuleSetByProfile: API.OperationMethod<
   ListRuleSetByProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<ListRuleSetByProfileRequest>,
-  output: __S(5090, __c159, 2) as any as S.Schema<RuleSetListResult>,
+  input: __S(416, __c13, 0) as any as S.Schema<ListRuleSetByProfileRequest>,
+  output: __S(418, __c13, 2) as any as S.Schema<RuleSetListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6477,8 +7407,8 @@ export const ListRuleSetResourceUsage: API.OperationMethod<
   ListRuleSetResourceUsageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<ListRuleSetResourceUsageRequest>,
-  output: __S(4195, __c131, 3) as any as S.Schema<UsagesListResult>,
+  input: __S(448, __c14, 0) as any as S.Schema<ListRuleSetResourceUsageRequest>,
+  output: __S(5539, __c173, 3) as any as S.Schema<UsagesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6494,8 +7424,8 @@ export const ListSecretByProfile: API.OperationMethod<
   ListSecretByProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<ListSecretByProfileRequest>,
-  output: __S(5154, __c161, 2) as any as S.Schema<SecretListResult>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListSecretByProfileRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<SecretListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6511,8 +7441,8 @@ export const ListSecurityPolicyByProfile: API.OperationMethod<
   ListSecurityPolicyByProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<ListSecurityPolicyByProfileRequest>,
-  output: __S(5186, __c162, 2) as any as S.Schema<SecurityPolicyListResult>,
+  input: __S(512, __c16, 0) as any as S.Schema<ListSecurityPolicyByProfileRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<SecurityPolicyListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6528,8 +7458,8 @@ export const MigrateProfile: API.OperationMethod<
   MigrateProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5218, __c163, 2) as any as S.Schema<MigrateProfileRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<MigrateResult>,
+  input: __S(546, __c17, 2) as any as S.Schema<MigrateProfileRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<MigrateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6545,8 +7475,8 @@ export const MigrateProfilesCan: API.OperationMethod<
   MigrateProfilesCanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<MigrateProfilesCanRequest>,
-  output: __S(5379, __c168, 3) as any as S.Schema<CanMigrateResult>,
+  input: __S(608, __c19, 0) as any as S.Schema<MigrateProfilesCanRequest>,
+  output: __S(643, __c20, 3) as any as S.Schema<CanMigrateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6562,8 +7492,8 @@ export const PatchSecurityPolicy: API.OperationMethod<
   PatchSecurityPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<PatchSecurityPolicyRequest>,
-  output: __S(5409, __c169, 1) as any as S.Schema<PatchSecurityPolicyResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<PatchSecurityPolicyRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<PatchSecurityPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6579,8 +7509,8 @@ export const PoliciesCreateOrUpdate: API.OperationMethod<
   PoliciesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5441, __c170, 1) as any as S.Schema<PoliciesCreateOrUpdateRequest>,
-  output: __S(5442, __c170, 2) as any as S.Schema<PoliciesCreateOrUpdateResponse>,
+  input: __S(705, __c22, 1) as any as S.Schema<PoliciesCreateOrUpdateRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<PoliciesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6596,8 +7526,8 @@ export const ProfilesCdnCanMigrateToAfd: API.OperationMethod<
   ProfilesCdnCanMigrateToAfdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<ProfilesCdnCanMigrateToAfdRequest>,
-  output: __S(5379, __c168, 3) as any as S.Schema<CanMigrateResult>,
+  input: __S(736, __c23, 0) as any as S.Schema<ProfilesCdnCanMigrateToAfdRequest>,
+  output: __S(643, __c20, 3) as any as S.Schema<CanMigrateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6613,8 +7543,8 @@ export const ProfilesCdnMigrateToAfd: API.OperationMethod<
   ProfilesCdnMigrateToAfdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5506, __c172, 2) as any as S.Schema<ProfilesCdnMigrateToAfdRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<MigrateResult>,
+  input: __S(770, __c24, 2) as any as S.Schema<ProfilesCdnMigrateToAfdRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<MigrateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6630,8 +7560,8 @@ export const PurgeAFDEndpointContent: API.OperationMethod<
   PurgeAFDEndpointContentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<PurgeAFDEndpointContentRequest>,
-  output: __S(4416, __c138, 0) as any as S.Schema<PurgeAFDEndpointContentResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<PurgeAFDEndpointContentRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<PurgeAFDEndpointContentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6647,8 +7577,8 @@ export const PurgeEndpointContent: API.OperationMethod<
   PurgeEndpointContentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<PurgeEndpointContentRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<PurgeEndpointContentResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<PurgeEndpointContentRequest>,
+  output: __S(3776, __c118, 0) as any as S.Schema<PurgeEndpointContentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6664,8 +7594,8 @@ export const RefreshAFDCustomDomainValidationToken: API.OperationMethod<
   RefreshAFDCustomDomainValidationTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<RefreshAFDCustomDomainValidationTokenRequest>,
-  output: __S(4416, __c138, 0) as any as S.Schema<RefreshAFDCustomDomainValidationTokenResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<RefreshAFDCustomDomainValidationTokenRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<RefreshAFDCustomDomainValidationTokenResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6681,8 +7611,8 @@ export const StartEndpoint: API.OperationMethod<
   StartEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<StartEndpointRequest>,
-  output: __S(5664, __c177, 0) as any as S.Schema<StartEndpointResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<StartEndpointRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<StartEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6698,13 +7628,30 @@ export const StopEndpoint: API.OperationMethod<
   StopEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<StopEndpointRequest>,
-  output: __S(5664, __c177, 0) as any as S.Schema<StopEndpointResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<StopEndpointRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<StopEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopEndpoint",
+}));
+
+export type SwapEdgeActionVersionDefaultError = AzureOpError;
+/** Swap the default version for the edge action. */
+export const SwapEdgeActionVersionDefault: API.OperationMethod<
+  SwapEdgeActionVersionDefaultRequest,
+  SwapEdgeActionVersionDefaultResponse,
+  SwapEdgeActionVersionDefaultError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1120, __c35, 0) as any as S.Schema<SwapEdgeActionVersionDefaultRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<SwapEdgeActionVersionDefaultResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SwapEdgeActionVersionDefault",
 }));
 
 export type UpdateAFDCustomDomainError = AzureOpError;
@@ -6715,8 +7662,8 @@ export const UpdateAFDCustomDomain: API.OperationMethod<
   UpdateAFDCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(417, __c13, 1) as any as S.Schema<UpdateAFDCustomDomainRequest>,
-  output: __S(418, __c13, 2) as any as S.Schema<UpdateAFDCustomDomainResponse>,
+  input: __S(1153, __c36, 1) as any as S.Schema<UpdateAFDCustomDomainRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<UpdateAFDCustomDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6732,8 +7679,8 @@ export const UpdateAFDEndpoint: API.OperationMethod<
   UpdateAFDEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(449, __c14, 1) as any as S.Schema<UpdateAFDEndpointRequest>,
-  output: __S(450, __c14, 2) as any as S.Schema<UpdateAFDEndpointResponse>,
+  input: __S(1185, __c37, 1) as any as S.Schema<UpdateAFDEndpointRequest>,
+  output: __S(1186, __c37, 2) as any as S.Schema<UpdateAFDEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6749,8 +7696,8 @@ export const UpdateAFDOrigin: API.OperationMethod<
   UpdateAFDOriginError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<UpdateAFDOriginRequest>,
-  output: __S(481, __c15, 1) as any as S.Schema<UpdateAFDOriginResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<UpdateAFDOriginRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<UpdateAFDOriginResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6766,13 +7713,64 @@ export const UpdateAFDOriginGroup: API.OperationMethod<
   UpdateAFDOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<UpdateAFDOriginGroupRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<UpdateAFDOriginGroupResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<UpdateAFDOriginGroupRequest>,
+  output: __S(1249, __c39, 1) as any as S.Schema<UpdateAFDOriginGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAFDOriginGroup",
+}));
+
+export type UpdateEdgeActionError = AzureOpError;
+/** Updates the tags of an Edge Action. Omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. Do not include sku in PATCH requests; any supplied sku, including null or the existing value, is rejected. */
+export const UpdateEdgeAction: API.OperationMethod<
+  UpdateEdgeActionRequest,
+  UpdateEdgeActionResponse,
+  UpdateEdgeActionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1345, __c42, 1) as any as S.Schema<UpdateEdgeActionRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<UpdateEdgeActionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEdgeAction",
+}));
+
+export type UpdateEdgeActionExecutionFilterError = AzureOpError;
+/** Updates the properties and tags of an Edge Action execution filter. Omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. */
+export const UpdateEdgeActionExecutionFilter: API.OperationMethod<
+  UpdateEdgeActionExecutionFilterRequest,
+  UpdateEdgeActionExecutionFilterResponse,
+  UpdateEdgeActionExecutionFilterError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1377, __c43, 1) as any as S.Schema<UpdateEdgeActionExecutionFilterRequest>,
+  output: __S(1378, __c43, 2) as any as S.Schema<UpdateEdgeActionExecutionFilterResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEdgeActionExecutionFilter",
+}));
+
+export type UpdateEdgeActionVersionError = AzureOpError;
+/** Updates the tags of an Edge Action version. Omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. Version properties are not changed. If deploymentType or isDefaultVersion is supplied, it must match the existing value; use swapDefault to change the default version. */
+export const UpdateEdgeActionVersion: API.OperationMethod<
+  UpdateEdgeActionVersionRequest,
+  UpdateEdgeActionVersionResponse,
+  UpdateEdgeActionVersionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1409, __c44, 1) as any as S.Schema<UpdateEdgeActionVersionRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<UpdateEdgeActionVersionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEdgeActionVersion",
 }));
 
 export type UpdateEndpointError = AzureOpError;
@@ -6783,8 +7781,8 @@ export const UpdateEndpoint: API.OperationMethod<
   UpdateEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(545, __c17, 1) as any as S.Schema<UpdateEndpointRequest>,
-  output: __S(5664, __c177, 0) as any as S.Schema<UpdateEndpointResponse>,
+  input: __S(1441, __c45, 1) as any as S.Schema<UpdateEndpointRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<UpdateEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6800,8 +7798,8 @@ export const UpdateOrigin: API.OperationMethod<
   UpdateOriginError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(577, __c18, 1) as any as S.Schema<UpdateOriginRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<UpdateOriginResponse>,
+  input: __S(1473, __c46, 1) as any as S.Schema<UpdateOriginRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<UpdateOriginResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6817,8 +7815,8 @@ export const UpdateOriginGroup: API.OperationMethod<
   UpdateOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(609, __c19, 1) as any as S.Schema<UpdateOriginGroupRequest>,
-  output: __S(610, __c19, 2) as any as S.Schema<UpdateOriginGroupResponse>,
+  input: __S(1505, __c47, 1) as any as S.Schema<UpdateOriginGroupRequest>,
+  output: __S(1506, __c47, 2) as any as S.Schema<UpdateOriginGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6834,8 +7832,8 @@ export const UpdatePolicy: API.OperationMethod<
   UpdatePolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<UpdatePolicyRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<UpdatePolicyResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<UpdatePolicyRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<UpdatePolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6851,7 +7849,7 @@ export const UpdateProfile: API.OperationMethod<
   UpdateProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<UpdateProfileRequest>,
+  input: __S(1568, __c49, 0) as any as S.Schema<UpdateProfileRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<UpdateProfileResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -6868,8 +7866,8 @@ export const UpdateRoute: API.OperationMethod<
   UpdateRouteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<UpdateRouteRequest>,
-  output: __S(705, __c22, 1) as any as S.Schema<UpdateRouteResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<UpdateRouteRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<UpdateRouteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6885,8 +7883,8 @@ export const UpdateRule: API.OperationMethod<
   UpdateRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<UpdateRuleRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<UpdateRuleResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<UpdateRuleRequest>,
+  output: __S(1633, __c51, 1) as any as S.Schema<UpdateRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6902,8 +7900,8 @@ export const ValidateAFDEndpointCustomDomain: API.OperationMethod<
   ValidateAFDEndpointCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<ValidateAFDEndpointCustomDomainRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<ValidateCustomDomainOutput>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ValidateAFDEndpointCustomDomainRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<ValidateCustomDomainOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6919,8 +7917,8 @@ export const ValidateAFDProfileSecret: API.OperationMethod<
   ValidateAFDProfileSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ValidateAFDProfileSecretRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<ValidateSecretOutput>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ValidateAFDProfileSecretRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<ValidateSecretOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6936,8 +7934,8 @@ export const ValidateEndpointCustomDomain: API.OperationMethod<
   ValidateEndpointCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ValidateEndpointCustomDomainRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<ValidateCustomDomainOutput>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ValidateEndpointCustomDomainRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<ValidateCustomDomainOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6953,8 +7951,8 @@ export const ValidateProbe: API.OperationMethod<
   ValidateProbeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ValidateProbeRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<ValidateProbeOutput>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ValidateProbeRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<ValidateProbeOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6976,7 +7974,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/migrationAbort",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "AbortProfilesMigrationRequest" });
@@ -7015,7 +8013,7 @@ function __c2(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/upgrade",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "AFDProfilesUpgradeRequest" });
@@ -7149,7 +8147,7 @@ function __c9(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateAFDOriginRequest" });
@@ -7233,8 +8231,582 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tlsSettings: S.optional(__S(4897, __c153, 1)),
-          mtlsSettings: S.optional(__S(4898, __c153, 2)),
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListRuleSetByProfileRequest" });
+    case 1:
+      return S.Array(__S(5280, __c165, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(417, __c13, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RuleSetListResult" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          ruleSetName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/usages",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListRuleSetResourceUsageRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListSecretByProfileRequest" });
+    case 1:
+      return S.Array(__S(5344, __c167, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(481, __c15, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SecretListResult" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/securityPolicies",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListSecurityPolicyByProfileRequest" });
+    case 1:
+      return S.Array(__S(5408, __c169, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(513, __c16, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SecurityPolicyListResult" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          migratedFrom: S.optional(__S(192, __c6, 0)),
+          migratedTo: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "MigrationWebApplicationFirewallMapping" });
+    case 1:
+      return S.Array(__S(544, __c17, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          sku: __S(128, __c4, 0),
+          classicResourceReference: __S(192, __c6, 0),
+          profileName: S.String,
+          migrationWebApplicationFirewallMappings: S.optional(__S(545, __c17, 1)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/migrate",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "MigrateProfileRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          migratedProfileResourceId: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "MigrateResultProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          type: S.optional(S.String),
+          properties: S.optional(__S(576, __c18, 0)),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "MigrateResult" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          classicResourceReference: __S(192, __c6, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/canMigrate",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "MigrateProfilesCanRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          resourceName: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          nextSteps: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MigrationErrorType" });
+    case 1:
+      return S.Array(__S(640, __c20, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          canMigrate: S.optional(S.Boolean),
+          defaultSku: S.optional(S.String),
+          errors: S.optional(__S(641, __c20, 1)),
+        }),
+      ).annotate({ identifier: "CanMigrateProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          type: S.optional(S.String),
+          properties: S.optional(__S(642, __c20, 2)),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "CanMigrateResult" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          securityPolicyName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(2816, __c88, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/securityPolicies/{securityPolicyName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "PatchSecurityPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          properties: S.optional(__S(2849, __c89, 1)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+        }),
+      ).annotate({ identifier: "PatchSecurityPolicyResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          policySettings: S.optional(__S(4960, __c155, 0)),
+          rateLimitRules: S.optional(__S(4965, __c155, 5)),
+          customRules: S.optional(__S(4968, __c155, 8)),
+          managedRules: S.optional(__S(4975, __c155, 15)),
+          extendedProperties: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "CdnWebApplicationFirewallPolicyPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          policyName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(704, __c22, 0)),
+          etag: S.optional(S.String),
+          sku: __S(128, __c4, 0),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "PoliciesCreateOrUpdateRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(4976, __c155, 16)),
+          etag: S.optional(S.String),
+          sku: __S(128, __c4, 0),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+        }),
+      ).annotate({ identifier: "PoliciesCreateOrUpdateResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/cdnCanMigrateToAfd",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ProfilesCdnCanMigrateToAfdRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          migratedFrom: S.optional(S.String),
+          migratedTo: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MigrationEndpointMapping" });
+    case 1:
+      return S.Array(__S(768, __c24, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          sku: __S(128, __c4, 0),
+          migrationEndpointMappings: S.optional(__S(769, __c24, 1)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/cdnMigrateToAfd",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ProfilesCdnMigrateToAfdRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          originGroupName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(832, __c26, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CreateAFDOriginGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          properties: S.optional(__S(898, __c28, 2)),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+        }),
+      ).annotate({ identifier: "CreateAFDOriginGroupResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          loadBalancingSettings: S.optional(__S(896, __c28, 0)),
+          healthProbeSettings: S.optional(__S(864, __c27, 0)),
+          trafficRestorationTimeToHealedOrNewEndpointsInMinutes: S.optional(S.Number),
+          sessionAffinityState: S.optional(S.String),
+          authentication: S.optional(__S(897, __c28, 1)),
+        }),
+      ).annotate({ identifier: "AFDOriginGroupPropertiesInput" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          probePath: S.optional(S.String),
+          probeRequestType: S.optional(S.String),
+          probeProtocol: S.optional(S.String),
+          probeIntervalInSeconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "HealthProbeParameters" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sampleSize: S.optional(S.Number),
+          successfulSamplesRequired: S.optional(S.Number),
+          additionalLatencyInMilliseconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LoadBalancingSettingsParameters" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          userAssignedIdentity: S.optional(__S(192, __c6, 0)),
+          scope: S.optional(S.String),
+          tokenDestinationHeader: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OriginAuthenticationProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          profileName: S.optional(S.String),
+          loadBalancingSettings: S.optional(__S(896, __c28, 0)),
+          healthProbeSettings: S.optional(__S(864, __c27, 0)),
+          trafficRestorationTimeToHealedOrNewEndpointsInMinutes: S.optional(S.Number),
+          sessionAffinityState: S.optional(S.String),
+          authentication: S.optional(__S(897, __c28, 1)),
+          provisioningState: S.optional(S.String),
+          deploymentStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AFDOriginGroupProperties" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          endpointName: S.String.pipe(T.Label()),
+          contentPaths: __S(352, __c11, 0),
+          domains: S.optional(__S(352, __c11, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/purge",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "PurgeAFDEndpointContentRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          endpointName: S.String.pipe(T.Label()),
+          contentPaths: __S(352, __c11, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/purge",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "PurgeEndpointContentRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          customDomainName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}/refreshValidationToken",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "RefreshAFDCustomDomainValidationTokenRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          endpointName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/start",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "StartEndpointRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(2193, __c68, 17)),
+          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+        }),
+      ).annotate({ identifier: "StartEndpointResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          endpointName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/stop",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "StopEndpointRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}/swapDefault",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "SwapEdgeActionVersionDefaultRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tlsSettings: S.optional(__S(5761, __c180, 1)),
+          mtlsSettings: S.optional(__S(5762, __c180, 2)),
           azureDnsZone: S.optional(__S(192, __c6, 0)),
           preValidatedCustomDomainResourceId: S.optional(__S(192, __c6, 0)),
         }),
@@ -7246,13 +8818,13 @@ function __c13(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           customDomainName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(416, __c13, 0)),
+          properties: S.optional(__S(1152, __c36, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateAFDCustomDomainRequest" });
@@ -7263,7 +8835,7 @@ function __c13(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(4900, __c153, 4)),
+          properties: S.optional(__S(5764, __c180, 4)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -7271,7 +8843,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "UpdateAFDCustomDomainResponse" });
   }
 }
-function __c14(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7288,13 +8860,13 @@ function __c14(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
-          properties: S.optional(__S(448, __c14, 0)),
+          properties: S.optional(__S(1184, __c37, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateAFDEndpointRequest" });
@@ -7307,14 +8879,14 @@ function __c14(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(5312, __c166, 0)),
+          properties: S.optional(__S(6208, __c194, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateAFDEndpointResponse" });
   }
 }
-function __c15(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7330,7 +8902,7 @@ function __c15(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateAFDOriginRequest" });
@@ -7348,7 +8920,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UpdateAFDOriginResponse" });
   }
 }
-function __c16(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7357,13 +8929,13 @@ function __c16(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           originGroupName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(768, __c24, 0)),
+          properties: S.optional(__S(832, __c26, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateAFDOriginGroupRequest" });
@@ -7374,7 +8946,7 @@ function __c16(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(834, __c26, 2)),
+          properties: S.optional(__S(898, __c28, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -7382,7 +8954,190 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateAFDOriginGroupResponse" });
   }
 }
-function __c17(j: number): any {
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          hostName: S.String,
+        }),
+      ).annotate({ identifier: "CustomDomainPropertiesParameters" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          endpointName: S.String.pipe(T.Label()),
+          customDomainName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(1280, __c40, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CreateCustomDomainRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          properties: S.optional(__S(1313, __c41, 1)),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "CreateCustomDomainResponse" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          certificateSource: S.String,
+          protocolType: S.String,
+          minimumTlsVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomDomainHttpsParameters" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          hostName: S.String,
+          resourceState: S.optional(S.String),
+          customHttpsProvisioningState: S.optional(S.String),
+          customHttpsProvisioningSubstate: S.optional(S.String),
+          customHttpsParameters: S.optional(__S(1312, __c41, 0)),
+          validationData: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomDomainProperties" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          tier: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SkuTypeUpdate" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+          properties: S.optional(S.Unknown),
+          sku: S.optional(__S(1344, __c42, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateEdgeActionRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(1731, __c54, 3)),
+          sku: __S(1728, __c54, 0),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "UpdateEdgeActionResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          versionId: S.optional(S.String),
+          executionFilterIdentifierHeaderName: S.optional(S.String),
+          executionFilterIdentifierHeaderValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EdgeActionExecutionFilterUpdateProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+          executionFilter: S.String.pipe(T.Label()),
+          tags: S.optional(__S(256, __c8, 0)),
+          properties: S.optional(__S(1376, __c43, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/executionFilters/{executionFilter}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateEdgeActionExecutionFilterRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(1952, __c61, 0)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "UpdateEdgeActionExecutionFilterResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentType: S.optional(S.String),
+          isDefaultVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EdgeActionVersionUpdateProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+          tags: S.optional(__S(256, __c8, 0)),
+          properties: S.optional(__S(1408, __c44, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateEdgeActionVersionRequest" });
+  }
+}
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7396,10 +9151,10 @@ function __c17(j: number): any {
           queryStringCachingBehavior: S.optional(S.String),
           optimizationType: S.optional(S.String),
           probePath: S.optional(S.String),
-          geoFilters: S.optional(__S(1249, __c39, 1)),
+          geoFilters: S.optional(__S(2177, __c68, 1)),
           defaultOriginGroup: S.optional(__S(192, __c6, 0)),
-          urlSigningKeys: S.optional(__S(1252, __c39, 4)),
-          deliveryPolicy: S.optional(__S(1255, __c39, 7)),
+          urlSigningKeys: S.optional(__S(2180, __c68, 4)),
+          deliveryPolicy: S.optional(__S(2183, __c68, 7)),
           webApplicationFirewallPolicyLink: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "EndpointPropertiesUpdateParameters" });
@@ -7411,19 +9166,19 @@ function __c17(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
-          properties: S.optional(__S(544, __c17, 0)),
+          properties: S.optional(__S(1440, __c45, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateEndpointRequest" });
   }
 }
-function __c18(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7449,13 +9204,13 @@ function __c18(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           originName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(576, __c18, 0)),
+          properties: S.optional(__S(1472, __c46, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateOriginRequest" });
@@ -7466,21 +9221,21 @@ function __c18(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1312, __c41, 0)),
+          properties: S.optional(__S(2240, __c70, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateOriginResponse" });
   }
 }
-function __c19(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          healthProbeSettings: S.optional(__S(800, __c25, 0)),
-          origins: S.optional(__S(1152, __c36, 0)),
+          healthProbeSettings: S.optional(__S(864, __c27, 0)),
+          origins: S.optional(__S(2080, __c65, 0)),
           trafficRestorationTimeToHealedOrNewEndpointsInMinutes: S.optional(S.Number),
-          responseBasedOriginErrorDetectionSettings: S.optional(__S(1186, __c37, 2)),
+          responseBasedOriginErrorDetectionSettings: S.optional(__S(2114, __c66, 2)),
         }),
       ).annotate({ identifier: "OriginGroupUpdatePropertiesParameters" });
     case 1:
@@ -7491,13 +9246,13 @@ function __c19(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           originGroupName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(1504, __c47, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/originGroups/{originGroupName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateOriginGroupRequest" });
@@ -7508,13 +9263,13 @@ function __c19(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1376, __c43, 0)),
+          properties: S.optional(__S(2304, __c72, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateOriginGroupResponse" });
   }
 }
-function __c20(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7528,7 +9283,7 @@ function __c20(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdatePolicyRequest" });
@@ -7541,7 +9296,7 @@ function __c20(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(3664, __c114, 16)),
+          properties: S.optional(__S(4976, __c155, 16)),
           etag: S.optional(S.String),
           sku: __S(128, __c4, 0),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
@@ -7549,7 +9304,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "UpdatePolicyResponse" });
   }
 }
-function __c21(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7558,20 +9313,20 @@ function __c21(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
-          identity: S.optional(__S(1442, __c45, 2)),
-          properties: S.optional(__S(1440, __c45, 0)),
+          identity: S.optional(__S(2370, __c74, 2)),
+          properties: S.optional(__S(2368, __c74, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateProfileRequest" });
   }
 }
-function __c22(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7581,13 +9336,13 @@ function __c22(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           routeName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1536, __c48, 0)),
+          properties: S.optional(__S(2496, __c78, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/routes/{routeName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateRouteRequest" });
@@ -7598,7 +9353,7 @@ function __c22(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1572, __c49, 4)),
+          properties: S.optional(__S(2532, __c79, 4)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -7606,102 +9361,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UpdateRouteResponse" });
   }
 }
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          originGroupName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(768, __c24, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "CreateAFDOriginGroupRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(834, __c26, 2)),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-        }),
-      ).annotate({ identifier: "CreateAFDOriginGroupResponse" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          loadBalancingSettings: S.optional(__S(832, __c26, 0)),
-          healthProbeSettings: S.optional(__S(800, __c25, 0)),
-          trafficRestorationTimeToHealedOrNewEndpointsInMinutes: S.optional(S.Number),
-          sessionAffinityState: S.optional(S.String),
-          authentication: S.optional(__S(833, __c26, 1)),
-        }),
-      ).annotate({ identifier: "AFDOriginGroupPropertiesInput" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          probePath: S.optional(S.String),
-          probeRequestType: S.optional(S.String),
-          probeProtocol: S.optional(S.String),
-          probeIntervalInSeconds: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "HealthProbeParameters" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sampleSize: S.optional(S.Number),
-          successfulSamplesRequired: S.optional(S.Number),
-          additionalLatencyInMilliseconds: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "LoadBalancingSettingsParameters" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          userAssignedIdentity: S.optional(__S(192, __c6, 0)),
-          scope: S.optional(S.String),
-          tokenDestinationHeader: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OriginAuthenticationProperties" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          profileName: S.optional(S.String),
-          loadBalancingSettings: S.optional(__S(832, __c26, 0)),
-          healthProbeSettings: S.optional(__S(800, __c25, 0)),
-          trafficRestorationTimeToHealedOrNewEndpointsInMinutes: S.optional(S.Number),
-          sessionAffinityState: S.optional(S.String),
-          authentication: S.optional(__S(833, __c26, 1)),
-          provisioningState: S.optional(S.String),
-          deploymentStatus: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AFDOriginGroupProperties" });
-  }
-}
-function __c27(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7711,13 +9371,13 @@ function __c27(j: number): any {
           profileName: S.String.pipe(T.Label()),
           ruleSetName: S.String.pipe(T.Label()),
           ruleName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1632, __c51, 0)),
+          properties: S.optional(__S(2592, __c81, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateRuleRequest" });
@@ -7728,14 +9388,85 @@ function __c27(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1664, __c52, 0)),
+          properties: S.optional(__S(2624, __c82, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateRuleResponse" });
   }
 }
-function __c28(j: number): any {
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(1696, __c53, 0)),
+          sku: __S(1728, __c54, 0),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CreateEdgeActionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(1731, __c54, 3)),
+          sku: __S(1728, __c54, 0),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "CreateEdgeActionResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "EdgeActionPropertiesInput" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          tier: S.String,
+        }),
+      ).annotate({ identifier: "SkuType" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          attachedResourceId: S.String,
+        }),
+      ).annotate({ identifier: "EdgeActionAttachment" });
+    case 2:
+      return S.Array(__S(1729, __c54, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          attachments: __S(1730, __c54, 2),
+        }),
+      ).annotate({ identifier: "EdgeActionProperties" });
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7750,13 +9481,13 @@ function __c28(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/validateCustomDomain",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ValidateAFDEndpointCustomDomainRequest" });
   }
 }
-function __c29(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7768,7 +9499,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ValidateCustomDomainOutput" });
   }
 }
-function __c30(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7784,7 +9515,7 @@ function __c30(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/validateSecret",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ValidateAFDProfileSecretRequest" });
@@ -7797,7 +9528,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ValidateSecretOutput" });
   }
 }
-function __c31(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7812,13 +9543,13 @@ function __c31(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/validateCustomDomain",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ValidateEndpointCustomDomainRequest" });
   }
 }
-function __c32(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7830,7 +9561,7 @@ function __c32(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/validateProbe",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ValidateProbeRequest" });
@@ -7844,32 +9575,35 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ValidateProbeOutput" });
   }
 }
-function __c33(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hostName: S.String,
+          versionId: S.String,
+          executionFilterIdentifierHeaderName: S.String,
+          executionFilterIdentifierHeaderValue: S.String,
         }),
-      ).annotate({ identifier: "CustomDomainPropertiesParameters" });
+      ).annotate({ identifier: "EdgeActionExecutionFilterPropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          endpointName: S.String.pipe(T.Label()),
-          customDomainName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1056, __c33, 0)),
+          edgeActionName: S.String.pipe(T.Label()),
+          executionFilter: S.String.pipe(T.Label()),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(1920, __c60, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/executionFilters/{executionFilter}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
-      ).annotate({ identifier: "CreateCustomDomainRequest" });
+      ).annotate({ identifier: "CreateEdgeActionExecutionFilterRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7877,38 +9611,88 @@ function __c33(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1089, __c34, 1)),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(1952, __c61, 0)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
-      ).annotate({ identifier: "CreateCustomDomainResponse" });
+      ).annotate({ identifier: "CreateEdgeActionExecutionFilterResponse" });
   }
 }
-function __c34(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          certificateSource: S.String,
-          protocolType: S.String,
-          minimumTlsVersion: S.optional(S.String),
+          versionId: S.String,
+          lastUpdateTime: S.optional(S.String),
+          executionFilterIdentifierHeaderName: S.String,
+          executionFilterIdentifierHeaderValue: S.String,
+          provisioningState: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CustomDomainHttpsParameters" });
+      ).annotate({ identifier: "EdgeActionExecutionFilterProperties" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentType: S.String,
+          isDefaultVersion: S.String,
+        }),
+      ).annotate({ identifier: "EdgeActionVersionPropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hostName: S.String,
-          resourceState: S.optional(S.String),
-          customHttpsProvisioningState: S.optional(S.String),
-          customHttpsProvisioningSubstate: S.optional(S.String),
-          customHttpsParameters: S.optional(__S(1088, __c34, 0)),
-          validationData: S.optional(S.String),
-          provisioningState: S.optional(S.String),
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(1984, __c62, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CreateEdgeActionVersionRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(2016, __c63, 0)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
-      ).annotate({ identifier: "CustomDomainProperties" });
+      ).annotate({ identifier: "CreateEdgeActionVersionResponse" });
   }
 }
-function __c35(j: number): any {
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentType: S.String,
+          validationStatus: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          isDefaultVersion: S.String,
+          lastPackageUpdateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EdgeActionVersionProperties" });
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7922,13 +9706,13 @@ function __c35(j: number): any {
           queryStringCachingBehavior: S.optional(S.String),
           optimizationType: S.optional(S.String),
           probePath: S.optional(S.String),
-          geoFilters: S.optional(__S(1249, __c39, 1)),
+          geoFilters: S.optional(__S(2177, __c68, 1)),
           defaultOriginGroup: S.optional(__S(192, __c6, 0)),
-          urlSigningKeys: S.optional(__S(1252, __c39, 4)),
-          deliveryPolicy: S.optional(__S(1255, __c39, 7)),
+          urlSigningKeys: S.optional(__S(2180, __c68, 4)),
+          deliveryPolicy: S.optional(__S(2183, __c68, 7)),
           webApplicationFirewallPolicyLink: S.optional(__S(192, __c6, 0)),
-          origins: __S(1258, __c39, 10),
-          originGroups: S.optional(__S(1261, __c39, 13)),
+          origins: __S(2186, __c68, 10),
+          originGroups: S.optional(__S(2189, __c68, 13)),
         }),
       ).annotate({ identifier: "EndpointPropertiesInput" });
     case 1:
@@ -7940,13 +9724,13 @@ function __c35(j: number): any {
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1120, __c35, 0)),
+          properties: S.optional(__S(2048, __c64, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateEndpointRequest" });
@@ -7959,20 +9743,20 @@ function __c35(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1265, __c39, 17)),
+          properties: S.optional(__S(2193, __c68, 17)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "CreateEndpointResponse" });
   }
 }
-function __c36(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(192, __c6, 0));
   }
 }
-function __c37(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7982,18 +9766,18 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "HttpErrorRangeParameters" });
     case 1:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(2112, __c66, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           responseBasedDetectedErrorTypes: S.optional(S.String),
           responseBasedFailoverThresholdPercentage: S.optional(S.Number),
-          httpErrorRanges: S.optional(__S(1185, __c37, 1)),
+          httpErrorRanges: S.optional(__S(2113, __c66, 1)),
         }),
       ).annotate({ identifier: "ResponseBasedOriginErrorDetectionParameters" });
   }
 }
-function __c38(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8003,10 +9787,10 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "DeliveryRuleCondition" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(2144, __c67, 0));
   }
 }
-function __c39(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8017,7 +9801,7 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "GeoFilter" });
     case 1:
-      return S.Array(__S(1248, __c39, 0));
+      return S.Array(__S(2176, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8033,27 +9817,27 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           keyId: S.String,
-          keySourceParameters: __S(1250, __c39, 2),
+          keySourceParameters: __S(2178, __c68, 2),
         }),
       ).annotate({ identifier: "UrlSigningKey" });
     case 4:
-      return S.Array(__S(1251, __c39, 3));
+      return S.Array(__S(2179, __c68, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           order: S.Number,
-          conditions: S.optional(__S(1217, __c38, 1)),
-          actions: __S(1217, __c38, 1),
+          conditions: S.optional(__S(2145, __c67, 1)),
+          actions: __S(2145, __c67, 1),
         }),
       ).annotate({ identifier: "DeliveryRule" });
     case 6:
-      return S.Array(__S(1253, __c39, 5));
+      return S.Array(__S(2181, __c68, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          rules: __S(1254, __c39, 6),
+          rules: __S(2182, __c68, 6),
         }),
       ).annotate({ identifier: "EndpointPropertiesUpdateParametersDeliveryPolicy" });
     case 8:
@@ -8077,29 +9861,29 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          properties: S.optional(__S(1256, __c39, 8)),
+          properties: S.optional(__S(2184, __c68, 8)),
         }),
       ).annotate({ identifier: "DeepCreatedOrigin" });
     case 10:
-      return S.Array(__S(1257, __c39, 9));
+      return S.Array(__S(2185, __c68, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          healthProbeSettings: S.optional(__S(800, __c25, 0)),
-          origins: __S(1152, __c36, 0),
+          healthProbeSettings: S.optional(__S(864, __c27, 0)),
+          origins: __S(2080, __c65, 0),
           trafficRestorationTimeToHealedOrNewEndpointsInMinutes: S.optional(S.Number),
-          responseBasedOriginErrorDetectionSettings: S.optional(__S(1186, __c37, 2)),
+          responseBasedOriginErrorDetectionSettings: S.optional(__S(2114, __c66, 2)),
         }),
       ).annotate({ identifier: "DeepCreatedOriginGroupProperties" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          properties: S.optional(__S(1259, __c39, 11)),
+          properties: S.optional(__S(2187, __c68, 11)),
         }),
       ).annotate({ identifier: "DeepCreatedOriginGroup" });
     case 13:
-      return S.Array(__S(1260, __c39, 12));
+      return S.Array(__S(2188, __c68, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -8111,11 +9895,11 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          properties: S.optional(__S(1262, __c39, 14)),
+          properties: S.optional(__S(2190, __c68, 14)),
         }),
       ).annotate({ identifier: "DeepCreatedCustomDomain" });
     case 16:
-      return S.Array(__S(1263, __c39, 15));
+      return S.Array(__S(2191, __c68, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -8128,22 +9912,22 @@ function __c39(j: number): any {
           queryStringCachingBehavior: S.optional(S.String),
           optimizationType: S.optional(S.String),
           probePath: S.optional(S.String),
-          geoFilters: S.optional(__S(1249, __c39, 1)),
+          geoFilters: S.optional(__S(2177, __c68, 1)),
           defaultOriginGroup: S.optional(__S(192, __c6, 0)),
-          urlSigningKeys: S.optional(__S(1252, __c39, 4)),
-          deliveryPolicy: S.optional(__S(1255, __c39, 7)),
+          urlSigningKeys: S.optional(__S(2180, __c68, 4)),
+          deliveryPolicy: S.optional(__S(2183, __c68, 7)),
           webApplicationFirewallPolicyLink: S.optional(__S(192, __c6, 0)),
           hostName: S.optional(S.String),
-          origins: __S(1258, __c39, 10),
-          originGroups: S.optional(__S(1261, __c39, 13)),
-          customDomains: S.optional(__S(1264, __c39, 16)),
+          origins: __S(2186, __c68, 10),
+          originGroups: S.optional(__S(2189, __c68, 13)),
+          customDomains: S.optional(__S(2192, __c68, 16)),
           resourceState: S.optional(S.String),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "EndpointProperties" });
   }
 }
-function __c40(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8153,13 +9937,13 @@ function __c40(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           originName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1312, __c41, 0)),
+          properties: S.optional(__S(2240, __c70, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateOriginRequest" });
@@ -8170,14 +9954,14 @@ function __c40(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1312, __c41, 0)),
+          properties: S.optional(__S(2240, __c70, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateOriginResponse" });
   }
 }
-function __c41(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8200,7 +9984,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "OriginProperties" });
   }
 }
-function __c42(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8210,13 +9994,13 @@ function __c42(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           originGroupName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1376, __c43, 0)),
+          properties: S.optional(__S(2304, __c72, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/originGroups/{originGroupName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateOriginGroupRequest" });
@@ -8227,29 +10011,29 @@ function __c42(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1376, __c43, 0)),
+          properties: S.optional(__S(2304, __c72, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateOriginGroupResponse" });
   }
 }
-function __c43(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          healthProbeSettings: S.optional(__S(800, __c25, 0)),
-          origins: S.optional(__S(1152, __c36, 0)),
+          healthProbeSettings: S.optional(__S(864, __c27, 0)),
+          origins: S.optional(__S(2080, __c65, 0)),
           trafficRestorationTimeToHealedOrNewEndpointsInMinutes: S.optional(S.Number),
-          responseBasedOriginErrorDetectionSettings: S.optional(__S(1186, __c37, 2)),
+          responseBasedOriginErrorDetectionSettings: S.optional(__S(2114, __c66, 2)),
           resourceState: S.optional(S.String),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "OriginGroupProperties" });
   }
 }
-function __c44(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8259,15 +10043,15 @@ function __c44(j: number): any {
           profileName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1440, __c45, 0)),
+          properties: S.optional(__S(2368, __c74, 0)),
           sku: __S(128, __c4, 0),
-          identity: S.optional(__S(1442, __c45, 2)),
+          identity: S.optional(__S(2370, __c74, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateProfileRequest" });
@@ -8290,7 +10074,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreateProfileResponse" });
   }
 }
-function __c45(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8300,269 +10084,17 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "ProfilePropertiesInput" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1472, __c46, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1696, __c53, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          userAssignedIdentities: S.optional(__S(1441, __c45, 1)),
+          userAssignedIdentities: S.optional(__S(2369, __c74, 1)),
         }),
       ).annotate({ identifier: "CreateProfileRequestIdentity" });
   }
 }
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "UserAssignedIdentityInput" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          endpointName: S.String.pipe(T.Label()),
-          routeName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1536, __c48, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/routes/{routeName}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "CreateRouteRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1572, __c49, 4)),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-        }),
-      ).annotate({ identifier: "CreateRouteResponse" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customDomains: S.optional(__S(1152, __c36, 0)),
-          originGroup: S.optional(__S(192, __c6, 0)),
-          originPath: S.optional(S.String),
-          ruleSets: S.optional(__S(1152, __c36, 0)),
-          supportedProtocols: S.optional(__S(4864, __c152, 0)),
-          patternsToMatch: S.optional(__S(352, __c11, 0)),
-          cacheConfiguration: S.optional(__S(1569, __c49, 1)),
-          forwardingProtocol: S.optional(S.String),
-          linkToDefaultDomain: S.optional(S.String),
-          httpsRedirect: S.optional(S.String),
-          enabledState: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RoutePropertiesInput" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          contentTypesToCompress: S.optional(__S(352, __c11, 0)),
-          isCompressionEnabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CompressionSettings" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          queryStringCachingBehavior: S.optional(S.String),
-          queryParameters: S.optional(S.String),
-          compressionSettings: S.optional(__S(1568, __c49, 0)),
-        }),
-      ).annotate({ identifier: "AfdRouteCacheConfiguration" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          isActive: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ActivatedResourceReference" });
-    case 3:
-      return S.Array(__S(1570, __c49, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          endpointName: S.optional(S.String),
-          customDomains: S.optional(__S(1571, __c49, 3)),
-          originGroup: S.optional(__S(192, __c6, 0)),
-          originPath: S.optional(S.String),
-          ruleSets: S.optional(__S(1152, __c36, 0)),
-          supportedProtocols: S.optional(__S(4864, __c152, 0)),
-          patternsToMatch: S.optional(__S(352, __c11, 0)),
-          cacheConfiguration: S.optional(__S(1569, __c49, 1)),
-          forwardingProtocol: S.optional(S.String),
-          linkToDefaultDomain: S.optional(S.String),
-          httpsRedirect: S.optional(S.String),
-          enabledState: S.optional(S.String),
-          provisioningState: S.optional(S.String),
-          deploymentStatus: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RouteProperties" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          ruleSetName: S.String.pipe(T.Label()),
-          ruleName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1632, __c51, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "CreateRuleRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1664, __c52, 0)),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-        }),
-      ).annotate({ identifier: "CreateRuleResponse" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          order: S.optional(S.Number),
-          conditions: S.optional(__S(1217, __c38, 1)),
-          actions: S.optional(__S(1217, __c38, 1)),
-          matchProcessingBehavior: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RulePropertiesInput" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ruleSetName: S.optional(S.String),
-          order: S.optional(S.Number),
-          conditions: S.optional(__S(1217, __c38, 1)),
-          actions: S.optional(__S(1217, __c38, 1)),
-          matchProcessingBehavior: S.optional(S.String),
-          provisioningState: S.optional(S.String),
-          deploymentStatus: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RuleProperties" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ruleName: S.String,
-          order: S.optional(S.Number),
-          conditions: S.optional(__S(1217, __c38, 1)),
-          actions: S.optional(__S(1217, __c38, 1)),
-          matchProcessingBehavior: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BatchRulePropertiesInput" });
-    case 1:
-      return S.Array(__S(1696, __c53, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          batchMode: S.optional(S.Boolean),
-          rules: S.optional(__S(1697, __c53, 1)),
-        }),
-      ).annotate({ identifier: "RuleSetPropertiesInput" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          ruleSetName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1698, __c53, 2)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "CreateRuleSetRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1730, __c54, 2)),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-        }),
-      ).annotate({ identifier: "CreateRuleSetResponse" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ruleName: S.String,
-          ruleSetName: S.optional(S.String),
-          order: S.optional(S.Number),
-          conditions: S.optional(__S(1217, __c38, 1)),
-          actions: S.optional(__S(1217, __c38, 1)),
-          matchProcessingBehavior: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BatchRuleProperties" });
-    case 1:
-      return S.Array(__S(1728, __c54, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          provisioningState: S.optional(S.String),
-          deploymentStatus: S.optional(S.String),
-          profileName: S.optional(S.String),
-          batchMode: S.optional(S.Boolean),
-          rules: S.optional(__S(1729, __c54, 1)),
-        }),
-      ).annotate({ identifier: "RuleSetProperties" });
-  }
-}
-function __c55(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8578,13 +10110,13 @@ function __c55(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkEndpointNameAvailability",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CheckAFDProfileEndpointNameAvailabilityRequest" });
   }
 }
-function __c56(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8597,12 +10129,258 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CheckEndpointNameAvailabilityOutput" });
   }
 }
-function __c57(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(1856, __c58, 0)),
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          endpointName: S.String.pipe(T.Label()),
+          routeName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(2496, __c78, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/routes/{routeName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CreateRouteRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          properties: S.optional(__S(2532, __c79, 4)),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+        }),
+      ).annotate({ identifier: "CreateRouteResponse" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customDomains: S.optional(__S(2080, __c65, 0)),
+          originGroup: S.optional(__S(192, __c6, 0)),
+          originPath: S.optional(S.String),
+          ruleSets: S.optional(__S(2080, __c65, 0)),
+          supportedProtocols: S.optional(__S(5728, __c179, 0)),
+          patternsToMatch: S.optional(__S(352, __c11, 0)),
+          cacheConfiguration: S.optional(__S(2529, __c79, 1)),
+          forwardingProtocol: S.optional(S.String),
+          linkToDefaultDomain: S.optional(S.String),
+          httpsRedirect: S.optional(S.String),
+          enabledState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RoutePropertiesInput" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contentTypesToCompress: S.optional(__S(352, __c11, 0)),
+          isCompressionEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CompressionSettings" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          queryStringCachingBehavior: S.optional(S.String),
+          queryParameters: S.optional(S.String),
+          compressionSettings: S.optional(__S(2528, __c79, 0)),
+        }),
+      ).annotate({ identifier: "AfdRouteCacheConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          isActive: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ActivatedResourceReference" });
+    case 3:
+      return S.Array(__S(2530, __c79, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          endpointName: S.optional(S.String),
+          customDomains: S.optional(__S(2531, __c79, 3)),
+          originGroup: S.optional(__S(192, __c6, 0)),
+          originPath: S.optional(S.String),
+          ruleSets: S.optional(__S(2080, __c65, 0)),
+          supportedProtocols: S.optional(__S(5728, __c179, 0)),
+          patternsToMatch: S.optional(__S(352, __c11, 0)),
+          cacheConfiguration: S.optional(__S(2529, __c79, 1)),
+          forwardingProtocol: S.optional(S.String),
+          linkToDefaultDomain: S.optional(S.String),
+          httpsRedirect: S.optional(S.String),
+          enabledState: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          deploymentStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RouteProperties" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          ruleSetName: S.String.pipe(T.Label()),
+          ruleName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(2592, __c81, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CreateRuleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          properties: S.optional(__S(2624, __c82, 0)),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+        }),
+      ).annotate({ identifier: "CreateRuleResponse" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          order: S.optional(S.Number),
+          conditions: S.optional(__S(2145, __c67, 1)),
+          actions: S.optional(__S(2145, __c67, 1)),
+          matchProcessingBehavior: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RulePropertiesInput" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ruleSetName: S.optional(S.String),
+          order: S.optional(S.Number),
+          conditions: S.optional(__S(2145, __c67, 1)),
+          actions: S.optional(__S(2145, __c67, 1)),
+          matchProcessingBehavior: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          deploymentStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RuleProperties" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ruleName: S.String,
+          order: S.optional(S.Number),
+          conditions: S.optional(__S(2145, __c67, 1)),
+          actions: S.optional(__S(2145, __c67, 1)),
+          matchProcessingBehavior: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BatchRulePropertiesInput" });
+    case 1:
+      return S.Array(__S(2656, __c83, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          batchMode: S.optional(S.Boolean),
+          rules: S.optional(__S(2657, __c83, 1)),
+        }),
+      ).annotate({ identifier: "RuleSetPropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          ruleSetName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(2658, __c83, 2)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CreateRuleSetRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          properties: S.optional(__S(2690, __c84, 2)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "CreateRuleSetResponse" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ruleName: S.String,
+          ruleSetName: S.optional(S.String),
+          order: S.optional(S.Number),
+          conditions: S.optional(__S(2145, __c67, 1)),
+          actions: S.optional(__S(2145, __c67, 1)),
+          matchProcessingBehavior: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BatchRuleProperties" });
+    case 1:
+      return S.Array(__S(2688, __c84, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          deploymentStatus: S.optional(S.String),
+          profileName: S.optional(S.String),
+          batchMode: S.optional(S.Boolean),
+          rules: S.optional(__S(2689, __c84, 1)),
+        }),
+      ).annotate({ identifier: "RuleSetProperties" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parameters: S.optional(__S(2752, __c86, 0)),
         }),
       ).annotate({ identifier: "SecretPropertiesInput" });
     case 1:
@@ -8612,13 +10390,13 @@ function __c57(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           secretName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1824, __c57, 0)),
+          properties: S.optional(__S(2720, __c85, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets/{secretName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateSecretRequest" });
@@ -8629,7 +10407,7 @@ function __c57(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1857, __c58, 1)),
+          properties: S.optional(__S(2753, __c86, 1)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
@@ -8637,7 +10415,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateSecretResponse" });
   }
 }
-function __c58(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8660,12 +10438,12 @@ function __c58(j: number): any {
           provisioningState: S.optional(S.String),
           deploymentStatus: S.optional(S.String),
           profileName: S.optional(S.String),
-          parameters: S.optional(__S(1856, __c58, 0)),
+          parameters: S.optional(__S(2752, __c86, 0)),
         }),
       ).annotate({ identifier: "SecretProperties" });
   }
 }
-function __c59(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8674,13 +10452,13 @@ function __c59(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           securityPolicyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1952, __c61, 0)),
+          properties: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/securityPolicies/{securityPolicyName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateSecurityPolicyRequest" });
@@ -8691,7 +10469,7 @@ function __c59(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1921, __c60, 1)),
+          properties: S.optional(__S(2849, __c89, 1)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
@@ -8699,7 +10477,17 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateSecurityPolicyResponse" });
   }
 }
-function __c60(j: number): any {
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parameters: S.optional(__S(2848, __c89, 0)),
+        }),
+      ).annotate({ identifier: "SecurityPolicyPropertiesInput" });
+  }
+}
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8715,22 +10503,12 @@ function __c60(j: number): any {
           provisioningState: S.optional(S.String),
           deploymentStatus: S.optional(S.String),
           profileName: S.optional(S.String),
-          parameters: S.optional(__S(1920, __c60, 0)),
+          parameters: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "SecurityPolicyProperties" });
   }
 }
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parameters: S.optional(__S(1920, __c60, 0)),
-        }),
-      ).annotate({ identifier: "SecurityPolicyPropertiesInput" });
-  }
-}
-function __c62(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8744,13 +10522,13 @@ function __c62(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteAFDCustomDomainRequest" });
   }
 }
-function __c63(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8764,13 +10542,13 @@ function __c63(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteAFDEndpointRequest" });
   }
 }
-function __c64(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8781,7 +10559,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "DeleteAFDEndpointResponse" });
   }
 }
-function __c65(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8796,13 +10574,13 @@ function __c65(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteAFDOriginRequest" });
   }
 }
-function __c66(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8816,13 +10594,13 @@ function __c66(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteAFDOriginGroupRequest" });
   }
 }
-function __c67(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8837,13 +10615,104 @@ function __c67(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteCustomDomainRequest" });
   }
 }
-function __c68(j: number): any {
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          hostName: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkHostNameAvailability",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CheckAFDProfileHostNameAvailabilityRequest" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nameAvailable: S.optional(S.Boolean),
+          reason: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CheckNameAvailabilityOutput" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteEdgeActionRequest" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+          executionFilter: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/executionFilters/{executionFilter}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteEdgeActionExecutionFilterRequest" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteEdgeActionVersionRequest" });
+  }
+}
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8857,13 +10726,13 @@ function __c68(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteEndpointRequest" });
   }
 }
-function __c69(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8878,13 +10747,13 @@ function __c69(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteOriginRequest" });
   }
 }
-function __c70(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8899,45 +10768,13 @@ function __c70(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/originGroups/{originGroupName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteOriginGroupRequest" });
   }
 }
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          hostName: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkHostNameAvailability",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "CheckAFDProfileHostNameAvailabilityRequest" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          nameAvailable: S.optional(S.Boolean),
-          reason: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CheckNameAvailabilityOutput" });
-  }
-}
-function __c73(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8950,13 +10787,13 @@ function __c73(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeletePolicyRequest" });
   }
 }
-function __c74(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8969,13 +10806,13 @@ function __c74(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteProfileRequest" });
   }
 }
-function __c75(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8990,13 +10827,13 @@ function __c75(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/routes/{routeName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRouteRequest" });
   }
 }
-function __c76(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9011,13 +10848,34 @@ function __c76(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRuleRequest" });
   }
 }
-function __c77(j: number): any {
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          name: S.String,
+          type: S.String,
+          autoGeneratedDomainNameLabelScope: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/checkEndpointNameAvailability",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CheckEndpointNameAvailabilityRequest" });
+  }
+}
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9031,13 +10889,13 @@ function __c77(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRuleSetRequest" });
   }
 }
-function __c78(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9051,13 +10909,13 @@ function __c78(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets/{secretName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteSecretRequest" });
   }
 }
-function __c79(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9071,13 +10929,54 @@ function __c79(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/securityPolicies/{securityPolicyName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteSecurityPolicyRequest" });
   }
 }
-function __c80(j: number): any {
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+          content: S.String,
+          name: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}/deployVersionCode",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeployEdgeActionVersionVersionCodeRequest" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(2016, __c63, 0)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "DeployEdgeActionVersionVersionCodeResponse" });
+  }
+}
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9092,13 +10991,13 @@ function __c80(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/disableCustomHttps",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DisableCustomDomainCustomHttpsRequest" });
   }
 }
-function __c81(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9107,13 +11006,13 @@ function __c81(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1089, __c34, 1)),
+          properties: S.optional(__S(1313, __c41, 1)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "DisableCustomDomainCustomHttpsResponse" });
   }
 }
-function __c82(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9131,13 +11030,13 @@ function __c82(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/enableCustomHttps",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "EnableCustomDomainCustomHttpsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9152,13 +11051,13 @@ function __c83(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/load",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "EndpointsLoadContentRequest" });
   }
 }
-function __c84(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9169,28 +11068,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "EndpointsLoadContentResponse" });
   }
 }
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          name: S.String,
-          type: S.String,
-          autoGeneratedDomainNameLabelScope: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/checkEndpointNameAvailability",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "CheckEndpointNameAvailabilityRequest" });
-  }
-}
-function __c86(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9203,7 +11081,7 @@ function __c86(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/generateSsoUri",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GenerateProfileSsoUriRequest" });
@@ -9215,7 +11093,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "SsoUri" });
   }
 }
-function __c87(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9229,13 +11107,13 @@ function __c87(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetAFDCustomDomainRequest" });
   }
 }
-function __c88(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9244,12 +11122,12 @@ function __c88(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(4900, __c153, 4)),
+          properties: S.optional(__S(5764, __c180, 4)),
         }),
       ).annotate({ identifier: "GetAFDCustomDomainResponse" });
   }
 }
-function __c89(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9263,13 +11141,13 @@ function __c89(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetAFDEndpointRequest" });
   }
 }
-function __c90(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9280,12 +11158,30 @@ function __c90(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(5312, __c166, 0)),
+          properties: S.optional(__S(6208, __c194, 0)),
         }),
       ).annotate({ identifier: "GetAFDEndpointResponse" });
   }
 }
-function __c91(j: number): any {
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          type: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/providers/Microsoft.Cdn/checkNameAvailability",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CheckNameAvailabilityRequest" });
+  }
+}
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9300,13 +11196,13 @@ function __c91(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetAFDOriginRequest" });
   }
 }
-function __c92(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9320,7 +11216,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "GetAFDOriginResponse" });
   }
 }
-function __c93(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9334,13 +11230,13 @@ function __c93(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetAFDOriginGroupRequest" });
   }
 }
-function __c94(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9349,12 +11245,12 @@ function __c94(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(834, __c26, 2)),
+          properties: S.optional(__S(898, __c28, 2)),
         }),
       ).annotate({ identifier: "GetAFDOriginGroupResponse" });
   }
 }
-function __c95(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9369,13 +11265,13 @@ function __c95(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetCustomDomainRequest" });
   }
 }
-function __c96(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9384,12 +11280,150 @@ function __c96(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1089, __c34, 1)),
+          properties: S.optional(__S(1313, __c41, 1)),
         }),
       ).annotate({ identifier: "GetCustomDomainResponse" });
   }
 }
-function __c97(j: number): any {
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetEdgeActionRequest" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(1731, __c54, 3)),
+          sku: __S(1728, __c54, 0),
+        }),
+      ).annotate({ identifier: "GetEdgeActionResponse" });
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+          executionFilter: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/executionFilters/{executionFilter}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetEdgeActionExecutionFilterRequest" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(1952, __c61, 0)),
+        }),
+      ).annotate({ identifier: "GetEdgeActionExecutionFilterResponse" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetEdgeActionVersionRequest" });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          location: S.String,
+          properties: S.optional(__S(2016, __c63, 0)),
+        }),
+      ).annotate({ identifier: "GetEdgeActionVersionResponse" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}/getVersionCode",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetEdgeActionVersionVersionCodeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          content: S.String,
+          name: S.String,
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "VersionCode" });
+  }
+}
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9403,13 +11437,13 @@ function __c97(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetEndpointRequest" });
   }
 }
-function __c98(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9420,12 +11454,12 @@ function __c98(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1265, __c39, 17)),
+          properties: S.optional(__S(2193, __c68, 17)),
         }),
       ).annotate({ identifier: "GetEndpointResponse" });
   }
 }
-function __c99(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9438,7 +11472,7 @@ function __c99(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getLogAnalyticsLocations",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetLogAnalyticsLogAnalyticsLocationsRequest" });
@@ -9450,17 +11484,17 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "ContinentsResponseCountryOrRegionsItem" });
     case 2:
-      return S.Array(__S(3169, __c99, 1));
+      return S.Array(__S(4481, __c140, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          continents: S.optional(__S(1152, __c36, 0)),
-          countryOrRegions: S.optional(__S(3170, __c99, 2)),
+          continents: S.optional(__S(2080, __c65, 0)),
+          countryOrRegions: S.optional(__S(4482, __c140, 2)),
         }),
       ).annotate({ identifier: "ContinentsResponse" });
   }
 }
-function __c100(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9468,11 +11502,11 @@ function __c100(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
-          metrics: __S(4864, __c152, 0).pipe(T.Query()),
+          metrics: __S(5728, __c179, 0).pipe(T.Query()),
           dateTimeBegin: S.String.pipe(T.Query()),
           dateTimeEnd: S.String.pipe(T.Query()),
           granularity: S.String.pipe(T.Query()),
-          groupBy: S.optional(__S(4864, __c152, 0).pipe(T.Query())),
+          groupBy: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
           continents: S.optional(__S(352, __c11, 0).pipe(T.Query())),
           countryOrRegions: S.optional(__S(352, __c11, 0).pipe(T.Query())),
           customDomains: __S(352, __c11, 0).pipe(T.Query()),
@@ -9482,13 +11516,13 @@ function __c100(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getLogAnalyticsMetrics",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetLogAnalyticsLogAnalyticsMetricsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9498,7 +11532,7 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "MetricsResponseSeriesPropertiesItemsItem" });
     case 1:
-      return S.Array(__S(3232, __c101, 0));
+      return S.Array(__S(4544, __c142, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9510,30 +11544,49 @@ function __c101(j: number): any {
           "Components1Gs0LlpSchemasMetricsresponsePropertiesSeriesItemsPropertiesDataItems",
       });
     case 3:
-      return S.Array(__S(3234, __c101, 2));
+      return S.Array(__S(4546, __c142, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           metric: S.optional(S.String),
           unit: S.optional(S.String),
-          groups: S.optional(__S(3233, __c101, 1)),
-          data: S.optional(__S(3235, __c101, 3)),
+          groups: S.optional(__S(4545, __c142, 1)),
+          data: S.optional(__S(4547, __c142, 3)),
         }),
       ).annotate({ identifier: "MetricsResponseSeriesItem" });
     case 5:
-      return S.Array(__S(3236, __c101, 4));
+      return S.Array(__S(4548, __c142, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           dateTimeBegin: S.optional(S.String),
           dateTimeEnd: S.optional(S.String),
           granularity: S.optional(S.String),
-          series: S.optional(__S(3237, __c101, 5)),
+          series: S.optional(__S(4549, __c142, 5)),
         }),
       ).annotate({ identifier: "MetricsResponse" });
   }
 }
-function __c102(j: number): any {
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          name: S.String,
+          type: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkNameAvailability",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CheckNameAvailabilityWithSubscriptionRequest" });
+  }
+}
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9541,8 +11594,8 @@ function __c102(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
-          rankings: __S(4864, __c152, 0).pipe(T.Query()),
-          metrics: __S(4864, __c152, 0).pipe(T.Query()),
+          rankings: __S(5728, __c179, 0).pipe(T.Query()),
+          metrics: __S(5728, __c179, 0).pipe(T.Query()),
           maxRanking: S.Number.pipe(T.Query()),
           dateTimeBegin: S.String.pipe(T.Query()),
           dateTimeEnd: S.String.pipe(T.Query()),
@@ -9552,7 +11605,7 @@ function __c102(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getLogAnalyticsRankings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetLogAnalyticsLogAnalyticsRankingsRequest" });
@@ -9560,31 +11613,31 @@ function __c102(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          metrics: S.optional(__S(3297, __c103, 1)),
+          metrics: S.optional(__S(4641, __c145, 1)),
         }),
       ).annotate({ identifier: "RankingsResponseTablesPropertiesItemsItem" });
     case 2:
-      return S.Array(__S(3265, __c102, 1));
+      return S.Array(__S(4609, __c144, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ranking: S.optional(S.String),
-          data: S.optional(__S(3266, __c102, 2)),
+          data: S.optional(__S(4610, __c144, 2)),
         }),
       ).annotate({ identifier: "RankingsResponseTablesItem" });
     case 4:
-      return S.Array(__S(3267, __c102, 3));
+      return S.Array(__S(4611, __c144, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           dateTimeBegin: S.optional(S.String),
           dateTimeEnd: S.optional(S.String),
-          tables: S.optional(__S(3268, __c102, 4)),
+          tables: S.optional(__S(4612, __c144, 4)),
         }),
       ).annotate({ identifier: "RankingsResponse" });
   }
 }
-function __c103(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9595,28 +11648,10 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "RankingsResponseTablesPropertiesItemsMetricsItem" });
     case 1:
-      return S.Array(__S(3296, __c103, 0));
+      return S.Array(__S(4640, __c145, 0));
   }
 }
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          type: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/providers/Microsoft.Cdn/checkNameAvailability",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "CheckNameAvailabilityRequest" });
-  }
-}
-function __c105(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9629,7 +11664,7 @@ function __c105(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getLogAnalyticsResources",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetLogAnalyticsLogAnalyticsResourcesRequest" });
@@ -9643,28 +11678,28 @@ function __c105(j: number): any {
         }),
       ).annotate({ identifier: "ResourcesResponseEndpointsPropertiesItemsItem" });
     case 2:
-      return S.Array(__S(3361, __c105, 1));
+      return S.Array(__S(4673, __c146, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           history: S.optional(S.Boolean),
-          customDomains: S.optional(__S(3362, __c105, 2)),
+          customDomains: S.optional(__S(4674, __c146, 2)),
         }),
       ).annotate({ identifier: "ResourcesResponseEndpointsItem" });
     case 4:
-      return S.Array(__S(3363, __c105, 3));
+      return S.Array(__S(4675, __c146, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          endpoints: S.optional(__S(3364, __c105, 4)),
-          customDomains: S.optional(__S(3362, __c105, 2)),
+          endpoints: S.optional(__S(4676, __c146, 4)),
+          customDomains: S.optional(__S(4674, __c146, 2)),
         }),
       ).annotate({ identifier: "ResourcesResponse" });
   }
 }
-function __c106(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9672,25 +11707,25 @@ function __c106(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
-          metrics: __S(4864, __c152, 0).pipe(T.Query()),
+          metrics: __S(5728, __c179, 0).pipe(T.Query()),
           dateTimeBegin: S.String.pipe(T.Query()),
           dateTimeEnd: S.String.pipe(T.Query()),
           granularity: S.String.pipe(T.Query()),
-          actions: S.optional(__S(4864, __c152, 0).pipe(T.Query())),
-          groupBy: S.optional(__S(4864, __c152, 0).pipe(T.Query())),
-          ruleTypes: S.optional(__S(4864, __c152, 0).pipe(T.Query())),
+          actions: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
+          groupBy: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
+          ruleTypes: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getWafLogAnalyticsMetrics",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetLogAnalyticsWafLogAnalyticsMetricsRequest" });
   }
 }
-function __c107(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9698,19 +11733,19 @@ function __c107(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
-          metrics: __S(4864, __c152, 0).pipe(T.Query()),
+          metrics: __S(5728, __c179, 0).pipe(T.Query()),
           dateTimeBegin: S.String.pipe(T.Query()),
           dateTimeEnd: S.String.pipe(T.Query()),
           maxRanking: S.Number.pipe(T.Query()),
-          rankings: __S(4864, __c152, 0).pipe(T.Query()),
-          actions: S.optional(__S(4864, __c152, 0).pipe(T.Query())),
-          ruleTypes: S.optional(__S(4864, __c152, 0).pipe(T.Query())),
+          rankings: __S(5728, __c179, 0).pipe(T.Query()),
+          actions: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
+          ruleTypes: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getWafLogAnalyticsRankings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetLogAnalyticsWafLogAnalyticsRankingsRequest" });
@@ -9718,23 +11753,23 @@ function __c107(j: number): any {
       return S.suspend(() =>
         S.Struct({
           groupValues: S.optional(__S(352, __c11, 0)),
-          metrics: S.optional(__S(3297, __c103, 1)),
+          metrics: S.optional(__S(4641, __c145, 1)),
         }),
       ).annotate({ identifier: "WafRankingsResponseDataItem" });
     case 2:
-      return S.Array(__S(3425, __c107, 1));
+      return S.Array(__S(4737, __c148, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           dateTimeBegin: S.optional(S.String),
           dateTimeEnd: S.optional(S.String),
           groups: S.optional(__S(352, __c11, 0)),
-          data: S.optional(__S(3426, __c107, 2)),
+          data: S.optional(__S(4738, __c148, 2)),
         }),
       ).annotate({ identifier: "WafRankingsResponse" });
   }
 }
-function __c108(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9749,13 +11784,13 @@ function __c108(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetOriginRequest" });
   }
 }
-function __c109(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9764,12 +11799,12 @@ function __c109(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1312, __c41, 0)),
+          properties: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "GetOriginResponse" });
   }
 }
-function __c110(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9784,13 +11819,13 @@ function __c110(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/originGroups/{originGroupName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetOriginGroupRequest" });
   }
 }
-function __c111(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9799,12 +11834,12 @@ function __c111(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1376, __c43, 0)),
+          properties: S.optional(__S(2304, __c72, 0)),
         }),
       ).annotate({ identifier: "GetOriginGroupResponse" });
   }
 }
-function __c112(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9817,13 +11852,13 @@ function __c112(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetPolicyRequest" });
   }
 }
-function __c113(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9834,14 +11869,14 @@ function __c113(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(3664, __c114, 16)),
+          properties: S.optional(__S(4976, __c155, 16)),
           etag: S.optional(S.String),
           sku: __S(128, __c4, 0),
         }),
       ).annotate({ identifier: "GetPolicyResponse" });
   }
 }
-function __c114(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9861,29 +11896,29 @@ function __c114(j: number): any {
           operator: S.String,
           negateCondition: S.optional(S.Boolean),
           matchValue: __S(352, __c11, 0),
-          transforms: S.optional(__S(4864, __c152, 0)),
+          transforms: S.optional(__S(5728, __c179, 0)),
         }),
       ).annotate({ identifier: "MatchCondition" });
     case 2:
-      return S.Array(__S(3649, __c114, 1));
+      return S.Array(__S(4961, __c155, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           enabledState: S.optional(S.String),
           priority: S.Number,
-          matchConditions: __S(3650, __c114, 2),
+          matchConditions: __S(4962, __c155, 2),
           action: S.String,
           rateLimitThreshold: S.Number,
           rateLimitDurationInMinutes: S.Number,
         }),
       ).annotate({ identifier: "RateLimitRule" });
     case 4:
-      return S.Array(__S(3651, __c114, 3));
+      return S.Array(__S(4963, __c155, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(3652, __c114, 4)),
+          rules: S.optional(__S(4964, __c155, 4)),
         }),
       ).annotate({ identifier: "RateLimitRuleList" });
     case 6:
@@ -9892,16 +11927,16 @@ function __c114(j: number): any {
           name: S.String,
           enabledState: S.optional(S.String),
           priority: S.Number,
-          matchConditions: __S(3650, __c114, 2),
+          matchConditions: __S(4962, __c155, 2),
           action: S.String,
         }),
       ).annotate({ identifier: "CustomRule" });
     case 7:
-      return S.Array(__S(3654, __c114, 6));
+      return S.Array(__S(4966, __c155, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(3655, __c114, 7)),
+          rules: S.optional(__S(4967, __c155, 7)),
         }),
       ).annotate({ identifier: "CustomRuleList" });
     case 9:
@@ -9913,41 +11948,41 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "ManagedRuleOverride" });
     case 10:
-      return S.Array(__S(3657, __c114, 9));
+      return S.Array(__S(4969, __c155, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           ruleGroupName: S.String,
-          rules: S.optional(__S(3658, __c114, 10)),
+          rules: S.optional(__S(4970, __c155, 10)),
         }),
       ).annotate({ identifier: "ManagedRuleGroupOverride" });
     case 12:
-      return S.Array(__S(3659, __c114, 11));
+      return S.Array(__S(4971, __c155, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           ruleSetType: S.String,
           ruleSetVersion: S.String,
           anomalyScore: S.optional(S.Number),
-          ruleGroupOverrides: S.optional(__S(3660, __c114, 12)),
+          ruleGroupOverrides: S.optional(__S(4972, __c155, 12)),
         }),
       ).annotate({ identifier: "ManagedRuleSet" });
     case 14:
-      return S.Array(__S(3661, __c114, 13));
+      return S.Array(__S(4973, __c155, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          managedRuleSets: S.optional(__S(3662, __c114, 14)),
+          managedRuleSets: S.optional(__S(4974, __c155, 14)),
         }),
       ).annotate({ identifier: "ManagedRuleSetList" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          policySettings: S.optional(__S(3648, __c114, 0)),
-          rateLimitRules: S.optional(__S(3653, __c114, 5)),
-          customRules: S.optional(__S(3656, __c114, 8)),
-          managedRules: S.optional(__S(3663, __c114, 15)),
-          endpointLinks: S.optional(__S(1152, __c36, 0)),
+          policySettings: S.optional(__S(4960, __c155, 0)),
+          rateLimitRules: S.optional(__S(4965, __c155, 5)),
+          customRules: S.optional(__S(4968, __c155, 8)),
+          managedRules: S.optional(__S(4975, __c155, 15)),
+          endpointLinks: S.optional(__S(2080, __c65, 0)),
           extendedProperties: S.optional(__S(256, __c8, 0)),
           provisioningState: S.optional(S.String),
           resourceState: S.optional(S.String),
@@ -9955,7 +11990,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "CdnWebApplicationFirewallPolicyProperties" });
   }
 }
-function __c115(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9968,13 +12003,13 @@ function __c115(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetProfileRequest" });
   }
 }
-function __c116(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9993,7 +12028,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetProfileResponse" });
   }
 }
-function __c117(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10008,13 +12043,13 @@ function __c117(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/routes/{routeName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetRouteRequest" });
   }
 }
-function __c118(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10023,12 +12058,12 @@ function __c118(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1572, __c49, 4)),
+          properties: S.optional(__S(2532, __c79, 4)),
         }),
       ).annotate({ identifier: "GetRouteResponse" });
   }
 }
-function __c119(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10043,13 +12078,13 @@ function __c119(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetRuleRequest" });
   }
 }
-function __c120(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10058,12 +12093,43 @@ function __c120(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1664, __c52, 0)),
+          properties: S.optional(__S(2624, __c82, 0)),
         }),
       ).annotate({ identifier: "GetRuleResponse" });
   }
 }
-function __c121(j: number): any {
+function __c162(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/migrationCommit",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CommitProfilesMigrationRequest" });
+  }
+}
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "CommitProfilesMigrationResponse" });
+  }
+}
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10077,13 +12143,13 @@ function __c121(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetRuleSetRequest" });
   }
 }
-function __c122(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10092,31 +12158,12 @@ function __c122(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1730, __c54, 2)),
+          properties: S.optional(__S(2690, __c84, 2)),
         }),
       ).annotate({ identifier: "GetRuleSetResponse" });
   }
 }
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          name: S.String,
-          type: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkNameAvailability",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "CheckNameAvailabilityWithSubscriptionRequest" });
-  }
-}
-function __c124(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10130,13 +12177,13 @@ function __c124(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets/{secretName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetSecretRequest" });
   }
 }
-function __c125(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10145,12 +12192,12 @@ function __c125(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1857, __c58, 1)),
+          properties: S.optional(__S(2753, __c86, 1)),
         }),
       ).annotate({ identifier: "GetSecretResponse" });
   }
 }
-function __c126(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10164,13 +12211,13 @@ function __c126(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/securityPolicies/{securityPolicyName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetSecurityPolicyRequest" });
   }
 }
-function __c127(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10179,12 +12226,12 @@ function __c127(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1921, __c60, 1)),
+          properties: S.optional(__S(2849, __c89, 1)),
         }),
       ).annotate({ identifier: "GetSecurityPolicyResponse" });
   }
 }
-function __c128(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10197,22 +12244,22 @@ function __c128(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListAFDCustomDomainByProfileRequest" });
     case 1:
-      return S.Array(__S(2816, __c88, 0));
+      return S.Array(__S(3872, __c121, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(4097, __c128, 1),
+          value: __S(5441, __c170, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AFDDomainListResult" });
   }
 }
-function __c129(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10225,22 +12272,22 @@ function __c129(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListAFDEndpointByProfileRequest" });
     case 1:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(3936, __c123, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(4129, __c129, 1),
+          value: __S(5473, __c171, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AFDEndpointListResult" });
   }
 }
-function __c130(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10254,13 +12301,13 @@ function __c130(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/usages",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListAFDEndpointResourceUsageRequest" });
   }
 }
-function __c131(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10276,21 +12323,21 @@ function __c131(j: number): any {
           unit: S.String,
           currentValue: S.Number,
           limit: S.Number,
-          name: __S(4192, __c131, 0),
+          name: __S(5536, __c173, 0),
         }),
       ).annotate({ identifier: "Usage" });
     case 2:
-      return S.Array(__S(4193, __c131, 1));
+      return S.Array(__S(5537, __c173, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(4194, __c131, 2),
+          value: __S(5538, __c173, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsagesListResult" });
   }
 }
-function __c132(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10304,22 +12351,22 @@ function __c132(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListAFDOriginByOriginGroupRequest" });
     case 1:
-      return S.Array(__S(2944, __c92, 0));
+      return S.Array(__S(4032, __c126, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(4225, __c132, 1),
+          value: __S(5569, __c174, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AFDOriginListResult" });
   }
 }
-function __c133(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10332,22 +12379,22 @@ function __c133(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListAFDOriginGroupByProfileRequest" });
     case 1:
-      return S.Array(__S(3008, __c94, 0));
+      return S.Array(__S(4096, __c128, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(4257, __c133, 1),
+          value: __S(5601, __c175, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AFDOriginGroupListResult" });
   }
 }
-function __c134(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10361,13 +12408,13 @@ function __c134(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/usages",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListAFDOriginGroupResourceUsageRequest" });
   }
 }
-function __c135(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10380,13 +12427,115 @@ function __c135(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/usages",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListAFDProfileResourceUsageRequest" });
   }
 }
-function __c136(j: number): any {
+function __c178(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tlsSettings: S.optional(__S(5761, __c180, 1)),
+          mtlsSettings: S.optional(__S(5762, __c180, 2)),
+          azureDnsZone: S.optional(__S(192, __c6, 0)),
+          preValidatedCustomDomainResourceId: S.optional(__S(192, __c6, 0)),
+          hostName: S.String,
+          extendedProperties: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "AFDDomainPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          customDomainName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(5696, __c178, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CreateAFDCustomDomainRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c7, 0)),
+          properties: S.optional(__S(5764, __c180, 4)),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+        }),
+      ).annotate({ identifier: "CreateAFDCustomDomainResponse" });
+  }
+}
+function __c179(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c180(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cipherSuiteSetForTls12: S.optional(__S(5728, __c179, 0)),
+          cipherSuiteSetForTls13: S.optional(__S(5728, __c179, 0)),
+        }),
+      ).annotate({ identifier: "AFDDomainHttpsCustomizedCipherSuiteSet" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          certificateType: S.String,
+          cipherSuiteSetType: S.optional(S.String),
+          minimumTlsVersion: S.optional(S.String),
+          customizedCipherSuiteSet: S.optional(__S(5760, __c180, 0)),
+          serverTlsGroupPolicy: S.optional(S.String),
+          serverTlsGroups: S.optional(__S(5728, __c179, 0)),
+          secret: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "AFDDomainHttpsParameters" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          scenario: S.String,
+        }),
+      ).annotate({ identifier: "AFDDomainMtlsParameters" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          validationToken: S.optional(S.String),
+          expirationDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DomainValidationProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          profileName: S.optional(S.String),
+          tlsSettings: S.optional(__S(5761, __c180, 1)),
+          mtlsSettings: S.optional(__S(5762, __c180, 2)),
+          azureDnsZone: S.optional(__S(192, __c6, 0)),
+          preValidatedCustomDomainResourceId: S.optional(__S(192, __c6, 0)),
+          provisioningState: S.optional(S.String),
+          deploymentStatus: S.optional(S.String),
+          domainValidationState: S.optional(S.String),
+          hostName: S.String,
+          extendedProperties: S.optional(__S(256, __c8, 0)),
+          validationProperties: S.optional(__S(5763, __c180, 3)),
+        }),
+      ).annotate({ identifier: "AFDDomainProperties" });
+  }
+}
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10400,53 +12549,126 @@ function __c136(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListCustomDomainByEndpointRequest" });
     case 1:
-      return S.Array(__S(3072, __c96, 0));
+      return S.Array(__S(4160, __c130, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(4353, __c136, 1),
+          value: __S(5793, __c181, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomDomainListResult" });
   }
 }
-function __c137(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/migrationCommit",
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
-      ).annotate({ identifier: "CommitProfilesMigrationRequest" });
+      ).annotate({ identifier: "ListEdgeActionByResourceGroupRequest" });
   }
 }
-function __c138(j: number): any {
+function __c183(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(4224, __c132, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(5856, __c183, 0),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EdgeActionListResult" });
+  }
+}
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-        }),
-      ).annotate({ identifier: "CommitProfilesMigrationResponse" });
+          subscriptionId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/edgeActions",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListEdgeActionBySubscriptionRequest" });
   }
 }
-function __c139(j: number): any {
+function __c185(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/executionFilters",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListEdgeActionExecutionFilterByEdgeActionRequest" });
+    case 1:
+      return S.Array(__S(4288, __c134, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(5921, __c185, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EdgeActionExecutionFilterListResult" });
+  }
+}
+function __c186(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          edgeActionName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListEdgeActionVersionByEdgeActionRequest" });
+    case 1:
+      return S.Array(__S(4352, __c136, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(5953, __c186, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EdgeActionVersionListResult" });
+  }
+}
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10455,7 +12677,7 @@ function __c139(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.Cdn/edgenodes",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListEdgeNodesRequest" });
@@ -10467,21 +12689,21 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "CidrIpAddress" });
     case 2:
-      return S.Array(__S(4449, __c139, 1));
+      return S.Array(__S(5985, __c187, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           deliveryRegion: S.optional(S.String),
-          ipv4Addresses: S.optional(__S(4450, __c139, 2)),
-          ipv6Addresses: S.optional(__S(4450, __c139, 2)),
+          ipv4Addresses: S.optional(__S(5986, __c187, 2)),
+          ipv6Addresses: S.optional(__S(5986, __c187, 2)),
         }),
       ).annotate({ identifier: "IpAddressGroup" });
     case 4:
-      return S.Array(__S(4451, __c139, 3));
+      return S.Array(__S(5987, __c187, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ipAddressGroups: __S(4452, __c139, 4),
+          ipAddressGroups: __S(5988, __c187, 4),
         }),
       ).annotate({ identifier: "EdgeNodeProperties" });
     case 6:
@@ -10491,21 +12713,21 @@ function __c139(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(4453, __c139, 5)),
+          properties: S.optional(__S(5989, __c187, 5)),
         }),
       ).annotate({ identifier: "EdgeNode" });
     case 7:
-      return S.Array(__S(4454, __c139, 6));
+      return S.Array(__S(5990, __c187, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: __S(4455, __c139, 7),
+          value: __S(5991, __c187, 7),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgenodeResult" });
   }
 }
-function __c140(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10518,22 +12740,22 @@ function __c140(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListEndpointByProfileRequest" });
     case 1:
-      return S.Array(__S(3136, __c98, 0));
+      return S.Array(__S(4448, __c139, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(4481, __c140, 1),
+          value: __S(6017, __c188, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EndpointListResult" });
   }
 }
-function __c141(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10547,13 +12769,13 @@ function __c141(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/checkResourceUsage",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListEndpointResourceUsageRequest" });
   }
 }
-function __c142(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10565,17 +12787,17 @@ function __c142(j: number): any {
         }),
       ).annotate({ identifier: "ResourceUsage" });
     case 1:
-      return S.Array(__S(4544, __c142, 0));
+      return S.Array(__S(6080, __c190, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(4545, __c142, 1),
+          value: __S(6081, __c190, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceUsageListResult" });
   }
 }
-function __c143(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10586,7 +12808,7 @@ function __c143(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/cdnWebApplicationFirewallManagedRuleSets",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedRuleSetsRequest" });
@@ -10598,24 +12820,24 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "ManagedRuleDefinition" });
     case 2:
-      return S.Array(__S(4577, __c143, 1));
+      return S.Array(__S(6113, __c191, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ruleGroupName: S.optional(S.String),
           description: S.optional(S.String),
-          rules: S.optional(__S(4578, __c143, 2)),
+          rules: S.optional(__S(6114, __c191, 2)),
         }),
       ).annotate({ identifier: "ManagedRuleGroupDefinition" });
     case 4:
-      return S.Array(__S(4579, __c143, 3));
+      return S.Array(__S(6115, __c191, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
           ruleSetType: S.optional(S.String),
           ruleSetVersion: S.optional(S.String),
-          ruleGroups: S.optional(__S(4580, __c143, 4)),
+          ruleGroups: S.optional(__S(6116, __c191, 4)),
         }),
       ).annotate({ identifier: "ManagedRuleSetDefinitionProperties" });
     case 6:
@@ -10625,22 +12847,22 @@ function __c143(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(4581, __c143, 5)),
+          properties: S.optional(__S(6117, __c191, 5)),
           sku: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "ManagedRuleSetDefinition" });
     case 7:
-      return S.Array(__S(4582, __c143, 6));
+      return S.Array(__S(6118, __c191, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: __S(4583, __c143, 7),
+          value: __S(6119, __c191, 7),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedRuleSetDefinitionList" });
   }
 }
-function __c144(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10649,7 +12871,7 @@ function __c144(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.Cdn/operations",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -10672,7 +12894,7 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "LogSpecification" });
     case 3:
-      return S.Array(__S(4610, __c144, 2));
+      return S.Array(__S(6146, __c192, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -10681,7 +12903,7 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "MetricAvailability" });
     case 5:
-      return S.Array(__S(4612, __c144, 4));
+      return S.Array(__S(6148, __c192, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -10691,7 +12913,7 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "DimensionProperties" });
     case 7:
-      return S.Array(__S(4614, __c144, 6));
+      return S.Array(__S(6150, __c192, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -10700,27 +12922,27 @@ function __c144(j: number): any {
           displayDescription: S.optional(S.String),
           unit: S.optional(S.String),
           aggregationType: S.optional(S.String),
-          availabilities: S.optional(__S(4613, __c144, 5)),
+          availabilities: S.optional(__S(6149, __c192, 5)),
           supportedTimeGrainTypes: S.optional(__S(352, __c11, 0)),
-          dimensions: S.optional(__S(4615, __c144, 7)),
+          dimensions: S.optional(__S(6151, __c192, 7)),
           fillGapWithZero: S.optional(S.Boolean),
           metricFilterPattern: S.optional(S.String),
           isInternal: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MetricSpecification" });
     case 9:
-      return S.Array(__S(4616, __c144, 8));
+      return S.Array(__S(6152, __c192, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          logSpecifications: S.optional(__S(4611, __c144, 3)),
-          metricSpecifications: S.optional(__S(4617, __c144, 9)),
+          logSpecifications: S.optional(__S(6147, __c192, 3)),
+          metricSpecifications: S.optional(__S(6153, __c192, 9)),
         }),
       ).annotate({ identifier: "ServiceSpecification" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          serviceSpecification: S.optional(__S(4618, __c144, 10)),
+          serviceSpecification: S.optional(__S(6154, __c192, 10)),
         }),
       ).annotate({ identifier: "OperationProperties" });
     case 12:
@@ -10728,532 +12950,23 @@ function __c144(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(4609, __c144, 1)),
+          display: S.optional(__S(6145, __c192, 1)),
           origin: S.optional(S.String),
-          properties: S.optional(__S(4619, __c144, 11)),
+          properties: S.optional(__S(6155, __c192, 11)),
         }),
       ).annotate({ identifier: "Operation" });
     case 13:
-      return S.Array(__S(4620, __c144, 12));
+      return S.Array(__S(6156, __c192, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          value: __S(4621, __c144, 13),
+          value: __S(6157, __c192, 13),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationsListResult" });
   }
 }
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          endpointName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListOriginByEndpointRequest" });
-    case 1:
-      return S.Array(__S(3488, __c109, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(4641, __c145, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OriginListResult" });
-  }
-}
-function __c146(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          endpointName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/originGroups",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListOriginGroupByEndpointRequest" });
-    case 1:
-      return S.Array(__S(3552, __c111, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(4673, __c146, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OriginGroupListResult" });
-  }
-}
-function __c147(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListPoliciesRequest" });
-    case 1:
-      return S.Array(__S(3616, __c113, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(4705, __c147, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CdnWebApplicationFirewallPolicyList" });
-  }
-}
-function __c148(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListProfileByResourceGroupRequest" });
-  }
-}
-function __c149(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(3712, __c116, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(4768, __c149, 0),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProfileListResult" });
-  }
-}
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkResourceUsage",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListProfileResourceUsageRequest" });
-  }
-}
-function __c151(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tlsSettings: S.optional(__S(4897, __c153, 1)),
-          mtlsSettings: S.optional(__S(4898, __c153, 2)),
-          azureDnsZone: S.optional(__S(192, __c6, 0)),
-          preValidatedCustomDomainResourceId: S.optional(__S(192, __c6, 0)),
-          hostName: S.String,
-          extendedProperties: S.optional(__S(256, __c8, 0)),
-        }),
-      ).annotate({ identifier: "AFDDomainPropertiesInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          customDomainName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4832, __c151, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "CreateAFDCustomDomainRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(4900, __c153, 4)),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-        }),
-      ).annotate({ identifier: "CreateAFDCustomDomainResponse" });
-  }
-}
-function __c152(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c153(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cipherSuiteSetForTls12: S.optional(__S(4864, __c152, 0)),
-          cipherSuiteSetForTls13: S.optional(__S(4864, __c152, 0)),
-        }),
-      ).annotate({ identifier: "AFDDomainHttpsCustomizedCipherSuiteSet" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          certificateType: S.String,
-          cipherSuiteSetType: S.optional(S.String),
-          minimumTlsVersion: S.optional(S.String),
-          customizedCipherSuiteSet: S.optional(__S(4896, __c153, 0)),
-          serverTlsGroupPolicy: S.optional(S.String),
-          serverTlsGroups: S.optional(__S(4864, __c152, 0)),
-          secret: S.optional(__S(192, __c6, 0)),
-        }),
-      ).annotate({ identifier: "AFDDomainHttpsParameters" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          scenario: S.String,
-        }),
-      ).annotate({ identifier: "AFDDomainMtlsParameters" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          validationToken: S.optional(S.String),
-          expirationDate: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DomainValidationProperties" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          profileName: S.optional(S.String),
-          tlsSettings: S.optional(__S(4897, __c153, 1)),
-          mtlsSettings: S.optional(__S(4898, __c153, 2)),
-          azureDnsZone: S.optional(__S(192, __c6, 0)),
-          preValidatedCustomDomainResourceId: S.optional(__S(192, __c6, 0)),
-          provisioningState: S.optional(S.String),
-          deploymentStatus: S.optional(S.String),
-          domainValidationState: S.optional(S.String),
-          hostName: S.String,
-          extendedProperties: S.optional(__S(256, __c8, 0)),
-          validationProperties: S.optional(__S(4899, __c153, 3)),
-        }),
-      ).annotate({ identifier: "AFDDomainProperties" });
-  }
-}
-function __c154(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/profiles",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListProfilesRequest" });
-  }
-}
-function __c155(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getSupportedOptimizationTypes",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListProfileSupportedOptimizationTypesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          supportedOptimizationTypes: S.optional(__S(4864, __c152, 0)),
-        }),
-      ).annotate({ identifier: "SupportedOptimizationTypesListResult" });
-  }
-}
-function __c156(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkResourceUsage",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListResourceUsageRequest" });
-  }
-}
-function __c157(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          endpointName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/routes",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListRouteByEndpointRequest" });
-    case 1:
-      return S.Array(__S(3776, __c118, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(5025, __c157, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RouteListResult" });
-  }
-}
-function __c158(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          ruleSetName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListRuleByRuleSetRequest" });
-    case 1:
-      return S.Array(__S(3840, __c120, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(5057, __c158, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RuleListResult" });
-  }
-}
-function __c159(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListRuleSetByProfileRequest" });
-    case 1:
-      return S.Array(__S(3904, __c122, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(5089, __c159, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RuleSetListResult" });
-  }
-}
-function __c160(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          ruleSetName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/usages",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListRuleSetResourceUsageRequest" });
-  }
-}
-function __c161(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListSecretByProfileRequest" });
-    case 1:
-      return S.Array(__S(4000, __c125, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(5153, __c161, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SecretListResult" });
-  }
-}
-function __c162(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/securityPolicies",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListSecurityPolicyByProfileRequest" });
-    case 1:
-      return S.Array(__S(4064, __c127, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(5185, __c162, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SecurityPolicyListResult" });
-  }
-}
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          migratedFrom: S.optional(__S(192, __c6, 0)),
-          migratedTo: S.optional(__S(192, __c6, 0)),
-        }),
-      ).annotate({ identifier: "MigrationWebApplicationFirewallMapping" });
-    case 1:
-      return S.Array(__S(5216, __c163, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          sku: __S(128, __c4, 0),
-          classicResourceReference: __S(192, __c6, 0),
-          profileName: S.String,
-          migrationWebApplicationFirewallMappings: S.optional(__S(5217, __c163, 1)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/migrate",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "MigrateProfileRequest" });
-  }
-}
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          migratedProfileResourceId: S.optional(__S(192, __c6, 0)),
-        }),
-      ).annotate({ identifier: "MigrateResultProperties" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          type: S.optional(S.String),
-          properties: S.optional(__S(5248, __c164, 0)),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-        }),
-      ).annotate({ identifier: "MigrateResult" });
-  }
-}
-function __c165(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11272,13 +12985,13 @@ function __c165(j: number): any {
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(5280, __c165, 0)),
+          properties: S.optional(__S(6176, __c193, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateAFDEndpointRequest" });
@@ -11291,7 +13004,7 @@ function __c165(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(5312, __c166, 0)),
+          properties: S.optional(__S(6208, __c194, 0)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
@@ -11299,7 +13012,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "CreateAFDEndpointResponse" });
   }
 }
-function __c166(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11315,59 +13028,36 @@ function __c166(j: number): any {
       ).annotate({ identifier: "AFDEndpointProperties" });
   }
 }
-function __c167(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
-          classicResourceReference: __S(192, __c6, 0),
+          profileName: S.String.pipe(T.Label()),
+          endpointName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/canMigrate",
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
-      ).annotate({ identifier: "MigrateProfilesCanRequest" });
-  }
-}
-function __c168(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          errorMessage: S.optional(S.String),
-          nextSteps: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MigrationErrorType" });
+      ).annotate({ identifier: "ListOriginByEndpointRequest" });
     case 1:
-      return S.Array(__S(5376, __c168, 0));
+      return S.Array(__S(4800, __c150, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          canMigrate: S.optional(S.Boolean),
-          defaultSku: S.optional(S.String),
-          errors: S.optional(__S(5377, __c168, 1)),
+          value: __S(6241, __c195, 1),
+          nextLink: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CanMigrateProperties" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          type: S.optional(S.String),
-          properties: S.optional(__S(5378, __c168, 2)),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-        }),
-      ).annotate({ identifier: "CanMigrateResult" });
+      ).annotate({ identifier: "OriginListResult" });
   }
 }
-function __c169(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11375,231 +13065,164 @@ function __c169(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
-          securityPolicyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1952, __c61, 0)),
+          endpointName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/securityPolicies/{securityPolicyName}",
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/originGroups",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
-      ).annotate({ identifier: "PatchSecurityPolicyRequest" });
+      ).annotate({ identifier: "ListOriginGroupByEndpointRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1921, __c60, 1)),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-        }),
-      ).annotate({ identifier: "PatchSecurityPolicyResponse" });
-  }
-}
-function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policySettings: S.optional(__S(3648, __c114, 0)),
-          rateLimitRules: S.optional(__S(3653, __c114, 5)),
-          customRules: S.optional(__S(3656, __c114, 8)),
-          managedRules: S.optional(__S(3663, __c114, 15)),
-          extendedProperties: S.optional(__S(256, __c8, 0)),
-        }),
-      ).annotate({ identifier: "CdnWebApplicationFirewallPolicyPropertiesInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          policyName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(256, __c8, 0)),
-          location: S.String,
-          properties: S.optional(__S(5440, __c170, 0)),
-          etag: S.optional(S.String),
-          sku: __S(128, __c4, 0),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "PoliciesCreateOrUpdateRequest" });
+      return S.Array(__S(4864, __c152, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(224, __c7, 0)),
-          tags: S.optional(__S(256, __c8, 0)),
-          location: S.String,
-          properties: S.optional(__S(3664, __c114, 16)),
-          etag: S.optional(S.String),
-          sku: __S(128, __c4, 0),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          value: __S(6273, __c196, 1),
+          nextLink: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PoliciesCreateOrUpdateResponse" });
+      ).annotate({ identifier: "OriginGroupListResult" });
   }
 }
-function __c171(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/cdnCanMigrateToAfd",
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
-      ).annotate({ identifier: "ProfilesCdnCanMigrateToAfdRequest" });
-  }
-}
-function __c172(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          migratedFrom: S.optional(S.String),
-          migratedTo: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MigrationEndpointMapping" });
+      ).annotate({ identifier: "ListPoliciesRequest" });
     case 1:
-      return S.Array(__S(5504, __c172, 0));
+      return S.Array(__S(4928, __c154, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          sku: __S(128, __c4, 0),
-          migrationEndpointMappings: S.optional(__S(5505, __c172, 1)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/cdnMigrateToAfd",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ProfilesCdnMigrateToAfdRequest" });
-  }
-}
-function __c173(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          endpointName: S.String.pipe(T.Label()),
-          contentPaths: __S(352, __c11, 0),
-          domains: S.optional(__S(352, __c11, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/purge",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "PurgeAFDEndpointContentRequest" });
-  }
-}
-function __c174(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          endpointName: S.String.pipe(T.Label()),
-          contentPaths: __S(352, __c11, 0),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/purge",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "PurgeEndpointContentRequest" });
-  }
-}
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          customDomainName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}/refreshValidationToken",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "RefreshAFDCustomDomainValidationTokenRequest" });
-  }
-}
-function __c176(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          profileName: S.String.pipe(T.Label()),
-          endpointName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/start",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "StartEndpointRequest" });
-  }
-}
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(224, __c7, 0)),
-          tags: S.optional(__S(256, __c8, 0)),
-          location: S.String,
-          properties: S.optional(__S(1265, __c39, 17)),
-          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          value: __S(6305, __c197, 1),
+          nextLink: S.optional(S.String),
         }),
-      ).annotate({ identifier: "StartEndpointResponse" });
+      ).annotate({ identifier: "CdnWebApplicationFirewallPolicyList" });
   }
 }
-function __c178(j: number): any {
+function __c198(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListProfileByResourceGroupRequest" });
+  }
+}
+function __c199(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(5024, __c157, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(6368, __c199, 0),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProfileListResult" });
+  }
+}
+function __c200(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkResourceUsage",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListProfileResourceUsageRequest" });
+  }
+}
+function __c201(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/profiles",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListProfilesRequest" });
+  }
+}
+function __c202(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getSupportedOptimizationTypes",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListProfileSupportedOptimizationTypesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          supportedOptimizationTypes: S.optional(__S(5728, __c179, 0)),
+        }),
+      ).annotate({ identifier: "SupportedOptimizationTypesListResult" });
+  }
+}
+function __c203(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkResourceUsage",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListResourceUsageRequest" });
+  }
+}
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11610,13 +13233,51 @@ function __c178(j: number): any {
           endpointName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/stop",
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/routes",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-10-01",
           }),
         ),
-      ).annotate({ identifier: "StopEndpointRequest" });
+      ).annotate({ identifier: "ListRouteByEndpointRequest" });
+    case 1:
+      return S.Array(__S(5088, __c159, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(6529, __c204, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RouteListResult" });
+  }
+}
+function __c205(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          profileName: S.String.pipe(T.Label()),
+          ruleSetName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListRuleByRuleSetRequest" });
+    case 1:
+      return S.Array(__S(5152, __c161, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(6561, __c205, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RuleListResult" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

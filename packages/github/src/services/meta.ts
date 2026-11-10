@@ -38,6 +38,8 @@ export type ApiOverviewSshKeysList = Array<string>;
 export type ApiOverviewHooksList = Array<string>;
 export type ApiOverviewGithubEnterpriseImporterList = Array<string>;
 export type ApiOverviewWebList = Array<string>;
+/** Public destination IP ranges in CIDR notation for shared GitHub-managed ingress infrastructure. These ranges may serve multiple GitHub services and are not outbound source ranges. Use them alongside the relevant product-specific network requirements. Omitted when no ranges are available. */
+export type ApiOverviewSharedIngressList = Array<string>;
 export type ApiOverviewApiList = Array<string>;
 export type ApiOverviewGitList = Array<string>;
 export type ApiOverviewPackagesList = Array<string>;
@@ -84,6 +86,8 @@ export interface ApiOverview {
   hooks?: ApiOverviewHooksList | undefined;
   github_enterprise_importer?: ApiOverviewGithubEnterpriseImporterList | undefined;
   web?: ApiOverviewWebList | undefined;
+  /** Public destination IP ranges in CIDR notation for shared GitHub-managed ingress infrastructure. These ranges may serve multiple GitHub services and are not outbound source ranges. Use them alongside the relevant product-specific network requirements. Omitted when no ranges are available. */
+  shared_ingress?: ApiOverviewSharedIngressList | undefined;
   api?: ApiOverviewApiList | undefined;
   git?: ApiOverviewGitList | undefined;
   packages?: ApiOverviewPackagesList | undefined;
@@ -272,6 +276,7 @@ function __c0(j: number): any {
           hooks: S.optional(__S(8, __c1, 0)),
           github_enterprise_importer: S.optional(__S(8, __c1, 0)),
           web: S.optional(__S(8, __c1, 0)),
+          shared_ingress: S.optional(__S(8, __c1, 0)),
           api: S.optional(__S(8, __c1, 0)),
           git: S.optional(__S(8, __c1, 0)),
           packages: S.optional(__S(8, __c1, 0)),

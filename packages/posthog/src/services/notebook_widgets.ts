@@ -243,7 +243,12 @@ export interface ReusableWidgetSummary {
 }
 /** Reusable widgets in this page. */
 export type ReusableWidgetPageResultsList = Array<ReusableWidgetSummary>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface ReusableWidgetPage {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Reusable widgets in this page. */
   results: ReusableWidgetPageResultsList;
   /** Total reusable widgets matching the search. */
@@ -423,7 +428,12 @@ export interface ReusableWidgetsVersionsRequest {
 }
 /** Published versions, newest first. */
 export type ReusableWidgetVersionPageResultsList = Array<ReusableWidgetVersionDetail>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface ReusableWidgetVersionPage {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Published versions, newest first. */
   results: ReusableWidgetVersionPageResultsList;
   /** Total number of published versions. */
@@ -752,6 +762,8 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
           results: __S(25, __c3, 1),
           count: S.Number,
           next_offset: S.NullOr(S.Number),
@@ -955,6 +967,8 @@ function __c12(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
           results: __S(98, __c12, 2),
           count: S.Number,
           next_offset: S.NullOr(S.Number),

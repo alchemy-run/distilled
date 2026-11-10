@@ -155,10 +155,24 @@ export interface ListGroupsRelatedRequest {
 }
 /** The actor's properties. */
 export type SerializedPersonActorPropertiesMap = { [key: string]: unknown | undefined };
-export type SerializedPersonActorMatchedRecordingsItemMap = { [key: string]: unknown | undefined };
+export interface SerializedMatchedRecordingEvent {
+  /** UUID of the matched event. */
+  uuid: string;
+  /** When the matched event happened. */
+  timestamp: string;
+  /** ID of the browser window the event was captured in. */
+  window_id: string;
+}
+/** Events of the recording that matched the query. */
+export type SerializedMatchedRecordingEventsList = Array<SerializedMatchedRecordingEvent>;
+export interface SerializedMatchedRecording {
+  /** ID of the session recording. */
+  session_id: string;
+  /** Events of the recording that matched the query. */
+  events: SerializedMatchedRecordingEventsList;
+}
 /** Recordings that matched the query. Empty unless the endpoint asks for them. */
-export type SerializedPersonActorMatchedRecordingsList =
-  Array<SerializedPersonActorMatchedRecordingsItemMap>;
+export type SerializedPersonActorMatchedRecordingsList = Array<SerializedMatchedRecording>;
 /** The person's distinct IDs, newest first. */
 export type SerializedPersonActorDistinctIdsList = Array<string>;
 export interface SerializedPersonActor {
@@ -183,14 +197,12 @@ export interface SerializedPersonActor {
   /** When the person was last seen. */
   last_seen_at: string | null;
   /** Whether the person has been identified. */
-  is_identified: boolean | null;
+  is_identified: boolean;
 }
 /** The actor's properties. */
 export type SerializedGroupActorPropertiesMap = { [key: string]: unknown | undefined };
-export type SerializedGroupActorMatchedRecordingsItemMap = { [key: string]: unknown | undefined };
 /** Recordings that matched the query. Empty unless the endpoint asks for them. */
-export type SerializedGroupActorMatchedRecordingsList =
-  Array<SerializedGroupActorMatchedRecordingsItemMap>;
+export type SerializedGroupActorMatchedRecordingsList = Array<SerializedMatchedRecording>;
 export interface SerializedGroupActor {
   /** The person's UUID, or the group's key. */
   id: string;

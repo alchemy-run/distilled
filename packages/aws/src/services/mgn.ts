@@ -556,6 +556,7 @@ export interface LaunchConfigurationTemplate {
   enableParametersEncryption?: boolean | undefined;
   parametersEncryptionKey?: string | undefined;
 }
+export type ClientIdempotencyToken = string;
 export type NetworkMigrationDefinitionName = string;
 export type NetworkMigrationDefinitionDescription = string;
 export type SourceEnvironment = string;
@@ -593,6 +594,7 @@ export type ScopeTagKey = string;
 export type ScopeTagValue = string;
 export type ScopeTagsMap = { [key: string]: string | undefined };
 export interface CreateNetworkMigrationDefinitionRequest {
+  clientToken?: string | undefined;
   name: string;
   description?: string | undefined;
   sourceConfigurations?: SourceConfiguration[] | undefined;
@@ -1707,7 +1709,6 @@ export interface StartExportRequest {
 export interface StartExportResponse {
   exportTask?: ExportTask | undefined;
 }
-export type ClientIdempotencyToken = string;
 export interface StartImportRequest {
   clientToken?: string | undefined;
   s3BucketSource: S3BucketSource;
@@ -2747,7 +2748,7 @@ export type DisconnectFromServiceError =
   | UninitializedAccountException
   | CommonErrors;
 /**
- * Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+ * Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.etaDateTime will be nullified.
  */
 export const disconnectFromService: API.OperationMethod<
   DisconnectFromServiceRequest & RegionInput,
@@ -2772,7 +2773,7 @@ export type FinalizeCutoverError =
   | ValidationException
   | CommonErrors;
 /**
- * Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+ * Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.etaDateTime will be nullified.
  */
 export const finalizeCutover: API.OperationMethod<
   FinalizeCutoverRequest & RegionInput,
@@ -5234,6 +5235,7 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           name: S.String,
           description: S.optional(S.String),
           sourceConfigurations: S.optional(__S(641, __c20, 1)),

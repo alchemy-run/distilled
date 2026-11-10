@@ -88,6 +88,10 @@ export interface TaskActivityPageDTO {
   next_before?: string | null | undefined;
   /** Activity ID to pass as before_id for the next page, or null on the final page. */
   next_before_id?: string | null | undefined;
+  /** URL of the next page, with before and before_id set, or null on the final page. */
+  next: string | null;
+  /** Always null: the feed pages forward only. */
+  previous: string | null;
 }
 export interface TaskActivityReadMarker {
   /** Task whose displayed activity should be marked read. Optional when activity_id is set. */
@@ -203,6 +207,8 @@ function __c0(j: number): any {
           unread_count: S.Number,
           next_before: S.optional(S.NullOr(S.String)),
           next_before_id: S.optional(S.NullOr(S.String)),
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TaskActivityPageDTO" });
   }

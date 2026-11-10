@@ -81,7 +81,7 @@ export type CreateScimInvitationRequestEmailsList = Array<CreateScimGroupRequest
 export interface CreateScimInvitationRequest {
   name: string;
   schemas: CreateScimInvitationRequestSchemasList;
-  /** Username of the existing Hugging Face user */
+  /** IdP username. Ignored: the user is matched by confirmed email */
   userName: string;
   emails: CreateScimInvitationRequestEmailsList;
   active?: boolean | undefined;
@@ -818,8 +818,6 @@ export interface UpdateScimProvisioningGroupResponse {
   meta: UpdateScimProvisioningGroupResponseMeta;
 }
 export type UpdateScimProvisioningUserRequestSchemasList = Array<string>;
-/** `remove` operation is not supported for non-managed organizations */
-export type UpdateScimProvisioningUserRequestOperationsItemOp = "add" | "remove" | "replace";
 export type UpdateScimProvisioningUserRequestOperationsItemPath =
   | "active"
   | "externalId"
@@ -829,7 +827,7 @@ export type UpdateScimProvisioningUserRequestOperationsItemPath =
   | "name.familyName";
 export interface UpdateScimProvisioningUserRequestOperationsItem {
   /** `remove` operation is not supported for non-managed organizations */
-  op: UpdateScimProvisioningUserRequestOperationsItemOp | (string & {});
+  op: string;
   path?: UpdateScimProvisioningUserRequestOperationsItemPath | (string & {}) | undefined;
   value: unknown;
 }
@@ -945,8 +943,8 @@ export const createScimInvitation: API.OperationMethod<
   CreateScimInvitationError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<CreateScimInvitationRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<CreateScimInvitationResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<CreateScimInvitationRequest>,
+  output: __S(259, __c32, 3) as any as S.Schema<CreateScimInvitationResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -962,7 +960,7 @@ export const createScimProvisioningGroup: API.OperationMethod<
   CreateScimProvisioningGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<CreateScimProvisioningGroupRequest>,
+  input: __S(264, __c33, 0) as any as S.Schema<CreateScimProvisioningGroupRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<CreateScimProvisioningGroupResponse>,
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
@@ -979,8 +977,8 @@ export const createScimUser: API.OperationMethod<
   CreateScimUserError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<CreateScimUserRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<CreateScimUserResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<CreateScimUserRequest>,
+  output: __S(259, __c32, 3) as any as S.Schema<CreateScimUserResponse>,
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -996,8 +994,8 @@ export const deleteScimGroup: API.OperationMethod<
   DeleteScimGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<DeleteScimGroupRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteScimGroupResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<DeleteScimGroupRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<DeleteScimGroupResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1013,8 +1011,8 @@ export const deleteScimProvisioningGroup: API.OperationMethod<
   DeleteScimProvisioningGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<DeleteScimProvisioningGroupRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteScimProvisioningGroupResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<DeleteScimProvisioningGroupRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<DeleteScimProvisioningGroupResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1030,8 +1028,8 @@ export const deleteScimProvisioningUser: API.OperationMethod<
   DeleteScimProvisioningUserError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<DeleteScimProvisioningUserRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteScimProvisioningUserResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<DeleteScimProvisioningUserRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<DeleteScimProvisioningUserResponse>,
   errors: [NotFound],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1047,8 +1045,8 @@ export const deleteScimUser: API.OperationMethod<
   DeleteScimUserError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<DeleteScimUserRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteScimUserResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<DeleteScimUserRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<DeleteScimUserResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1116,7 +1114,7 @@ export const getScimProvisioningUser: API.OperationMethod<
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetScimProvisioningUserRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<GetScimProvisioningUserResponse>,
+  output: __S(259, __c32, 3) as any as S.Schema<GetScimProvisioningUserResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1184,7 +1182,7 @@ export const getScimUser: API.OperationMethod<
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetScimUserRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<GetScimUserResponse>,
+  output: __S(259, __c32, 3) as any as S.Schema<GetScimUserResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1303,7 +1301,7 @@ export const replaceScimProvisioningUser: API.OperationMethod<
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<ReplaceScimProvisioningUserRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<ReplaceScimProvisioningUserResponse>,
+  output: __S(259, __c32, 3) as any as S.Schema<ReplaceScimProvisioningUserResponse>,
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1320,7 +1318,7 @@ export const replaceScimUser: API.OperationMethod<
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ReplaceScimUserRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<ReplaceScimUserResponse>,
+  output: __S(259, __c32, 3) as any as S.Schema<ReplaceScimUserResponse>,
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1370,8 +1368,8 @@ export const updateScimProvisioningUser: API.OperationMethod<
   UpdateScimProvisioningUserError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(218, __c27, 2) as any as S.Schema<UpdateScimProvisioningUserRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<UpdateScimProvisioningUserResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<UpdateScimProvisioningUserRequest>,
+  output: __S(259, __c32, 3) as any as S.Schema<UpdateScimProvisioningUserResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1387,8 +1385,8 @@ export const updateScimUser: API.OperationMethod<
   UpdateScimUserError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(226, __c28, 2) as any as S.Schema<UpdateScimUserRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<UpdateScimUserResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<UpdateScimUserRequest>,
+  output: __S(259, __c32, 3) as any as S.Schema<UpdateScimUserResponse>,
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1447,7 +1445,7 @@ function __c0(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          schemas: __S(240, __c30, 0),
+          schemas: __S(248, __c31, 0),
           documentationUri: S.String,
           patch: __S(1, __c0, 1),
           bulk: __S(2, __c0, 2),
@@ -1557,7 +1555,7 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          schemas: __S(240, __c30, 0),
+          schemas: __S(248, __c31, 0),
           id: S.String,
           name: S.String,
           description: S.String,
@@ -1598,7 +1596,7 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          schemas: __S(240, __c30, 0),
+          schemas: __S(248, __c31, 0),
           id: S.String,
           name: S.String,
           description: S.String,
@@ -1697,7 +1695,7 @@ function __c13(j: number): any {
 function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(251, __c31, 3));
+      return S.Array(__S(259, __c32, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -1807,7 +1805,7 @@ function __c21(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
-          schemas: __S(240, __c30, 0),
+          schemas: __S(248, __c31, 0),
           displayName: S.String,
           externalId: S.optional(S.String),
           members: __S(137, __c17, 1),
@@ -1828,7 +1826,7 @@ function __c22(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
-          schemas: __S(240, __c30, 0),
+          schemas: __S(248, __c31, 0),
           displayName: S.String,
           externalId: S.optional(S.String),
           members: __S(137, __c17, 1),
@@ -1849,7 +1847,7 @@ function __c23(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          schemas: __S(240, __c30, 0),
+          schemas: __S(248, __c31, 0),
           active: S.optional(S.Boolean),
           externalId: S.String,
         }).pipe(
@@ -1869,7 +1867,7 @@ function __c24(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          schemas: __S(240, __c30, 0),
+          schemas: __S(248, __c31, 0),
           userName: S.String,
           emails: __S(137, __c17, 1),
           active: S.optional(S.Boolean),
@@ -1893,7 +1891,7 @@ function __c25(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
-          schemas: __S(240, __c30, 0),
+          schemas: __S(248, __c31, 0),
           Operations: __S(200, __c25, 0),
         }).pipe(
           T.Http({
@@ -1914,7 +1912,7 @@ function __c26(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
-          schemas: __S(240, __c30, 0),
+          schemas: __S(248, __c31, 0),
           Operations: __S(208, __c26, 0),
         }).pipe(
           T.Http({
@@ -1931,20 +1929,10 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          op: S.String,
-          path: S.optional(S.String),
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "UpdateScimProvisioningUserRequestOperationsItem" });
-    case 1:
-      return S.Array(__S(216, __c27, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          schemas: __S(240, __c30, 0),
-          Operations: __S(217, __c27, 1),
+          schemas: __S(248, __c31, 0),
+          Operations: __S(225, __c28, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1964,15 +1952,19 @@ function __c28(j: number): any {
           path: S.optional(S.String),
           value: S.Unknown,
         }),
-      ).annotate({ identifier: "UpdateScimUserRequestOperationsItem" });
+      ).annotate({ identifier: "UpdateScimProvisioningUserRequestOperationsItem" });
     case 1:
       return S.Array(__S(224, __c28, 0));
-    case 2:
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          schemas: __S(240, __c30, 0),
+          schemas: __S(248, __c31, 0),
           Operations: __S(225, __c28, 1),
         }).pipe(
           T.Http({
@@ -1984,13 +1976,13 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateScimUserRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          schemas: __S(240, __c30, 0),
+          schemas: __S(248, __c31, 0),
           userName: S.String,
           emails: __S(137, __c17, 1),
           active: S.optional(S.Boolean),
@@ -2005,13 +1997,13 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateScimInvitationRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2030,7 +2022,7 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "CreateScimInvitationResponseEmailsItem" });
     case 2:
-      return S.Array(__S(249, __c31, 1));
+      return S.Array(__S(257, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2039,15 +2031,15 @@ function __c31(j: number): any {
           externalId: S.NullOr(S.String),
           userName: S.String,
           displayName: S.String,
-          name: __S(248, __c31, 0),
-          emails: __S(250, __c31, 2),
+          name: __S(256, __c32, 0),
+          emails: __S(258, __c32, 2),
           active: S.Boolean,
           meta: __S(129, __c16, 1),
         }),
       ).annotate({ identifier: "CreateScimInvitationResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2066,13 +2058,13 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateScimProvisioningGroupRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          schemas: __S(240, __c30, 0),
+          schemas: __S(248, __c31, 0),
           userName: S.String,
           emails: __S(137, __c17, 1),
           active: S.optional(S.Boolean),
@@ -2083,7 +2075,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateScimUserRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2100,7 +2092,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteScimGroupRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -2108,7 +2100,7 @@ function __c35(j: number): any {
       });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2125,7 +2117,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DeleteScimProvisioningGroupRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2142,7 +2134,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteScimProvisioningUserRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

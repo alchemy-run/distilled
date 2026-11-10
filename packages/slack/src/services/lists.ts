@@ -123,6 +123,8 @@ export interface DownloadGetRequest {
   include_threads?: boolean | undefined;
   /** Must match the `include_attachments` passed to `slackLists.download.start`. The returned `download_url` carries this through so the served export matches what was generated. Only applies when `format` is `json`. */
   include_attachments?: boolean | undefined;
+  /** Must match the `include_archived` passed to `slackLists.download.start`. The returned `download_url` carries this through so the served export includes archived items when they were requested. */
+  include_archived?: boolean | undefined;
 }
 export interface DownloadGetResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -147,7 +149,7 @@ export interface DownloadStartResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The ID of the recently started job to export the List. */
-  job_id: number;
+  job_id: string;
 }
 export interface ItemsInfoRequest {
   /** ID of the List. */
@@ -169,7 +171,7 @@ export interface ItemsInfoResponse {
 export interface ListItemsRequest {
   /** ID of the List. */
   list_id: string;
-  /** The maximum number of records to return. */
+  /** The maximum number of records to return, up to the list row limit of 5000. */
   limit?: number | undefined;
   /** Next cursor for pagination. */
   cursor?: string | undefined;
@@ -248,7 +250,7 @@ export interface UpdateSlackListResponse {
   ok: boolean;
 }
 export type CreateItemError = SlackOpError;
-/** Add a new item to an existing List. Required scopes -- bot: `lists:write`; user: `lists:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `list_not_found` -- The List was not found. - `over_row_maximum` -- Cannot create more items over the maximum. - `team_not_found` -- The team cannot be found. - `user_not_found` -- The user cannot be found. - `duplicated_item_not_found` -- The item to duplicate cannot be found. - `invalid_option_id` -- Option ID provided does not match column definition. - `invalid_args` -- The provided arguments are invalid. - `uneditable_column` -- Initial values provided for an uneditable column. - `invalid_input_type` -- The field value type does not match the column type. - `invalid_column_id` -- The column ID provided does not exist in the List. - `over_cell_fields_limit` -- Too many values provided for a single field. - `file_not_found` -- The attachment file could not be found. - `invalid_vote_value` -- Invalid value provided for a vote column. See https://docs.slack.dev/reference/methods/slackLists.items.create */
+/** Add a new item to an existing List. Required scopes -- bot: `lists:write`; user: `lists:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `list_not_found` -- The List was not found. - `over_row_maximum` -- Cannot create more items over the maximum. - `team_not_found` -- The team cannot be found. - `user_not_found` -- The user cannot be found. - `duplicated_item_not_found` -- The item to duplicate cannot be found. - `invalid_option_id` -- Option ID provided does not match column definition. - `invalid_args` -- The provided arguments are invalid. - `uneditable_column` -- Initial values provided for an uneditable column. - `invalid_input_type` -- The field value type does not match the column type. - `invalid_column_id` -- The column ID provided does not exist in the List. - `over_cell_fields_limit` -- Too many values provided for a single field. - `file_not_found` -- The attachment file could not be found. - `invalid_vote_value` -- Invalid value provided for a vote column. - `invalid_date` -- Date supplied is invalid. - `invalid_email` -- Email supplied is invalid. - `invalid_phone_number` -- Invalid phone number provided. - `invalid_message` -- Invalid message provided. - `invalid_attachment` -- Invalid attachment provided. - `invalid_text_block` -- Rich text payload supplied is invalid. - `invalid_timestamp` -- Timestamp supplied is invalid. - `invalid_reference` -- Invalid reference provided; a reference cell holds one record or message. - `channel_not_found` -- The channel cannot be found. - `restricted_action` -- A team preference prevents this action. - `permission_denied` -- The user does not have permission to perform this action (for example, frontline members cannot create List items). See https://docs.slack.dev/reference/methods/slackLists.items.create */
 export const createItem: API.OperationMethod<
   CreateItemRequest,
   CreateItemResponse,
@@ -265,7 +267,7 @@ export const createItem: API.OperationMethod<
 }));
 
 export type CreateSlackListError = SlackOpError;
-/** Create a List. Required scopes -- bot: `lists:write`; user: `lists:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `permission_denied` -- The user does not have permission to perform this action. - `invalid_schema` -- The schema was invalid. - `invalid_primary_column` -- Missing or more than one primary column. - `team_not_found` -- The team cannot be found. - `user_not_found` -- The user cannot be found. - `over_list_file_maximum` -- Cannot create any more List files. - `over_title_length_maximum` -- Title can not exceed defined length. - `invalid_column_type` -- Column type not allowed. - `missing_arg_copy_from_list_id` -- Missing argument `copy_from_list_id`. - `invalid_copy_and_schema_args` -- Cannot provide both `copy_from_list_id` and `schema`. - `over_column_maximum` -- Cannot create List with more than allowed column count. See https://docs.slack.dev/reference/methods/slackLists.create */
+/** Create a List. Required scopes -- bot: `lists:write`; user: `lists:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `permission_denied` -- The user does not have permission to perform this action. - `invalid_schema` -- The schema was invalid. - `invalid_primary_column` -- Missing or more than one primary column. - `team_not_found` -- The team cannot be found. - `user_not_found` -- The user cannot be found. - `over_list_file_maximum` -- Cannot create any more List files. - `over_title_length_maximum` -- Title can not exceed defined length. - `invalid_column_type` -- Column type not allowed. - `missing_arg_copy_from_list_id` -- Missing argument `copy_from_list_id`. - `invalid_copy_and_schema_args` -- Cannot provide both `copy_from_list_id` and `schema`. - `over_column_maximum` -- Cannot create List with more than allowed column count. - `list_not_found` -- The List was not found. - `invalid_view_metadata` -- A view on the List to copy has settings that cannot be read, so the List cannot be copied. See https://docs.slack.dev/reference/methods/slackLists.create */
 export const createSlackList: API.OperationMethod<
   CreateSlackListRequest,
   CreateSlackListResponse,
@@ -299,7 +301,7 @@ export const deleteAccess: API.OperationMethod<
 }));
 
 export type DeleteItemError = SlackOpError;
-/** Deletes an item from an existing List. Required scopes -- bot: `lists:write`; user: `lists:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `list_not_found` -- The List was not found. - `record_not_found` -- The record was not found in the List. - `team_not_found` -- The team cannot be found. - `user_not_found` -- The user cannot be found. See https://docs.slack.dev/reference/methods/slackLists.items.delete */
+/** Deletes an item from an existing List. Required scopes -- bot: `lists:write`; user: `lists:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `list_not_found` -- The List was not found. - `record_not_found` -- The record was not found in the List. - `team_not_found` -- The team cannot be found. - `user_not_found` -- The user cannot be found. - `permission_denied` -- The user does not have permission to perform this action (for example, frontline members cannot delete List items). See https://docs.slack.dev/reference/methods/slackLists.items.delete */
 export const deleteItem: API.OperationMethod<
   DeleteItemRequest,
   DeleteItemResponse,
@@ -316,7 +318,7 @@ export const deleteItem: API.OperationMethod<
 }));
 
 export type DeleteMultipleError = SlackOpError;
-/** Deletes multiple items from an existing List. Required scopes -- bot: `lists:write`; user: `lists:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `list_not_found` -- The List was not found. - `team_not_found` -- The team cannot be found. - `user_not_found` -- The user cannot be found. See https://docs.slack.dev/reference/methods/slackLists.items.deleteMultiple */
+/** Deletes multiple items from an existing List. Required scopes -- bot: `lists:write`; user: `lists:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `list_not_found` -- The List was not found. - `team_not_found` -- The team cannot be found. - `user_not_found` -- The user cannot be found. - `permission_denied` -- The user does not have permission to perform this action (for example, frontline members cannot delete List items). See https://docs.slack.dev/reference/methods/slackLists.items.deleteMultiple */
 export const deleteMultiple: API.OperationMethod<
   DeleteMultipleRequest,
   DeleteMultipleResponse,
@@ -446,7 +448,7 @@ export const updateItem: API.OperationMethod<
 }));
 
 export type UpdateSlackListError = SlackOpError;
-/** Update a List. Required scopes -- bot: `lists:write`; user: `lists:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `list_not_found` -- The List was not found. - `team_not_found` -- The team cannot be found. - `user_not_found` -- The user cannot be found. - `list_edits_update_error` -- Failed to update List metadata. - `list_editor_upsert_error` -- Failed to upsert List editor. - `over_title_length_maximum` -- Title can not exceed defined length. - `file_channel_rename_error` -- Failed to rename file channel based on file title. - `unexpected_description_blocks_arg` -- Unexpected description blocks argument. - `missing_arguments` -- No arguments were provided to update the List. See https://docs.slack.dev/reference/methods/slackLists.update */
+/** Update a List. Required scopes -- bot: `lists:write`; user: `lists:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `list_not_found` -- The List was not found. - `team_not_found` -- The team cannot be found. - `user_not_found` -- The user cannot be found. - `list_edits_update_error` -- Failed to update List metadata. - `list_editor_upsert_error` -- Failed to upsert List editor. - `over_title_length_maximum` -- Title can not exceed defined length. - `file_channel_rename_error` -- Failed to rename file channel based on file title. - `unexpected_description_blocks_arg` -- Unexpected description blocks argument. - `missing_arguments` -- No arguments were provided to update the List. - `permission_denied` -- The user does not have permission to perform this action. See https://docs.slack.dev/reference/methods/slackLists.update */
 export const updateSlackList: API.OperationMethod<
   UpdateSlackListRequest,
   UpdateSlackListResponse,
@@ -608,6 +610,7 @@ function __c11(j: number): any {
           format: S.optional(S.String),
           include_threads: S.optional(S.Boolean),
           include_attachments: S.optional(S.Boolean),
+          include_archived: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/slackLists.download.get", code: 200 })),
       ).annotate({ identifier: "DownloadGetRequest" });
     case 1:
@@ -636,7 +639,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          job_id: S.Number,
+          job_id: S.String,
         }),
       ).annotate({ identifier: "DownloadStartResponse" });
   }

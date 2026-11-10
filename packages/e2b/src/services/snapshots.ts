@@ -25,13 +25,13 @@ const TELEMETRY = {
 } as const;
 
 export interface ListSnapshotsRequest {
-  sandboxID?: string;
+  sandboxID?: string | undefined;
   /** Filter snapshots by name or ID, optionally tag-qualified (e.g. "my-snapshot", "my-team/my-snapshot" or "my-snapshot:v1"). */
-  name?: string;
+  name?: string | undefined;
   /** Maximum number of items to return per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor to start the list from */
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 /** Full names of the snapshot template including team namespace and tag (e.g. team-slug/my-snapshot:v2) */
 export type SnapshotInfoNamesList = Array<string>;
@@ -44,7 +44,7 @@ export interface SnapshotInfo {
 export type ListSnapshotsResponseBodyList = Array<SnapshotInfo>;
 export interface ListSnapshotsResponse {
   items: ListSnapshotsResponseBodyList;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListSnapshotsError = E2BOpError;
 /** List snapshots List all snapshots for the team */

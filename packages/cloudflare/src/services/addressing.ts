@@ -346,7 +346,7 @@ export interface CreateLoaDocumentResponse {
 export interface CreatePrefixRequest {
   /** Identifier of a Cloudflare account. */
   accountId: string;
-  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  /** Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN. */
   asn: number;
   /** IP Prefix in Classless Inter-Domain Routing format. */
   cidr: string;
@@ -357,6 +357,12 @@ export interface CreatePrefixRequest {
   /** Identifier for the uploaded LOA document. */
   loaDocumentId?: string | undefined;
 }
+export type PrefixesCreateResponseAsnOwnershipValidationState =
+  | "pending"
+  | "valid"
+  | "missing"
+  | "invalid";
+export type PrefixesCreateResponseAspaValidationState = "pending" | "valid" | "invalid";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePrefixResponse {
   /** Identifier of an IP Prefix. */
@@ -367,10 +373,17 @@ export interface CreatePrefixResponse {
   advertised?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertisedModifiedAt?: string | null | undefined;
-  /** Approval state of the prefix (P = pending, V = active). */
+  /** Approval state of the prefix (P = pending, V = approved). Approval does not advertise the prefix or activate traffic. */
   approved?: string | null | undefined;
-  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  /** Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN. */
   asn?: number | null | undefined;
+  /** State of ASN ownership validation for a customer-owned Autonomous System Number (ASN). Returned when an ASN ownership validation result exists. Omitted when validation does not apply, such as for Cloudflare-owned ASNs. Verification is reused for prefixes with the same account and ASN. Refer to [ASN ownership validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#asn-ownership-validation) for state meanings and resolutions. */
+  asnOwnershipValidationState?:
+    | PrefixesCreateResponseAsnOwnershipValidationState
+    | null
+    | undefined;
+  /** State of Autonomous System Provider Authorization (ASPA) validation for a customer-owned ASN. Returned when an ASPA validation result exists. Publishing an ASPA is optional. A published ASPA must authorize AS13335 as a provider. An invalid result blocks approval. If omitted, no ASPA validation result is available. Omission does not indicate successful validation or confirm that no ASPA exists. Refer to [ASPA validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#aspa-validation) for state meanings and resolutions, and [ASPA authorization](https://developers.cloudflare.com/byoip/concepts/route-filtering-rpki/#aspa-authorization) for publication guidance. */
+  aspaValidationState?: PrefixesCreateResponseAspaValidationState | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
   cidr?: string | null | undefined;
   createdAt?: string | null | undefined;
@@ -389,7 +402,7 @@ export interface CreatePrefixResponse {
   onDemandLocked?: boolean | null | undefined;
   /** State of one kind of validation for an IP prefix. */
   ownershipValidationState?: string | null | undefined;
-  /** Token provided to demonstrate ownership of the prefix. */
+  /** Token used to verify ownership of the prefix and, when applicable, its ASN. Use the same token for both checks. Refer to the [BYOIP onboarding guide](https://developers.cloudflare.com/byoip/get-started/) for verification instructions. */
   ownershipValidationToken?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
   rpkiValidationState?: string | null | undefined;
@@ -642,6 +655,12 @@ export interface GetPrefixRequest {
   /** Identifier of an IP Prefix. */
   prefixId: string;
 }
+export type PrefixesGetResponseAsnOwnershipValidationState =
+  | "pending"
+  | "valid"
+  | "missing"
+  | "invalid";
+export type PrefixesGetResponseAspaValidationState = "pending" | "valid" | "invalid";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPrefixResponse {
   /** Identifier of an IP Prefix. */
@@ -652,10 +671,14 @@ export interface GetPrefixResponse {
   advertised?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertisedModifiedAt?: string | null | undefined;
-  /** Approval state of the prefix (P = pending, V = active). */
+  /** Approval state of the prefix (P = pending, V = approved). Approval does not advertise the prefix or activate traffic. */
   approved?: string | null | undefined;
-  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  /** Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN. */
   asn?: number | null | undefined;
+  /** State of ASN ownership validation for a customer-owned Autonomous System Number (ASN). Returned when an ASN ownership validation result exists. Omitted when validation does not apply, such as for Cloudflare-owned ASNs. Verification is reused for prefixes with the same account and ASN. Refer to [ASN ownership validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#asn-ownership-validation) for state meanings and resolutions. */
+  asnOwnershipValidationState?: PrefixesGetResponseAsnOwnershipValidationState | null | undefined;
+  /** State of Autonomous System Provider Authorization (ASPA) validation for a customer-owned ASN. Returned when an ASPA validation result exists. Publishing an ASPA is optional. A published ASPA must authorize AS13335 as a provider. An invalid result blocks approval. If omitted, no ASPA validation result is available. Omission does not indicate successful validation or confirm that no ASPA exists. Refer to [ASPA validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#aspa-validation) for state meanings and resolutions, and [ASPA authorization](https://developers.cloudflare.com/byoip/concepts/route-filtering-rpki/#aspa-authorization) for publication guidance. */
+  aspaValidationState?: PrefixesGetResponseAspaValidationState | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
   cidr?: string | null | undefined;
   createdAt?: string | null | undefined;
@@ -674,7 +697,7 @@ export interface GetPrefixResponse {
   onDemandLocked?: boolean | null | undefined;
   /** State of one kind of validation for an IP prefix. */
   ownershipValidationState?: string | null | undefined;
-  /** Token provided to demonstrate ownership of the prefix. */
+  /** Token used to verify ownership of the prefix and, when applicable, its ASN. Use the same token for both checks. Refer to the [BYOIP onboarding guide](https://developers.cloudflare.com/byoip/get-started/) for verification instructions. */
   ownershipValidationToken?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
   rpkiValidationState?: string | null | undefined;
@@ -854,6 +877,12 @@ export interface ListPrefixesRequest {
   /** Identifier of a Cloudflare account. */
   accountId: string;
 }
+export type PrefixesListResultItemAsnOwnershipValidationState =
+  | "pending"
+  | "valid"
+  | "missing"
+  | "invalid";
+export type PrefixesListResultItemAspaValidationState = "pending" | "valid" | "invalid";
 export interface PrefixesListResultItem {
   /** Identifier of an IP Prefix. */
   id?: string | null | undefined;
@@ -863,10 +892,17 @@ export interface PrefixesListResultItem {
   advertised?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertisedModifiedAt?: string | null | undefined;
-  /** Approval state of the prefix (P = pending, V = active). */
+  /** Approval state of the prefix (P = pending, V = approved). Approval does not advertise the prefix or activate traffic. */
   approved?: string | null | undefined;
-  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  /** Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN. */
   asn?: number | null | undefined;
+  /** State of ASN ownership validation for a customer-owned Autonomous System Number (ASN). Returned when an ASN ownership validation result exists. Omitted when validation does not apply, such as for Cloudflare-owned ASNs. Verification is reused for prefixes with the same account and ASN. Refer to [ASN ownership validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#asn-ownership-validation) for state meanings and resolutions. */
+  asnOwnershipValidationState?:
+    | PrefixesListResultItemAsnOwnershipValidationState
+    | null
+    | undefined;
+  /** State of Autonomous System Provider Authorization (ASPA) validation for a customer-owned ASN. Returned when an ASPA validation result exists. Publishing an ASPA is optional. A published ASPA must authorize AS13335 as a provider. An invalid result blocks approval. If omitted, no ASPA validation result is available. Omission does not indicate successful validation or confirm that no ASPA exists. Refer to [ASPA validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#aspa-validation) for state meanings and resolutions, and [ASPA authorization](https://developers.cloudflare.com/byoip/concepts/route-filtering-rpki/#aspa-authorization) for publication guidance. */
+  aspaValidationState?: PrefixesListResultItemAspaValidationState | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
   cidr?: string | null | undefined;
   createdAt?: string | null | undefined;
@@ -885,7 +921,7 @@ export interface PrefixesListResultItem {
   onDemandLocked?: boolean | null | undefined;
   /** State of one kind of validation for an IP prefix. */
   ownershipValidationState?: string | null | undefined;
-  /** Token provided to demonstrate ownership of the prefix. */
+  /** Token used to verify ownership of the prefix and, when applicable, its ASN. Use the same token for both checks. Refer to the [BYOIP onboarding guide](https://developers.cloudflare.com/byoip/get-started/) for verification instructions. */
   ownershipValidationToken?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
   rpkiValidationState?: string | null | undefined;
@@ -1022,6 +1058,12 @@ export interface PatchPrefixRequest {
   /** Description of the prefix. */
   description: string;
 }
+export type PrefixesEditResponseAsnOwnershipValidationState =
+  | "pending"
+  | "valid"
+  | "missing"
+  | "invalid";
+export type PrefixesEditResponseAspaValidationState = "pending" | "valid" | "invalid";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchPrefixResponse {
   /** Identifier of an IP Prefix. */
@@ -1032,10 +1074,14 @@ export interface PatchPrefixResponse {
   advertised?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertisedModifiedAt?: string | null | undefined;
-  /** Approval state of the prefix (P = pending, V = active). */
+  /** Approval state of the prefix (P = pending, V = approved). Approval does not advertise the prefix or activate traffic. */
   approved?: string | null | undefined;
-  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  /** Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN. */
   asn?: number | null | undefined;
+  /** State of ASN ownership validation for a customer-owned Autonomous System Number (ASN). Returned when an ASN ownership validation result exists. Omitted when validation does not apply, such as for Cloudflare-owned ASNs. Verification is reused for prefixes with the same account and ASN. Refer to [ASN ownership validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#asn-ownership-validation) for state meanings and resolutions. */
+  asnOwnershipValidationState?: PrefixesEditResponseAsnOwnershipValidationState | null | undefined;
+  /** State of Autonomous System Provider Authorization (ASPA) validation for a customer-owned ASN. Returned when an ASPA validation result exists. Publishing an ASPA is optional. A published ASPA must authorize AS13335 as a provider. An invalid result blocks approval. If omitted, no ASPA validation result is available. Omission does not indicate successful validation or confirm that no ASPA exists. Refer to [ASPA validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#aspa-validation) for state meanings and resolutions, and [ASPA authorization](https://developers.cloudflare.com/byoip/concepts/route-filtering-rpki/#aspa-authorization) for publication guidance. */
+  aspaValidationState?: PrefixesEditResponseAspaValidationState | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
   cidr?: string | null | undefined;
   createdAt?: string | null | undefined;
@@ -1054,7 +1100,7 @@ export interface PatchPrefixResponse {
   onDemandLocked?: boolean | null | undefined;
   /** State of one kind of validation for an IP prefix. */
   ownershipValidationState?: string | null | undefined;
-  /** Token provided to demonstrate ownership of the prefix. */
+  /** Token used to verify ownership of the prefix and, when applicable, its ASN. Use the same token for both checks. Refer to the [BYOIP onboarding guide](https://developers.cloudflare.com/byoip/get-started/) for verification instructions. */
   ownershipValidationToken?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
   rpkiValidationState?: string | null | undefined;
@@ -1162,6 +1208,12 @@ export interface ValidatePrefixRequest {
   /** Identifier of an IP Prefix. */
   prefixId: string;
 }
+export type ValidatePrefixResponseAsnOwnershipValidationState =
+  | "pending"
+  | "valid"
+  | "missing"
+  | "invalid";
+export type ValidatePrefixResponseAspaValidationState = "pending" | "valid" | "invalid";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ValidatePrefixResponse {
   /** Identifier of an IP Prefix. */
@@ -1172,10 +1224,17 @@ export interface ValidatePrefixResponse {
   advertised?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertisedModifiedAt?: string | null | undefined;
-  /** Approval state of the prefix (P = pending, V = active). */
+  /** Approval state of the prefix (P = pending, V = approved). Approval does not advertise the prefix or activate traffic. */
   approved?: string | null | undefined;
-  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  /** Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN. */
   asn?: number | null | undefined;
+  /** State of ASN ownership validation for a customer-owned Autonomous System Number (ASN). Returned when an ASN ownership validation result exists. Omitted when validation does not apply, such as for Cloudflare-owned ASNs. Verification is reused for prefixes with the same account and ASN. Refer to [ASN ownership validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#asn-ownership-validation) for state meanings and resolutions. */
+  asnOwnershipValidationState?:
+    | ValidatePrefixResponseAsnOwnershipValidationState
+    | null
+    | undefined;
+  /** State of Autonomous System Provider Authorization (ASPA) validation for a customer-owned ASN. Returned when an ASPA validation result exists. Publishing an ASPA is optional. A published ASPA must authorize AS13335 as a provider. An invalid result blocks approval. If omitted, no ASPA validation result is available. Omission does not indicate successful validation or confirm that no ASPA exists. Refer to [ASPA validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#aspa-validation) for state meanings and resolutions, and [ASPA authorization](https://developers.cloudflare.com/byoip/concepts/route-filtering-rpki/#aspa-authorization) for publication guidance. */
+  aspaValidationState?: ValidatePrefixResponseAspaValidationState | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
   cidr?: string | null | undefined;
   createdAt?: string | null | undefined;
@@ -1194,7 +1253,7 @@ export interface ValidatePrefixResponse {
   onDemandLocked?: boolean | null | undefined;
   /** State of one kind of validation for an IP prefix. */
   ownershipValidationState?: string | null | undefined;
-  /** Token provided to demonstrate ownership of the prefix. */
+  /** Token used to verify ownership of the prefix and, when applicable, its ASN. Use the same token for both checks. Refer to the [BYOIP onboarding guide](https://developers.cloudflare.com/byoip/get-started/) for verification instructions. */
   ownershipValidationToken?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
   rpkiValidationState?: string | null | undefined;
@@ -2143,7 +2202,7 @@ export const putAddressMapZone: API.OperationMethod<
 }));
 
 export type ValidatePrefixError = CloudflareOpError;
-/** Triggers a new prefix validation. The checks are run asynchronously and include IRR, RPKI, and prefix ownership. */
+/** Triggers a new prefix validation. The checks run asynchronously and include IRR, RPKI, prefix ownership, and, when applicable, ASN ownership and Autonomous System Provider Authorization (ASPA). Use Prefix Details to monitor the results. Approval does not advertise the prefix or activate traffic. */
 export const validatePrefix: API.OperationMethod<
   ValidatePrefixRequest,
   ValidatePrefixResponse,
@@ -2300,6 +2359,10 @@ function __c4(j: number): any {
           ),
           approved: S.optional(S.NullOr(S.String)),
           asn: S.optional(S.NullOr(S.Number)),
+          asnOwnershipValidationState: S.optional(
+            S.NullOr(S.String).pipe(T.Body("asn_ownership_validation_state")),
+          ),
+          aspaValidationState: S.optional(S.NullOr(S.String).pipe(T.Body("aspa_validation_state"))),
           cidr: S.optional(S.NullOr(S.String)),
           createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
           delegateLoaCreation: S.optional(
@@ -2980,6 +3043,10 @@ function __c35(j: number): any {
           ),
           approved: S.optional(S.NullOr(S.String)),
           asn: S.optional(S.NullOr(S.Number)),
+          asnOwnershipValidationState: S.optional(
+            S.NullOr(S.String).pipe(T.Body("asn_ownership_validation_state")),
+          ),
+          aspaValidationState: S.optional(S.NullOr(S.String).pipe(T.Body("aspa_validation_state"))),
           cidr: S.optional(S.NullOr(S.String)),
           createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
           delegateLoaCreation: S.optional(

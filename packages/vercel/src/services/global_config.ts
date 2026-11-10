@@ -189,6 +189,7 @@ export interface GetEdgeConfigBackupResponseBodyCase0Metadata {
   updatedAt?: string | undefined;
   updatedBy?: string | undefined;
 }
+/** Omitted when the caller cannot list team members. */
 export interface GetEdgeConfigBackupResponseBodyCase0User {
   avatar?: string | undefined;
   email: string;
@@ -202,6 +203,7 @@ export interface GetEdgeConfigBackupResponseBodyCase0 {
   id: string;
   lastModified: number;
   metadata: GetEdgeConfigBackupResponseBodyCase0Metadata;
+  /** Omitted when the caller cannot list team members. */
   user?: GetEdgeConfigBackupResponseBodyCase0User | undefined;
 }
 export type GetEdgeConfigBackupResponseBodyCase1BackupItemsValue =
@@ -546,7 +548,7 @@ export const getEdgeConfig: API.OperationMethod<
 }));
 
 export type GetEdgeConfigBackupError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Get Global Config backup Retrieves a specific version of a Global Config from backup storage. */
+/** Get Global Config backup Retrieves a specific version of a Global Config from backup storage. The `user` field is only included when the caller can list team members. */
 export const getEdgeConfigBackup: API.OperationMethod<
   GetEdgeConfigBackupRequest,
   GetEdgeConfigBackupResponse,

@@ -229,11 +229,13 @@ export interface TagPropagationConfiguration {
   DestinationRoleArn: string;
   TagConflictResolutionStrategy?: TagConflictResolutionStrategy | undefined;
 }
+export type DeletionProtection = "ENABLED" | (string & {});
 export interface DestinationLogsConfiguration {
   LogsEncryptionConfiguration?: LogsEncryptionConfiguration | undefined;
   BackupConfiguration?: LogsBackupConfiguration | undefined;
   LogGroupNameConfiguration?: LogGroupNameConfiguration | undefined;
   TagPropagationConfiguration?: TagPropagationConfiguration | undefined;
+  LogGroupDeletionProtection?: DeletionProtection | undefined;
 }
 export interface MetricsBackupConfiguration {
   Region: string;
@@ -323,7 +325,7 @@ export type ResourceType =
   | "AWS::Bedrock::KnowledgeBase"
   | "AWS::XRay::TransactionSearchConfig"
   | (string & {});
-export type TelemetryType = "Logs" | "Metrics" | "Traces" | (string & {});
+export type TelemetryType = "Logs" | "Metrics" | "Traces" | "Insights" | (string & {});
 export type TelemetrySourceType =
   | "VPC_FLOW_LOGS"
   | "ROUTE53_RESOLVER_QUERY_LOGS"
@@ -3805,6 +3807,7 @@ function __c59(j: number): any {
           BackupConfiguration: S.optional(__S(1892, __c59, 4)),
           LogGroupNameConfiguration: S.optional(__S(1893, __c59, 5)),
           TagPropagationConfiguration: S.optional(__S(1894, __c59, 6)),
+          LogGroupDeletionProtection: S.optional(S.String),
         }),
       ).annotate({ identifier: "DestinationLogsConfiguration" });
     case 8:

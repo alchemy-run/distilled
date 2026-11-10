@@ -1042,6 +1042,10 @@ export interface StepStatus {
   FailureDetails?: FailureDetails | undefined;
   Timeline?: StepTimeline | undefined;
 }
+export interface StepAdditionalInfo {
+  ResourceManagerApplicationIds?: string[] | undefined;
+  ResourceManager?: string | undefined;
+}
 export interface Step {
   Id?: string | undefined;
   Name?: string | undefined;
@@ -1051,6 +1055,7 @@ export interface Step {
   ExecutionRoleArn?: string | undefined;
   LogUri?: string | undefined;
   EncryptionKeyArn?: string | undefined;
+  AdditionalInfo?: StepAdditionalInfo | undefined;
 }
 export interface DescribeStepOutput {
   Step?: Step | undefined;
@@ -1658,6 +1663,7 @@ export interface StepSummary {
   Status?: StepStatus | undefined;
   LogUri?: string | undefined;
   EncryptionKeyArn?: string | undefined;
+  AdditionalInfo?: StepAdditionalInfo | undefined;
 }
 export type StepSummaryList = StepSummary[];
 export interface ListStepsOutput {
@@ -4630,6 +4636,7 @@ function __c43(j: number): any {
           ExecutionRoleArn: S.optional(S.String),
           LogUri: S.optional(S.String),
           EncryptionKeyArn: S.optional(S.String),
+          AdditionalInfo: S.optional(__S(708, __c44, 4)),
         }),
       ).annotate({ identifier: "Step" });
     case 2:
@@ -4674,6 +4681,13 @@ function __c44(j: number): any {
           Timeline: S.optional(__S(706, __c44, 2)),
         }),
       ).annotate({ identifier: "StepStatus" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceManagerApplicationIds: S.optional(__S(176, __c11, 0)),
+          ResourceManager: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StepAdditionalInfo" });
   }
 }
 function __c45(j: number): any {
@@ -5401,6 +5415,7 @@ function __c75(j: number): any {
           Status: S.optional(__S(707, __c44, 3)),
           LogUri: S.optional(S.String),
           EncryptionKeyArn: S.optional(S.String),
+          AdditionalInfo: S.optional(__S(708, __c44, 4)),
         }),
       ).annotate({ identifier: "StepSummary" });
     case 2:

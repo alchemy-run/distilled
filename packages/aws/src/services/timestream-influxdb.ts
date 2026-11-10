@@ -203,7 +203,16 @@ export interface ClusterConfiguration {
   queryOnlyInstances?: number | undefined;
   dedicatedCompactor?: boolean | undefined;
 }
-export type DbParameterGroupId = string;
+export type InstanceMode =
+  | "PRIMARY"
+  | "STANDBY"
+  | "REPLICA"
+  | "INGEST"
+  | "QUERY"
+  | "COMPACT"
+  | "PROCESS"
+  | (string & {});
+export type InstanceModeList = InstanceMode[];
 export type DbInstanceType =
   | "db.influx.medium"
   | "db.influx.large"
@@ -215,6 +224,19 @@ export type DbInstanceType =
   | "db.influx.16xlarge"
   | "db.influx.24xlarge"
   | (string & {});
+export interface NodeGroup {
+  instanceModes: InstanceMode[];
+  instanceType: DbInstanceType;
+  count: number;
+}
+export type NodeGroupList = NodeGroup[];
+export interface InfluxDBv3EnterpriseDeploymentConfiguration {
+  nodeGroups: NodeGroup[];
+}
+export type DeploymentConfiguration = {
+  InfluxDBv3Enterprise: InfluxDBv3EnterpriseDeploymentConfiguration;
+};
+export type DbParameterGroupId = string;
 export interface S3Configuration {
   bucketName: string;
   enabled: boolean;
@@ -253,6 +275,7 @@ export interface CreateDbBackupOutput {
   deploymentType?: ResourceDeploymentType | undefined;
   kmsKeyId?: string | undefined;
   clusterConfiguration?: ClusterConfiguration | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
   dbParameterGroupId?: string | undefined;
   dbInstanceType?: DbInstanceType | undefined;
   logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
@@ -300,7 +323,7 @@ export interface CreateDbClusterInput {
   bucket?: string | undefined;
   port?: number | undefined;
   dbParameterGroupIdentifier?: string | undefined;
-  dbInstanceType: DbInstanceType;
+  dbInstanceType?: DbInstanceType | undefined;
   dbStorageType?: DbStorageType | undefined;
   allocatedStorage?: number | undefined;
   networkType?: NetworkType | undefined;
@@ -308,6 +331,7 @@ export interface CreateDbClusterInput {
   vpcSubnetIds: string[];
   vpcSecurityGroupIds: string[];
   deploymentType?: ClusterDeploymentType | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
   failoverMode?: FailoverMode | undefined;
   logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
   maintenanceSchedule?: MaintenanceSchedule | undefined;
@@ -376,16 +400,6 @@ export type Status =
   | "RESTORING"
   | "RESTORE_FAILED"
   | (string & {});
-export type InstanceMode =
-  | "PRIMARY"
-  | "STANDBY"
-  | "REPLICA"
-  | "INGEST"
-  | "QUERY"
-  | "COMPACT"
-  | "PROCESS"
-  | (string & {});
-export type InstanceModeList = InstanceMode[];
 export interface DbBackupConfigurationOutput {
   type: AutomatedDbBackupType;
   retentionDays: number;
@@ -564,9 +578,9 @@ export interface InfluxDBv3EnterpriseParameters {
   hardDeleteDefaultDuration?: Duration | undefined;
   pluginRepositoryUrl?: string | undefined;
   pluginRepositorySecretArn?: string | undefined;
-  ingestQueryInstances: number;
-  queryOnlyInstances: number;
-  dedicatedCompactor: boolean;
+  ingestQueryInstances?: number | undefined;
+  queryOnlyInstances?: number | undefined;
+  dedicatedCompactor?: boolean | undefined;
   compactionRowLimit?: number | undefined;
   compactionMaxNumFilesPerPlan?: number | undefined;
   compactionGen2Duration?: Duration | undefined;
@@ -577,6 +591,10 @@ export interface InfluxDBv3EnterpriseParameters {
   distinctValueCacheDisableFromHistory?: boolean | undefined;
   replicationInterval?: Duration | undefined;
   catalogSyncInterval?: Duration | undefined;
+  upgradePachaTree?: boolean | undefined;
+  walBufferSize?: number | undefined;
+  snapshotSize?: PercentOrAbsoluteLong | undefined;
+  snapshotDuration?: Duration | undefined;
 }
 export type Parameters =
   | {
@@ -623,6 +641,7 @@ export interface DeleteDbBackupOutput {
   deploymentType?: ResourceDeploymentType | undefined;
   kmsKeyId?: string | undefined;
   clusterConfiguration?: ClusterConfiguration | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
   dbParameterGroupId?: string | undefined;
   dbInstanceType?: DbInstanceType | undefined;
   logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
@@ -694,6 +713,7 @@ export interface GetDbBackupOutput {
   deploymentType?: ResourceDeploymentType | undefined;
   kmsKeyId?: string | undefined;
   clusterConfiguration?: ClusterConfiguration | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
   dbParameterGroupId?: string | undefined;
   dbInstanceType?: DbInstanceType | undefined;
   logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
@@ -737,6 +757,7 @@ export interface GetDbClusterOutput {
   vpcSecurityGroupIds?: string[] | undefined;
   failoverMode?: FailoverMode | undefined;
   clusterConfiguration?: ClusterConfiguration | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
   dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
   kmsKeyId?: string | undefined;
 }
@@ -985,6 +1006,7 @@ export interface UpdateDbClusterInput {
   dbParameterGroupIdentifier?: string | undefined;
   port?: number | undefined;
   dbInstanceType?: DbInstanceType | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
   failoverMode?: FailoverMode | undefined;
   maintenanceSchedule?: MaintenanceSchedule | undefined;
   dbBackupConfigurations?: DbBackupConfiguration[] | undefined;
@@ -1088,8 +1110,8 @@ export const createDbCluster: API.OperationMethod<
   CreateDbClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<CreateDbClusterInput>,
-  output: __S(241, __c30, 1) as any as S.Schema<CreateDbClusterOutput>,
+  input: __S(256, __c32, 0) as any as S.Schema<CreateDbClusterInput>,
+  output: __S(257, __c32, 1) as any as S.Schema<CreateDbClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1124,8 +1146,8 @@ export const createDbInstance: API.OperationMethod<
   CreateDbInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<CreateDbInstanceInput>,
-  output: __S(280, __c35, 0) as any as S.Schema<CreateDbInstanceOutput>,
+  input: __S(272, __c34, 0) as any as S.Schema<CreateDbInstanceInput>,
+  output: __S(288, __c36, 0) as any as S.Schema<CreateDbInstanceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1264,7 +1286,7 @@ export const deleteDbInstance: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<DeleteDbInstanceInput>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteDbInstanceOutput>,
+  output: __S(288, __c36, 0) as any as S.Schema<DeleteDbInstanceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1361,7 +1383,7 @@ export const getDbInstance: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetDbInstanceInput>,
-  output: __S(280, __c35, 0) as any as S.Schema<GetDbInstanceOutput>,
+  output: __S(288, __c36, 0) as any as S.Schema<GetDbInstanceOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1675,7 +1697,7 @@ export const rebootDbInstance: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<RebootDbInstanceInput>,
-  output: __S(280, __c35, 0) as any as S.Schema<RebootDbInstanceOutput>,
+  output: __S(288, __c36, 0) as any as S.Schema<RebootDbInstanceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1822,7 +1844,7 @@ export const updateDbInstance: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<UpdateDbInstanceInput>,
-  output: __S(280, __c35, 0) as any as S.Schema<UpdateDbInstanceOutput>,
+  output: __S(288, __c36, 0) as any as S.Schema<UpdateDbInstanceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1847,7 +1869,7 @@ function __c0(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           parameters: S.optional(__S(13, __c1, 5)),
-          tags: S.optional(__S(216, __c27, 0)),
+          tags: S.optional(__S(224, __c28, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDbParameterGroupInput" });
   }
@@ -1992,9 +2014,9 @@ function __c1(j: number): any {
           hardDeleteDefaultDuration: S.optional(__S(8, __c1, 0)),
           pluginRepositoryUrl: S.optional(S.String),
           pluginRepositorySecretArn: S.optional(S.String),
-          ingestQueryInstances: S.Number,
-          queryOnlyInstances: S.Number,
-          dedicatedCompactor: S.Boolean,
+          ingestQueryInstances: S.optional(S.Number),
+          queryOnlyInstances: S.optional(S.Number),
+          dedicatedCompactor: S.optional(S.Boolean),
           compactionRowLimit: S.optional(S.Number),
           compactionMaxNumFilesPerPlan: S.optional(S.Number),
           compactionGen2Duration: S.optional(__S(8, __c1, 0)),
@@ -2005,6 +2027,10 @@ function __c1(j: number): any {
           distinctValueCacheDisableFromHistory: S.optional(S.Boolean),
           replicationInterval: S.optional(__S(8, __c1, 0)),
           catalogSyncInterval: S.optional(__S(8, __c1, 0)),
+          upgradePachaTree: S.optional(S.Boolean),
+          walBufferSize: S.optional(S.Number),
+          snapshotSize: S.optional(__S(10, __c1, 2)),
+          snapshotDuration: S.optional(__S(8, __c1, 0)),
         }),
       ).annotate({ identifier: "InfluxDBv3EnterpriseParameters" });
     case 5:
@@ -2100,16 +2126,17 @@ function __c7(j: number): any {
           publiclyAccessible: S.optional(S.Boolean),
           dbParameterGroupIdentifier: S.optional(S.String),
           effectiveDbParameterGroupIdentifier: S.optional(S.String),
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
           lastMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           nextMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           influxAuthParametersSecretArn: S.optional(S.String),
-          vpcSubnetIds: S.optional(__S(224, __c28, 0)),
-          vpcSecurityGroupIds: S.optional(__S(224, __c28, 0)),
+          vpcSubnetIds: S.optional(__S(240, __c30, 0)),
+          vpcSecurityGroupIds: S.optional(__S(240, __c30, 0)),
           failoverMode: S.optional(S.String),
           clusterConfiguration: S.optional(__S(208, __c26, 0)),
-          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
+          deploymentConfiguration: S.optional(__S(219, __c27, 3)),
+          dbBackupConfigurations: S.optional(__S(281, __c35, 1)),
           kmsKeyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDbClusterOutput" });
@@ -2260,7 +2287,7 @@ function __c13(j: number): any {
           allocatedStorage: S.optional(S.Number),
           deploymentType: S.optional(S.String),
           instanceMode: S.optional(S.String),
-          instanceModes: S.optional(__S(272, __c34, 0)),
+          instanceModes: S.optional(__S(232, __c29, 0)),
         }),
       ).annotate({ identifier: "DbInstanceForClusterSummary" });
     case 2:
@@ -2305,7 +2332,7 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(216, __c27, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(224, __c28, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
@@ -2314,7 +2341,7 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ dbClusterId: S.String, instanceIds: S.optional(__S(224, __c28, 0)) }).pipe(
+        S.Struct({ dbClusterId: S.String, instanceIds: S.optional(__S(240, __c30, 0)) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "RebootDbClusterInput" });
@@ -2339,16 +2366,16 @@ function __c18(j: number): any {
           dbBackupId: S.String,
           restoreToTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           restoreMode: S.optional(S.String),
-          vpcSubnetIds: S.optional(__S(224, __c28, 0)),
-          vpcSecurityGroupIds: S.optional(__S(224, __c28, 0)),
+          vpcSubnetIds: S.optional(__S(240, __c30, 0)),
+          vpcSecurityGroupIds: S.optional(__S(240, __c30, 0)),
           publiclyAccessible: S.optional(S.Boolean),
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
-          tags: S.optional(__S(216, __c27, 0)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
+          tags: S.optional(__S(224, __c28, 0)),
           port: S.optional(S.Number),
           networkType: S.optional(S.String),
           deploymentType: S.optional(S.String),
-          dbBackupConfigurations: S.optional(__S(249, __c31, 1)),
+          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
           kmsKeyId: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "RestoreFromDbBackupInput" });
@@ -2368,7 +2395,7 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tags: __S(216, __c27, 0) }).pipe(
+        S.Struct({ resourceArn: S.String, tags: __S(224, __c28, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
@@ -2386,7 +2413,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(224, __c28, 0),
+          tagKeys: __S(240, __c30, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
@@ -2397,13 +2424,14 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dbClusterId: S.String,
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
           dbParameterGroupIdentifier: S.optional(S.String),
           port: S.optional(S.Number),
           dbInstanceType: S.optional(S.String),
+          deploymentConfiguration: S.optional(__S(219, __c27, 3)),
           failoverMode: S.optional(S.String),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
-          dbBackupConfigurations: S.optional(__S(249, __c31, 1)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
+          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateDbClusterInput" });
   }
@@ -2414,15 +2442,15 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           identifier: S.String,
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
           dbParameterGroupIdentifier: S.optional(S.String),
           port: S.optional(S.Number),
           dbInstanceType: S.optional(S.String),
           deploymentType: S.optional(S.String),
           dbStorageType: S.optional(S.String),
           allocatedStorage: S.optional(S.Number),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
-          dbBackupConfigurations: S.optional(__S(249, __c31, 1)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
+          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateDbInstanceInput" });
   }
@@ -2435,7 +2463,7 @@ function __c24(j: number): any {
           name: S.String,
           dbResourceId: S.String,
           retentionDays: S.optional(S.Number),
-          tags: S.optional(__S(216, __c27, 0)),
+          tags: S.optional(__S(224, __c28, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDbBackupInput" });
   }
@@ -2457,19 +2485,20 @@ function __c25(j: number): any {
           deploymentType: S.optional(S.String),
           kmsKeyId: S.optional(S.String),
           clusterConfiguration: S.optional(__S(208, __c26, 0)),
+          deploymentConfiguration: S.optional(__S(219, __c27, 3)),
           dbParameterGroupId: S.optional(S.String),
           dbInstanceType: S.optional(S.String),
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
           failoverMode: S.optional(S.String),
           dbStorageType: S.optional(S.String),
           allocatedStorage: S.optional(S.Number),
-          vpcSubnetIds: S.optional(__S(224, __c28, 0)),
-          vpcSecurityGroupIds: S.optional(__S(224, __c28, 0)),
+          vpcSubnetIds: S.optional(__S(240, __c30, 0)),
+          vpcSecurityGroupIds: S.optional(__S(240, __c30, 0)),
           publiclyAccessible: S.optional(S.Boolean),
           port: S.optional(S.Number),
           networkType: S.optional(S.String),
           influxAuthParametersSecretArn: S.optional(S.String),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
         }),
       ).annotate({ identifier: "CreateDbBackupOutput" });
   }
@@ -2489,23 +2518,45 @@ function __c26(j: number): any {
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+      return S.suspend(() =>
+        S.Struct({ instanceModes: __S(232, __c29, 0), instanceType: S.String, count: S.Number }),
+      ).annotate({ identifier: "NodeGroup" });
+    case 1:
+      return S.Array(__S(216, __c27, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ nodeGroups: __S(217, __c27, 1) })).annotate({
+        identifier: "InfluxDBv3EnterpriseDeploymentConfiguration",
+      });
+    case 3:
+      return S.Union([/*@__PURE__*/ S.Struct({ InfluxDBv3Enterprise: __S(218, __c27, 2) })]);
   }
 }
 function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
 function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ bucketName: S.String, enabled: S.Boolean })).annotate({
         identifier: "S3Configuration",
       });
     case 1:
-      return S.suspend(() => S.Struct({ s3Configuration: __S(232, __c29, 0) })).annotate({
+      return S.suspend(() => S.Struct({ s3Configuration: __S(248, __c31, 0) })).annotate({
         identifier: "LogDeliveryConfiguration",
       });
     case 2:
@@ -2514,7 +2565,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "MaintenanceSchedule" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2526,20 +2577,21 @@ function __c30(j: number): any {
           bucket: S.optional(S.String),
           port: S.optional(S.Number),
           dbParameterGroupIdentifier: S.optional(S.String),
-          dbInstanceType: S.String,
+          dbInstanceType: S.optional(S.String),
           dbStorageType: S.optional(S.String),
           allocatedStorage: S.optional(S.Number),
           networkType: S.optional(S.String),
           publiclyAccessible: S.optional(S.Boolean),
-          vpcSubnetIds: __S(224, __c28, 0),
-          vpcSecurityGroupIds: __S(224, __c28, 0),
+          vpcSubnetIds: __S(240, __c30, 0),
+          vpcSecurityGroupIds: __S(240, __c30, 0),
           deploymentType: S.optional(S.String),
+          deploymentConfiguration: S.optional(__S(219, __c27, 3)),
           failoverMode: S.optional(S.String),
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
-          dbBackupConfigurations: S.optional(__S(249, __c31, 1)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
+          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
           kmsKeyId: S.optional(S.String),
-          tags: S.optional(__S(216, __c27, 0)),
+          tags: S.optional(__S(224, __c28, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDbClusterInput" });
     case 1:
@@ -2548,7 +2600,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateDbClusterOutput" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2560,10 +2612,10 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "DbBackupConfiguration" });
     case 1:
-      return S.Array(__S(248, __c31, 0));
+      return S.Array(__S(264, __c33, 0));
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2574,25 +2626,25 @@ function __c32(j: number): any {
           organization: S.optional(S.String),
           bucket: S.optional(S.String),
           dbInstanceType: S.String,
-          vpcSubnetIds: __S(224, __c28, 0),
-          vpcSecurityGroupIds: __S(224, __c28, 0),
+          vpcSubnetIds: __S(240, __c30, 0),
+          vpcSecurityGroupIds: __S(240, __c30, 0),
           publiclyAccessible: S.optional(S.Boolean),
           dbStorageType: S.optional(S.String),
           allocatedStorage: S.Number,
           dbParameterGroupIdentifier: S.optional(S.String),
           deploymentType: S.optional(S.String),
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
-          tags: S.optional(__S(216, __c27, 0)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
+          tags: S.optional(__S(224, __c28, 0)),
           port: S.optional(S.Number),
           networkType: S.optional(S.String),
-          dbBackupConfigurations: S.optional(__S(249, __c31, 1)),
+          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
           kmsKeyId: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDbInstanceInput" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2607,16 +2659,10 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "DbBackupConfigurationOutput" });
     case 1:
-      return S.Array(__S(264, __c33, 0));
+      return S.Array(__S(280, __c35, 0));
   }
 }
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2632,21 +2678,21 @@ function __c35(j: number): any {
           dbStorageType: S.optional(S.String),
           allocatedStorage: S.optional(S.Number),
           deploymentType: S.optional(S.String),
-          vpcSubnetIds: __S(224, __c28, 0),
+          vpcSubnetIds: __S(240, __c30, 0),
           publiclyAccessible: S.optional(S.Boolean),
-          vpcSecurityGroupIds: S.optional(__S(224, __c28, 0)),
+          vpcSecurityGroupIds: S.optional(__S(240, __c30, 0)),
           dbParameterGroupIdentifier: S.optional(S.String),
           availabilityZone: S.optional(S.String),
           secondaryAvailabilityZone: S.optional(S.String),
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
           influxAuthParametersSecretArn: S.optional(S.String),
           dbClusterId: S.optional(S.String),
           instanceMode: S.optional(S.String),
-          instanceModes: S.optional(__S(272, __c34, 0)),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
+          instanceModes: S.optional(__S(232, __c29, 0)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
           lastMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           nextMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
+          dbBackupConfigurations: S.optional(__S(281, __c35, 1)),
           kmsKeyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDbInstanceOutput" });

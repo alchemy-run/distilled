@@ -316,6 +316,11 @@ export class InvalidAutoScalingGroupException
     "InvalidAutoScalingGroupException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
+export class InvalidAutoScalingGroupProcessToSuspendException
+  extends /*@__PURE__*/ S.TaggedError<InvalidAutoScalingGroupProcessToSuspendException>()(
+    "InvalidAutoScalingGroupProcessToSuspendException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+  ) {}
 export class InvalidBlueGreenDeploymentConfigurationException
   extends /*@__PURE__*/ S.TaggedError<InvalidBlueGreenDeploymentConfigurationException>()(
     "InvalidBlueGreenDeploymentConfigurationException",
@@ -875,6 +880,16 @@ export interface ECSService {
   clusterName?: string | undefined;
 }
 export type ECSServiceList = ECSService[];
+export type AutoScalingGroupProcess =
+  | "Terminate"
+  | "AZRebalance"
+  | "InstanceRefresh"
+  | "ScheduledActions"
+  | (string & {});
+export type AutoScalingGroupProcessesToSuspendList = AutoScalingGroupProcess[];
+export interface EC2DeploymentOptions {
+  autoScalingGroupProcessesToSuspend?: AutoScalingGroupProcess[] | undefined;
+}
 export interface DeploymentGroupInfo {
   applicationName?: string | undefined;
   deploymentGroupId?: string | undefined;
@@ -898,6 +913,7 @@ export interface DeploymentGroupInfo {
   onPremisesTagSet?: OnPremisesTagSet | undefined;
   computePlatform?: ComputePlatform | undefined;
   ecsServices?: ECSService[] | undefined;
+  ec2DeploymentOptions?: EC2DeploymentOptions | undefined;
   terminationHookEnabled?: boolean | undefined;
 }
 export type DeploymentGroupInfoList = DeploymentGroupInfo[];
@@ -1083,6 +1099,7 @@ export interface DeploymentInfo {
   externalId?: string | undefined;
   relatedDeployments?: RelatedDeployments | undefined;
   overrideAlarmConfiguration?: AlarmConfiguration | undefined;
+  ec2DeploymentOptions?: EC2DeploymentOptions | undefined;
 }
 export type DeploymentsInfoList = DeploymentInfo[];
 export interface BatchGetDeploymentsOutput {
@@ -1230,6 +1247,7 @@ export interface CreateDeploymentInput {
   fileExistsBehavior?: FileExistsBehavior | undefined;
   deploymentMode?: DeploymentMode | undefined;
   overrideAlarmConfiguration?: AlarmConfiguration | undefined;
+  ec2DeploymentOptions?: EC2DeploymentOptions | undefined;
 }
 export interface CreateDeploymentOutput {
   deploymentId?: string | undefined;
@@ -1302,6 +1320,7 @@ export interface CreateDeploymentGroupInput {
   ecsServices?: ECSService[] | undefined;
   onPremisesTagSet?: OnPremisesTagSet | undefined;
   tags?: Tag[] | undefined;
+  ec2DeploymentOptions?: EC2DeploymentOptions | undefined;
   terminationHookEnabled?: boolean | undefined;
 }
 export interface CreateDeploymentGroupOutput {
@@ -1588,6 +1607,7 @@ export interface UpdateDeploymentGroupInput {
   ec2TagSet?: EC2TagSet | undefined;
   ecsServices?: ECSService[] | undefined;
   onPremisesTagSet?: OnPremisesTagSet | undefined;
+  ec2DeploymentOptions?: EC2DeploymentOptions | undefined;
   terminationHookEnabled?: boolean | undefined;
 }
 export interface UpdateDeploymentGroupOutput {
@@ -1979,6 +1999,7 @@ export type CreateDeploymentError =
   | InvalidApplicationNameException
   | InvalidAutoRollbackConfigException
   | InvalidAutoScalingGroupException
+  | InvalidAutoScalingGroupProcessToSuspendException
   | InvalidComputePlatformException
   | InvalidDeploymentConfigNameException
   | InvalidDeploymentGroupNameException
@@ -2021,6 +2042,7 @@ export const createDeployment: API.OperationMethod<
     InvalidApplicationNameException,
     InvalidAutoRollbackConfigException,
     InvalidAutoScalingGroupException,
+    InvalidAutoScalingGroupProcessToSuspendException,
     InvalidComputePlatformException,
     InvalidDeploymentConfigNameException,
     InvalidDeploymentGroupNameException,
@@ -2097,6 +2119,7 @@ export type CreateDeploymentGroupError =
   | InvalidApplicationNameException
   | InvalidAutoRollbackConfigException
   | InvalidAutoScalingGroupException
+  | InvalidAutoScalingGroupProcessToSuspendException
   | InvalidBlueGreenDeploymentConfigurationException
   | InvalidDeploymentConfigNameException
   | InvalidDeploymentGroupNameException
@@ -2143,6 +2166,7 @@ export const createDeploymentGroup: API.OperationMethod<
     InvalidApplicationNameException,
     InvalidAutoRollbackConfigException,
     InvalidAutoScalingGroupException,
+    InvalidAutoScalingGroupProcessToSuspendException,
     InvalidBlueGreenDeploymentConfigurationException,
     InvalidDeploymentConfigNameException,
     InvalidDeploymentGroupNameException,
@@ -3312,6 +3336,7 @@ export type UpdateDeploymentGroupError =
   | InvalidApplicationNameException
   | InvalidAutoRollbackConfigException
   | InvalidAutoScalingGroupException
+  | InvalidAutoScalingGroupProcessToSuspendException
   | InvalidBlueGreenDeploymentConfigurationException
   | InvalidDeploymentConfigNameException
   | InvalidDeploymentGroupNameException
@@ -3356,6 +3381,7 @@ export const updateDeploymentGroup: API.OperationMethod<
     InvalidApplicationNameException,
     InvalidAutoRollbackConfigException,
     InvalidAutoScalingGroupException,
+    InvalidAutoScalingGroupProcessToSuspendException,
     InvalidBlueGreenDeploymentConfigurationException,
     InvalidDeploymentConfigNameException,
     InvalidDeploymentGroupNameException,
@@ -3597,6 +3623,10 @@ function __c14(j: number): any {
       return S.suspend(() => S.Struct({ ec2TagSetList: S.optional(__S(227, __c14, 3)) })).annotate({
         identifier: "EC2TagSet",
       });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ autoScalingGroupProcessesToSuspend: S.optional(__S(192, __c12, 0)) }),
+      ).annotate({ identifier: "EC2DeploymentOptions" });
   }
 }
 function __c15(j: number): any {
@@ -3729,6 +3759,7 @@ function __c18(j: number): any {
           onPremisesTagSet: S.optional(__S(258, __c16, 2)),
           computePlatform: S.optional(S.String),
           ecsServices: S.optional(__S(260, __c16, 4)),
+          ec2DeploymentOptions: S.optional(__S(229, __c14, 5)),
           terminationHookEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DeploymentGroupInfo" });
@@ -3887,6 +3918,7 @@ function __c24(j: number): any {
           externalId: S.optional(S.String),
           relatedDeployments: S.optional(__S(387, __c24, 3)),
           overrideAlarmConfiguration: S.optional(__S(225, __c14, 1)),
+          ec2DeploymentOptions: S.optional(__S(229, __c14, 5)),
         }),
       ).annotate({ identifier: "DeploymentInfo" });
   }
@@ -4070,6 +4102,7 @@ function __c31(j: number): any {
           fileExistsBehavior: S.optional(S.String),
           deploymentMode: S.optional(S.String),
           overrideAlarmConfiguration: S.optional(__S(225, __c14, 1)),
+          ec2DeploymentOptions: S.optional(__S(229, __c14, 5)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDeploymentInput" });
     case 1:
@@ -4151,6 +4184,7 @@ function __c34(j: number): any {
           ecsServices: S.optional(__S(260, __c16, 4)),
           onPremisesTagSet: S.optional(__S(258, __c16, 2)),
           tags: S.optional(__S(33, __c2, 1)),
+          ec2DeploymentOptions: S.optional(__S(229, __c14, 5)),
           terminationHookEnabled: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDeploymentGroupInput" });
@@ -4682,6 +4716,7 @@ function __c69(j: number): any {
           ec2TagSet: S.optional(__S(228, __c14, 4)),
           ecsServices: S.optional(__S(260, __c16, 4)),
           onPremisesTagSet: S.optional(__S(258, __c16, 2)),
+          ec2DeploymentOptions: S.optional(__S(229, __c14, 5)),
           terminationHookEnabled: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateDeploymentGroupInput" });

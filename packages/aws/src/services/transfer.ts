@@ -413,6 +413,7 @@ export interface S3StorageOptions {
   DirectoryListingOptimization?: DirectoryListingOptimization | undefined;
 }
 export type IpAddressType = "IPV4" | "DUALSTACK" | (string & {});
+export type HostKeyStorageType = "SERVICE_MANAGED" | "SECRETS_MANAGER" | (string & {});
 export interface CreateServerRequest {
   Certificate?: string | undefined;
   Domain?: Domain | undefined;
@@ -432,6 +433,7 @@ export interface CreateServerRequest {
   StructuredLogDestinations?: string[] | undefined;
   S3StorageOptions?: S3StorageOptions | undefined;
   IpAddressType?: IpAddressType | undefined;
+  HostKeyStorageType?: HostKeyStorageType | undefined;
 }
 export interface CreateServerResponse {
   ServerId: string;
@@ -814,6 +816,8 @@ export interface DescribedHostKey {
   Type?: string | undefined;
   DateImported?: Date | undefined;
   Tags?: Tag[] | undefined;
+  StorageType?: HostKeyStorageType | undefined;
+  SecretId?: string | undefined;
 }
 export interface DescribeHostKeyResponse {
   HostKey: DescribedHostKey;
@@ -1001,11 +1005,14 @@ export interface ImportCertificateRequest {
 export interface ImportCertificateResponse {
   CertificateId: string;
 }
+export type KmsKey = string;
 export interface ImportHostKeyRequest {
   ServerId: string;
   HostKeyBody: string | redacted.Redacted<string>;
   Description?: string | undefined;
   Tags?: Tag[] | undefined;
+  StorageType?: HostKeyStorageType | undefined;
+  KmsKey?: string | undefined;
 }
 export interface ImportHostKeyResponse {
   ServerId: string;
@@ -1143,6 +1150,8 @@ export interface ListedHostKey {
   Description?: string | undefined;
   Type?: string | undefined;
   DateImported?: Date | undefined;
+  StorageType?: HostKeyStorageType | undefined;
+  SecretId?: string | undefined;
 }
 export type ListedHostKeys = ListedHostKey[];
 export interface ListHostKeysResponse {
@@ -1423,7 +1432,9 @@ export interface UpdateConnectorResponse {
 export interface UpdateHostKeyRequest {
   ServerId: string;
   HostKeyId: string;
-  Description: string;
+  Description?: string | undefined;
+  StorageType?: HostKeyStorageType | undefined;
+  KmsKey?: string | undefined;
 }
 export interface UpdateHostKeyResponse {
   ServerId: string;
@@ -3782,7 +3793,9 @@ export type UpdateHostKeyError =
   | ThrottlingException
   | CommonErrors;
 /**
- * Updates the description for the host key that's specified by the `ServerId` and `HostKeyId` parameters.
+ * Updates the host key that's specified by the `ServerId` and `HostKeyId` parameters. You can update the description of the host key, change where the host key is stored by specifying the `StorageType`, and specify the KMS key used to encrypt the host key when it's stored in Secrets Manager.
+ *
+ * To change a host key's storage type from `SERVICE_MANAGED` to `SECRETS_MANAGER`, you must have the `transfer:ExportHostKey` permission. `transfer:ExportHostKey` is a permission-only action that has no corresponding API operation.
  */
 export const updateHostKey: API.OperationMethod<
   UpdateHostKeyRequest & RegionInput,
@@ -4163,6 +4176,7 @@ function __c11(j: number): any {
           StructuredLogDestinations: S.optional(__S(80, __c5, 0)),
           S3StorageOptions: S.optional(__S(217, __c13, 9)),
           IpAddressType: S.optional(S.String),
+          HostKeyStorageType: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateServerRequest" });
   }
@@ -4768,6 +4782,8 @@ function __c42(j: number): any {
           Type: S.optional(S.String),
           DateImported: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Tags: S.optional(__S(17, __c1, 1)),
+          StorageType: S.optional(S.String),
+          SecretId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribedHostKey" });
     case 2:
@@ -5050,6 +5066,8 @@ function __c52(j: number): any {
           HostKeyBody: SensitiveString,
           Description: S.optional(S.String),
           Tags: S.optional(__S(17, __c1, 1)),
+          StorageType: S.optional(S.String),
+          KmsKey: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ImportHostKeyRequest" });
   }
@@ -5277,6 +5295,8 @@ function __c61(j: number): any {
           Description: S.optional(S.String),
           Type: S.optional(S.String),
           DateImported: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StorageType: S.optional(S.String),
+          SecretId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListedHostKey" });
     case 2:
@@ -5721,9 +5741,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ServerId: S.String, HostKeyId: S.String, Description: S.String }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          ServerId: S.String,
+          HostKeyId: S.String,
+          Description: S.optional(S.String),
+          StorageType: S.optional(S.String),
+          KmsKey: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateHostKeyRequest" });
   }
 }

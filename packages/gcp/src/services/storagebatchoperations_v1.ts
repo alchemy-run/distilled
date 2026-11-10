@@ -106,33 +106,33 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type StringMap = { [key: string]: string | undefined };
 export type ObjectRetentionRetentionModeEnum = "RETENTION_MODE_UNSPECIFIED" | "LOCKED" | "UNLOCKED";
 /** Describes options for object retention update. */
 export interface ObjectRetention {
-  /** Required. The retention mode. */
-  retentionMode?: ObjectRetentionRetentionModeEnum | (string & {}) | undefined;
   /** Required. The object's retention expiration time, during which, the object is protected from being deleted or overwritten. The time must be specified in RFC 3339 format, for example `YYYY-MM-DD'T'HH:MM:SS'Z'` or `YYYY-MM-DD'T'HH:MM:SS.SS'Z'`. To clear an object's retention, both `retentionMode` and `retainUntilTime` must be left unset (omitted). Setting `retentionMode` to `RETENTION_MODE_UNSPECIFIED` is treated as a no-op. Unlike an unset field, it doesn't modify or clear the retention settings. */
   retainUntilTime?: string | undefined;
+  /** Required. The retention mode. */
+  retentionMode?: ObjectRetentionRetentionModeEnum | (string & {}) | undefined;
 }
+export type StringMap = { [key: string]: string | undefined };
 /** Describes options for object metadata update. */
 export interface PutMetadata {
-  /** Optional. Updates the objects `Content-Language` fixed metadata. Metadata values must use ISO 639-1 language codes. The maximum length for metadata values is 100 characters. Unset values in the request are ignored. To clear the metadata, set an empty value. For details, see [Content-Language](https://cloud.google.com/storage/docs/metadata#content-language). */
-  contentLanguage?: string | undefined;
-  /** Optional. Updates the object's custom metadata. This operation adds or sets individual custom metadata key-value pairs. Keys specified with empty values have their values cleared. Existing custom metadata keys not included in the request remain unchanged. For details, see [Custom metadata](https://cloud.google.com/storage/docs/metadata#custom-metadata). */
-  customMetadata?: StringMap | undefined;
-  /** Optional. Updates an object's retention configuration. To clear an object's retention, both `retentionMode` and `retainUntilTime` must be left unset (omitted). Setting `retentionMode` to `RETENTION_MODE_UNSPECIFIED` is treated as a no-op. Unlike an unset field, it doesn't modify or clear the retention settings. An object with `LOCKED` retention mode can't have its retention cleared or its `retainUntilTime` reduced. For more information, see [Object retention](https://cloud.google.com/storage/docs/batch-operations/create-manage-batch-operation-jobs#retain-until-time). */
-  objectRetention?: ObjectRetention | undefined;
-  /** Optional. Updates the objects `Cache-Control` fixed metadata. Unset values in the request are ignored. To clear the metadata, set an empty value. Additionally, the value for `Custom-Time` can't decrease. For details, see [Cache-Control](https://cloud.google.com/storage/docs/metadata#caching_data). */
-  cacheControl?: string | undefined;
-  /** Optional. Updates objects `Content-Disposition` fixed metadata. Unset values in the request are ignored. To clear the metadata, set an empty value. For details, see [Content-Disposition](https://cloud.google.com/storage/docs/metadata#content-disposition). */
-  contentDisposition?: string | undefined;
   /** Optional. Updates the objects `Content-Encoding` fixed metadata. Unset values in the request are ignored. To clear the metadata, set an empty value. For details, see [Content-Encoding](https://cloud.google.com/storage/docs/metadata#content-encoding). */
   contentEncoding?: string | undefined;
-  /** Optional. Updates the objects `Custom-Time` fixed metadata. Unset values in the request are ignored. To clear the metadata, set an empty value. The time must be specified in RFC 3339 format, for example `YYYY-MM-DD'T'HH:MM:SS'Z'` or `YYYY-MM-DD'T'HH:MM:SS.SS'Z'`. For details, see [Custom-Time](https://cloud.google.com/storage/docs/metadata#custom-time). */
-  customTime?: string | undefined;
+  /** Optional. Updates an object's retention configuration. To clear an object's retention, both `retentionMode` and `retainUntilTime` must be left unset (omitted). Setting `retentionMode` to `RETENTION_MODE_UNSPECIFIED` is treated as a no-op. Unlike an unset field, it doesn't modify or clear the retention settings. An object with `LOCKED` retention mode can't have its retention cleared or its `retainUntilTime` reduced. For more information, see [Object retention](https://cloud.google.com/storage/docs/batch-operations/create-manage-batch-operation-jobs#retain-until-time). */
+  objectRetention?: ObjectRetention | undefined;
   /** Optional. Updates objects `Content-Type` fixed metadata. Unset values in the request are ignored. To clear the metadata, set an empty value. For details, see [Content-Type](https://cloud.google.com/storage/docs/metadata#content-type). */
   contentType?: string | undefined;
+  /** Optional. Updates objects `Content-Disposition` fixed metadata. Unset values in the request are ignored. To clear the metadata, set an empty value. For details, see [Content-Disposition](https://cloud.google.com/storage/docs/metadata#content-disposition). */
+  contentDisposition?: string | undefined;
+  /** Optional. Updates the objects `Cache-Control` fixed metadata. Unset values in the request are ignored. To clear the metadata, set an empty value. Additionally, the value for `Custom-Time` can't decrease. For details, see [Cache-Control](https://cloud.google.com/storage/docs/metadata#caching_data). */
+  cacheControl?: string | undefined;
+  /** Optional. Updates the object's custom metadata. This operation adds or sets individual custom metadata key-value pairs. Keys specified with empty values have their values cleared. Existing custom metadata keys not included in the request remain unchanged. For details, see [Custom metadata](https://cloud.google.com/storage/docs/metadata#custom-metadata). */
+  customMetadata?: StringMap | undefined;
+  /** Optional. Updates the objects `Custom-Time` fixed metadata. Unset values in the request are ignored. To clear the metadata, set an empty value. The time must be specified in RFC 3339 format, for example `YYYY-MM-DD'T'HH:MM:SS'Z'` or `YYYY-MM-DD'T'HH:MM:SS.SS'Z'`. For details, see [Custom-Time](https://cloud.google.com/storage/docs/metadata#custom-time). */
+  customTime?: string | undefined;
+  /** Optional. Updates the objects `Content-Language` fixed metadata. Metadata values must use ISO 639-1 language codes. The maximum length for metadata values is 100 characters. Unset values in the request are ignored. To clear the metadata, set an empty value. For details, see [Content-Language](https://cloud.google.com/storage/docs/metadata#content-language). */
+  contentLanguage?: string | undefined;
 }
 export type JobStateEnum =
   | "STATE_UNSPECIFIED"
@@ -146,20 +146,42 @@ export interface DeleteObject {
   /** Required. Controls deletion behavior when versioning is enabled for the object's bucket. If true, both live and noncurrent objects will be permanently deleted. Otherwise live objects in versioned buckets will become noncurrent and objects that were already noncurrent will be skipped. This setting doesn't have any impact on the Soft Delete feature. All objects deleted by this service can be be restored for the duration of the Soft Delete retention duration if enabled. If enabled and the manifest doesn't specify an object's generation, a `GetObjectMetadata` call is made to determine the live object generation. */
   permanentObjectDeletionEnabled?: boolean | undefined;
 }
-export type RewriteObjectStorageClassEnum =
-  | "STORAGE_CLASS_UNSPECIFIED"
-  | "STANDARD"
-  | "NEARLINE"
-  | "COLDLINE"
-  | "ARCHIVE";
-/** Describes options for object rewrite. */
-export interface RewriteObject {
-  /** Optional. Rewrites the object to the specified storage class. Setting this field will perform a full byte copy of the object if the storage class is different from the object's current storage class. If Autoclass is enabled on the bucket, storage class changes are ignored by Cloud Storage. */
-  storageClass?: RewriteObjectStorageClassEnum | (string & {}) | undefined;
-  /** Optional. Resource name of the Cloud KMS key that is used to encrypt the object. The Cloud KMS key must be located in same location as the object. For details, see https://cloud.google.com/storage/docs/encryption/using-customer-managed-keys#add-object-key Format: `projects/{project_id}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}` For example: `projects/123456/locations/us-central1/keyRings/my-keyring/cryptoKeys/my-key`. The object will be rewritten and set with the specified KMS key. */
-  kmsKey?: string | undefined;
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
 }
 export type StringList = Array<string>;
+/** Describes the Cloud Storage locations to include in a ProjectSource job. */
+export interface TargetLocations {
+  /** Required. REQUIRED. A list of Cloud Storage locations (e.g., `us-central1`) to include in the job. If `snapshot_time` is omitted, the job automatically defaults to the most recent snapshot timestamp that is successfully populated in BOTH the `object_attributes_view` and `bucket_attributes_view` across ALL specified locations. For details on Storage Insights dataset snapshots and views, see: https://docs.cloud.google.com/storage/docs/insights/dataset-tables-and-schemas#schema */
+  locations?: StringList | undefined;
+  /** Optional. OPTIONAL. The exact Storage Insights snapshot timestamp to use for the job compatible with the RFC 3339 format (e.g., `2024-01-02T03:04:05Z`). If specified, this exact snapshot must exist in BOTH the `object_attributes_view` and `bucket_attributes_view` for every location listed in `locations`. If the snapshot is missing from either view in any of the locations, the job fails. */
+  snapshotTime?: string | undefined;
+}
+/** Describes the project source where the objects satisfying the filters will be transformed. */
+export interface ProjectSource {
+  /** Optional. The unique identifier of a dry run job to use as the baseline for the current job. Specifying this ID ensures the job is executed against the same set of objects validated during the dry run. The value corresponds to the {job_id} segment of the resource name: `projects/{project_id}/locations/{location}/jobs/{job_id}`. */
+  dryRunJobId?: string | undefined;
+  /** Optional. Filters expressed in Common Expression Language (CEL) to apply to buckets to identify buckets with objects to be transformed. */
+  bucketFilters?: Expr | undefined;
+  /** Optional. Filters expressed in Common Expression Language (CEL) to apply to objects to identify objects to be transformed. */
+  objectFilters?: Expr | undefined;
+  /** Required. Project name of the objects to be transformed. e.g. projects/my-project or projects/123456. */
+  project?: string | undefined;
+  /** Required. The resource identifier of the Storage Insights dataset configuration. Storage batch operations uses the latest snapshot from this dataset as the source to list and filter target objects. Format: `projects/{project_id}/locations/{location}/datasetConfigs/{dataset_config}`. */
+  insightsDatasetConfig?: string | undefined;
+  /** Optional. Specifies the Cloud Storage locations to include in the job. If provided, only buckets and objects within these locations will be discovered from the Storage Insights dataset as configured in the `insights_dataset_config`. If omitted, the job will discover buckets and objects from all locations configured in the `insights_dataset_config`. */
+  targetLocations?: TargetLocations | undefined;
+  /** Output only. The snapshot time used by the job to read the Storage Insights dataset for bucket and object discovery. This field is populated by the service and reflects the exact timestamp of the dataset snapshot used. */
+  snapshotTime?: string | undefined;
+}
 /** Describes the payload of a user-defined object custom context. */
 export interface ObjectCustomContextPayload {
   /** The value of the object custom context. If set, `value` can't be an empty string because it is a required field in custom context. If unset, `value` is ignored and no changes are made to the `value` field of the custom context payload. */
@@ -177,111 +199,38 @@ export interface CustomContextUpdates {
 }
 /** Describes options to update object custom contexts. */
 export interface UpdateObjectCustomContext {
-  /** If set, must be set to true and all existing object custom contexts are deleted. */
-  clearAll?: boolean | undefined;
   /** A collection of updates to apply to specific custom contexts. Use this to add, update or delete individual contexts by key. */
   customContextUpdates?: CustomContextUpdates | undefined;
-}
-export type LoggingConfigLogActionsItemEnum = "LOGGABLE_ACTION_UNSPECIFIED" | "TRANSFORM";
-export type LoggingConfigLogActionsItemEnumList = Array<
-  LoggingConfigLogActionsItemEnum | (string & {})
->;
-export type LoggingConfigLogActionStatesItemEnum =
-  | "LOGGABLE_ACTION_STATE_UNSPECIFIED"
-  | "SUCCEEDED"
-  | "FAILED";
-export type LoggingConfigLogActionStatesItemEnumList = Array<
-  LoggingConfigLogActionStatesItemEnum | (string & {})
->;
-/** Specifies the Cloud Logging behavior. */
-export interface LoggingConfig {
-  /** Required. Specifies the actions to be logged. */
-  logActions?: LoggingConfigLogActionsItemEnumList | undefined;
-  /** Required. States in which Action are logged.If empty, no logs are generated. */
-  logActionStates?: LoggingConfigLogActionStatesItemEnumList | undefined;
-}
-export type PutObjectHoldEventBasedHoldEnum = "HOLD_STATUS_UNSPECIFIED" | "SET" | "UNSET";
-export type PutObjectHoldTemporaryHoldEnum = "HOLD_STATUS_UNSPECIFIED" | "SET" | "UNSET";
-/** Describes options to update object hold. */
-export interface PutObjectHold {
-  /** Required. Updates object event based holds state. When object event based hold is set, object can't be deleted or replaced. Resets object's time in the bucket for the purposes of the retention period. */
-  eventBasedHold?: PutObjectHoldEventBasedHoldEnum | (string & {}) | undefined;
-  /** Required. Updates object temporary holds state. When object temporary hold is set, object can't be deleted or replaced. */
-  temporaryHold?: PutObjectHoldTemporaryHoldEnum | (string & {}) | undefined;
-}
-/** Represents an access control entry on an object. */
-export interface ObjectAccessControl {
-  /** Required. The entity holding the permission, in one of the following forms: * `allUsers` * `allAuthenticatedUsers` */
-  entity?: string | undefined;
-  /** Required. The role to grant. Acceptable values are: * `READER` - gives read access to the object. * `OWNER` - gives owner access to the object. */
-  role?: string | undefined;
-}
-export type ObjectAccessControlList = Array<ObjectAccessControl>;
-/** Represents updates to existing access-control entries on an object. */
-export interface AccessControlsUpdates {
-  /** Optional. Grants to add or update. If a grant for same entity exists, its role is updated. */
-  grants?: ObjectAccessControlList | undefined;
-  /** Optional. Entities for which all grants should be removed. An entity can't be in both `grants` and `remove_entities`. */
-  removeEntities?: StringList | undefined;
-}
-/** Describes options for setting object ACLs. */
-export interface SetObjectAcls {
-  /** Required. Add, update, or remove grants from the object's existing ACLs. */
-  accessControlsUpdates?: AccessControlsUpdates | undefined;
-}
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-}
-/** Describes the Cloud Storage locations to include in a ProjectSource job. */
-export interface TargetLocations {
-  /** Optional. OPTIONAL. The exact Storage Insights snapshot timestamp to use for the job compatible with the RFC 3339 format (e.g., `2024-01-02T03:04:05Z`). If specified, this exact snapshot must exist in BOTH the `object_attributes_view` and `bucket_attributes_view` for every location listed in `locations`. If the snapshot is missing from either view in any of the locations, the job fails. */
-  snapshotTime?: string | undefined;
-  /** Required. REQUIRED. A list of Cloud Storage locations (e.g., `us-central1`) to include in the job. If `snapshot_time` is omitted, the job automatically defaults to the most recent snapshot timestamp that is successfully populated in BOTH the `object_attributes_view` and `bucket_attributes_view` across ALL specified locations. For details on Storage Insights dataset snapshots and views, see: https://docs.cloud.google.com/storage/docs/insights/dataset-tables-and-schemas#schema */
-  locations?: StringList | undefined;
-}
-/** Describes the project source where the objects satisfying the filters will be transformed. */
-export interface ProjectSource {
-  /** Required. The resource identifier of the Storage Insights dataset configuration. Storage batch operations uses the latest snapshot from this dataset as the source to list and filter target objects. Format: `projects/{project_id}/locations/{location}/datasetConfigs/{dataset_config}`. */
-  insightsDatasetConfig?: string | undefined;
-  /** Optional. Filters expressed in Common Expression Language (CEL) to apply to buckets to identify buckets with objects to be transformed. */
-  bucketFilters?: Expr | undefined;
-  /** Optional. Specifies the Cloud Storage locations to include in the job. If provided, only buckets and objects within these locations will be discovered from the Storage Insights dataset as configured in the `insights_dataset_config`. If omitted, the job will discover buckets and objects from all locations configured in the `insights_dataset_config`. */
-  targetLocations?: TargetLocations | undefined;
-  /** Required. Project name of the objects to be transformed. e.g. projects/my-project or projects/123456. */
-  project?: string | undefined;
-  /** Optional. The unique identifier of a dry run job to use as the baseline for the current job. Specifying this ID ensures the job is executed against the same set of objects validated during the dry run. The value corresponds to the {job_id} segment of the resource name: `projects/{project_id}/locations/{location}/jobs/{job_id}`. */
-  dryRunJobId?: string | undefined;
-  /** Optional. Filters expressed in Common Expression Language (CEL) to apply to objects to identify objects to be transformed. */
-  objectFilters?: Expr | undefined;
-  /** Output only. The snapshot time used by the job to read the Storage Insights dataset for bucket and object discovery. This field is populated by the service and reflects the exact timestamp of the dataset snapshot used. */
-  snapshotTime?: string | undefined;
+  /** If set, must be set to true and all existing object custom contexts are deleted. */
+  clearAll?: boolean | undefined;
 }
 /** Describes details about the progress of the job. */
 export interface Counters {
-  /** Output only. Number of object custom contexts deleted. This field is only populated for jobs with the UpdateObjectCustomContext transformation. */
-  objectCustomContextsDeleted?: string | undefined;
-  /** Output only. Number of object custom contexts updated. This counter tracks custom contexts where the key already existed, but the payload was modified. This field is only populated for jobs with the UpdateObjectCustomContext transformation. */
-  objectCustomContextsUpdated?: string | undefined;
   /** Output only. Number of objects completed. */
   succeededObjectCount?: string | undefined;
+  /** Output only. Number of object custom contexts updated. This counter tracks custom contexts where the key already existed, but the payload was modified. This field is only populated for jobs with the UpdateObjectCustomContext transformation. */
+  objectCustomContextsUpdated?: string | undefined;
+  /** Output only. Number of object custom contexts deleted. This field is only populated for jobs with the UpdateObjectCustomContext transformation. */
+  objectCustomContextsDeleted?: string | undefined;
   /** Output only. Number of bytes found from source. This field is only populated for jobs with a prefix list object configuration. */
   totalBytesFound?: string | undefined;
-  /** Output only. The number of objects that failed due to user errors or service errors. */
-  failedObjectCount?: string | undefined;
   /** Output only. Number of objects listed. */
   totalObjectCount?: string | undefined;
-  /** Output only. Number of object custom contexts created. This field is only populated for jobs with the UpdateObjectCustomContext transformation. */
-  objectCustomContextsCreated?: string | undefined;
   /** Output only. The total number of bytes affected by the transformation. For example, this counts bytes deleted for `DeleteObject` operations and bytes rewritten for `RewriteObject` operations. */
   totalBytesTransformed?: string | undefined;
+  /** Output only. The number of objects that failed due to user errors or service errors. */
+  failedObjectCount?: string | undefined;
+  /** Output only. Number of object custom contexts created. This field is only populated for jobs with the UpdateObjectCustomContext transformation. */
+  objectCustomContextsCreated?: string | undefined;
+}
+export type PutObjectHoldTemporaryHoldEnum = "HOLD_STATUS_UNSPECIFIED" | "SET" | "UNSET";
+export type PutObjectHoldEventBasedHoldEnum = "HOLD_STATUS_UNSPECIFIED" | "SET" | "UNSET";
+/** Describes options to update object hold. */
+export interface PutObjectHold {
+  /** Required. Updates object temporary holds state. When object temporary hold is set, object can't be deleted or replaced. */
+  temporaryHold?: PutObjectHoldTemporaryHoldEnum | (string & {}) | undefined;
+  /** Required. Updates object event based holds state. When object event based hold is set, object can't be deleted or replaced. Resets object's time in the bucket for the purposes of the retention period. */
+  eventBasedHold?: PutObjectHoldEventBasedHoldEnum | (string & {}) | undefined;
 }
 /** An entry describing an error that has occurred. */
 export interface ErrorLogEntry {
@@ -313,30 +262,50 @@ export type ErrorSummaryErrorCodeEnum =
 export interface ErrorSummary {
   /** Required. Sample error logs. */
   errorLogEntries?: ErrorLogEntryList | undefined;
-  /** Required. Number of errors encountered per `error_code`. */
-  errorCount?: string | undefined;
   /** Required. The canonical error code. */
   errorCode?: ErrorSummaryErrorCodeEnum | (string & {}) | undefined;
+  /** Required. Number of errors encountered per `error_code`. */
+  errorCount?: string | undefined;
 }
 export type ErrorSummaryList = Array<ErrorSummary>;
-/** Describes list of objects to be transformed. */
-export interface Manifest {
-  /** Required. Specify the manifest file location. The format of manifest location can be an absolute path to the object in the format of `gs://bucket_name/path/object_name`. For example, `gs://bucket_name/path/object_name.csv`. Alternatively, you can specify an absolute path with a single wildcard character in the file name, for example `gs://bucket_name/path/file_name*.csv`. If the manifest location is specified with a wildcard, objects in all manifest files matching the pattern will be acted upon. The manifest is a CSV file, uploaded to Cloud Storage, that contains one object or a list of objects that you want to process. Each row in the manifest must include the `bucket` and `name` of the object. You can optionally specify the `generation` of the object. If you don't specify the `generation`, the current version of the object is used. You can optionally include a header row with the following format: `bucket,name,generation`. For example, bucket,name,generation bucket_1,object_1,generation_1 bucket_1,object_2,generation_2 bucket_1,object_3,generation_3 Note: The manifest file must specify only objects within the bucket provided to the job. Rows referencing objects in other buckets are ignored. */
-  manifestLocation?: string | undefined;
+/** Represents an access control entry on an object. */
+export interface ObjectAccessControl {
+  /** Required. The role to grant. Acceptable values are: * `READER` - gives read access to the object. * `OWNER` - gives owner access to the object. */
+  role?: string | undefined;
+  /** Required. The entity holding the permission, in one of the following forms: * `allUsers` * `allAuthenticatedUsers` */
+  entity?: string | undefined;
+}
+export type ObjectAccessControlList = Array<ObjectAccessControl>;
+/** Represents updates to existing access-control entries on an object. */
+export interface AccessControlsUpdates {
+  /** Optional. Grants to add or update. If a grant for same entity exists, its role is updated. */
+  grants?: ObjectAccessControlList | undefined;
+  /** Optional. Entities for which all grants should be removed. An entity can't be in both `grants` and `remove_entities`. */
+  removeEntities?: StringList | undefined;
+}
+/** Describes options for setting object ACLs. */
+export interface SetObjectAcls {
+  /** Required. Add, update, or remove grants from the object's existing ACLs. */
+  accessControlsUpdates?: AccessControlsUpdates | undefined;
 }
 /** Describes prefixes of objects to be transformed. */
 export interface PrefixList {
   /** Optional. Specify one or more object prefixes. For example: * To match one object, use a single prefix, `prefix1`. * To match multiple objects, use comma-separated prefixes, `prefix1, prefix2`. * To match all objects, use an empty prefix, `''` */
   includedObjectPrefixes?: StringList | undefined;
 }
+/** Describes list of objects to be transformed. */
+export interface Manifest {
+  /** Required. Specify the manifest file location. The format of manifest location can be an absolute path to the object in the format of `gs://bucket_name/path/object_name`. For example, `gs://bucket_name/path/object_name.csv`. Alternatively, you can specify an absolute path with a single wildcard character in the file name, for example `gs://bucket_name/path/file_name*.csv`. If the manifest location is specified with a wildcard, objects in all manifest files matching the pattern will be acted upon. The manifest is a CSV file, uploaded to Cloud Storage, that contains one object or a list of objects that you want to process. Each row in the manifest must include the `bucket` and `name` of the object. You can optionally specify the `generation` of the object. If you don't specify the `generation`, the current version of the object is used. You can optionally include a header row with the following format: `bucket,name,generation`. For example, bucket,name,generation bucket_1,object_1,generation_1 bucket_1,object_2,generation_2 bucket_1,object_3,generation_3 Note: The manifest file must specify only objects within the bucket provided to the job. Rows referencing objects in other buckets are ignored. */
+  manifestLocation?: string | undefined;
+}
 /** Describes configuration of a single bucket and its objects to be transformed. */
 export interface Bucket {
+  /** Specifies objects matching a prefix set. */
+  prefixList?: PrefixList | undefined;
   /** Specifies objects in a manifest file. */
   manifest?: Manifest | undefined;
   /** Required. Bucket name for the objects to be transformed. */
   bucket?: string | undefined;
-  /** Specifies objects matching a prefix set. */
-  prefixList?: PrefixList | undefined;
 }
 export type BucketList_ = Array<Bucket>;
 /** Describes list of buckets and their objects to be transformed. */
@@ -344,54 +313,85 @@ export interface BucketList {
   /** Required. List of buckets and their objects to be transformed. You can specify only one bucket per job. If multiple buckets are specified, an error occurs. */
   buckets?: BucketList_ | undefined;
 }
+export type RewriteObjectStorageClassEnum =
+  | "STORAGE_CLASS_UNSPECIFIED"
+  | "STANDARD"
+  | "NEARLINE"
+  | "COLDLINE"
+  | "ARCHIVE";
+/** Describes options for object rewrite. */
+export interface RewriteObject {
+  /** Optional. Resource name of the Cloud KMS key that is used to encrypt the object. The Cloud KMS key must be located in same location as the object. For details, see https://cloud.google.com/storage/docs/encryption/using-customer-managed-keys#add-object-key Format: `projects/{project_id}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}` For example: `projects/123456/locations/us-central1/keyRings/my-keyring/cryptoKeys/my-key`. The object will be rewritten and set with the specified KMS key. */
+  kmsKey?: string | undefined;
+  /** Optional. Rewrites the object to the specified storage class. Setting this field will perform a full byte copy of the object if the storage class is different from the object's current storage class. If Autoclass is enabled on the bucket, storage class changes are ignored by Cloud Storage. */
+  storageClass?: RewriteObjectStorageClassEnum | (string & {}) | undefined;
+}
+export type LoggingConfigLogActionsItemEnum = "LOGGABLE_ACTION_UNSPECIFIED" | "TRANSFORM";
+export type LoggingConfigLogActionsItemEnumList = Array<
+  LoggingConfigLogActionsItemEnum | (string & {})
+>;
+export type LoggingConfigLogActionStatesItemEnum =
+  | "LOGGABLE_ACTION_STATE_UNSPECIFIED"
+  | "SUCCEEDED"
+  | "FAILED";
+export type LoggingConfigLogActionStatesItemEnumList = Array<
+  LoggingConfigLogActionStatesItemEnum | (string & {})
+>;
+/** Specifies the Cloud Logging behavior. */
+export interface LoggingConfig {
+  /** Required. Specifies the actions to be logged. */
+  logActions?: LoggingConfigLogActionsItemEnumList | undefined;
+  /** Required. States in which Action are logged.If empty, no logs are generated. */
+  logActionStates?: LoggingConfigLogActionStatesItemEnumList | undefined;
+}
 /** The storage batch operations job description. */
 export interface Job {
+  /** Output only. The time that the job was completed. */
+  completeTime?: string | undefined;
+  /** Output only. The time that the job was created. */
+  createTime?: string | undefined;
+  /** Optional. A user-provided description for the job. Maximum length: 1024 bytes when unicode-encoded. */
+  description?: string | undefined;
   /** Updates object metadata. Allows updating fixed-key and custom metadata. For example, `Cache-Control`, `Content-Disposition`, `Content-Encoding`, `Content-Language`, `Content-Type`, `Custom-Time`, and `Retention configuration`. */
   putMetadata?: PutMetadata | undefined;
   /** Output only. State of the job. */
   state?: JobStateEnum | (string & {}) | undefined;
+  /** Delete objects. */
+  deleteObject?: DeleteObject | undefined;
+  /** Identifier. The resource name of the job. Format: `projects/{project_id}/locations/global/jobs/{job_id}`. For example: `projects/123456/locations/global/jobs/job01`. `job_id` is unique in a given project. */
+  name?: string | undefined;
+  /** Specifies a project source and filters to identify objects to be transformed. */
+  projectSource?: ProjectSource | undefined;
+  /** Update object custom context. */
+  updateObjectCustomContext?: UpdateObjectCustomContext | undefined;
+  /** Output only. Information about the progress of the job. */
+  counters?: Counters | undefined;
+  /** Changes object hold status. */
+  putObjectHold?: PutObjectHold | undefined;
+  /** Output only. If true, this job operates on multiple buckets. Multi-bucket jobs are subject to different quota limits than single-bucket jobs. */
+  isMultiBucketJob?: boolean | undefined;
   /** Optional. If true, the job runs in dry run mode, returning the total object count and, if the object configuration is a prefix list, the bytes found from source. No transformations are performed. */
   dryRun?: boolean | undefined;
   /** Output only. The time that the job was scheduled. */
   scheduleTime?: string | undefined;
-  /** Delete objects. */
-  deleteObject?: DeleteObject | undefined;
-  /** Output only. The time that the job was created. */
-  createTime?: string | undefined;
-  /** Identifier. The resource name of the job. Format: `projects/{project_id}/locations/global/jobs/{job_id}`. For example: `projects/123456/locations/global/jobs/job01`. `job_id` is unique in a given project. */
-  name?: string | undefined;
-  /** Rewrite the object and updates metadata like KMS key. */
-  rewriteObject?: RewriteObject | undefined;
-  /** Update object custom context. */
-  updateObjectCustomContext?: UpdateObjectCustomContext | undefined;
-  /** Optional. Logging configuration. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** Output only. The time that the job was completed. */
-  completeTime?: string | undefined;
-  /** Changes object hold status. */
-  putObjectHold?: PutObjectHold | undefined;
-  /** Updates object ACLs. */
-  setObjectAcls?: SetObjectAcls | undefined;
-  /** Output only. If true, this job operates on multiple buckets. Multi-bucket jobs are subject to different quota limits than single-bucket jobs. */
-  isMultiBucketJob?: boolean | undefined;
-  /** Optional. A user-provided description for the job. Maximum length: 1024 bytes when unicode-encoded. */
-  description?: string | undefined;
-  /** Specifies a project source and filters to identify objects to be transformed. */
-  projectSource?: ProjectSource | undefined;
-  /** Output only. Information about the progress of the job. */
-  counters?: Counters | undefined;
   /** Output only. Summarizes errors encountered with sample error log entries. */
   errorSummaries?: ErrorSummaryList | undefined;
+  /** Updates object ACLs. */
+  setObjectAcls?: SetObjectAcls | undefined;
   /** Specifies a list of buckets and their objects to be transformed. */
   bucketList?: BucketList | undefined;
+  /** Rewrite the object and updates metadata like KMS key. */
+  rewriteObject?: RewriteObject | undefined;
+  /** Optional. Logging configuration. */
+  loggingConfig?: LoggingConfig | undefined;
 }
 export interface CreateProjectsLocationsJobsRequest {
-  /** Required. The value for parent. */
-  parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID in case you need to retry your request. Requests with same `request_id` are ignored for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID isn't supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. A unique identifier for the job. `job_id` must be up to 128 characters and must include only characters available in DNS names, as defined by RFC-1123. */
   jobId?: string | undefined;
+  /** Required. The value for parent. */
+  parent: string;
   /** Request body */
   body?: Job | undefined;
 }
@@ -401,31 +401,31 @@ export type DocumentMapList = Array<DocumentMap>;
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsJobsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID in case you need to retry your request. Requests with same `request_id` are ignored for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID isn't supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. The `name` of the job to delete. Format: `projects/{project_id}/locations/global/jobs/{job_id}`. */
-  name: string;
   /** Optional. If set to true, any child bucket operations of the job are deleted. We recommend setting this to `true`. You can't mutate bucket operations directly, so only the `jobs.delete` permission is required to delete a job (and its child bucket operations). */
   force?: boolean | undefined;
+  /** Required. The `name` of the job to delete. Format: `projects/{project_id}/locations/global/jobs/{job_id}`. */
+  name: string;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -437,16 +437,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string | undefined;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap | undefined;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap | undefined;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
 }
 export interface GetProjectsLocationsJobsRequest {
   /** Required. The `name` of the job to retrieve. Format: `projects/{project_id}/locations/global/jobs/{job_id}`. */
@@ -465,40 +465,40 @@ export type BucketOperationStateEnum =
   | "FAILED";
 /** BucketOperation represents a bucket-level breakdown of a Job. */
 export interface BucketOperation {
-  /** The bucket name of the objects to be transformed in the BucketOperation. */
-  bucketName?: string | undefined;
-  /** Identifier. The resource name of the BucketOperation. This is defined by the service. Format: `projects/{project_id}/locations/global/jobs/{job_id}/bucketOperations/{bucket_operation}`. */
-  name?: string | undefined;
-  /** Output only. The time that the BucketOperation was completed. */
-  completeTime?: string | undefined;
-  /** Output only. Summarizes errors encountered with sample error log entries. */
-  errorSummaries?: ErrorSummaryList | undefined;
-  /** Update object custom context. */
-  updateObjectCustomContext?: UpdateObjectCustomContext | undefined;
-  /** Rewrite the object and updates metadata like KMS key. */
-  rewriteObject?: RewriteObject | undefined;
-  /** Output only. The time that the BucketOperation was created. */
-  createTime?: string | undefined;
-  /** Specifies objects in a manifest file. */
-  manifest?: Manifest | undefined;
-  /** Output only. Information about the progress of the bucket operation. */
-  counters?: Counters | undefined;
-  /** Changes object hold status. */
-  putObjectHold?: PutObjectHold | undefined;
-  /** Updates object ACLs. */
-  setObjectAcls?: SetObjectAcls | undefined;
-  /** Specifies objects matching a prefix set. */
-  prefixList?: PrefixList | undefined;
-  /** Updates object metadata. Allows updating fixed-key and custom metadata and fixed-key metadata i.e. Cache-Control, Content-Disposition, Content-Encoding, Content-Language, Content-Type, Custom-Time. */
-  putMetadata?: PutMetadata | undefined;
-  /** Output only. The time that the BucketOperation was started. */
-  startTime?: string | undefined;
-  /** Delete objects. */
-  deleteObject?: DeleteObject | undefined;
   /** Specifies objects matching the object filters in a project source. */
   projectSource?: ProjectSource | undefined;
   /** Output only. State of the BucketOperation. */
   state?: BucketOperationStateEnum | undefined;
+  /** Output only. The time that the BucketOperation was started. */
+  startTime?: string | undefined;
+  /** Output only. The time that the BucketOperation was created. */
+  createTime?: string | undefined;
+  /** Updates object ACLs. */
+  setObjectAcls?: SetObjectAcls | undefined;
+  /** Output only. The time that the BucketOperation was completed. */
+  completeTime?: string | undefined;
+  /** Output only. Summarizes errors encountered with sample error log entries. */
+  errorSummaries?: ErrorSummaryList | undefined;
+  /** The bucket name of the objects to be transformed in the BucketOperation. */
+  bucketName?: string | undefined;
+  /** Changes object hold status. */
+  putObjectHold?: PutObjectHold | undefined;
+  /** Delete objects. */
+  deleteObject?: DeleteObject | undefined;
+  /** Rewrite the object and updates metadata like KMS key. */
+  rewriteObject?: RewriteObject | undefined;
+  /** Update object custom context. */
+  updateObjectCustomContext?: UpdateObjectCustomContext | undefined;
+  /** Identifier. The resource name of the BucketOperation. This is defined by the service. Format: `projects/{project_id}/locations/global/jobs/{job_id}/bucketOperations/{bucket_operation}`. */
+  name?: string | undefined;
+  /** Specifies objects matching a prefix set. */
+  prefixList?: PrefixList | undefined;
+  /** Output only. Information about the progress of the bucket operation. */
+  counters?: Counters | undefined;
+  /** Updates object metadata. Allows updating fixed-key and custom metadata and fixed-key metadata i.e. Cache-Control, Content-Disposition, Content-Encoding, Content-Language, Content-Type, Custom-Time. */
+  putMetadata?: PutMetadata | undefined;
+  /** Specifies objects in a manifest file. */
+  manifest?: Manifest | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -507,32 +507,32 @@ export interface GetProjectsLocationsOperationsRequest {
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsJobsRequest {
   /** Optional. The list page token. */
   pageToken?: string | undefined;
-  /** Required. Format: projects/{project_id}/locations/global. */
-  parent: string;
   /** Optional. The list page size. The default page size is 100. */
   pageSize?: number | undefined;
   /** Optional. Filters results as defined by https://google.aip.dev/160. */
   filter?: string | undefined;
+  /** Required. Format: projects/{project_id}/locations/global. */
+  parent: string;
   /** Optional. Field to sort by. Supported fields are `name` and `create_time`. */
   orderBy?: string | undefined;
 }
@@ -547,16 +547,16 @@ export interface ListJobsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsJobsBucketOperationsRequest {
-  /** Optional. Field to sort by. Supported fields are `name` and `create_time`. */
-  orderBy?: string | undefined;
-  /** Required. Format: `projects/{project_id}/locations/global/jobs/{job_id}`. */
-  parent: string;
   /** Optional. The list page token. */
   pageToken?: string | undefined;
+  /** Required. Format: `projects/{project_id}/locations/global/jobs/{job_id}`. */
+  parent: string;
   /** Optional. The list page size. Default page size is 100. */
   pageSize?: number | undefined;
   /** Optional. Filters results as defined by https://google.aip.dev/160. */
   filter?: string | undefined;
+  /** Optional. Field to sort by. Supported fields are `name` and `create_time`. */
+  orderBy?: string | undefined;
 }
 export type BucketOperationList = Array<BucketOperation>;
 /** Message for response to listing BucketOperations */
@@ -569,24 +569,24 @@ export interface ListBucketOperationsResponse {
   bucketOperations?: BucketOperationList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list filter. */
-  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
+  /** The standard list filter. */
+  filter?: string | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
 }
@@ -882,23 +882,23 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bucketName: S.optional(S.String),
-          name: S.optional(S.String),
-          completeTime: S.optional(S.String),
-          errorSummaries: S.optional(__S(436, __c13, 20)),
-          updateObjectCustomContext: S.optional(__S(423, __c13, 7)),
-          rewriteObject: S.optional(__S(419, __c13, 3)),
-          createTime: S.optional(S.String),
-          manifest: S.optional(__S(437, __c13, 21)),
-          counters: S.optional(__S(432, __c13, 16)),
-          putObjectHold: S.optional(__S(424, __c13, 8)),
-          setObjectAcls: S.optional(__S(428, __c13, 12)),
-          prefixList: S.optional(__S(438, __c13, 22)),
-          putMetadata: S.optional(__S(417, __c13, 1)),
-          startTime: S.optional(S.String),
-          deleteObject: S.optional(__S(418, __c13, 2)),
-          projectSource: S.optional(__S(431, __c13, 15)),
+          projectSource: S.optional(__S(421, __c13, 5)),
           state: S.optional(S.String),
+          startTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          setObjectAcls: S.optional(__S(435, __c13, 19)),
+          completeTime: S.optional(S.String),
+          errorSummaries: S.optional(__S(431, __c13, 15)),
+          bucketName: S.optional(S.String),
+          putObjectHold: S.optional(__S(427, __c13, 11)),
+          deleteObject: S.optional(__S(418, __c13, 2)),
+          rewriteObject: S.optional(__S(438, __c13, 22)),
+          updateObjectCustomContext: S.optional(__S(425, __c13, 9)),
+          name: S.optional(S.String),
+          prefixList: S.optional(__S(436, __c13, 20)),
+          counters: S.optional(__S(426, __c13, 10)),
+          putMetadata: S.optional(__S(417, __c13, 1)),
+          manifest: S.optional(__S(437, __c13, 21)),
         }),
       ).annotate({ identifier: "BucketOperation" });
   }
@@ -925,9 +925,9 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(384, __c12, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -942,8 +942,8 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           locations: S.optional(__S(129, __c4, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -954,9 +954,9 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -983,11 +983,11 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1013,11 +1013,11 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1031,8 +1031,8 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(225, __c7, 1)),
           unreachable: S.optional(__S(384, __c12, 0)),
+          operations: S.optional(__S(225, __c7, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1089,9 +1089,9 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           jobId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           body: S.optional(__S(453, __c14, 5).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -1114,21 +1114,21 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          retentionMode: S.optional(S.String),
           retainUntilTime: S.optional(S.String),
+          retentionMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ObjectRetention" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          contentLanguage: S.optional(S.String),
-          customMetadata: S.optional(__S(512, __c16, 0)),
-          objectRetention: S.optional(__S(416, __c13, 0)),
-          cacheControl: S.optional(S.String),
-          contentDisposition: S.optional(S.String),
           contentEncoding: S.optional(S.String),
-          customTime: S.optional(S.String),
+          objectRetention: S.optional(__S(416, __c13, 0)),
           contentType: S.optional(S.String),
+          contentDisposition: S.optional(S.String),
+          cacheControl: S.optional(S.String),
+          customMetadata: S.optional(__S(512, __c16, 0)),
+          customTime: S.optional(S.String),
+          contentLanguage: S.optional(S.String),
         }),
       ).annotate({ identifier: "PutMetadata" });
     case 2:
@@ -1140,121 +1140,120 @@ function __c13(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          storageClass: S.optional(S.String),
-          kmsKey: S.optional(S.String),
+          description: S.optional(S.String),
+          location: S.optional(S.String),
+          title: S.optional(S.String),
+          expression: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RewriteObject" });
+      ).annotate({ identifier: "Expr" });
     case 4:
+      return S.suspend(() =>
+        S.Struct({
+          locations: S.optional(__S(384, __c12, 0)),
+          snapshotTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TargetLocations" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          dryRunJobId: S.optional(S.String),
+          bucketFilters: S.optional(__S(419, __c13, 3)),
+          objectFilters: S.optional(__S(419, __c13, 3)),
+          project: S.optional(S.String),
+          insightsDatasetConfig: S.optional(S.String),
+          targetLocations: S.optional(__S(420, __c13, 4)),
+          snapshotTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProjectSource" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "ObjectCustomContextPayload" });
-    case 5:
-      return S.Record(S.String, __S(420, __c13, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          keysToClear: S.optional(__S(384, __c12, 0)),
-          updates: S.optional(__S(421, __c13, 5)),
-        }),
-      ).annotate({ identifier: "CustomContextUpdates" });
     case 7:
-      return S.suspend(() =>
-        S.Struct({
-          clearAll: S.optional(S.Boolean),
-          customContextUpdates: S.optional(__S(422, __c13, 6)),
-        }),
-      ).annotate({ identifier: "UpdateObjectCustomContext" });
+      return S.Record(S.String, __S(422, __c13, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          eventBasedHold: S.optional(S.String),
-          temporaryHold: S.optional(S.String),
+          keysToClear: S.optional(__S(384, __c12, 0)),
+          updates: S.optional(__S(423, __c13, 7)),
         }),
-      ).annotate({ identifier: "PutObjectHold" });
+      ).annotate({ identifier: "CustomContextUpdates" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          entity: S.optional(S.String),
-          role: S.optional(S.String),
+          customContextUpdates: S.optional(__S(424, __c13, 8)),
+          clearAll: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ObjectAccessControl" });
+      ).annotate({ identifier: "UpdateObjectCustomContext" });
     case 10:
-      return S.Array(__S(425, __c13, 9));
+      return S.suspend(() =>
+        S.Struct({
+          succeededObjectCount: S.optional(S.String),
+          objectCustomContextsUpdated: S.optional(S.String),
+          objectCustomContextsDeleted: S.optional(S.String),
+          totalBytesFound: S.optional(S.String),
+          totalObjectCount: S.optional(S.String),
+          totalBytesTransformed: S.optional(S.String),
+          failedObjectCount: S.optional(S.String),
+          objectCustomContextsCreated: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Counters" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          grants: S.optional(__S(426, __c13, 10)),
-          removeEntities: S.optional(__S(384, __c12, 0)),
+          temporaryHold: S.optional(S.String),
+          eventBasedHold: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AccessControlsUpdates" });
+      ).annotate({ identifier: "PutObjectHold" });
     case 12:
-      return S.suspend(() =>
-        S.Struct({
-          accessControlsUpdates: S.optional(__S(427, __c13, 11)),
-        }),
-      ).annotate({ identifier: "SetObjectAcls" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String),
-          description: S.optional(S.String),
-          title: S.optional(S.String),
-          expression: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Expr" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          snapshotTime: S.optional(S.String),
-          locations: S.optional(__S(384, __c12, 0)),
-        }),
-      ).annotate({ identifier: "TargetLocations" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          insightsDatasetConfig: S.optional(S.String),
-          bucketFilters: S.optional(__S(429, __c13, 13)),
-          targetLocations: S.optional(__S(430, __c13, 14)),
-          project: S.optional(S.String),
-          dryRunJobId: S.optional(S.String),
-          objectFilters: S.optional(__S(429, __c13, 13)),
-          snapshotTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProjectSource" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          objectCustomContextsDeleted: S.optional(S.String),
-          objectCustomContextsUpdated: S.optional(S.String),
-          succeededObjectCount: S.optional(S.String),
-          totalBytesFound: S.optional(S.String),
-          failedObjectCount: S.optional(S.String),
-          totalObjectCount: S.optional(S.String),
-          objectCustomContextsCreated: S.optional(S.String),
-          totalBytesTransformed: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Counters" });
-    case 17:
       return S.suspend(() =>
         S.Struct({
           objectUri: S.optional(S.String),
           errorDetails: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "ErrorLogEntry" });
+    case 13:
+      return S.Array(__S(428, __c13, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          errorLogEntries: S.optional(__S(429, __c13, 13)),
+          errorCode: S.optional(S.String),
+          errorCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorSummary" });
+    case 15:
+      return S.Array(__S(430, __c13, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.optional(S.String),
+          entity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ObjectAccessControl" });
+    case 17:
+      return S.Array(__S(432, __c13, 16));
     case 18:
-      return S.Array(__S(433, __c13, 17));
+      return S.suspend(() =>
+        S.Struct({
+          grants: S.optional(__S(433, __c13, 17)),
+          removeEntities: S.optional(__S(384, __c12, 0)),
+        }),
+      ).annotate({ identifier: "AccessControlsUpdates" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          errorLogEntries: S.optional(__S(434, __c13, 18)),
-          errorCount: S.optional(S.String),
-          errorCode: S.optional(S.String),
+          accessControlsUpdates: S.optional(__S(434, __c13, 18)),
         }),
-      ).annotate({ identifier: "ErrorSummary" });
+      ).annotate({ identifier: "SetObjectAcls" });
     case 20:
-      return S.Array(__S(435, __c13, 19));
+      return S.suspend(() =>
+        S.Struct({
+          includedObjectPrefixes: S.optional(__S(384, __c12, 0)),
+        }),
+      ).annotate({ identifier: "PrefixList" });
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -1264,60 +1263,61 @@ function __c13(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          includedObjectPrefixes: S.optional(__S(384, __c12, 0)),
+          kmsKey: S.optional(S.String),
+          storageClass: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PrefixList" });
+      ).annotate({ identifier: "RewriteObject" });
   }
 }
 function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          logActions: S.optional(__S(448, __c14, 0)),
-          logActionStates: S.optional(__S(448, __c14, 0)),
+          prefixList: S.optional(__S(436, __c13, 20)),
+          manifest: S.optional(__S(437, __c13, 21)),
+          bucket: S.optional(S.String),
         }),
-      ).annotate({ identifier: "LoggingConfig" });
+      ).annotate({ identifier: "Bucket" });
+    case 1:
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          manifest: S.optional(__S(437, __c13, 21)),
-          bucket: S.optional(S.String),
-          prefixList: S.optional(__S(438, __c13, 22)),
+          buckets: S.optional(__S(449, __c14, 1)),
         }),
-      ).annotate({ identifier: "Bucket" });
+      ).annotate({ identifier: "BucketList" });
     case 3:
-      return S.Array(__S(450, __c14, 2));
+      return S.Array(S.String);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          buckets: S.optional(__S(451, __c14, 3)),
+          logActions: S.optional(__S(451, __c14, 3)),
+          logActionStates: S.optional(__S(451, __c14, 3)),
         }),
-      ).annotate({ identifier: "BucketList" });
+      ).annotate({ identifier: "LoggingConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
+          completeTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
           putMetadata: S.optional(__S(417, __c13, 1)),
           state: S.optional(S.String),
+          deleteObject: S.optional(__S(418, __c13, 2)),
+          name: S.optional(S.String),
+          projectSource: S.optional(__S(421, __c13, 5)),
+          updateObjectCustomContext: S.optional(__S(425, __c13, 9)),
+          counters: S.optional(__S(426, __c13, 10)),
+          putObjectHold: S.optional(__S(427, __c13, 11)),
+          isMultiBucketJob: S.optional(S.Boolean),
           dryRun: S.optional(S.Boolean),
           scheduleTime: S.optional(S.String),
-          deleteObject: S.optional(__S(418, __c13, 2)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          rewriteObject: S.optional(__S(419, __c13, 3)),
-          updateObjectCustomContext: S.optional(__S(423, __c13, 7)),
-          loggingConfig: S.optional(__S(449, __c14, 1)),
-          completeTime: S.optional(S.String),
-          putObjectHold: S.optional(__S(424, __c13, 8)),
-          setObjectAcls: S.optional(__S(428, __c13, 12)),
-          isMultiBucketJob: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          projectSource: S.optional(__S(431, __c13, 15)),
-          counters: S.optional(__S(432, __c13, 16)),
-          errorSummaries: S.optional(__S(436, __c13, 20)),
-          bucketList: S.optional(__S(452, __c14, 4)),
+          errorSummaries: S.optional(__S(431, __c13, 15)),
+          setObjectAcls: S.optional(__S(435, __c13, 19)),
+          bucketList: S.optional(__S(450, __c14, 2)),
+          rewriteObject: S.optional(__S(438, __c13, 22)),
+          loggingConfig: S.optional(__S(452, __c14, 4)),
         }),
       ).annotate({ identifier: "Job" });
   }
@@ -1330,18 +1330,18 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          code: S.optional(S.Number),
           details: S.optional(__S(480, __c15, 0)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(481, __c15, 1)),
           response: S.optional(__S(544, __c17, 0)),
-          done: S.optional(S.Boolean),
-          metadata: S.optional(__S(544, __c17, 0)),
           name: S.optional(S.String),
+          error: S.optional(__S(481, __c15, 1)),
+          metadata: S.optional(__S(544, __c17, 0)),
+          done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1364,8 +1364,8 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1413,11 +1413,11 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(512, __c16, 0)),
-          name: S.optional(S.String),
           metadata: S.optional(__S(544, __c17, 0)),
+          displayName: S.optional(S.String),
+          locationId: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }

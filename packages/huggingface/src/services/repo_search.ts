@@ -271,9 +271,12 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "diffusionkit"
   | "docking-at-home"
   | "doctr"
+  | "drinkme"
   | "edsnlp"
+  | "egohand"
   | "elm"
   | "encoderfile"
+  | "ensomi"
   | "espnet"
   | "eupe"
   | "fairseq"
@@ -397,8 +400,10 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "rkllm"
   | "robo-orchard-lab"
   | "routee-powertrain"
+  | "rt-detr-hand-detector-v1"
   | "rwkv"
   | "saelens"
+  | "sage-music"
   | "scail-2"
   | "sam2"
   | "sam-3d-body"
@@ -611,15 +616,28 @@ export interface QuickSearchPostRequest {
   discussionCollectionName?: string | undefined;
   spacesTags?: QuickSearchPostRequestSpacesTagsList | undefined;
 }
+/** Whether the repo is owned by a user or an organization */
+export type QuickSearchPostResponseDatasetsItemAuthorType = "user" | "org";
 export interface QuickSearchPostResponseDatasetsItem {
   _id: string;
   id: string;
   private?: boolean | undefined;
+  /** Whether the repo is owned by a user or an organization */
+  authorType?: QuickSearchPostResponseDatasetsItemAuthorType | undefined;
   trendingWeight: number;
 }
 export type QuickSearchPostResponseDatasetsList = Array<QuickSearchPostResponseDatasetsItem>;
-export type QuickSearchPostResponseModelsItem = QuickSearchPostResponseDatasetsItem;
-export type QuickSearchPostResponseModelsList = Array<QuickSearchPostResponseDatasetsItem>;
+/** Whether the repo is owned by a user or an organization */
+export type QuickSearchPostResponseModelsItemAuthorType = "user" | "org";
+export interface QuickSearchPostResponseModelsItem {
+  _id: string;
+  id: string;
+  private?: boolean | undefined;
+  /** Whether the repo is owned by a user or an organization */
+  authorType?: QuickSearchPostResponseModelsItemAuthorType | undefined;
+  trendingWeight: number;
+}
+export type QuickSearchPostResponseModelsList = Array<QuickSearchPostResponseModelsItem>;
 export interface QuickSearchPostResponseOrgsItem {
   _id: string;
   avatarUrl: string;
@@ -627,10 +645,14 @@ export interface QuickSearchPostResponseOrgsItem {
   name: string;
 }
 export type QuickSearchPostResponseOrgsList = Array<QuickSearchPostResponseOrgsItem>;
+/** Whether the repo is owned by a user or an organization */
+export type QuickSearchPostResponseSpacesItemAuthorType = "user" | "org";
 export interface QuickSearchPostResponseSpacesItem {
   _id: string;
   id: string;
   private?: boolean | undefined;
+  /** Whether the repo is owned by a user or an organization */
+  authorType?: QuickSearchPostResponseSpacesItemAuthorType | undefined;
   emoji: string;
   trendingWeight: number;
 }
@@ -654,10 +676,26 @@ export interface QuickSearchPostResponseCollectionsItem {
   description?: string | undefined;
 }
 export type QuickSearchPostResponseCollectionsList = Array<QuickSearchPostResponseCollectionsItem>;
-export type QuickSearchPostResponseBucketsItem = QuickSearchPostResponsePapersItem;
-export type QuickSearchPostResponseBucketsList = Array<QuickSearchPostResponsePapersItem>;
-export type QuickSearchPostResponseContainersItem = QuickSearchPostResponsePapersItem;
-export type QuickSearchPostResponseContainersList = Array<QuickSearchPostResponsePapersItem>;
+/** Whether the repo is owned by a user or an organization */
+export type QuickSearchPostResponseBucketsItemAuthorType = "user" | "org";
+export interface QuickSearchPostResponseBucketsItem {
+  _id: string;
+  id: string;
+  private?: boolean | undefined;
+  /** Whether the repo is owned by a user or an organization */
+  authorType?: QuickSearchPostResponseBucketsItemAuthorType | undefined;
+}
+export type QuickSearchPostResponseBucketsList = Array<QuickSearchPostResponseBucketsItem>;
+/** Whether the repo is owned by a user or an organization */
+export type QuickSearchPostResponseContainersItemAuthorType = "user" | "org";
+export interface QuickSearchPostResponseContainersItem {
+  _id: string;
+  id: string;
+  private?: boolean | undefined;
+  /** Whether the repo is owned by a user or an organization */
+  authorType?: QuickSearchPostResponseContainersItemAuthorType | undefined;
+}
+export type QuickSearchPostResponseContainersList = Array<QuickSearchPostResponseContainersItem>;
 export type QuickSearchPostResponseKernelsItem = QuickSearchPostResponsePapersItem;
 export type QuickSearchPostResponseKernelsList = Array<QuickSearchPostResponsePapersItem>;
 export interface QuickSearchPostResponseBlogsItem {
@@ -963,9 +1001,12 @@ export type SearchQuickRequestLibraryCase0 =
   | "diffusionkit"
   | "docking-at-home"
   | "doctr"
+  | "drinkme"
   | "edsnlp"
+  | "egohand"
   | "elm"
   | "encoderfile"
+  | "ensomi"
   | "espnet"
   | "eupe"
   | "fairseq"
@@ -1089,8 +1130,10 @@ export type SearchQuickRequestLibraryCase0 =
   | "rkllm"
   | "robo-orchard-lab"
   | "routee-powertrain"
+  | "rt-detr-hand-detector-v1"
   | "rwkv"
   | "saelens"
+  | "sage-music"
   | "scail-2"
   | "sam2"
   | "sam-3d-body"
@@ -1301,24 +1344,68 @@ export interface SearchQuickRequest {
   discussionCollectionName?: string | undefined;
   spacesTags?: SearchQuickRequestSpacesTagsList | undefined;
 }
-export type SearchQuickResponseDatasetsItem = QuickSearchPostResponseDatasetsItem;
-export type SearchQuickResponseDatasetsList = Array<QuickSearchPostResponseDatasetsItem>;
-export type SearchQuickResponseModelsItem = QuickSearchPostResponseDatasetsItem;
-export type SearchQuickResponseModelsList = Array<QuickSearchPostResponseDatasetsItem>;
+/** Whether the repo is owned by a user or an organization */
+export type SearchQuickResponseDatasetsItemAuthorType = "user" | "org";
+export interface SearchQuickResponseDatasetsItem {
+  _id: string;
+  id: string;
+  private?: boolean | undefined;
+  /** Whether the repo is owned by a user or an organization */
+  authorType?: SearchQuickResponseDatasetsItemAuthorType | undefined;
+  trendingWeight: number;
+}
+export type SearchQuickResponseDatasetsList = Array<SearchQuickResponseDatasetsItem>;
+/** Whether the repo is owned by a user or an organization */
+export type SearchQuickResponseModelsItemAuthorType = "user" | "org";
+export interface SearchQuickResponseModelsItem {
+  _id: string;
+  id: string;
+  private?: boolean | undefined;
+  /** Whether the repo is owned by a user or an organization */
+  authorType?: SearchQuickResponseModelsItemAuthorType | undefined;
+  trendingWeight: number;
+}
+export type SearchQuickResponseModelsList = Array<SearchQuickResponseModelsItem>;
 export type SearchQuickResponseOrgsItem = QuickSearchPostResponseOrgsItem;
 export type SearchQuickResponseOrgsList = Array<QuickSearchPostResponseOrgsItem>;
-export type SearchQuickResponseSpacesItem = QuickSearchPostResponseSpacesItem;
-export type SearchQuickResponseSpacesList = Array<QuickSearchPostResponseSpacesItem>;
+/** Whether the repo is owned by a user or an organization */
+export type SearchQuickResponseSpacesItemAuthorType = "user" | "org";
+export interface SearchQuickResponseSpacesItem {
+  _id: string;
+  id: string;
+  private?: boolean | undefined;
+  /** Whether the repo is owned by a user or an organization */
+  authorType?: SearchQuickResponseSpacesItemAuthorType | undefined;
+  emoji: string;
+  trendingWeight: number;
+}
+export type SearchQuickResponseSpacesList = Array<SearchQuickResponseSpacesItem>;
 export type SearchQuickResponseUsersItem = QuickSearchPostResponseUsersItem;
 export type SearchQuickResponseUsersList = Array<QuickSearchPostResponseUsersItem>;
 export type SearchQuickResponsePapersItem = QuickSearchPostResponsePapersItem;
 export type SearchQuickResponsePapersList = Array<QuickSearchPostResponsePapersItem>;
 export type SearchQuickResponseCollectionsItem = QuickSearchPostResponseCollectionsItem;
 export type SearchQuickResponseCollectionsList = Array<QuickSearchPostResponseCollectionsItem>;
-export type SearchQuickResponseBucketsItem = QuickSearchPostResponsePapersItem;
-export type SearchQuickResponseBucketsList = Array<QuickSearchPostResponsePapersItem>;
-export type SearchQuickResponseContainersItem = QuickSearchPostResponsePapersItem;
-export type SearchQuickResponseContainersList = Array<QuickSearchPostResponsePapersItem>;
+/** Whether the repo is owned by a user or an organization */
+export type SearchQuickResponseBucketsItemAuthorType = "user" | "org";
+export interface SearchQuickResponseBucketsItem {
+  _id: string;
+  id: string;
+  private?: boolean | undefined;
+  /** Whether the repo is owned by a user or an organization */
+  authorType?: SearchQuickResponseBucketsItemAuthorType | undefined;
+}
+export type SearchQuickResponseBucketsList = Array<SearchQuickResponseBucketsItem>;
+/** Whether the repo is owned by a user or an organization */
+export type SearchQuickResponseContainersItemAuthorType = "user" | "org";
+export interface SearchQuickResponseContainersItem {
+  _id: string;
+  id: string;
+  private?: boolean | undefined;
+  /** Whether the repo is owned by a user or an organization */
+  authorType?: SearchQuickResponseContainersItemAuthorType | undefined;
+}
+export type SearchQuickResponseContainersList = Array<SearchQuickResponseContainersItem>;
 export type SearchQuickResponseKernelsItem = QuickSearchPostResponsePapersItem;
 export type SearchQuickResponseKernelsList = Array<QuickSearchPostResponsePapersItem>;
 export type SearchQuickResponseBlogsItem = QuickSearchPostResponseBlogsItem;
@@ -1355,7 +1442,7 @@ export const quickSearchPost: API.OperationMethod<
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<QuickSearchPostRequest>,
-  output: __S(31, __c1, 15) as any as S.Schema<QuickSearchPostResponse>,
+  output: __S(49, __c1, 17) as any as S.Schema<QuickSearchPostResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1371,8 +1458,8 @@ export const searchFullText: API.OperationMethod<
   SearchFullTextError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<SearchFullTextRequest>,
-  output: __S(33, __c2, 1) as any as S.Schema<SearchFullTextResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<SearchFullTextRequest>,
+  output: __S(65, __c2, 1) as any as S.Schema<SearchFullTextResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1388,8 +1475,8 @@ export const searchQuick: API.OperationMethod<
   SearchQuickError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<SearchQuickRequest>,
-  output: __S(31, __c1, 15) as any as S.Schema<SearchQuickResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<SearchQuickRequest>,
+  output: __S(49, __c1, 17) as any as S.Schema<SearchQuickResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1411,14 +1498,14 @@ function __c0(j: number): any {
           orgsFilter: S.optional(S.Unknown.pipe(T.Query())),
           reposFilter: S.optional(S.Unknown.pipe(T.Query())),
           pipelines: S.optional(S.Unknown.pipe(T.Query())),
-          exclude: S.optional(__S(16, __c1, 0).pipe(T.Query())),
+          exclude: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           namespace: S.optional(S.String.pipe(T.Query())),
           includeInvitees: S.optional(S.Unknown.pipe(T.Query())),
           repoName: S.optional(S.String.pipe(T.Query())),
           repoType: S.optional(S.Unknown.pipe(T.Query())),
           discussionId: S.optional(S.String.pipe(T.Query())),
           discussionCollectionName: S.optional(S.String.pipe(T.Query())),
-          spacesTags: S.optional(__S(16, __c1, 0).pipe(T.Query())),
+          spacesTags: S.optional(__S(32, __c1, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "POST", uri: "/api/quicksearch", code: 200 })),
       ).annotate({ identifier: "QuickSearchPostRequest" });
   }
@@ -1433,11 +1520,12 @@ function __c1(j: number): any {
           _id: S.String,
           id: S.String,
           private: S.optional(S.Boolean),
+          authorType: S.optional(S.String),
           trendingWeight: S.Number,
         }),
       ).annotate({ identifier: "QuickSearchPostResponseDatasetsItem" });
     case 2:
-      return S.Array(__S(17, __c1, 1));
+      return S.Array(__S(33, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1448,19 +1536,20 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "QuickSearchPostResponseOrgsItem" });
     case 4:
-      return S.Array(__S(19, __c1, 3));
+      return S.Array(__S(35, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
           id: S.String,
           private: S.optional(S.Boolean),
+          authorType: S.optional(S.String),
           emoji: S.String,
           trendingWeight: S.Number,
         }),
       ).annotate({ identifier: "QuickSearchPostResponseSpacesItem" });
     case 6:
-      return S.Array(__S(21, __c1, 5));
+      return S.Array(__S(37, __c1, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -1471,7 +1560,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "QuickSearchPostResponseUsersItem" });
     case 8:
-      return S.Array(__S(23, __c1, 7));
+      return S.Array(__S(39, __c1, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -1481,7 +1570,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "QuickSearchPostResponsePapersItem" });
     case 10:
-      return S.Array(__S(25, __c1, 9));
+      return S.Array(__S(41, __c1, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -1491,8 +1580,19 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "QuickSearchPostResponseCollectionsItem" });
     case 12:
-      return S.Array(__S(27, __c1, 11));
+      return S.Array(__S(43, __c1, 11));
     case 13:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.String,
+          id: S.String,
+          private: S.optional(S.Boolean),
+          authorType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "QuickSearchPostResponseBucketsItem" });
+    case 14:
+      return S.Array(__S(45, __c1, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
@@ -1501,31 +1601,31 @@ function __c1(j: number): any {
           private: S.Boolean,
         }),
       ).annotate({ identifier: "QuickSearchPostResponseBlogsItem" });
-    case 14:
-      return S.Array(__S(29, __c1, 13));
-    case 15:
+    case 16:
+      return S.Array(__S(47, __c1, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          datasets: __S(18, __c1, 2),
+          datasets: __S(34, __c1, 2),
           datasetsCount: S.Number,
-          models: __S(18, __c1, 2),
+          models: __S(34, __c1, 2),
           modelsCount: S.Number,
-          orgs: __S(20, __c1, 4),
+          orgs: __S(36, __c1, 4),
           q: S.String,
-          spaces: __S(22, __c1, 6),
+          spaces: __S(38, __c1, 6),
           spacesCount: S.Number,
-          users: __S(24, __c1, 8),
-          papers: __S(26, __c1, 10),
+          users: __S(40, __c1, 8),
+          papers: __S(42, __c1, 10),
           papersCount: S.Number,
-          collections: __S(28, __c1, 12),
+          collections: __S(44, __c1, 12),
           collectionsCount: S.Number,
-          buckets: __S(26, __c1, 10),
+          buckets: __S(46, __c1, 14),
           bucketsCount: S.Number,
-          containers: __S(26, __c1, 10),
+          containers: __S(46, __c1, 14),
           containersCount: S.Number,
-          kernels: __S(26, __c1, 10),
+          kernels: __S(42, __c1, 10),
           kernelsCount: S.Number,
-          blogs: __S(30, __c1, 14),
+          blogs: __S(48, __c1, 16),
           blogsCount: S.Number,
         }),
       ).annotate({ identifier: "QuickSearchPostResponse" });
@@ -1560,14 +1660,14 @@ function __c3(j: number): any {
           orgsFilter: S.optional(S.Unknown.pipe(T.Query())),
           reposFilter: S.optional(S.Unknown.pipe(T.Query())),
           pipelines: S.optional(S.Unknown.pipe(T.Query())),
-          exclude: S.optional(__S(16, __c1, 0).pipe(T.Query())),
+          exclude: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           namespace: S.optional(S.String.pipe(T.Query())),
           includeInvitees: S.optional(S.Unknown.pipe(T.Query())),
           repoName: S.optional(S.String.pipe(T.Query())),
           repoType: S.optional(S.Unknown.pipe(T.Query())),
           discussionId: S.optional(S.String.pipe(T.Query())),
           discussionCollectionName: S.optional(S.String.pipe(T.Query())),
-          spacesTags: S.optional(__S(16, __c1, 0).pipe(T.Query())),
+          spacesTags: S.optional(__S(32, __c1, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/quicksearch", code: 200 })),
       ).annotate({ identifier: "SearchQuickRequest" });
   }

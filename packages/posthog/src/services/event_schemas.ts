@@ -57,8 +57,14 @@ export interface CreateEventSchemaRequest {
   event_definition?: string | undefined;
   property_group_id?: string | undefined;
 }
-/** * `DateTime` - DateTime * `String` - String * `Numeric` - Numeric * `Boolean` - Boolean * `Object` - Object */
-export type SchemaPropertyTypeEnum = "DateTime" | "String" | "Numeric" | "Boolean" | "Object";
+/** * `DateTime` - DateTime * `String` - String * `Numeric` - Numeric * `Boolean` - Boolean * `Object` - Object * `Array` - Array */
+export type SchemaPropertyTypeEnum =
+  | "DateTime"
+  | "String"
+  | "Numeric"
+  | "Boolean"
+  | "Object"
+  | "Array";
 export interface SchemaPropertyGroupProperty {
   id?: string | undefined;
   name?: string | undefined;

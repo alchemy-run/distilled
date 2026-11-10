@@ -27,6 +27,13 @@ const TELEMETRY = {
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type CreateVolumeRequestLabelsMap = { [key: string]: string | undefined };
+/** Resource to which to attach the Volume once it's created (Volume will be created in the same Location as the resource). */
+export interface CreateVolumeRequestAssignee {
+  /** ID of the Resource. */
+  id: number;
+  /** Type of the Resource. */
+  type: string;
+}
 export interface CreateVolumeRequest {
   /** Size of the Volume in GB. */
   size: number;
@@ -40,9 +47,13 @@ export interface CreateVolumeRequest {
   format?: string | undefined;
   /** Location to create the Volume in (can be omitted if Server is specified). */
   location?: string | undefined;
-  /** Server to which to attach the Volume once it's created (Volume will be created in the same Location as the server). */
+  /** This field is deprecated, use the `assignee` field with `server` as the `type` instead. Server to which to attach the Volume once it's created (Volume will be created in the same Location as the server). */
   server?: number | undefined;
+  /** Resource to which to attach the Volume once it's created (Volume will be created in the same Location as the resource). */
+  assignee?: CreateVolumeRequestAssignee | undefined;
 }
+/** Resource the Volume is attached to, null if it is not attached at all. */
+export type CreateVolumeResponseVolumeAssignee = CreateVolumeRequestAssignee;
 /** Location of the Volume. Volume can only be attached to Servers in the same Location. */
 export interface CreateVolumeResponseVolumeLocation {
   /** ID of the [Location](#tag/locations). */
@@ -78,8 +89,10 @@ export interface CreateVolumeResponseVolume {
   created: string;
   /** Name of the Resource. Must be unique per Project. */
   name: string;
-  /** ID of the Server the Volume is attached to, null if it is not attached at all. */
+  /** This field is deprecated, use the `assignee` field instead. ID of the Server the Volume is attached to, null if it is not attached at all. */
   server: number | null;
+  /** Resource the Volume is attached to, null if it is not attached at all. */
+  assignee: CreateVolumeRequestAssignee | null;
   /** Location of the Volume. Volume can only be attached to Servers in the same Location. */
   location: CreateVolumeResponseVolumeLocation;
   /** Size in GB of the Volume. */
@@ -97,15 +110,9 @@ export interface CreateVolumeResponseVolume {
 }
 /** Status of the Action. */
 export type CreateVolumeResponseActionStatus = "running" | "success" | "error";
-export interface CreateVolumeResponseActionResourcesItem {
-  /** ID of the Resource. */
-  id: number;
-  /** Type of the Resource. */
-  type: string;
-}
+export type CreateVolumeResponseActionResourcesItem = CreateVolumeRequestAssignee;
 /** Resources the Action relates to. */
-export type CreateVolumeResponseActionResourcesList =
-  Array<CreateVolumeResponseActionResourcesItem>;
+export type CreateVolumeResponseActionResourcesList = Array<CreateVolumeRequestAssignee>;
 /** Error message for the Action if an error occurred, otherwise null. */
 export interface CreateVolumeResponseActionError {
   /** Fixed error code for machines. */
@@ -133,11 +140,9 @@ export interface CreateVolumeResponseAction {
 }
 /** Status of the Action. */
 export type CreateVolumeResponseNextActionsItemStatus = "running" | "success" | "error";
-export type CreateVolumeResponseNextActionsItemResourcesItem =
-  CreateVolumeResponseActionResourcesItem;
+export type CreateVolumeResponseNextActionsItemResourcesItem = CreateVolumeRequestAssignee;
 /** Resources the Action relates to. */
-export type CreateVolumeResponseNextActionsItemResourcesList =
-  Array<CreateVolumeResponseActionResourcesItem>;
+export type CreateVolumeResponseNextActionsItemResourcesList = Array<CreateVolumeRequestAssignee>;
 /** Error message for the Action if an error occurred, otherwise null. */
 export type CreateVolumeResponseNextActionsItemError = CreateVolumeResponseActionError;
 export interface CreateVolumeResponseNextActionsItem {
@@ -173,6 +178,8 @@ export interface GetVolumeRequest {
   /** ID of the Volume. */
   id: number;
 }
+/** Resource the Volume is attached to, null if it is not attached at all. */
+export type GetVolumeResponseVolumeAssignee = CreateVolumeRequestAssignee;
 /** Location of the Volume. Volume can only be attached to Servers in the same Location. */
 export type GetVolumeResponseVolumeLocation = CreateVolumeResponseVolumeLocation;
 /** Protection configuration for the Resource. */
@@ -188,8 +195,10 @@ export interface GetVolumeResponseVolume {
   created: string;
   /** Name of the Resource. Must be unique per Project. */
   name: string;
-  /** ID of the Server the Volume is attached to, null if it is not attached at all. */
+  /** This field is deprecated, use the `assignee` field instead. ID of the Server the Volume is attached to, null if it is not attached at all. */
   server: number | null;
+  /** Resource the Volume is attached to, null if it is not attached at all. */
+  assignee: CreateVolumeRequestAssignee | null;
   /** Location of the Volume. Volume can only be attached to Servers in the same Location. */
   location: CreateVolumeResponseVolumeLocation;
   /** Size in GB of the Volume. */
@@ -236,6 +245,8 @@ export interface ListVolumesRequest {
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
   per_page?: number | undefined;
 }
+/** Resource the Volume is attached to, null if it is not attached at all. */
+export type ListVolumesResponseVolumesItemAssignee = CreateVolumeRequestAssignee;
 /** Location of the Volume. Volume can only be attached to Servers in the same Location. */
 export type ListVolumesResponseVolumesItemLocation = CreateVolumeResponseVolumeLocation;
 /** Protection configuration for the Resource. */
@@ -251,8 +262,10 @@ export interface ListVolumesResponseVolumesItem {
   created: string;
   /** Name of the Resource. Must be unique per Project. */
   name: string;
-  /** ID of the Server the Volume is attached to, null if it is not attached at all. */
+  /** This field is deprecated, use the `assignee` field instead. ID of the Server the Volume is attached to, null if it is not attached at all. */
   server: number | null;
+  /** Resource the Volume is attached to, null if it is not attached at all. */
+  assignee: CreateVolumeRequestAssignee | null;
   /** Location of the Volume. Volume can only be attached to Servers in the same Location. */
   location: CreateVolumeResponseVolumeLocation;
   /** Size in GB of the Volume. */
@@ -302,6 +315,8 @@ export interface UpdateVolumeRequest {
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
   labels?: UpdateVolumeRequestLabelsMap | undefined;
 }
+/** Resource the Volume is attached to, null if it is not attached at all. */
+export type UpdateVolumeResponseVolumeAssignee = CreateVolumeRequestAssignee;
 /** Location of the Volume. Volume can only be attached to Servers in the same Location. */
 export type UpdateVolumeResponseVolumeLocation = CreateVolumeResponseVolumeLocation;
 /** Protection configuration for the Resource. */
@@ -317,8 +332,10 @@ export interface UpdateVolumeResponseVolume {
   created: string;
   /** Name of the Resource. Must be unique per Project. */
   name: string;
-  /** ID of the Server the Volume is attached to, null if it is not attached at all. */
+  /** This field is deprecated, use the `assignee` field instead. ID of the Server the Volume is attached to, null if it is not attached at all. */
   server: number | null;
+  /** Resource the Volume is attached to, null if it is not attached at all. */
+  assignee: CreateVolumeRequestAssignee | null;
   /** Location of the Volume. Volume can only be attached to Servers in the same Location. */
   location: CreateVolumeResponseVolumeLocation;
   /** Size in GB of the Volume. */
@@ -346,7 +363,7 @@ export const createVolume: API.OperationMethod<
   HetznerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateVolumeRequest>,
-  output: __S(6, __c0, 6) as any as S.Schema<CreateVolumeResponse>,
+  output: __S(5, __c0, 5) as any as S.Schema<CreateVolumeResponse>,
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
@@ -446,25 +463,19 @@ function __c0(j: number): any {
           format: S.optional(S.String),
           location: S.optional(S.String),
           server: S.optional(S.Number),
+          assignee: S.optional(__S(9, __c1, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/volumes", code: 200 })),
       ).annotate({ identifier: "CreateVolumeRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "CreateVolumeResponseActionResourcesItem" });
+      return S.Array(__S(9, __c1, 1));
     case 2:
-      return S.Array(__S(1, __c0, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.String,
           message: S.String,
         }),
       ).annotate({ identifier: "CreateVolumeResponseActionError" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.Number,
@@ -473,18 +484,18 @@ function __c0(j: number): any {
           started: S.String,
           finished: S.NullOr(S.String),
           progress: S.Number,
-          resources: __S(2, __c0, 2),
-          error: S.NullOr(__S(3, __c0, 3)),
+          resources: __S(1, __c0, 1),
+          error: S.NullOr(__S(2, __c0, 2)),
         }),
       ).annotate({ identifier: "CreateVolumeResponseAction" });
+    case 4:
+      return S.Array(__S(3, __c0, 3));
     case 5:
-      return S.Array(__S(4, __c0, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          volume: __S(11, __c1, 3),
-          action: __S(4, __c0, 4),
-          next_actions: __S(5, __c0, 5),
+          volume: __S(12, __c1, 4),
+          action: __S(3, __c0, 3),
+          next_actions: __S(4, __c0, 4),
         }),
       ).annotate({ identifier: "CreateVolumeResponse" });
   }
@@ -497,6 +508,13 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "CreateVolumeRequestAssignee" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
           name: S.String,
           description: S.String,
           country: S.String,
@@ -506,23 +524,24 @@ function __c1(j: number): any {
           network_zone: S.String,
         }),
       ).annotate({ identifier: "CreateVolumeResponseVolumeLocation" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           delete: S.Boolean,
         }),
       ).annotate({ identifier: "CreateVolumeResponseVolumeProtection" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.Number,
           created: S.String,
           name: S.String,
           server: S.NullOr(S.Number),
-          location: __S(9, __c1, 1),
+          assignee: S.NullOr(__S(9, __c1, 1)),
+          location: __S(10, __c1, 2),
           size: S.Number,
           linux_device: S.String,
-          protection: __S(10, __c1, 2),
+          protection: __S(11, __c1, 3),
           labels: __S(8, __c1, 0),
           status: S.String,
           format: S.NullOr(S.String),
@@ -557,7 +576,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          volume: __S(11, __c1, 3),
+          volume: __S(12, __c1, 4),
         }),
       ).annotate({ identifier: "GetVolumeResponse" });
   }
@@ -578,7 +597,7 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/volumes", code: 200 })),
       ).annotate({ identifier: "ListVolumesRequest" });
     case 2:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(12, __c1, 4));
     case 3:
       return S.suspend(() =>
         S.Struct({

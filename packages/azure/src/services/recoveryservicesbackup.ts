@@ -536,7 +536,8 @@ export type DataSourceType =
   | "AzureFileShare"
   | "SAPHanaDatabase"
   | "SAPAseDatabase"
-  | "SAPHanaDBInstance";
+  | "SAPHanaDBInstance"
+  | "SQLInstance";
 export interface GetBackupStatusRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1144,6 +1145,18 @@ export interface GetProtectionContainerRefreshOperationResultRequest {
   operationId: string;
 }
 export interface GetProtectionContainerRefreshOperationResultResponse {}
+export interface GetProtectionContainerRefreshOperationStatusRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the recovery services vault. */
+  vaultName: string;
+  /** Fabric name associated with the operation. */
+  fabricName: string;
+  /** OperationID which represents the operation whose status needs to be fetched. */
+  operationId: string;
+}
 export interface GetProtectionIntentRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1385,6 +1398,97 @@ export interface GetRecoveryPointResponse {
   location?: string | undefined;
   /** Optional ETag. */
   eTag?: string | undefined;
+}
+/** Resource tags. */
+export type GetRecoveryPointRPExtendedInfoRequestTagsMap = { [key: string]: string | undefined };
+/** ARM id of the recovery point whose additional details are to be fetched. Exactly one recovery point id can be specified. */
+export type GetRPExtendedInfoRequestRecoveryPointIdsList = Array<string>;
+/** Request for fetching the additional details of a recovery point. */
+export interface GetRPExtendedInfoRequest {
+  /** ARM id of the recovery point whose additional details are to be fetched. Exactly one recovery point id can be specified. */
+  recoveryPointIds: GetRPExtendedInfoRequestRecoveryPointIdsList;
+}
+export interface GetRecoveryPointRPExtendedInfoRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the recovery services vault. */
+  vaultName: string;
+  /** Fabric name associated with the backed up items. */
+  fabricName: string;
+  /** Resource location. */
+  location?: string | undefined;
+  /** Resource tags. */
+  tags?: GetRecoveryPointRPExtendedInfoRequestTagsMap | undefined;
+  /** Optional ETag. */
+  eTag?: string | undefined;
+  /** GetRPExtendedInfoRequestResource properties */
+  properties: GetRPExtendedInfoRequest;
+}
+/** Resource tags. */
+export type RPExtendedInfoResourceTagsMap = { [key: string]: string | undefined };
+/** Base class for additional details of a recovery point. Workload-specific additional details are derived from this class. */
+export type RPExtendedInfo = OperationStatusExtendedInfo;
+/** Additional details of a recovery point, wrapped in a resource envelope. */
+export interface RPExtendedInfoResource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource location. */
+  location?: string | undefined;
+  /** Resource tags. */
+  tags?: RPExtendedInfoResourceTagsMap | undefined;
+  /** Optional ETag. */
+  eTag?: string | undefined;
+  /** RPExtendedInfoResource properties */
+  properties?: OperationStatusExtendedInfo | undefined;
+}
+/** List of resources. */
+export type GetRecoveryPointRPExtendedInfoResponseValueList = Array<RPExtendedInfoResource>;
+export interface GetRecoveryPointRPExtendedInfoResponse {
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string | undefined;
+  /** List of resources. */
+  value?: GetRecoveryPointRPExtendedInfoResponseValueList | undefined;
+  /** A link to the shared fabric level operation status endpoint, which reports the status of this long running operation. The result itself is retrieved from the URL in the Location header. */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+export interface GetRecoveryPointRPExtendedInfoOperationResultRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the recovery services vault. */
+  vaultName: string;
+  /** Fabric name associated with the backed up items. */
+  fabricName: string;
+  /** OperationID which represents the prior getRPExtendedInfo operation whose result needs to be fetched. */
+  operationId: string;
+}
+/** List of resources. */
+export type GetRecoveryPointRPExtendedInfoOperationResultResponseValueList =
+  Array<RPExtendedInfoResource>;
+export interface GetRecoveryPointRPExtendedInfoOperationResultResponse {
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string | undefined;
+  /** List of resources. */
+  value?: GetRecoveryPointRPExtendedInfoOperationResultResponseValueList | undefined;
+  /** A link to the shared fabric level operation status endpoint, which reports the status of the long running operation whose result this endpoint returns. */
+  azureAsyncOperation?: string | undefined;
+  /** A link to this endpoint, which a caller polling for the result of the prior getRPExtendedInfo operation can keep using while that operation is still running. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
 }
 export interface GetResourceGuardProxyRequest {
   /** The ID of the target subscription. */
@@ -2206,7 +2310,12 @@ export interface MoveBMSPrepareDataResponse {
   retryAfter?: number | undefined;
 }
 /** Recovery point tier type. */
-export type RecoveryPointTierType = "Invalid" | "InstantRP" | "HardenedRP" | "ArchivedRP";
+export type RecoveryPointTierType =
+  | "Invalid"
+  | "InstantRP"
+  | "HardenedRP"
+  | "ArchivedRP"
+  | "IASnapshotRP";
 export interface MoveRecoveryPointRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -3089,7 +3198,7 @@ export const DeleteProtectionIntent: API.OperationMethod<
   DeleteProtectionIntentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<DeleteProtectionIntentRequest>,
+  input: __S(576, __c36, 0) as any as S.Schema<DeleteProtectionIntentRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<DeleteProtectionIntentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3123,7 +3232,7 @@ export const DeleteResourceGuardProxy: API.OperationMethod<
   DeleteResourceGuardProxyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<DeleteResourceGuardProxyRequest>,
+  input: __S(1040, __c65, 0) as any as S.Schema<DeleteResourceGuardProxyRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<DeleteResourceGuardProxyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3140,8 +3249,8 @@ export const ExecuteConfigureSourceScan: API.OperationMethod<
   ExecuteConfigureSourceScanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<ExecuteConfigureSourceScanRequest>,
-  output: __S(1217, __c76, 1) as any as S.Schema<ExecuteConfigureSourceScanResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<ExecuteConfigureSourceScanRequest>,
+  output: __S(1233, __c77, 1) as any as S.Schema<ExecuteConfigureSourceScanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3157,7 +3266,7 @@ export const ExportJob: API.OperationMethod<
   ExportJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<ExportJobRequest>,
+  input: __S(1440, __c90, 0) as any as S.Schema<ExportJobRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<ExportJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3174,8 +3283,8 @@ export const GetBackupEngine: API.OperationMethod<
   GetBackupEngineError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<GetBackupEngineRequest>,
-  output: __S(1650, __c103, 2) as any as S.Schema<GetBackupEngineResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<GetBackupEngineRequest>,
+  output: __S(1666, __c104, 2) as any as S.Schema<GetBackupEngineResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3191,7 +3300,7 @@ export const GetBackupOperationResult: API.OperationMethod<
   GetBackupOperationResultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<GetBackupOperationResultRequest>,
+  input: __S(1760, __c110, 0) as any as S.Schema<GetBackupOperationResultRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<GetBackupOperationResultResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3294,7 +3403,7 @@ export const GetBMSPrepareDataMoveOperationResult: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetBMSPrepareDataMoveOperationResultRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<VaultStorageConfigOperationResultResponse>,
+  output: __S(1248, __c78, 0) as any as S.Schema<VaultStorageConfigOperationResultResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3328,7 +3437,7 @@ export const GetGetTieringCostOperationResult: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetGetTieringCostOperationResultRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<TieringCostInfo>,
+  output: __S(1248, __c78, 0) as any as S.Schema<TieringCostInfo>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3527,6 +3636,23 @@ export const GetProtectionContainerRefreshOperationResult: API.OperationMethod<
   span: "GetProtectionContainerRefreshOperationResult",
 }));
 
+export type GetProtectionContainerRefreshOperationStatusError = AzureOpError;
+/** Fetches the status of the fabric level asynchronous operation identified by the given operation id. The status can be in progress, completed or failed. You can refer to the OperationStatus enum for all the possible states of an operation. This is the endpoint reported in the Azure-AsyncOperation header of the fabric level operations that start one, such as RefreshContainers and GetRPExtendedInfo. */
+export const GetProtectionContainerRefreshOperationStatus: API.OperationMethod<
+  GetProtectionContainerRefreshOperationStatusRequest,
+  OperationStatus,
+  GetProtectionContainerRefreshOperationStatusError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(560, __c35, 0) as any as S.Schema<GetProtectionContainerRefreshOperationStatusRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<OperationStatus>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProtectionContainerRefreshOperationStatus",
+}));
+
 export type GetProtectionIntentError = AzureOpError;
 /** Provides the details of the protection intent up item. This is an asynchronous operation. To know the status of the operation, call the GetItemOperationResult API. */
 export const GetProtectionIntent: API.OperationMethod<
@@ -3535,8 +3661,8 @@ export const GetProtectionIntent: API.OperationMethod<
   GetProtectionIntentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetProtectionIntentRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<GetProtectionIntentResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetProtectionIntentRequest>,
+  output: __S(609, __c38, 1) as any as S.Schema<GetProtectionIntentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3552,8 +3678,8 @@ export const GetProtectionPolicy: API.OperationMethod<
   GetProtectionPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetProtectionPolicyRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<GetProtectionPolicyResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetProtectionPolicyRequest>,
+  output: __S(641, __c40, 1) as any as S.Schema<GetProtectionPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3569,8 +3695,8 @@ export const GetProtectionPolicyOperationResult: API.OperationMethod<
   GetProtectionPolicyOperationResultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetProtectionPolicyOperationResultRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<GetProtectionPolicyOperationResultResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetProtectionPolicyOperationResultRequest>,
+  output: __S(641, __c40, 1) as any as S.Schema<GetProtectionPolicyOperationResultResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3586,7 +3712,7 @@ export const GetProtectionPolicyOperationStatus: API.OperationMethod<
   GetProtectionPolicyOperationStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetProtectionPolicyOperationStatusRequest>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetProtectionPolicyOperationStatusRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3603,13 +3729,55 @@ export const GetRecoveryPoint: API.OperationMethod<
   GetRecoveryPointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetRecoveryPointRequest>,
-  output: __S(691, __c43, 3) as any as S.Schema<GetRecoveryPointResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetRecoveryPointRequest>,
+  output: __S(707, __c44, 3) as any as S.Schema<GetRecoveryPointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRecoveryPoint",
+}));
+
+export type GetRecoveryPointRPExtendedInfoError = AzureOpError;
+/** Triggers fetching the additional details of a recovery point, which are not returned by the recovery point GET API. This is an asynchronous operation. Returns tracking headers which can be tracked using the GetRPExtendedInfoOperationResult API. */
+export const GetRecoveryPointRPExtendedInfo: API.OperationMethod<
+  GetRecoveryPointRPExtendedInfoRequest,
+  GetRecoveryPointRPExtendedInfoResponse,
+  GetRecoveryPointRPExtendedInfoError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(721, __c45, 1) as any as S.Schema<GetRecoveryPointRPExtendedInfoRequest>,
+  output: __S(738, __c46, 2) as any as S.Schema<GetRecoveryPointRPExtendedInfoResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPointRPExtendedInfo",
+}));
+
+export type GetRecoveryPointRPExtendedInfoOperationResultError = AzureOpError;
+/** Returns the additional details of the recovery points fetched by a prior getRPExtendedInfo operation. Returns 202 Accepted while the operation is still running. */
+export const GetRecoveryPointRPExtendedInfoOperationResult: API.OperationMethod<
+  GetRecoveryPointRPExtendedInfoOperationResultRequest,
+  GetRecoveryPointRPExtendedInfoOperationResultResponse,
+  GetRecoveryPointRPExtendedInfoOperationResultError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    752,
+    __c47,
+    0,
+  ) as any as S.Schema<GetRecoveryPointRPExtendedInfoOperationResultRequest>,
+  output: __S(
+    738,
+    __c46,
+    2,
+  ) as any as S.Schema<GetRecoveryPointRPExtendedInfoOperationResultResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPointRPExtendedInfoOperationResult",
 }));
 
 export type GetResourceGuardProxyError = AzureOpError;
@@ -3620,8 +3788,8 @@ export const GetResourceGuardProxy: API.OperationMethod<
   GetResourceGuardProxyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<GetResourceGuardProxyRequest>,
-  output: __S(706, __c44, 2) as any as S.Schema<GetResourceGuardProxyResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetResourceGuardProxyRequest>,
+  output: __S(770, __c48, 2) as any as S.Schema<GetResourceGuardProxyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3637,8 +3805,8 @@ export const GetResourceGuardProxy2: API.OperationMethod<
   GetResourceGuardProxy2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetResourceGuardProxyRequest2>,
-  output: __S(723, __c45, 3) as any as S.Schema<GetResourceGuardProxyResponse2>,
+  input: __S(800, __c50, 0) as any as S.Schema<GetResourceGuardProxyRequest2>,
+  output: __S(787, __c49, 3) as any as S.Schema<GetResourceGuardProxyResponse2>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3654,8 +3822,8 @@ export const GetSecurityPIN: API.OperationMethod<
   GetSecurityPINError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetSecurityPINRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<TokenInformation>,
+  input: __S(816, __c51, 0) as any as S.Schema<GetSecurityPINRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<TokenInformation>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3671,7 +3839,7 @@ export const GetTieringCostOperationStatus: API.OperationMethod<
   GetTieringCostOperationStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<GetTieringCostOperationStatusRequest>,
+  input: __S(848, __c53, 0) as any as S.Schema<GetTieringCostOperationStatusRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3688,8 +3856,8 @@ export const GetValidateOperationResult: API.OperationMethod<
   GetValidateOperationResultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetValidateOperationResultRequest>,
-  output: __S(803, __c50, 3) as any as S.Schema<ValidateOperationsResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<GetValidateOperationResultRequest>,
+  output: __S(883, __c55, 3) as any as S.Schema<ValidateOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3705,7 +3873,7 @@ export const GetValidateOperationStatus: API.OperationMethod<
   GetValidateOperationStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<GetValidateOperationStatusRequest>,
+  input: __S(896, __c56, 0) as any as S.Schema<GetValidateOperationStatusRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3722,8 +3890,8 @@ export const ListBackupEngines: API.OperationMethod<
   ListBackupEnginesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListBackupEnginesRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<ListBackupEnginesResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<ListBackupEnginesRequest>,
+  output: __S(914, __c57, 2) as any as S.Schema<ListBackupEnginesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3739,8 +3907,8 @@ export const ListBackupJobs: API.OperationMethod<
   ListBackupJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<ListBackupJobsRequest>,
-  output: __S(866, __c54, 2) as any as S.Schema<ListBackupJobsResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<ListBackupJobsRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<ListBackupJobsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3756,8 +3924,8 @@ export const ListBackupPolicies: API.OperationMethod<
   ListBackupPoliciesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ListBackupPoliciesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<ListBackupPoliciesResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<ListBackupPoliciesRequest>,
+  output: __S(946, __c59, 2) as any as S.Schema<ListBackupPoliciesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3773,8 +3941,8 @@ export const ListBackupProtectableItems: API.OperationMethod<
   ListBackupProtectableItemsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ListBackupProtectableItemsRequest>,
-  output: __S(900, __c56, 4) as any as S.Schema<ListBackupProtectableItemsResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<ListBackupProtectableItemsRequest>,
+  output: __S(964, __c60, 4) as any as S.Schema<ListBackupProtectableItemsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3790,8 +3958,8 @@ export const ListBackupProtectedItems: API.OperationMethod<
   ListBackupProtectedItemsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ListBackupProtectedItemsRequest>,
-  output: __S(914, __c57, 2) as any as S.Schema<ListBackupProtectedItemsResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<ListBackupProtectedItemsRequest>,
+  output: __S(978, __c61, 2) as any as S.Schema<ListBackupProtectedItemsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3807,8 +3975,8 @@ export const ListBackupProtectionContainers: API.OperationMethod<
   ListBackupProtectionContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<ListBackupProtectionContainersRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<ListBackupProtectionContainersResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<ListBackupProtectionContainersRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<ListBackupProtectionContainersResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3824,8 +3992,8 @@ export const ListBackupProtectionIntent: API.OperationMethod<
   ListBackupProtectionIntentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ListBackupProtectionIntentRequest>,
-  output: __S(962, __c60, 2) as any as S.Schema<ListBackupProtectionIntentResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<ListBackupProtectionIntentRequest>,
+  output: __S(1026, __c64, 2) as any as S.Schema<ListBackupProtectionIntentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3841,8 +4009,8 @@ export const ListBackupUsageSummaries: API.OperationMethod<
   ListBackupUsageSummariesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<ListBackupUsageSummariesRequest>,
-  output: __S(980, __c61, 4) as any as S.Schema<ListBackupUsageSummariesResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<ListBackupUsageSummariesRequest>,
+  output: __S(1060, __c66, 4) as any as S.Schema<ListBackupUsageSummariesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3858,8 +4026,8 @@ export const ListBackupWorkloadItems: API.OperationMethod<
   ListBackupWorkloadItemsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<ListBackupWorkloadItemsRequest>,
-  output: __S(996, __c62, 4) as any as S.Schema<ListBackupWorkloadItemsResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<ListBackupWorkloadItemsRequest>,
+  output: __S(1076, __c67, 4) as any as S.Schema<ListBackupWorkloadItemsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3875,8 +4043,8 @@ export const ListDeletedProtectionContainers: API.OperationMethod<
   ListDeletedProtectionContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<ListDeletedProtectionContainersRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<ListDeletedProtectionContainersResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<ListDeletedProtectionContainersRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<ListDeletedProtectionContainersResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3893,11 +4061,11 @@ export const ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResult: 
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1040,
-    __c65,
+    1104,
+    __c69,
     0,
   ) as any as S.Schema<ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResultRequest>,
-  output: __S(1043, __c65, 3) as any as S.Schema<InstantItemRecoveryTarget>,
+  output: __S(1107, __c69, 3) as any as S.Schema<InstantItemRecoveryTarget>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3913,8 +4081,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(1064, __c66, 8) as any as S.Schema<ClientDiscoveryResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1128, __c70, 8) as any as S.Schema<ClientDiscoveryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3930,8 +4098,8 @@ export const ListProtectableContainers: API.OperationMethod<
   ListProtectableContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<ListProtectableContainersRequest>,
-  output: __S(1076, __c67, 4) as any as S.Schema<ListProtectableContainersResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<ListProtectableContainersRequest>,
+  output: __S(1140, __c71, 4) as any as S.Schema<ListProtectableContainersResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3947,8 +4115,8 @@ export const ListRecoveryPoints: API.OperationMethod<
   ListRecoveryPointsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ListRecoveryPointsRequest>,
-  output: __S(1105, __c69, 1) as any as S.Schema<ListRecoveryPointsResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<ListRecoveryPointsRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<ListRecoveryPointsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3964,8 +4132,8 @@ export const ListRecoveryPointsRecommendedForMove: API.OperationMethod<
   ListRecoveryPointsRecommendedForMoveError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ListRecoveryPointsRecommendedForMoveRequest>,
-  output: __S(1105, __c69, 1) as any as S.Schema<ListRecoveryPointsRecommendedForMoveResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<ListRecoveryPointsRecommendedForMoveRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<ListRecoveryPointsRecommendedForMoveResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3981,7 +4149,7 @@ export const MoveBMSPrepareData: API.OperationMethod<
   MoveBMSPrepareDataError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<MoveBMSPrepareDataRequest>,
+  input: __S(1200, __c75, 0) as any as S.Schema<MoveBMSPrepareDataRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<MoveBMSPrepareDataResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3998,7 +4166,7 @@ export const MoveRecoveryPoint: API.OperationMethod<
   MoveRecoveryPointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<MoveRecoveryPointRequest>,
+  input: __S(1216, __c76, 0) as any as S.Schema<MoveRecoveryPointRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<MoveRecoveryPointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4015,7 +4183,7 @@ export const PatchBackupResourceStorageConfigsNonCRR: API.OperationMethod<
   PatchBackupResourceStorageConfigsNonCRRError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<PatchBackupResourceStorageConfigsNonCRRRequest>,
+  input: __S(1280, __c80, 0) as any as S.Schema<PatchBackupResourceStorageConfigsNonCRRRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<PatchBackupResourceStorageConfigsNonCRRResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4032,8 +4200,8 @@ export const PostFetchTieringCost: API.OperationMethod<
   PostFetchTieringCostError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<PostFetchTieringCostRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<PostFetchTieringCostResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<PostFetchTieringCostRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<PostFetchTieringCostResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4049,8 +4217,8 @@ export const ProtectedItemsCreateOrUpdate: API.OperationMethod<
   ProtectedItemsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1201, __c75, 1) as any as S.Schema<ProtectedItemsCreateOrUpdateRequest>,
-  output: __S(1202, __c75, 2) as any as S.Schema<ProtectedItemsCreateOrUpdateResponse>,
+  input: __S(1313, __c82, 1) as any as S.Schema<ProtectedItemsCreateOrUpdateRequest>,
+  output: __S(1314, __c82, 2) as any as S.Schema<ProtectedItemsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4066,7 +4234,7 @@ export const ProtectionContainersInquire: API.OperationMethod<
   ProtectionContainersInquireError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<ProtectionContainersInquireRequest>,
+  input: __S(1328, __c83, 0) as any as S.Schema<ProtectionContainersInquireRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<ProtectionContainersInquireResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4083,8 +4251,8 @@ export const ProtectionIntentCreateOrUpdate: API.OperationMethod<
   ProtectionIntentCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ProtectionIntentCreateOrUpdateRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<ProtectionIntentCreateOrUpdateResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<ProtectionIntentCreateOrUpdateRequest>,
+  output: __S(609, __c38, 1) as any as S.Schema<ProtectionIntentCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4100,8 +4268,8 @@ export const ProtectionPoliciesCreateOrUpdate: API.OperationMethod<
   ProtectionPoliciesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ProtectionPoliciesCreateOrUpdateRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<ProtectionPoliciesCreateOrUpdateResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<ProtectionPoliciesCreateOrUpdateRequest>,
+  output: __S(641, __c40, 1) as any as S.Schema<ProtectionPoliciesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4117,7 +4285,7 @@ export const ProvisionItemLevelRecoveryConnection: API.OperationMethod<
   ProvisionItemLevelRecoveryConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ProvisionItemLevelRecoveryConnectionRequest>,
+  input: __S(1376, __c86, 0) as any as S.Schema<ProvisionItemLevelRecoveryConnectionRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<ProvisionItemLevelRecoveryConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4134,7 +4302,7 @@ export const PutBackupResourceVaultConfig: API.OperationMethod<
   PutBackupResourceVaultConfigError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<PutBackupResourceVaultConfigRequest>,
+  input: __S(1392, __c87, 0) as any as S.Schema<PutBackupResourceVaultConfigRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<PutBackupResourceVaultConfigResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4151,8 +4319,8 @@ export const PutPrivateEndpointConnection: API.OperationMethod<
   PutPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<PutPrivateEndpointConnectionRequest>,
-  output: __S(1345, __c84, 1) as any as S.Schema<PutPrivateEndpointConnectionResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<PutPrivateEndpointConnectionRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<PutPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4168,8 +4336,8 @@ export const PutResourceGuardProxy: API.OperationMethod<
   PutResourceGuardProxyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<PutResourceGuardProxyRequest>,
-  output: __S(723, __c45, 3) as any as S.Schema<PutResourceGuardProxyResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<PutResourceGuardProxyRequest>,
+  output: __S(787, __c49, 3) as any as S.Schema<PutResourceGuardProxyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4185,7 +4353,7 @@ export const RefreshProtectionContainer: API.OperationMethod<
   RefreshProtectionContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<RefreshProtectionContainerRequest>,
+  input: __S(1456, __c91, 0) as any as S.Schema<RefreshProtectionContainerRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<RefreshProtectionContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4202,8 +4370,8 @@ export const RegisterProtectionContainer: API.OperationMethod<
   RegisterProtectionContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1393, __c87, 1) as any as S.Schema<RegisterProtectionContainerRequest>,
-  output: __S(1394, __c87, 2) as any as S.Schema<RegisterProtectionContainerResponse>,
+  input: __S(1473, __c92, 1) as any as S.Schema<RegisterProtectionContainerRequest>,
+  output: __S(1474, __c92, 2) as any as S.Schema<RegisterProtectionContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4219,8 +4387,8 @@ export const ResourceGuardProxyUnlockDelete: API.OperationMethod<
   ResourceGuardProxyUnlockDeleteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ResourceGuardProxyUnlockDeleteRequest>,
-  output: __S(1409, __c88, 1) as any as S.Schema<UnlockDeleteResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<ResourceGuardProxyUnlockDeleteRequest>,
+  output: __S(1489, __c93, 1) as any as S.Schema<UnlockDeleteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4236,7 +4404,7 @@ export const RevokeItemLevelRecoveryConnection: API.OperationMethod<
   RevokeItemLevelRecoveryConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<RevokeItemLevelRecoveryConnectionRequest>,
+  input: __S(1504, __c94, 0) as any as S.Schema<RevokeItemLevelRecoveryConnectionRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<RevokeItemLevelRecoveryConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4253,7 +4421,7 @@ export const TriggerBackup: API.OperationMethod<
   TriggerBackupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<TriggerBackupRequest>,
+  input: __S(1520, __c95, 0) as any as S.Schema<TriggerBackupRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<TriggerBackupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4270,7 +4438,7 @@ export const TriggerJobCancellation: API.OperationMethod<
   TriggerJobCancellationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<TriggerJobCancellationRequest>,
+  input: __S(1536, __c96, 0) as any as S.Schema<TriggerJobCancellationRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<TriggerJobCancellationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4287,7 +4455,7 @@ export const TriggerRestore: API.OperationMethod<
   TriggerRestoreError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1489, __c93, 1) as any as S.Schema<TriggerRestoreRequest>,
+  input: __S(1553, __c97, 1) as any as S.Schema<TriggerRestoreRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<TriggerRestoreResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4304,7 +4472,7 @@ export const TriggerValidateOperation: API.OperationMethod<
   TriggerValidateOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<TriggerValidateOperationRequest>,
+  input: __S(1568, __c98, 0) as any as S.Schema<TriggerValidateOperationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<TriggerValidateOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4321,7 +4489,7 @@ export const UnregisterProtectionContainer: API.OperationMethod<
   UnregisterProtectionContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<UnregisterProtectionContainerRequest>,
+  input: __S(1584, __c99, 0) as any as S.Schema<UnregisterProtectionContainerRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<UnregisterProtectionContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4338,7 +4506,7 @@ export const UpdateBackupResourceEncryptionConfig: API.OperationMethod<
   UpdateBackupResourceEncryptionConfigError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1537, __c96, 1) as any as S.Schema<UpdateBackupResourceEncryptionConfigRequest>,
+  input: __S(1601, __c100, 1) as any as S.Schema<UpdateBackupResourceEncryptionConfigRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<UpdateBackupResourceEncryptionConfigResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4355,7 +4523,7 @@ export const UpdateBackupResourceStorageConfigsNonCRR: API.OperationMethod<
   UpdateBackupResourceStorageConfigsNonCRRError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<UpdateBackupResourceStorageConfigsNonCRRRequest>,
+  input: __S(1680, __c105, 0) as any as S.Schema<UpdateBackupResourceStorageConfigsNonCRRRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<UpdateBackupResourceStorageConfigsNonCRRResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4372,7 +4540,7 @@ export const UpdateBackupResourceVaultConfig: API.OperationMethod<
   UpdateBackupResourceVaultConfigError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<UpdateBackupResourceVaultConfigRequest>,
+  input: __S(1696, __c106, 0) as any as S.Schema<UpdateBackupResourceVaultConfigRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<UpdateBackupResourceVaultConfigResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4389,8 +4557,8 @@ export const ValidateFeatureSupport: API.OperationMethod<
   ValidateFeatureSupportError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ValidateFeatureSupportRequest>,
-  output: __S(1585, __c99, 1) as any as S.Schema<AzureVMResourceFeatureSupportResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<ValidateFeatureSupportRequest>,
+  output: __S(1713, __c107, 1) as any as S.Schema<AzureVMResourceFeatureSupportResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4406,8 +4574,8 @@ export const ValidateOperation: API.OperationMethod<
   ValidateOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<ValidateOperationRequest2>,
-  output: __S(803, __c50, 3) as any as S.Schema<ValidateOperationsResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<ValidateOperationRequest2>,
+  output: __S(883, __c55, 3) as any as S.Schema<ValidateOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4423,8 +4591,8 @@ export const ValidateProtectionIntent: API.OperationMethod<
   ValidateProtectionIntentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<ValidateProtectionIntentRequest>,
-  output: __S(1681, __c105, 1) as any as S.Schema<PreValidateEnableBackupResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<ValidateProtectionIntentRequest>,
+  output: __S(1745, __c109, 1) as any as S.Schema<PreValidateEnableBackupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4452,7 +4620,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/triggerDataMove",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "BMSTriggerDataMoveRequest" });
@@ -4489,7 +4657,7 @@ function __c3(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
@@ -4509,7 +4677,7 @@ function __c4(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupOperations/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupOperationStatusRequest" });
@@ -4525,8 +4693,8 @@ function __c5(j: number): any {
           status: S.optional(S.String),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          error: S.optional(__S(1248, __c78, 0)),
-          properties: S.optional(__S(1232, __c77, 0)),
+          error: S.optional(__S(1264, __c79, 0)),
+          properties: S.optional(__S(1248, __c78, 0)),
         }),
       ).annotate({ identifier: "OperationStatus" });
   }
@@ -4544,7 +4712,7 @@ function __c6(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEncryptionConfigs/backupResourceEncryptionConfig",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupResourceEncryptionConfigRequest" });
@@ -4566,9 +4734,9 @@ function __c6(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           properties: S.optional(__S(97, __c6, 1)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }),
@@ -4588,7 +4756,7 @@ function __c7(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupResourceStorageConfigsNonCRRRequest" });
@@ -4617,9 +4785,9 @@ function __c9(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           properties: S.optional(__S(128, __c8, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }),
@@ -4639,7 +4807,7 @@ function __c10(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupResourceVaultConfigRequest" });
@@ -4666,9 +4834,9 @@ function __c11(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           properties: S.optional(__S(176, __c11, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }),
@@ -4690,7 +4858,7 @@ function __c12(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupStatus",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupStatusRequest" });
@@ -4726,7 +4894,7 @@ function __c13(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/operationResults/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetBMSPrepareDataMoveOperationResultRequest" });
@@ -4746,7 +4914,7 @@ function __c14(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs/operationResults/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetExportJobsOperationResultRequest" });
@@ -4757,7 +4925,7 @@ function __c14(j: number): any {
         S.Struct({
           statusCode: S.optional(S.String),
           headers: S.optional(__S(225, __c14, 1)),
-          operation: S.optional(__S(1232, __c77, 0)),
+          operation: S.optional(__S(1248, __c78, 0)),
         }),
       ).annotate({ identifier: "GetExportJobsOperationResultResponse" });
   }
@@ -4776,7 +4944,7 @@ function __c15(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTieringCost/default/operationResults/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetGetTieringCostOperationResultRequest" });
@@ -4796,7 +4964,7 @@ function __c16(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs/{jobName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetJobDetailRequest" });
@@ -4823,9 +4991,9 @@ function __c17(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           properties: S.optional(__S(272, __c17, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }),
@@ -4847,7 +5015,7 @@ function __c18(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs/{jobName}/operationResults/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetJobOperationResultRequest" });
@@ -4869,7 +5037,7 @@ function __c19(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteProtectedItemRequest" });
@@ -4895,7 +5063,7 @@ function __c21(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/operationStatus/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetOperationStatusRequest" });
@@ -4915,7 +5083,7 @@ function __c22(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
@@ -4925,9 +5093,9 @@ function __c22(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           properties: S.optional(__S(371, __c23, 3)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }),
@@ -4978,7 +5146,7 @@ function __c24(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}/operationsStatus/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointOperationStatusRequest" });
@@ -5001,7 +5169,7 @@ function __c25(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetProtectedItemRequest" });
@@ -5015,9 +5183,9 @@ function __c26(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           properties: S.optional(__S(433, __c27, 1)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }),
@@ -5086,7 +5254,7 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/operationResults/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetProtectedItemOperationResultRequest" });
@@ -5109,7 +5277,7 @@ function __c29(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/operationsStatus/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetProtectedItemOperationStatusRequest" });
@@ -5130,7 +5298,7 @@ function __c30(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetProtectionContainerRequest" });
@@ -5144,9 +5312,9 @@ function __c31(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           properties: S.optional(__S(512, __c32, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }),
@@ -5194,7 +5362,7 @@ function __c33(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/operationResults/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetProtectionContainerOperationResultRequest" });
@@ -5215,7 +5383,7 @@ function __c34(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/operationResults/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetProtectionContainerRefreshOperationResultRequest" });
@@ -5230,19 +5398,61 @@ function __c35(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
+          operationId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/operationsStatus/{operationId}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetProtectionContainerRefreshOperationStatusRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          fabricName: S.String.pipe(T.Label()),
+          intentObjectName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProtectionIntentRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          fabricName: S.String.pipe(T.Label()),
           intentObjectName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetProtectionIntentRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5262,37 +5472,16 @@ function __c36(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
-          properties: S.optional(__S(576, __c36, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
+          properties: S.optional(__S(608, __c38, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProtectionIntentResponse" });
   }
 }
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          fabricName: S.String.pipe(T.Label()),
-          intentObjectName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProtectionIntentRequest" });
-  }
-}
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5306,13 +5495,13 @@ function __c38(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetProtectionPolicyRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5341,34 +5530,13 @@ function __c39(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
-          properties: S.optional(__S(624, __c39, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
+          properties: S.optional(__S(640, __c40, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProtectionPolicyResponse" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          policyName: S.String.pipe(T.Label()),
-          operationId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}/operationResults/{operationId}",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "GetProtectionPolicyOperationResultRequest" });
   }
 }
 function __c41(j: number): any {
@@ -5384,15 +5552,36 @@ function __c41(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}/operationResults/{operationId}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetProtectionPolicyOperationResultRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          policyName: S.String.pipe(T.Label()),
+          operationId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}/operations/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetProtectionPolicyOperationStatusRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5409,13 +5598,13 @@ function __c42(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetRecoveryPointRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5431,13 +5620,13 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "ThreatInfo" });
     case 1:
-      return S.Array(__S(688, __c43, 0));
+      return S.Array(__S(704, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           objectType: S.String,
           threatStatus: S.optional(S.String),
-          threatInfo: S.optional(__S(689, __c43, 1)),
+          threatInfo: S.optional(__S(705, __c44, 1)),
         }),
       ).annotate({ identifier: "RecoveryPoint" });
     case 3:
@@ -5446,16 +5635,96 @@ function __c43(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
-          properties: S.optional(__S(690, __c43, 2)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
+          properties: S.optional(__S(706, __c44, 2)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRecoveryPointResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recoveryPointIds: __S(32, __c2, 0),
+        }),
+      ).annotate({ identifier: "GetRPExtendedInfoRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          fabricName: S.String.pipe(T.Label()),
+          location: S.optional(S.String),
+          tags: S.optional(__S(1632, __c102, 0)),
+          eTag: S.optional(S.String),
+          properties: __S(720, __c45, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/getRPExtendedInfo",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetRecoveryPointRPExtendedInfoRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1648, __c103, 0)),
+          location: S.optional(S.String),
+          tags: S.optional(__S(1632, __c102, 0)),
+          eTag: S.optional(S.String),
+          properties: S.optional(__S(1248, __c78, 0)),
+        }),
+      ).annotate({ identifier: "RPExtendedInfoResource" });
+    case 1:
+      return S.Array(__S(736, __c46, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextLink: S.optional(S.String),
+          value: S.optional(__S(737, __c46, 1)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "GetRecoveryPointRPExtendedInfoResponse" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          fabricName: S.String.pipe(T.Label()),
+          operationId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/getRPExtendedInfoOperationResult/{operationId}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetRecoveryPointRPExtendedInfoOperationResultRequest" });
+  }
+}
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5468,22 +5737,22 @@ function __c44(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetResourceGuardProxyRequest" });
     case 1:
-      return S.Array(__S(723, __c45, 3));
+      return S.Array(__S(787, __c49, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(705, __c44, 1)),
+          value: S.optional(__S(769, __c48, 1)),
         }),
       ).annotate({ identifier: "GetResourceGuardProxyResponse" });
   }
 }
-function __c45(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5493,12 +5762,12 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "ResourceGuardOperationDetail" });
     case 1:
-      return S.Array(__S(720, __c45, 0));
+      return S.Array(__S(784, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           resourceGuardResourceId: S.String,
-          resourceGuardOperationDetails: S.optional(__S(721, __c45, 1)),
+          resourceGuardOperationDetails: S.optional(__S(785, __c49, 1)),
           lastUpdatedTime: S.optional(S.String),
           description: S.optional(S.String),
         }),
@@ -5509,16 +5778,16 @@ function __c45(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
-          properties: S.optional(__S(722, __c45, 2)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
+          properties: S.optional(__S(786, __c49, 2)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceGuardProxyBaseResource" });
   }
 }
-function __c46(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5532,13 +5801,13 @@ function __c46(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetResourceGuardProxyRequest2" });
   }
 }
-function __c47(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5552,7 +5821,7 @@ function __c47(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupSecurityPIN",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetSecurityPINRequest" });
@@ -5564,92 +5833,6 @@ function __c47(j: number): any {
           securityPIN: S.optional(S.String),
         }),
       ).annotate({ identifier: "TokenInformation" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          operationId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTieringCost/default/operationsStatus/{operationId}",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "GetTieringCostOperationStatusRequest" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          operationId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperationResults/{operationId}",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "GetValidateOperationResultRequest" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          recommendations: S.optional(__S(32, __c2, 0)),
-        }),
-      ).annotate({ identifier: "ErrorDetail" });
-    case 1:
-      return S.Array(__S(800, __c50, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          validationResults: S.optional(__S(801, __c50, 1)),
-        }),
-      ).annotate({ identifier: "ValidateOperationResponse" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          validateOperationResponse: S.optional(__S(802, __c50, 2)),
-        }),
-      ).annotate({ identifier: "ValidateOperationsResponse" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          operationId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperationsStatuses/{operationId}",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "GetValidateOperationStatusRequest" });
   }
 }
 function __c52(j: number): any {
@@ -5666,13 +5849,99 @@ function __c52(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteProtectionPolicyRequest" });
   }
 }
 function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          operationId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTieringCost/default/operationsStatus/{operationId}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetTieringCostOperationStatusRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          operationId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperationResults/{operationId}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetValidateOperationResultRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          recommendations: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "ErrorDetail" });
+    case 1:
+      return S.Array(__S(880, __c55, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          validationResults: S.optional(__S(881, __c55, 1)),
+        }),
+      ).annotate({ identifier: "ValidateOperationResponse" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          validateOperationResponse: S.optional(__S(882, __c55, 2)),
+        }),
+      ).annotate({ identifier: "ValidateOperationsResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          operationId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperationsStatuses/{operationId}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetValidateOperationStatusRequest" });
+  }
+}
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5687,22 +5956,22 @@ function __c53(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListBackupEnginesRequest" });
     case 1:
-      return S.Array(__S(1650, __c103, 2));
+      return S.Array(__S(1666, __c104, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(849, __c53, 1)),
+          value: S.optional(__S(913, __c57, 1)),
         }),
       ).annotate({ identifier: "ListBackupEnginesResponse" });
   }
 }
-function __c54(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5717,7 +5986,7 @@ function __c54(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListBackupJobsRequest" });
@@ -5727,12 +5996,12 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(865, __c54, 1)),
+          value: S.optional(__S(929, __c58, 1)),
         }),
       ).annotate({ identifier: "ListBackupJobsResponse" });
   }
 }
-function __c55(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5746,22 +6015,22 @@ function __c55(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListBackupPoliciesRequest" });
     case 1:
-      return S.Array(__S(625, __c39, 1));
+      return S.Array(__S(641, __c40, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(881, __c55, 1)),
+          value: S.optional(__S(945, __c59, 1)),
         }),
       ).annotate({ identifier: "ListBackupPoliciesResponse" });
   }
 }
-function __c56(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5776,7 +6045,7 @@ function __c56(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectableItems",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListBackupProtectableItemsRequest" });
@@ -5796,115 +6065,22 @@ function __c56(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           location: S.optional(S.String),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           eTag: S.optional(S.String),
-          properties: S.optional(__S(897, __c56, 1)),
+          properties: S.optional(__S(961, __c60, 1)),
         }),
       ).annotate({ identifier: "WorkloadProtectableItemResource" });
     case 3:
-      return S.Array(__S(898, __c56, 2));
+      return S.Array(__S(962, __c60, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(899, __c56, 3)),
+          value: S.optional(__S(963, __c60, 3)),
         }),
       ).annotate({ identifier: "ListBackupProtectableItemsResponse" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          _filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectedItems",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListBackupProtectedItemsRequest" });
-    case 1:
-      return S.Array(__S(416, __c26, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          nextLink: S.optional(S.String),
-          value: S.optional(__S(913, __c57, 1)),
-        }),
-      ).annotate({ identifier: "ListBackupProtectedItemsResponse" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          _filter: S.optional(S.String.pipe(T.Query("$filter"))),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionContainers",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListBackupProtectionContainersRequest" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(496, __c31, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          nextLink: S.optional(S.String),
-          value: S.optional(__S(944, __c59, 0)),
-        }),
-      ).annotate({ identifier: "ListBackupProtectionContainersResponse" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          _filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionIntents",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListBackupProtectionIntentRequest" });
-    case 1:
-      return S.Array(__S(577, __c36, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          nextLink: S.optional(S.String),
-          value: S.optional(__S(961, __c60, 1)),
-        }),
-      ).annotate({ identifier: "ListBackupProtectionIntentResponse" });
   }
 }
 function __c61(j: number): any {
@@ -5920,9 +6096,122 @@ function __c61(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectedItems",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListBackupProtectedItemsRequest" });
+    case 1:
+      return S.Array(__S(416, __c26, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextLink: S.optional(S.String),
+          value: S.optional(__S(977, __c61, 1)),
+        }),
+      ).annotate({ identifier: "ListBackupProtectedItemsResponse" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionContainers",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListBackupProtectionContainersRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(496, __c31, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextLink: S.optional(S.String),
+          value: S.optional(__S(1008, __c63, 0)),
+        }),
+      ).annotate({ identifier: "ListBackupProtectionContainersResponse" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionIntents",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListBackupProtectionIntentRequest" });
+    case 1:
+      return S.Array(__S(609, __c38, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextLink: S.optional(S.String),
+          value: S.optional(__S(1025, __c64, 1)),
+        }),
+      ).annotate({ identifier: "ListBackupProtectionIntentResponse" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          resourceGuardProxyName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteResourceGuardProxyRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupUsageSummaries",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListBackupUsageSummariesRequest" });
@@ -5941,21 +6230,21 @@ function __c61(j: number): any {
           nextResetTime: S.optional(S.String),
           currentValue: S.optional(S.Number),
           limit: S.optional(S.Number),
-          name: S.optional(__S(977, __c61, 1)),
+          name: S.optional(__S(1057, __c66, 1)),
         }),
       ).annotate({ identifier: "BackupManagementUsage" });
     case 3:
-      return S.Array(__S(978, __c61, 2));
+      return S.Array(__S(1058, __c66, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(979, __c61, 3)),
+          value: S.optional(__S(1059, __c66, 3)),
         }),
       ).annotate({ identifier: "ListBackupUsageSummariesResponse" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5972,7 +6261,7 @@ function __c62(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/items",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListBackupWorkloadItemsRequest" });
@@ -5992,25 +6281,25 @@ function __c62(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           location: S.optional(S.String),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           eTag: S.optional(S.String),
-          properties: S.optional(__S(993, __c62, 1)),
+          properties: S.optional(__S(1073, __c67, 1)),
         }),
       ).annotate({ identifier: "WorkloadItemResource" });
     case 3:
-      return S.Array(__S(994, __c62, 2));
+      return S.Array(__S(1074, __c67, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(995, __c62, 3)),
+          value: S.optional(__S(1075, __c67, 3)),
         }),
       ).annotate({ identifier: "ListBackupWorkloadItemsResponse" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6024,33 +6313,13 @@ function __c63(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupDeletedProtectionContainers",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListDeletedProtectionContainersRequest" });
   }
 }
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          resourceGuardProxyName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteResourceGuardProxyRequest" });
-  }
-}
-function __c65(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6068,7 +6337,7 @@ function __c65(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/listInstantItemRecoveryOperationResult",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({
@@ -6085,16 +6354,16 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "ClientScriptForConnect" });
     case 2:
-      return S.Array(__S(1041, __c65, 1));
+      return S.Array(__S(1105, __c69, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          clientScripts: S.optional(__S(1042, __c65, 2)),
+          clientScripts: S.optional(__S(1106, __c69, 2)),
         }),
       ).annotate({ identifier: "InstantItemRecoveryTarget" });
   }
 }
-function __c66(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6103,7 +6372,7 @@ function __c66(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.RecoveryServices/operations",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -6125,40 +6394,40 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "ClientDiscoveryForLogSpecification" });
     case 3:
-      return S.Array(__S(1058, __c66, 2));
+      return S.Array(__S(1122, __c70, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          logSpecifications: S.optional(__S(1059, __c66, 3)),
+          logSpecifications: S.optional(__S(1123, __c70, 3)),
         }),
       ).annotate({ identifier: "ClientDiscoveryForServiceSpecification" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          serviceSpecification: S.optional(__S(1060, __c66, 4)),
+          serviceSpecification: S.optional(__S(1124, __c70, 4)),
         }),
       ).annotate({ identifier: "ClientDiscoveryForProperties" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(1057, __c66, 1)),
+          display: S.optional(__S(1121, __c70, 1)),
           origin: S.optional(S.String),
-          properties: S.optional(__S(1061, __c66, 5)),
+          properties: S.optional(__S(1125, __c70, 5)),
         }),
       ).annotate({ identifier: "ClientDiscoveryValueForSingleApi" });
     case 7:
-      return S.Array(__S(1062, __c66, 6));
+      return S.Array(__S(1126, __c70, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1063, __c66, 7)),
+          value: S.optional(__S(1127, __c70, 7)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClientDiscoveryResponse" });
   }
 }
-function __c67(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6173,7 +6442,7 @@ function __c67(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectableContainers",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListProtectableContainersRequest" });
@@ -6193,25 +6462,25 @@ function __c67(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           location: S.optional(S.String),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           eTag: S.optional(S.String),
-          properties: S.optional(__S(1073, __c67, 1)),
+          properties: S.optional(__S(1137, __c71, 1)),
         }),
       ).annotate({ identifier: "ProtectableContainerResource" });
     case 3:
-      return S.Array(__S(1074, __c67, 2));
+      return S.Array(__S(1138, __c71, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(1075, __c67, 3)),
+          value: S.optional(__S(1139, __c71, 3)),
         }),
       ).annotate({ identifier: "ListProtectableContainersResponse" });
   }
 }
-function __c68(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6228,26 +6497,26 @@ function __c68(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryPointsRequest" });
   }
 }
-function __c69(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(691, __c43, 3));
+      return S.Array(__S(707, __c44, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(1104, __c69, 0)),
+          value: S.optional(__S(1168, __c73, 0)),
         }),
       ).annotate({ identifier: "ListRecoveryPointsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6265,13 +6534,13 @@ function __c70(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPointsRecommendedForMove",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryPointsRecommendedForMoveRequest" });
   }
 }
-function __c71(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6289,13 +6558,13 @@ function __c71(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/prepareDataMove",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "MoveBMSPrepareDataRequest" });
   }
 }
-function __c72(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6315,13 +6584,72 @@ function __c72(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/move",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "MoveRecoveryPointRequest" });
   }
 }
-function __c73(j: number): any {
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          fabricName: S.String.pipe(T.Label()),
+          containerName: S.String.pipe(T.Label()),
+          protectedItemName: S.String.pipe(T.Label()),
+          sourceScanAction: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/configureSourceScan",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ExecuteConfigureSourceScanRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          error: S.optional(__S(1264, __c79, 0)),
+          properties: S.optional(__S(1248, __c78, 0)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "ExecuteConfigureSourceScanResponse" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          objectType: S.String,
+        }),
+      ).annotate({ identifier: "OperationStatusExtendedInfo" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OperationStatusError" });
+  }
+}
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6330,7 +6658,7 @@ function __c73(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           properties: S.optional(__S(128, __c8, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }).pipe(
@@ -6338,13 +6666,13 @@ function __c73(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PatchBackupResourceStorageConfigsNonCRRRequest" });
   }
 }
-function __c74(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6360,7 +6688,7 @@ function __c74(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTieringCost/default/fetchTieringCost",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PostFetchTieringCostRequest" });
@@ -6374,7 +6702,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "PostFetchTieringCostResponse" });
   }
 }
-function __c75(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6410,8 +6738,8 @@ function __c75(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           containerName: S.String.pipe(T.Label()),
           protectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1200, __c75, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          properties: S.optional(__S(1312, __c82, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }).pipe(
@@ -6419,7 +6747,7 @@ function __c75(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ProtectedItemsCreateOrUpdateRequest" });
@@ -6429,9 +6757,9 @@ function __c75(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           properties: S.optional(__S(433, __c27, 1)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
@@ -6440,66 +6768,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ProtectedItemsCreateOrUpdateResponse" });
   }
 }
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          fabricName: S.String.pipe(T.Label()),
-          containerName: S.String.pipe(T.Label()),
-          protectedItemName: S.String.pipe(T.Label()),
-          sourceScanAction: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/configureSourceScan",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ExecuteConfigureSourceScanRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          status: S.optional(S.String),
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-          error: S.optional(__S(1248, __c78, 0)),
-          properties: S.optional(__S(1232, __c77, 0)),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-        }),
-      ).annotate({ identifier: "ExecuteConfigureSourceScanResponse" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          objectType: S.String,
-        }),
-      ).annotate({ identifier: "OperationStatusExtendedInfo" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OperationStatusError" });
-  }
-}
-function __c79(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6515,13 +6784,13 @@ function __c79(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/inquire",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ProtectionContainersInquireRequest" });
   }
 }
-function __c80(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6531,8 +6800,8 @@ function __c80(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           intentObjectName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(576, __c36, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          properties: S.optional(__S(608, __c38, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }).pipe(
@@ -6540,13 +6809,13 @@ function __c80(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ProtectionIntentCreateOrUpdateRequest" });
   }
 }
-function __c81(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6555,8 +6824,8 @@ function __c81(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           policyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(624, __c39, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          properties: S.optional(__S(640, __c40, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }).pipe(
@@ -6564,13 +6833,13 @@ function __c81(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ProtectionPoliciesCreateOrUpdateRequest" });
   }
 }
-function __c82(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6583,21 +6852,21 @@ function __c82(j: number): any {
           protectedItemName: S.String.pipe(T.Label()),
           recoveryPointId: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           eTag: S.optional(S.String),
-          properties: S.optional(__S(1232, __c77, 0)),
+          properties: S.optional(__S(1248, __c78, 0)),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/provisionInstantItemRecovery",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ProvisionItemLevelRecoveryConnectionRequest" });
   }
 }
-function __c83(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6606,7 +6875,7 @@ function __c83(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           properties: S.optional(__S(176, __c11, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }).pipe(
@@ -6614,13 +6883,13 @@ function __c83(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PutBackupResourceVaultConfigRequest" });
   }
 }
-function __c84(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6630,7 +6899,7 @@ function __c84(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
           properties: S.optional(__S(371, __c23, 3)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }).pipe(
@@ -6638,7 +6907,7 @@ function __c84(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PutPrivateEndpointConnectionRequest" });
@@ -6648,9 +6917,9 @@ function __c84(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           properties: S.optional(__S(371, __c23, 3)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
@@ -6659,7 +6928,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "PutPrivateEndpointConnectionResponse" });
   }
 }
-function __c85(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6668,8 +6937,8 @@ function __c85(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           resourceGuardProxyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(722, __c45, 2)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          properties: S.optional(__S(786, __c49, 2)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }).pipe(
@@ -6677,13 +6946,33 @@ function __c85(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PutResourceGuardProxyRequest" });
   }
 }
-function __c86(j: number): any {
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobsExport",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ExportJobRequest" });
+  }
+}
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6698,13 +6987,13 @@ function __c86(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/refreshContainers",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RefreshProtectionContainerRequest" });
   }
 }
-function __c87(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6734,8 +7023,8 @@ function __c87(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           containerName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1392, __c87, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          properties: S.optional(__S(1472, __c92, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }).pipe(
@@ -6743,7 +7032,7 @@ function __c87(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RegisterProtectionContainerRequest" });
@@ -6753,9 +7042,9 @@ function __c87(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
           properties: S.optional(__S(512, __c32, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
@@ -6764,7 +7053,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "RegisterProtectionContainerResponse" });
   }
 }
-function __c88(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6780,7 +7069,7 @@ function __c88(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}/unlockDelete",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ResourceGuardProxyUnlockDeleteRequest" });
@@ -6792,27 +7081,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "UnlockDeleteResponse" });
   }
 }
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          _filter: S.optional(S.String.pipe(T.Query("$filter"))),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobsExport",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ExportJobRequest" });
-  }
-}
-function __c90(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6829,13 +7098,13 @@ function __c90(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/revokeInstantItemRecovery",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RevokeItemLevelRecoveryConnectionRequest" });
   }
 }
-function __c91(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6847,21 +7116,21 @@ function __c91(j: number): any {
           containerName: S.String.pipe(T.Label()),
           protectedItemName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           eTag: S.optional(S.String),
-          properties: S.optional(__S(1232, __c77, 0)),
+          properties: S.optional(__S(1248, __c78, 0)),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/backup",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "TriggerBackupRequest" });
   }
 }
-function __c92(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6875,13 +7144,13 @@ function __c92(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs/{jobName}/cancel",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "TriggerJobCancellationRequest" });
   }
 }
-function __c93(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6901,21 +7170,21 @@ function __c93(j: number): any {
           protectedItemName: S.String.pipe(T.Label()),
           recoveryPointId: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          tags: S.optional(__S(1616, __c101, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           eTag: S.optional(S.String),
-          properties: S.optional(__S(1488, __c93, 0)),
+          properties: S.optional(__S(1552, __c97, 0)),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/restore",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "TriggerRestoreRequest" });
   }
 }
-function __c94(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6924,19 +7193,19 @@ function __c94(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           id: S.String,
-          properties: __S(1232, __c77, 0),
+          properties: __S(1248, __c78, 0),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTriggerValidateOperation",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "TriggerValidateOperationRequest" });
   }
 }
-function __c95(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6951,13 +7220,13 @@ function __c95(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UnregisterProtectionContainerRequest" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6975,8 +7244,8 @@ function __c96(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1536, __c96, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          properties: S.optional(__S(1600, __c100, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }).pipe(
@@ -6984,84 +7253,13 @@ function __c96(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEncryptionConfigs/backupResourceEncryptionConfig",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateBackupResourceEncryptionConfigRequest" });
   }
 }
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(128, __c8, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
-          location: S.optional(S.String),
-          eTag: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateBackupResourceStorageConfigsNonCRRRequest" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          vaultName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(176, __c11, 0)),
-          tags: S.optional(__S(1616, __c101, 0)),
-          location: S.optional(S.String),
-          eTag: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateBackupResourceVaultConfigRequest" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          azureRegion: S.String.pipe(T.Label()),
-          featureType: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupValidateFeatures",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ValidateFeatureSupportRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          supportStatus: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AzureVMResourceFeatureSupportResponse" });
-  }
-}
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7077,19 +7275,19 @@ function __c100(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines/{backupEngineName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupEngineRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7104,7 +7302,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "SystemData" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7134,7 +7332,7 @@ function __c103(j: number): any {
           azureBackupAgentVersion: S.optional(S.String),
           isAzureBackupAgentUpgradeAvailable: S.optional(S.Boolean),
           isDpmUpgradeAvailable: S.optional(S.Boolean),
-          extendedInfo: S.optional(__S(1648, __c103, 0)),
+          extendedInfo: S.optional(__S(1664, __c104, 0)),
         }),
       ).annotate({ identifier: "BackupEngineBase" });
     case 2:
@@ -7143,16 +7341,87 @@ function __c103(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1632, __c102, 0)),
-          properties: S.optional(__S(1649, __c103, 1)),
-          tags: S.optional(__S(1616, __c101, 0)),
+          systemData: S.optional(__S(1648, __c103, 0)),
+          properties: S.optional(__S(1665, __c104, 1)),
+          tags: S.optional(__S(1632, __c102, 0)),
           location: S.optional(S.String),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetBackupEngineResponse" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(128, __c8, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
+          location: S.optional(S.String),
+          eTag: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateBackupResourceStorageConfigsNonCRRRequest" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          vaultName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(176, __c11, 0)),
+          tags: S.optional(__S(1632, __c102, 0)),
+          location: S.optional(S.String),
+          eTag: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateBackupResourceVaultConfigRequest" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          azureRegion: S.String.pipe(T.Label()),
+          featureType: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupValidateFeatures",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "ValidateFeatureSupportRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          supportStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureVMResourceFeatureSupportResponse" });
+  }
+}
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7161,19 +7430,19 @@ function __c104(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           id: S.String,
-          properties: __S(1232, __c77, 0),
+          properties: __S(1248, __c78, 0),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperation",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ValidateOperationRequest2" });
   }
 }
-function __c105(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7189,7 +7458,7 @@ function __c105(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupPreValidateProtection",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ValidateProtectionIntentRequest" });
@@ -7206,7 +7475,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "PreValidateEnableBackupResponse" });
   }
 }
-function __c106(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7220,7 +7489,7 @@ function __c106(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupOperationResults/{operationId}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupOperationResultRequest" });

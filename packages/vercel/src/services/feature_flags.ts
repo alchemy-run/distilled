@@ -592,6 +592,7 @@ export interface CreateFlagResponse {
   projectId: string;
   revision: number;
   seed: number;
+  seenInProduction?: boolean | undefined;
   slug: string;
   state: CreateFlagResponseState;
   tags?: CreateFlagResponseTagsList | undefined;
@@ -867,6 +868,24 @@ export interface CreateFlagSegmentResponse {
   usedByFlags?: CreateFlagSegmentResponseUsedByFlagsList | undefined;
   usedBySegments?: CreateFlagSegmentResponseUsedBySegmentsList | undefined;
 }
+export interface CreateFlagsProjectConnectionRequest {
+  /** The project id or name */
+  projectIdOrName: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+  /** The project in the same team that may read the flags of this project */
+  consumerProjectId: string;
+}
+export interface CreateFlagsProjectConnectionResponse {
+  consumerProjectId: string;
+  consumerProjectName: string;
+  createdAt: number;
+  createdBy: string;
+  sourceProjectId: string;
+  sourceProjectName: string;
+}
 export type CreateSdkKeyRequestSdkKeyType = "server" | "mobile" | "client";
 export interface CreateSdkKeyRequest {
   /** The project id or name */
@@ -926,6 +945,17 @@ export interface DeleteFlagSegmentRequest {
   slug?: string | undefined;
 }
 export interface DeleteFlagSegmentResponse {}
+export interface DeleteFlagsProjectConnectionRequest {
+  /** The project id or name */
+  projectIdOrName: string;
+  /** The connected consumer project id */
+  consumerProjectId: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+}
+export interface DeleteFlagsProjectConnectionResponse {}
 export interface DeleteSdkKeyRequest {
   /** The project id or name */
   projectIdOrName: string;
@@ -1220,6 +1250,7 @@ export interface Flag {
   projectId: string;
   revision: number;
   seed: number;
+  seenInProduction?: boolean | undefined;
   slug: string;
   state: FlagState;
   tags?: FlagTagsList | undefined;
@@ -1428,6 +1459,35 @@ export interface GetFlagSettingsResponse {
   typeName: GetFlagSettingsResponseTypeName;
   updatedAt?: number | undefined;
 }
+/** List connections where this project is the source (default) or the consumer */
+export type GetFlagsProjectConnectionsRequestRole = "source" | "consumer";
+export interface GetFlagsProjectConnectionsRequest {
+  /** The project id or name */
+  projectIdOrName: string;
+  /** List connections where this project is the source (default) or the consumer */
+  role?: GetFlagsProjectConnectionsRequestRole | (string & {}) | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+}
+export interface GetFlagsProjectConnectionsResponseBodyCase1DataItem {
+  consumerProjectId: string;
+  consumerProjectName?: string | undefined;
+  createdAt: number;
+  createdBy: string;
+  sourceProjectId: string;
+  sourceProjectName?: string | undefined;
+}
+export type GetFlagsProjectConnectionsResponseBodyCase1DataList =
+  Array<GetFlagsProjectConnectionsResponseBodyCase1DataItem>;
+export interface GetFlagsProjectConnectionsResponseBodyCase1 {
+  data: GetFlagsProjectConnectionsResponseBodyCase1DataList;
+}
+export type GetFlagsProjectConnectionsResponseBody =
+  | unknown
+  | GetFlagsProjectConnectionsResponseBodyCase1;
+export type GetFlagsProjectConnectionsResponse = GetFlagsProjectConnectionsResponseBody;
 export interface GetSdkKeysRequest {
   /** The project id or name */
   projectIdOrName: string;
@@ -1455,6 +1515,56 @@ export type GetSdkKeysResponseDataList = Array<GetSdkKeysResponseDataItem>;
 export interface GetSdkKeysResponse {
   data: GetSdkKeysResponseDataList;
 }
+export interface ListFlagLabelCountsRequest {
+  projectIdOrName: string;
+  entityKind?: string | undefined;
+  limit?: number | undefined;
+  /** The continuation cursor from the previous response. */
+  cursor?: string | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+}
+export interface ListFlagLabelCountsResponseDataItem {
+  attributeKey: string;
+  entityKind: string;
+  count: number;
+}
+export type ListFlagLabelCountsResponseDataList = Array<ListFlagLabelCountsResponseDataItem>;
+export interface ListFlagLabelCountsResponsePagination {
+  next: string | null;
+}
+export interface ListFlagLabelCountsResponse {
+  data: ListFlagLabelCountsResponseDataList;
+  pagination: ListFlagLabelCountsResponsePagination;
+}
+export interface ListFlagLabelsRequest {
+  projectIdOrName: string;
+  limit?: number | undefined;
+  /** The continuation cursor from the previous response. */
+  cursor?: string | undefined;
+  /** Case-insensitive substring search on the value and label. */
+  search?: string | undefined;
+  entityKind: string;
+  attributeKey: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+}
+export interface ListFlagLabelsResponseDataItem {
+  attributeKey: string;
+  entityKind: string;
+  label: string;
+  value: string;
+}
+export type ListFlagLabelsResponseDataList = Array<ListFlagLabelsResponseDataItem>;
+export type ListFlagLabelsResponsePagination = ListFlagLabelCountsResponsePagination;
+export interface ListFlagLabelsResponse {
+  data: ListFlagLabelsResponseDataList;
+  pagination: ListFlagLabelCountsResponsePagination;
+}
 /** The state of the flags to retrieve. Defaults to `active`. */
 export type ListFlagsRequestState = "active" | "archived";
 /** Filter flags by tag. Repeat the parameter for multiple tags (all must match). */
@@ -1480,12 +1590,10 @@ export interface ListFlagsRequest {
   slug?: string | undefined;
 }
 export type ListFlagsResponseDataList = Array<Flag>;
-export interface ListFlagsResponsePagination {
-  next: string | null;
-}
+export type ListFlagsResponsePagination = ListFlagLabelCountsResponsePagination;
 export interface ListFlagsResponse {
   data: ListFlagsResponseDataList;
-  pagination: ListFlagsResponsePagination;
+  pagination: ListFlagLabelCountsResponsePagination;
 }
 export interface ListFlagSegmentsRequest {
   /** The project id or name */
@@ -1531,7 +1639,7 @@ export interface ListFlagsV2Request {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
 }
-export type ListFlagsV2ResponsePagination = ListFlagsResponsePagination;
+export type ListFlagsV2ResponsePagination = ListFlagLabelCountsResponsePagination;
 export type MarketplaceFlagCategory = "experiment" | "flag";
 export type MarketplaceFlagState = "active" | "archived";
 export type MarketplaceFlagTypeName = "marketplaceFlag";
@@ -1555,7 +1663,7 @@ export interface MarketplaceFlag {
 export type ListFlagsV2ResponseDataItem = Flag | MarketplaceFlag;
 export type ListFlagsV2ResponseDataList = Array<ListFlagsV2ResponseDataItem>;
 export interface ListFlagsV2Response {
-  pagination: ListFlagsResponsePagination;
+  pagination: ListFlagLabelCountsResponsePagination;
   data: ListFlagsV2ResponseDataList;
 }
 export interface ListFlagVersionsRequest {
@@ -1887,10 +1995,10 @@ export interface ListTeamFlagsRequest {
   slug?: string | undefined;
 }
 export type ListTeamFlagsResponseDataList = Array<Flag>;
-export type ListTeamFlagsResponsePagination = ListFlagsResponsePagination;
+export type ListTeamFlagsResponsePagination = ListFlagLabelCountsResponsePagination;
 export interface ListTeamFlagsResponse {
   data: ListTeamFlagsResponseDataList;
-  pagination: ListFlagsResponsePagination;
+  pagination: ListFlagLabelCountsResponsePagination;
 }
 export interface ListTeamFlagSettingsRequest {
   /** The Team identifier to perform the request on behalf of. */
@@ -1938,10 +2046,10 @@ export interface ListTeamFlagSettingsResponseBodyCase1DataItem {
 }
 export type ListTeamFlagSettingsResponseBodyCase1DataList =
   Array<ListTeamFlagSettingsResponseBodyCase1DataItem>;
-export type ListTeamFlagSettingsResponseBodyCase1Pagination = ListFlagsResponsePagination;
+export type ListTeamFlagSettingsResponseBodyCase1Pagination = ListFlagLabelCountsResponsePagination;
 export interface ListTeamFlagSettingsResponseBodyCase1 {
   data: ListTeamFlagSettingsResponseBodyCase1DataList;
-  pagination: ListFlagsResponsePagination;
+  pagination: ListFlagLabelCountsResponsePagination;
 }
 export type ListTeamFlagSettingsResponseBody = unknown | ListTeamFlagSettingsResponseBodyCase1;
 export type ListTeamFlagSettingsResponse = ListTeamFlagSettingsResponseBody;
@@ -1977,12 +2085,38 @@ export interface ListTeamFlagsV2Request {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
 }
-export type ListTeamFlagsV2ResponsePagination = ListFlagsResponsePagination;
+export type ListTeamFlagsV2ResponsePagination = ListFlagLabelCountsResponsePagination;
 export type ListTeamFlagsV2ResponseDataItem = Flag | MarketplaceFlag;
 export type ListTeamFlagsV2ResponseDataList = Array<ListTeamFlagsV2ResponseDataItem>;
 export interface ListTeamFlagsV2Response {
-  pagination: ListFlagsResponsePagination;
+  pagination: ListFlagLabelCountsResponsePagination;
   data: ListTeamFlagsV2ResponseDataList;
+}
+export interface LookupFlagLabelsRequestItemsItem {
+  value: string;
+  entityKind: string;
+  attributeKey: string;
+}
+export type LookupFlagLabelsRequestItemsList = Array<LookupFlagLabelsRequestItemsItem>;
+export interface LookupFlagLabelsRequest {
+  projectIdOrName: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+  items: LookupFlagLabelsRequestItemsList;
+}
+export type LookupFlagLabelsResponseDataItem = ListFlagLabelsResponseDataItem;
+export type LookupFlagLabelsResponseDataList = Array<ListFlagLabelsResponseDataItem>;
+export interface LookupFlagLabelsResponseMissingItem {
+  attributeKey: string;
+  entityKind: string;
+  value: string;
+}
+export type LookupFlagLabelsResponseMissingList = Array<LookupFlagLabelsResponseMissingItem>;
+export interface LookupFlagLabelsResponse {
+  data: LookupFlagLabelsResponseDataList;
+  missing: LookupFlagLabelsResponseMissingList;
 }
 export type UpdateFlagRequestVariantsItemValueCase4List = Array<unknown>;
 export type UpdateFlagRequestVariantsItemValue =
@@ -2232,65 +2366,64 @@ export interface UpdateFlagRequest {
   /** Tags for categorizing the flag */
   tags?: UpdateFlagRequestTagsList | undefined;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase0Type = "variant";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase0 {
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase0Type;
+export type UpdateFlagResponseEnvironmentsValueFallthroughCase0Type = "variant";
+export interface UpdateFlagResponseEnvironmentsValueFallthroughCase0 {
+  type: UpdateFlagResponseEnvironmentsValueFallthroughCase0Type;
   variantId: string;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase1BaseType = "entity";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase1Base {
+export type UpdateFlagResponseEnvironmentsValueFallthroughCase1BaseType = "entity";
+export interface UpdateFlagResponseEnvironmentsValueFallthroughCase1Base {
   attribute: string;
   kind: string;
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase1BaseType;
+  type: UpdateFlagResponseEnvironmentsValueFallthroughCase1BaseType;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase1Type = "split";
-export type UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase1WeightsMap = {
+export type UpdateFlagResponseEnvironmentsValueFallthroughCase1Type = "split";
+export type UpdateFlagResponseEnvironmentsValueFallthroughCase1WeightsMap = {
   [key: string]: number | undefined;
 };
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase1 {
-  base: UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase1Base;
+export interface UpdateFlagResponseEnvironmentsValueFallthroughCase1 {
+  base: UpdateFlagResponseEnvironmentsValueFallthroughCase1Base;
   defaultVariantId: string;
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase1Type;
-  weights: UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase1WeightsMap;
+  type: UpdateFlagResponseEnvironmentsValueFallthroughCase1Type;
+  weights: UpdateFlagResponseEnvironmentsValueFallthroughCase1WeightsMap;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase2BaseType = "entity";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase2Base {
+export type UpdateFlagResponseEnvironmentsValueFallthroughCase2BaseType = "entity";
+export interface UpdateFlagResponseEnvironmentsValueFallthroughCase2Base {
   attribute: string;
   kind: string;
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase2BaseType;
+  type: UpdateFlagResponseEnvironmentsValueFallthroughCase2BaseType;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase2SlotsItem =
+export type UpdateFlagResponseEnvironmentsValueFallthroughCase2SlotsItem =
   CreateFlagResponseEnvironmentsValueFallthroughCase2SlotsItem;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase2SlotsList =
+export type UpdateFlagResponseEnvironmentsValueFallthroughCase2SlotsList =
   Array<CreateFlagResponseEnvironmentsValueFallthroughCase2SlotsItem>;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase2Type = "rollout";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase2 {
-  base: UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase2Base;
+export type UpdateFlagResponseEnvironmentsValueFallthroughCase2Type = "rollout";
+export interface UpdateFlagResponseEnvironmentsValueFallthroughCase2 {
+  base: UpdateFlagResponseEnvironmentsValueFallthroughCase2Base;
   defaultVariantId: string;
   finalPromille?: number | undefined;
   rollFromVariantId: string;
   rollToVariantId: string;
-  slots: UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase2SlotsList;
+  slots: UpdateFlagResponseEnvironmentsValueFallthroughCase2SlotsList;
   startTimestamp: number;
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase2Type;
+  type: UpdateFlagResponseEnvironmentsValueFallthroughCase2Type;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase3Type = "experiment";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase3 {
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase3Type;
+export type UpdateFlagResponseEnvironmentsValueFallthroughCase3Type = "experiment";
+export interface UpdateFlagResponseEnvironmentsValueFallthroughCase3 {
+  type: UpdateFlagResponseEnvironmentsValueFallthroughCase3Type;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueFallthrough =
-  | UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase0
-  | UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase1
-  | UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase2
-  | UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase3;
-export type UpdateFlagResponseBodyCase0EnvironmentsValuePausedOutcomeType = "variant";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValuePausedOutcome {
-  type: UpdateFlagResponseBodyCase0EnvironmentsValuePausedOutcomeType;
+export type UpdateFlagResponseEnvironmentsValueFallthrough =
+  | UpdateFlagResponseEnvironmentsValueFallthroughCase0
+  | UpdateFlagResponseEnvironmentsValueFallthroughCase1
+  | UpdateFlagResponseEnvironmentsValueFallthroughCase2
+  | UpdateFlagResponseEnvironmentsValueFallthroughCase3;
+export type UpdateFlagResponseEnvironmentsValuePausedOutcomeType = "variant";
+export interface UpdateFlagResponseEnvironmentsValuePausedOutcome {
+  type: UpdateFlagResponseEnvironmentsValuePausedOutcomeType;
   variantId: string;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueReuse =
-  CreateFlagResponseEnvironmentsValueReuse;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemCmp =
+export type UpdateFlagResponseEnvironmentsValueReuse = CreateFlagResponseEnvironmentsValueReuse;
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemCmp =
   | "!contains"
   | "!endsWith"
   | "!eq"
@@ -2314,189 +2447,182 @@ export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemC
   | "oneOf"
   | "regex"
   | "startsWith";
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemCmpOptions =
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemCmpOptions =
   CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemLhsCase0Type =
-  "segment";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemLhsCase0 {
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemLhsCase0Type;
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase0Type = "segment";
+export interface UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase0 {
+  type: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase0Type;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemLhsCase1Type =
-  "entity";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemLhsCase1 {
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase1Type = "entity";
+export interface UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase1 {
   attribute: string;
   kind: string;
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemLhsCase1Type;
+  type: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase1Type;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemLhs =
-  | UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemLhsCase0
-  | UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemLhsCase1;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItemCase0 =
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhs =
+  | UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase0
+  | UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase1;
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItemCase0 =
   CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItemCase1 =
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItemCase1 =
   CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItem =
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItem =
   | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0
   | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase2ItemsList =
-  Array<UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItem>;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase2Type =
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsList =
+  Array<UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItem>;
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2Type =
   | "list"
   | "list/inline";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase2 {
-  items: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase2ItemsList;
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase2Type;
+export interface UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2 {
+  items: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsList;
+  type: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2Type;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase3Type =
-  "regex";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase3 {
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase3Type = "regex";
+export interface UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase3 {
   flags: string;
   pattern: string;
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase3Type;
+  type: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase3Type;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhs =
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhs =
   | string
   | number
-  | UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase2
-  | UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhsCase3
+  | UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2
+  | UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase3
   | boolean;
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItem {
-  cmp: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemCmp;
+export interface UpdateFlagResponseEnvironmentsValueRulesItemConditionsItem {
+  cmp: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemCmp;
   cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
-  lhs: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemLhs;
-  rhs?: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItemRhs | undefined;
+  lhs: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhs;
+  rhs?: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhs | undefined;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsList =
-  Array<UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsItem>;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase0Type = "variant";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase0 {
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase0Type;
+export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsList =
+  Array<UpdateFlagResponseEnvironmentsValueRulesItemConditionsItem>;
+export type UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase0Type = "variant";
+export interface UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase0 {
+  type: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase0Type;
   variantId: string;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase1BaseType = "entity";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase1Base {
+export type UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase1BaseType = "entity";
+export interface UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase1Base {
   attribute: string;
   kind: string;
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase1BaseType;
+  type: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase1BaseType;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase1Type = "split";
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase1WeightsMap = {
+export type UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase1Type = "split";
+export type UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase1WeightsMap = {
   [key: string]: number | undefined;
 };
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase1 {
-  base: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase1Base;
+export interface UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase1 {
+  base: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase1Base;
   defaultVariantId: string;
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase1Type;
-  weights: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase1WeightsMap;
+  type: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase1Type;
+  weights: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase1WeightsMap;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase2BaseType = "entity";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase2Base {
+export type UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2BaseType = "entity";
+export interface UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2Base {
   attribute: string;
   kind: string;
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase2BaseType;
+  type: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2BaseType;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase2SlotsItem =
+export type UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2SlotsItem =
   CreateFlagResponseEnvironmentsValueFallthroughCase2SlotsItem;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase2SlotsList =
+export type UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2SlotsList =
   Array<CreateFlagResponseEnvironmentsValueFallthroughCase2SlotsItem>;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase2Type = "rollout";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase2 {
-  base: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase2Base;
+export type UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2Type = "rollout";
+export interface UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2 {
+  base: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2Base;
   defaultVariantId: string;
   finalPromille?: number | undefined;
   rollFromVariantId: string;
   rollToVariantId: string;
-  slots: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase2SlotsList;
+  slots: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2SlotsList;
   startTimestamp: number;
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase2Type;
+  type: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2Type;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase3Type = "experiment";
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase3 {
-  type: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase3Type;
+export type UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase3Type = "experiment";
+export interface UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase3 {
+  type: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase3Type;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcome =
-  | UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase0
-  | UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase1
-  | UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase2
-  | UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase3;
-export interface UpdateFlagResponseBodyCase0EnvironmentsValueRulesItem {
-  conditions: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemConditionsList;
+export type UpdateFlagResponseEnvironmentsValueRulesItemOutcome =
+  | UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase0
+  | UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase1
+  | UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2
+  | UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase3;
+export interface UpdateFlagResponseEnvironmentsValueRulesItem {
+  conditions: UpdateFlagResponseEnvironmentsValueRulesItemConditionsList;
   id: string;
-  outcome: UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcome;
+  outcome: UpdateFlagResponseEnvironmentsValueRulesItemOutcome;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsValueRulesList =
-  Array<UpdateFlagResponseBodyCase0EnvironmentsValueRulesItem>;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueTargetsValueValueValueItem =
+export type UpdateFlagResponseEnvironmentsValueRulesList =
+  Array<UpdateFlagResponseEnvironmentsValueRulesItem>;
+export type UpdateFlagResponseEnvironmentsValueTargetsValueValueValueItem =
   CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueTargetsValueValueValueList =
+export type UpdateFlagResponseEnvironmentsValueTargetsValueValueValueList =
   Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
-export type UpdateFlagResponseBodyCase0EnvironmentsValueTargetsValueValueMap = {
-  [key: string]: UpdateFlagResponseBodyCase0EnvironmentsValueTargetsValueValueValueList | undefined;
+export type UpdateFlagResponseEnvironmentsValueTargetsValueValueMap = {
+  [key: string]: UpdateFlagResponseEnvironmentsValueTargetsValueValueValueList | undefined;
 };
-export type UpdateFlagResponseBodyCase0EnvironmentsValueTargetsValueMap = {
-  [key: string]: UpdateFlagResponseBodyCase0EnvironmentsValueTargetsValueValueMap | undefined;
+export type UpdateFlagResponseEnvironmentsValueTargetsValueMap = {
+  [key: string]: UpdateFlagResponseEnvironmentsValueTargetsValueValueMap | undefined;
 };
-export type UpdateFlagResponseBodyCase0EnvironmentsValueTargetsMap = {
-  [key: string]: UpdateFlagResponseBodyCase0EnvironmentsValueTargetsValueMap | undefined;
+export type UpdateFlagResponseEnvironmentsValueTargetsMap = {
+  [key: string]: UpdateFlagResponseEnvironmentsValueTargetsValueMap | undefined;
 };
-export interface UpdateFlagResponseBodyCase0EnvironmentsValue {
+export interface UpdateFlagResponseEnvironmentsValue {
   active: boolean;
-  fallthrough: UpdateFlagResponseBodyCase0EnvironmentsValueFallthrough;
-  pausedOutcome: UpdateFlagResponseBodyCase0EnvironmentsValuePausedOutcome;
+  fallthrough: UpdateFlagResponseEnvironmentsValueFallthrough;
+  pausedOutcome: UpdateFlagResponseEnvironmentsValuePausedOutcome;
   reuse?: CreateFlagResponseEnvironmentsValueReuse | undefined;
   revision?: number | undefined;
-  rules: UpdateFlagResponseBodyCase0EnvironmentsValueRulesList;
-  targets?: UpdateFlagResponseBodyCase0EnvironmentsValueTargetsMap | undefined;
+  rules: UpdateFlagResponseEnvironmentsValueRulesList;
+  targets?: UpdateFlagResponseEnvironmentsValueTargetsMap | undefined;
 }
-export type UpdateFlagResponseBodyCase0EnvironmentsMap = {
-  [key: string]: UpdateFlagResponseBodyCase0EnvironmentsValue | undefined;
+export type UpdateFlagResponseEnvironmentsMap = {
+  [key: string]: UpdateFlagResponseEnvironmentsValue | undefined;
 };
-export type UpdateFlagResponseBodyCase0Kind = "boolean" | "json" | "number" | "string";
-export type UpdateFlagResponseBodyCase0MaintainerIdsList = Array<string>;
-export type UpdateFlagResponseBodyCase0State = "active" | "archived";
-export type UpdateFlagResponseBodyCase0TagsList = Array<string>;
-export type UpdateFlagResponseBodyCase0TypeName = "flag";
-export type UpdateFlagResponseBodyCase0VariantsItemValueCase2Map = {
-  [key: string]: unknown | undefined;
-};
-export type UpdateFlagResponseBodyCase0VariantsItemValueCase3List = Array<unknown>;
-export type UpdateFlagResponseBodyCase0VariantsItemValue =
+export type UpdateFlagResponseKind = "boolean" | "json" | "number" | "string";
+export type UpdateFlagResponseMaintainerIdsList = Array<string>;
+export type UpdateFlagResponseState = "active" | "archived";
+export type UpdateFlagResponseTagsList = Array<string>;
+export type UpdateFlagResponseTypeName = "flag";
+export type UpdateFlagResponseVariantsItemValueCase2Map = { [key: string]: unknown | undefined };
+export type UpdateFlagResponseVariantsItemValueCase3List = Array<unknown>;
+export type UpdateFlagResponseVariantsItemValue =
   | string
   | number
-  | UpdateFlagResponseBodyCase0VariantsItemValueCase2Map
-  | UpdateFlagResponseBodyCase0VariantsItemValueCase3List
+  | UpdateFlagResponseVariantsItemValueCase2Map
+  | UpdateFlagResponseVariantsItemValueCase3List
   | boolean;
-export interface UpdateFlagResponseBodyCase0VariantsItem {
+export interface UpdateFlagResponseVariantsItem {
   description?: string | undefined;
   id: string;
   label?: string | undefined;
-  value: UpdateFlagResponseBodyCase0VariantsItemValue | null;
+  value: UpdateFlagResponseVariantsItemValue | null;
 }
-export type UpdateFlagResponseBodyCase0VariantsList =
-  Array<UpdateFlagResponseBodyCase0VariantsItem>;
-export interface UpdateFlagResponseBodyCase0 {
+export type UpdateFlagResponseVariantsList = Array<UpdateFlagResponseVariantsItem>;
+export interface UpdateFlagResponse {
   createdAt: number;
   createdBy: string;
   description?: string | undefined;
-  environments: UpdateFlagResponseBodyCase0EnvironmentsMap;
+  environments: UpdateFlagResponseEnvironmentsMap;
   id: string;
-  kind: UpdateFlagResponseBodyCase0Kind;
-  maintainerIds?: UpdateFlagResponseBodyCase0MaintainerIdsList | undefined;
+  kind: UpdateFlagResponseKind;
+  maintainerIds?: UpdateFlagResponseMaintainerIdsList | undefined;
   ownerId: string;
   permanent?: boolean | undefined;
   projectId: string;
   revision: number;
   seed: number;
+  seenInProduction?: boolean | undefined;
   slug: string;
-  state: UpdateFlagResponseBodyCase0State;
-  tags?: UpdateFlagResponseBodyCase0TagsList | undefined;
-  typeName: UpdateFlagResponseBodyCase0TypeName;
+  state: UpdateFlagResponseState;
+  tags?: UpdateFlagResponseTagsList | undefined;
+  typeName: UpdateFlagResponseTypeName;
   updatedAt: number;
   updatedBy?: string | undefined;
-  variants: UpdateFlagResponseBodyCase0VariantsList;
+  variants: UpdateFlagResponseVariantsList;
 }
-export type UpdateFlagResponseBody = UpdateFlagResponseBodyCase0 | Flag;
-export type UpdateFlagResponse = UpdateFlagResponseBody;
 export type UpdateFlagSegmentRequestOperationsItemAction = "add" | "remove";
 export type UpdateFlagSegmentRequestOperationsItemField = "include" | "exclude";
 export type UpdateFlagSegmentRequestOperationsItemValue =
@@ -2855,8 +2981,8 @@ export const createFlag: API.OperationMethod<
   CreateFlagError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c22, 8) as any as S.Schema<CreateFlagRequest>,
-  output: __S(721, __c22, 17) as any as S.Schema<CreateFlagResponse>,
+  input: __S(936, __c29, 8) as any as S.Schema<CreateFlagRequest>,
+  output: __S(945, __c29, 17) as any as S.Schema<CreateFlagResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2878,13 +3004,36 @@ export const createFlagSegment: API.OperationMethod<
   CreateFlagSegmentError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(901, __c28, 5) as any as S.Schema<CreateFlagSegmentRequest>,
-  output: __S(907, __c28, 11) as any as S.Schema<CreateFlagSegmentResponse>,
+  input: __S(1093, __c34, 5) as any as S.Schema<CreateFlagSegmentRequest>,
+  output: __S(1099, __c34, 11) as any as S.Schema<CreateFlagSegmentResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFlagSegment",
+}));
+
+export type CreateFlagsProjectConnectionError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
+/** Connect a project to the flags of this project Connects a project in the same team to the flags of this project. The consumer project reads this project's flags with its own deployment identity by naming this project in the Flags SDK. Connections grant read and evaluate access across environments, with the consumer deployment's environment selecting the source environment. Requires connection management permission on the source project and read access to the consumer project. */
+export const createFlagsProjectConnection: API.OperationMethod<
+  CreateFlagsProjectConnectionRequest,
+  CreateFlagsProjectConnectionResponse,
+  CreateFlagsProjectConnectionError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1120, __c35, 0) as any as S.Schema<CreateFlagsProjectConnectionRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<CreateFlagsProjectConnectionResponse>,
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlagsProjectConnection",
 }));
 
 export type CreateSdkKeyError =
@@ -2901,8 +3050,8 @@ export const createSdkKey: API.OperationMethod<
   CreateSdkKeyError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<CreateSdkKeyRequest>,
-  output: __S(929, __c29, 1) as any as S.Schema<FlagsSdkKeyWithSecrets>,
+  input: __S(1152, __c36, 0) as any as S.Schema<CreateSdkKeyRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<FlagsSdkKeyWithSecrets>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2924,8 +3073,8 @@ export const deleteFlag: API.OperationMethod<
   DeleteFlagError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteFlagRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<DeleteFlagResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<DeleteFlagRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<DeleteFlagResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2947,13 +3096,36 @@ export const deleteFlagSegment: API.OperationMethod<
   DeleteFlagSegmentError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeleteFlagSegmentRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<DeleteFlagSegmentResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteFlagSegmentRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<DeleteFlagSegmentResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteFlagSegment",
+}));
+
+export type DeleteFlagsProjectConnectionError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
+/** Disconnect a project from the flags of this project Disconnects a project from the flags of this project. The consumer loses access without a redeploy. Requires connection management permission on the source project; access to the consumer project is not required. */
+export const deleteFlagsProjectConnection: API.OperationMethod<
+  DeleteFlagsProjectConnectionRequest,
+  DeleteFlagsProjectConnectionResponse,
+  DeleteFlagsProjectConnectionError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c1, 0) as any as S.Schema<DeleteFlagsProjectConnectionRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<DeleteFlagsProjectConnectionResponse>,
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlagsProjectConnection",
 }));
 
 export type DeleteSdkKeyError =
@@ -2970,8 +3142,8 @@ export const deleteSdkKey: API.OperationMethod<
   DeleteSdkKeyError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteSdkKeyRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<DeleteSdkKeyResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<DeleteSdkKeyRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<DeleteSdkKeyResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2987,8 +3159,8 @@ export const getDeploymentFeatureFlags: API.OperationMethod<
   GetDeploymentFeatureFlagsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c1, 1) as any as S.Schema<GetDeploymentFeatureFlagsRequest>,
-  output: __S(35, __c1, 3) as any as S.Schema<GetDeploymentFeatureFlagsResponse>,
+  input: __S(97, __c3, 1) as any as S.Schema<GetDeploymentFeatureFlagsRequest>,
+  output: __S(99, __c3, 3) as any as S.Schema<GetDeploymentFeatureFlagsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3000,8 +3172,8 @@ export type GetFlagError = BadRequest | PaymentRequired | Forbidden | NotFound |
 /** Get a flag Retrieve a specific feature flag by its ID or slug. */
 export const getFlag: API.OperationMethod<GetFlagRequest, Flag, GetFlagError, VercelOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(64, __c2, 0) as any as S.Schema<GetFlagRequest>,
-    output: __S(136, __c4, 8) as any as S.Schema<Flag>,
+    input: __S(128, __c4, 0) as any as S.Schema<GetFlagRequest>,
+    output: __S(200, __c6, 8) as any as S.Schema<Flag>,
     errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
     protocol: VercelProtocol,
     retry: Retry.Retry,
@@ -3022,8 +3194,8 @@ export const getFlagSegment: API.OperationMethod<
   GetFlagSegmentError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<GetFlagSegmentRequest>,
-  output: __S(197, __c6, 5) as any as S.Schema<Segment>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetFlagSegmentRequest>,
+  output: __S(261, __c8, 5) as any as S.Schema<Segment>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3044,13 +3216,35 @@ export const getFlagSettings: API.OperationMethod<
   GetFlagSettingsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetFlagSettingsRequest>,
-  output: __S(263, __c8, 7) as any as S.Schema<GetFlagSettingsResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetFlagSettingsRequest>,
+  output: __S(327, __c10, 7) as any as S.Schema<GetFlagSettingsResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFlagSettings",
+}));
+
+export type GetFlagsProjectConnectionsError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | VercelOpError;
+/** List flags project connections Lists the flags project connections of a project. By default these are the projects that may read this project's flags; with `role=consumer` these are the projects whose flags this project may read. Connections are within one team and apply across environments. Requires permission to list connections on the selected project. */
+export const getFlagsProjectConnections: API.OperationMethod<
+  GetFlagsProjectConnectionsRequest,
+  GetFlagsProjectConnectionsResponse,
+  GetFlagsProjectConnectionsError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(352, __c11, 0) as any as S.Schema<GetFlagsProjectConnectionsRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<GetFlagsProjectConnectionsResponse>,
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlagsProjectConnections",
 }));
 
 export type GetSdkKeysError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -3061,13 +3255,57 @@ export const getSdkKeys: API.OperationMethod<
   GetSdkKeysError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetSdkKeysRequest>,
-  output: __S(291, __c9, 3) as any as S.Schema<GetSdkKeysResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetSdkKeysRequest>,
+  output: __S(387, __c12, 3) as any as S.Schema<GetSdkKeysResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSdkKeys",
+}));
+
+export type ListFlagLabelCountsError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | VercelOpError;
+/** List attribute label counts List label counts for configured entity attributes, including empty ones. */
+export const listFlagLabelCounts: API.OperationMethod<
+  ListFlagLabelCountsRequest,
+  ListFlagLabelCountsResponse,
+  ListFlagLabelCountsError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(416, __c13, 0) as any as S.Schema<ListFlagLabelCountsRequest>,
+  output: __S(419, __c13, 3) as any as S.Schema<ListFlagLabelCountsResponse>,
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlagLabelCounts",
+}));
+
+export type ListFlagLabelsError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | VercelOpError;
+/** List attribute labels List labels for one entity attribute. Search can return a short or empty page with a continuation cursor; continue until pagination.next is null. */
+export const listFlagLabels: API.OperationMethod<
+  ListFlagLabelsRequest,
+  ListFlagLabelsResponse,
+  ListFlagLabelsError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c15, 0) as any as S.Schema<ListFlagLabelsRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<ListFlagLabelsResponse>,
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlagLabels",
 }));
 
 export type ListFlagsError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -3078,8 +3316,8 @@ export const listFlags: API.OperationMethod<
   ListFlagsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListFlagsRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<ListFlagsResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<ListFlagsRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<ListFlagsResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3100,8 +3338,8 @@ export const listFlagSegments: API.OperationMethod<
   ListFlagSegmentsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListFlagSegmentsRequest>,
-  output: __S(418, __c13, 2) as any as S.Schema<ListFlagSegmentsResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListFlagSegmentsRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<ListFlagSegmentsResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3117,8 +3355,8 @@ export const listFlagsV2: API.OperationMethod<
   ListFlagsV2Error,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ListFlagsV2Request>,
-  output: __S(450, __c14, 2) as any as S.Schema<ListFlagsV2Response>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListFlagsV2Request>,
+  output: __S(642, __c20, 2) as any as S.Schema<ListFlagsV2Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3139,8 +3377,8 @@ export const listFlagVersions: API.OperationMethod<
   ListFlagVersionsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ListFlagVersionsRequest>,
-  output: __S(492, __c15, 12) as any as S.Schema<ListFlagVersionsResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListFlagVersionsRequest>,
+  output: __S(684, __c21, 12) as any as S.Schema<ListFlagVersionsResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3156,8 +3394,8 @@ export const listTeamFlags: API.OperationMethod<
   ListTeamFlagsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListTeamFlagsRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<ListTeamFlagsResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<ListTeamFlagsRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<ListTeamFlagsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3173,8 +3411,8 @@ export const listTeamFlagSettings: API.OperationMethod<
   ListTeamFlagSettingsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListTeamFlagSettingsRequest>,
-  output: __S(545, __c17, 1) as any as S.Schema<ListTeamFlagSettingsResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListTeamFlagSettingsRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<ListTeamFlagSettingsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3190,13 +3428,35 @@ export const listTeamFlagsV2: API.OperationMethod<
   ListTeamFlagsV2Error,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ListTeamFlagsV2Request>,
-  output: __S(578, __c18, 2) as any as S.Schema<ListTeamFlagsV2Response>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListTeamFlagsV2Request>,
+  output: __S(770, __c24, 2) as any as S.Schema<ListTeamFlagsV2Response>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTeamFlagsV2",
+}));
+
+export type LookupFlagLabelsError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | VercelOpError;
+/** Look up attribute labels Look up at most 100 labels by entity kind, attribute key, and value. Duplicate keys are returned once; absent values are listed in missing. */
+export const lookupFlagLabels: API.OperationMethod<
+  LookupFlagLabelsRequest,
+  LookupFlagLabelsResponse,
+  LookupFlagLabelsError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(802, __c25, 2) as any as S.Schema<LookupFlagLabelsRequest>,
+  output: __S(805, __c25, 5) as any as S.Schema<LookupFlagLabelsResponse>,
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupFlagLabels",
 }));
 
 export type UpdateFlagError =
@@ -3213,8 +3473,8 @@ export const updateFlag: API.OperationMethod<
   UpdateFlagError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c19, 8) as any as S.Schema<UpdateFlagRequest>,
-  output: __S(617, __c19, 9) as any as S.Schema<UpdateFlagResponse>,
+  input: __S(840, __c26, 8) as any as S.Schema<UpdateFlagRequest>,
+  output: __S(849, __c26, 17) as any as S.Schema<UpdateFlagResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3236,8 +3496,8 @@ export const updateFlagSegment: API.OperationMethod<
   UpdateFlagSegmentError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(647, __c20, 7) as any as S.Schema<UpdateFlagSegmentRequest>,
-  output: __S(648, __c20, 8) as any as S.Schema<UpdateFlagSegmentResponse>,
+  input: __S(871, __c27, 7) as any as S.Schema<UpdateFlagSegmentRequest>,
+  output: __S(872, __c27, 8) as any as S.Schema<UpdateFlagSegmentResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3259,8 +3519,8 @@ export const updateFlagSettings: API.OperationMethod<
   UpdateFlagSettingsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(676, __c21, 4) as any as S.Schema<UpdateFlagSettingsRequest>,
-  output: __S(263, __c8, 7) as any as S.Schema<UpdateFlagSettingsResponse>,
+  input: __S(900, __c28, 4) as any as S.Schema<UpdateFlagSettingsRequest>,
+  output: __S(327, __c10, 7) as any as S.Schema<UpdateFlagSettingsResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3270,6 +3530,45 @@ export const updateFlagSettings: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectIdOrName: S.String.pipe(T.Label()),
+          segmentIdOrSlug: S.String.pipe(T.Label()),
+          withMetadata: S.optional(S.Boolean.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/projects/{projectIdOrName}/feature-flags/segments/{segmentIdOrSlug}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteFlagSegmentRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectIdOrName: S.String.pipe(T.Label()),
+          consumerProjectId: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/projects/{projectIdOrName}/feature-flags/connections/{consumerProjectId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteFlagsProjectConnectionRequest" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3288,7 +3587,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteSdkKeyRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -3315,13 +3614,13 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          flags: __S(32, __c1, 0),
-          status: S.NullOr(__S(34, __c1, 2)),
+          flags: __S(96, __c3, 0),
+          status: S.NullOr(__S(98, __c3, 2)),
         }),
       ).annotate({ identifier: "GetDeploymentFeatureFlagsResponse" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3342,7 +3641,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetFlagRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3354,48 +3653,48 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          creator: S.optional(__S(96, __c3, 0)),
+          creator: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "FlagMetadata" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cmp: S.String,
-          cmpOptions: S.optional(__S(868, __c27, 4)),
+          cmpOptions: S.optional(__S(1060, __c33, 4)),
           lhs: S.Unknown,
           rhs: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "FlagEnvironmentsValueRulesItemConditionsItem" });
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(192, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(129, __c4, 1),
+          conditions: __S(193, __c6, 1),
           id: S.String,
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "FlagEnvironmentsValueRulesItem" });
     case 3:
-      return S.Array(__S(130, __c4, 2));
+      return S.Array(__S(194, __c6, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
           fallthrough: S.Unknown,
-          pausedOutcome: __S(736, __c23, 0),
-          reuse: S.optional(__S(768, __c24, 0)),
+          pausedOutcome: __S(962, __c30, 2),
+          reuse: S.optional(__S(960, __c30, 0)),
           revision: S.optional(S.Number),
-          rules: __S(131, __c4, 3),
-          targets: S.optional(__S(769, __c24, 1)),
+          rules: __S(195, __c6, 3),
+          targets: S.optional(__S(961, __c30, 1)),
         }),
       ).annotate({ identifier: "FlagEnvironmentsValue" });
     case 5:
-      return S.Record(S.String, __S(132, __c4, 4));
+      return S.Record(S.String, __S(196, __c6, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -3406,35 +3705,36 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "FlagVariantsItem" });
     case 7:
-      return S.Array(__S(134, __c4, 6));
+      return S.Array(__S(198, __c6, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.Number,
           createdBy: S.String,
           description: S.optional(S.String),
-          environments: __S(133, __c4, 5),
+          environments: __S(197, __c6, 5),
           id: S.String,
           kind: S.String,
-          maintainerIds: S.optional(__S(832, __c26, 0)),
+          maintainerIds: S.optional(__S(1024, __c32, 0)),
           ownerId: S.String,
           permanent: S.optional(S.Boolean),
           projectId: S.String,
           revision: S.Number,
           seed: S.Number,
+          seenInProduction: S.optional(S.Boolean),
           slug: S.String,
           state: S.String,
-          tags: S.optional(__S(832, __c26, 0)),
+          tags: S.optional(__S(1024, __c32, 0)),
           typeName: S.String,
           updatedAt: S.Number,
           updatedBy: S.optional(S.String),
-          variants: __S(135, __c4, 7),
-          metadata: S.optional(__S(97, __c3, 1)),
+          variants: __S(199, __c6, 7),
+          metadata: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "Flag" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3454,35 +3754,35 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetFlagSegmentRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cmp: S.String,
-          cmpOptions: S.optional(__S(868, __c27, 4)),
+          cmpOptions: S.optional(__S(1060, __c33, 4)),
           lhs: S.Unknown,
           rhs: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "SegmentDataRulesItemConditionsItem" });
     case 1:
-      return S.Array(__S(192, __c6, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(193, __c6, 1),
+          conditions: __S(257, __c8, 1),
           id: S.String,
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "SegmentDataRulesItem" });
     case 3:
-      return S.Array(__S(194, __c6, 2));
+      return S.Array(__S(258, __c8, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          exclude: S.optional(__S(867, __c27, 3)),
-          include: S.optional(__S(867, __c27, 3)),
-          rules: S.optional(__S(195, __c6, 3)),
+          exclude: S.optional(__S(1059, __c33, 3)),
+          include: S.optional(__S(1059, __c33, 3)),
+          rules: S.optional(__S(259, __c8, 3)),
         }),
       ).annotate({ identifier: "SegmentData" });
     case 5:
@@ -3490,7 +3790,7 @@ function __c6(j: number): any {
         S.Struct({
           createdAt: S.Number,
           createdBy: S.optional(S.String),
-          data: __S(196, __c6, 4),
+          data: __S(260, __c8, 4),
           description: S.optional(S.String),
           hint: S.String,
           id: S.String,
@@ -3499,14 +3799,14 @@ function __c6(j: number): any {
           slug: S.String,
           typeName: S.String,
           updatedAt: S.Number,
-          usedByFlags: S.optional(__S(832, __c26, 0)),
-          usedBySegments: S.optional(__S(832, __c26, 0)),
-          metadata: S.optional(__S(97, __c3, 1)),
+          usedByFlags: S.optional(__S(1024, __c32, 0)),
+          usedBySegments: S.optional(__S(1024, __c32, 0)),
+          metadata: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "Segment" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3524,7 +3824,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetFlagSettingsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3534,27 +3834,27 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "GetFlagSettingsResponseEntitiesItemAttributesItemLabelsItem" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(320, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          labels: S.optional(__S(257, __c8, 1)),
+          labels: S.optional(__S(321, __c10, 1)),
           type: S.String,
         }),
       ).annotate({ identifier: "GetFlagSettingsResponseEntitiesItemAttributesItem" });
     case 3:
-      return S.Array(__S(258, __c8, 2));
+      return S.Array(__S(322, __c10, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          attributes: __S(259, __c8, 3),
+          attributes: __S(323, __c10, 3),
           kind: S.String,
           label: S.String,
         }),
       ).annotate({ identifier: "GetFlagSettingsResponseEntitiesItem" });
     case 5:
-      return S.Array(__S(260, __c8, 4));
+      return S.Array(__S(324, __c10, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -3571,9 +3871,9 @@ function __c8(j: number): any {
         S.Struct({
           createdAt: S.optional(S.Number),
           enabled: S.Boolean,
-          entities: __S(261, __c8, 5),
-          environments: __S(832, __c26, 0),
-          metadata: __S(262, __c8, 6),
+          entities: __S(325, __c10, 5),
+          environments: __S(1024, __c32, 0),
+          metadata: __S(326, __c10, 6),
           ownerId: S.optional(S.String),
           projectId: S.String,
           typeName: S.String,
@@ -3582,7 +3882,30 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetFlagSettingsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectIdOrName: S.String.pipe(T.Label()),
+          role: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/projects/{projectIdOrName}/feature-flags/connections",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFlagsProjectConnectionsRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetFlagsProjectConnectionsResponse",
+      });
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3614,16 +3937,109 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "GetSdkKeysResponseDataItem" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(385, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(290, __c9, 2),
+          data: __S(386, __c12, 2),
         }),
       ).annotate({ identifier: "GetSdkKeysResponse" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectIdOrName: S.String.pipe(T.Label()),
+          entityKind: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/projects/{projectIdOrName}/feature-flags/labels/counts",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListFlagLabelCountsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          attributeKey: S.String,
+          entityKind: S.String,
+          count: S.Number,
+        }),
+      ).annotate({ identifier: "ListFlagLabelCountsResponseDataItem" });
+    case 2:
+      return S.Array(__S(417, __c13, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(418, __c13, 2),
+          pagination: __S(448, __c14, 0),
+        }),
+      ).annotate({ identifier: "ListFlagLabelCountsResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          next: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ListFlagLabelCountsResponsePagination" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectIdOrName: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          entityKind: S.String.pipe(T.Query()),
+          attributeKey: S.String.pipe(T.Query()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/projects/{projectIdOrName}/feature-flags/labels",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListFlagLabelsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(513, __c16, 1),
+          pagination: __S(448, __c14, 0),
+        }),
+      ).annotate({ identifier: "ListFlagLabelsResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          attributeKey: S.String,
+          entityKind: S.String,
+          label: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "ListFlagLabelsResponseDataItem" });
+    case 1:
+      return S.Array(__S(512, __c16, 0));
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3634,7 +4050,7 @@ function __c10(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(__S(832, __c26, 0).pipe(T.Query())),
+          tags: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -3647,30 +4063,20 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ListFlagsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          next: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ListFlagsResponsePagination" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(136, __c4, 8));
+      return S.Array(__S(200, __c6, 8));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(384, __c12, 0),
-          pagination: __S(352, __c11, 0),
+          data: __S(576, __c18, 0),
+          pagination: __S(448, __c14, 0),
         }),
       ).annotate({ identifier: "ListFlagsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3688,16 +4094,16 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListFlagSegmentsRequest" });
     case 1:
-      return S.Array(__S(197, __c6, 5));
+      return S.Array(__S(261, __c8, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(417, __c13, 1),
+          data: __S(609, __c19, 1),
         }),
       ).annotate({ identifier: "ListFlagSegmentsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3707,9 +4113,9 @@ function __c14(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(__S(832, __c26, 0).pipe(T.Query())),
+          tags: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
           createdBy: S.optional(S.String.pipe(T.Query())),
-          maintainerIds: S.optional(__S(832, __c26, 0).pipe(T.Query())),
+          maintainerIds: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
           includeMarketplaceFlags: S.optional(S.Boolean.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
@@ -3726,13 +4132,13 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(352, __c11, 0),
-          data: __S(449, __c14, 1),
+          pagination: __S(448, __c14, 0),
+          data: __S(641, __c20, 1),
         }),
       ).annotate({ identifier: "ListFlagsV2Response" });
   }
 }
-function __c15(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3757,7 +4163,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cmp: S.String,
-          cmpOptions: S.optional(__S(868, __c27, 4)),
+          cmpOptions: S.optional(__S(1060, __c33, 4)),
           lhs: S.Unknown,
           rhs: S.optional(S.Unknown),
         }),
@@ -3766,11 +4172,11 @@ function __c15(j: number): any {
           "ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItem",
       });
     case 2:
-      return S.Array(__S(481, __c15, 1));
+      return S.Array(__S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(482, __c15, 2),
+          conditions: __S(674, __c21, 2),
           id: S.String,
           outcome: S.Unknown,
         }),
@@ -3778,21 +4184,21 @@ function __c15(j: number): any {
         identifier: "ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItem",
       });
     case 4:
-      return S.Array(__S(483, __c15, 3));
+      return S.Array(__S(675, __c21, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
           fallthrough: S.Unknown,
-          pausedOutcome: __S(736, __c23, 0),
-          reuse: S.optional(__S(768, __c24, 0)),
+          pausedOutcome: __S(962, __c30, 2),
+          reuse: S.optional(__S(960, __c30, 0)),
           revision: S.optional(S.Number),
-          rules: __S(484, __c15, 4),
-          targets: S.optional(__S(769, __c24, 1)),
+          rules: __S(676, __c21, 4),
+          targets: S.optional(__S(961, __c30, 1)),
         }),
       ).annotate({ identifier: "ListFlagVersionsResponseVersionsItemDataEnvironmentsValue" });
     case 6:
-      return S.Record(S.String, __S(485, __c15, 5));
+      return S.Record(S.String, __S(677, __c21, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -3803,46 +4209,46 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "ListFlagVersionsResponseVersionsItemDataVariantsItem" });
     case 8:
-      return S.Array(__S(487, __c15, 7));
+      return S.Array(__S(679, __c21, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          environments: __S(486, __c15, 6),
-          maintainerIds: S.optional(__S(832, __c26, 0)),
+          environments: __S(678, __c21, 6),
+          maintainerIds: S.optional(__S(1024, __c32, 0)),
           permanent: S.optional(S.Boolean),
           seed: S.Number,
           state: S.String,
-          tags: S.optional(__S(832, __c26, 0)),
-          variants: __S(488, __c15, 8),
+          tags: S.optional(__S(1024, __c32, 0)),
+          variants: __S(680, __c21, 8),
         }),
       ).annotate({ identifier: "ListFlagVersionsResponseVersionsItemData" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          changedEnvironments: __S(832, __c26, 0),
+          changedEnvironments: __S(1024, __c32, 0),
           createdAt: S.Number,
           createdBy: S.optional(S.String),
           flagId: S.String,
           id: S.String,
           message: S.optional(S.String),
           revision: S.Number,
-          data: __S(489, __c15, 9),
-          metadata: S.optional(__S(97, __c3, 1)),
+          data: __S(681, __c21, 9),
+          metadata: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "ListFlagVersionsResponseVersionsItem" });
     case 11:
-      return S.Array(__S(490, __c15, 10));
+      return S.Array(__S(682, __c21, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           pagination: S.Unknown,
-          versions: __S(491, __c15, 11),
+          versions: __S(683, __c21, 11),
         }),
       ).annotate({ identifier: "ListFlagVersionsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3854,7 +4260,7 @@ function __c16(j: number): any {
           cursor: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           kind: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(__S(832, __c26, 0).pipe(T.Query())),
+          tags: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/teams/{teamId}/feature-flags/flags", code: 200 }),
@@ -3862,7 +4268,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ListTeamFlagsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3881,7 +4287,7 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3892,9 +4298,9 @@ function __c18(j: number): any {
           cursor: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           kind: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(__S(832, __c26, 0).pipe(T.Query())),
+          tags: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
           createdBy: S.optional(S.String.pipe(T.Query())),
-          maintainerIds: S.optional(__S(832, __c26, 0).pipe(T.Query())),
+          maintainerIds: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
           includeMarketplaceFlags: S.optional(S.Boolean.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -3906,13 +4312,59 @@ function __c18(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(352, __c11, 0),
-          data: __S(577, __c18, 1),
+          pagination: __S(448, __c14, 0),
+          data: __S(769, __c24, 1),
         }),
       ).annotate({ identifier: "ListTeamFlagsV2Response" });
   }
 }
-function __c19(j: number): any {
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.String,
+          entityKind: S.String,
+          attributeKey: S.String,
+        }),
+      ).annotate({ identifier: "LookupFlagLabelsRequestItemsItem" });
+    case 1:
+      return S.Array(__S(800, __c25, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          projectIdOrName: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+          items: __S(801, __c25, 1),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/projects/{projectIdOrName}/feature-flags/labels/lookup",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LookupFlagLabelsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          attributeKey: S.String,
+          entityKind: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "LookupFlagLabelsResponseMissingItem" });
+    case 4:
+      return S.Array(__S(803, __c25, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(513, __c16, 1),
+          missing: __S(804, __c25, 4),
+        }),
+      ).annotate({ identifier: "LookupFlagLabelsResponse" });
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3924,42 +4376,42 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "UpdateFlagRequestVariantsItem" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(832, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           lhs: S.Unknown,
           cmp: S.String,
           rhs: S.optional(S.Unknown),
-          cmpOptions: S.optional(__S(868, __c27, 4)),
+          cmpOptions: S.optional(__S(1060, __c33, 4)),
         }),
       ).annotate({ identifier: "UpdateFlagRequestEnvironmentsValueRulesItemConditionsItem" });
     case 3:
-      return S.Array(__S(610, __c19, 2));
+      return S.Array(__S(834, __c26, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          conditions: __S(611, __c19, 3),
+          conditions: __S(835, __c26, 3),
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "UpdateFlagRequestEnvironmentsValueRulesItem" });
     case 5:
-      return S.Array(__S(612, __c19, 4));
+      return S.Array(__S(836, __c26, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          reuse: S.optional(__S(768, __c24, 0)),
-          targets: S.optional(__S(769, __c24, 1)),
-          pausedOutcome: __S(800, __c25, 0),
-          rules: __S(613, __c19, 5),
+          reuse: S.optional(__S(960, __c30, 0)),
+          targets: S.optional(__S(961, __c30, 1)),
+          pausedOutcome: __S(992, __c31, 0),
+          rules: __S(837, __c26, 5),
           fallthrough: S.Unknown,
           revision: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UpdateFlagRequestEnvironmentsValue" });
     case 7:
-      return S.Record(S.String, __S(614, __c19, 6));
+      return S.Record(S.String, __S(838, __c26, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -3971,14 +4423,14 @@ function __c19(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
           createdBy: S.optional(S.String),
           message: S.optional(S.String),
-          variants: S.optional(__S(609, __c19, 1)),
-          environments: S.optional(__S(615, __c19, 7)),
+          variants: S.optional(__S(833, __c26, 1)),
+          environments: S.optional(__S(839, __c26, 7)),
           seed: S.optional(S.Number),
           description: S.optional(S.String),
           state: S.optional(S.String),
-          maintainerIds: S.optional(__S(832, __c26, 0)),
+          maintainerIds: S.optional(__S(1024, __c32, 0)),
           permanent: S.optional(S.Boolean),
-          tags: S.optional(__S(832, __c26, 0)),
+          tags: S.optional(__S(1024, __c32, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3988,12 +4440,79 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "UpdateFlagRequest" });
     case 9:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "UpdateFlagResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          cmp: S.String,
+          cmpOptions: S.optional(__S(1060, __c33, 4)),
+          lhs: S.Unknown,
+          rhs: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "UpdateFlagResponseEnvironmentsValueRulesItemConditionsItem" });
+    case 10:
+      return S.Array(__S(841, __c26, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: __S(842, __c26, 10),
+          id: S.String,
+          outcome: S.Unknown,
+        }),
+      ).annotate({ identifier: "UpdateFlagResponseEnvironmentsValueRulesItem" });
+    case 12:
+      return S.Array(__S(843, __c26, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.Boolean,
+          fallthrough: S.Unknown,
+          pausedOutcome: __S(962, __c30, 2),
+          reuse: S.optional(__S(960, __c30, 0)),
+          revision: S.optional(S.Number),
+          rules: __S(844, __c26, 12),
+          targets: S.optional(__S(961, __c30, 1)),
+        }),
+      ).annotate({ identifier: "UpdateFlagResponseEnvironmentsValue" });
+    case 14:
+      return S.Record(S.String, __S(845, __c26, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          id: S.String,
+          label: S.optional(S.String),
+          value: S.NullOr(S.Unknown),
+        }),
+      ).annotate({ identifier: "UpdateFlagResponseVariantsItem" });
+    case 16:
+      return S.Array(__S(847, __c26, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.Number,
+          createdBy: S.String,
+          description: S.optional(S.String),
+          environments: __S(846, __c26, 14),
+          id: S.String,
+          kind: S.String,
+          maintainerIds: S.optional(__S(1024, __c32, 0)),
+          ownerId: S.String,
+          permanent: S.optional(S.Boolean),
+          projectId: S.String,
+          revision: S.Number,
+          seed: S.Number,
+          seenInProduction: S.optional(S.Boolean),
+          slug: S.String,
+          state: S.String,
+          tags: S.optional(__S(1024, __c32, 0)),
+          typeName: S.String,
+          updatedAt: S.Number,
+          updatedBy: S.optional(S.String),
+          variants: __S(848, __c26, 16),
+        }),
+      ).annotate({ identifier: "UpdateFlagResponse" });
   }
 }
-function __c20(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4002,38 +4521,38 @@ function __c20(j: number): any {
           field: S.String,
           entity: S.String,
           attribute: S.String,
-          value: __S(864, __c27, 0),
+          value: __S(1056, __c33, 0),
         }),
       ).annotate({ identifier: "UpdateFlagSegmentRequestOperationsItem" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(864, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           lhs: S.Unknown,
           cmp: S.String,
           rhs: S.optional(S.Unknown),
-          cmpOptions: S.optional(__S(868, __c27, 4)),
+          cmpOptions: S.optional(__S(1060, __c33, 4)),
         }),
       ).annotate({ identifier: "UpdateFlagSegmentRequestDataRulesItemConditionsItem" });
     case 3:
-      return S.Array(__S(642, __c20, 2));
+      return S.Array(__S(866, __c27, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          conditions: __S(643, __c20, 3),
+          conditions: __S(867, __c27, 3),
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "UpdateFlagSegmentRequestDataRulesItem" });
     case 5:
-      return S.Array(__S(644, __c20, 4));
+      return S.Array(__S(868, __c27, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(645, __c20, 5)),
-          include: S.optional(__S(867, __c27, 3)),
-          exclude: S.optional(__S(867, __c27, 3)),
+          rules: S.optional(__S(869, __c27, 5)),
+          include: S.optional(__S(1059, __c33, 3)),
+          exclude: S.optional(__S(1059, __c33, 3)),
         }),
       ).annotate({ identifier: "UpdateFlagSegmentRequestData" });
     case 7:
@@ -4044,10 +4563,10 @@ function __c20(j: number): any {
           withMetadata: S.optional(S.Boolean.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          operations: S.optional(__S(641, __c20, 1)),
+          operations: S.optional(__S(865, __c27, 1)),
           label: S.optional(S.String),
           description: S.optional(S.String),
-          data: S.optional(__S(646, __c20, 6)),
+          data: S.optional(__S(870, __c27, 6)),
           hint: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -4063,28 +4582,28 @@ function __c20(j: number): any {
       });
   }
 }
-function __c21(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           type: S.String,
-          labels: S.optional(__S(257, __c8, 1)),
+          labels: S.optional(__S(321, __c10, 1)),
         }),
       ).annotate({ identifier: "UpdateFlagSettingsRequestEntitiesItemAttributesItem" });
     case 1:
-      return S.Array(__S(672, __c21, 0));
+      return S.Array(__S(896, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
           label: S.String,
-          attributes: __S(673, __c21, 1),
+          attributes: __S(897, __c28, 1),
         }),
       ).annotate({ identifier: "UpdateFlagSettingsRequestEntitiesItem" });
     case 3:
-      return S.Array(__S(674, __c21, 2));
+      return S.Array(__S(898, __c28, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4092,8 +4611,8 @@ function __c21(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           enabled: S.optional(S.Boolean),
-          entities: S.optional(__S(675, __c21, 3)),
-          environments: S.optional(__S(832, __c26, 0)),
+          entities: S.optional(__S(899, __c28, 3)),
+          environments: S.optional(__S(1024, __c32, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4104,7 +4623,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "UpdateFlagSettingsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4116,42 +4635,42 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "CreateFlagRequestVariantsItem" });
     case 1:
-      return S.Array(__S(704, __c22, 0));
+      return S.Array(__S(928, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           lhs: S.Unknown,
           cmp: S.String,
           rhs: S.optional(S.Unknown),
-          cmpOptions: S.optional(__S(868, __c27, 4)),
+          cmpOptions: S.optional(__S(1060, __c33, 4)),
         }),
       ).annotate({ identifier: "CreateFlagRequestEnvironmentsValueRulesItemConditionsItem" });
     case 3:
-      return S.Array(__S(706, __c22, 2));
+      return S.Array(__S(930, __c29, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          conditions: __S(707, __c22, 3),
+          conditions: __S(931, __c29, 3),
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "CreateFlagRequestEnvironmentsValueRulesItem" });
     case 5:
-      return S.Array(__S(708, __c22, 4));
+      return S.Array(__S(932, __c29, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          reuse: S.optional(__S(768, __c24, 0)),
-          targets: S.optional(__S(769, __c24, 1)),
-          pausedOutcome: __S(800, __c25, 0),
-          rules: __S(709, __c22, 5),
+          reuse: S.optional(__S(960, __c30, 0)),
+          targets: S.optional(__S(961, __c30, 1)),
+          pausedOutcome: __S(992, __c31, 0),
+          rules: __S(933, __c29, 5),
           fallthrough: S.Unknown,
           revision: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CreateFlagRequestEnvironmentsValue" });
     case 7:
-      return S.Record(S.String, __S(710, __c22, 6));
+      return S.Record(S.String, __S(934, __c29, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -4159,14 +4678,14 @@ function __c22(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           kind: S.String,
-          variants: S.optional(__S(705, __c22, 1)),
-          environments: __S(711, __c22, 7),
+          variants: S.optional(__S(929, __c29, 1)),
+          environments: __S(935, __c29, 7),
           seed: S.optional(S.Number),
           description: S.optional(S.String),
           state: S.optional(S.String),
-          maintainerIds: S.optional(__S(832, __c26, 0)),
+          maintainerIds: S.optional(__S(1024, __c32, 0)),
           permanent: S.optional(S.Boolean),
-          tags: S.optional(__S(832, __c26, 0)),
+          tags: S.optional(__S(1024, __c32, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4179,37 +4698,37 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cmp: S.String,
-          cmpOptions: S.optional(__S(868, __c27, 4)),
+          cmpOptions: S.optional(__S(1060, __c33, 4)),
           lhs: S.Unknown,
           rhs: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "CreateFlagResponseEnvironmentsValueRulesItemConditionsItem" });
     case 10:
-      return S.Array(__S(713, __c22, 9));
+      return S.Array(__S(937, __c29, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(714, __c22, 10),
+          conditions: __S(938, __c29, 10),
           id: S.String,
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "CreateFlagResponseEnvironmentsValueRulesItem" });
     case 12:
-      return S.Array(__S(715, __c22, 11));
+      return S.Array(__S(939, __c29, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
           fallthrough: S.Unknown,
-          pausedOutcome: __S(736, __c23, 0),
-          reuse: S.optional(__S(768, __c24, 0)),
+          pausedOutcome: __S(962, __c30, 2),
+          reuse: S.optional(__S(960, __c30, 0)),
           revision: S.optional(S.Number),
-          rules: __S(716, __c22, 12),
-          targets: S.optional(__S(769, __c24, 1)),
+          rules: __S(940, __c29, 12),
+          targets: S.optional(__S(961, __c30, 1)),
         }),
       ).annotate({ identifier: "CreateFlagResponseEnvironmentsValue" });
     case 14:
-      return S.Record(S.String, __S(717, __c22, 13));
+      return S.Record(S.String, __S(941, __c29, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
@@ -4220,45 +4739,35 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "CreateFlagResponseVariantsItem" });
     case 16:
-      return S.Array(__S(719, __c22, 15));
+      return S.Array(__S(943, __c29, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.Number,
           createdBy: S.String,
           description: S.optional(S.String),
-          environments: __S(718, __c22, 14),
+          environments: __S(942, __c29, 14),
           id: S.String,
           kind: S.String,
-          maintainerIds: S.optional(__S(832, __c26, 0)),
+          maintainerIds: S.optional(__S(1024, __c32, 0)),
           ownerId: S.String,
           permanent: S.optional(S.Boolean),
           projectId: S.String,
           revision: S.Number,
           seed: S.Number,
+          seenInProduction: S.optional(S.Boolean),
           slug: S.String,
           state: S.String,
-          tags: S.optional(__S(832, __c26, 0)),
+          tags: S.optional(__S(1024, __c32, 0)),
           typeName: S.String,
           updatedAt: S.Number,
           updatedBy: S.optional(S.String),
-          variants: __S(720, __c22, 16),
+          variants: __S(944, __c29, 16),
         }),
       ).annotate({ identifier: "CreateFlagResponse" });
   }
 }
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          variantId: S.String,
-        }),
-      ).annotate({ identifier: "CreateFlagResponseEnvironmentsValueFallthroughCase0" });
-  }
-}
-function __c24(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4268,10 +4777,17 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "CreateFlagRequestEnvironmentsValueReuse" });
     case 1:
-      return S.Record(S.String, __S(867, __c27, 3));
+      return S.Record(S.String, __S(1059, __c33, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          variantId: S.String,
+        }),
+      ).annotate({ identifier: "CreateFlagResponseEnvironmentsValueFallthroughCase0" });
   }
 }
-function __c25(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4282,13 +4798,13 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateFlagRequestEnvironmentsValuePausedOutcome" });
   }
 }
-function __c26(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c27(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4298,11 +4814,11 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem" });
     case 1:
-      return S.Array(__S(864, __c27, 0));
+      return S.Array(__S(1056, __c33, 0));
     case 2:
-      return S.Record(S.String, __S(865, __c27, 1));
+      return S.Record(S.String, __S(1057, __c33, 1));
     case 3:
-      return S.Record(S.String, __S(866, __c27, 2));
+      return S.Record(S.String, __S(1058, __c33, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4313,7 +4829,7 @@ function __c27(j: number): any {
       });
   }
 }
-function __c28(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4321,27 +4837,27 @@ function __c28(j: number): any {
           lhs: S.Unknown,
           cmp: S.String,
           rhs: S.optional(S.Unknown),
-          cmpOptions: S.optional(__S(868, __c27, 4)),
+          cmpOptions: S.optional(__S(1060, __c33, 4)),
         }),
       ).annotate({ identifier: "CreateFlagSegmentRequestDataRulesItemConditionsItem" });
     case 1:
-      return S.Array(__S(896, __c28, 0));
+      return S.Array(__S(1088, __c34, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          conditions: __S(897, __c28, 1),
+          conditions: __S(1089, __c34, 1),
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "CreateFlagSegmentRequestDataRulesItem" });
     case 3:
-      return S.Array(__S(898, __c28, 2));
+      return S.Array(__S(1090, __c34, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(899, __c28, 3)),
-          include: S.optional(__S(867, __c27, 3)),
-          exclude: S.optional(__S(867, __c27, 3)),
+          rules: S.optional(__S(1091, __c34, 3)),
+          include: S.optional(__S(1059, __c33, 3)),
+          exclude: S.optional(__S(1059, __c33, 3)),
         }),
       ).annotate({ identifier: "CreateFlagSegmentRequestData" });
     case 5:
@@ -4353,7 +4869,7 @@ function __c28(j: number): any {
           createdBy: S.optional(S.String),
           label: S.String,
           description: S.optional(S.String),
-          data: __S(900, __c28, 4),
+          data: __S(1092, __c34, 4),
           hint: S.String,
         }).pipe(
           T.Http({
@@ -4367,29 +4883,29 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cmp: S.String,
-          cmpOptions: S.optional(__S(868, __c27, 4)),
+          cmpOptions: S.optional(__S(1060, __c33, 4)),
           lhs: S.Unknown,
           rhs: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "CreateFlagSegmentResponseDataRulesItemConditionsItem" });
     case 7:
-      return S.Array(__S(902, __c28, 6));
+      return S.Array(__S(1094, __c34, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(903, __c28, 7),
+          conditions: __S(1095, __c34, 7),
           id: S.String,
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "CreateFlagSegmentResponseDataRulesItem" });
     case 9:
-      return S.Array(__S(904, __c28, 8));
+      return S.Array(__S(1096, __c34, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          exclude: S.optional(__S(867, __c27, 3)),
-          include: S.optional(__S(867, __c27, 3)),
-          rules: S.optional(__S(905, __c28, 9)),
+          exclude: S.optional(__S(1059, __c33, 3)),
+          include: S.optional(__S(1059, __c33, 3)),
+          rules: S.optional(__S(1097, __c34, 9)),
         }),
       ).annotate({ identifier: "CreateFlagSegmentResponseData" });
     case 11:
@@ -4397,7 +4913,7 @@ function __c28(j: number): any {
         S.Struct({
           createdAt: S.Number,
           createdBy: S.optional(S.String),
-          data: __S(906, __c28, 10),
+          data: __S(1098, __c34, 10),
           description: S.optional(S.String),
           hint: S.String,
           id: S.String,
@@ -4406,13 +4922,43 @@ function __c28(j: number): any {
           slug: S.String,
           typeName: S.String,
           updatedAt: S.Number,
-          usedByFlags: S.optional(__S(832, __c26, 0)),
-          usedBySegments: S.optional(__S(832, __c26, 0)),
+          usedByFlags: S.optional(__S(1024, __c32, 0)),
+          usedBySegments: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "CreateFlagSegmentResponse" });
   }
 }
-function __c29(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectIdOrName: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+          consumerProjectId: S.String,
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/v1/projects/{projectIdOrName}/feature-flags/connections",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateFlagsProjectConnectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          consumerProjectId: S.String,
+          consumerProjectName: S.String,
+          createdAt: S.Number,
+          createdBy: S.String,
+          sourceProjectId: S.String,
+          sourceProjectName: S.String,
+        }),
+      ).annotate({ identifier: "CreateFlagsProjectConnectionResponse" });
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4450,7 +4996,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "FlagsSdkKeyWithSecrets" });
   }
 }
-function __c30(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4471,30 +5017,10 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteFlagRequest" });
   }
 }
-function __c31(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteFlagResponse" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectIdOrName: S.String.pipe(T.Label()),
-          segmentIdOrSlug: S.String.pipe(T.Label()),
-          withMetadata: S.optional(S.Boolean.pipe(T.Query())),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v1/projects/{projectIdOrName}/feature-flags/segments/{segmentIdOrSlug}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteFlagSegmentRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

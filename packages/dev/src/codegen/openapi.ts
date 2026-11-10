@@ -879,6 +879,17 @@ const convertSchema = (
       entry.nullable = r.nullable;
       return inline(r.target, r.nullable || siteNullable);
     }
+    if (resolved.$ref) {
+      // An alias of another component has no shape of its own: it becomes
+      // the target's shape. Reserving a placeholder for it would leave a
+      // dangling reference when a cycle re-enters the alias before its
+      // target finishes, so cache it only once resolved. The name is still
+      // taken, as it always was, so the names of other shapes do not move.
+      uniqueName(ctx, refName);
+      const r = convertSchema(ctx, resolved, pascal(refName), depth + 1, dir);
+      ctx.refs.set(cacheKey, { target: r.target, nullable: r.nullable });
+      return inline(r.target, r.nullable || siteNullable);
+    }
     // Reserve the component name before converting so cycles resolve.
     const id = `${ctx.ns}#${uniqueName(ctx, refName)}`;
     const entry: Converted = { target: id, nullable: false };

@@ -166,6 +166,8 @@ export interface LoadbalancerOptionObservability {
 /** Defines any optional functionality you want to have enabled on your load balancer. */
 export interface LoadBalancerOptions {
   accessControl?: LoadbalancerOptionAccessControl | undefined;
+  /** Enable per-request access logs on the Load Balancer. Defaults to false. Enable only when the Load Balancer's expected traffic volume can be sustained by the downstream logging pipeline, as access-log volume scales linearly with request rate. Requires a STACKIT Telemetry Router to be set up for the logs to be viewable. */
+  accessLogs?: boolean | undefined;
   ephemeralAddress?: boolean | undefined;
   observability?: LoadbalancerOptionObservability | undefined;
   /** Load Balancer is accessible only via a private network ip address. Not changeable after creation. */
@@ -1052,6 +1054,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accessControl: S.optional(__S(390, __c12, 6)),
+          accessLogs: S.optional(S.Boolean),
           ephemeralAddress: S.optional(S.Boolean),
           observability: S.optional(__S(392, __c12, 8)),
           privateNetworkOnly: S.optional(S.Boolean),

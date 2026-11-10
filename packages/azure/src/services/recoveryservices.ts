@@ -1641,7 +1641,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/locations/{location}/checkNameAvailability",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CheckRecoveryServiceNameAvailabilityRequest" });
@@ -1677,7 +1677,7 @@ function __c1(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/certificates/{certificateName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateVaultCertificateRequest" });
@@ -1719,7 +1719,7 @@ function __c2(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetVaultExtendedInfoRequest" });
@@ -1761,7 +1761,7 @@ function __c4(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListDeletedVaultBySubscriptionIdRequest" });
@@ -1785,7 +1785,7 @@ function __c5(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.RecoveryServices/operations",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1853,7 +1853,7 @@ function __c6(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
@@ -1881,7 +1881,7 @@ function __c7(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/replicationUsages",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationUsagesRequest" });
@@ -1939,7 +1939,7 @@ function __c8(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/usages",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListUsageByVaultsRequest" });
@@ -1984,7 +1984,7 @@ function __c9(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListVaultByResourceGroupRequest" });
@@ -2014,7 +2014,7 @@ function __c11(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/vaults",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListVaultBySubscriptionIdRequest" });
@@ -2048,7 +2048,7 @@ function __c12(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/capabilities",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RecoveryServicesCapabilitiesRequest" });
@@ -2096,7 +2096,7 @@ function __c13(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults/{deletedVaultName}/undelete",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UndeleteDeletedVaultRequest" });
@@ -2128,7 +2128,7 @@ function __c14(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/registeredIdentities/{identityName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegisteredIdentityRequest" });
@@ -2161,7 +2161,7 @@ function __c16(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateVaultRequest" });
@@ -2228,7 +2228,7 @@ function __c18(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateVaultExtendedInfoRequest" });
@@ -2249,7 +2249,7 @@ function __c19(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "VaultExtendedInfoCreateOrUpdateRequest" });
@@ -2274,7 +2274,7 @@ function __c20(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "VaultsCreateOrUpdateRequest" });
@@ -2293,7 +2293,7 @@ function __c21(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteVaultRequest" });
@@ -2319,7 +2319,7 @@ function __c22(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults/{deletedVaultName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetDeletedVaultRequest" });
@@ -2380,7 +2380,7 @@ function __c26(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults/{deletedVaultName}/operations/{operationId}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetDeletedVaultOperationStatusRequest" });
@@ -2436,7 +2436,7 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/operationResults/{operationId}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetOperationResultRequest" });
@@ -2719,7 +2719,7 @@ function __c32(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/operationStatus/{operationId}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetOperationStatusRequest" });
@@ -2739,7 +2739,7 @@ function __c33(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources/{privateLinkResourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateLinkResourceRequest" });
@@ -2780,7 +2780,7 @@ function __c35(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetVaultRequest" });

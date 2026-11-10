@@ -273,7 +273,7 @@ export interface CreateResourceGroupRequest {
   accountId: string;
   /** Name of the resource group */
   name: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: ResourceGroupsCreateRequestScope;
 }
 export type ResourceGroupsCreateResponseScopeObjectsItem =
@@ -294,7 +294,7 @@ export interface ResourceGroupsCreateResponseMeta {
 export interface CreateResourceGroupResponse {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: ResourceGroupsCreateResponseScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null | undefined;
@@ -406,7 +406,7 @@ export type UserGroupsCreateResponsePoliciesItemResourceGroupsItemMeta =
 export interface UserGroupsCreateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: UserGroupsCreateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null | undefined;
@@ -428,7 +428,7 @@ export interface UserGroupsCreateResponsePoliciesItem {
 export type UserGroupsCreateResponsePoliciesList = Array<UserGroupsCreateResponsePoliciesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateUserGroupResponse {
-  /** User Group identifier tag. */
+  /** Identifier of the user group. */
   id: string;
   /** Timestamp for the creation of the user group */
   createdOn: string;
@@ -653,7 +653,7 @@ export type ResourceGroupsGetResponseMeta = ResourceGroupsCreateResponseMeta;
 export interface GetResourceGroupResponse {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: ResourceGroupsGetResponseScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null | undefined;
@@ -715,7 +715,7 @@ export type UserGroupsGetResponsePoliciesItemResourceGroupsItemMeta =
 export interface UserGroupsGetResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: UserGroupsGetResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null | undefined;
@@ -737,7 +737,7 @@ export interface UserGroupsGetResponsePoliciesItem {
 export type UserGroupsGetResponsePoliciesList = Array<UserGroupsGetResponsePoliciesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetUserGroupResponse {
-  /** User Group identifier tag. */
+  /** Identifier of the user group. */
   id: string;
   /** Timestamp for the creation of the user group */
   createdOn: string;
@@ -927,7 +927,7 @@ export type ResourceGroupsListResultItemMeta = ResourceGroupsCreateResponseMeta;
 export interface ResourceGroupsListResultItem {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: ResourceGroupsListResultItemScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null | undefined;
@@ -1042,7 +1042,7 @@ export type UserGroupsListResultItemPoliciesItemResourceGroupsItemMeta =
 export interface UserGroupsListResultItemPoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: UserGroupsListResultItemPoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null | undefined;
@@ -1063,7 +1063,7 @@ export interface UserGroupsListResultItemPoliciesItem {
 }
 export type UserGroupsListResultItemPoliciesList = Array<UserGroupsListResultItemPoliciesItem>;
 export interface UserGroupsListResultItem {
-  /** User Group identifier tag. */
+  /** Identifier of the user group. */
   id: string;
   /** Timestamp for the creation of the user group */
   createdOn: string;
@@ -1265,7 +1265,7 @@ export interface UpdateResourceGroupRequest {
   resourceGroupId: string;
   /** Name of the resource group */
   name?: string | undefined;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope?: ResourceGroupsUpdateRequestScope | undefined;
 }
 export type ResourceGroupsUpdateResponseScopeObjectsItem =
@@ -1283,7 +1283,7 @@ export type ResourceGroupsUpdateResponseMeta = ResourceGroupsCreateResponseMeta;
 export interface UpdateResourceGroupResponse {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: ResourceGroupsUpdateResponseScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null | undefined;
@@ -1342,7 +1342,7 @@ export type UserGroupsUpdateResponsePoliciesItemResourceGroupsItemMeta =
 export interface UserGroupsUpdateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null | undefined;
@@ -1364,7 +1364,7 @@ export interface UserGroupsUpdateResponsePoliciesItem {
 export type UserGroupsUpdateResponsePoliciesList = Array<UserGroupsUpdateResponsePoliciesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateUserGroupResponse {
-  /** User Group identifier tag. */
+  /** Identifier of the user group. */
   id: string;
   /** Timestamp for the creation of the user group */
   createdOn: string;

@@ -160,6 +160,7 @@ export interface GetServiceAccountResponseAccessTokensItem {
   endpointPatterns: GetServiceAccountResponseAccessTokensItemEndpointPatternsList;
   last4?: string | undefined;
   skipNetworkSecurity?: boolean | undefined;
+  s3AccessKey?: string | undefined;
 }
 export type GetServiceAccountResponseAccessTokensList =
   Array<GetServiceAccountResponseAccessTokensItem>;
@@ -547,6 +548,7 @@ function __c6(j: number): any {
           endpointPatterns: __S(9, __c2, 1),
           last4: S.optional(S.String),
           skipNetworkSecurity: S.optional(S.Boolean),
+          s3AccessKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetServiceAccountResponseAccessTokensItem" });
     case 2:

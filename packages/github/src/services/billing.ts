@@ -61,7 +61,7 @@ export interface CreateOrganizationBudgetRequest {
   budget_alerting?: CreateOrganizationBudgetRequestBudgetAlerting | undefined;
   /** The scope of the budget for this organization. - `organization`: Apply the budget to the organization. - `repository`: Apply the budget to a specific repository in the organization. - `multi_user_customer`: Apply a universal budget to all users in the organization. - `user`: Apply the budget to a single user in the organization. `user` and `multi_user_customer` scopes are only supported when `budget_product_sku` is `ai_credits` or `premium_requests`. */
   budget_scope?: CreateOrganizationBudgetRequestBudgetScope | (string & {}) | undefined;
-  /** The name of the entity to apply the budget to */
+  /** The entity to apply the budget to. The expected value depends on `budget_scope`. - `repository`: The repository name, or `owner/repo`. - `organization`, `multi_user_customer`, and `user`: Not used. For `user`, set the `user` field instead. */
   budget_entity_name?: string | undefined;
   /** The type of pricing model used by the budget. Determines how `budget_product_sku` is interpreted. - `BundlePricing`: Covers all AI credit SKUs. Set `budget_product_sku` to `ai_credits`. - `ProductPricing`: Covers all SKUs that belong to a product. Set `budget_product_sku` to a product such as `actions` or `packages`. - `SkuPricing`: Covers a single, specific SKU. Set `budget_product_sku` to a SKU such as `actions_linux`. */
   budget_type?: CreateOrganizationBudgetRequestBudgetType | undefined;

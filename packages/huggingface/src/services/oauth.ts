@@ -43,6 +43,8 @@ export interface GetUserInfoResponseHardwareItemsItem {
 export type GetUserInfoResponseHardwareItemsList = Array<GetUserInfoResponseHardwareItemsItem>;
 /** Whether the user is on prepaid or postpaid billing */
 export type GetUserInfoResponseBillingMode = "prepaid" | "postpaid";
+/** Names of the organizations the user belongs to, as a list of strings for OIDC clients syncing groups from a claim */
+export type GetUserInfoResponseGroupsList = Array<string>;
 export type GetUserInfoResponseOrgsItemPlan = "team" | "enterprise" | "plus" | "academia";
 export type GetUserInfoResponseOrgsItemBillingMode = "prepaid" | "postpaid";
 export type GetUserInfoResponseOrgsItemRoleInOrg =
@@ -116,6 +118,8 @@ export interface GetUserInfoResponse {
   canPay?: boolean | undefined;
   /** Whether the user is on prepaid or postpaid billing */
   billingMode?: GetUserInfoResponseBillingMode | undefined;
+  /** Names of the organizations the user belongs to, as a list of strings for OIDC clients syncing groups from a claim */
+  groups: GetUserInfoResponseGroupsList;
   orgs: GetUserInfoResponseOrgsList;
 }
 export interface InitiateDeviceAuthorizationRequest {
@@ -144,6 +148,8 @@ export interface PostUserInfoResponseHardwareItemsItem {
 export type PostUserInfoResponseHardwareItemsList = Array<PostUserInfoResponseHardwareItemsItem>;
 /** Whether the user is on prepaid or postpaid billing */
 export type PostUserInfoResponseBillingMode = "prepaid" | "postpaid";
+/** Names of the organizations the user belongs to, as a list of strings for OIDC clients syncing groups from a claim */
+export type PostUserInfoResponseGroupsList = Array<string>;
 export type PostUserInfoResponseOrgsItemPlan = "team" | "enterprise" | "plus" | "academia";
 export type PostUserInfoResponseOrgsItemBillingMode = "prepaid" | "postpaid";
 export type PostUserInfoResponseOrgsItemRoleInOrg =
@@ -217,6 +223,8 @@ export interface PostUserInfoResponse {
   canPay?: boolean | undefined;
   /** Whether the user is on prepaid or postpaid billing */
   billingMode?: PostUserInfoResponseBillingMode | undefined;
+  /** Names of the organizations the user belongs to, as a list of strings for OIDC clients syncing groups from a claim */
+  groups: PostUserInfoResponseGroupsList;
   orgs: PostUserInfoResponseOrgsList;
 }
 export type RegisterOAuthAppRequestRedirectUrisList = Array<string>;
@@ -326,8 +334,8 @@ export const registerOAuthApp: API.OperationMethod<
   RegisterOAuthAppError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c5, 1) as any as S.Schema<RegisterOAuthAppRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<RegisterOAuthAppResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<RegisterOAuthAppRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<RegisterOAuthAppResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -380,7 +388,7 @@ function __c1(j: number): any {
           canPay: S.optional(S.Boolean),
           billingMode: S.optional(S.String),
           roleInOrg: S.optional(S.String),
-          securityRestrictions: S.optional(__S(16, __c2, 0)),
+          securityRestrictions: S.optional(__S(17, __c2, 1)),
           resourceGroups: S.optional(__S(12, __c1, 4)),
         }),
       ).annotate({ identifier: "GetUserInfoResponseOrgsItem" });
@@ -401,6 +409,7 @@ function __c1(j: number): any {
           isPro: S.Boolean,
           canPay: S.optional(S.Boolean),
           billingMode: S.optional(S.String),
+          groups: __S(16, __c2, 0),
           orgs: __S(14, __c1, 6),
         }),
       ).annotate({ identifier: "GetUserInfoResponse" });
@@ -409,6 +418,8 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.Array(S.String);
   }
 }
@@ -443,35 +454,33 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          redirect_uris: S.optional(__S(40, __c5, 0)),
+          redirect_uris: S.optional(__S(16, __c2, 0)),
           client_name: S.optional(S.String),
           client_uri: S.optional(S.String),
           logo_uri: S.optional(S.String),
           scope: S.optional(S.String),
-          contacts: S.optional(__S(40, __c5, 0)),
+          contacts: S.optional(__S(16, __c2, 0)),
           token_endpoint_auth_method: S.optional(S.String),
           software_id: S.optional(S.String),
           software_version: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/oauth/register", code: 200 })),
       ).annotate({ identifier: "RegisterOAuthAppRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           client_id: S.String,
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           client_id_issued_at: S.Number,
           client_secret_expires_at: S.Number,
-          redirect_uris: __S(40, __c5, 0),
+          redirect_uris: __S(16, __c2, 0),
           client_name: S.optional(S.String),
           client_uri: S.optional(S.String),
           logo_uri: S.optional(S.String),
           scope: S.String,
-          grant_types: __S(16, __c2, 0),
-          contacts: S.optional(__S(40, __c5, 0)),
+          grant_types: __S(17, __c2, 1),
+          contacts: S.optional(__S(16, __c2, 0)),
           token_endpoint_auth_method: S.optional(S.String),
           software_id: S.optional(S.String),
           software_version: S.optional(S.String),

@@ -95,15 +95,23 @@ export interface Challenge {
 }
 /** Signed ChallengeResponse. */
 export interface VerifyChallengeResponseRequest {
-  /** Optional. Service can optionally provide identity information about the device or user associated with the key. For an EMK, this value is the enrolled domain. For an EUK, this value is the user's email address. If present, this value will be checked against contents of the response, and verification will fail if there is no match. */
-  expectedIdentity?: string | undefined;
   /** Required. The generated response to the challenge, the bytes representation of SignedData. */
   challengeResponse?: string | undefined;
+  /** Optional. Service can optionally provide identity information about the device or user associated with the key. For an EMK, this value is the enrolled domain. For an EUK, this value is the user's email address. If present, this value will be checked against contents of the response, and verification will fail if there is no match. */
+  expectedIdentity?: string | undefined;
 }
 export interface VerifyChallengeRequest {
   /** Request body */
   body?: VerifyChallengeResponseRequest | undefined;
 }
+export type VerifyChallengeResponseResultKeyTrustLevelEnum =
+  | "KEY_TRUST_LEVEL_UNSPECIFIED"
+  | "CHROME_OS_VERIFIED_MODE"
+  | "CHROME_OS_DEVELOPER_MODE"
+  | "CHROME_BROWSER_HW_KEY"
+  | "CHROME_BROWSER_OS_KEY"
+  | "CHROME_BROWSER_NO_KEY"
+  | "CHROME_OS_NO_KEY";
 export type VerifyChallengeResponseResultProfileKeyTrustLevelEnum =
   | "KEY_TRUST_LEVEL_UNSPECIFIED"
   | "CHROME_OS_VERIFIED_MODE"
@@ -112,12 +120,6 @@ export type VerifyChallengeResponseResultProfileKeyTrustLevelEnum =
   | "CHROME_BROWSER_OS_KEY"
   | "CHROME_BROWSER_NO_KEY"
   | "CHROME_OS_NO_KEY";
-export type StringList = Array<string>;
-export type DeviceSignalsOsFirewallEnum =
-  | "OS_FIREWALL_UNSPECIFIED"
-  | "OS_FIREWALL_UNKNOWN"
-  | "OS_FIREWALL_DISABLED"
-  | "OS_FIREWALL_ENABLED";
 export type DeviceSignalsSafeBrowsingProtectionLevelEnum =
   | "SAFE_BROWSING_PROTECTION_LEVEL_UNSPECIFIED"
   | "INACTIVE"
@@ -129,17 +131,50 @@ export interface Antivirus {
   /** Output only. The state of the antivirus on the device. Introduced in Chrome M136. */
   state?: AntivirusStateEnum | undefined;
 }
-export type DeviceSignalsTriggerEnum =
-  | "TRIGGER_UNSPECIFIED"
-  | "TRIGGER_BROWSER_NAVIGATION"
-  | "TRIGGER_LOGIN_SCREEN";
+export type StringList = Array<string>;
+export type DeviceSignalsScreenLockSecuredEnum =
+  | "SCREEN_LOCK_SECURED_UNSPECIFIED"
+  | "SCREEN_LOCK_SECURED_UNKNOWN"
+  | "SCREEN_LOCK_SECURED_DISABLED"
+  | "SCREEN_LOCK_SECURED_ENABLED";
+export type DeviceSignalsOsFirewallEnum =
+  | "OS_FIREWALL_UNSPECIFIED"
+  | "OS_FIREWALL_UNKNOWN"
+  | "OS_FIREWALL_DISABLED"
+  | "OS_FIREWALL_ENABLED";
 export type DeviceSignalsOperatingSystemEnum =
   | "OPERATING_SYSTEM_UNSPECIFIED"
   | "CHROME_OS"
   | "CHROMIUM_OS"
   | "WINDOWS"
   | "MAC_OS_X"
-  | "LINUX";
+  | "LINUX"
+  | "IOS"
+  | "ANDROID";
+export type DeviceSignalsRealtimeUrlCheckModeEnum =
+  | "REALTIME_URL_CHECK_MODE_UNSPECIFIED"
+  | "REALTIME_URL_CHECK_MODE_DISABLED"
+  | "REALTIME_URL_CHECK_MODE_ENABLED_MAIN_FRAME";
+export type DeviceSignalsTriggerEnum =
+  | "TRIGGER_UNSPECIFIED"
+  | "TRIGGER_BROWSER_NAVIGATION"
+  | "TRIGGER_LOGIN_SCREEN";
+export type DeviceSignalsPasswordProtectionWarningTriggerEnum =
+  | "PASSWORD_PROTECTION_WARNING_TRIGGER_UNSPECIFIED"
+  | "POLICY_UNSET"
+  | "PASSWORD_PROTECTION_OFF"
+  | "PASSWORD_REUSE"
+  | "PHISHING_REUSE";
+export type DeviceSignalsDiskEncryptionEnum =
+  | "DISK_ENCRYPTION_UNSPECIFIED"
+  | "DISK_ENCRYPTION_UNKNOWN"
+  | "DISK_ENCRYPTION_DISABLED"
+  | "DISK_ENCRYPTION_ENCRYPTED";
+export type DeviceSignalsSecureBootModeEnum =
+  | "SECURE_BOOT_MODE_UNSPECIFIED"
+  | "SECURE_BOOT_MODE_UNKNOWN"
+  | "SECURE_BOOT_MODE_DISABLED"
+  | "SECURE_BOOT_MODE_ENABLED";
 /** Properties of the CrowdStrike agent installed on a device. */
 export interface CrowdStrikeAgent {
   /** Output only. The Agent ID of the Crowdstrike agent. */
@@ -147,136 +182,103 @@ export interface CrowdStrikeAgent {
   /** Output only. The Customer ID to which the agent belongs to. */
   customerId?: string | undefined;
 }
-export type DeviceSignalsRealtimeUrlCheckModeEnum =
-  | "REALTIME_URL_CHECK_MODE_UNSPECIFIED"
-  | "REALTIME_URL_CHECK_MODE_DISABLED"
-  | "REALTIME_URL_CHECK_MODE_ENABLED_MAIN_FRAME";
-export type DeviceSignalsSecureBootModeEnum =
-  | "SECURE_BOOT_MODE_UNSPECIFIED"
-  | "SECURE_BOOT_MODE_UNKNOWN"
-  | "SECURE_BOOT_MODE_DISABLED"
-  | "SECURE_BOOT_MODE_ENABLED";
-export type DeviceSignalsScreenLockSecuredEnum =
-  | "SCREEN_LOCK_SECURED_UNSPECIFIED"
-  | "SCREEN_LOCK_SECURED_UNKNOWN"
-  | "SCREEN_LOCK_SECURED_DISABLED"
-  | "SCREEN_LOCK_SECURED_ENABLED";
-export type DeviceSignalsDiskEncryptionEnum =
-  | "DISK_ENCRYPTION_UNSPECIFIED"
-  | "DISK_ENCRYPTION_UNKNOWN"
-  | "DISK_ENCRYPTION_DISABLED"
-  | "DISK_ENCRYPTION_ENCRYPTED";
-export type DeviceSignalsPasswordProtectionWarningTriggerEnum =
-  | "PASSWORD_PROTECTION_WARNING_TRIGGER_UNSPECIFIED"
-  | "POLICY_UNSET"
-  | "PASSWORD_PROTECTION_OFF"
-  | "PASSWORD_REUSE"
-  | "PHISHING_REUSE";
 /** The device signals as reported by Chrome. Unless otherwise specified, signals are available on all platforms. */
 export interface DeviceSignals {
-  /** Output only. Affiliation IDs of the organizations that are affiliated with the organization that is currently managing the Chrome Profile's user or ChromeOS user. */
-  profileAffiliationIds?: StringList | undefined;
-  /** Output only. Value of the AllowScreenLock policy on the device. See https://chromeenterprise.google/policies/?policy=AllowScreenLock for more details. Available on ChromeOS only. */
-  allowScreenLock?: boolean | undefined;
-  /** Output only. Current version of the Chrome browser which generated this set of signals. Example value: "107.0.5286.0". */
-  browserVersion?: string | undefined;
-  /** Output only. The display name of the device, as defined by the user. */
-  displayName?: string | undefined;
-  /** Output only. The name of the device's model. */
-  deviceModel?: string | undefined;
-  /** Output only. Mobile Equipment Identifier (MEID) of the device. Available on ChromeOS only. */
-  meid?: StringList | undefined;
-  /** Hostname of the device. */
-  hostname?: string | undefined;
-  /** Output only. The state of the OS level firewall. On ChromeOS, the value will always be ENABLED on regular devices and UNKNOWN on devices in developer mode. Support for MacOS 15 (Sequoia) and later has been introduced in Chrome M131. */
-  osFirewall?: DeviceSignalsOsFirewallEnum | undefined;
-  /** List of the addesses of all OS level DNS servers configured in the device's network settings. */
-  systemDnsServers?: StringList | undefined;
-  /** Output only. Whether the Site Isolation (a.k.a Site Per Process) setting is enabled. That setting may be controlled by an enterprise policy: https://chromeenterprise.google/policies/#SitePerProcess */
-  siteIsolationEnabled?: boolean | undefined;
-  /** Output only. Whether access to the Chrome Remote Desktop application is blocked via a policy. */
-  chromeRemoteDesktopAppBlocked?: boolean | undefined;
-  /** Output only. Whether Chrome's built-in DNS client is used. The OS DNS client is otherwise used. This value may be controlled by an enterprise policy: https://chromeenterprise.google/policies/#BuiltInDnsClientEnabled. */
-  builtInDnsClientEnabled?: boolean | undefined;
   /** Output only. Safe Browsing Protection Level. That setting may be controlled by an enterprise policy: https://chromeenterprise.google/policies/#SafeBrowsingProtectionLevel. */
   safeBrowsingProtectionLevel?: DeviceSignalsSafeBrowsingProtectionLevelEnum | undefined;
   /** Output only. Information about Antivirus software on the device. Available on Windows only. */
   antivirus?: Antivirus | undefined;
-  /** Output only. The trigger which generated this set of signals. */
-  trigger?: DeviceSignalsTriggerEnum | undefined;
-  /** Output only. International Mobile Equipment Identity (IMEI) of the device. Available on ChromeOS only. */
-  imei?: StringList | undefined;
-  /** Output only. The type of the Operating System currently running on the device. */
-  operatingSystem?: DeviceSignalsOperatingSystemEnum | undefined;
-  /** Output only. Enrollment domain of the customer which is currently managing the device. */
-  deviceEnrollmentDomain?: string | undefined;
-  /** Output only. Affiliation IDs of the organizations that are affiliated with the organization that is currently managing the device. When the sets of device and profile affiliation IDs overlap, it means that the organizations managing the device and user are affiliated. To learn more about user affiliation, visit https://support.google.com/chrome/a/answer/12801245?ref_topic=9027936. */
-  deviceAffiliationIds?: StringList | undefined;
-  /** Output only. MAC addresses of the device. */
-  macAddresses?: StringList | undefined;
-  /** Output only. Crowdstrike agent properties installed on the device, if any. Available on Windows and MacOS only. */
-  crowdStrikeAgent?: CrowdStrikeAgent | undefined;
-  /** Output only. Windows domain for the current OS user. Available on Windows only. */
-  windowsUserDomain?: string | undefined;
-  /** Output only. Whether Enterprise-grade (i.e. custom) unsafe URL scanning is enabled or not. This setting may be controlled by an enterprise policy: https://chromeenterprise.google/policies/#EnterpriseRealTimeUrlCheckMode */
-  realtimeUrlCheckMode?: DeviceSignalsRealtimeUrlCheckModeEnum | undefined;
-  /** Output only. The name of the device's manufacturer. */
-  deviceManufacturer?: string | undefined;
-  /** Output only. Windows domain that the current machine has joined. Available on Windows only. */
-  windowsMachineDomain?: string | undefined;
-  /** Output only. Whether the device's startup software has its Secure Boot feature enabled. Available on Windows only. */
-  secureBootMode?: DeviceSignalsSecureBootModeEnum | undefined;
-  /** Output only. The state of the Screen Lock password protection. On ChromeOS, this value will always be ENABLED as there is not way to disable requiring a password or pin when unlocking the device. */
-  screenLockSecured?: DeviceSignalsScreenLockSecuredEnum | undefined;
-  /** Output only. The encryption state of the disk. On ChromeOS, the main disk is always ENCRYPTED. */
-  diskEncryption?: DeviceSignalsDiskEncryptionEnum | undefined;
   /** Output only. Deprecated. The corresponding policy is now deprecated. Whether Chrome is blocking third-party software injection or not. This setting may be controlled by an enterprise policy: https://chromeenterprise.google/policies/?policy=ThirdPartyBlockingEnabled. Available on Windows only. */
   thirdPartyBlockingEnabled?: boolean | undefined;
-  /** Output only. Whether the Password Protection Warning feature is enabled or not. Password protection alerts users when they reuse their protected password on potentially suspicious sites. This setting is controlled by an enterprise policy: https://chromeenterprise.google/policies/#PasswordProtectionWarningTrigger. Note that the policy unset does not have the same effects as having the policy explicitly set to `PASSWORD_PROTECTION_OFF`. */
-  passwordProtectionWarningTrigger?: DeviceSignalsPasswordProtectionWarningTriggerEnum | undefined;
-  /** Output only. The serial number of the device. On Windows, this represents the BIOS's serial number. Not available on most Linux distributions. */
-  serialNumber?: string | undefined;
-  /** Output only. Enrollment domain of the customer which is currently managing the profile. */
-  profileEnrollmentDomain?: string | undefined;
+  /** Output only. Affiliation IDs of the organizations that are affiliated with the organization that is currently managing the Chrome Profile's user or ChromeOS user. */
+  profileAffiliationIds?: StringList | undefined;
+  /** Output only. Affiliation IDs of the organizations that are affiliated with the organization that is currently managing the device. When the sets of device and profile affiliation IDs overlap, it means that the organizations managing the device and user are affiliated. To learn more about user affiliation, visit https://support.google.com/chrome/a/answer/12801245?ref_topic=9027936. */
+  deviceAffiliationIds?: StringList | undefined;
+  /** Output only. Enrollment domain of the customer which is currently managing the device. */
+  deviceEnrollmentDomain?: string | undefined;
+  /** Output only. The state of the Screen Lock password protection. On ChromeOS, this value will always be ENABLED as there is not way to disable requiring a password or pin when unlocking the device. */
+  screenLockSecured?: DeviceSignalsScreenLockSecuredEnum | undefined;
   /** Output only. The current version of the Operating System. On Windows and linux, the value will also include the security patch information. */
   osVersion?: string | undefined;
+  /** Output only. The state of the OS level firewall. On ChromeOS, the value will always be ENABLED on regular devices and UNKNOWN on devices in developer mode. Support for MacOS 15 (Sequoia) and later has been introduced in Chrome M131. */
+  osFirewall?: DeviceSignalsOsFirewallEnum | undefined;
+  /** List of the addesses of all OS level DNS servers configured in the device's network settings. */
+  systemDnsServers?: StringList | undefined;
+  /** Output only. Mobile Equipment Identifier (MEID) of the device. Available on ChromeOS only. */
+  meid?: StringList | undefined;
+  /** Output only. The type of the Operating System currently running on the device. */
+  operatingSystem?: DeviceSignalsOperatingSystemEnum | undefined;
+  /** Output only. Whether Enterprise-grade (i.e. custom) unsafe URL scanning is enabled or not. This setting may be controlled by an enterprise policy: https://chromeenterprise.google/policies/#EnterpriseRealTimeUrlCheckMode */
+  realtimeUrlCheckMode?: DeviceSignalsRealtimeUrlCheckModeEnum | undefined;
+  /** Output only. The trigger which generated this set of signals. */
+  trigger?: DeviceSignalsTriggerEnum | undefined;
+  /** Output only. Whether the Password Protection Warning feature is enabled or not. Password protection alerts users when they reuse their protected password on potentially suspicious sites. This setting is controlled by an enterprise policy: https://chromeenterprise.google/policies/#PasswordProtectionWarningTrigger. Note that the policy unset does not have the same effects as having the policy explicitly set to `PASSWORD_PROTECTION_OFF`. */
+  passwordProtectionWarningTrigger?: DeviceSignalsPasswordProtectionWarningTriggerEnum | undefined;
+  /** Output only. Enrollment domain of the customer which is currently managing the profile. */
+  profileEnrollmentDomain?: string | undefined;
+  /** Output only. Windows domain that the current machine has joined. Available on Windows only. */
+  windowsMachineDomain?: string | undefined;
+  /** Output only. The serial number of the device. On Windows, this represents the BIOS's serial number. Not available on most Linux distributions. */
+  serialNumber?: string | undefined;
+  /** Output only. The encryption state of the disk. On ChromeOS, the main disk is always ENCRYPTED. */
+  diskEncryption?: DeviceSignalsDiskEncryptionEnum | undefined;
+  /** Output only. Whether access to the Chrome Remote Desktop application is blocked via a policy. */
+  chromeRemoteDesktopAppBlocked?: boolean | undefined;
+  /** Output only. Whether the Site Isolation (a.k.a Site Per Process) setting is enabled. That setting may be controlled by an enterprise policy: https://chromeenterprise.google/policies/#SitePerProcess */
+  siteIsolationEnabled?: boolean | undefined;
+  /** Output only. The name of the device's model. */
+  deviceModel?: string | undefined;
+  /** Output only. Whether Chrome's built-in DNS client is used. The OS DNS client is otherwise used. This value may be controlled by an enterprise policy: https://chromeenterprise.google/policies/#BuiltInDnsClientEnabled. */
+  builtInDnsClientEnabled?: boolean | undefined;
+  /** Output only. Windows domain for the current OS user. Available on Windows only. */
+  windowsUserDomain?: string | undefined;
+  /** Output only. MAC addresses of the device. */
+  macAddresses?: StringList | undefined;
+  /** Output only. Value of the AllowScreenLock policy on the device. See https://chromeenterprise.google/policies/?policy=AllowScreenLock for more details. Available on ChromeOS only. */
+  allowScreenLock?: boolean | undefined;
+  /** Output only. Whether the device's startup software has its Secure Boot feature enabled. Available on Windows only. */
+  secureBootMode?: DeviceSignalsSecureBootModeEnum | undefined;
+  /** Hostname of the device. */
+  hostname?: string | undefined;
+  /** Output only. The display name of the device, as defined by the user. */
+  displayName?: string | undefined;
+  /** Output only. The name of the device's manufacturer. */
+  deviceManufacturer?: string | undefined;
+  /** Output only. Current version of the Chrome browser which generated this set of signals. Example value: "107.0.5286.0". */
+  browserVersion?: string | undefined;
+  /** Output only. Crowdstrike agent properties installed on the device, if any. Available on Windows and MacOS only. */
+  crowdStrikeAgent?: CrowdStrikeAgent | undefined;
+  /** Output only. International Mobile Equipment Identity (IMEI) of the device. Available on ChromeOS only. */
+  imei?: StringList | undefined;
 }
-export type VerifyChallengeResponseResultKeyTrustLevelEnum =
-  | "KEY_TRUST_LEVEL_UNSPECIFIED"
-  | "CHROME_OS_VERIFIED_MODE"
-  | "CHROME_OS_DEVELOPER_MODE"
-  | "CHROME_BROWSER_HW_KEY"
-  | "CHROME_BROWSER_OS_KEY"
-  | "CHROME_BROWSER_NO_KEY"
-  | "CHROME_OS_NO_KEY";
 /** Result message for VerifiedAccess.VerifyChallengeResponse. The response returned when successful for Managed profiles on Unmanaged browsers will NOT have devicePermanentId, keyTrustLevel, virtualDeviceId and customerId fields. Managed profiles will INSTEAD have the profileCustomerId, virtualProfileId, profilePermanentId and profileKeyTrustLevel fields. */
 export interface VerifyChallengeResponseResult {
-  /** Output only. The client-provided ID of a profile on the device. */
-  virtualProfileId?: string | undefined;
-  /** Output only. Unique customer id that this profile belongs to, as defined by the Google Admin SDK at https://developers.google.com/admin-sdk/directory/v1/guides/manage-customers */
-  profileCustomerId?: string | undefined;
-  /** Output only. Device enrollment id for ChromeOS devices. */
-  deviceEnrollmentId?: string | undefined;
-  /** Output only. Virtual device id of the device. The definition of virtual device id is platform-specific. */
-  virtualDeviceId?: string | undefined;
-  /** Output only. Certificate Signing Request (in the SPKAC format, base64 encoded) is returned in this field. This field will be set only if device has included CSR in its challenge response. (the option to include CSR is now available for both user and machine responses) */
-  signedPublicKeyAndChallenge?: string | undefined;
-  /** Output only. Device permanent id is returned in this field (for the machine response only). */
-  devicePermanentId?: string | undefined;
-  /** Output only. Attested device ID (ADID). */
-  attestedDeviceId?: string | undefined;
-  /** Output only. Profile attested key trust level. */
-  profileKeyTrustLevel?: VerifyChallengeResponseResultProfileKeyTrustLevelEnum | undefined;
-  /** Output only. Unique customer id that this device belongs to, as defined by the Google Admin SDK at https://developers.google.com/admin-sdk/directory/v1/guides/manage-customers */
-  customerId?: string | undefined;
-  /** Output only. Deprecated. Device signal in json string representation. Prefer using `device_signals` instead. */
-  deviceSignal?: string | undefined;
-  /** Output only. Device signals. */
-  deviceSignals?: DeviceSignals | undefined;
-  /** Output only. The unique server-side ID of a profile on the device. */
-  profilePermanentId?: string | undefined;
   /** Output only. Device attested key trust level. */
   keyTrustLevel?: VerifyChallengeResponseResultKeyTrustLevelEnum | undefined;
+  /** Output only. Profile attested key trust level. */
+  profileKeyTrustLevel?: VerifyChallengeResponseResultProfileKeyTrustLevelEnum | undefined;
+  /** Output only. The unique server-side ID of a profile on the device. */
+  profilePermanentId?: string | undefined;
+  /** Output only. Device enrollment id for ChromeOS devices. */
+  deviceEnrollmentId?: string | undefined;
+  /** Output only. The client-provided ID of a profile on the device. */
+  virtualProfileId?: string | undefined;
+  /** Output only. Unique customer id that this device belongs to, as defined by the Google Admin SDK at https://developers.google.com/admin-sdk/directory/v1/guides/manage-customers */
+  customerId?: string | undefined;
+  /** Output only. Virtual device id of the device. The definition of virtual device id is platform-specific. */
+  virtualDeviceId?: string | undefined;
+  /** Output only. Unique customer id that this profile belongs to, as defined by the Google Admin SDK at https://developers.google.com/admin-sdk/directory/v1/guides/manage-customers */
+  profileCustomerId?: string | undefined;
+  /** Output only. Device signals. */
+  deviceSignals?: DeviceSignals | undefined;
+  /** Output only. Attested device ID (ADID). */
+  attestedDeviceId?: string | undefined;
+  /** Output only. Device permanent id is returned in this field (for the machine response only). */
+  devicePermanentId?: string | undefined;
+  /** Output only. Certificate Signing Request (in the SPKAC format, base64 encoded) is returned in this field. This field will be set only if device has included CSR in its challenge response. (the option to include CSR is now available for both user and machine responses) */
+  signedPublicKeyAndChallenge?: string | undefined;
+  /** Output only. Deprecated. Device signal in json string representation. Prefer using `device_signals` instead. */
+  deviceSignal?: string | undefined;
 }
 export type GenerateChallengeError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Generates a new challenge. */
@@ -342,8 +344,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expectedIdentity: S.optional(S.String),
           challengeResponse: S.optional(S.String),
+          expectedIdentity: S.optional(S.String),
         }),
       ).annotate({ identifier: "VerifyChallengeResponseRequest" });
     case 1:
@@ -359,13 +361,13 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "VerifyChallengeRequest" });
     case 2:
-      return S.Array(S.String);
-    case 3:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Antivirus" });
+    case 3:
+      return S.Array(S.String);
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -376,57 +378,57 @@ function __c1(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          profileAffiliationIds: S.optional(__S(10, __c1, 2)),
-          allowScreenLock: S.optional(S.Boolean),
-          browserVersion: S.optional(S.String),
-          displayName: S.optional(S.String),
-          deviceModel: S.optional(S.String),
-          meid: S.optional(__S(10, __c1, 2)),
-          hostname: S.optional(S.String),
-          osFirewall: S.optional(S.String),
-          systemDnsServers: S.optional(__S(10, __c1, 2)),
-          siteIsolationEnabled: S.optional(S.Boolean),
-          chromeRemoteDesktopAppBlocked: S.optional(S.Boolean),
-          builtInDnsClientEnabled: S.optional(S.Boolean),
           safeBrowsingProtectionLevel: S.optional(S.String),
-          antivirus: S.optional(__S(11, __c1, 3)),
-          trigger: S.optional(S.String),
-          imei: S.optional(__S(10, __c1, 2)),
-          operatingSystem: S.optional(S.String),
-          deviceEnrollmentDomain: S.optional(S.String),
-          deviceAffiliationIds: S.optional(__S(10, __c1, 2)),
-          macAddresses: S.optional(__S(10, __c1, 2)),
-          crowdStrikeAgent: S.optional(__S(12, __c1, 4)),
-          windowsUserDomain: S.optional(S.String),
-          realtimeUrlCheckMode: S.optional(S.String),
-          deviceManufacturer: S.optional(S.String),
-          windowsMachineDomain: S.optional(S.String),
-          secureBootMode: S.optional(S.String),
-          screenLockSecured: S.optional(S.String),
-          diskEncryption: S.optional(S.String),
+          antivirus: S.optional(__S(10, __c1, 2)),
           thirdPartyBlockingEnabled: S.optional(S.Boolean),
-          passwordProtectionWarningTrigger: S.optional(S.String),
-          serialNumber: S.optional(S.String),
-          profileEnrollmentDomain: S.optional(S.String),
+          profileAffiliationIds: S.optional(__S(11, __c1, 3)),
+          deviceAffiliationIds: S.optional(__S(11, __c1, 3)),
+          deviceEnrollmentDomain: S.optional(S.String),
+          screenLockSecured: S.optional(S.String),
           osVersion: S.optional(S.String),
+          osFirewall: S.optional(S.String),
+          systemDnsServers: S.optional(__S(11, __c1, 3)),
+          meid: S.optional(__S(11, __c1, 3)),
+          operatingSystem: S.optional(S.String),
+          realtimeUrlCheckMode: S.optional(S.String),
+          trigger: S.optional(S.String),
+          passwordProtectionWarningTrigger: S.optional(S.String),
+          profileEnrollmentDomain: S.optional(S.String),
+          windowsMachineDomain: S.optional(S.String),
+          serialNumber: S.optional(S.String),
+          diskEncryption: S.optional(S.String),
+          chromeRemoteDesktopAppBlocked: S.optional(S.Boolean),
+          siteIsolationEnabled: S.optional(S.Boolean),
+          deviceModel: S.optional(S.String),
+          builtInDnsClientEnabled: S.optional(S.Boolean),
+          windowsUserDomain: S.optional(S.String),
+          macAddresses: S.optional(__S(11, __c1, 3)),
+          allowScreenLock: S.optional(S.Boolean),
+          secureBootMode: S.optional(S.String),
+          hostname: S.optional(S.String),
+          displayName: S.optional(S.String),
+          deviceManufacturer: S.optional(S.String),
+          browserVersion: S.optional(S.String),
+          crowdStrikeAgent: S.optional(__S(12, __c1, 4)),
+          imei: S.optional(__S(11, __c1, 3)),
         }),
       ).annotate({ identifier: "DeviceSignals" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          virtualProfileId: S.optional(S.String),
-          profileCustomerId: S.optional(S.String),
-          deviceEnrollmentId: S.optional(S.String),
-          virtualDeviceId: S.optional(S.String),
-          signedPublicKeyAndChallenge: S.optional(S.String),
-          devicePermanentId: S.optional(S.String),
-          attestedDeviceId: S.optional(S.String),
-          profileKeyTrustLevel: S.optional(S.String),
-          customerId: S.optional(S.String),
-          deviceSignal: S.optional(S.String),
-          deviceSignals: S.optional(__S(13, __c1, 5)),
-          profilePermanentId: S.optional(S.String),
           keyTrustLevel: S.optional(S.String),
+          profileKeyTrustLevel: S.optional(S.String),
+          profilePermanentId: S.optional(S.String),
+          deviceEnrollmentId: S.optional(S.String),
+          virtualProfileId: S.optional(S.String),
+          customerId: S.optional(S.String),
+          virtualDeviceId: S.optional(S.String),
+          profileCustomerId: S.optional(S.String),
+          deviceSignals: S.optional(__S(13, __c1, 5)),
+          attestedDeviceId: S.optional(S.String),
+          devicePermanentId: S.optional(S.String),
+          signedPublicKeyAndChallenge: S.optional(S.String),
+          deviceSignal: S.optional(S.String),
         }),
       ).annotate({ identifier: "VerifyChallengeResponseResult" });
   }

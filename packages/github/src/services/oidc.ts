@@ -104,7 +104,7 @@ export interface UpdateOidcCustomSubTemplateForOrgRequest {
 }
 export type UpdateOidcCustomSubTemplateForOrgResponse = unknown;
 export type CreateOidcCustomPropertyInclusionForEnterpriseError = GithubOpError;
-/** Create an OIDC custom property inclusion for an enterprise Adds a repository custom property to be included in the OIDC token for repository actions in an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. */
+/** Create an OIDC custom property inclusion for an enterprise Adds a repository custom property to be included in the OIDC token for repository actions in an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
 export const createOidcCustomPropertyInclusionForEnterprise: API.OperationMethod<
   CreateOidcCustomPropertyInclusionForEnterpriseRequest,
   OidcCustomPropertyInclusion,
@@ -138,7 +138,7 @@ export const createOidcCustomPropertyInclusionForOrg: API.OperationMethod<
 }));
 
 export type DeleteOidcCustomPropertyInclusionForEnterpriseError = GithubOpError;
-/** Delete an OIDC custom property inclusion for an enterprise Removes a repository custom property from being included in the OIDC token for repository actions in an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. */
+/** Delete an OIDC custom property inclusion for an enterprise Removes a repository custom property from being included in the OIDC token for repository actions in an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
 export const deleteOidcCustomPropertyInclusionForEnterprise: API.OperationMethod<
   DeleteOidcCustomPropertyInclusionForEnterpriseRequest,
   DeleteOidcCustomPropertyInclusionForEnterpriseResponse,
@@ -193,7 +193,7 @@ export const getOidcCustomSubTemplateForOrg: API.OperationMethod<
 }));
 
 export type ListOidcCustomPropertyInclusionsForEnterpriseError = GithubOpError;
-/** List OIDC custom property inclusions for an enterprise Lists the repository custom properties that are included in the OIDC token for repository actions in an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. */
+/** List OIDC custom property inclusions for an enterprise Lists the repository custom properties that are included in the OIDC token for repository actions in an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
 export const listOidcCustomPropertyInclusionsForEnterprise: API.OperationMethod<
   ListOidcCustomPropertyInclusionsForEnterpriseRequest,
   ListOidcCustomPropertyInclusionsForEnterpriseResponse,

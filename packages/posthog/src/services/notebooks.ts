@@ -442,7 +442,7 @@ export interface CreateNotebooksRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   short_id: string;
-  /** Include prepared embedded insights when refreshing a dashboard widget. Requires notebook widgets to be enabled. */
+  /** Include prepared embedded insights when refreshing a dashboard widget. */
   include_prepared_insights?: boolean | undefined;
   /** Replace the notebook's variables with this list before the run starts, so the results match what the document declares. Omit it to run with the variables already saved. */
   variables?: CreateNotebooksRunRequestVariablesList | undefined;
@@ -496,6 +496,8 @@ export interface SharingConfiguration {
   share_passwords?: SharingConfigurationSharePasswordsList | undefined;
   /** The effective access level the user has for this object */
   user_access_level?: string | null | undefined;
+  /** Whether the project has configured access controls for shared content or its underlying data. */
+  has_relevant_access_controls: boolean;
 }
 /** * `hogql` - hogql * `python` - python */
 export type NotebookSQLV2NodeTypeEnum = "hogql" | "python";
@@ -922,6 +924,18 @@ export interface NotebookCellLastRun {
   /** Error message when the run failed. */
   error?: string | null | undefined;
 }
+/** Columns plotted as Y series. Null means the chart picks them: every numeric column. An empty list means the author removed every series, so the chart plots nothing. */
+export type NotebookCellVisualizationYAxisList = Array<string>;
+export interface NotebookCellVisualization {
+  /** Chart type the cell opens on, a chart display value such as 'ActionsBar' or 'ActionsLineGraph'. */
+  display: string;
+  /** Column on the X axis. Null means the chart picks it: the first date column, or the first column the Y series do not use when there is no date column. */
+  x_axis: string | null;
+  /** Columns plotted as Y series. Null means the chart picks them: every numeric column. An empty list means the author removed every series, so the chart plots nothing. */
+  y_axis: NotebookCellVisualizationYAxisList | null;
+  /** Column that splits the Y series into one series per value, or null. */
+  series_breakdown: string | null;
+}
 export interface NotebookCellState {
   /** Durable cell identity, used by the cell run and edit endpoints. */
   node_id: string;
@@ -943,6 +957,8 @@ export interface NotebookCellState {
   dependents: NotebookCellStateDependentsList;
   /** Summary of the most recent run; null when never run. */
   last_run?: NotebookCellLastRun | null | undefined;
+  /** SQL cells only: the chart the cell opens on, set in the editor or with the visualization parameter of notebooks-add-cell. Null when the cell opens on its results table. */
+  visualization?: NotebookCellVisualization | null | undefined;
 }
 /** Every cell in document order, with its dependency edges and derived run state. */
 export type NotebookSQLV2StateResponseCellsList = Array<NotebookCellState>;
@@ -1262,7 +1278,12 @@ export interface WidgetVersion {
 }
 /** Versions ordered newest first. */
 export type WidgetVersionPageResultsList = Array<WidgetVersion>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface WidgetVersionPage {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Versions ordered newest first. */
   results: WidgetVersionPageResultsList;
   /** Total versions. */
@@ -1622,7 +1643,7 @@ export const createNotebooksSharingPassword: API.OperationMethod<
 }));
 
 export type CreateNotebooksSqlV2RunError = Conflict | PosthogOpError;
-/** Dispatch an asynchronous run of a notebook SQL or Python cell. Returns a run_id immediately; poll the run result endpoint until the status is terminal. One run at a time per notebook. Python notebooks enable all run types. Generated widgets enable HogQL runs without a connection or kernel. */
+/** Dispatch an asynchronous run of a notebook SQL or Python cell. Returns a run_id immediately; poll the run result endpoint until the status is terminal. One run at a time per notebook. Python notebooks enable all run types. HogQL runs without a connection or kernel are always available. */
 export const createNotebooksSqlV2Run: API.OperationMethod<
   CreateNotebooksSqlV2RunRequest,
   NotebookSQLV2RunResponse,
@@ -1873,7 +1894,7 @@ export const getNotebooksSqlV2State: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<GetNotebooksSqlV2StateRequest>,
-  output: __S(197, __c24, 5) as any as S.Schema<NotebookSQLV2StateResponse>,
+  output: __S(198, __c24, 6) as any as S.Schema<NotebookSQLV2StateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2434,6 +2455,7 @@ function __c6(j: number): any {
           password_required: S.optional(S.Boolean),
           share_passwords: S.optional(__S(49, __c6, 1)),
           user_access_level: S.optional(S.NullOr(S.String)),
+          has_relevant_access_controls: S.Boolean,
         }),
       ).annotate({ identifier: "SharingConfiguration" });
   }
@@ -2919,6 +2941,15 @@ function __c24(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          display: S.String,
+          x_axis: S.NullOr(S.String),
+          y_axis: S.NullOr(__S(280, __c35, 0)),
+          series_breakdown: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "NotebookCellVisualization" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           node_id: S.String,
           cell_type: S.String,
           dataframe_name: S.String,
@@ -2929,11 +2960,12 @@ function __c24(j: number): any {
           depends_on: __S(280, __c35, 0),
           dependents: __S(280, __c35, 0),
           last_run: S.optional(S.NullOr(__S(194, __c24, 2))),
+          visualization: S.optional(S.NullOr(__S(195, __c24, 3))),
         }),
       ).annotate({ identifier: "NotebookCellState" });
-    case 4:
-      return S.Array(__S(195, __c24, 3));
     case 5:
+      return S.Array(__S(196, __c24, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           notebook_id: S.String,
@@ -2943,7 +2975,7 @@ function __c24(j: number): any {
           content: S.optional(S.Unknown),
           kernel: __S(193, __c24, 1),
           variables: __S(457, __c57, 1),
-          cells: __S(196, __c24, 4),
+          cells: __S(197, __c24, 5),
         }),
       ).annotate({ identifier: "NotebookSQLV2StateResponse" });
   }
@@ -3482,6 +3514,8 @@ function __c48(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
           results: __S(386, __c48, 2),
           count: S.Number,
           next_offset: S.NullOr(S.Number),

@@ -69,6 +69,3337 @@ export interface CreatePersonsBatchByUuidRequest {
   properties?: unknown | undefined;
 }
 export interface CreatePersonsBatchByUuidResponse {}
+export type CreatePersonsPropertiesTimelineRequestFormat = "csv" | "json";
+export type InsightActorsQueryBreakdownCase1List = Array<string>;
+export type InsightActorsQueryBreakdown = string | InsightActorsQueryBreakdownCase1List | number;
+export type Compare = "current" | "previous";
+export type InsightActorsQueryDay = string | number;
+export type BounceRatePageViewMode =
+  | "count_pageviews"
+  | "uniq_urls"
+  | "uniq_page_screen_autocaptures";
+export type FilterLogicalOperator = "AND" | "OR";
+export type CustomBotField =
+  | "$raw_user_agent"
+  | "$ip"
+  | "$lib"
+  | "$host"
+  | "$pathname"
+  | "$current_url"
+  | "$browser"
+  | "$os"
+  | "$browser_language"
+  | "$screen_width"
+  | "$screen_height"
+  | "$geoip_country_code"
+  | "$referrer"
+  | "$referring_domain";
+export type CustomBotMatcher = "contains" | "regex" | "exact" | "cidr";
+export interface CustomBotCondition {
+  id: string;
+  /** The event property this condition reads. */
+  key: CustomBotField | (string & {});
+  matcher: CustomBotMatcher | (string & {});
+  /** Matched against the property named by `key`. */
+  pattern: string;
+}
+export type CustomBotRuleItemsList = Array<CustomBotCondition>;
+export interface CustomBotRule {
+  /** Reported by `$virt_traffic_category`. Defaults to `custom`. */
+  category?: string | null | undefined;
+  /** Whether every condition must match (AND) or any one of them (OR). */
+  combiner: FilterLogicalOperator | (string & {});
+  id: string;
+  items: CustomBotRuleItemsList;
+  /** Reported by `$virt_bot_name` and `$virt_bot_operator` when the rule matches. */
+  name: string;
+}
+export type HogQLQueryModifiersCustomBotDefinitionsList = Array<CustomBotRule>;
+export type CustomChannelField =
+  | "utm_source"
+  | "utm_medium"
+  | "utm_campaign"
+  | "referring_domain"
+  | "url"
+  | "pathname"
+  | "hostname";
+export type CustomChannelOperator =
+  | "exact"
+  | "is_not"
+  | "is_set"
+  | "is_not_set"
+  | "icontains"
+  | "not_icontains"
+  | "regex"
+  | "not_regex";
+export type CustomChannelConditionValueCase1List = Array<string>;
+export type CustomChannelConditionValue = string | CustomChannelConditionValueCase1List;
+export interface CustomChannelCondition {
+  id: string;
+  key: CustomChannelField | (string & {});
+  op: CustomChannelOperator | (string & {});
+  value?: CustomChannelConditionValue | null | undefined;
+}
+export type CustomChannelRuleItemsList = Array<CustomChannelCondition>;
+export interface CustomChannelRule {
+  channel_type: string;
+  combiner: FilterLogicalOperator | (string & {});
+  id: string;
+  items: CustomChannelRuleItemsList;
+}
+export type HogQLQueryModifiersCustomChannelTypeRulesList = Array<CustomChannelRule>;
+export interface DataWarehouseEventsModifier {
+  distinct_id_field: string;
+  id_field: string;
+  table_name: string;
+  timestamp_field: string;
+}
+export type HogQLQueryModifiersDataWarehouseEventsModifiersList =
+  Array<DataWarehouseEventsModifier>;
+export type HogQLQueryModifiersForceClickhouseDataSkippingIndexesList = Array<string>;
+export type InCohortVia = "auto" | "leftjoin" | "subquery" | "leftjoin_conjoined";
+export type InlineCohortCalculation = "off" | "auto" | "always";
+export type MaterializationMode =
+  | "auto"
+  | "legacy_null_as_string"
+  | "legacy_null_as_null"
+  | "disabled";
+export type MaterializedColumnsOptimizationMode = "disabled" | "optimized";
+export type ParserMode =
+  | "cpp_only"
+  | "cpp_with_rust_shadow"
+  | "cpp_with_rust_py_shadow"
+  | "rust_with_cpp_shadow"
+  | "rust_only"
+  | "rust_py_only"
+  | "rust_py_with_cpp_shadow";
+export type PersonsArgMaxVersion = "auto" | "v1" | "v2";
+export type PersonsJoinMode = "inner" | "left";
+export type PersonsOnEventsMode =
+  | "disabled"
+  | "person_id_no_override_properties_on_events"
+  | "person_id_override_properties_on_events"
+  | "person_id_override_properties_joined";
+export type PropertyGroupsMode = "enabled" | "disabled" | "optimized";
+export type SessionTableVersion = "auto" | "v1" | "v2" | "v3";
+export type SessionsV2JoinMode = "string" | "uuid";
+export interface HogQLQueryModifiers {
+  bounceRateDurationSeconds?: number | null | undefined;
+  bounceRatePageViewMode?: BounceRatePageViewMode | (string & {}) | null | undefined;
+  convertToProjectTimezone?: boolean | null | undefined;
+  /** Do not treat a missing user agent as automation on cookieless events. Positive bot signals and custom project rules still apply. Resolved server-side; not intended to be set by clients. */
+  cookielessTrafficIsRegular?: boolean | null | undefined;
+  customBotDefinitions?: HogQLQueryModifiersCustomBotDefinitionsList | null | undefined;
+  customChannelTypeRules?: HogQLQueryModifiersCustomChannelTypeRulesList | null | undefined;
+  dataWarehouseEventsModifiers?:
+    | HogQLQueryModifiersDataWarehouseEventsModifiersList
+    | null
+    | undefined;
+  debug?: boolean | null | undefined;
+  /** If these are provided, the query will fail if these skip indexes are not used */
+  forceClickhouseDataSkippingIndexes?:
+    | HogQLQueryModifiersForceClickhouseDataSkippingIndexesList
+    | null
+    | undefined;
+  formatCsvAllowDoubleQuotes?: boolean | null | undefined;
+  inCohortVia?: InCohortVia | (string & {}) | null | undefined;
+  inlineCohortCalculation?: InlineCohortCalculation | (string & {}) | null | undefined;
+  materializationMode?: MaterializationMode | (string & {}) | null | undefined;
+  /** Reuse eligible bounded event aggregates within one query execution. When unset, the server may enable it via the cloud feature flag. */
+  materializeRepeatedCTEs?: boolean | null | undefined;
+  materializedColumnsOptimizationMode?:
+    | MaterializedColumnsOptimizationMode
+    | (string & {})
+    | null
+    | undefined;
+  /** Merge sibling aggregating LEFT JOINs over federated Postgres tables into one UNION ALL join, so their scans overlap */
+  mergeFederatedAggregateJoins?: boolean | null | undefined;
+  /** Replace negated person-property filters in the WHERE of an `events` query (such as `email not_icontains`) with `person_id NOT IN (SELECT id FROM persons WHERE <the filters fail>)`, so the query no longer joins every person. Applies only when every filtered person property has a materialized column, nothing else in the query reads that persons join, and the join would be a LEFT JOIN. */
+  negatedPersonFiltersNotIn?: boolean | null | undefined;
+  optimizeJoinedFilters?: boolean | null | undefined;
+  optimizeProjections?: boolean | null | undefined;
+  /** HogQL parser backend; absent -> `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
+  parserMode?: ParserMode | (string & {}) | null | undefined;
+  /** Push an `id IN (SELECT person_id FROM <left table> WHERE ...)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. */
+  personIdPushdown?: boolean | null | undefined;
+  personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null | undefined;
+  personsJoinMode?: PersonsJoinMode | (string & {}) | null | undefined;
+  personsOnEventsMode?: PersonsOnEventsMode | (string & {}) | null | undefined;
+  propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null | undefined;
+  pushDownPredicates?: boolean | null | undefined;
+  s3TableUseInvalidColumns?: boolean | null | undefined;
+  /** Push a `session_id_v7 IN (SELECT ... FROM events WHERE ...)` predicate into the raw_sessions subquery to limit aggregation to sessions that participate in the outer events filter. */
+  sessionIdPushdown?: boolean | null | undefined;
+  /** Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`). */
+  sessionPropertyPreAggregation?: boolean | null | undefined;
+  sessionTableVersion?: SessionTableVersion | (string & {}) | null | undefined;
+  /** Padding, in minutes, on each side of the event time range when it filters the sessions table by session start. Defaults to 3 days. It can only narrow the range: values above the default are ignored. Lower it only for a query that keeps just the sessions that start inside its own time range. */
+  sessionTimestampBufferMinutes?: number | null | undefined;
+  sessionsV2JoinMode?: SessionsV2JoinMode | (string & {}) | null | undefined;
+  timings?: boolean | null | undefined;
+  /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
+  typeAwareCastSimplification?: boolean | null | undefined;
+  useMaterializedViews?: boolean | null | undefined;
+  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's `ph_new_events_schema` cookie applies, then the project's listing in the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA_TEAMS` instance setting, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance setting. This is an internal rollout switch, and the project settings API ignores it. */
+  useNewEventsSchema?: boolean | null | undefined;
+  usePreaggregatedIntermediateResults?: boolean | null | undefined;
+  /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
+  usePreaggregatedTableTransforms?: boolean | null | undefined;
+  useWebAnalyticsPreAggregatedTables?: boolean | null | undefined;
+  /** Serve filters on the stored session-entry attribution properties (`$channel_type`, `$entry_utm_*`, `$entry_referring_domain`) by recomputing the value from the session's first pageview. Resolved server-side; not intended to be set by clients. */
+  webAnalyticsFirstPageviewFilters?: boolean | null | undefined;
+}
+export type ActorsQueryResponseColumnsList = Array<unknown>;
+export type QueryStatusLabelsList = Array<string>;
+export interface ClickhouseQueryProgress {
+  active_cpu_time: number;
+  bytes_read: number;
+  estimated_rows_total: number;
+  rows_read: number;
+  time_elapsed: number;
+}
+export type QueryScanFixLocation =
+  | "query"
+  | "subquery"
+  | "view"
+  | "insight_date_range"
+  | "dashboard_date_filter";
+export type QueryScanFindingKind = "no_event_filter" | "no_start_date" | "persons_join";
+export interface QueryScanWarning {
+  /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
+  actionable: boolean;
+  /** True when the query reads this much on purpose, so reading less would change the answer. Absent means no. */
+  by_design?: boolean | null | undefined;
+  /** A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change. */
+  cause?: string | null | undefined;
+  /** The one fact the finding rests on. */
+  evidence?: string | null | undefined;
+  /** What "Fix with AI" and the assistant are told to do. */
+  fix: string;
+  /** Where the change goes. Absent means the query itself. */
+  fix_location?: QueryScanFixLocation | (string & {}) | null | undefined;
+  kind: QueryScanFindingKind | (string & {});
+  /** Shown to the person: what happened and what to do. */
+  message: string;
+}
+/** Every finding, fixable or not. Empty when the analysis found none. */
+export type QueryScanAnalysisFindingsList = Array<QueryScanWarning>;
+export interface QueryScanAnalysis {
+  /** The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query. */
+  assistant_prompt?: string | null | undefined;
+  /** Every finding, fixable or not. Empty when the analysis found none. */
+  findings: QueryScanAnalysisFindingsList;
+  /** How much of all the project's events the query read, 0 to 1. */
+  project_share?: number | null | undefined;
+  /** How much of the project's events in the query's date range the query read, 0 to 1. */
+  range_share?: number | null | undefined;
+}
+export interface QueryScanSummary {
+  /** The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested. */
+  analysis?: QueryScanAnalysis | null | undefined;
+  /** True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it. */
+  analysis_requested?: boolean | null | undefined;
+  /** ClickHouse time for the last fresh run, summed over its ClickHouse queries. */
+  duration_ms: number;
+  /** True when ClickHouse stopped the run instead of finishing it. */
+  killed?: boolean | null | undefined;
+  /** Rows ClickHouse read for the last fresh run, all tables included. */
+  rows_read: number;
+}
+export interface QueryStatus {
+  budget_remaining_bytes?: number | null | undefined;
+  bytes_read?: number | null | undefined;
+  /** Cache key of the run that failed, so clients can ask for its query scan. */
+  cache_key?: string | null | undefined;
+  /** Whether the query is still running. Will be true if the query is complete, even if it errored. Either result or error will be set. */
+  complete?: boolean | null | undefined;
+  dashboard_id?: number | null | undefined;
+  /** When did the query execution task finish (whether successfully or not). */
+  end_time?: string | null | undefined;
+  /** If the query failed, this will be set to true. More information can be found in the error_message field. */
+  error?: boolean | null | undefined;
+  /** Stable machine-readable code for the error, when known: the DRF exception code, the ClickHouse error name, the HogQL error code, or `unhandled_<exception class>` for a failure that no handler classified. */
+  error_code?: string | null | undefined;
+  error_message?: string | null | undefined;
+  expiration_time?: string | null | undefined;
+  id: string;
+  insight_id?: number | null | undefined;
+  labels?: QueryStatusLabelsList | null | undefined;
+  /** When was the query execution task picked up by a worker. */
+  pickup_time?: string | null | undefined;
+  /** ONLY async queries use QueryStatus. */
+  query_async?: boolean | undefined;
+  query_progress?: ClickhouseQueryProgress | null | undefined;
+  query_scan?: QueryScanSummary | null | undefined;
+  results?: unknown | undefined;
+  /** When was query execution task enqueued. */
+  start_time?: string | null | undefined;
+  task_id?: string | null | undefined;
+  team_id: number;
+}
+export interface ResolvedDateRangeResponse {
+  date_from: string;
+  date_to: string;
+  /** The earliest timestamp the query reads, when only its first interval depends on rows from before date_from. Lifecycle sets it to the start of the interval before the range. */
+  read_from?: string | null | undefined;
+}
+export type ActorsQueryResponseResultsItemList = Array<unknown>;
+export type ActorsQueryResponseResultsList = Array<ActorsQueryResponseResultsItemList>;
+export interface QueryTiming {
+  /** Key. Shortened to 'k' to save on data. */
+  k: string;
+  /** Time in seconds. Shortened to 't' to save on data. */
+  t: number;
+}
+export type ActorsQueryResponseTimingsList = Array<QueryTiming>;
+export type ActorsQueryResponseTypesList = Array<string>;
+export interface DataWarehouseSourceUsage {
+  /** ExternalDataSource id */
+  id: string;
+  /** Connector type of the source (e.g. Stripe, Postgres), if known */
+  source_type?: string | null | undefined;
+  /** Warehouse table name that was referenced */
+  table_name: string;
+  /** Whether the query read a history table of this source */
+  uses_history_table?: boolean | null | undefined;
+}
+export type ActorsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export interface DataWarehouseSyncWarning {
+  /** True when the last sync is still within the table's sync interval, so the data is current and the warning only says it will stop updating (a sync paused recently). False or absent when the data is out of date. */
+  data_is_current?: boolean | null | undefined;
+  /** Human-readable warning shown to the user */
+  message: string;
+  /** Name of the ExternalDataSchema responsible for syncing the table */
+  schema_name: string;
+  /** ID of the ExternalDataSource, used to link to its management page. Null for self-managed tables. */
+  source_id?: string | null | undefined;
+  /** Source type, e.g. "Stripe", "Hubspot" */
+  source_type: string;
+  /** Sync status that triggered the warning, e.g. "Failed", "Paused", "BillingLimitReached" */
+  status: string;
+  /** Name of the warehouse table the warning refers to */
+  table_name: string;
+  /** Tells warning kinds apart in the shared `warnings` list */
+  type?: string | undefined;
+}
+/** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
+export type AccessControlFilterWarningResourcesList = Array<string>;
+export interface AccessControlFilterWarning {
+  /** Human-readable warning shown to the user */
+  message: string;
+  /** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
+  resources: AccessControlFilterWarningResourcesList;
+  /** Tells warning kinds apart in the shared `warnings` list */
+  type?: string | undefined;
+}
+export interface BreakdownNotAppliedWarning {
+  /** Human-readable warning shown to the user */
+  message: string;
+  /** Tells warning kinds apart in the shared `warnings` list */
+  type?: string | undefined;
+}
+export type ActorsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type ActorsQueryResponseWarningsList = Array<ActorsQueryResponseWarningsItem>;
+export interface ActorsQueryResponse {
+  columns: ActorsQueryResponseColumnsList;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null | undefined;
+  hasMore?: boolean | null | undefined;
+  /** Generated HogQL query. */
+  hogql: string;
+  limit: number;
+  missing_actors_count?: number | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  offset: number;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null | undefined;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
+  results: ActorsQueryResponseResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: ActorsQueryResponseTimingsList | null | undefined;
+  types?: ActorsQueryResponseTypesList | null | undefined;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: ActorsQueryResponseUsedDataWarehouseSourcesList | null | undefined;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: ActorsQueryResponseWarningsList | null | undefined;
+}
+export type BreakdownFilterBreakdownCase1Item = string | number;
+export type BreakdownFilterBreakdownCase1List = Array<BreakdownFilterBreakdownCase1Item>;
+export type BreakdownFilterBreakdown = string | BreakdownFilterBreakdownCase1List | number;
+export type BreakdownType =
+  | "cohort"
+  | "person"
+  | "event"
+  | "event_metadata"
+  | "element"
+  | "group"
+  | "session"
+  | "hogql"
+  | "data_warehouse"
+  | "data_warehouse_person_property"
+  | "revenue_analytics";
+export type BreakdownProperty = string | number;
+export type MultipleBreakdownType =
+  | "person"
+  | "event"
+  | "event_metadata"
+  | "element"
+  | "group"
+  | "session"
+  | "hogql"
+  | "cohort"
+  | "revenue_analytics"
+  | "data_warehouse"
+  | "data_warehouse_person_property";
+export interface Breakdown {
+  group_type_index?: number | null | undefined;
+  histogram_bin_count?: number | null | undefined;
+  normalize_url?: boolean | null | undefined;
+  property: BreakdownProperty;
+  type?: MultipleBreakdownType | (string & {}) | null | undefined;
+}
+export type BreakdownFilterBreakdownsList = Array<Breakdown>;
+export interface BreakdownFilter {
+  breakdown?: BreakdownFilterBreakdown | null | undefined;
+  breakdown_group_type_index?: number | null | undefined;
+  breakdown_hide_other_aggregation?: boolean | null | undefined;
+  breakdown_histogram_bin_count?: number | null | undefined;
+  breakdown_limit?: number | null | undefined;
+  breakdown_normalize_url?: boolean | null | undefined;
+  breakdown_path_cleaning?: boolean | null | undefined;
+  breakdown_type?: BreakdownType | (string & {}) | null | undefined;
+  breakdowns?: BreakdownFilterBreakdownsList | null | undefined;
+}
+export interface CalendarHeatmapFilter {
+  /** When true and the series math is `dau`/`unique_users`, each user contributes to the (day-of-week, hour) bucket of their session's first event only -- matching the web overview session-start attribution. When false (default), the user contributes to every bucket they have any event in. No effect on `total` math (event counts are unchanged either way). */
+  bucketBySessionStart?: boolean | null | undefined;
+}
+export interface CompareFilter {
+  /** Whether to compare the current date range to a previous date range. */
+  compare?: boolean | null | undefined;
+  /** The date range to compare to. The value is a relative date. Examples of relative dates are: `-1y` for 1 year ago, `-14m` for 14 months ago, `-100w` for 100 weeks ago, `-14d` for 14 days ago, `-30h` for 30 hours ago. */
+  compare_to?: string | null | undefined;
+}
+export type PropertyOperator =
+  | "exact"
+  | "is_not"
+  | "icontains"
+  | "not_icontains"
+  | "starts_with"
+  | "not_starts_with"
+  | "ends_with"
+  | "not_ends_with"
+  | "regex"
+  | "not_regex"
+  | "gt"
+  | "gte"
+  | "lt"
+  | "lte"
+  | "is_set"
+  | "is_not_set"
+  | "is_date_exact"
+  | "is_date_before"
+  | "is_date_after"
+  | "between"
+  | "not_between"
+  | "min"
+  | "max"
+  | "in"
+  | "not_in"
+  | "is_cleaned_path_exact"
+  | "is_cleaned_path_not_exact"
+  | "flag_evaluates_to"
+  | "semver_eq"
+  | "semver_neq"
+  | "semver_gt"
+  | "semver_gte"
+  | "semver_lt"
+  | "semver_lte"
+  | "semver_tilde"
+  | "semver_caret"
+  | "semver_wildcard"
+  | "icontains_multi"
+  | "not_icontains_multi";
+export type EventPropertyFilterValueCase0Item = string | number | boolean;
+export type EventPropertyFilterValueCase0List = Array<EventPropertyFilterValueCase0Item>;
+export type EventPropertyFilterValue =
+  | EventPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface EventPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
+  /** Event properties */
+  type?: string | undefined;
+  value?: EventPropertyFilterValue | null | undefined;
+}
+export type PersonPropertyFilterValueCase0Item = string | number | boolean;
+export type PersonPropertyFilterValueCase0List = Array<PersonPropertyFilterValueCase0Item>;
+export type PersonPropertyFilterValue =
+  | PersonPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface PersonPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  /** Person properties */
+  type?: string | undefined;
+  value?: PersonPropertyFilterValue | null | undefined;
+}
+export type SessionPropertyFilterValueCase0Item = string | number | boolean;
+export type SessionPropertyFilterValueCase0List = Array<SessionPropertyFilterValueCase0Item>;
+export type SessionPropertyFilterValue =
+  | SessionPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface SessionPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type?: string | undefined;
+  value?: SessionPropertyFilterValue | null | undefined;
+}
+export interface CohortPropertyFilter {
+  /** Set by the feature flag API when the cohort is deleted or does not exist. */
+  cohort_deleted?: boolean | null | undefined;
+  /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
+  cohort_missing?: boolean | null | undefined;
+  cohort_name?: string | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
+  type?: string | undefined;
+  value: number;
+}
+export type ActionConversionGoalPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter;
+export type ActionConversionGoalPropertiesList = Array<ActionConversionGoalPropertiesItem>;
+export interface ActionConversionGoal {
+  actionId: number;
+  properties?: ActionConversionGoalPropertiesList | null | undefined;
+}
+export type CustomEventConversionGoalPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter;
+export type CustomEventConversionGoalPropertiesList =
+  Array<CustomEventConversionGoalPropertiesItem>;
+export interface CustomEventConversionGoal {
+  customEventName: string;
+  properties?: CustomEventConversionGoalPropertiesList | null | undefined;
+}
+/** Whether we should be comparing against a specific conversion goal */
+export type TrendsQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
+export type DaysOfWeekEnum = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type DateRangeDaysOfWeekList = Array<DaysOfWeekEnum | (number & {})>;
+export interface DateRange {
+  /** Start of the date range. Accepts ISO 8601 timestamps (e.g., 2024-01-15T00:00:00Z) or relative formats: -7d (7 days ago), -2w (2 weeks ago), -1m (1 month ago), -1h (1 hour ago), -1mStart (start of last month), -1yStart (start of last year). */
+  date_from?: string | null | undefined;
+  /** End of the date range. Same format as date_from. Omit or null for "now". A calendar day without a time (2024-01-15) is inclusive: it rounds to the last moment of that day in the project timezone, unless explicitDate is set. */
+  date_to?: string | null | undefined;
+  /** Restrict the query to events occurring on these ISO days of week (1=Monday to 7=Sunday), evaluated in the project timezone. Omit or empty for all days. Only applied by insight queries. */
+  daysOfWeek?: DateRangeDaysOfWeekList | null | undefined;
+  /** Exclude the current, still-collecting period by clipping date_to to the end of the last complete interval (evaluated in the project timezone). No-op when the range contains no complete interval. Only applied by insight queries. */
+  excludeIncompletePeriods?: boolean | null | undefined;
+  /** Whether the date_from and date_to should be used verbatim. Disables rounding to the start and end of period. */
+  explicitDate?: boolean | null | undefined;
+}
+export type IntervalType =
+  | "second"
+  | "minute"
+  | "hour"
+  | "day"
+  | "week"
+  | "month"
+  | "quarter"
+  | "year";
+export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
+export type PersonMetadataPropertyFilterValueCase0List =
+  Array<PersonMetadataPropertyFilterValueCase0Item>;
+export type PersonMetadataPropertyFilterValue =
+  | PersonMetadataPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface PersonMetadataPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  /** Top-level columns on the persons table (e.g. created_at), not properties JSON */
+  type?: string | undefined;
+  value?: PersonMetadataPropertyFilterValue | null | undefined;
+}
+export type Key10 = "tag_name" | "text" | "href" | "selector";
+export type ElementPropertyFilterValueCase0Item = string | number | boolean;
+export type ElementPropertyFilterValueCase0List = Array<ElementPropertyFilterValueCase0Item>;
+export type ElementPropertyFilterValue =
+  | ElementPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface ElementPropertyFilter {
+  key: Key10 | (string & {});
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type?: string | undefined;
+  value?: ElementPropertyFilterValue | null | undefined;
+}
+export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
+export type EventMetadataPropertyFilterValueCase0List =
+  Array<EventMetadataPropertyFilterValueCase0Item>;
+export type EventMetadataPropertyFilterValue =
+  | EventMetadataPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface EventMetadataPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type?: string | undefined;
+  value?: EventMetadataPropertyFilterValue | null | undefined;
+}
+export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
+export type RecordingPropertyFilterKey = DurationType | string;
+export type RecordingPropertyFilterValueCase0Item = string | number | boolean;
+export type RecordingPropertyFilterValueCase0List = Array<RecordingPropertyFilterValueCase0Item>;
+export type RecordingPropertyFilterValue =
+  | RecordingPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface RecordingPropertyFilter {
+  key: RecordingPropertyFilterKey;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type?: string | undefined;
+  value?: RecordingPropertyFilterValue | null | undefined;
+}
+export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
+export type LogEntryPropertyFilterValueCase0List = Array<LogEntryPropertyFilterValueCase0Item>;
+export type LogEntryPropertyFilterValue =
+  | LogEntryPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface LogEntryPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type?: string | undefined;
+  value?: LogEntryPropertyFilterValue | null | undefined;
+}
+export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
+export type GroupPropertyFilterValueCase0Item = string | number | boolean;
+export type GroupPropertyFilterValueCase0List = Array<GroupPropertyFilterValueCase0Item>;
+export type GroupPropertyFilterValue =
+  | GroupPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface GroupPropertyFilter {
+  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null | undefined;
+  group_type_index?: number | null | undefined;
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type?: string | undefined;
+  value?: GroupPropertyFilterValue | null | undefined;
+}
+export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
+export type FeaturePropertyFilterValueCase0List = Array<FeaturePropertyFilterValueCase0Item>;
+export type FeaturePropertyFilterValue =
+  | FeaturePropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface FeaturePropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  /** Event property with "$feature/" prepended */
+  type?: string | undefined;
+  value?: FeaturePropertyFilterValue | null | undefined;
+}
+/** The value can be true, false, or a variant name */
+export type FlagPropertyFilterValue = boolean | string;
+export interface FlagPropertyFilter {
+  /** The key should be the flag ID */
+  key: string;
+  label?: string | null | undefined;
+  /** Only flag_evaluates_to operator is allowed for flag dependencies */
+  operator?: string | undefined;
+  /** Feature flag dependency */
+  type?: string | undefined;
+  /** The value can be true, false, or a variant name */
+  value: FlagPropertyFilterValue;
+}
+export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
+export type HogQLPropertyFilterValueCase0List = Array<HogQLPropertyFilterValueCase0Item>;
+export type HogQLPropertyFilterValue =
+  | HogQLPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface HogQLPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  type?: string | undefined;
+  value?: HogQLPropertyFilterValue | null | undefined;
+}
+export interface EmptyPropertyFilter {
+  type?: string | undefined;
+}
+export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
+export type DataWarehousePropertyFilterValueCase0List =
+  Array<DataWarehousePropertyFilterValueCase0Item>;
+export type DataWarehousePropertyFilterValue =
+  | DataWarehousePropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface DataWarehousePropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type?: string | undefined;
+  value?: DataWarehousePropertyFilterValue | null | undefined;
+}
+export type DataWarehousePersonPropertyFilterValueCase0Item = string | number | boolean;
+export type DataWarehousePersonPropertyFilterValueCase0List =
+  Array<DataWarehousePersonPropertyFilterValueCase0Item>;
+export type DataWarehousePersonPropertyFilterValue =
+  | DataWarehousePersonPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface DataWarehousePersonPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type?: string | undefined;
+  value?: DataWarehousePersonPropertyFilterValue | null | undefined;
+}
+export type ErrorTrackingIssueFilterValueCase0Item = string | number | boolean;
+export type ErrorTrackingIssueFilterValueCase0List = Array<ErrorTrackingIssueFilterValueCase0Item>;
+export type ErrorTrackingIssueFilterValue =
+  | ErrorTrackingIssueFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface ErrorTrackingIssueFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type?: string | undefined;
+  value?: ErrorTrackingIssueFilterValue | null | undefined;
+}
+export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
+export type LogPropertyFilterValueCase0Item = string | number | boolean;
+export type LogPropertyFilterValueCase0List = Array<LogPropertyFilterValueCase0Item>;
+export type LogPropertyFilterValue = LogPropertyFilterValueCase0List | string | number | boolean;
+export interface LogPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type: LogPropertyFilterType | (string & {});
+  value?: LogPropertyFilterValue | null | undefined;
+}
+export type MetricPropertyFilterValueCase0Item = string | number | boolean;
+export type MetricPropertyFilterValueCase0List = Array<MetricPropertyFilterValueCase0Item>;
+export type MetricPropertyFilterValue =
+  | MetricPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface MetricPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type?: string | undefined;
+  value?: MetricPropertyFilterValue | null | undefined;
+}
+export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
+export type SpanPropertyFilterValueCase0Item = string | number | boolean;
+export type SpanPropertyFilterValueCase0List = Array<SpanPropertyFilterValueCase0Item>;
+export type SpanPropertyFilterValue = SpanPropertyFilterValueCase0List | string | number | boolean;
+export interface SpanPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type: SpanPropertyFilterType | (string & {});
+  value?: SpanPropertyFilterValue | null | undefined;
+}
+export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
+export type RevenueAnalyticsPropertyFilterValueCase0List =
+  Array<RevenueAnalyticsPropertyFilterValueCase0Item>;
+export type RevenueAnalyticsPropertyFilterValue =
+  | RevenueAnalyticsPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface RevenueAnalyticsPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type?: string | undefined;
+  value?: RevenueAnalyticsPropertyFilterValue | null | undefined;
+}
+export type AccountCustomPropertyFilterValueCase0Item = string | number | boolean;
+export type AccountCustomPropertyFilterValueCase0List =
+  Array<AccountCustomPropertyFilterValueCase0Item>;
+export type AccountCustomPropertyFilterValue =
+  | AccountCustomPropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface AccountCustomPropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  /** Customer analytics account custom property -- the key is the property definition id */
+  type?: string | undefined;
+  value?: AccountCustomPropertyFilterValue | null | undefined;
+}
+export type WorkflowVariablePropertyFilterValueCase0Item = string | number | boolean;
+export type WorkflowVariablePropertyFilterValueCase0List =
+  Array<WorkflowVariablePropertyFilterValueCase0Item>;
+export type WorkflowVariablePropertyFilterValue =
+  | WorkflowVariablePropertyFilterValueCase0List
+  | string
+  | number
+  | boolean;
+export interface WorkflowVariablePropertyFilter {
+  key: string;
+  label?: string | null | undefined;
+  operator: PropertyOperator | (string & {});
+  type?: string | undefined;
+  value?: WorkflowVariablePropertyFilterValue | null | undefined;
+}
+export type BehavioralPropertyFilterEventFiltersItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | ElementPropertyFilter
+  | FeaturePropertyFilter
+  | HogQLPropertyFilter;
+export type BehavioralPropertyFilterEventFiltersList =
+  Array<BehavioralPropertyFilterEventFiltersItem>;
+export type BehavioralEventSource = "events" | "actions";
+export type TimeUnitType = "day" | "week" | "month" | "year";
+export type InlineBehavioralType = "performed_event" | "performed_event_multiple";
+export interface BehavioralPropertyFilter {
+  /** Extra property filters the matching events must satisfy. Deliberately excludes nested behavioral/cohort filters and groups */
+  event_filters?: BehavioralPropertyFilterEventFiltersList | null | undefined;
+  event_type: BehavioralEventSource | (string & {});
+  /** Absolute or relative (e.g. -30d) lower date bound -- alternative to time_value/time_interval */
+  explicit_datetime?: string | null | undefined;
+  explicit_datetime_to?: string | null | undefined;
+  /** Event name, or action id when event_type is 'actions' */
+  key: string;
+  label?: string | null | undefined;
+  /** Match persons who did NOT satisfy the criterion. Not the same as a low count -- zero-occurrence persons never match count operators */
+  negation?: boolean | null | undefined;
+  /** Count comparison for performed_event_multiple, defaults to exact */
+  operator?: PropertyOperator | (string & {}) | null | undefined;
+  /** Count threshold for performed_event_multiple */
+  operator_value?: number | null | undefined;
+  time_interval?: TimeUnitType | (string & {}) | null | undefined;
+  /** Relative time window size, paired with time_interval */
+  time_value?: number | null | undefined;
+  /** Person performed (or didn't perform) an event in a time window. ClickHouse-only -- not evaluable by flags or CDP */
+  type?: string | undefined;
+  value: InlineBehavioralType | (string & {});
+}
+export type DataWarehouseNodeFixedPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type DataWarehouseNodeFixedPropertiesList = Array<DataWarehouseNodeFixedPropertiesItem>;
+export type BaseMathType =
+  | "total"
+  | "dau"
+  | "weekly_active"
+  | "monthly_active"
+  | "unique_session"
+  | "first_time_for_user"
+  | "first_matching_event_for_user";
+export type FunnelMathType = "total" | "first_time_for_user" | "first_time_for_user_with_filters";
+export type PropertyMathType =
+  | "avg"
+  | "sum"
+  | "min"
+  | "max"
+  | "median"
+  | "p75"
+  | "p90"
+  | "p95"
+  | "p99";
+export type CountPerActorMathType =
+  | "avg_count_per_actor"
+  | "min_count_per_actor"
+  | "max_count_per_actor"
+  | "median_count_per_actor"
+  | "p75_count_per_actor"
+  | "p90_count_per_actor"
+  | "p95_count_per_actor"
+  | "p99_count_per_actor";
+export type GroupMathType =
+  | "unique_group"
+  | "first_time_for_group"
+  | "first_matching_event_for_group";
+export type ExperimentMetricMathType =
+  | "total"
+  | "sum"
+  | "unique_session"
+  | "min"
+  | "max"
+  | "avg"
+  | "dau"
+  | "unique_group"
+  | "hogql";
+export type CalendarHeatmapMathType = "total" | "dau";
+export type DataWarehouseNodeMath =
+  | BaseMathType
+  | FunnelMathType
+  | PropertyMathType
+  | CountPerActorMathType
+  | GroupMathType
+  | ExperimentMetricMathType
+  | CalendarHeatmapMathType
+  | string;
+export type MathGroupTypeIndex = 0 | 1 | 2 | 3 | 4;
+export type CurrencyCode =
+  | "AED"
+  | "AFN"
+  | "ALL"
+  | "AMD"
+  | "ANG"
+  | "AOA"
+  | "ARS"
+  | "AUD"
+  | "AWG"
+  | "AZN"
+  | "BAM"
+  | "BBD"
+  | "BDT"
+  | "BGN"
+  | "BHD"
+  | "BIF"
+  | "BMD"
+  | "BND"
+  | "BOB"
+  | "BRL"
+  | "BSD"
+  | "BTC"
+  | "BTN"
+  | "BWP"
+  | "BYN"
+  | "BZD"
+  | "CAD"
+  | "CDF"
+  | "CHF"
+  | "CLP"
+  | "CNY"
+  | "COP"
+  | "CRC"
+  | "CVE"
+  | "CZK"
+  | "DJF"
+  | "DKK"
+  | "DOP"
+  | "DZD"
+  | "EGP"
+  | "ERN"
+  | "ETB"
+  | "EUR"
+  | "FJD"
+  | "GBP"
+  | "GEL"
+  | "GHS"
+  | "GIP"
+  | "GMD"
+  | "GNF"
+  | "GTQ"
+  | "GYD"
+  | "HKD"
+  | "HNL"
+  | "HRK"
+  | "HTG"
+  | "HUF"
+  | "IDR"
+  | "ILS"
+  | "INR"
+  | "IQD"
+  | "IRR"
+  | "ISK"
+  | "JMD"
+  | "JOD"
+  | "JPY"
+  | "KES"
+  | "KGS"
+  | "KHR"
+  | "KMF"
+  | "KRW"
+  | "KWD"
+  | "KYD"
+  | "KZT"
+  | "LAK"
+  | "LBP"
+  | "LKR"
+  | "LRD"
+  | "LTL"
+  | "LVL"
+  | "LSL"
+  | "LYD"
+  | "MAD"
+  | "MDL"
+  | "MGA"
+  | "MKD"
+  | "MMK"
+  | "MNT"
+  | "MOP"
+  | "MRU"
+  | "MTL"
+  | "MUR"
+  | "MVR"
+  | "MWK"
+  | "MXN"
+  | "MYR"
+  | "MZN"
+  | "NAD"
+  | "NGN"
+  | "NIO"
+  | "NOK"
+  | "NPR"
+  | "NZD"
+  | "OMR"
+  | "PAB"
+  | "PEN"
+  | "PGK"
+  | "PHP"
+  | "PKR"
+  | "PLN"
+  | "PYG"
+  | "QAR"
+  | "RON"
+  | "RSD"
+  | "RUB"
+  | "RWF"
+  | "SAR"
+  | "SBD"
+  | "SCR"
+  | "SDG"
+  | "SEK"
+  | "SGD"
+  | "SRD"
+  | "SSP"
+  | "STN"
+  | "SYP"
+  | "SZL"
+  | "THB"
+  | "TJS"
+  | "TMT"
+  | "TND"
+  | "TOP"
+  | "TRY"
+  | "TTD"
+  | "TWD"
+  | "TZS"
+  | "UAH"
+  | "UGX"
+  | "USD"
+  | "UYU"
+  | "UZS"
+  | "VES"
+  | "VND"
+  | "VUV"
+  | "WST"
+  | "XAF"
+  | "XCD"
+  | "XOF"
+  | "XPF"
+  | "YER"
+  | "ZAR"
+  | "ZMW";
+export interface RevenueCurrencyPropertyConfig {
+  property?: string | null | undefined;
+  static?: CurrencyCode | (string & {}) | null | undefined;
+}
+export type DataWarehouseNodePropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type DataWarehouseNodePropertiesList = Array<DataWarehouseNodePropertiesItem>;
+export type DataWarehouseNodeResponseMap = { [key: string]: unknown | undefined };
+export interface DataWarehouseNode {
+  custom_name?: string | null | undefined;
+  distinct_id_field: string;
+  dw_source_type?: string | null | undefined;
+  /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
+  fixedProperties?: DataWarehouseNodeFixedPropertiesList | null | undefined;
+  id: string;
+  id_field: string;
+  kind?: string | undefined;
+  math?: DataWarehouseNodeMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
+  /** Properties configurable in the interface */
+  properties?: DataWarehouseNodePropertiesList | null | undefined;
+  response?: DataWarehouseNodeResponseMap | null | undefined;
+  table_name: string;
+  timestamp_field: string;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type MarketingAnalyticsCostFallbackSeriesList = Array<DataWarehouseNode>;
+export type MarketingAnalyticsCostFallbackSourceIdsList = Array<string>;
+export interface MarketingAnalyticsCostFallback {
+  series: MarketingAnalyticsCostFallbackSeriesList;
+  sourceIds: MarketingAnalyticsCostFallbackSourceIdsList;
+}
+export type TrendsQueryPropertiesCase0Item =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type TrendsQueryPropertiesCase0List = Array<TrendsQueryPropertiesCase0Item>;
+export type PropertyGroupFilterValueValuesItem =
+  | PropertyGroupFilterValue
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type PropertyGroupFilterValueValuesList = Array<PropertyGroupFilterValueValuesItem>;
+export interface PropertyGroupFilterValue {
+  type: FilterLogicalOperator | (string & {});
+  values: PropertyGroupFilterValueValuesList;
+}
+export type PropertyGroupFilterValuesList = Array<PropertyGroupFilterValue>;
+export interface PropertyGroupFilter {
+  type: FilterLogicalOperator | (string & {});
+  values: PropertyGroupFilterValuesList;
+}
+/** Property filters for all series */
+export type TrendsQueryProperties = TrendsQueryPropertiesCase0List | PropertyGroupFilter;
+export type TrendsQueryResponseActionNamesMap = { [key: string]: string | undefined };
+export interface BoxPlotDatum {
+  count?: number | null | undefined;
+  day: string;
+  label: string;
+  max: number;
+  mean: number;
+  median: number;
+  min: number;
+  p25: number;
+  p75: number;
+  series_index?: number | null | undefined;
+  series_label?: string | null | undefined;
+}
+export type TrendsQueryResponseBoxplotDataList = Array<BoxPlotDatum>;
+export type TrendsQueryResponseResultsItemMap = { [key: string]: unknown | undefined };
+export type TrendsQueryResponseResultsList = Array<TrendsQueryResponseResultsItemMap>;
+export type TrendsQueryResponseTimingsList = Array<QueryTiming>;
+export type TrendsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type TrendsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type TrendsQueryResponseWarningsList = Array<TrendsQueryResponseWarningsItem>;
+export interface TrendsQueryResponse {
+  /** The name of each action the query's series reference, keyed by action id. A series saved without a `name` displays this name, because the query holds only the action's id. */
+  action_names?: TrendsQueryResponseActionNamesMap | null | undefined;
+  boxplot_data?: TrendsQueryResponseBoxplotDataList | null | undefined;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null | undefined;
+  /** Wether more breakdown values are available. */
+  hasMore?: boolean | null | undefined;
+  /** Generated HogQL query. */
+  hogql?: string | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null | undefined;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
+  results: TrendsQueryResponseResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: TrendsQueryResponseTimingsList | null | undefined;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: TrendsQueryResponseUsedDataWarehouseSourcesList | null | undefined;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: TrendsQueryResponseWarningsList | null | undefined;
+}
+export type EventsNodeFixedPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type EventsNodeFixedPropertiesList = Array<EventsNodeFixedPropertiesItem>;
+export type EventsNodeMath =
+  | BaseMathType
+  | FunnelMathType
+  | PropertyMathType
+  | CountPerActorMathType
+  | GroupMathType
+  | ExperimentMetricMathType
+  | CalendarHeatmapMathType
+  | string;
+export type EventsNodeOrderByList = Array<string>;
+export type EventsNodePropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type EventsNodePropertiesList = Array<EventsNodePropertiesItem>;
+export type EventsNodeResponseMap = { [key: string]: unknown | undefined };
+export interface EventsNode {
+  custom_name?: string | null | undefined;
+  /** The event or `null` for all events. */
+  event?: string | null | undefined;
+  /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
+  fixedProperties?: EventsNodeFixedPropertiesList | null | undefined;
+  kind?: string | undefined;
+  limit?: number | null | undefined;
+  math?: EventsNodeMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
+  /** Columns to order by */
+  orderBy?: EventsNodeOrderByList | null | undefined;
+  /** Properties configurable in the interface */
+  properties?: EventsNodePropertiesList | null | undefined;
+  response?: EventsNodeResponseMap | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type ActionsNodeFixedPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type ActionsNodeFixedPropertiesList = Array<ActionsNodeFixedPropertiesItem>;
+export type ActionsNodeMath =
+  | BaseMathType
+  | FunnelMathType
+  | PropertyMathType
+  | CountPerActorMathType
+  | GroupMathType
+  | ExperimentMetricMathType
+  | CalendarHeatmapMathType
+  | string;
+export type ActionsNodePropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type ActionsNodePropertiesList = Array<ActionsNodePropertiesItem>;
+export type ActionsNodeResponseMap = { [key: string]: unknown | undefined };
+export interface ActionsNode {
+  custom_name?: string | null | undefined;
+  /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
+  fixedProperties?: ActionsNodeFixedPropertiesList | null | undefined;
+  id: number;
+  kind?: string | undefined;
+  math?: ActionsNodeMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
+  /** Properties configurable in the interface */
+  properties?: ActionsNodePropertiesList | null | undefined;
+  response?: ActionsNodeResponseMap | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type GroupNodeFixedPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type GroupNodeFixedPropertiesList = Array<GroupNodeFixedPropertiesItem>;
+export type GroupNodeMath =
+  | BaseMathType
+  | FunnelMathType
+  | PropertyMathType
+  | CountPerActorMathType
+  | GroupMathType
+  | ExperimentMetricMathType
+  | CalendarHeatmapMathType
+  | string;
+export type GroupNodeNodesItem = EventsNode | ActionsNode | DataWarehouseNode;
+/** Entities to combine in this group */
+export type GroupNodeNodesList = Array<GroupNodeNodesItem>;
+export type GroupNodeOrderByList = Array<string>;
+export type GroupNodePropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type GroupNodePropertiesList = Array<GroupNodePropertiesItem>;
+export type GroupNodeResponseMap = { [key: string]: unknown | undefined };
+export interface GroupNode {
+  custom_name?: string | null | undefined;
+  /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
+  fixedProperties?: GroupNodeFixedPropertiesList | null | undefined;
+  kind?: string | undefined;
+  limit?: number | null | undefined;
+  math?: GroupNodeMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  /** Entities to combine in this group */
+  nodes: GroupNodeNodesList;
+  /** Group of entities combined with AND/OR operator */
+  operator: FilterLogicalOperator | (string & {});
+  optionalInFunnel?: boolean | null | undefined;
+  /** Columns to order by */
+  orderBy?: GroupNodeOrderByList | null | undefined;
+  /** Properties configurable in the interface */
+  properties?: GroupNodePropertiesList | null | undefined;
+  response?: GroupNodeResponseMap | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type TrendsQuerySeriesItem = EventsNode | ActionsNode | DataWarehouseNode | GroupNode;
+/** Events and actions to include */
+export type TrendsQuerySeriesList = Array<TrendsQuerySeriesItem>;
+export interface QueryLogTags {
+  /** Name of the query, preferably unique. For example web_analytics_vitals */
+  name?: string | null | undefined;
+  /** Short id of the saved Web analytics filter preset this query was run under, if any. */
+  presetId?: string | null | undefined;
+  /** Product responsible for this query. Use string, there's no need to churn the Schema when we add a new product * */
+  productKey?: string | null | undefined;
+  /** Scene where this query is shown in the UI. Use string, there's no need to churn the Schema when we add a new Scene * */
+  scene?: string | null | undefined;
+}
+export type AggregationAxisFormat =
+  | "numeric"
+  | "duration"
+  | "duration_ms"
+  | "duration_ns"
+  | "percentage"
+  | "percentage_scaled"
+  | "currency"
+  | "short";
+export type AnnotationScope = "dashboard_item" | "dashboard" | "project" | "organization";
+export type Curve = "linear" | "smooth";
+export type SeriesColorMode = "palette" | "opacity";
+export interface ChartStyle {
+  /** Line interpolation: straight segments or a smoothed curve through the points. */
+  curve?: Curve | (string & {}) | null | undefined;
+  /** How series are told apart: one color per series, or one color at stepped opacities. */
+  seriesColorMode?: SeriesColorMode | (string & {}) | null | undefined;
+}
+export type DetailedResultsAggregationType = "total" | "average" | "median";
+export type ChartDisplayType =
+  | "Auto"
+  | "ActionsLineGraph"
+  | "ActionsBar"
+  | "ActionsUnstackedBar"
+  | "ActionsStackedBar"
+  | "ActionsAreaGraph"
+  | "ActionsLineGraphCumulative"
+  | "BoldNumber"
+  | "Metric"
+  | "ActionsPie"
+  | "ActionsDonut"
+  | "ActionsProportionBar"
+  | "ActionsBarValue"
+  | "ActionsTable"
+  | "WorldMap"
+  | "CalendarHeatmap"
+  | "TwoDimensionalHeatmap"
+  | "BoxPlot"
+  | "SlopeGraph"
+  | "ScatterPlot";
+export interface TrendsFormulaNode {
+  /** Optional user-defined name for the formula */
+  custom_name?: string | null | undefined;
+  formula: string;
+}
+export type TrendsFilterFormulaNodesList = Array<TrendsFormulaNode>;
+export type TrendsFilterFormulasList = Array<string>;
+export type Calculation = "fixed" | "mean" | "median" | "min" | "max";
+export type Position = "start" | "end";
+export type Scope = "all" | "series";
+export interface GoalLine {
+  borderColor?: string | null | undefined;
+  /** Recalculate from returned chart marks. An absent calculation uses the fixed value. */
+  calculation?: Calculation | (string & {}) | null | undefined;
+  displayIfCrossed?: boolean | null | undefined;
+  displayLabel?: boolean | null | undefined;
+  label: string;
+  position?: Position | (string & {}) | null | undefined;
+  /** SQL chart calculations use the primary axis, across all series or separately per series. */
+  scope?: Scope | (string & {}) | null | undefined;
+  value: number;
+}
+export type TrendsFilterGoalLinesList = Array<GoalLine>;
+export type TrendsFilterHiddenLegendIndexesList = Array<number>;
+export type LegendPosition = "top" | "bottom" | "left" | "right";
+export type MetricSummary = "total" | "average" | "latest";
+export type ResultCustomizationBy = "value" | "position";
+export type DataColorToken =
+  | "preset-1"
+  | "preset-2"
+  | "preset-3"
+  | "preset-4"
+  | "preset-5"
+  | "preset-6"
+  | "preset-7"
+  | "preset-8"
+  | "preset-9"
+  | "preset-10"
+  | "preset-11"
+  | "preset-12"
+  | "preset-13"
+  | "preset-14"
+  | "preset-15";
+export interface ResultCustomizationByValue {
+  assignmentBy?: string | undefined;
+  color?: DataColorToken | (string & {}) | null | undefined;
+  customColor?: string | null | undefined;
+  hidden?: boolean | null | undefined;
+}
+export type TrendsFilterResultCustomizationsCase0Map = {
+  [key: string]: ResultCustomizationByValue | undefined;
+};
+export interface ResultCustomizationByPosition {
+  assignmentBy?: string | undefined;
+  color?: DataColorToken | (string & {}) | null | undefined;
+  hidden?: boolean | null | undefined;
+}
+export type TrendsFilterResultCustomizationsCase1Map = {
+  [key: string]: ResultCustomizationByPosition | undefined;
+};
+/** Customizations for the appearance of result datasets. */
+export type TrendsFilterResultCustomizations =
+  | TrendsFilterResultCustomizationsCase0Map
+  | TrendsFilterResultCustomizationsCase1Map;
+export type YAxisScaleType = "log10" | "linear";
+export interface TrendsFilter {
+  /** Y-axis value formatter. Picks a human-friendly unit per value at render time without changing the underlying series values. - `numeric` (default): raw numbers, e.g. `1,234`. - `duration`: values are in seconds; rendered as friendly units per value (`45s`, `2m 12s`, `1h 4m`). Use this whenever the series is in seconds (latency, session length, time-to-event) instead of dividing in `formula` to force minutes or hours. - `duration_ms`: values are in milliseconds; rendered as friendly units (`850ms`, `1.5s`, `1m 4s`). - `percentage`: values are already in the 0-100 range; appends `%`. - `percentage_scaled`: values are a 0-1 ratio; multiplied and rendered as `%`. - `currency`: values are in the project's base currency (set in project settings, defaults to USD); rendered with that currency symbol. For values pinned to a specific currency regardless of project base (e.g. `$ai_total_cost_usd` is always USD), use `aggregationAxisPrefix` instead. - `short`: compact notation for large counts (`1.2K`, `3.4M`). */
+  aggregationAxisFormat?: AggregationAxisFormat | (string & {}) | null | undefined;
+  /** Literal suffix applied to every value (e.g. ` req`). Reserve for units that `aggregationAxisFormat` cannot express. Do not use ` mins`, ` s`, ` ms`, `%` etc. -- pick the matching `aggregationAxisFormat` instead so the underlying values stay numerically correct for breakdowns, formulas, and alerts. Include any leading space yourself. */
+  aggregationAxisPostfix?: string | null | undefined;
+  /** Literal prefix applied to every value (e.g. `$`). Use to pin a unit or currency symbol that does not depend on `aggregationAxisFormat` -- for example, when values are denominated in a fixed currency regardless of the project's base currency. Include any trailing space yourself. */
+  aggregationAxisPrefix?: string | null | undefined;
+  /** Render only annotations with this scope. Unset renders every scope. */
+  annotationsScope?: AnnotationScope | (string & {}) | null | undefined;
+  breakdown_histogram_bin_count?: number | null | undefined;
+  /** Chart rendering style overrides (line shape). */
+  chartStyle?: ChartStyle | null | undefined;
+  confidenceLevel?: number | null | undefined;
+  /** Maximum number of decimal places shown. 1 or 2 is usually right for percentages and currency. */
+  decimalPlaces?: number | null | undefined;
+  /** detailed results table */
+  detailedResultsAggregationType?:
+    | DetailedResultsAggregationType
+    | (string & {})
+    | null
+    | undefined;
+  display?: ChartDisplayType | (string & {}) | null | undefined;
+  excludeBoxPlotOutliers?: boolean | null | undefined;
+  formula?: string | null | undefined;
+  /** List of formulas with optional custom names. Takes precedence over formula/formulas if set. */
+  formulaNodes?: TrendsFilterFormulaNodesList | null | undefined;
+  formulas?: TrendsFilterFormulasList | null | undefined;
+  /** Goal Lines */
+  goalLines?: TrendsFilterGoalLinesList | null | undefined;
+  hiddenLegendIndexes?: TrendsFilterHiddenLegendIndexesList | null | undefined;
+  /** Ignored. Superseded by `dateRange.daysOfWeek`, which excludes the days from the query instead of only hiding their buckets. Still accepted so existing API clients keep working. */
+  hideWeekends?: boolean | null | undefined;
+  /** Where the in-chart legend sits relative to the plot. Only applies to the in-chart legend. */
+  legendPosition?: LegendPosition | (string & {}) | null | undefined;
+  /** Metric display: change pill color when the metric decreased. Defaults to red. */
+  metricChangeDecreaseColor?: string | null | undefined;
+  /** Metric display: change pill color when the metric increased. Defaults to green. */
+  metricChangeIncreaseColor?: string | null | undefined;
+  /** Metric display: color the sparkline by whether the metric increased or decreased. */
+  metricColorByDirection?: boolean | null | undefined;
+  /** Metric display: line color when the metric decreased. Defaults to red. */
+  metricLineDecreaseColor?: string | null | undefined;
+  /** Metric display: line color when the metric increased. Defaults to green. */
+  metricLineIncreaseColor?: string | null | undefined;
+  /** Show the period-over-period change pill on the Metric display. */
+  metricShowChange?: boolean | null | undefined;
+  /** Metric display: which summary the resting headline shows -- the period total, the average, or the latest point. Hovering the sparkline always shows the hovered point's value. Also drives the change pill: total/average compare against the previous period when "compare to previous" is on; latest compares first->last of the series. */
+  metricSummary?: MetricSummary | (string & {}) | null | undefined;
+  minDecimalPlaces?: number | null | undefined;
+  movingAverageIntervals?: number | null | undefined;
+  /** Wether result datasets are associated by their values or by their order. */
+  resultCustomizationBy?: ResultCustomizationBy | (string & {}) | null | undefined;
+  /** Customizations for the appearance of result datasets. */
+  resultCustomizations?: TrendsFilterResultCustomizations | null | undefined;
+  showAlertThresholdLines?: boolean | null | undefined;
+  showAnnotations?: boolean | null | undefined;
+  showConfidenceIntervals?: boolean | null | undefined;
+  showLabelsOnSeries?: boolean | null | undefined;
+  showLegend?: boolean | null | undefined;
+  showMovingAverage?: boolean | null | undefined;
+  showMultipleYAxes?: boolean | null | undefined;
+  showPercentStackView?: boolean | null | undefined;
+  showTrendLines?: boolean | null | undefined;
+  showValuesOnSeries?: boolean | null | undefined;
+  smoothingIntervals?: number | null | undefined;
+  /** On the horizontal bar-value chart, stack a series' breakdown values into a single bar instead of rendering one bar per breakdown value. */
+  stackBreakdownValues?: boolean | null | undefined;
+  /** Custom label rendered under the X axis. */
+  xAxisLabel?: string | null | undefined;
+  /** Custom label rendered alongside the Y axis. */
+  yAxisLabel?: string | null | undefined;
+  /** Pins the top of the y-axis; unset means automatic. Ignored in the same cases as `yAxisStartAtZero`, and when `yAxisMin` is not below it. */
+  yAxisMax?: number | null | undefined;
+  /** Pins the bottom of the y-axis; unset means automatic. Ignored in the same cases as `yAxisStartAtZero`, while it is on, and when not below `yAxisMax`. */
+  yAxisMin?: number | null | undefined;
+  yAxisScaleType?: YAxisScaleType | (string & {}) | null | undefined;
+  /** Y-axis baseline. When false the axis floats to the data range instead of starting at zero. Ignored on bar displays (bars always draw from zero), on a logarithmic scale, and while showing percentages. */
+  yAxisStartAtZero?: boolean | null | undefined;
+}
+export interface TrendsQuery {
+  /** Groups aggregation */
+  aggregation_group_type_index?: number | null | undefined;
+  /** Breakdown of the events and actions */
+  breakdownFilter?: BreakdownFilter | null | undefined;
+  /** Properties specific to the calendar heatmap display variant. Only consulted when `trendsFilter.display === ChartDisplayType.CalendarHeatmap`; ignored otherwise. */
+  calendarHeatmapFilter?: CalendarHeatmapFilter | null | undefined;
+  /** Compare to date range */
+  compareFilter?: CompareFilter | null | undefined;
+  /** Whether we should be comparing against a specific conversion goal */
+  conversionGoal?: TrendsQueryConversionGoal | null | undefined;
+  /** Colors used in the insight's visualization */
+  dataColorTheme?: number | null | undefined;
+  /** Date range for the query */
+  dateRange?: DateRange | null | undefined;
+  /** Exclude internal and test users by applying the respective filters */
+  filterTestAccounts?: boolean | null | undefined;
+  /** Granularity of the response. Can be one of `hour`, `day`, `week` or `month` */
+  interval?: IntervalType | (string & {}) | null | undefined;
+  kind?: string | undefined;
+  /** Live series for a Marketing cost trend when materialization coverage is incomplete. */
+  marketingAnalyticsCostFallback?: MarketingAnalyticsCostFallback | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Property filters for all series */
+  properties?: TrendsQueryProperties | null | undefined;
+  response?: TrendsQueryResponse | null | undefined;
+  /** Sampling rate */
+  samplingFactor?: number | null | undefined;
+  /** Events and actions to include */
+  series: TrendsQuerySeriesList;
+  /** Tags that will be added to the Query log comment */
+  tags?: QueryLogTags | null | undefined;
+  /** Properties specific to the trends insight */
+  trendsFilter?: TrendsFilter | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type BreakdownAttributionType = "first_touch" | "last_touch" | "all_events" | "step";
+export type FunnelExclusionEventsNodeFixedPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type FunnelExclusionEventsNodeFixedPropertiesList =
+  Array<FunnelExclusionEventsNodeFixedPropertiesItem>;
+export type FunnelExclusionEventsNodeMath =
+  | BaseMathType
+  | FunnelMathType
+  | PropertyMathType
+  | CountPerActorMathType
+  | GroupMathType
+  | ExperimentMetricMathType
+  | CalendarHeatmapMathType
+  | string;
+export type FunnelExclusionEventsNodeOrderByList = Array<string>;
+export type FunnelExclusionEventsNodePropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type FunnelExclusionEventsNodePropertiesList =
+  Array<FunnelExclusionEventsNodePropertiesItem>;
+export type FunnelExclusionEventsNodeResponseMap = { [key: string]: unknown | undefined };
+export interface FunnelExclusionEventsNode {
+  custom_name?: string | null | undefined;
+  /** The event or `null` for all events. */
+  event?: string | null | undefined;
+  /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
+  fixedProperties?: FunnelExclusionEventsNodeFixedPropertiesList | null | undefined;
+  funnelFromStep: number;
+  funnelToStep: number;
+  kind?: string | undefined;
+  limit?: number | null | undefined;
+  math?: FunnelExclusionEventsNodeMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
+  /** Columns to order by */
+  orderBy?: FunnelExclusionEventsNodeOrderByList | null | undefined;
+  /** Properties configurable in the interface */
+  properties?: FunnelExclusionEventsNodePropertiesList | null | undefined;
+  response?: FunnelExclusionEventsNodeResponseMap | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type FunnelExclusionActionsNodeFixedPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type FunnelExclusionActionsNodeFixedPropertiesList =
+  Array<FunnelExclusionActionsNodeFixedPropertiesItem>;
+export type FunnelExclusionActionsNodeMath =
+  | BaseMathType
+  | FunnelMathType
+  | PropertyMathType
+  | CountPerActorMathType
+  | GroupMathType
+  | ExperimentMetricMathType
+  | CalendarHeatmapMathType
+  | string;
+export type FunnelExclusionActionsNodePropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type FunnelExclusionActionsNodePropertiesList =
+  Array<FunnelExclusionActionsNodePropertiesItem>;
+export type FunnelExclusionActionsNodeResponseMap = { [key: string]: unknown | undefined };
+export interface FunnelExclusionActionsNode {
+  custom_name?: string | null | undefined;
+  /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
+  fixedProperties?: FunnelExclusionActionsNodeFixedPropertiesList | null | undefined;
+  funnelFromStep: number;
+  funnelToStep: number;
+  id: number;
+  kind?: string | undefined;
+  math?: FunnelExclusionActionsNodeMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
+  /** Properties configurable in the interface */
+  properties?: FunnelExclusionActionsNodePropertiesList | null | undefined;
+  response?: FunnelExclusionActionsNodeResponseMap | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type FunnelsFilterExclusionsItem = FunnelExclusionEventsNode | FunnelExclusionActionsNode;
+export type FunnelsFilterExclusionsList = Array<FunnelsFilterExclusionsItem>;
+export type StepOrderValue = "strict" | "unordered" | "ordered";
+export type FunnelStepReference = "total" | "previous";
+export type FunnelVizType = "steps" | "time_to_convert" | "trends" | "flow";
+export type FunnelConversionWindowTimeUnit =
+  | "second"
+  | "minute"
+  | "hour"
+  | "day"
+  | "week"
+  | "month";
+export type FunnelsFilterGoalLinesList = Array<GoalLine>;
+export type FunnelsFilterHiddenLegendBreakdownsList = Array<string>;
+export type FunnelLayout = "horizontal" | "vertical";
+export type FunnelsFilterResultCustomizationsMap = {
+  [key: string]: ResultCustomizationByValue | undefined;
+};
+export interface FunnelsFilter {
+  /** Render only annotations with this scope. Only applies to historical-trends funnels. */
+  annotationsScope?: AnnotationScope | (string & {}) | null | undefined;
+  binCount?: number | null | undefined;
+  breakdownAttributionType?: BreakdownAttributionType | (string & {}) | null | undefined;
+  breakdownAttributionValue?: number | null | undefined;
+  /** Breakdown table sorting. Format: 'column_key' or '-column_key' (descending) */
+  breakdownSorting?: string | null | undefined;
+  /** Chart rendering style overrides (line shape). Only applies to historical-trends funnels. */
+  chartStyle?: ChartStyle | null | undefined;
+  /** For data warehouse based funnel insights when the aggregation target can't be mapped to persons or groups. */
+  customAggregationTarget?: boolean | null | undefined;
+  exclusions?: FunnelsFilterExclusionsList | null | undefined;
+  funnelAggregateByHogQL?: string | null | undefined;
+  funnelFromStep?: number | null | undefined;
+  funnelOrderType?: StepOrderValue | (string & {}) | null | undefined;
+  funnelStepReference?: FunnelStepReference | (string & {}) | null | undefined;
+  /** To select the range of steps for trends & time to convert funnels, 0-indexed */
+  funnelToStep?: number | null | undefined;
+  funnelVizType?: FunnelVizType | (string & {}) | null | undefined;
+  funnelWindowInterval?: number | null | undefined;
+  funnelWindowIntervalUnit?: FunnelConversionWindowTimeUnit | (string & {}) | null | undefined;
+  /** Goal Lines */
+  goalLines?: FunnelsFilterGoalLinesList | null | undefined;
+  hiddenLegendBreakdowns?: FunnelsFilterHiddenLegendBreakdownsList | null | undefined;
+  /** Trends only: hide periods whose conversion window has not fully elapsed yet, so the recent tail of the trend isn't dragged down by entrants who still have time to convert. */
+  hideIncompleteConversionWindowPeriods?: boolean | null | undefined;
+  layout?: FunnelLayout | (string & {}) | null | undefined;
+  /** Where the in-chart legend sits relative to the plot. Only applies to the in-chart legend. */
+  legendPosition?: LegendPosition | (string & {}) | null | undefined;
+  /** Customizations for the appearance of result datasets. */
+  resultCustomizations?: FunnelsFilterResultCustomizationsMap | null | undefined;
+  /** Whether to render annotations on the chart. Only applies to historical-trends funnels. */
+  showAnnotations?: boolean | null | undefined;
+  /** Whether to show a legend describing the series. The legend only renders when the funnel has multiple series. Only applies to historical-trends funnels. */
+  showLegend?: boolean | null | undefined;
+  /** Display linear regression trend lines on the chart (only for historical trends viz) */
+  showTrendLines?: boolean | null | undefined;
+  showValuesOnSeries?: boolean | null | undefined;
+  useUdf?: boolean | null | undefined;
+}
+export type FunnelsQueryPropertiesCase0Item =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type FunnelsQueryPropertiesCase0List = Array<FunnelsQueryPropertiesCase0Item>;
+/** Property filters for all series */
+export type FunnelsQueryProperties = FunnelsQueryPropertiesCase0List | PropertyGroupFilter;
+export type FunnelsQueryResponseTimingsList = Array<QueryTiming>;
+export type FunnelsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type FunnelsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type FunnelsQueryResponseWarningsList = Array<FunnelsQueryResponseWarningsItem>;
+export interface FunnelsQueryResponse {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null | undefined;
+  /** Generated HogQL query. */
+  hogql?: string | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null | undefined;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
+  results: unknown;
+  /** Measured timings for different parts of the query generation process */
+  timings?: FunnelsQueryResponseTimingsList | null | undefined;
+  /** Median total conversion time across all completers, computed breakdown-agnostically for the Steps viz header. */
+  total_median_conversion_time?: number | null | undefined;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: FunnelsQueryResponseUsedDataWarehouseSourcesList | null | undefined;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: FunnelsQueryResponseWarningsList | null | undefined;
+}
+export type FunnelsDataWarehouseNodeFixedPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type FunnelsDataWarehouseNodeFixedPropertiesList =
+  Array<FunnelsDataWarehouseNodeFixedPropertiesItem>;
+export type FunnelsDataWarehouseNodeMath =
+  | BaseMathType
+  | FunnelMathType
+  | PropertyMathType
+  | CountPerActorMathType
+  | GroupMathType
+  | ExperimentMetricMathType
+  | CalendarHeatmapMathType
+  | string;
+export type FunnelsDataWarehouseNodePropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type FunnelsDataWarehouseNodePropertiesList = Array<FunnelsDataWarehouseNodePropertiesItem>;
+export type FunnelsDataWarehouseNodeResponseMap = { [key: string]: unknown | undefined };
+export interface FunnelsDataWarehouseNode {
+  aggregation_target_field: string;
+  custom_name?: string | null | undefined;
+  dw_source_type?: string | null | undefined;
+  /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
+  fixedProperties?: FunnelsDataWarehouseNodeFixedPropertiesList | null | undefined;
+  id: string;
+  id_field: string;
+  kind?: string | undefined;
+  math?: FunnelsDataWarehouseNodeMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
+  /** Properties configurable in the interface */
+  properties?: FunnelsDataWarehouseNodePropertiesList | null | undefined;
+  response?: FunnelsDataWarehouseNodeResponseMap | null | undefined;
+  table_name: string;
+  timestamp_field: string;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type FunnelsQuerySeriesItem =
+  | EventsNode
+  | ActionsNode
+  | FunnelsDataWarehouseNode
+  | GroupNode;
+/** Events and actions to include */
+export type FunnelsQuerySeriesList = Array<FunnelsQuerySeriesItem>;
+export interface FunnelsQuery {
+  /** Groups aggregation */
+  aggregation_group_type_index?: number | null | undefined;
+  /** Breakdown of the events and actions */
+  breakdownFilter?: BreakdownFilter | null | undefined;
+  /** Compare to date range */
+  compareFilter?: CompareFilter | null | undefined;
+  /** Colors used in the insight's visualization */
+  dataColorTheme?: number | null | undefined;
+  /** Date range for the query */
+  dateRange?: DateRange | null | undefined;
+  /** Exclude internal and test users by applying the respective filters */
+  filterTestAccounts?: boolean | null | undefined;
+  /** Properties specific to the funnels insight */
+  funnelsFilter?: FunnelsFilter | null | undefined;
+  /** Granularity of the response. Can be one of `hour`, `day`, `week` or `month` */
+  interval?: IntervalType | (string & {}) | null | undefined;
+  kind?: string | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Property filters for all series */
+  properties?: FunnelsQueryProperties | null | undefined;
+  response?: FunnelsQueryResponse | null | undefined;
+  /** Sampling rate */
+  samplingFactor?: number | null | undefined;
+  /** Events and actions to include */
+  series: FunnelsQuerySeriesList;
+  /** Tags that will be added to the Query log comment */
+  tags?: QueryLogTags | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type RetentionQueryPropertiesCase0Item =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type RetentionQueryPropertiesCase0List = Array<RetentionQueryPropertiesCase0Item>;
+/** Property filters for all series */
+export type RetentionQueryProperties = RetentionQueryPropertiesCase0List | PropertyGroupFilter;
+/** Optional breakdown value for retention cohorts */
+export type RetentionResultBreakdownValue = string | number;
+export interface RetentionValue {
+  aggregation_value?: number | null | undefined;
+  count: number;
+  label?: string | null | undefined;
+}
+export type RetentionResultValuesList = Array<RetentionValue>;
+export interface RetentionResult {
+  /** Optional breakdown value for retention cohorts */
+  breakdown_value?: RetentionResultBreakdownValue | null | undefined;
+  date: string;
+  label: string;
+  values: RetentionResultValuesList;
+}
+export type RetentionQueryResponseResultsList = Array<RetentionResult>;
+export type RetentionQueryResponseTimingsList = Array<QueryTiming>;
+export type RetentionQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type RetentionQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type RetentionQueryResponseWarningsList = Array<RetentionQueryResponseWarningsItem>;
+export interface RetentionQueryResponse {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null | undefined;
+  /** Generated HogQL query. */
+  hogql?: string | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null | undefined;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
+  results: RetentionQueryResponseResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: RetentionQueryResponseTimingsList | null | undefined;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?:
+    | RetentionQueryResponseUsedDataWarehouseSourcesList
+    | null
+    | undefined;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: RetentionQueryResponseWarningsList | null | undefined;
+}
+export type AggregationPropertyType = "event" | "person" | "data_warehouse";
+export type AggregationType = "count" | "sum" | "avg";
+export type RetentionDashboardDisplayType = "table_only" | "graph_only" | "all";
+export type RetentionFilterGoalLinesList = Array<GoalLine>;
+export type MeanRetentionCalculation = "simple" | "weighted" | "none";
+export type RetentionPeriod = "Hour" | "Day" | "Week" | "Month";
+export type RetentionFilterRetentionCustomBracketsList = Array<number>;
+export type RetentionReference = "total" | "previous";
+export type RetentionType =
+  | "retention_recurring"
+  | "retention_first_time"
+  | "retention_first_ever_occurrence";
+export type RetentionEntityId = string | number;
+export type RetentionEntityKind = "ActionsNode" | "EventsNode";
+export type RetentionEntityPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type RetentionEntityPropertiesList = Array<RetentionEntityPropertiesItem>;
+export type EntityType = "actions" | "events" | "data_warehouse" | "new_entity" | "groups";
+export interface RetentionEntity {
+  /** Data warehouse field used as the actor identifier */
+  aggregation_target_field?: string | null | undefined;
+  custom_name?: string | null | undefined;
+  id?: RetentionEntityId | null | undefined;
+  kind?: RetentionEntityKind | (string & {}) | null | undefined;
+  name?: string | null | undefined;
+  order?: number | null | undefined;
+  /** filters on the event */
+  properties?: RetentionEntityPropertiesList | null | undefined;
+  /** Data warehouse table name */
+  table_name?: string | null | undefined;
+  /** Data warehouse timestamp field */
+  timestamp_field?: string | null | undefined;
+  type?: EntityType | (string & {}) | null | undefined;
+  uuid?: string | null | undefined;
+}
+export type TimeWindowMode = "strict_calendar_dates" | "24_hour_windows";
+export interface RetentionFilter {
+  /** The property to aggregate when aggregationType is sum or avg */
+  aggregationProperty?: string | null | undefined;
+  /** The type of property to aggregate on (event, person or data_warehouse). Defaults to event. */
+  aggregationPropertyType?: AggregationPropertyType | (string & {}) | null | undefined;
+  /** The aggregation type to use for retention */
+  aggregationType?: AggregationType | (string & {}) | null | undefined;
+  /** Chart rendering style overrides (line shape). */
+  chartStyle?: ChartStyle | null | undefined;
+  /** Starting index used when labeling cohort columns (e.g. 0 for D0/D1/D2, 1 for D1/D2/D3). Display-only -- does not affect retention calculations. */
+  cohortLabelStartIndex?: number | null | undefined;
+  cumulative?: boolean | null | undefined;
+  /** For data warehouse based retention insights when the aggregation target can't be mapped to persons or groups. */
+  customAggregationTarget?: boolean | null | undefined;
+  dashboardDisplay?: RetentionDashboardDisplayType | (string & {}) | null | undefined;
+  /** controls the display of the retention graph */
+  display?: ChartDisplayType | (string & {}) | null | undefined;
+  goalLines?: RetentionFilterGoalLinesList | null | undefined;
+  meanRetentionCalculation?: MeanRetentionCalculation | (string & {}) | null | undefined;
+  minimumOccurrences?: number | null | undefined;
+  period?: RetentionPeriod | (string & {}) | null | undefined;
+  /** Custom brackets for retention calculations */
+  retentionCustomBrackets?: RetentionFilterRetentionCustomBracketsList | null | undefined;
+  /** Whether retention is with regard to initial cohort size, or that of the previous period. */
+  retentionReference?: RetentionReference | (string & {}) | null | undefined;
+  retentionType?: RetentionType | (string & {}) | null | undefined;
+  returningEntity?: RetentionEntity | null | undefined;
+  /** The selected interval to display across all cohorts (null = show all intervals for each cohort) */
+  selectedInterval?: number | null | undefined;
+  /** Draw the mean across cohorts as one line on the retention graph. */
+  showMeanLine?: boolean | null | undefined;
+  showTrendLines?: boolean | null | undefined;
+  targetEntity?: RetentionEntity | null | undefined;
+  /** The time window mode to use for retention calculations */
+  timeWindowMode?: TimeWindowMode | (string & {}) | null | undefined;
+  totalIntervals?: number | null | undefined;
+}
+export interface RetentionQuery {
+  /** Groups aggregation */
+  aggregation_group_type_index?: number | null | undefined;
+  /** Breakdown of the events and actions */
+  breakdownFilter?: BreakdownFilter | null | undefined;
+  /** Colors used in the insight's visualization */
+  dataColorTheme?: number | null | undefined;
+  /** Date range for the query */
+  dateRange?: DateRange | null | undefined;
+  /** Exclude internal and test users by applying the respective filters */
+  filterTestAccounts?: boolean | null | undefined;
+  kind?: string | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Property filters for all series */
+  properties?: RetentionQueryProperties | null | undefined;
+  response?: RetentionQueryResponse | null | undefined;
+  /** Properties specific to the retention insight */
+  retentionFilter: RetentionFilter;
+  /** Sampling rate */
+  samplingFactor?: number | null | undefined;
+  /** Tags that will be added to the Query log comment */
+  tags?: QueryLogTags | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type FunnelPathType =
+  | "funnel_path_before_step"
+  | "funnel_path_between_steps"
+  | "funnel_path_after_step";
+export interface FunnelPathsFilter {
+  funnelPathType?: FunnelPathType | (string & {}) | null | undefined;
+  funnelSource: FunnelsQuery;
+  funnelStep?: number | null | undefined;
+}
+export type PathsFilterExcludeEventsList = Array<string>;
+export type PathType = "$pageview" | "$screen" | "custom_event" | "hogql";
+export type PathsFilterIncludeEventTypesList = Array<PathType | (string & {})>;
+export interface PathCleaningFilter {
+  /** The replacement for the matched path. Use angle-bracket placeholders (`<id>`, `<uuid>`, `<slug>`) by convention, or reuse a capture group from the regex with ClickHouse `replaceRegexpAll` replacement syntax: `\1` to `\9` for a group and `\0` for the whole match. */
+  alias?: string | null | undefined;
+  order?: number | null | undefined;
+  regex?: string | null | undefined;
+}
+export type PathsFilterLocalPathCleaningFiltersList = Array<PathCleaningFilter>;
+export type PathsFilterPathGroupingsList = Array<string>;
+export interface PathsFilter {
+  edgeLimit?: number | null | undefined;
+  endPoint?: string | null | undefined;
+  excludeEvents?: PathsFilterExcludeEventsList | null | undefined;
+  includeEventTypes?: PathsFilterIncludeEventTypesList | null | undefined;
+  localPathCleaningFilters?: PathsFilterLocalPathCleaningFiltersList | null | undefined;
+  maxEdgeWeight?: number | null | undefined;
+  minEdgeWeight?: number | null | undefined;
+  /** Relevant only within actors query */
+  pathDropoffKey?: string | null | undefined;
+  /** Relevant only within actors query */
+  pathEndKey?: string | null | undefined;
+  pathGroupings?: PathsFilterPathGroupingsList | null | undefined;
+  pathReplacements?: boolean | null | undefined;
+  /** Relevant only within actors query */
+  pathStartKey?: string | null | undefined;
+  pathsHogQLExpression?: string | null | undefined;
+  showFullUrls?: boolean | null | undefined;
+  startPoint?: string | null | undefined;
+  stepLimit?: number | null | undefined;
+  /** Remove the query string from page view URLs, so pages that differ only in query parameters become one path item */
+  stripQueryString?: boolean | null | undefined;
+}
+export type PathsQueryPropertiesCase0Item =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type PathsQueryPropertiesCase0List = Array<PathsQueryPropertiesCase0Item>;
+/** Property filters for all series */
+export type PathsQueryProperties = PathsQueryPropertiesCase0List | PropertyGroupFilter;
+export interface PathsLink {
+  average_conversion_time: number;
+  source: string;
+  target: string;
+  value: number;
+}
+export type PathsQueryResponseResultsList = Array<PathsLink>;
+export type PathsQueryResponseTimingsList = Array<QueryTiming>;
+export type PathsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type PathsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type PathsQueryResponseWarningsList = Array<PathsQueryResponseWarningsItem>;
+export interface PathsQueryResponse {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null | undefined;
+  /** Generated HogQL query. */
+  hogql?: string | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null | undefined;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
+  results: PathsQueryResponseResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: PathsQueryResponseTimingsList | null | undefined;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: PathsQueryResponseUsedDataWarehouseSourcesList | null | undefined;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: PathsQueryResponseWarningsList | null | undefined;
+}
+export interface PathsQuery {
+  /** Groups aggregation */
+  aggregation_group_type_index?: number | null | undefined;
+  /** Colors used in the insight's visualization */
+  dataColorTheme?: number | null | undefined;
+  /** Date range for the query */
+  dateRange?: DateRange | null | undefined;
+  /** Exclude internal and test users by applying the respective filters */
+  filterTestAccounts?: boolean | null | undefined;
+  /** Used for displaying paths in relation to funnel steps. */
+  funnelPathsFilter?: FunnelPathsFilter | null | undefined;
+  kind?: string | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Properties specific to the paths insight */
+  pathsFilter: PathsFilter;
+  /** Property filters for all series */
+  properties?: PathsQueryProperties | null | undefined;
+  response?: PathsQueryResponse | null | undefined;
+  /** Sampling rate */
+  samplingFactor?: number | null | undefined;
+  /** Tags that will be added to the Query log comment */
+  tags?: QueryLogTags | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export interface PathsV2Item {
+  /** Event of the step source this item belongs to. */
+  event: string;
+  /** Label value from the source's naming property, after path cleaning. An empty string when the property is missing on the event. Null for sources without a naming property. */
+  label?: string | null | undefined;
+}
+export type PathsV2AnchorType = "start" | "end";
+export interface PathsV2Anchor {
+  /** The path item the chart anchors on. Its event must be one of the step sources. */
+  item: PathsV2Item;
+  /** `start` runs each actor's single sequence forward from the anchor item; `end` runs it up to the anchor item. Either way the anchor is the grid's single 100% node. */
+  type: PathsV2AnchorType | (string & {});
+}
+export type PathsV2FilterExcludedItemsList = Array<PathsV2Item>;
+export type PathsV2FilterLocalPathCleaningFiltersList = Array<PathCleaningFilter>;
+export interface PathsV2StepSource {
+  /** Name of the event this source matches. */
+  event: string;
+  /** Event property whose value labels the path item, e.g. `$pathname` for pageviews. Team path cleaning rules are applied to the value. Without a naming property, the event itself is the path item. */
+  namingProperty?: string | null | undefined;
+}
+export type PathsV2FilterStepSourcesList = Array<PathsV2StepSource>;
+export interface PathsV2Filter {
+  /** Anchor selecting anchored mode. When set, each actor contributes exactly one sequence bounded by the conversion window, so every displayed segment equals a plain funnel. Absent selects open mode, which splits an actor's events into journeys on the inactivity gap instead. */
+  anchor?: PathsV2Anchor | null | undefined;
+  /** Apply the team's path cleaning rules to naming property values before they become path items. */
+  applyTeamPathCleaning?: boolean | null | undefined;
+  /** Merge immediate repeats of the same path item within a journey. */
+  collapseRepeats?: boolean | null | undefined;
+  /** Anchored mode's single conversion window W, anchored at the anchor and reused verbatim as the emitted funnel's window. Bounds per unit are validated server-side against CONVERSION_WINDOW_INTERVAL_BOUNDS, the same funnel conversion window bounds as the gap. */
+  conversionWindowInterval?: number | null | undefined;
+  conversionWindowIntervalUnit?: FunnelConversionWindowTimeUnit | (string & {}) | null | undefined;
+  /** Path items dropped from the item universe: events deriving to one of these items are ignored as if their event were not a step source, on both the paths side and the "view as funnel" side. */
+  excludedItems?: PathsV2FilterExcludedItemsList | null | undefined;
+  /** Inactivity gap that splits an actor's events into journeys. Bounds per unit are validated server-side against CONVERSION_WINDOW_INTERVAL_BOUNDS, the funnel conversion window bounds. */
+  gapInterval?: number | null | undefined;
+  gapIntervalUnit?: FunnelConversionWindowTimeUnit | (string & {}) | null | undefined;
+  /** Path cleaning rules for this insight only, applied after the team's rules. */
+  localPathCleaningFilters?: PathsV2FilterLocalPathCleaningFiltersList | null | undefined;
+  /** Number of path item rows per step; items beyond this go into the "other" row. */
+  maxRowsPerStep?: number | null | undefined;
+  /** Number of journey steps (columns) shown. */
+  maxSteps?: number | null | undefined;
+  /** Step sources defining which events can become path items. Defaults to the pageviews preset: `$pageview` named by `$pathname`. */
+  stepSources?: PathsV2FilterStepSourcesList | null | undefined;
+}
+export type PathsV2QueryPropertiesCase0Item =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type PathsV2QueryPropertiesCase0List = Array<PathsV2QueryPropertiesCase0Item>;
+/** Property filters for all series */
+export type PathsV2QueryProperties = PathsV2QueryPropertiesCase0List | PropertyGroupFilter;
+export interface PathsV2Edge {
+  /** Unique actors who transition from source to target at any step of any of their whole journeys, the position-free count behind "went source -> target at any step". Equals the two-step item-strict funnel's converted count. Only set in open mode on edges between two named items. */
+  anyStepCount?: number | null | undefined;
+  /** Unique actors with a journey that transitions from source to target between these steps. */
+  count: number;
+  /** Source path item, or null for the source column's "other" row. */
+  source: PathsV2Item | null;
+  /** 0-based step index of the source column; the target sits at `stepIndex + 1`. */
+  stepIndex: number;
+  /** Target path item, or null for the target column's "other" row. */
+  target: PathsV2Item | null;
+}
+export type PathsV2ResultsEdgesList = Array<PathsV2Edge>;
+/** The chain's path items in order, starting at the anchor. */
+export type PathsV2PrefixItemsList = Array<PathsV2Item>;
+export interface PathsV2Prefix {
+  /** Unique actors whose anchored sequence begins with exactly these items. */
+  count: number;
+  /** The chain's path items in order, starting at the anchor. */
+  items: PathsV2PrefixItemsList;
+}
+/** Concrete anchored chains with per-chain unique-actor counts, ordered by descending count. Empty in open mode; in anchored mode it carries the counts the hover funnel preview reads per chain. Only chains the grid displays in full are carried: chains through the other bucket are omitted, so the response never exposes labels the chart hides. */
+export type PathsV2ResultsPrefixesList = Array<PathsV2Prefix>;
+export interface PathsV2Row {
+  /** Unique actors with a journey whose item at this step is this path item. */
+  count: number;
+  item: PathsV2Item;
+}
+/** Top path items at this step, ordered by unique-actor count descending. */
+export type PathsV2StepRowsList = Array<PathsV2Row>;
+export interface PathsV2Step {
+  /** Unique actors whose journey ends at this step. */
+  dropOffCount: number;
+  /** Unique actors at this step whose path item is beyond the top rows. */
+  otherCount: number;
+  /** Top path items at this step, ordered by unique-actor count descending. */
+  rows: PathsV2StepRowsList;
+  /** 0-based step index (column) in the journey grid. */
+  stepIndex: number;
+}
+export type PathsV2ResultsStepsList = Array<PathsV2Step>;
+export interface PathsV2Results {
+  edges: PathsV2ResultsEdgesList;
+  /** Concrete anchored chains with per-chain unique-actor counts, ordered by descending count. Empty in open mode; in anchored mode it carries the counts the hover funnel preview reads per chain. Only chains the grid displays in full are carried: chains through the other bucket are omitted, so the response never exposes labels the chart hides. */
+  prefixes: PathsV2ResultsPrefixesList;
+  steps: PathsV2ResultsStepsList;
+}
+export type PathsV2QueryResponseTimingsList = Array<QueryTiming>;
+export type PathsV2QueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type PathsV2QueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type PathsV2QueryResponseWarningsList = Array<PathsV2QueryResponseWarningsItem>;
+export interface PathsV2QueryResponse {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null | undefined;
+  /** Generated HogQL query. */
+  hogql?: string | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null | undefined;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
+  results: PathsV2Results;
+  /** Measured timings for different parts of the query generation process */
+  timings?: PathsV2QueryResponseTimingsList | null | undefined;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: PathsV2QueryResponseUsedDataWarehouseSourcesList | null | undefined;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: PathsV2QueryResponseWarningsList | null | undefined;
+}
+export interface PathsV2Query {
+  /** Colors used in the insight's visualization */
+  dataColorTheme?: number | null | undefined;
+  /** Date range for the query */
+  dateRange?: DateRange | null | undefined;
+  /** Exclude internal and test users by applying the respective filters */
+  filterTestAccounts?: boolean | null | undefined;
+  kind?: string | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Properties specific to the paths v2 insight */
+  pathsV2Filter?: PathsV2Filter | null | undefined;
+  /** Property filters for all series */
+  properties?: PathsV2QueryProperties | null | undefined;
+  response?: PathsV2QueryResponse | null | undefined;
+  /** Tags that will be added to the Query log comment */
+  tags?: QueryLogTags | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type StickinessQueryPropertiesCase0Item =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type StickinessQueryPropertiesCase0List = Array<StickinessQueryPropertiesCase0Item>;
+/** Property filters for all series */
+export type StickinessQueryProperties = StickinessQueryPropertiesCase0List | PropertyGroupFilter;
+export type StickinessQueryResponseActionNamesMap = { [key: string]: string | undefined };
+export type StickinessQueryResponseResultsItemMap = { [key: string]: unknown | undefined };
+export type StickinessQueryResponseResultsList = Array<StickinessQueryResponseResultsItemMap>;
+export type StickinessQueryResponseTimingsList = Array<QueryTiming>;
+export type StickinessQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type StickinessQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type StickinessQueryResponseWarningsList = Array<StickinessQueryResponseWarningsItem>;
+export interface StickinessQueryResponse {
+  /** The name of each action the query's series reference, keyed by action id. A series saved without a `name` displays this name, because the query holds only the action's id. */
+  action_names?: StickinessQueryResponseActionNamesMap | null | undefined;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null | undefined;
+  /** Generated HogQL query. */
+  hogql?: string | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null | undefined;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
+  results: StickinessQueryResponseResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: StickinessQueryResponseTimingsList | null | undefined;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?:
+    | StickinessQueryResponseUsedDataWarehouseSourcesList
+    | null
+    | undefined;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: StickinessQueryResponseWarningsList | null | undefined;
+}
+export type StickinessQuerySeriesItem = EventsNode | ActionsNode | DataWarehouseNode;
+/** Events and actions to include */
+export type StickinessQuerySeriesList = Array<StickinessQuerySeriesItem>;
+export type StickinessComputationMode = "non_cumulative" | "cumulative";
+export type StickinessFilterHiddenLegendIndexesList = Array<number>;
+export type StickinessFilterResultCustomizationsCase0Map = {
+  [key: string]: ResultCustomizationByValue | undefined;
+};
+export type StickinessFilterResultCustomizationsCase1Map = {
+  [key: string]: ResultCustomizationByPosition | undefined;
+};
+/** Customizations for the appearance of result datasets. */
+export type StickinessFilterResultCustomizations =
+  | StickinessFilterResultCustomizationsCase0Map
+  | StickinessFilterResultCustomizationsCase1Map;
+export type StickinessOperator = "gte" | "lte" | "exact";
+export interface StickinessCriteria {
+  operator: StickinessOperator | (string & {});
+  value: number;
+}
+export interface StickinessFilter {
+  /** Chart rendering style overrides (line shape). */
+  chartStyle?: ChartStyle | null | undefined;
+  computedAs?: StickinessComputationMode | (string & {}) | null | undefined;
+  display?: ChartDisplayType | (string & {}) | null | undefined;
+  hiddenLegendIndexes?: StickinessFilterHiddenLegendIndexesList | null | undefined;
+  /** Where the in-chart legend sits relative to the plot. Only applies to the in-chart legend. */
+  legendPosition?: LegendPosition | (string & {}) | null | undefined;
+  /** Whether result datasets are associated by their values or by their order. */
+  resultCustomizationBy?: ResultCustomizationBy | (string & {}) | null | undefined;
+  /** Customizations for the appearance of result datasets. */
+  resultCustomizations?: StickinessFilterResultCustomizations | null | undefined;
+  showLegend?: boolean | null | undefined;
+  showMultipleYAxes?: boolean | null | undefined;
+  showValuesOnSeries?: boolean | null | undefined;
+  stickinessCriteria?: StickinessCriteria | null | undefined;
+}
+export interface StickinessQuery {
+  /** Compare to date range */
+  compareFilter?: CompareFilter | null | undefined;
+  /** Colors used in the insight's visualization */
+  dataColorTheme?: number | null | undefined;
+  /** Date range for the query */
+  dateRange?: DateRange | null | undefined;
+  /** Exclude internal and test users by applying the respective filters */
+  filterTestAccounts?: boolean | null | undefined;
+  /** Granularity of the response. Can be one of `hour`, `day`, `week` or `month` */
+  interval?: IntervalType | (string & {}) | null | undefined;
+  /** How many intervals comprise a period. Only used for cohorts, otherwise default 1. */
+  intervalCount?: number | null | undefined;
+  kind?: string | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Property filters for all series */
+  properties?: StickinessQueryProperties | null | undefined;
+  response?: StickinessQueryResponse | null | undefined;
+  /** Sampling rate */
+  samplingFactor?: number | null | undefined;
+  /** Events and actions to include */
+  series: StickinessQuerySeriesList;
+  /** Properties specific to the stickiness insight */
+  stickinessFilter?: StickinessFilter | null | undefined;
+  /** Tags that will be added to the Query log comment */
+  tags?: QueryLogTags | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type LifecycleToggle = "new" | "resurrecting" | "returning" | "dormant";
+export type LifecycleFilterToggledLifecyclesList = Array<LifecycleToggle | (string & {})>;
+export interface LifecycleFilter {
+  /** Where the in-chart legend sits relative to the plot. Only applies to the in-chart legend. */
+  legendPosition?: LegendPosition | (string & {}) | null | undefined;
+  showLegend?: boolean | null | undefined;
+  /** Append per-band percentage to each value label (e.g. `580 (42%)`). Requires `showValuesOnSeries` -- on its own it has no visible effect. */
+  showPercentagesOnSeries?: boolean | null | undefined;
+  showValuesOnSeries?: boolean | null | undefined;
+  stacked?: boolean | null | undefined;
+  toggledLifecycles?: LifecycleFilterToggledLifecyclesList | null | undefined;
+}
+export type LifecycleQueryPropertiesCase0Item =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type LifecycleQueryPropertiesCase0List = Array<LifecycleQueryPropertiesCase0Item>;
+/** Property filters for all series */
+export type LifecycleQueryProperties = LifecycleQueryPropertiesCase0List | PropertyGroupFilter;
+export type LifecycleQueryResponseActionNamesMap = { [key: string]: string | undefined };
+export type LifecycleQueryResponseResultsItemMap = { [key: string]: unknown | undefined };
+export type LifecycleQueryResponseResultsList = Array<LifecycleQueryResponseResultsItemMap>;
+export type LifecycleQueryResponseTimingsList = Array<QueryTiming>;
+export type LifecycleQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type LifecycleQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type LifecycleQueryResponseWarningsList = Array<LifecycleQueryResponseWarningsItem>;
+export interface LifecycleQueryResponse {
+  /** The name of each action the query's series reference, keyed by action id. A series saved without a `name` displays this name, because the query holds only the action's id. */
+  action_names?: LifecycleQueryResponseActionNamesMap | null | undefined;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null | undefined;
+  /** Generated HogQL query. */
+  hogql?: string | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null | undefined;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
+  results: LifecycleQueryResponseResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: LifecycleQueryResponseTimingsList | null | undefined;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?:
+    | LifecycleQueryResponseUsedDataWarehouseSourcesList
+    | null
+    | undefined;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: LifecycleQueryResponseWarningsList | null | undefined;
+}
+export type LifecycleDataWarehouseNodeFixedPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type LifecycleDataWarehouseNodeFixedPropertiesList =
+  Array<LifecycleDataWarehouseNodeFixedPropertiesItem>;
+export type LifecycleDataWarehouseNodeMath =
+  | BaseMathType
+  | FunnelMathType
+  | PropertyMathType
+  | CountPerActorMathType
+  | GroupMathType
+  | ExperimentMetricMathType
+  | CalendarHeatmapMathType
+  | string;
+export type LifecycleDataWarehouseNodePropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type LifecycleDataWarehouseNodePropertiesList =
+  Array<LifecycleDataWarehouseNodePropertiesItem>;
+export type LifecycleDataWarehouseNodeResponseMap = { [key: string]: unknown | undefined };
+export interface LifecycleDataWarehouseNode {
+  aggregation_target_field: string;
+  created_at_field: string;
+  custom_name?: string | null | undefined;
+  /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
+  fixedProperties?: LifecycleDataWarehouseNodeFixedPropertiesList | null | undefined;
+  id: string;
+  kind?: string | undefined;
+  math?: LifecycleDataWarehouseNodeMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
+  /** Properties configurable in the interface */
+  properties?: LifecycleDataWarehouseNodePropertiesList | null | undefined;
+  response?: LifecycleDataWarehouseNodeResponseMap | null | undefined;
+  table_name: string;
+  timestamp_field: string;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type LifecycleQuerySeriesItem = EventsNode | ActionsNode | LifecycleDataWarehouseNode;
+/** Events and actions to include */
+export type LifecycleQuerySeriesList = Array<LifecycleQuerySeriesItem>;
+export interface LifecycleQuery {
+  /** Groups aggregation */
+  aggregation_group_type_index?: number | null | undefined;
+  /** For data warehouse based lifecycle insights when the aggregation target can't be mapped to persons or groups. */
+  customAggregationTarget?: boolean | null | undefined;
+  /** Colors used in the insight's visualization */
+  dataColorTheme?: number | null | undefined;
+  /** Date range for the query */
+  dateRange?: DateRange | null | undefined;
+  /** Exclude internal and test users by applying the respective filters */
+  filterTestAccounts?: boolean | null | undefined;
+  /** Granularity of the response. Can be one of `hour`, `day`, `week` or `month` */
+  interval?: IntervalType | (string & {}) | null | undefined;
+  kind?: string | undefined;
+  /** Properties specific to the lifecycle insight */
+  lifecycleFilter?: LifecycleFilter | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Property filters for all series */
+  properties?: LifecycleQueryProperties | null | undefined;
+  response?: LifecycleQueryResponse | null | undefined;
+  /** Sampling rate */
+  samplingFactor?: number | null | undefined;
+  /** Events and actions to include */
+  series: LifecycleQuerySeriesList;
+  /** Tags that will be added to the Query log comment */
+  tags?: QueryLogTags | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type WebStatsBreakdown =
+  | "Page"
+  | "InitialPage"
+  | "ExitPage"
+  | "ExitClick"
+  | "PreviousPage"
+  | "ScreenName"
+  | "InitialChannelType"
+  | "InitialReferringDomain"
+  | "InitialReferringURL"
+  | "InitialUTMSource"
+  | "InitialUTMCampaign"
+  | "InitialUTMMedium"
+  | "InitialUTMTerm"
+  | "InitialUTMContent"
+  | "InitialUTMSourceMediumCampaign"
+  | "FirstPageviewChannelType"
+  | "FirstPageviewReferringDomain"
+  | "FirstPageviewUTMSource"
+  | "FirstPageviewUTMCampaign"
+  | "FirstPageviewUTMMedium"
+  | "FirstPageviewUTMTerm"
+  | "FirstPageviewUTMContent"
+  | "FirstPageviewUTMSourceMediumCampaign"
+  | "Browser"
+  | "InAppBrowser"
+  | "OS"
+  | "Viewport"
+  | "DeviceType"
+  | "Country"
+  | "Region"
+  | "City"
+  | "Timezone"
+  | "Language"
+  | "FrustrationMetrics";
+export type WebStatsTableQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
+export type WebAnalyticsOrderByFields =
+  | "Visitors"
+  | "Views"
+  | "AvgTimeOnPage"
+  | "Clicks"
+  | "BounceRate"
+  | "AverageScrollPercentage"
+  | "ScrollGt80Percentage"
+  | "TotalConversions"
+  | "UniqueConversions"
+  | "ConversionRate"
+  | "ConvertingUsers"
+  | "RageClicks"
+  | "DeadClicks"
+  | "Errors";
+export type WebAnalyticsOrderByDirection = "ASC" | "DESC";
+export type WebStatsTableQueryOrderByItem =
+  | WebAnalyticsOrderByFields
+  | WebAnalyticsOrderByDirection;
+export type WebStatsTableQueryOrderByList = Array<WebStatsTableQueryOrderByItem>;
+export type WebStatsTableQueryPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter;
+export type WebStatsTableQueryPropertiesList = Array<WebStatsTableQueryPropertiesItem>;
+export type WebStatsTableQueryResponseColumnsList = Array<unknown>;
+export type WebAnalyticsPreComputeStrategy = "pre_aggregated" | "lazy_precompute" | "live";
+export type WebStatsTableQueryResponseResultsList = Array<unknown>;
+export interface SamplingRate {
+  denominator?: number | null | undefined;
+  numerator: number;
+}
+export type WebStatsTableQueryResponseTimingsList = Array<QueryTiming>;
+export type WebStatsTableQueryResponseTypesList = Array<unknown>;
+export type WebStatsTableQueryResponseUsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type WebStatsTableQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type WebStatsTableQueryResponseWarningsList = Array<WebStatsTableQueryResponseWarningsItem>;
+export interface WebStatsTableQueryResponse {
+  columns?: WebStatsTableQueryResponseColumnsList | null | undefined;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null | undefined;
+  hasMore?: boolean | null | undefined;
+  /** Generated HogQL query. */
+  hogql?: string | null | undefined;
+  limit?: number | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  offset?: number | null | undefined;
+  /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
+  preComputeIneligibleReason?: string | null | undefined;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null | undefined;
+  preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null | undefined;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null | undefined;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null | undefined;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
+  results: WebStatsTableQueryResponseResultsList;
+  samplingRate?: SamplingRate | null | undefined;
+  /** Measured timings for different parts of the query generation process */
+  timings?: WebStatsTableQueryResponseTimingsList | null | undefined;
+  types?: WebStatsTableQueryResponseTypesList | null | undefined;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?:
+    | WebStatsTableQueryResponseUsedDataWarehouseSourcesList
+    | null
+    | undefined;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: WebStatsTableQueryResponseWarningsList | null | undefined;
+}
+export interface WebAnalyticsSampling {
+  enabled?: boolean | null | undefined;
+  forceSamplingRate?: SamplingRate | null | undefined;
+}
+export interface WebAnalyticsQueryModifiers {
+  /** Serve web overview and stats table queries from the dimensional precompute tables when they hold ready data for the whole date range. Falls back to the normal path otherwise. */
+  useDimensionalTables?: boolean | null | undefined;
+}
+export interface WebStatsTableQuery {
+  /** Groups aggregation - not used in Web Analytics but required for type compatibility */
+  aggregation_group_type_index?: number | null | undefined;
+  breakdownBy: WebStatsBreakdown | (string & {});
+  compareFilter?: CompareFilter | null | undefined;
+  conversionGoal?: WebStatsTableQueryConversionGoal | null | undefined;
+  /** Colors used in the insight's visualization - not used in Web Analytics but required for type compatibility */
+  dataColorTheme?: number | null | undefined;
+  dateRange?: DateRange | null | undefined;
+  doPathCleaning?: boolean | null | undefined;
+  filterTestAccounts?: boolean | null | undefined;
+  includeAvgTimeOnPage?: boolean | null | undefined;
+  includeBounceRate?: boolean | null | undefined;
+  includeHost?: boolean | null | undefined;
+  includeRevenue?: boolean | null | undefined;
+  includeScrollDepth?: boolean | null | undefined;
+  includeTrafficMetrics?: boolean | null | undefined;
+  /** Interval for date range calculation (affects date_to rounding for hour vs day ranges) */
+  interval?: IntervalType | (string & {}) | null | undefined;
+  kind?: string | undefined;
+  limit?: number | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  offset?: number | null | undefined;
+  orderBy?: WebStatsTableQueryOrderByList | null | undefined;
+  properties: WebStatsTableQueryPropertiesList;
+  response?: WebStatsTableQueryResponse | null | undefined;
+  sampling?: WebAnalyticsSampling | null | undefined;
+  /** Sampling rate */
+  samplingFactor?: number | null | undefined;
+  tags?: QueryLogTags | null | undefined;
+  useSessionsTable?: boolean | null | undefined;
+  /** Opt this specific query into the web stats table precompute path. Requires the `web-analytics-precompute-toggle` PostHog feature flag to be on for the team's organization for the gate to pass. * */
+  useWebAnalyticsPrecompute?: boolean | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null | undefined;
+}
+export type WebOverviewQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
+export type WebOverviewQueryOrderByItem = WebAnalyticsOrderByFields | WebAnalyticsOrderByDirection;
+export type WebOverviewQueryOrderByList = Array<WebOverviewQueryOrderByItem>;
+export type WebOverviewQueryPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter;
+export type WebOverviewQueryPropertiesList = Array<WebOverviewQueryPropertiesItem>;
+export type WebAnalyticsItemKind = "unit" | "duration_s" | "percentage" | "currency";
+export interface WebOverviewItem {
+  changeFromPreviousPct?: number | null | undefined;
+  isIncreaseBad?: boolean | null | undefined;
+  key: string;
+  kind: WebAnalyticsItemKind | (string & {});
+  previous?: number | null | undefined;
+  value?: number | null | undefined;
+}
+export type WebOverviewQueryResponseResultsList = Array<WebOverviewItem>;
+export type WebOverviewQueryResponseTimingsList = Array<QueryTiming>;
+export type WebOverviewQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type WebOverviewQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type WebOverviewQueryResponseWarningsList = Array<WebOverviewQueryResponseWarningsItem>;
+export interface WebOverviewQueryResponse {
+  dateFrom?: string | null | undefined;
+  dateTo?: string | null | undefined;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null | undefined;
+  /** Generated HogQL query. */
+  hogql?: string | null | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
+  preComputeIneligibleReason?: string | null | undefined;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null | undefined;
+  preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null | undefined;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null | undefined;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null | undefined;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
+  results: WebOverviewQueryResponseResultsList;
+  samplingRate?: SamplingRate | null | undefined;
+  /** Measured timings for different parts of the query generation process */
+  timings?: WebOverviewQueryResponseTimingsList | null | undefined;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?:
+    | WebOverviewQueryResponseUsedDataWarehouseSourcesList
+    | null
+    | undefined;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: WebOverviewQueryResponseWarningsList | null | undefined;
+}
+export interface WebOverviewQuery {
+  /** Groups aggregation - not used in Web Analytics but required for type compatibility */
+  aggregation_group_type_index?: number | null | undefined;
+  compareFilter?: CompareFilter | null | undefined;
+  conversionGoal?: WebOverviewQueryConversionGoal | null | undefined;
+  /** Colors used in the insight's visualization - not used in Web Analytics but required for type compatibility */
+  dataColorTheme?: number | null | undefined;
+  dateRange?: DateRange | null | undefined;
+  doPathCleaning?: boolean | null | undefined;
+  filterTestAccounts?: boolean | null | undefined;
+  includeRevenue?: boolean | null | undefined;
+  /** Interval for date range calculation (affects date_to rounding for hour vs day ranges) */
+  interval?: IntervalType | (string & {}) | null | undefined;
+  kind?: string | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  orderBy?: WebOverviewQueryOrderByList | null | undefined;
+  properties: WebOverviewQueryPropertiesList;
+  response?: WebOverviewQueryResponse | null | undefined;
+  sampling?: WebAnalyticsSampling | null | undefined;
+  /** Sampling rate */
+  samplingFactor?: number | null | undefined;
+  tags?: QueryLogTags | null | undefined;
+  useSessionsTable?: boolean | null | undefined;
+  /** Opt this specific query into the web_overview_query precompute path. Requires the `web-analytics-precompute-toggle` PostHog feature flag to be on for the team's organization for the gate to pass. * */
+  useWebAnalyticsPrecompute?: boolean | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null | undefined;
+}
+export type InsightActorsQuerySource =
+  | TrendsQuery
+  | FunnelsQuery
+  | RetentionQuery
+  | PathsQuery
+  | PathsV2Query
+  | StickinessQuery
+  | LifecycleQuery
+  | WebStatsTableQuery
+  | WebOverviewQuery;
+export interface InsightActorsQuery {
+  breakdown?: InsightActorsQueryBreakdown | null | undefined;
+  compare?: Compare | (string & {}) | null | undefined;
+  day?: InsightActorsQueryDay | null | undefined;
+  includeRecordings?: boolean | null | undefined;
+  /** An interval selected out of available intervals in source query. */
+  interval?: number | null | undefined;
+  kind?: string | undefined;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  response?: ActorsQueryResponse | null | undefined;
+  series?: number | null | undefined;
+  source: InsightActorsQuerySource;
+  status?: string | null | undefined;
+  tags?: QueryLogTags | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export interface CreatePersonsPropertiesTimelineRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique value identifying this person. Accepts both numeric ID and UUID. */
+  id: string;
+  format?: CreatePersonsPropertiesTimelineRequestFormat | (string & {}) | undefined;
+  /** The actors query of the insight data point, as the persons modal sends it. The timeline reads the person's events in the data point's time window, and tracks the person properties that the series, the insight's filters and its breakdown use. The source must be a Trends query, and the selected series must be an events or actions series. */
+  query: InsightActorsQuery;
+}
+/** The person's properties as that event recorded them. */
+export type PropertiesTimelinePointPropertiesMap = { [key: string]: unknown | undefined };
+export interface PropertiesTimelinePoint {
+  /** The time of the first event in the window that has this combination of key property values. */
+  timestamp: string;
+  /** The person's properties as that event recorded them. */
+  properties: PropertiesTimelinePointPropertiesMap;
+  /** The number of the person's events in the window from this point until the next point. */
+  relevant_event_count: number;
+}
+/** One point for each change of the key property values, oldest first. */
+export type PropertiesTimelineResponsePointsList = Array<PropertiesTimelinePoint>;
+/** The key person properties: those the insight's query uses. Empty when it uses none. */
+export type PropertiesTimelineResponseCrucialPropertyKeysList = Array<string>;
+export interface PropertiesTimelineResponse {
+  /** One point for each change of the key property values, oldest first. */
+  points: PropertiesTimelineResponsePointsList;
+  /** The key person properties: those the insight's query uses. Empty when it uses none. */
+  crucial_property_keys: PropertiesTimelineResponseCrucialPropertyKeysList;
+  /** The start of the window, in the project's time zone. */
+  effective_date_from: string;
+  /** The end of the window, in the project's time zone. */
+  effective_date_to: string;
+}
 export type CreatePersonsSplitRequestFormat = "csv" | "json";
 /** List of distinct_ids to **move off** this person onto new single-id persons. The original person keeps every other distinct_id and its properties. New persons are created with deterministic UUIDs derived from `(team_id, distinct_id)`. Cannot be combined with `main_distinct_id`. */
 export type CreatePersonsSplitRequestDistinctIdsToSplitList = Array<string>;
@@ -205,15 +3536,6 @@ export interface PersonPropertiesAtTimeResponse {
   /** Metadata about the point-in-time query */
   point_in_time_metadata?: PersonPropertiesAtTimeMetadata | undefined;
 }
-export type GetPersonsPropertiesTimelineRequestFormat = "csv" | "json";
-export interface GetPersonsPropertiesTimelineRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A unique integer value identifying this person. */
-  id: number;
-  format?: GetPersonsPropertiesTimelineRequestFormat | (string & {}) | undefined;
-}
-export interface GetPersonsPropertiesTimelineResponse {}
 export type GetPersonsValueRequestFormat = "csv" | "json";
 export interface GetPersonsValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -485,26 +3807,23 @@ export interface PersonsDeletePropertyCreateRequest {
   _unset?: PersonsDeletePropertyCreateRequestUnset | undefined;
 }
 export interface PersonsDeletePropertyCreateResponse {}
-export type PersonsResetPersonDistinctIdCreateRequestFormat = "csv" | "json";
-export interface PersonsResetPersonDistinctIdCreateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  format?: PersonsResetPersonDistinctIdCreateRequestFormat | (string & {}) | undefined;
-  /** Key-value map of person properties set via $set and $set_once operations. */
-  properties?: unknown | undefined;
-}
-export interface PersonsResetPersonDistinctIdCreateResponse {}
 export type PersonsUpdatePropertyCreateRequestFormat = "csv" | "json";
+/** Property keys and values to set together, instead of 'key' and 'value'. One request sets up to 1000 properties and emits a single $set event. */
+export type PersonsUpdatePropertyCreateRequestPropertiesMap = {
+  [key: string]: unknown | undefined;
+};
 export interface PersonsUpdatePropertyCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique value identifying this person. Accepts both numeric ID and UUID. */
   id: string;
   format?: PersonsUpdatePropertyCreateRequestFormat | (string & {}) | undefined;
-  /** The property key to set. */
+  /** The property key to set. Pair it with 'value' to set one property. */
   key?: string | undefined;
   /** The property value. Can be a string, number, boolean, or object. */
   value?: unknown | undefined;
+  /** Property keys and values to set together, instead of 'key' and 'value'. One request sets up to 1000 properties and emits a single $set event. */
+  properties?: PersonsUpdatePropertyCreateRequestPropertiesMap | undefined;
 }
 export interface PersonsUpdatePropertyCreateResponse {}
 export type UpdatePersonRequestFormat = "csv" | "json";
@@ -539,8 +3858,8 @@ export const createPersonsBatchByDistinctIds: API.OperationMethod<
   CreatePersonsBatchByDistinctIdsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<CreatePersonsBatchByDistinctIdsRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<CreatePersonsBatchByDistinctIdsResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreatePersonsBatchByDistinctIdsRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<CreatePersonsBatchByDistinctIdsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -556,8 +3875,8 @@ export const createPersonsBatchByUuid: API.OperationMethod<
   CreatePersonsBatchByUuidError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreatePersonsBatchByUuidRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<CreatePersonsBatchByUuidResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<CreatePersonsBatchByUuidRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<CreatePersonsBatchByUuidResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -565,16 +3884,33 @@ export const createPersonsBatchByUuid: API.OperationMethod<
   span: "CreatePersonsBatchByUuid",
 }));
 
+export type CreatePersonsPropertiesTimelineError = PosthogOpError;
+/** Get a person's properties timeline for an insight data point Shows how the person's key properties changed within the time window of a Trends data point. The key properties are the person properties that the insight's query uses. */
+export const createPersonsPropertiesTimeline: API.OperationMethod<
+  CreatePersonsPropertiesTimelineRequest,
+  PropertiesTimelineResponse,
+  CreatePersonsPropertiesTimelineError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(540, __c16, 28) as any as S.Schema<CreatePersonsPropertiesTimelineRequest>,
+  output: __S(543, __c16, 31) as any as S.Schema<PropertiesTimelineResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersonsPropertiesTimeline",
+}));
+
 export type CreatePersonsSplitError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** Split distinct_ids off a merged person. Two mutually exclusive modes: - **`distinct_ids_to_split`** (recommended for surgical edits): moves only the listed distinct_ids off this person onto new single-id persons. The original person keeps every other distinct_id and its properties. - **`main_distinct_id`**: keeps only the specified distinct_id on this person; moves every *other* distinct_id off onto its own new person. If omitted, the first distinct_id is kept. The original person always retains its properties. To clear individual properties afterward, use the `delete_property` endpoint. The split runs asynchronously: a 201 response means the task was enqueued. Newly-created split-off persons get a deterministic UUID derived from `(team_id, distinct_id)`, so they can be located client-side without polling. If you need to delete a split-off person after this call, prefer looking it up by that deterministic UUID rather than by distinct_id, since the latter still resolves to the original merged person until the async task completes. */
+/** Split distinct_ids off a merged person. Two mutually exclusive modes: - **`distinct_ids_to_split`** (recommended for surgical edits): moves only the listed distinct_ids off this person onto new single-id persons. The original person keeps every other distinct_id and its properties. - **`main_distinct_id`**: keeps only the specified distinct_id on this person; moves every *other* distinct_id off onto its own new person. If omitted, the first distinct_id is kept. The original person always retains its properties. To clear individual properties afterward, use the `delete_property` endpoint. The split runs asynchronously: a 201 response means the task was enqueued. A split-off person usually gets a UUID derived from `(team_id, distinct_id)`, but gets a random UUID when another person already holds that UUID, so do not compute it client-side. To find or delete a split-off person, look it up by its distinct_id once the task completes. Until then the distinct_id still resolves to the original person. */
 export const createPersonsSplit: API.OperationMethod<
   CreatePersonsSplitRequest,
   PersonSplitResponse,
   CreatePersonsSplitError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<CreatePersonsSplitRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<PersonSplitResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<CreatePersonsSplitRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<PersonSplitResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -590,8 +3926,8 @@ export const getPerson: API.OperationMethod<
   GetPersonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetPersonRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<PersonRecord>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetPersonRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<PersonRecord>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -607,8 +3943,8 @@ export const getPersonsActivity: API.OperationMethod<
   GetPersonsActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetPersonsActivityRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<GetPersonsActivityResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetPersonsActivityRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<GetPersonsActivityResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -624,8 +3960,8 @@ export const getPersonsAllActivity: API.OperationMethod<
   GetPersonsAllActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetPersonsAllActivityRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<GetPersonsAllActivityResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetPersonsAllActivityRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<GetPersonsAllActivityResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -641,8 +3977,8 @@ export const getPersonsCohort: API.OperationMethod<
   GetPersonsCohortError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetPersonsCohortRequest>,
-  output: __S(371, __c23, 3) as any as S.Schema<PersonCohortsResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetPersonsCohortRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<PersonCohortsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -658,30 +3994,13 @@ export const getPersonsPropertiesAtTime: API.OperationMethod<
   GetPersonsPropertiesAtTimeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetPersonsPropertiesAtTimeRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<PersonPropertiesAtTimeResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<GetPersonsPropertiesAtTimeRequest>,
+  output: __S(35, __c1, 3) as any as S.Schema<PersonPropertiesAtTimeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPersonsPropertiesAtTime",
-}));
-
-export type GetPersonsPropertiesTimelineError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs. */
-export const getPersonsPropertiesTimeline: API.OperationMethod<
-  GetPersonsPropertiesTimelineRequest,
-  GetPersonsPropertiesTimelineResponse,
-  GetPersonsPropertiesTimelineError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetPersonsPropertiesTimelineRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<GetPersonsPropertiesTimelineResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetPersonsPropertiesTimeline",
 }));
 
 export type GetPersonsValueError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -692,8 +4011,8 @@ export const getPersonsValue: API.OperationMethod<
   GetPersonsValueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetPersonsValueRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<GetPersonsValueResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<GetPersonsValueRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<GetPersonsValueResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -709,8 +4028,8 @@ export const listPersons: API.OperationMethod<
   ListPersonsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c3, 4) as any as S.Schema<ListPersonsRequest>,
-  output: __S(56, __c3, 8) as any as S.Schema<PaginatedPersonListRecordList>,
+  input: __S(101, __c3, 5) as any as S.Schema<ListPersonsRequest>,
+  output: __S(104, __c3, 8) as any as S.Schema<PaginatedPersonListRecordList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -726,8 +4045,8 @@ export const listPersonsDeletionStatus: API.OperationMethod<
   ListPersonsDeletionStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<ListPersonsDeletionStatusRequest>,
-  output: __S(67, __c4, 3) as any as S.Schema<PaginatedAsyncDeletionStatusList>,
+  input: __S(128, __c4, 0) as any as S.Schema<ListPersonsDeletionStatusRequest>,
+  output: __S(131, __c4, 3) as any as S.Schema<PaginatedAsyncDeletionStatusList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -743,8 +4062,8 @@ export const listPersonsEmails: API.OperationMethod<
   ListPersonsEmailsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListPersonsEmailsRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<ListPersonsEmailsResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<ListPersonsEmailsRequest>,
+  output: __S(194, __c6, 2) as any as S.Schema<ListPersonsEmailsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -760,8 +4079,8 @@ export const listPersonsPushNotifications: API.OperationMethod<
   ListPersonsPushNotificationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ListPersonsPushNotificationsRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<ListPersonsPushNotificationsResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<ListPersonsPushNotificationsRequest>,
+  output: __S(194, __c6, 2) as any as S.Schema<ListPersonsPushNotificationsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -777,8 +4096,8 @@ export const personsBulkDeleteCreate: API.OperationMethod<
   PersonsBulkDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<PersonsBulkDeleteCreateRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<PersonsBulkDeleteCreateResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<PersonsBulkDeleteCreateRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<PersonsBulkDeleteCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -794,34 +4113,13 @@ export const personsDeletePropertyCreate: API.OperationMethod<
   PersonsDeletePropertyCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<PersonsDeletePropertyCreateRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<PersonsDeletePropertyCreateResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<PersonsDeletePropertyCreateRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<PersonsDeletePropertyCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PersonsDeletePropertyCreate",
-}));
-
-export type PersonsResetPersonDistinctIdCreateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-/** Fix a distinct_id that stays hidden after its person was deleted and created again. Does nothing if no live person uses this distinct_id. In that case, send a new event for it instead. */
-export const personsResetPersonDistinctIdCreate: API.OperationMethod<
-  PersonsResetPersonDistinctIdCreateRequest,
-  PersonsResetPersonDistinctIdCreateResponse,
-  PersonsResetPersonDistinctIdCreateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<PersonsResetPersonDistinctIdCreateRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<PersonsResetPersonDistinctIdCreateResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PersonsResetPersonDistinctIdCreate",
 }));
 
 export type PersonsUpdatePropertyCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -832,8 +4130,8 @@ export const personsUpdatePropertyCreate: API.OperationMethod<
   PersonsUpdatePropertyCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<PersonsUpdatePropertyCreateRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<PersonsUpdatePropertyCreateResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<PersonsUpdatePropertyCreateRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<PersonsUpdatePropertyCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -849,8 +4147,8 @@ export const updatePerson: API.OperationMethod<
   UpdatePersonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<UpdatePersonRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<PersonRecord>,
+  input: __S(352, __c11, 0) as any as S.Schema<UpdatePersonRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<PersonRecord>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -866,8 +4164,8 @@ export const updatePersonsPartial: API.OperationMethod<
   UpdatePersonsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<UpdatePersonsPartialRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<PersonRecord>,
+  input: __S(384, __c12, 0) as any as S.Schema<UpdatePersonsPartialRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<PersonRecord>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -877,6 +4175,36 @@ export const updatePersonsPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          format: S.optional(S.String.pipe(T.Query())),
+          person_id: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/cohorts/", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetPersonsCohortRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          name: S.optional(S.NullOr(S.String)),
+          count: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "CohortMinimal" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(2, __c0, 2),
+        }),
+      ).annotate({ identifier: "PersonCohortsResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -905,7 +4233,7 @@ function __c0(j: number): any {
           distinct_id_used: S.optional(S.NullOr(S.String)),
           person_id_used: S.optional(S.NullOr(S.String)),
           query_mode: S.optional(S.String),
-          distinct_ids_queried: S.optional(__S(288, __c18, 0)),
+          distinct_ids_queried: S.optional(__S(576, __c18, 0)),
           distinct_ids_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PersonPropertiesAtTimeMetadata" });
@@ -914,32 +4242,14 @@ function __c0(j: number): any {
         S.Struct({
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          distinct_ids: S.optional(__S(288, __c18, 0)),
-          properties: S.optional(__S(1, __c0, 1)),
+          distinct_ids: S.optional(__S(576, __c18, 0)),
+          properties: S.optional(__S(33, __c1, 1)),
           created_at: S.optional(S.String),
           uuid: S.optional(S.String),
           last_seen_at: S.optional(S.NullOr(S.String)),
-          point_in_time_metadata: S.optional(__S(2, __c0, 2)),
+          point_in_time_metadata: S.optional(__S(34, __c1, 2)),
         }),
       ).annotate({ identifier: "PersonPropertiesAtTimeResponse" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          format: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/persons/{id}/properties_timeline/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetPersonsPropertiesTimelineRequest" });
   }
 }
 function __c2(j: number): any {
@@ -960,6 +4270,8 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
@@ -968,18 +4280,18 @@ function __c3(j: number): any {
           type: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "PropertyItem" });
-    case 1:
-      return S.Array(__S(48, __c3, 0));
     case 2:
+      return S.Array(__S(97, __c3, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          values: S.optional(__S(49, __c3, 1)),
+          values: S.optional(__S(98, __c3, 2)),
         }),
       ).annotate({ identifier: "Property" });
-    case 3:
-      return S.Array(__S(50, __c3, 2));
     case 4:
+      return S.Array(__S(99, __c3, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
@@ -990,34 +4302,32 @@ function __c3(j: number): any {
           include_matched_fields: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
-          properties: S.optional(__S(51, __c3, 3).pipe(T.Query())),
+          properties: S.optional(__S(100, __c3, 4).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/", code: 200 })),
       ).annotate({ identifier: "ListPersonsRequest" });
-    case 5:
-      return S.Array(S.String);
     case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.Number,
           name: S.String,
-          distinct_ids: __S(288, __c18, 0),
+          distinct_ids: __S(576, __c18, 0),
           properties: S.optional(S.Unknown),
           created_at: S.String,
           uuid: S.String,
           last_seen_at: S.NullOr(S.String),
-          matched_fields: S.optional(__S(53, __c3, 5)),
+          matched_fields: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "PersonListRecord" });
     case 7:
-      return S.Array(__S(54, __c3, 6));
+      return S.Array(__S(102, __c3, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
           count: S.optional(S.Number),
-          results: S.optional(__S(55, __c3, 7)),
+          results: S.optional(__S(103, __c3, 7)),
         }),
       ).annotate({ identifier: "PaginatedPersonListRecordList" });
   }
@@ -1051,14 +4361,14 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "AsyncDeletionStatus" });
     case 2:
-      return S.Array(__S(65, __c4, 1));
+      return S.Array(__S(129, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
           count: S.optional(S.Number),
-          results: S.optional(__S(66, __c4, 2)),
+          results: S.optional(__S(130, __c4, 2)),
         }),
       ).annotate({ identifier: "PaginatedAsyncDeletionStatusList" });
   }
@@ -1105,9 +4415,9 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "MessageAsset" });
     case 1:
-      return S.Array(__S(96, __c6, 0));
+      return S.Array(__S(192, __c6, 0));
     case 2:
-      return S.suspend(() => __S(97, __c6, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(193, __c6, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPersonsEmailsResponse",
       });
   }
@@ -1141,8 +4451,8 @@ function __c8(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(288, __c18, 0)),
-          distinct_ids: S.optional(__S(288, __c18, 0)),
+          ids: S.optional(__S(576, __c18, 0)),
+          distinct_ids: S.optional(__S(576, __c18, 0)),
           delete_events: S.optional(S.Boolean),
           delete_recordings: S.optional(S.Boolean),
           keep_person: S.optional(S.Boolean),
@@ -1181,28 +4491,11 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          format: S.optional(S.String.pipe(T.Query())),
-          properties: S.optional(S.Unknown),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/persons/reset_person_distinct_id/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PersonsResetPersonDistinctIdCreateRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
           key: S.optional(S.String),
           value: S.optional(S.Unknown),
+          properties: S.optional(__S(544, __c17, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1213,7 +4506,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "PersonsUpdatePropertyCreateRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1228,7 +4521,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "UpdatePersonRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1243,7 +4536,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "UpdatePersonsPartialRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1261,7 +4554,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreatePersonsBatchByDistinctIdsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1269,7 +4562,7 @@ function __c15(j: number): any {
       });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1287,30 +4580,301 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreatePersonsBatchByUuidRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          key: S.String,
+          matcher: S.String,
+          pattern: S.String,
+        }),
+      ).annotate({ identifier: "CustomBotCondition" });
+    case 1:
+      return S.Array(__S(512, __c16, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.NullOr(S.String)),
+          combiner: S.String,
+          id: S.String,
+          items: __S(513, __c16, 1),
+          name: S.String,
+        }),
+      ).annotate({ identifier: "CustomBotRule" });
+    case 3:
+      return S.Array(__S(514, __c16, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          key: S.String,
+          op: S.String,
+          value: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "CustomChannelCondition" });
+    case 5:
+      return S.Array(__S(516, __c16, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          channel_type: S.String,
+          combiner: S.String,
+          id: S.String,
+          items: __S(517, __c16, 5),
+        }),
+      ).annotate({ identifier: "CustomChannelRule" });
+    case 7:
+      return S.Array(__S(518, __c16, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          distinct_id_field: S.String,
+          id_field: S.String,
+          table_name: S.String,
+          timestamp_field: S.String,
+        }),
+      ).annotate({ identifier: "DataWarehouseEventsModifier" });
+    case 9:
+      return S.Array(__S(520, __c16, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          bounceRateDurationSeconds: S.optional(S.NullOr(S.Number)),
+          bounceRatePageViewMode: S.optional(S.NullOr(S.String)),
+          convertToProjectTimezone: S.optional(S.NullOr(S.Boolean)),
+          cookielessTrafficIsRegular: S.optional(S.NullOr(S.Boolean)),
+          customBotDefinitions: S.optional(S.NullOr(__S(515, __c16, 3))),
+          customChannelTypeRules: S.optional(S.NullOr(__S(519, __c16, 7))),
+          dataWarehouseEventsModifiers: S.optional(S.NullOr(__S(521, __c16, 9))),
+          debug: S.optional(S.NullOr(S.Boolean)),
+          forceClickhouseDataSkippingIndexes: S.optional(S.NullOr(__S(576, __c18, 0))),
+          formatCsvAllowDoubleQuotes: S.optional(S.NullOr(S.Boolean)),
+          inCohortVia: S.optional(S.NullOr(S.String)),
+          inlineCohortCalculation: S.optional(S.NullOr(S.String)),
+          materializationMode: S.optional(S.NullOr(S.String)),
+          materializeRepeatedCTEs: S.optional(S.NullOr(S.Boolean)),
+          materializedColumnsOptimizationMode: S.optional(S.NullOr(S.String)),
+          mergeFederatedAggregateJoins: S.optional(S.NullOr(S.Boolean)),
+          negatedPersonFiltersNotIn: S.optional(S.NullOr(S.Boolean)),
+          optimizeJoinedFilters: S.optional(S.NullOr(S.Boolean)),
+          optimizeProjections: S.optional(S.NullOr(S.Boolean)),
+          parserMode: S.optional(S.NullOr(S.String)),
+          personIdPushdown: S.optional(S.NullOr(S.Boolean)),
+          personsArgMaxVersion: S.optional(S.NullOr(S.String)),
+          personsJoinMode: S.optional(S.NullOr(S.String)),
+          personsOnEventsMode: S.optional(S.NullOr(S.String)),
+          propertyGroupsMode: S.optional(S.NullOr(S.String)),
+          pushDownPredicates: S.optional(S.NullOr(S.Boolean)),
+          s3TableUseInvalidColumns: S.optional(S.NullOr(S.Boolean)),
+          sessionIdPushdown: S.optional(S.NullOr(S.Boolean)),
+          sessionPropertyPreAggregation: S.optional(S.NullOr(S.Boolean)),
+          sessionTableVersion: S.optional(S.NullOr(S.String)),
+          sessionTimestampBufferMinutes: S.optional(S.NullOr(S.Number)),
+          sessionsV2JoinMode: S.optional(S.NullOr(S.String)),
+          timings: S.optional(S.NullOr(S.Boolean)),
+          typeAwareCastSimplification: S.optional(S.NullOr(S.Boolean)),
+          useMaterializedViews: S.optional(S.NullOr(S.Boolean)),
+          useNewEventsSchema: S.optional(S.NullOr(S.Boolean)),
+          usePreaggregatedIntermediateResults: S.optional(S.NullOr(S.Boolean)),
+          usePreaggregatedTableTransforms: S.optional(S.NullOr(S.Boolean)),
+          useWebAnalyticsPreAggregatedTables: S.optional(S.NullOr(S.Boolean)),
+          webAnalyticsFirstPageviewFilters: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "HogQLQueryModifiers" });
+    case 11:
+      return S.Array(S.Unknown);
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          active_cpu_time: S.Number,
+          bytes_read: S.Number,
+          estimated_rows_total: S.Number,
+          rows_read: S.Number,
+          time_elapsed: S.Number,
+        }),
+      ).annotate({ identifier: "ClickhouseQueryProgress" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          actionable: S.Boolean,
+          by_design: S.optional(S.NullOr(S.Boolean)),
+          cause: S.optional(S.NullOr(S.String)),
+          evidence: S.optional(S.NullOr(S.String)),
+          fix: S.String,
+          fix_location: S.optional(S.NullOr(S.String)),
+          kind: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "QueryScanWarning" });
+    case 14:
+      return S.Array(__S(525, __c16, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          assistant_prompt: S.optional(S.NullOr(S.String)),
+          findings: __S(526, __c16, 14),
+          project_share: S.optional(S.NullOr(S.Number)),
+          range_share: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "QueryScanAnalysis" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          analysis: S.optional(S.NullOr(__S(527, __c16, 15))),
+          analysis_requested: S.optional(S.NullOr(S.Boolean)),
+          duration_ms: S.Number,
+          killed: S.optional(S.NullOr(S.Boolean)),
+          rows_read: S.Number,
+        }),
+      ).annotate({ identifier: "QueryScanSummary" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          budget_remaining_bytes: S.optional(S.NullOr(S.Number)),
+          bytes_read: S.optional(S.NullOr(S.Number)),
+          cache_key: S.optional(S.NullOr(S.String)),
+          complete: S.optional(S.NullOr(S.Boolean)),
+          dashboard_id: S.optional(S.NullOr(S.Number)),
+          end_time: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.NullOr(S.Boolean)),
+          error_code: S.optional(S.NullOr(S.String)),
+          error_message: S.optional(S.NullOr(S.String)),
+          expiration_time: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          insight_id: S.optional(S.NullOr(S.Number)),
+          labels: S.optional(S.NullOr(__S(576, __c18, 0))),
+          pickup_time: S.optional(S.NullOr(S.String)),
+          query_async: S.optional(S.Boolean),
+          query_progress: S.optional(S.NullOr(__S(524, __c16, 12))),
+          query_scan: S.optional(S.NullOr(__S(528, __c16, 16))),
+          results: S.optional(S.Unknown),
+          start_time: S.optional(S.NullOr(S.String)),
+          task_id: S.optional(S.NullOr(S.String)),
+          team_id: S.Number,
+        }),
+      ).annotate({ identifier: "QueryStatus" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          date_from: S.String,
+          date_to: S.String,
+          read_from: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ResolvedDateRangeResponse" });
+    case 19:
+      return S.Array(__S(523, __c16, 11));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          k: S.String,
+          t: S.Number,
+        }),
+      ).annotate({ identifier: "QueryTiming" });
+    case 21:
+      return S.Array(__S(532, __c16, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          source_type: S.optional(S.NullOr(S.String)),
+          table_name: S.String,
+          uses_history_table: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "DataWarehouseSourceUsage" });
+    case 23:
+      return S.Array(__S(534, __c16, 22));
+    case 24:
+      return S.Array(S.Unknown);
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          columns: __S(523, __c16, 11),
+          error: S.optional(S.NullOr(S.String)),
+          hasMore: S.optional(S.NullOr(S.Boolean)),
+          hogql: S.String,
+          limit: S.Number,
+          missing_actors_count: S.optional(S.NullOr(S.Number)),
+          modifiers: S.optional(S.NullOr(__S(522, __c16, 10))),
+          offset: S.Number,
+          query_status: S.optional(S.NullOr(__S(529, __c16, 17))),
+          resolved_compare_date_range: S.optional(S.NullOr(__S(530, __c16, 18))),
+          resolved_date_range: S.optional(S.NullOr(__S(530, __c16, 18))),
+          results: __S(531, __c16, 19),
+          timings: S.optional(S.NullOr(__S(533, __c16, 21))),
+          types: S.optional(S.NullOr(__S(576, __c18, 0))),
+          used_data_warehouse_sources: S.optional(S.NullOr(__S(535, __c16, 23))),
+          warnings: S.optional(S.NullOr(__S(536, __c16, 24))),
+        }),
+      ).annotate({ identifier: "ActorsQueryResponse" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.NullOr(S.String)),
+          presetId: S.optional(S.NullOr(S.String)),
+          productKey: S.optional(S.NullOr(S.String)),
+          scene: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "QueryLogTags" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          breakdown: S.optional(S.NullOr(S.Unknown)),
+          compare: S.optional(S.NullOr(S.String)),
+          day: S.optional(S.NullOr(S.Unknown)),
+          includeRecordings: S.optional(S.NullOr(S.Boolean)),
+          interval: S.optional(S.NullOr(S.Number)),
+          kind: S.optional(S.String),
+          modifiers: S.optional(S.NullOr(__S(522, __c16, 10))),
+          response: S.optional(S.NullOr(__S(537, __c16, 25))),
+          series: S.optional(S.NullOr(S.Number)),
+          source: S.Unknown,
+          status: S.optional(S.NullOr(S.String)),
+          tags: S.optional(S.NullOr(__S(538, __c16, 26))),
+          version: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "InsightActorsQuery" });
+    case 28:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
-          main_distinct_id: S.optional(S.NullOr(S.String)),
-          distinct_ids_to_split: S.optional(S.NullOr(__S(288, __c18, 0))),
+          query: __S(539, __c16, 27),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/projects/{project_id}/persons/{id}/split/",
+            uri: "/api/projects/{project_id}/persons/{id}/properties_timeline/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreatePersonsSplitRequest" });
-    case 1:
+      ).annotate({ identifier: "CreatePersonsPropertiesTimelineRequest" });
+    case 29:
       return S.suspend(() =>
         S.Struct({
-          success: S.Boolean,
+          timestamp: S.String,
+          properties: __S(544, __c17, 0),
+          relevant_event_count: S.Number,
         }),
-      ).annotate({ identifier: "PersonSplitResponse" });
+      ).annotate({ identifier: "PropertiesTimelinePoint" });
+    case 30:
+      return S.Array(__S(541, __c16, 29));
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          points: __S(542, __c16, 30),
+          crucial_property_keys: __S(576, __c18, 0),
+          effective_date_from: S.String,
+          effective_date_to: S.String,
+        }),
+      ).annotate({ identifier: "PropertiesTimelineResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
   }
 }
 function __c18(j: number): any {
@@ -1327,10 +4891,22 @@ function __c19(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
+          main_distinct_id: S.optional(S.NullOr(S.String)),
+          distinct_ids_to_split: S.optional(S.NullOr(__S(576, __c18, 0))),
         }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/{id}/", code: 200 }),
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/persons/{id}/split/",
+            code: 200,
+          }),
         ),
-      ).annotate({ identifier: "GetPersonRequest" });
+      ).annotate({ identifier: "CreatePersonsSplitRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+        }),
+      ).annotate({ identifier: "PersonSplitResponse" });
   }
 }
 function __c20(j: number): any {
@@ -1338,9 +4914,23 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          format: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/{id}/", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetPersonRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          distinct_ids: S.optional(__S(288, __c18, 0)),
+          distinct_ids: S.optional(__S(576, __c18, 0)),
           properties: S.optional(S.Unknown),
           created_at: S.optional(S.String),
           uuid: S.optional(S.String),
@@ -1349,7 +4939,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "PersonRecord" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1367,7 +4957,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetPersonsActivityRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1378,36 +4968,6 @@ function __c22(j: number): any {
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/activity/", code: 200 }),
         ),
       ).annotate({ identifier: "GetPersonsAllActivityRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          format: S.optional(S.String.pipe(T.Query())),
-          person_id: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/persons/cohorts/", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetPersonsCohortRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          name: S.optional(S.NullOr(S.String)),
-          count: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "CohortMinimal" });
-    case 2:
-      return S.Array(__S(369, __c23, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(370, __c23, 2),
-        }),
-      ).annotate({ identifier: "PersonCohortsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -542,29 +542,37 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0 {
   via: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0Via | null;
   user: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0User;
 }
-export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase1App =
-  GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase0App;
-export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase1Type = "app";
+export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase1Project =
+  GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0User;
+export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase1Type = "project";
 export interface GetMicrofrontendsInGroupResponseProjectsItemCreatorCase1 {
-  app: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase0App;
+  project: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0User;
   type: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase1Type;
 }
-export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase2Integration =
-  GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase1Integration;
-export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase2Type = "integration";
+export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase2App =
+  GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase0App;
+export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase2Type = "app";
 export interface GetMicrofrontendsInGroupResponseProjectsItemCreatorCase2 {
-  integration: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase1Integration;
+  app: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase0App;
   type: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase2Type;
 }
-export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase3Type = "system";
+export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase3Integration =
+  GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase1Integration;
+export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase3Type = "integration";
 export interface GetMicrofrontendsInGroupResponseProjectsItemCreatorCase3 {
+  integration: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase1Integration;
   type: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase3Type;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase4Type = "system";
+export interface GetMicrofrontendsInGroupResponseProjectsItemCreatorCase4 {
+  type: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase4Type;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemCreator =
   | GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0
   | GetMicrofrontendsInGroupResponseProjectsItemCreatorCase1
   | GetMicrofrontendsInGroupResponseProjectsItemCreatorCase2
-  | GetMicrofrontendsInGroupResponseProjectsItemCreatorCase3;
+  | GetMicrofrontendsInGroupResponseProjectsItemCreatorCase3
+  | GetMicrofrontendsInGroupResponseProjectsItemCreatorCase4;
 /** The origin of this definition. 'api' means created via the API. Undefined means it originated from a deployment (vercel.json). */
 export type GetMicrofrontendsInGroupResponseProjectsItemCronsDefinitionsItemSource = "api";
 export interface GetMicrofrontendsInGroupResponseProjectsItemCronsDefinitionsItem {
@@ -709,6 +717,7 @@ export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBui
   | "elastic"
   | "fixed";
 export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -728,6 +737,59 @@ export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigFun
   | "standard_legacy";
 export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigFunctionDefaultRegionsList =
   Array<string>;
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase0Cores =
+  4;
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase0Label =
+  "standard";
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase0Memory =
+  8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase0 {
+  cores: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase0Cores;
+  label: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase0Label;
+  memory: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase0Memory;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase1Cores =
+  8;
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase1Label =
+  "enhanced";
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase1Memory =
+  16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase1 {
+  cores: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase1Cores;
+  label: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase1Label;
+  memory: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase1Memory;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase2Cores =
+  14;
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase2Label =
+  "14cpu-28gb";
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase2Memory =
+  28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase2 {
+  cores: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase2Cores;
+  label: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase2Label;
+  memory: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase2Memory;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase3Cores =
+  30;
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase3Label =
+  "turbo";
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase3Memory =
+  61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase3 {
+  cores: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase3Cores;
+  label: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase3Label;
+  memory: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase3Memory;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachine =
+  | GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase0
+  | GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase1
+  | GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase2
+  | GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachineCase3;
 export interface GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -755,6 +817,9 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConf
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
+  elasticBuildMachine?:
+    | GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigElasticBuildMachine
+    | undefined;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export interface GetMicrofrontendsInGroupResponseProjectsItemDeploymentExpiration {
@@ -1096,7 +1161,7 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemExpirationCase0 {
 export interface GetMicrofrontendsInGroupResponseProjectsItemExpirationCase1 {
   /** Unix ms timestamp when the project was locked. */
   lockedAt: number;
-  /** userId of the actor that triggered the lock (system or admin). */
+  /** ID of the user, app, or integration that locked the project, or `system`. */
   lockedBy: string;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemExpiration =
@@ -1268,6 +1333,10 @@ export type GetMicrofrontendsInGroupResponseProjectsItemJobsFlagDefinitionsPrese
 export interface GetMicrofrontendsInGroupResponseProjectsItemJobsFlagDefinitionsPresent {
   targets: GetMicrofrontendsInGroupResponseProjectsItemJobsFlagDefinitionsPresentTargetsList;
 }
+export type GetMicrofrontendsInGroupResponseProjectsItemJobsHealthCheckTargetsList = Array<string>;
+export interface GetMicrofrontendsInGroupResponseProjectsItemJobsHealthCheck {
+  targets: GetMicrofrontendsInGroupResponseProjectsItemJobsHealthCheckTargetsList;
+}
 export type GetMicrofrontendsInGroupResponseProjectsItemJobsLintTargetsList = Array<string>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemJobsLint {
   targets: GetMicrofrontendsInGroupResponseProjectsItemJobsLintTargetsList;
@@ -1285,6 +1354,7 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemJobs {
   flag_definitions_present?:
     | GetMicrofrontendsInGroupResponseProjectsItemJobsFlagDefinitionsPresent
     | undefined;
+  health_check?: GetMicrofrontendsInGroupResponseProjectsItemJobsHealthCheck | undefined;
   lint?: GetMicrofrontendsInGroupResponseProjectsItemJobsLint | undefined;
   mfe_config_present?: GetMicrofrontendsInGroupResponseProjectsItemJobsMfeConfigPresent | undefined;
   typecheck?: GetMicrofrontendsInGroupResponseProjectsItemJobsTypecheck | undefined;
@@ -1665,6 +1735,7 @@ export type GetMicrofrontendsInGroupResponseProjectsItemNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 /** - team: `https://oidc.vercel.com/[team_slug]` - global: `https://oidc.vercel.com` */
 export type GetMicrofrontendsInGroupResponseProjectsItemOidcTokenConfigIssuerMode =
@@ -1693,6 +1764,15 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemPassport {
   connectorId: string;
   deploymentType: GetMicrofrontendsInGroupResponseProjectsItemPassportDeploymentType;
 }
+export type GetMicrofrontendsInGroupResponseProjectsItemPasswordProtectionDeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+/** Password protection settings returned without the secret password hash. */
+export interface GetMicrofrontendsInGroupResponseProjectsItemPasswordProtection {
+  deploymentType: GetMicrofrontendsInGroupResponseProjectsItemPasswordProtectionDeploymentType;
+}
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type ACLAction = "create" | "delete" | "list" | "read" | "update";
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -1717,6 +1797,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayApiK
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayBudgetList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayByokCredentialsList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayCreditsList =
@@ -1858,6 +1941,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnectLogsLi
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexClientList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexClientAccessList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexClientProjectList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -1949,6 +2035,8 @@ export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainTransfe
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsDrainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsDriveList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeCacheNamespaceList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -1963,6 +2051,8 @@ export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeConfigSch
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeConfigTokenList =
   Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsEmaSetupList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsEndpointVerificationList =
   Array<ACLAction>;
@@ -1979,6 +2069,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsFlagsExplorer
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsGitCredentialGrantList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsGithubUsageList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsGitRepositoryList =
@@ -2084,7 +2177,16 @@ export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceSe
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardSpaceList =
+export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardChannelList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardMessageList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardModerationList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardReactionList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardTaskList =
@@ -2218,6 +2320,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsPrivateCloudA
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsPrivateLinkEndpointList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsPrivateNpmUsageList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsProductionAliasProtectionBypassList =
@@ -2367,6 +2472,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsSamlConfigLis
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsScheduleList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsSchedulePreviewList =
+  Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsSeawallConfigList =
   Array<ACLAction>;
@@ -2554,6 +2662,10 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemPermissions {
     | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayBudgetList
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayByokCredentials?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayByokCredentialsList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayCredits?:
     | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayCreditsList
     | undefined;
@@ -2720,6 +2832,10 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemPermissions {
     | GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexClientList
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexClientAccess?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexClientAccessList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClientProject?:
     | GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexClientProjectList
     | undefined;
@@ -2834,6 +2950,8 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemPermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   drain?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDrainList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  drive?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDriveList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeCacheNamespace?:
     | GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeCacheNamespaceList
     | undefined;
@@ -2851,6 +2969,8 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemPermissions {
   edgeConfigToken?:
     | GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeConfigTokenList
     | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  emaSetup?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsEmaSetupList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   endpointVerification?:
     | GetMicrofrontendsInGroupResponseProjectsItemPermissionsEndpointVerificationList
@@ -2871,6 +2991,8 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemPermissions {
   gitCredentialGrant?:
     | GetMicrofrontendsInGroupResponseProjectsItemPermissionsGitCredentialGrantList
     | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  githubUsage?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsGithubUsageList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitRepository?:
     | GetMicrofrontendsInGroupResponseProjectsItemPermissionsGitRepositoryList
@@ -3000,8 +3122,20 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemPermissions {
     | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardList
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  messageboardSpace?:
-    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardSpaceList
+  messageboardChannel?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardChannelList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardMessage?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardMessageList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardModeration?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardModerationList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardReaction?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardReactionList
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboardTask?:
@@ -3174,6 +3308,10 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemPermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   privateLinkEndpoint?:
     | GetMicrofrontendsInGroupResponseProjectsItemPermissionsPrivateLinkEndpointList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  privateNpmUsage?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsPrivateNpmUsageList
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   productionAliasProtectionBypass?:
@@ -3361,6 +3499,10 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemPermissions {
   samlConfig?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSamlConfigList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   schedule?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsScheduleList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  schedulePreview?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsSchedulePreviewList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   seawallConfig?:
     | GetMicrofrontendsInGroupResponseProjectsItemPermissionsSeawallConfigList
@@ -3605,6 +3747,7 @@ export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildMachi
   | "elastic"
   | "fixed";
 export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -3624,6 +3767,59 @@ export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigFunctionDe
   | "standard_legacy";
 export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigFunctionDefaultRegionsList =
   Array<string>;
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase0Cores =
+  4;
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase0Label =
+  "standard";
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase0Memory =
+  8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase0 {
+  cores: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase0Cores;
+  label: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase0Label;
+  memory: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase0Memory;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase1Cores =
+  8;
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase1Label =
+  "enhanced";
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase1Memory =
+  16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase1 {
+  cores: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase1Cores;
+  label: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase1Label;
+  memory: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase1Memory;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase2Cores =
+  14;
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase2Label =
+  "14cpu-28gb";
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase2Memory =
+  28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase2 {
+  cores: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase2Cores;
+  label: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase2Label;
+  memory: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase2Memory;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase3Cores =
+  30;
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase3Label =
+  "turbo";
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase3Memory =
+  61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase3 {
+  cores: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase3Cores;
+  label: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase3Label;
+  memory: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase3Memory;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachine =
+  | GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase0
+  | GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase1
+  | GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase2
+  | GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachineCase3;
 export interface GetMicrofrontendsInGroupResponseProjectsItemResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -3649,17 +3845,91 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
+  elasticBuildMachine?:
+    | GetMicrofrontendsInGroupResponseProjectsItemResourceConfigElasticBuildMachine
+    | undefined;
 }
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0Type =
+  "user";
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0ViaCase0App =
+  GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase0App;
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0ViaCase0Type =
+  "app";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0ViaCase0 {
+  app: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase0App;
+  type: GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0ViaCase0Type;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0ViaCase1Integration =
+  GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase1Integration;
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0ViaCase1Type =
+  "integration";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0ViaCase1 {
+  integration: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase1Integration;
+  type: GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0ViaCase1Type;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0Via =
+  | GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0ViaCase0
+  | GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0ViaCase1;
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0User =
+  GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0User;
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0 {
+  type: GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0Type;
+  via: GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0Via | null;
+  user: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0User;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase1Project =
+  GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0User;
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase1Type =
+  "project";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase1 {
+  project: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0User;
+  type: GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase1Type;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase2App =
+  GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase0App;
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase2Type =
+  "app";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase2 {
+  app: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase0App;
+  type: GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase2Type;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase3Integration =
+  GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase1Integration;
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase3Type =
+  "integration";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase3 {
+  integration: GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase1Integration;
+  type: GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase3Type;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase4Type =
+  "system";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase4 {
+  type: GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase4Type;
+}
+export type GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipal =
+  | GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase0
+  | GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase1
+  | GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase2
+  | GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase3
+  | GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipalCase4;
 /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
 export interface GetMicrofrontendsInGroupResponseProjectsItemRollbackDescription {
   /** Timestamp of when the rollback was requested. */
   createdAt: number;
   /** User-supplied explanation of why they rolled back the project. Limited to 250 characters. */
   description: string;
-  /** The user who rolled back the project. */
-  userId: string;
-  /** The username of the user who rolled back the project. */
-  username: string;
+  principal?: GetMicrofrontendsInGroupResponseProjectsItemRollbackDescriptionPrincipal | undefined;
+  /** The ID of the user who rolled back the project, when the principal was a user. */
+  userId?: string | undefined;
+  /** The username of the user who rolled back the project, when the principal was a user. */
+  username?: string | undefined;
 }
 /** What to do when the gate trips: pause the rollout, or roll it back. */
 export type GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGateAction =
@@ -3686,8 +3956,8 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGateC
     | undefined;
   /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
   ingestWatermarkSeconds?: number | undefined;
-  /** Minimum number of requests required in the window before the check can fail. Below this, the check is inconclusive rather than failing, so low-traffic stages don't gate on noise. Defaults to `100` when omitted. */
-  minSampleSize?: number | undefined;
+  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
+  significanceLevel?: number | undefined;
   /** The metric this check evaluates. */
   type: GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGateChecksItemType;
 }
@@ -4394,6 +4664,10 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemUsageStatus {
   /** Per-project throttle, set explicitly for this project (e.g. via the per-project Flat Rate CDN endpoint). */
   throttled?: boolean | undefined;
 }
+export interface GetMicrofrontendsInGroupResponseProjectsItemVercelFlags {
+  /** When Flags were enabled for the project, taken from the Flags settings row's `createdAt`. Recorded by `@api/api-feature-flags` on flags sync. */
+  enabledAt?: number | undefined;
+}
 export interface GetMicrofrontendsInGroupResponseProjectsItemWebAnalytics {
   canceledAt?: number | undefined;
   disabledAt?: number | undefined;
@@ -4410,6 +4684,7 @@ export interface GetMicrofrontendsInGroupResponseProjectsItem {
   autoAssignCustomDomainsUpdatedBy?: string | undefined;
   autoExposeSystemEnvs?: boolean | undefined;
   avatar?: string | null | undefined;
+  avatarDarkMode?: string | null | undefined;
   blobs?: GetMicrofrontendsInGroupResponseProjectsItemBlobs | undefined;
   buildCommand?: string | null | undefined;
   commandForIgnoringBuildStep?: string | null | undefined;
@@ -4477,7 +4752,11 @@ export interface GetMicrofrontendsInGroupResponseProjectsItem {
   outputDirectory?: string | null | undefined;
   passiveConnectConfigurationId?: string | null | undefined;
   passport?: GetMicrofrontendsInGroupResponseProjectsItemPassport | null | undefined;
-  passwordProtection?: unknown | null | undefined;
+  /** Password protection settings returned without the secret password hash. */
+  passwordProtection?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPasswordProtection
+    | null
+    | undefined;
   paused?: boolean | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: GetMicrofrontendsInGroupResponseProjectsItemPermissions | undefined;
@@ -4518,6 +4797,7 @@ export interface GetMicrofrontendsInGroupResponseProjectsItem {
   usageStatus?: GetMicrofrontendsInGroupResponseProjectsItemUsageStatus | undefined;
   v0?: boolean | undefined;
   v0Created?: boolean | undefined;
+  vercelFlags?: GetMicrofrontendsInGroupResponseProjectsItemVercelFlags | undefined;
   webAnalytics?: GetMicrofrontendsInGroupResponseProjectsItemWebAnalytics | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsList =
@@ -4610,7 +4890,7 @@ export const getMicrofrontendsInGroup: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(161, __c5, 1) as any as S.Schema<GetMicrofrontendsInGroupRequest>,
-  output: __S(265, __c8, 9) as any as S.Schema<GetMicrofrontendsInGroupResponse>,
+  output: __S(268, __c8, 12) as any as S.Schema<GetMicrofrontendsInGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5056,6 +5336,7 @@ function __c5(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
         }),
       ).annotate({
         identifier: "GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfig",
@@ -5224,6 +5505,7 @@ function __c6(j: number): any {
           flag_definitions_present: S.optional(
             __S(212, __c6, 20).pipe(T.Body("flag-definitions-present")),
           ),
+          health_check: S.optional(__S(212, __c6, 20).pipe(T.Body("health-check"))),
           lint: S.optional(__S(212, __c6, 20)),
           mfe_config_present: S.optional(__S(212, __c6, 20).pipe(T.Body("mfe-config-present"))),
           typecheck: S.optional(__S(212, __c6, 20)),
@@ -5318,6 +5600,12 @@ function __c6(j: number): any {
     case 30:
       return S.suspend(() =>
         S.Struct({
+          deploymentType: S.String,
+        }),
+      ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemPasswordProtection" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
           accessGroup: S.optional(__S(192, __c6, 0)),
           agent: S.optional(__S(192, __c6, 0)),
           aiGatewayApiKey: S.optional(__S(192, __c6, 0)),
@@ -5326,6 +5614,7 @@ function __c6(j: number): any {
           aiGatewayApiKeySpendAttribution: S.optional(__S(192, __c6, 0)),
           aiGatewayApiKeyZdrExemption: S.optional(__S(192, __c6, 0)),
           aiGatewayBudget: S.optional(__S(192, __c6, 0)),
+          aiGatewayByokCredentials: S.optional(__S(192, __c6, 0)),
           aiGatewayCredits: S.optional(__S(192, __c6, 0)),
           aiGatewayGuardrails: S.optional(__S(192, __c6, 0)),
           aiGatewayPrivateModels: S.optional(__S(192, __c6, 0)),
@@ -5375,6 +5664,7 @@ function __c6(j: number): any {
           connectConfigurationLink: S.optional(__S(192, __c6, 0)),
           connectLogs: S.optional(__S(192, __c6, 0)),
           connexClient: S.optional(__S(192, __c6, 0)),
+          connexClientAccess: S.optional(__S(192, __c6, 0)),
           connexClientProject: S.optional(__S(192, __c6, 0)),
           connexContact: S.optional(__S(192, __c6, 0)),
           connexInstallation: S.optional(__S(192, __c6, 0)),
@@ -5406,17 +5696,20 @@ function __c6(j: number): any {
           domainRecord: S.optional(__S(192, __c6, 0)),
           domainTransferIn: S.optional(__S(192, __c6, 0)),
           drain: S.optional(__S(192, __c6, 0)),
+          drive: S.optional(__S(192, __c6, 0)),
           edgeCacheNamespace: S.optional(__S(192, __c6, 0)),
           edgeConfig: S.optional(__S(192, __c6, 0)),
           edgeConfigItem: S.optional(__S(192, __c6, 0)),
           edgeConfigSchema: S.optional(__S(192, __c6, 0)),
           edgeConfigToken: S.optional(__S(192, __c6, 0)),
+          emaSetup: S.optional(__S(192, __c6, 0)),
           endpointVerification: S.optional(__S(192, __c6, 0)),
           environments: S.optional(__S(192, __c6, 0)),
           event: S.optional(__S(192, __c6, 0)),
           fileUpload: S.optional(__S(192, __c6, 0)),
           flagsExplorerSubscription: S.optional(__S(192, __c6, 0)),
           gitCredentialGrant: S.optional(__S(192, __c6, 0)),
+          githubUsage: S.optional(__S(192, __c6, 0)),
           gitRepository: S.optional(__S(192, __c6, 0)),
           imageOptimizationNewPrice: S.optional(__S(192, __c6, 0)),
           integration: S.optional(__S(192, __c6, 0)),
@@ -5453,7 +5746,10 @@ function __c6(j: number): any {
           marketplaceInvoice: S.optional(__S(192, __c6, 0)),
           marketplaceSettings: S.optional(__S(192, __c6, 0)),
           messageboard: S.optional(__S(192, __c6, 0)),
-          messageboardSpace: S.optional(__S(192, __c6, 0)),
+          messageboardChannel: S.optional(__S(192, __c6, 0)),
+          messageboardMessage: S.optional(__S(192, __c6, 0)),
+          messageboardModeration: S.optional(__S(192, __c6, 0)),
+          messageboardReaction: S.optional(__S(192, __c6, 0)),
           messageboardTask: S.optional(__S(192, __c6, 0)),
           Monitoring: S.optional(__S(192, __c6, 0)),
           monitoringAlert: S.optional(__S(192, __c6, 0)),
@@ -5499,6 +5795,7 @@ function __c6(j: number): any {
           previewDeploymentSuffix: S.optional(__S(192, __c6, 0)),
           privateCloudAccount: S.optional(__S(192, __c6, 0)),
           privateLinkEndpoint: S.optional(__S(192, __c6, 0)),
+          privateNpmUsage: S.optional(__S(192, __c6, 0)),
           productionAliasProtectionBypass: S.optional(__S(192, __c6, 0)),
           productionShareableLink: S.optional(__S(192, __c6, 0)),
           project: S.optional(__S(192, __c6, 0)),
@@ -5550,6 +5847,7 @@ function __c6(j: number): any {
           repository: S.optional(__S(192, __c6, 0)),
           samlConfig: S.optional(__S(192, __c6, 0)),
           schedule: S.optional(__S(192, __c6, 0)),
+          schedulePreview: S.optional(__S(192, __c6, 0)),
           seawallConfig: S.optional(__S(192, __c6, 0)),
           secret: S.optional(__S(192, __c6, 0)),
           securityConfig: S.optional(__S(192, __c6, 0)),
@@ -5609,13 +5907,13 @@ function __c6(j: number): any {
           workflowRunData: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemPermissions" });
-    case 31:
-      return S.Record(S.String, S.Unknown);
   }
 }
 function __c7(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           inheritDeploymentProtection: S.optional(S.Boolean),
@@ -5623,49 +5921,70 @@ function __c7(j: number): any {
       ).annotate({
         identifier: "GetMicrofrontendsInGroupResponseProjectsItemProtectionConfigSandboxUrls",
       });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          sandboxUrls: S.optional(__S(224, __c7, 0)),
+          sandboxUrls: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemProtectionConfig" });
-    case 2:
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(187, __c5, 27)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(188, __c5, 28)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(160, __c5, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemResourceConfig" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.Number,
           description: S.String,
-          userId: S.String,
-          username: S.String,
+          principal: S.optional(S.Unknown),
+          userId: S.optional(S.String),
+          username: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemRollbackDescription" });
-    case 3:
+    case 5:
       return S.Array(S.Number);
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           excludePaths: S.optional(__S(160, __c5, 0)),
-          excludeStatusCodes: S.optional(__S(227, __c7, 3)),
+          excludeStatusCodes: S.optional(__S(229, __c7, 5)),
           ingestWatermarkSeconds: S.optional(S.Number),
-          minSampleSize: S.optional(S.Number),
+          significanceLevel: S.optional(S.Number),
           type: S.String,
         }),
       ).annotate({
         identifier: "GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGateChecksItem",
       });
-    case 5:
-      return S.Array(__S(228, __c7, 4));
-    case 6:
+    case 7:
+      return S.Array(__S(230, __c7, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          checks: __S(229, __c7, 5),
+          checks: __S(231, __c7, 7),
           dryRun: S.Boolean,
           enabled: S.Boolean,
           failureThreshold: S.optional(S.Number),
           windowSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGate" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           duration: S.optional(S.Number),
@@ -5676,25 +5995,25 @@ function __c7(j: number): any {
       ).annotate({
         identifier: "GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseStagesItem",
       });
-    case 8:
-      return S.Array(__S(231, __c7, 7));
-    case 9:
+    case 10:
+      return S.Array(__S(233, __c7, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           canaryResponseHeader: S.optional(S.Boolean),
-          gate: S.optional(__S(230, __c7, 6)),
-          stages: S.optional(S.NullOr(__S(232, __c7, 8))),
+          gate: S.optional(__S(232, __c7, 8)),
+          stages: S.optional(S.NullOr(__S(234, __c7, 10))),
           target: S.String,
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemRollingRelease" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           failoverRegions: S.optional(__S(192, __c6, 0)),
           region: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemSandbox" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.String),
@@ -5703,19 +6022,19 @@ function __c7(j: number): any {
       ).annotate({
         identifier: "GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesAiBots",
       });
-    case 12:
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          ai_bots: __S(235, __c7, 11),
-          bot_filter: __S(235, __c7, 11),
-          owasp: __S(235, __c7, 11),
-          traffic_sources: __S(235, __c7, 11),
-          vercel_ruleset: __S(235, __c7, 11),
+          ai_bots: __S(237, __c7, 13),
+          bot_filter: __S(237, __c7, 13),
+          owasp: __S(237, __c7, 13),
+          traffic_sources: __S(237, __c7, 13),
+          vercel_ruleset: __S(237, __c7, 13),
         }),
       ).annotate({
         identifier: "GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRules",
       });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.NullOr(S.String)),
@@ -5727,7 +6046,7 @@ function __c7(j: number): any {
       ).annotate({
         identifier: "GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRateLimit",
       });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           location: S.String,
@@ -5736,22 +6055,22 @@ function __c7(j: number): any {
       ).annotate({
         identifier: "GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRedirect",
       });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
           actionDuration: S.optional(S.NullOr(S.String)),
           bypassSystem: S.optional(S.NullOr(S.Boolean)),
           logHeaders: S.optional(S.Unknown),
-          rateLimit: S.optional(S.NullOr(__S(237, __c7, 13))),
-          redirect: S.optional(S.NullOr(__S(238, __c7, 14))),
+          rateLimit: S.optional(S.NullOr(__S(239, __c7, 15))),
+          redirect: S.optional(S.NullOr(__S(240, __c7, 16))),
         }),
       ).annotate({
         identifier: "GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValue",
       });
-    case 16:
-      return S.Record(S.String, __S(239, __c7, 15));
-    case 17:
+    case 18:
+      return S.Record(S.String, __S(241, __c7, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           attackModeActiveUntil: S.optional(S.NullOr(S.Number)),
@@ -5766,12 +6085,12 @@ function __c7(j: number): any {
           ja3Enabled: S.optional(S.Boolean),
           ja4Enabled: S.optional(S.Boolean),
           log_headers: S.optional(S.Unknown),
-          managedRules: S.optional(S.NullOr(__S(236, __c7, 12))),
+          managedRules: S.optional(S.NullOr(__S(238, __c7, 14))),
           pageIntegrityEnabled: S.optional(S.Boolean),
-          rulesets: S.optional(__S(240, __c7, 16)),
+          rulesets: S.optional(__S(242, __c7, 18)),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemSecurity" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           framework: S.optional(S.String),
@@ -5780,9 +6099,9 @@ function __c7(j: number): any {
           serviceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemServicesItem" });
-    case 19:
-      return S.Array(__S(242, __c7, 18));
-    case 20:
+    case 21:
+      return S.Array(__S(244, __c7, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           canceledAt: S.optional(S.Number),
@@ -5794,7 +6113,7 @@ function __c7(j: number): any {
           paidAt: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemSpeedInsights" });
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           april2026SecurityIncidentMigrationAppliedFrom: S.optional(S.NullOr(S.String)),
@@ -5802,7 +6121,7 @@ function __c7(j: number): any {
           deploymentType: S.String,
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemSsoProtection" });
-    case 22:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           builds: S.Boolean,
@@ -5810,7 +6129,7 @@ function __c7(j: number): any {
           regions: __S(160, __c5, 0),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemStaticIps" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(160, __c5, 0)),
@@ -5851,9 +6170,9 @@ function __c7(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemTargetsValue" });
-    case 24:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(247, __c7, 23)));
-    case 25:
+    case 26:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(249, __c7, 25)));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           destination: S.optional(S.String),
@@ -5864,38 +6183,38 @@ function __c7(j: number): any {
       ).annotate({
         identifier: "GetMicrofrontendsInGroupResponseProjectsItemTracingSamplingRulesItem",
       });
-    case 26:
-      return S.Array(__S(249, __c7, 25));
-    case 27:
+    case 28:
+      return S.Array(__S(251, __c7, 27));
+    case 29:
       return S.suspend(() =>
         S.Struct({
           domains: S.optional(S.String),
           ignorePaths: S.optional(__S(160, __c5, 0)),
-          samplingRules: S.optional(__S(250, __c7, 26)),
+          samplingRules: S.optional(__S(252, __c7, 28)),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemTracing" });
-    case 28:
+    case 30:
       return S.Record(S.String, __S(160, __c5, 0));
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
-          claims: __S(252, __c7, 28),
+          claims: __S(254, __c7, 30),
           label: S.optional(S.String),
         }),
       ).annotate({
         identifier:
           "GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItem",
       });
-    case 30:
-      return S.Array(__S(253, __c7, 29));
-    case 31:
-      return S.Record(S.String, __S(254, __c7, 30));
   }
 }
 function __c8(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(255, __c7, 31));
+    case 1:
+      return S.Record(S.String, __S(256, __c8, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           from: S.Unknown,
@@ -5905,28 +6224,28 @@ function __c8(j: number): any {
         identifier:
           "GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItem",
       });
-    case 1:
-      return S.Array(__S(256, __c8, 0));
-    case 2:
+    case 3:
+      return S.Array(__S(258, __c8, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          customAllow: S.optional(__S(257, __c8, 1)),
+          customAllow: S.optional(__S(259, __c8, 3)),
           label: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValue",
       });
-    case 3:
-      return S.Record(S.String, __S(258, __c8, 2));
-    case 4:
+    case 5:
+      return S.Record(S.String, __S(260, __c8, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           enableVercelCiSameRepository: S.optional(S.Boolean),
-          oidcProviders: S.optional(__S(255, __c7, 31)),
-          projects: S.optional(__S(259, __c8, 3)),
+          oidcProviders: S.optional(__S(257, __c8, 1)),
+          projects: S.optional(__S(261, __c8, 5)),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemTrustedSources" });
-    case 5:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           bypassThrottleUntil: S.optional(S.Number),
@@ -5936,7 +6255,13 @@ function __c8(j: number): any {
           throttled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemUsageStatus" });
-    case 6:
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          enabledAt: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemVercelFlags" });
+    case 9:
       return S.suspend(() =>
         S.Struct({
           canceledAt: S.optional(S.Number),
@@ -5946,7 +6271,7 @@ function __c8(j: number): any {
           id: S.String,
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItemWebAnalytics" });
-    case 7:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String,
@@ -5957,6 +6282,7 @@ function __c8(j: number): any {
           autoAssignCustomDomainsUpdatedBy: S.optional(S.String),
           autoExposeSystemEnvs: S.optional(S.Boolean),
           avatar: S.optional(S.NullOr(S.String)),
+          avatarDarkMode: S.optional(S.NullOr(S.String)),
           blobs: S.optional(__S(173, __c5, 13)),
           buildCommand: S.optional(S.NullOr(S.String)),
           commandForIgnoringBuildStep: S.optional(S.NullOr(S.String)),
@@ -6008,51 +6334,52 @@ function __c8(j: number): any {
           outputDirectory: S.optional(S.NullOr(S.String)),
           passiveConnectConfigurationId: S.optional(S.NullOr(S.String)),
           passport: S.optional(S.NullOr(__S(221, __c6, 29))),
-          passwordProtection: S.optional(S.NullOr(S.Unknown)),
+          passwordProtection: S.optional(S.NullOr(__S(222, __c6, 30))),
           paused: S.optional(S.Boolean),
-          permissions: S.optional(__S(222, __c6, 30)),
+          permissions: S.optional(__S(223, __c6, 31)),
           productionDeploymentsFastLane: S.optional(S.Boolean),
           protectedSourcemaps: S.optional(S.Boolean),
-          protectionBypass: S.optional(__S(223, __c6, 31)),
-          protectionConfig: S.optional(__S(225, __c7, 1)),
-          resourceConfig: __S(189, __c5, 29),
-          rollbackDescription: S.optional(__S(226, __c7, 2)),
-          rollingRelease: S.optional(S.NullOr(__S(233, __c7, 9))),
+          protectionBypass: S.optional(__S(224, __c7, 0)),
+          protectionConfig: S.optional(__S(226, __c7, 2)),
+          resourceConfig: __S(227, __c7, 3),
+          rollbackDescription: S.optional(__S(228, __c7, 4)),
+          rollingRelease: S.optional(S.NullOr(__S(235, __c7, 11))),
           rootDirectory: S.optional(S.NullOr(S.String)),
-          sandbox: S.optional(__S(234, __c7, 10)),
-          security: S.optional(__S(241, __c7, 17)),
+          sandbox: S.optional(__S(236, __c7, 12)),
+          security: S.optional(__S(243, __c7, 19)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          services: S.optional(__S(243, __c7, 19)),
+          services: S.optional(__S(245, __c7, 21)),
           skewProtectionAllowedDomains: S.optional(__S(160, __c5, 0)),
           skewProtectionBoundaryAt: S.optional(S.Number),
           skewProtectionMaxAge: S.optional(S.Number),
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
-          speedInsights: S.optional(__S(244, __c7, 20)),
-          ssoProtection: S.optional(S.NullOr(__S(245, __c7, 21))),
-          staticIps: S.optional(__S(246, __c7, 22)),
-          targets: S.optional(__S(248, __c7, 24)),
+          speedInsights: S.optional(__S(246, __c7, 22)),
+          ssoProtection: S.optional(S.NullOr(__S(247, __c7, 23))),
+          staticIps: S.optional(__S(248, __c7, 24)),
+          targets: S.optional(__S(250, __c7, 26)),
           tier: S.optional(S.String),
-          tracing: S.optional(__S(251, __c7, 27)),
+          tracing: S.optional(__S(253, __c7, 29)),
           transferCompletedAt: S.optional(S.Number),
           transferredFromAccountId: S.optional(S.String),
           transferStartedAt: S.optional(S.Number),
           transferToAccountId: S.optional(S.String),
           trustedIps: S.optional(S.NullOr(S.Unknown)),
-          trustedSources: S.optional(S.NullOr(__S(260, __c8, 4))),
+          trustedSources: S.optional(S.NullOr(__S(262, __c8, 6))),
           updatedAt: S.optional(S.Number),
-          usageStatus: S.optional(__S(261, __c8, 5)),
+          usageStatus: S.optional(__S(263, __c8, 7)),
           v0: S.optional(S.Boolean),
           v0Created: S.optional(S.Boolean),
-          webAnalytics: S.optional(__S(262, __c8, 6)),
+          vercelFlags: S.optional(__S(264, __c8, 8)),
+          webAnalytics: S.optional(__S(265, __c8, 9)),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponseProjectsItem" });
-    case 8:
-      return S.Array(__S(263, __c8, 7));
-    case 9:
+    case 11:
+      return S.Array(__S(266, __c8, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(264, __c8, 8),
+          projects: __S(267, __c8, 11),
         }),
       ).annotate({ identifier: "GetMicrofrontendsInGroupResponse" });
   }

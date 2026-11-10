@@ -161,7 +161,7 @@ export interface EndpointResponse {
   query?: unknown | undefined;
   /** Whether the endpoint can be executed via the API. */
   is_active?: boolean | undefined;
-  /** How fresh the data is, in seconds. One of: 900, 1800, 3600, 21600, 43200, 86400, 604800. */
+  /** Effective data freshness, in seconds. Materialized endpoints use the node's refresh target, which can differ from the standard freshness choices. Other endpoints use the cache duration. */
   data_freshness_seconds?: number | undefined;
   /** Relative API path to execute this endpoint (e.g. /api/projects/{team_id}/endpoints/{name}/run). */
   endpoint_path?: string | undefined;
@@ -272,7 +272,7 @@ export interface QueryStatus {
   end_time?: string | null | undefined;
   /** If the query failed, this will be set to true. More information can be found in the error_message field. */
   error?: boolean | null | undefined;
-  /** Stable machine-readable code for the error (the DRF exception code), when known. */
+  /** Stable machine-readable code for the error, when known: the DRF exception code, the ClickHouse error name, the HogQL error code, or `unhandled_<exception class>` for a failure that no handler classified. */
   error_code?: string | null | undefined;
   error_message?: string | null | undefined;
   expiration_time?: string | null | undefined;
@@ -346,30 +346,6 @@ export interface MaterializationPreviewResponse {
   /** Aggregate expressions and how to re-aggregate them. */
   aggregates: MaterializationPreviewResponseAggregatesList;
 }
-export interface CreateEndpointsMaterializationSuggestionRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  name: string;
-  /** Endpoint version to suggest a fix for. Defaults to the latest version. */
-  version?: number | null | undefined;
-}
-/** * `ok` - ok * `cannot_fix` - cannot_fix * `invalid` - invalid * `model_error` - model_error */
-export type SuggestionStatusEnum = "ok" | "cannot_fix" | "invalid" | "model_error";
-/** AI-suggested query rewrite that would make the endpoint materializable. */
-export interface EndpointMaterializationSuggestion {
-  /** Outcome of the suggestion run: 'ok' -- the suggested query passes the live materialization checks; 'cannot_fix' -- no semantically equivalent rewrite exists; 'invalid' -- a suggestion was produced but never passed validation (suggested_query carries the last attempt); 'model_error' -- the model returned no usable response. * `ok` - ok * `cannot_fix` - cannot_fix * `invalid` - invalid * `model_error` - model_error */
-  suggestion_status: SuggestionStatusEnum;
-  /** The complete rewritten SQL query, or null when no rewrite was produced. */
-  suggested_query: string | null;
-  /** User-facing explanation of what was changed and why, or why no fix exists. */
-  explanation: string | null;
-  /** How many suggest->validate rounds were used. */
-  attempts: number;
-  /** Last validation failure when the suggestion did not pass the checks. */
-  error: string | null;
-  /** The materialization blocker that triggered the suggestion. */
-  original_reason: string;
-}
 export type BreakdownFilterBreakdownCase1Item = string | number;
 export type BreakdownFilterBreakdownCase1List = Array<BreakdownFilterBreakdownCase1Item>;
 export type BreakdownFilterBreakdown = string | BreakdownFilterBreakdownCase1List | number;
@@ -378,6 +354,7 @@ export type BreakdownType =
   | "person"
   | "event"
   | "event_metadata"
+  | "element"
   | "group"
   | "session"
   | "hogql"
@@ -389,6 +366,7 @@ export type MultipleBreakdownType =
   | "person"
   | "event"
   | "event_metadata"
+  | "element"
   | "group"
   | "session"
   | "hogql"
@@ -415,6 +393,12 @@ export interface BreakdownFilter {
   breakdown_type?: BreakdownType | (string & {}) | null | undefined;
   breakdowns?: BreakdownFilterBreakdownsList | null | undefined;
 }
+export interface CompareFilter {
+  /** Whether to compare the current date range to a previous date range. */
+  compare?: boolean | null | undefined;
+  /** The date range to compare to. The value is a relative date. Examples of relative dates are: `-1y` for 1 year ago, `-14m` for 14 months ago, `-100w` for 100 weeks ago, `-14d` for 14 days ago, `-30h` for 30 hours ago. */
+  compare_to?: string | null | undefined;
+}
 export type IntervalType =
   | "second"
   | "minute"
@@ -424,6 +408,43 @@ export type IntervalType =
   | "month"
   | "quarter"
   | "year";
+export type MetricsFilterOp = "eq" | "neq" | "regex" | "not_regex";
+export type MetricsAttributeScope = "resource" | "attribute" | "auto";
+export interface MetricsQueryFilter {
+  key: string;
+  op: MetricsFilterOp | (string & {});
+  scope?: MetricsAttributeScope | (string & {}) | null | undefined;
+  value: string;
+}
+export type DashboardFilterMetricFiltersList = Array<MetricsQueryFilter>;
+/** The selected values. Empty when `all` is true: All stands for every option of the variable. */
+export type MetricsDashboardVariableSelectionValuesList = Array<string>;
+export interface MetricsDashboardVariableSelection {
+  all?: boolean | null | undefined;
+  /** The selected values. Empty when `all` is true: All stands for every option of the variable. */
+  values: MetricsDashboardVariableSelectionValuesList;
+}
+export type MetricsDashboardVariableCustomValuesList = Array<string>;
+export type MetricsDashboardVariableSource = "custom" | "promql" | "sql" | "textbox";
+export interface MetricsDashboardVariable {
+  /** The text that All puts in a PromQL query. `.*` when it is empty. */
+  allValue?: string | null | undefined;
+  current?: MetricsDashboardVariableSelection | null | undefined;
+  /** The options when `source` is `custom`. */
+  customValues?: MetricsDashboardVariableCustomValuesList | null | undefined;
+  includeAll?: boolean | null | undefined;
+  /** Shown in the dashboard filter bar. The name is shown when it is empty. */
+  label?: string | null | undefined;
+  multi?: boolean | null | undefined;
+  /** Letters, digits and underscores. Tiles refer to it as `$name`. */
+  name: string;
+  /** The options query when `source` is `promql` or `sql`. It can refer to other variables. PromQL supports `label_values(label)`, `label_values(selector, label)`, `label_names()`, `metrics(regex)` and `query_result(expr)`. SQL returns the options in its first column. */
+  query?: string | null | undefined;
+  /** RE2 pattern that options must match. When it has a capture group, the option is the first group. */
+  regex?: string | null | undefined;
+  source: MetricsDashboardVariableSource | (string & {});
+}
+export type DashboardFilterMetricVariablesList = Array<MetricsDashboardVariable>;
 export type PropertyOperator =
   | "exact"
   | "is_not"
@@ -451,6 +472,7 @@ export type PropertyOperator =
   | "in"
   | "not_in"
   | "is_cleaned_path_exact"
+  | "is_cleaned_path_not_exact"
   | "flag_evaluates_to"
   | "semver_eq"
   | "semver_neq"
@@ -554,6 +576,10 @@ export interface SessionPropertyFilter {
   value?: SessionPropertyFilterValue | null | undefined;
 }
 export interface CohortPropertyFilter {
+  /** Set by the feature flag API when the cohort is deleted or does not exist. */
+  cohort_deleted?: boolean | null | undefined;
+  /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
+  cohort_missing?: boolean | null | undefined;
   cohort_name?: string | null | undefined;
   key?: string | undefined;
   label?: string | null | undefined;
@@ -840,6 +866,8 @@ export type DashboardFilterPropertiesItem =
 export type DashboardFilterPropertiesList = Array<DashboardFilterPropertiesItem>;
 export interface DashboardFilter {
   breakdown_filter?: BreakdownFilter | null | undefined;
+  /** Period comparison forced onto every insight that supports one. Absent/null = inherit. */
+  compareFilter?: CompareFilter | null | undefined;
   date_from?: string | null | undefined;
   date_to?: string | null | undefined;
   explicitDate?: boolean | null | undefined;
@@ -847,6 +875,9 @@ export interface DashboardFilter {
   filterTestAccounts?: boolean | null | undefined;
   /** Time granularity forced onto every insight that supports one. Absent/null = inherit. */
   interval?: IntervalType | (string & {}) | null | undefined;
+  metricFilters?: DashboardFilterMetricFiltersList | null | undefined;
+  /** Variables that metrics tiles refer to as `$name`. Other tiles ignore them. */
+  metricVariables?: DashboardFilterMetricVariablesList | null | undefined;
   properties?: DashboardFilterPropertiesList | null | undefined;
 }
 export type EndpointRefreshMode = "cache" | "force" | "direct";
@@ -922,7 +953,7 @@ export interface EndpointVersionResponse {
   query?: unknown | undefined;
   /** Whether the endpoint can be executed via the API. */
   is_active?: boolean | undefined;
-  /** How fresh the data is, in seconds. One of: 900, 1800, 3600, 21600, 43200, 86400, 604800. */
+  /** Effective data freshness, in seconds. Materialized endpoints use the node's refresh target, which can differ from the standard freshness choices. Other endpoints use the cache duration. */
   data_freshness_seconds?: number | undefined;
   /** Relative API path to execute this endpoint (e.g. /api/projects/{team_id}/endpoints/{name}/run). */
   endpoint_path?: string | undefined;
@@ -987,21 +1018,12 @@ export interface GetEndpointsLogRequest {
   level?: string | undefined;
   /** Maximum number of log entries to return (1-500, default 50). */
   limit?: number | undefined;
+  /** Number of log entries to skip before the first returned entry (default 0). */
+  offset?: number | undefined;
   /** Case-insensitive substring search across log messages. */
   search?: string | undefined;
 }
 export interface GetEndpointsLogResponse {}
-export interface GetEndpointsMaterializationConditionRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-}
-/** The live materialization rules, for agents that want to rewrite a rejected query themselves. */
-export interface EndpointMaterializationConditions {
-  /** Python source code of the checks that decide whether an endpoint query can be materialized, read from the running system -- always matches what this instance enforces. Reason from it to rewrite a rejected query into a form that passes every check. */
-  conditions_source: string;
-  /** Hard rules a rewrite must obey so it stays semantically equivalent to the original query (same results for all variable values, keep every variable placeholder unchanged). */
-  rewrite_contract: string;
-}
 export interface GetEndpointsMaterializationStatusRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1139,8 +1161,8 @@ export const createEndpoint: API.OperationMethod<
   CreateEndpointError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<CreateEndpointRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<EndpointResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<CreateEndpointRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<EndpointResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1160,8 +1182,8 @@ export const createEndpointsLastExecutionTime: API.OperationMethod<
   CreateEndpointsLastExecutionTimeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<CreateEndpointsLastExecutionTimeRequest>,
-  output: __S(127, __c15, 7) as any as S.Schema<QueryStatusResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<CreateEndpointsLastExecutionTimeRequest>,
+  output: __S(215, __c13, 7) as any as S.Schema<QueryStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1181,30 +1203,13 @@ export const createEndpointsMaterializationPreview: API.OperationMethod<
   CreateEndpointsMaterializationPreviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c16, 1) as any as S.Schema<CreateEndpointsMaterializationPreviewRequest>,
-  output: __S(134, __c16, 6) as any as S.Schema<MaterializationPreviewResponse>,
+  input: __S(225, __c14, 1) as any as S.Schema<CreateEndpointsMaterializationPreviewRequest>,
+  output: __S(230, __c14, 6) as any as S.Schema<MaterializationPreviewResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateEndpointsMaterializationPreview",
-}));
-
-export type CreateEndpointsMaterializationSuggestionError = PosthogOpError;
-/** Ask AI to rewrite the endpoint's query into a semantically equivalent form that can be materialized. Only applicable to SQL (HogQL) endpoints that currently fail the materialization checks. The suggestion is validated against the live checks before being returned; nothing is saved. Requires the organization's AI data processing approval. */
-export const createEndpointsMaterializationSuggestion: API.OperationMethod<
-  CreateEndpointsMaterializationSuggestionRequest,
-  EndpointMaterializationSuggestion,
-  CreateEndpointsMaterializationSuggestionError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<CreateEndpointsMaterializationSuggestionRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<EndpointMaterializationSuggestion>,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateEndpointsMaterializationSuggestion",
 }));
 
 export type CreateEndpointsRunError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1215,8 +1220,8 @@ export const createEndpointsRun: API.OperationMethod<
   CreateEndpointsRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(149, __c18, 5) as any as S.Schema<CreateEndpointsRunRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<EndpointRunResponse>,
+  input: __S(251, __c15, 11) as any as S.Schema<CreateEndpointsRunRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<EndpointRunResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1232,8 +1237,8 @@ export const endpointsDestroy: API.OperationMethod<
   EndpointsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<EndpointsDestroyRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<EndpointsDestroyResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<EndpointsDestroyRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<EndpointsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1249,8 +1254,8 @@ export const getEndpoint: API.OperationMethod<
   GetEndpointError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetEndpointRequest>,
-  output: __S(184, __c23, 0) as any as S.Schema<EndpointVersionResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetEndpointRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<EndpointVersionResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1265,30 +1270,13 @@ export const getEndpointsLog: API.OperationMethod<
   GetEndpointsLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetEndpointsLogRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<GetEndpointsLogResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetEndpointsLogRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<GetEndpointsLogResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEndpointsLog",
-}));
-
-export type GetEndpointsMaterializationConditionError = PosthogOpError;
-/** Get the source code of the live materialization checks, plus the rewrite contract. Lets an agent rewrite a rejected endpoint query itself: fetch these conditions, produce a semantically equivalent query that passes every check, update the endpoint with it, then confirm via materialization_status. The source is read from the running system, so it always matches the checks this instance enforces. */
-export const getEndpointsMaterializationCondition: API.OperationMethod<
-  GetEndpointsMaterializationConditionRequest,
-  EndpointMaterializationConditions,
-  GetEndpointsMaterializationConditionError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetEndpointsMaterializationConditionRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<EndpointMaterializationConditions>,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetEndpointsMaterializationCondition",
 }));
 
 export type GetEndpointsMaterializationStatusError = Forbidden | NotFound | PosthogOpError;
@@ -1299,8 +1287,8 @@ export const getEndpointsMaterializationStatus: API.OperationMethod<
   GetEndpointsMaterializationStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetEndpointsMaterializationStatusRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<EndpointMaterialization>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetEndpointsMaterializationStatusRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<EndpointMaterialization>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1316,8 +1304,8 @@ export const getEndpointsOpenapiSpec: API.OperationMethod<
   GetEndpointsOpenapiSpecError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetEndpointsOpenapiSpecRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<GetEndpointsOpenapiSpecResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<GetEndpointsOpenapiSpecRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<GetEndpointsOpenapiSpecResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1333,8 +1321,8 @@ export const getEndpointsRun: API.OperationMethod<
   GetEndpointsRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetEndpointsRunRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<EndpointRunResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<GetEndpointsRunRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<EndpointRunResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1350,8 +1338,8 @@ export const listEndpoints: API.OperationMethod<
   ListEndpointsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListEndpointsRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<PaginatedEndpointResponseList>,
+  input: __S(48, __c3, 0) as any as S.Schema<ListEndpointsRequest>,
+  output: __S(50, __c3, 2) as any as S.Schema<PaginatedEndpointResponseList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1367,8 +1355,8 @@ export const listEndpointsVersions: API.OperationMethod<
   ListEndpointsVersionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListEndpointsVersionsRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<PaginatedEndpointVersionResponseList>,
+  input: __S(64, __c4, 0) as any as S.Schema<ListEndpointsVersionsRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<PaginatedEndpointVersionResponseList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1384,8 +1372,8 @@ export const updateEndpoint: API.OperationMethod<
   UpdateEndpointError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<UpdateEndpointRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<EndpointResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<UpdateEndpointRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<EndpointResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1401,8 +1389,8 @@ export const updateEndpointsPartial: API.OperationMethod<
   UpdateEndpointsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<UpdateEndpointsPartialRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<EndpointResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<UpdateEndpointsPartialRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<EndpointResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1412,52 +1400,6 @@ export const updateEndpointsPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          after: S.optional(S.String.pipe(T.Query())),
-          before: S.optional(S.String.pipe(T.Query())),
-          instance_id: S.optional(S.String.pipe(T.Query())),
-          level: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/endpoints/{name}/logs/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetEndpointsLogRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/endpoints/materialization_conditions/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetEndpointsMaterializationConditionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          conditions_source: S.String,
-          rewrite_contract: S.String,
-        }),
-      ).annotate({ identifier: "EndpointMaterializationConditions" });
-  }
-}
-function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1475,7 +1417,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetEndpointsMaterializationStatusRequest" });
   }
 }
-function __c3(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1493,7 +1435,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetEndpointsOpenapiSpecRequest" });
   }
 }
-function __c4(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1510,7 +1452,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetEndpointsRunRequest" });
   }
 }
-function __c5(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1523,19 +1465,19 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/endpoints/", code: 200 })),
       ).annotate({ identifier: "ListEndpointsRequest" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(128, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(41, __c5, 1)),
+          results: S.optional(__S(49, __c3, 1)),
         }),
       ).annotate({ identifier: "PaginatedEndpointResponseList" });
   }
 }
-function __c6(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1555,19 +1497,19 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListEndpointsVersionsRequest" });
     case 1:
-      return S.Array(__S(184, __c23, 0));
+      return S.Array(__S(320, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(49, __c6, 1)),
+          results: S.optional(__S(65, __c4, 1)),
         }),
       ).annotate({ identifier: "PaginatedEndpointVersionResponseList" });
   }
 }
-function __c7(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1581,17 +1523,17 @@ function __c7(j: number): any {
           is_materialized: S.optional(S.NullOr(S.Boolean)),
           derived_from_insight: S.optional(S.NullOr(S.String)),
           version: S.optional(S.NullOr(S.Number)),
-          bucket_overrides: S.optional(S.NullOr(__S(96, __c12, 0))),
+          bucket_overrides: S.optional(S.NullOr(__S(160, __c10, 0))),
           deleted: S.optional(S.NullOr(S.Boolean)),
-          tags: S.optional(S.NullOr(__S(88, __c11, 0))),
-          optional_breakdown_properties: S.optional(S.NullOr(__S(88, __c11, 0))),
+          tags: S.optional(S.NullOr(__S(144, __c9, 0))),
+          optional_breakdown_properties: S.optional(S.NullOr(__S(144, __c9, 0))),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/projects/{project_id}/endpoints/{name}/", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateEndpointRequest" });
   }
 }
-function __c8(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1605,10 +1547,10 @@ function __c8(j: number): any {
           is_materialized: S.optional(S.NullOr(S.Boolean)),
           derived_from_insight: S.optional(S.NullOr(S.String)),
           version: S.optional(S.NullOr(S.Number)),
-          bucket_overrides: S.optional(S.NullOr(__S(96, __c12, 0))),
+          bucket_overrides: S.optional(S.NullOr(__S(160, __c10, 0))),
           deleted: S.optional(S.NullOr(S.Boolean)),
-          tags: S.optional(S.NullOr(__S(88, __c11, 0))),
-          optional_breakdown_properties: S.optional(S.NullOr(__S(88, __c11, 0))),
+          tags: S.optional(S.NullOr(__S(144, __c9, 0))),
+          optional_breakdown_properties: S.optional(S.NullOr(__S(144, __c9, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1619,7 +1561,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UpdateEndpointsPartialRequest" });
   }
 }
-function __c9(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1633,17 +1575,17 @@ function __c9(j: number): any {
           is_materialized: S.optional(S.NullOr(S.Boolean)),
           derived_from_insight: S.optional(S.NullOr(S.String)),
           version: S.optional(S.NullOr(S.Number)),
-          bucket_overrides: S.optional(S.NullOr(__S(96, __c12, 0))),
+          bucket_overrides: S.optional(S.NullOr(__S(160, __c10, 0))),
           deleted: S.optional(S.NullOr(S.Boolean)),
-          tags: S.optional(S.NullOr(__S(88, __c11, 0))),
-          optional_breakdown_properties: S.optional(S.NullOr(__S(88, __c11, 0))),
+          tags: S.optional(S.NullOr(__S(144, __c9, 0))),
+          optional_breakdown_properties: S.optional(S.NullOr(__S(144, __c9, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/endpoints/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateEndpointRequest" });
   }
 }
-function __c10(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1659,35 +1601,35 @@ function __c10(j: number): any {
           ui_url: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(112, __c14, 0))),
+          created_by: S.optional(S.NullOr(__S(192, __c12, 0))),
           is_materialized: S.optional(S.Boolean),
           current_version: S.optional(S.Number),
           current_version_id: S.optional(S.NullOr(S.String)),
           versions_count: S.optional(S.Number),
           derived_from_insight: S.optional(S.NullOr(S.String)),
           last_executed_at: S.optional(S.NullOr(S.String)),
-          materialization: S.optional(__S(104, __c13, 0)),
-          bucket_overrides: S.optional(S.NullOr(__S(96, __c12, 0))),
-          columns: S.optional(__S(114, __c14, 2)),
-          tags: S.optional(__S(88, __c11, 0)),
-          optional_breakdown_properties: S.optional(__S(88, __c11, 0)),
+          materialization: S.optional(__S(176, __c11, 0)),
+          bucket_overrides: S.optional(S.NullOr(__S(160, __c10, 0))),
+          columns: S.optional(__S(194, __c12, 2)),
+          tags: S.optional(__S(144, __c9, 0)),
+          optional_breakdown_properties: S.optional(__S(144, __c9, 0)),
         }),
       ).annotate({ identifier: "EndpointResponse" });
   }
 }
-function __c11(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c12(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c13(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1705,7 +1647,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "EndpointMaterialization" });
   }
 }
-function __c14(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1717,7 +1659,7 @@ function __c14(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(96, __c12, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(160, __c10, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
@@ -1729,16 +1671,16 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "EndpointColumn" });
     case 2:
-      return S.Array(__S(113, __c14, 1));
+      return S.Array(__S(193, __c12, 1));
   }
 }
-function __c15(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          names: S.optional(__S(88, __c11, 0)),
+          names: S.optional(__S(144, __c9, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1771,12 +1713,12 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "QueryScanWarning" });
     case 3:
-      return S.Array(__S(122, __c15, 2));
+      return S.Array(__S(210, __c13, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           assistant_prompt: S.optional(S.NullOr(S.String)),
-          findings: __S(123, __c15, 3),
+          findings: __S(211, __c13, 3),
           project_share: S.optional(S.NullOr(S.Number)),
           range_share: S.optional(S.NullOr(S.Number)),
         }),
@@ -1784,7 +1726,7 @@ function __c15(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          analysis: S.optional(S.NullOr(__S(124, __c15, 4))),
+          analysis: S.optional(S.NullOr(__S(212, __c13, 4))),
           analysis_requested: S.optional(S.NullOr(S.Boolean)),
           duration_ms: S.Number,
           killed: S.optional(S.NullOr(S.Boolean)),
@@ -1806,11 +1748,11 @@ function __c15(j: number): any {
           expiration_time: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
           insight_id: S.optional(S.NullOr(S.Number)),
-          labels: S.optional(S.NullOr(__S(88, __c11, 0))),
+          labels: S.optional(S.NullOr(__S(144, __c9, 0))),
           pickup_time: S.optional(S.NullOr(S.String)),
           query_async: S.optional(S.Boolean),
-          query_progress: S.optional(S.NullOr(__S(121, __c15, 1))),
-          query_scan: S.optional(S.NullOr(__S(125, __c15, 5))),
+          query_progress: S.optional(S.NullOr(__S(209, __c13, 1))),
+          query_scan: S.optional(S.NullOr(__S(213, __c13, 5))),
           results: S.optional(S.Unknown),
           start_time: S.optional(S.NullOr(S.String)),
           task_id: S.optional(S.NullOr(S.String)),
@@ -1820,12 +1762,12 @@ function __c15(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          query_status: S.optional(__S(126, __c15, 6)),
+          query_status: S.optional(__S(214, __c13, 6)),
         }),
       ).annotate({ identifier: "QueryStatusResponse" });
   }
 }
-function __c16(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -1835,7 +1777,7 @@ function __c16(j: number): any {
           project_id: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.optional(S.Number),
-          bucket_overrides: S.optional(S.NullOr(__S(128, __c16, 0))),
+          bucket_overrides: S.optional(S.NullOr(__S(224, __c14, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1848,12 +1790,12 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           column: S.String,
-          variables: __S(88, __c11, 0),
+          variables: __S(144, __c9, 0),
           bucket_fn: S.String,
         }),
       ).annotate({ identifier: "MaterializationPreviewRangePair" });
     case 3:
-      return S.Array(__S(130, __c16, 2));
+      return S.Array(__S(226, __c14, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1862,7 +1804,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "MaterializationPreviewAggregate" });
     case 5:
-      return S.Array(__S(132, __c16, 4));
+      return S.Array(__S(228, __c14, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -1871,42 +1813,13 @@ function __c16(j: number): any {
           transformed_query: S.NullOr(S.String),
           execution_query: S.NullOr(S.String),
           display_execution_query: S.NullOr(S.String),
-          range_pairs: __S(131, __c16, 3),
-          aggregates: __S(133, __c16, 5),
+          range_pairs: __S(227, __c14, 3),
+          aggregates: __S(229, __c14, 5),
         }),
       ).annotate({ identifier: "MaterializationPreviewResponse" });
   }
 }
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          version: S.optional(S.NullOr(S.Number)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/endpoints/{name}/materialization_suggestion/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateEndpointsMaterializationSuggestionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          suggestion_status: S.String,
-          suggested_query: S.NullOr(S.String),
-          explanation: S.NullOr(S.String),
-          attempts: S.Number,
-          error: S.NullOr(S.String),
-          original_reason: S.String,
-        }),
-      ).annotate({ identifier: "EndpointMaterializationSuggestion" });
-  }
-}
-function __c18(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1919,7 +1832,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "Breakdown" });
     case 1:
-      return S.Array(__S(144, __c18, 0));
+      return S.Array(__S(240, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1931,35 +1844,80 @@ function __c18(j: number): any {
           breakdown_normalize_url: S.optional(S.NullOr(S.Boolean)),
           breakdown_path_cleaning: S.optional(S.NullOr(S.Boolean)),
           breakdown_type: S.optional(S.NullOr(S.String)),
-          breakdowns: S.optional(S.NullOr(__S(145, __c18, 1))),
+          breakdowns: S.optional(S.NullOr(__S(241, __c15, 1))),
         }),
       ).annotate({ identifier: "BreakdownFilter" });
     case 3:
-      return S.Array(S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          compare: S.optional(S.NullOr(S.Boolean)),
+          compare_to: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CompareFilter" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          breakdown_filter: S.optional(S.NullOr(__S(146, __c18, 2))),
+          key: S.String,
+          op: S.String,
+          scope: S.optional(S.NullOr(S.String)),
+          value: S.String,
+        }),
+      ).annotate({ identifier: "MetricsQueryFilter" });
+    case 5:
+      return S.Array(__S(244, __c15, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          all: S.optional(S.NullOr(S.Boolean)),
+          values: __S(144, __c9, 0),
+        }),
+      ).annotate({ identifier: "MetricsDashboardVariableSelection" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          allValue: S.optional(S.NullOr(S.String)),
+          current: S.optional(S.NullOr(__S(246, __c15, 6))),
+          customValues: S.optional(S.NullOr(__S(144, __c9, 0))),
+          includeAll: S.optional(S.NullOr(S.Boolean)),
+          label: S.optional(S.NullOr(S.String)),
+          multi: S.optional(S.NullOr(S.Boolean)),
+          name: S.String,
+          query: S.optional(S.NullOr(S.String)),
+          regex: S.optional(S.NullOr(S.String)),
+          source: S.String,
+        }),
+      ).annotate({ identifier: "MetricsDashboardVariable" });
+    case 8:
+      return S.Array(__S(247, __c15, 7));
+    case 9:
+      return S.Array(S.Unknown);
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          breakdown_filter: S.optional(S.NullOr(__S(242, __c15, 2))),
+          compareFilter: S.optional(S.NullOr(__S(243, __c15, 3))),
           date_from: S.optional(S.NullOr(S.String)),
           date_to: S.optional(S.NullOr(S.String)),
           explicitDate: S.optional(S.NullOr(S.Boolean)),
           filterTestAccounts: S.optional(S.NullOr(S.Boolean)),
           interval: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(147, __c18, 3))),
+          metricFilters: S.optional(S.NullOr(__S(245, __c15, 5))),
+          metricVariables: S.optional(S.NullOr(__S(248, __c15, 8))),
+          properties: S.optional(S.NullOr(__S(249, __c15, 9))),
         }),
       ).annotate({ identifier: "DashboardFilter" });
-    case 5:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           client_query_id: S.optional(S.NullOr(S.String)),
           debug: S.optional(S.NullOr(S.Boolean)),
-          filters_override: S.optional(S.NullOr(__S(148, __c18, 4))),
+          filters_override: S.optional(S.NullOr(__S(250, __c15, 10))),
           limit: S.optional(S.NullOr(S.Number)),
           offset: S.optional(S.NullOr(S.Number)),
           refresh: S.optional(S.NullOr(S.String)),
-          variables: S.optional(S.NullOr(__S(96, __c12, 0))),
+          variables: S.optional(S.NullOr(__S(160, __c10, 0))),
           version: S.optional(S.NullOr(S.Number)),
         }).pipe(
           T.Http({
@@ -1971,7 +1929,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateEndpointsRunRequest" });
   }
 }
-function __c19(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -1980,15 +1938,15 @@ function __c19(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           execution_id: S.optional(S.String),
-          results: S.optional(__S(152, __c19, 0)),
-          columns: S.optional(__S(88, __c11, 0)),
+          results: S.optional(__S(256, __c16, 0)),
+          columns: S.optional(__S(144, __c9, 0)),
           hasMore: S.optional(S.Boolean),
           endpoint_version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "EndpointRunResponse" });
   }
 }
-function __c20(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2005,13 +1963,13 @@ function __c20(j: number): any {
       ).annotate({ identifier: "EndpointsDestroyRequest" });
   }
 }
-function __c21(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "EndpointsDestroyResponse" });
   }
 }
-function __c22(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2025,7 +1983,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetEndpointRequest" });
   }
 }
-function __c23(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2041,26 +1999,50 @@ function __c23(j: number): any {
           ui_url: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(112, __c14, 0))),
+          created_by: S.optional(S.NullOr(__S(192, __c12, 0))),
           is_materialized: S.optional(S.Boolean),
           current_version: S.optional(S.Number),
           current_version_id: S.optional(S.NullOr(S.String)),
           versions_count: S.optional(S.Number),
           derived_from_insight: S.optional(S.NullOr(S.String)),
           last_executed_at: S.optional(S.NullOr(S.String)),
-          materialization: S.optional(__S(104, __c13, 0)),
-          bucket_overrides: S.optional(S.NullOr(__S(96, __c12, 0))),
-          columns: S.optional(__S(114, __c14, 2)),
-          tags: S.optional(__S(88, __c11, 0)),
-          optional_breakdown_properties: S.optional(__S(88, __c11, 0)),
+          materialization: S.optional(__S(176, __c11, 0)),
+          bucket_overrides: S.optional(S.NullOr(__S(160, __c10, 0))),
+          columns: S.optional(__S(194, __c12, 2)),
+          tags: S.optional(__S(144, __c9, 0)),
+          optional_breakdown_properties: S.optional(__S(144, __c9, 0)),
           version: S.optional(S.Number),
           version_id: S.optional(S.String),
           endpoint_is_active: S.optional(S.Boolean),
           version_created_at: S.optional(S.String),
           version_updated_at: S.optional(S.NullOr(S.String)),
-          version_created_by: S.optional(S.NullOr(__S(112, __c14, 0))),
+          version_created_by: S.optional(S.NullOr(__S(192, __c12, 0))),
         }),
       ).annotate({ identifier: "EndpointVersionResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          after: S.optional(S.String.pipe(T.Query())),
+          before: S.optional(S.String.pipe(T.Query())),
+          instance_id: S.optional(S.String.pipe(T.Query())),
+          level: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/endpoints/{name}/logs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetEndpointsLogRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

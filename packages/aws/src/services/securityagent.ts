@@ -270,6 +270,14 @@ export interface TrustedCaCertificate {
   source: CaCertificateSource;
 }
 export type TrustedCaCertificateList = TrustedCaCertificate[];
+export type ClientCertificateName = string;
+export type ClientCertificateOriginList = string[];
+export interface ClientCertificate {
+  name: string;
+  secretArn: string;
+  origins: string[];
+}
+export type ClientCertificateList = ClientCertificate[];
 export interface Assets {
   endpoints?: Endpoint[] | undefined;
   actors?: Actor[] | undefined;
@@ -277,6 +285,7 @@ export interface Assets {
   sourceCode?: SourceCodeRepository[] | undefined;
   integratedRepositories?: IntegratedRepository[] | undefined;
   trustedCaCertificates?: TrustedCaCertificate[] | undefined;
+  clientCertificates?: ClientCertificate[] | undefined;
 }
 export type RiskType =
   | "CROSS_SITE_SCRIPTING"
@@ -818,6 +827,7 @@ export interface PentestJob {
   errorInformation?: ErrorInformation | undefined;
   integratedRepositories?: IntegratedRepository[] | undefined;
   trustedCaCertificates?: TrustedCaCertificate[] | undefined;
+  clientCertificates?: ClientCertificate[] | undefined;
   codeRemediationStrategy?: CodeRemediationStrategy | undefined;
   cleanUpStrategy?: CleanUpStrategy | undefined;
   disableManagedSkills?: SkillType[] | undefined;
@@ -1261,7 +1271,7 @@ export interface CreateIntegrationOutput {
   integrationId: string;
 }
 export type MembershipId = string;
-export type MembershipType = "USER" | (string & {});
+export type MembershipType = "USER" | "GROUP" | (string & {});
 export type UserRole = "MEMBER" | (string & {});
 export interface UserConfig {
   role?: UserRole | undefined;
@@ -2051,7 +2061,7 @@ export interface ListIntegrationsOutput {
   integrationSummaries: IntegrationSummary[];
   nextToken?: string | undefined;
 }
-export type MembershipTypeFilter = "USER" | "ALL" | (string & {});
+export type MembershipTypeFilter = "USER" | "GROUP" | "ALL" | (string & {});
 export interface ListMembershipsRequest {
   applicationId: string;
   agentSpaceId: string;
@@ -2064,7 +2074,13 @@ export interface UserMetadata {
   username: string;
   email: string;
 }
-export type MemberMetadata = { user: UserMetadata };
+export interface GroupMetadata {
+  displayName?: string | undefined;
+  description?: string | undefined;
+}
+export type MemberMetadata =
+  | { user: UserMetadata; group?: undefined }
+  | { user?: undefined; group: GroupMetadata };
 export interface MembershipSummary {
   membershipId: string;
   applicationId: string;
@@ -3403,7 +3419,7 @@ export const createIntegration: API.OperationMethod<
 
 export type CreateMembershipError = CommonErrors;
 /**
- * Creates a new membership, granting a user access to an agent space within an application.
+ * Creates a new membership, granting a user or group access to an agent space within an application.
  */
 export const createMembership: API.OperationMethod<
   CreateMembershipRequest & RegionInput,
@@ -3677,7 +3693,7 @@ export const deleteIntegration: API.OperationMethod<
 
 export type DeleteMembershipError = CommonErrors;
 /**
- * Deletes a membership, revoking a user's access to an agent space.
+ * Deletes a membership, revoking a user's or group's access to an agent space.
  */
 export const deleteMembership: API.OperationMethod<
   DeleteMembershipRequest & RegionInput,
@@ -4346,7 +4362,7 @@ export const listMemberships: API.PaginatedOperationMethod<
   MembershipSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<ListMembershipsRequest>,
-  output: __S(1493, __c93, 5) as any as S.Schema<ListMembershipsResponse>,
+  output: __S(1494, __c93, 6) as any as S.Schema<ListMembershipsResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5330,6 +5346,12 @@ function __c4(j: number): any {
       });
     case 6:
       return S.Array(__S(69, __c4, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ name: S.String, secretArn: S.String, origins: __S(1936, __c121, 0) }),
+      ).annotate({ identifier: "ClientCertificate" });
+    case 8:
+      return S.Array(__S(71, __c4, 7));
   }
 }
 function __c5(j: number): any {
@@ -5349,6 +5371,7 @@ function __c6(j: number): any {
           sourceCode: S.optional(__S(52, __c3, 4)),
           integratedRepositories: S.optional(__S(54, __c3, 6)),
           trustedCaCertificates: S.optional(__S(70, __c4, 6)),
+          clientCertificates: S.optional(__S(72, __c4, 8)),
         }),
       ).annotate({ identifier: "Assets" });
   }
@@ -6083,6 +6106,7 @@ function __c31(j: number): any {
           errorInformation: S.optional(__S(400, __c25, 0)),
           integratedRepositories: S.optional(__S(54, __c3, 6)),
           trustedCaCertificates: S.optional(__S(70, __c4, 6)),
+          clientCertificates: S.optional(__S(72, __c4, 8)),
           codeRemediationStrategy: S.optional(S.String),
           cleanUpStrategy: S.optional(S.String),
           disableManagedSkills: S.optional(__S(80, __c5, 0)),
@@ -7846,8 +7870,15 @@ function __c93(j: number): any {
         identifier: "UserMetadata",
       });
     case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ user: __S(1489, __c93, 1) })]);
+      return S.suspend(() =>
+        S.Struct({ displayName: S.optional(S.String), description: S.optional(S.String) }),
+      ).annotate({ identifier: "GroupMetadata" });
     case 3:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ user: __S(1489, __c93, 1) }),
+        /*@__PURE__*/ S.Struct({ group: __S(1490, __c93, 2) }),
+      ]);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           membershipId: S.String,
@@ -7855,18 +7886,18 @@ function __c93(j: number): any {
           agentSpaceId: S.String,
           memberType: S.String,
           config: S.optional(__S(849, __c53, 1)),
-          metadata: S.optional(__S(1490, __c93, 2)),
+          metadata: S.optional(__S(1491, __c93, 3)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           createdBy: S.String,
           updatedBy: S.String,
         }),
       ).annotate({ identifier: "MembershipSummary" });
-    case 4:
-      return S.Array(__S(1491, __c93, 3));
     case 5:
+      return S.Array(__S(1492, __c93, 4));
+    case 6:
       return S.suspend(() =>
-        S.Struct({ membershipSummaries: __S(1492, __c93, 4), nextToken: S.optional(S.String) }),
+        S.Struct({ membershipSummaries: __S(1493, __c93, 5), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListMembershipsResponse" });
   }
 }

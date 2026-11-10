@@ -127,7 +127,7 @@ export interface APIKeyQuota {
   /** Timestamp (in milliseconds) of when the quota was last updated. */
   updatedAt: number;
 }
-/** Information about the newly created API key. */
+/** Represents an API key. */
 export interface APIKey {
   /** The unique identifier of the API key. */
   id: string;
@@ -278,9 +278,17 @@ export interface CreateAuthTokenResponse {
   bearerToken: string;
   token: AuthToken;
 }
+/** Identifies an explicit logout for the deletion event. Only applies when tokenId is current. */
+export type DeleteAuthTokenRequestReason = "logout";
+/** The product the caller is logging out of. Only applies when reason is logout and tokenId is current. */
+export type DeleteAuthTokenRequestLogoutSource = "v0" | "vercel";
 export interface DeleteAuthTokenRequest {
   /** The identifier of the token to invalidate. The special value "current" may be supplied, which invalidates the token that the HTTP request was authenticated with. */
   tokenId: string;
+  /** Identifies an explicit logout for the deletion event. Only applies when tokenId is current. */
+  reason?: DeleteAuthTokenRequestReason | (string & {}) | undefined;
+  /** The product the caller is logging out of. Only applies when reason is logout and tokenId is current. */
+  logoutSource?: DeleteAuthTokenRequestLogoutSource | (string & {}) | undefined;
 }
 export interface DeleteAuthTokenResponse {
   /** The unique identifier of the token that was deleted. */
@@ -600,6 +608,8 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tokenId: S.String.pipe(T.Label()),
+          reason: S.optional(S.String.pipe(T.Query())),
+          logoutSource: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/v3/user/tokens/{tokenId}", code: 200 })),
       ).annotate({ identifier: "DeleteAuthTokenRequest" });
     case 1:

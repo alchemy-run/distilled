@@ -111,46 +111,6 @@ export interface GetAccountsMerchantReviewsRequest {
   /** Required. The ID of the merchant review. Format: accounts/{account}/merchantReviews/{merchantReview} */
   name: string;
 }
-export type MerchantReviewAttributesCollectionMethodEnum =
-  | "COLLECTION_METHOD_UNSPECIFIED"
-  | "MERCHANT_UNSOLICITED"
-  | "POINT_OF_SALE"
-  | "AFTER_FULFILLMENT";
-/** Attributes. */
-export interface MerchantReviewAttributes {
-  /** Optional. The language of the review defined by BCP-47 language code. */
-  reviewLanguage?: string | undefined;
-  /** Optional. Human-readable display name for the merchant. */
-  merchantDisplayName?: string | undefined;
-  /** Optional. The method used to collect the review. */
-  collectionMethod?: MerchantReviewAttributesCollectionMethodEnum | (string & {}) | undefined;
-  /** Optional. The reviewer's overall rating of the merchant. */
-  rating?: number | undefined;
-  /** Optional. Set to true if the reviewer should remain anonymous. */
-  isAnonymous?: boolean | undefined;
-  /** Optional. The minimum possible number for the rating. This should be the worst possible rating and should not be a value for no rating. */
-  minRating?: string | undefined;
-  /** Optional. The maximum possible number for the rating. The value of the max rating must be greater than the value of the min rating. */
-  maxRating?: string | undefined;
-  /** Optional. The country where the reviewer made the order defined by ISO 3166-1 Alpha-2 Country Code. */
-  reviewCountry?: string | undefined;
-  /** Required. This should be any freeform text provided by the user and should not be truncated. If multiple responses to different questions are provided, all responses should be included, with the minimal context for the responses to make sense. Context should not be provided if questions were left unanswered. */
-  content?: string | undefined;
-  /** Optional. URL to the merchant's main website. Do not use a redirect URL for this value. In other words, the value should point directly to the merchant's site. */
-  merchantLink?: string | undefined;
-  /** Required. The timestamp indicating when the review was written. */
-  reviewTime?: string | undefined;
-  /** Optional. The title of the review. */
-  title?: string | undefined;
-  /** Optional. Display name of the review author. */
-  reviewerUsername?: string | undefined;
-  /** Required. Must be unique and stable across all requests. In other words, if a request today and another 90 days ago refer to the same merchant, they must have the same id. */
-  merchantId?: string | undefined;
-  /** Optional. A permanent, unique identifier for the author of the review in the publisher's system. */
-  reviewerId?: string | undefined;
-  /** Optional. URL to the landing page that hosts the reviews for this merchant. Do not use a redirect URL. */
-  merchantRatingLink?: string | undefined;
-}
 /** A message that represents custom attributes. Exactly one of `value` or `group_values` must not be empty. */
 export interface CustomAttribute {
   /** The name of the attribute. */
@@ -161,52 +121,6 @@ export interface CustomAttribute {
   value?: string | undefined;
 }
 export type CustomAttributeList = Array<CustomAttribute>;
-export type MerchantReviewItemLevelIssueSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "NOT_IMPACTED"
-  | "DISAPPROVED";
-export type MerchantReviewItemLevelIssueReportingContextEnum =
-  | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
-  | "SHOPPING_ADS"
-  | "DISCOVERY_ADS"
-  | "DEMAND_GEN_ADS"
-  | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
-  | "VIDEO_ADS"
-  | "DISPLAY_ADS"
-  | "LOCAL_INVENTORY_ADS"
-  | "VEHICLE_INVENTORY_ADS"
-  | "FREE_LISTINGS"
-  | "FREE_LISTINGS_UCP_CHECKOUT"
-  | "FREE_LOCAL_LISTINGS"
-  | "FREE_LOCAL_VEHICLE_LISTINGS"
-  | "YOUTUBE_AFFILIATE"
-  | "YOUTUBE_SHOPPING"
-  | "CLOUD_RETAIL"
-  | "LOCAL_CLOUD_RETAIL"
-  | "PRODUCT_REVIEWS"
-  | "MERCHANT_REVIEWS"
-  | "YOUTUBE_CHECKOUT"
-  | "RENTAL_ADS";
-/** The ItemLevelIssue of the merchant review status. */
-export interface MerchantReviewItemLevelIssue {
-  /** Output only. The attribute's name, if the issue is caused by a single attribute. */
-  attribute?: string | undefined;
-  /** Output only. Whether the issue can be resolved by the merchant. */
-  resolution?: string | undefined;
-  /** Output only. The error code of the issue. */
-  code?: string | undefined;
-  /** Output only. How this issue affects serving of the merchant review. */
-  severity?: MerchantReviewItemLevelIssueSeverityEnum | (string & {}) | undefined;
-  /** Output only. The reporting context the issue applies to. */
-  reportingContext?: MerchantReviewItemLevelIssueReportingContextEnum | (string & {}) | undefined;
-  /** Output only. The URL of a web page to help with resolving this issue. */
-  documentation?: string | undefined;
-  /** Output only. A detailed issue description in English. */
-  detail?: string | undefined;
-  /** Output only. A short issue description in English. */
-  description?: string | undefined;
-}
-export type MerchantReviewItemLevelIssueList = Array<MerchantReviewItemLevelIssue>;
 export type MerchantReviewDestinationStatusReportingContextEnum =
   | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
   | "SHOPPING_ADS"
@@ -238,115 +152,11 @@ export interface MerchantReviewDestinationStatus {
     | undefined;
 }
 export type MerchantReviewDestinationStatusList = Array<MerchantReviewDestinationStatus>;
-/** The status of a merchant review, data validation issues, that is, information about a merchant review computed asynchronously. */
-export interface MerchantReviewStatus {
-  /** Output only. Date on which the item has been last updated, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  lastUpdateTime?: string | undefined;
-  /** Output only. Date on which the item has been created, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  createTime?: string | undefined;
-  /** Output only. A list of all issues associated with the merchant review. */
-  itemLevelIssues?: MerchantReviewItemLevelIssueList | undefined;
-  /** Output only. The intended destinations for the merchant review. */
-  destinationStatuses?: MerchantReviewDestinationStatusList | undefined;
-}
-/** A review for a merchant. For more information, see [Introduction to Merchant Review Feeds](https://developers.google.com/merchant-review-feeds) */
-export interface MerchantReview {
-  /** Optional. A list of merchant review attributes. */
-  merchantReviewAttributes?: MerchantReviewAttributes | undefined;
-  /** Output only. The primary data source of the merchant review. */
-  dataSource?: string | undefined;
-  /** Optional. A list of custom (merchant-provided) attributes. It can also be used for submitting any attribute of the data specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as experimental attributes. Maximum allowed number of characters for each custom attribute is 10240 (represents sum of characters for name and value). Maximum 2500 custom attributes can be set per product, with total size of 102.4kB. Underscores in custom attribute names are replaced by spaces upon insertion. */
-  customAttributes?: CustomAttributeList | undefined;
-  /** Identifier. The name of the merchant review. Format: `"{merchantreview.name=accounts/{account}/merchantReviews/{merchantReview}}"` */
-  name?: string | undefined;
-  /** Output only. The status of a merchant review, data validation issues, that is, information about a merchant review computed asynchronously. */
-  merchantReviewStatus?: MerchantReviewStatus | undefined;
-  /** Required. The user provided merchant review ID to uniquely identify the merchant review. */
-  merchantReviewId?: string | undefined;
-}
-export interface GetAccountsProductReviewsRequest {
-  /** Required. The ID of the merchant review. Format: accounts/{account}/productReviews/{productReview} */
-  name: string;
-}
-export type StringList = Array<string>;
-export type ProductReviewAttributesCollectionMethodEnum =
-  | "COLLECTION_METHOD_UNSPECIFIED"
-  | "UNSOLICITED"
-  | "POST_FULFILLMENT";
-export type ReviewLinkTypeEnum = "TYPE_UNSPECIFIED" | "SINGLETON" | "GROUP";
-/** The URI of the review landing page. */
-export interface ReviewLink {
-  /** Optional. The URI of the review landing page. For example: `http://www.example.com/review_5.html`. */
-  link?: string | undefined;
-  /** Optional. Type of the review URI. */
-  type?: ReviewLinkTypeEnum | (string & {}) | undefined;
-}
-/** Attributes. */
-export interface ProductReviewAttributes {
-  /** Optional. Contains ASINs (Amazon Standard Identification Numbers) associated with a product. */
-  asins?: StringList | undefined;
-  /** Optional. The country of the review defined by ISO 3166-1 Alpha-2 Country Code. */
-  reviewCountry?: string | undefined;
-  /** Optional. Descriptive name of a product. */
-  productNames?: StringList | undefined;
-  /** Optional. Indicates whether the review is marked as spam in the publisher's system. */
-  isSpam?: boolean | undefined;
-  /** Optional. The name of the publisher of the product reviews. The information about the publisher, which may be a retailer, manufacturer, reviews service company, or any entity that publishes product reviews. */
-  publisherName?: string | undefined;
-  /** Optional. The author of the product review. A permanent, unique identifier for the author of the review in the publisher's system. */
-  reviewerId?: string | undefined;
-  /** Optional. The maximum possible number for the rating. The value of the max rating must be greater than the value of the min attribute. */
-  maxRating?: string | undefined;
-  /** Optional. A URI to an image of the reviewed product created by the review author. The URI does not have to end with an image file extension. */
-  reviewerImageLinks?: StringList | undefined;
-  /** Optional. Indicates whether the reviewer's purchase is verified. */
-  isVerifiedPurchase?: boolean | undefined;
-  /** Optional. Contains the advantages based on the opinion of the reviewer. Omit boilerplate text like "pro:" unless it was written by the reviewer. */
-  pros?: StringList | undefined;
-  /** Optional. Indicates whether the review is incentivized. */
-  isIncentivizedReview?: boolean | undefined;
-  /** Optional. Contains GTINs (global trade item numbers) associated with a product. Sub-types of GTINs (e.g. UPC, EAN, ISBN, JAN) are supported. */
-  gtins?: StringList | undefined;
-  /** Optional. A permanent, unique identifier for the transaction associated with the review in the publisher's system. This ID can be used to indicate that multiple reviews are associated with the same transaction. */
-  transactionId?: string | undefined;
-  /** Optional. The name of the reviewer of the product review. */
-  reviewerUsername?: string | undefined;
-  /** Required. The timestamp indicating when the review was written. */
-  reviewTime?: string | undefined;
-  /** Optional. The method used to collect the review. */
-  collectionMethod?: ProductReviewAttributesCollectionMethodEnum | (string & {}) | undefined;
-  /** Optional. The name of the subclient of the product reviews. The subclient is an identifier of the product review source. It should be equivalent to the directory provided in the file data source path. */
-  subclientName?: string | undefined;
-  /** Optional. The reviewer's overall rating of the product. */
-  rating?: number | undefined;
-  /** Optional. Contains SKUs (stock keeping units) associated with a product. Often this matches the product Offer Id in the product feed. */
-  skus?: StringList | undefined;
-  /** Optional. Set to true if the reviewer should remain anonymous. */
-  reviewerIsAnonymous?: boolean | undefined;
-  /** Optional. Contains the disadvantages based on the opinion of the reviewer. Omit boilerplate text like "con:" unless it was written by the reviewer. */
-  cons?: StringList | undefined;
-  /** Optional. A link to the company favicon of the publisher. The image dimensions should be favicon size: 16x16 pixels. The image format should be GIF, JPG or PNG. */
-  publisherFavicon?: string | undefined;
-  /** Optional. The language of the review defined by BCP-47 language code. */
-  reviewLanguage?: string | undefined;
-  /** Optional. The URI of the product. This URI can have the same value as the `review_link` element, if the review URI and the product URI are the same. */
-  productLinks?: StringList | undefined;
-  /** Optional. The title of the review. */
-  title?: string | undefined;
-  /** Optional. Contains the ratings associated with the review. The minimum possible number for the rating. This should be the worst possible rating and should not be a value for no rating. */
-  minRating?: string | undefined;
-  /** Optional. Contains brand names associated with a product. */
-  brands?: StringList | undefined;
-  /** Optional. The content of the review. If empty, the content might still get populated from pros and cons. */
-  content?: string | undefined;
-  /** Optional. The name of the aggregator of the product reviews. A publisher may use a reviews aggregator to manage reviews and provide the feeds. This element indicates the use of an aggregator and contains information about the aggregator. */
-  aggregatorName?: string | undefined;
-  /** Optional. The URI of the review landing page. */
-  reviewLink?: ReviewLink | undefined;
-  /** Optional. Contains MPNs (manufacturer part numbers) associated with a product. */
-  mpns?: StringList | undefined;
-}
-export type ProductReviewDestinationStatusReportingContextEnum =
+export type MerchantReviewItemLevelIssueSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "NOT_IMPACTED"
+  | "DISAPPROVED";
+export type MerchantReviewItemLevelIssueReportingContextEnum =
   | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
   | "SHOPPING_ADS"
   | "DISCOVERY_ADS"
@@ -368,12 +178,174 @@ export type ProductReviewDestinationStatusReportingContextEnum =
   | "MERCHANT_REVIEWS"
   | "YOUTUBE_CHECKOUT"
   | "RENTAL_ADS";
-/** The destination status of the product review status. */
-export interface ProductReviewDestinationStatus {
-  /** Output only. The name of the reporting context. */
-  reportingContext?: ProductReviewDestinationStatusReportingContextEnum | (string & {}) | undefined;
+/** The ItemLevelIssue of the merchant review status. */
+export interface MerchantReviewItemLevelIssue {
+  /** Output only. A short issue description in English. */
+  description?: string | undefined;
+  /** Output only. The URL of a web page to help with resolving this issue. */
+  documentation?: string | undefined;
+  /** Output only. How this issue affects serving of the merchant review. */
+  severity?: MerchantReviewItemLevelIssueSeverityEnum | (string & {}) | undefined;
+  /** Output only. The error code of the issue. */
+  code?: string | undefined;
+  /** Output only. The attribute's name, if the issue is caused by a single attribute. */
+  attribute?: string | undefined;
+  /** Output only. The reporting context the issue applies to. */
+  reportingContext?: MerchantReviewItemLevelIssueReportingContextEnum | (string & {}) | undefined;
+  /** Output only. Whether the issue can be resolved by the merchant. */
+  resolution?: string | undefined;
+  /** Output only. A detailed issue description in English. */
+  detail?: string | undefined;
 }
-export type ProductReviewDestinationStatusList = Array<ProductReviewDestinationStatus>;
+export type MerchantReviewItemLevelIssueList = Array<MerchantReviewItemLevelIssue>;
+/** The status of a merchant review, data validation issues, that is, information about a merchant review computed asynchronously. */
+export interface MerchantReviewStatus {
+  /** Output only. The intended destinations for the merchant review. */
+  destinationStatuses?: MerchantReviewDestinationStatusList | undefined;
+  /** Output only. A list of all issues associated with the merchant review. */
+  itemLevelIssues?: MerchantReviewItemLevelIssueList | undefined;
+  /** Output only. Date on which the item has been created, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
+  createTime?: string | undefined;
+  /** Output only. Date on which the item has been last updated, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
+  lastUpdateTime?: string | undefined;
+}
+export type MerchantReviewAttributesCollectionMethodEnum =
+  | "COLLECTION_METHOD_UNSPECIFIED"
+  | "MERCHANT_UNSOLICITED"
+  | "POINT_OF_SALE"
+  | "AFTER_FULFILLMENT";
+/** Attributes. */
+export interface MerchantReviewAttributes {
+  /** Optional. Display name of the review author. */
+  reviewerUsername?: string | undefined;
+  /** Optional. The language of the review defined by BCP-47 language code. */
+  reviewLanguage?: string | undefined;
+  /** Optional. The minimum possible number for the rating. This should be the worst possible rating and should not be a value for no rating. */
+  minRating?: string | undefined;
+  /** Optional. The reviewer's overall rating of the merchant. */
+  rating?: number | undefined;
+  /** Optional. A permanent, unique identifier for the author of the review in the publisher's system. */
+  reviewerId?: string | undefined;
+  /** Optional. Human-readable display name for the merchant. */
+  merchantDisplayName?: string | undefined;
+  /** Optional. The country where the reviewer made the order defined by ISO 3166-1 Alpha-2 Country Code. */
+  reviewCountry?: string | undefined;
+  /** Optional. Set to true if the reviewer should remain anonymous. */
+  isAnonymous?: boolean | undefined;
+  /** Optional. The method used to collect the review. */
+  collectionMethod?: MerchantReviewAttributesCollectionMethodEnum | (string & {}) | undefined;
+  /** Optional. The maximum possible number for the rating. The value of the max rating must be greater than the value of the min rating. */
+  maxRating?: string | undefined;
+  /** Optional. URL to the landing page that hosts the reviews for this merchant. Do not use a redirect URL. */
+  merchantRatingLink?: string | undefined;
+  /** Required. The timestamp indicating when the review was written. */
+  reviewTime?: string | undefined;
+  /** Required. This should be any freeform text provided by the user and should not be truncated. If multiple responses to different questions are provided, all responses should be included, with the minimal context for the responses to make sense. Context should not be provided if questions were left unanswered. */
+  content?: string | undefined;
+  /** Optional. URL to the merchant's main website. Do not use a redirect URL for this value. In other words, the value should point directly to the merchant's site. */
+  merchantLink?: string | undefined;
+  /** Optional. The title of the review. */
+  title?: string | undefined;
+  /** Required. Must be unique and stable across all requests. In other words, if a request today and another 90 days ago refer to the same merchant, they must have the same id. */
+  merchantId?: string | undefined;
+}
+/** A review for a merchant. For more information, see [Introduction to Merchant Review Feeds](https://developers.google.com/merchant-review-feeds) */
+export interface MerchantReview {
+  /** Optional. A list of custom (merchant-provided) attributes. It can also be used for submitting any attribute of the data specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as experimental attributes. Maximum allowed number of characters for each custom attribute is 10240 (represents sum of characters for name and value). Maximum 2500 custom attributes can be set per product, with total size of 102.4kB. Underscores in custom attribute names are replaced by spaces upon insertion. */
+  customAttributes?: CustomAttributeList | undefined;
+  /** Required. The user provided merchant review ID to uniquely identify the merchant review. */
+  merchantReviewId?: string | undefined;
+  /** Output only. The status of a merchant review, data validation issues, that is, information about a merchant review computed asynchronously. */
+  merchantReviewStatus?: MerchantReviewStatus | undefined;
+  /** Identifier. The name of the merchant review. Format: `"{merchantreview.name=accounts/{account}/merchantReviews/{merchantReview}}"` */
+  name?: string | undefined;
+  /** Output only. The primary data source of the merchant review. */
+  dataSource?: string | undefined;
+  /** Optional. A list of merchant review attributes. */
+  merchantReviewAttributes?: MerchantReviewAttributes | undefined;
+}
+export interface GetAccountsProductReviewsRequest {
+  /** Required. The ID of the merchant review. Format: accounts/{account}/productReviews/{productReview} */
+  name: string;
+}
+export type StringList = Array<string>;
+export type ReviewLinkTypeEnum = "TYPE_UNSPECIFIED" | "SINGLETON" | "GROUP";
+/** The URI of the review landing page. */
+export interface ReviewLink {
+  /** Optional. Type of the review URI. */
+  type?: ReviewLinkTypeEnum | (string & {}) | undefined;
+  /** Optional. The URI of the review landing page. For example: `http://www.example.com/review_5.html`. */
+  link?: string | undefined;
+}
+export type ProductReviewAttributesCollectionMethodEnum =
+  | "COLLECTION_METHOD_UNSPECIFIED"
+  | "UNSOLICITED"
+  | "POST_FULFILLMENT";
+/** Attributes. */
+export interface ProductReviewAttributes {
+  /** Optional. The content of the review. If empty, the content might still get populated from pros and cons. */
+  content?: string | undefined;
+  /** Optional. The name of the reviewer of the product review. */
+  reviewerUsername?: string | undefined;
+  /** Optional. The maximum possible number for the rating. The value of the max rating must be greater than the value of the min attribute. */
+  maxRating?: string | undefined;
+  /** Optional. Indicates whether the reviewer's purchase is verified. */
+  isVerifiedPurchase?: boolean | undefined;
+  /** Optional. The URI of the product. This URI can have the same value as the `review_link` element, if the review URI and the product URI are the same. */
+  productLinks?: StringList | undefined;
+  /** Optional. The URI of the review landing page. */
+  reviewLink?: ReviewLink | undefined;
+  /** Optional. Contains the disadvantages based on the opinion of the reviewer. Omit boilerplate text like "con:" unless it was written by the reviewer. */
+  cons?: StringList | undefined;
+  /** Optional. Indicates whether the review is marked as spam in the publisher's system. */
+  isSpam?: boolean | undefined;
+  /** Optional. Contains MPNs (manufacturer part numbers) associated with a product. */
+  mpns?: StringList | undefined;
+  /** Optional. The name of the publisher of the product reviews. The information about the publisher, which may be a retailer, manufacturer, reviews service company, or any entity that publishes product reviews. */
+  publisherName?: string | undefined;
+  /** Optional. Contains the ratings associated with the review. The minimum possible number for the rating. This should be the worst possible rating and should not be a value for no rating. */
+  minRating?: string | undefined;
+  /** Optional. The name of the subclient of the product reviews. The subclient is an identifier of the product review source. It should be equivalent to the directory provided in the file data source path. */
+  subclientName?: string | undefined;
+  /** Optional. The country of the review defined by ISO 3166-1 Alpha-2 Country Code. */
+  reviewCountry?: string | undefined;
+  /** Optional. The author of the product review. A permanent, unique identifier for the author of the review in the publisher's system. */
+  reviewerId?: string | undefined;
+  /** Optional. Contains brand names associated with a product. */
+  brands?: StringList | undefined;
+  /** Optional. The name of the aggregator of the product reviews. A publisher may use a reviews aggregator to manage reviews and provide the feeds. This element indicates the use of an aggregator and contains information about the aggregator. */
+  aggregatorName?: string | undefined;
+  /** Optional. Contains the advantages based on the opinion of the reviewer. Omit boilerplate text like "pro:" unless it was written by the reviewer. */
+  pros?: StringList | undefined;
+  /** Optional. The reviewer's overall rating of the product. */
+  rating?: number | undefined;
+  /** Optional. A URI to an image of the reviewed product created by the review author. The URI does not have to end with an image file extension. */
+  reviewerImageLinks?: StringList | undefined;
+  /** Optional. Indicates whether the review is incentivized. */
+  isIncentivizedReview?: boolean | undefined;
+  /** Optional. A permanent, unique identifier for the transaction associated with the review in the publisher's system. This ID can be used to indicate that multiple reviews are associated with the same transaction. */
+  transactionId?: string | undefined;
+  /** Optional. The language of the review defined by BCP-47 language code. */
+  reviewLanguage?: string | undefined;
+  /** Optional. The title of the review. */
+  title?: string | undefined;
+  /** Optional. Contains GTINs (global trade item numbers) associated with a product. Sub-types of GTINs (e.g. UPC, EAN, ISBN, JAN) are supported. */
+  gtins?: StringList | undefined;
+  /** Optional. The method used to collect the review. */
+  collectionMethod?: ProductReviewAttributesCollectionMethodEnum | (string & {}) | undefined;
+  /** Required. The timestamp indicating when the review was written. */
+  reviewTime?: string | undefined;
+  /** Optional. Set to true if the reviewer should remain anonymous. */
+  reviewerIsAnonymous?: boolean | undefined;
+  /** Optional. A link to the company favicon of the publisher. The image dimensions should be favicon size: 16x16 pixels. The image format should be GIF, JPG or PNG. */
+  publisherFavicon?: string | undefined;
+  /** Optional. Contains ASINs (Amazon Standard Identification Numbers) associated with a product. */
+  asins?: StringList | undefined;
+  /** Optional. Descriptive name of a product. */
+  productNames?: StringList | undefined;
+  /** Optional. Contains SKUs (stock keeping units) associated with a product. Often this matches the product Offer Id in the product feed. */
+  skus?: StringList | undefined;
+}
 export type ProductReviewItemLevelIssueSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
   | "NOT_IMPACTED"
@@ -402,55 +374,83 @@ export type ProductReviewItemLevelIssueReportingContextEnum =
   | "RENTAL_ADS";
 /** The ItemLevelIssue of the product review status. */
 export interface ProductReviewItemLevelIssue {
-  /** Output only. The URL of a web page to help with resolving this issue. */
-  documentation?: string | undefined;
   /** Output only. A detailed issue description in English. */
   detail?: string | undefined;
   /** Output only. Whether the issue can be resolved by the merchant. */
   resolution?: string | undefined;
-  /** Output only. A short issue description in English. */
-  description?: string | undefined;
   /** Output only. How this issue affects serving of the product review. */
   severity?: ProductReviewItemLevelIssueSeverityEnum | (string & {}) | undefined;
+  /** Output only. A short issue description in English. */
+  description?: string | undefined;
   /** Output only. The reporting context the issue applies to. */
   reportingContext?: ProductReviewItemLevelIssueReportingContextEnum | (string & {}) | undefined;
-  /** Output only. The error code of the issue. */
-  code?: string | undefined;
   /** Output only. The attribute's name, if the issue is caused by a single attribute. */
   attribute?: string | undefined;
+  /** Output only. The error code of the issue. */
+  code?: string | undefined;
+  /** Output only. The URL of a web page to help with resolving this issue. */
+  documentation?: string | undefined;
 }
 export type ProductReviewItemLevelIssueList = Array<ProductReviewItemLevelIssue>;
+export type ProductReviewDestinationStatusReportingContextEnum =
+  | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+  | "SHOPPING_ADS"
+  | "DISCOVERY_ADS"
+  | "DEMAND_GEN_ADS"
+  | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+  | "VIDEO_ADS"
+  | "DISPLAY_ADS"
+  | "LOCAL_INVENTORY_ADS"
+  | "VEHICLE_INVENTORY_ADS"
+  | "FREE_LISTINGS"
+  | "FREE_LISTINGS_UCP_CHECKOUT"
+  | "FREE_LOCAL_LISTINGS"
+  | "FREE_LOCAL_VEHICLE_LISTINGS"
+  | "YOUTUBE_AFFILIATE"
+  | "YOUTUBE_SHOPPING"
+  | "CLOUD_RETAIL"
+  | "LOCAL_CLOUD_RETAIL"
+  | "PRODUCT_REVIEWS"
+  | "MERCHANT_REVIEWS"
+  | "YOUTUBE_CHECKOUT"
+  | "RENTAL_ADS";
+/** The destination status of the product review status. */
+export interface ProductReviewDestinationStatus {
+  /** Output only. The name of the reporting context. */
+  reportingContext?: ProductReviewDestinationStatusReportingContextEnum | (string & {}) | undefined;
+}
+export type ProductReviewDestinationStatusList = Array<ProductReviewDestinationStatus>;
 /** Product review status. */
 export interface ProductReviewStatus {
-  /** Output only. The intended destinations for the product review. */
-  destinationStatuses?: ProductReviewDestinationStatusList | undefined;
   /** Output only. A list of all issues associated with the product review. */
   itemLevelIssues?: ProductReviewItemLevelIssueList | undefined;
-  /** Output only. Date on which the item has been created, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  createTime?: string | undefined;
   /** Output only. Date on which the item has been last updated, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
   lastUpdateTime?: string | undefined;
+  /** Output only. The intended destinations for the product review. */
+  destinationStatuses?: ProductReviewDestinationStatusList | undefined;
+  /** Output only. Date on which the item has been created, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
+  createTime?: string | undefined;
 }
 /** A review for a product. For more information, see [Introduction to Product Review Feeds](https://developers.google.com/product-review-feeds) */
 export interface ProductReview {
-  /** Identifier. The name of the product review. Format: `"{productreview.name=accounts/{account}/productReviews/{productReview}}"` */
-  name?: string | undefined;
-  /** Output only. The primary data source of the product review. */
-  dataSource?: string | undefined;
-  /** Required. The permanent, unique identifier for the product review in the publisher's system. */
-  productReviewId?: string | undefined;
-  /** Optional. A list of product review attributes. */
-  productReviewAttributes?: ProductReviewAttributes | undefined;
-  /** Output only. The status of a product review, data validation issues, that is, information about a product review computed asynchronously. */
-  productReviewStatus?: ProductReviewStatus | undefined;
   /** Optional. A list of custom (merchant-provided) attributes. */
   customAttributes?: CustomAttributeList | undefined;
+  /** Optional. A list of product review attributes. */
+  productReviewAttributes?: ProductReviewAttributes | undefined;
+  /** Required. The permanent, unique identifier for the product review in the publisher's system. */
+  productReviewId?: string | undefined;
+  /** Output only. The status of a product review, data validation issues, that is, information about a product review computed asynchronously. */
+  productReviewStatus?: ProductReviewStatus | undefined;
+  /** Output only. The primary data source of the product review. */
+  dataSource?: string | undefined;
+  /** Identifier. The name of the product review. Format: `"{productreview.name=accounts/{account}/productReviews/{productReview}}"` */
+  name?: string | undefined;
 }
 export interface InsertAccountsMerchantReviewsRequest {
-  /** Required. The data source of the [merchantreview](https://support.google.com/merchants/answer/7045996?sjid=5253581244217581976-EU) Format: `accounts/{account}/dataSources/{datasource}`. */
-  dataSource?: string | undefined;
   /** Required. The account where the merchant review will be inserted. Format: accounts/{account} */
   parent: string;
+  /** Required. The data source of the [merchantreview](https://support.google.com/merchants/answer/7045996?sjid=5253581244217581976-EU) Format: `accounts/{account}/dataSources/{datasource}`. */
+  dataSource?: string | undefined;
   /** Request body */
   body?: MerchantReview | undefined;
 }
@@ -463,12 +463,12 @@ export interface InsertAccountsProductReviewsRequest {
   body?: ProductReview | undefined;
 }
 export interface ListAccountsMerchantReviewsRequest {
-  /** Optional. A page token, received from a previous `ListMerchantReviews` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMerchantReviews` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. The account to list merchant reviews for. Format: accounts/{account} */
   parent: string;
   /** Optional. The maximum number of merchant reviews to return. The service can return fewer than this value. The maximum value is 1000; values above 1000 are coerced to 1000. If unspecified, the maximum number of reviews is returned. */
   pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListMerchantReviews` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMerchantReviews` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type MerchantReviewList = Array<MerchantReview>;
 /** Response message for the `ListMerchantsReview` method. */
@@ -479,20 +479,20 @@ export interface ListMerchantReviewsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListAccountsProductReviewsRequest {
-  /** Optional. A page token, received from a previous `ListProductReviews` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProductReviews` must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Optional. The maximum number of products to return. The service may return fewer than this value. */
-  pageSize?: number | undefined;
   /** Required. The account to list product reviews for. Format: accounts/{account} */
   parent: string;
+  /** Optional. The maximum number of products to return. The service may return fewer than this value. */
+  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListProductReviews` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProductReviews` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type ProductReviewList = Array<ProductReview>;
 /** response message for the ListProductReviews method. */
 export interface ListProductReviewsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The product review. */
   productReviews?: ProductReviewList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export type DeleteAccountsMerchantReviewsError =
   | NotFound
@@ -694,9 +694,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -721,9 +721,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -737,8 +737,8 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           productReviews: S.optional(__S(17, __c2, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProductReviewsResponse" });
   }
@@ -824,57 +824,57 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reviewLanguage: S.optional(S.String),
-          merchantDisplayName: S.optional(S.String),
-          collectionMethod: S.optional(S.String),
-          rating: S.optional(S.Number),
-          isAnonymous: S.optional(S.Boolean),
-          minRating: S.optional(S.String),
-          maxRating: S.optional(S.String),
-          reviewCountry: S.optional(S.String),
-          content: S.optional(S.String),
-          merchantLink: S.optional(S.String),
-          reviewTime: S.optional(S.String),
-          title: S.optional(S.String),
-          reviewerUsername: S.optional(S.String),
-          merchantId: S.optional(S.String),
-          reviewerId: S.optional(S.String),
-          merchantRatingLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MerchantReviewAttributes" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          attribute: S.optional(S.String),
-          resolution: S.optional(S.String),
-          code: S.optional(S.String),
-          severity: S.optional(S.String),
-          reportingContext: S.optional(S.String),
-          documentation: S.optional(S.String),
-          detail: S.optional(S.String),
           description: S.optional(S.String),
+          documentation: S.optional(S.String),
+          severity: S.optional(S.String),
+          code: S.optional(S.String),
+          attribute: S.optional(S.String),
+          reportingContext: S.optional(S.String),
+          resolution: S.optional(S.String),
+          detail: S.optional(S.String),
         }),
       ).annotate({ identifier: "MerchantReviewItemLevelIssue" });
+    case 1:
+      return S.Array(__S(64, __c8, 0));
     case 2:
-      return S.Array(__S(65, __c8, 1));
+      return S.suspend(() =>
+        S.Struct({
+          destinationStatuses: S.optional(__S(59, __c7, 3)),
+          itemLevelIssues: S.optional(__S(65, __c8, 1)),
+          createTime: S.optional(S.String),
+          lastUpdateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MerchantReviewStatus" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          lastUpdateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          itemLevelIssues: S.optional(__S(66, __c8, 2)),
-          destinationStatuses: S.optional(__S(59, __c7, 3)),
+          reviewerUsername: S.optional(S.String),
+          reviewLanguage: S.optional(S.String),
+          minRating: S.optional(S.String),
+          rating: S.optional(S.Number),
+          reviewerId: S.optional(S.String),
+          merchantDisplayName: S.optional(S.String),
+          reviewCountry: S.optional(S.String),
+          isAnonymous: S.optional(S.Boolean),
+          collectionMethod: S.optional(S.String),
+          maxRating: S.optional(S.String),
+          merchantRatingLink: S.optional(S.String),
+          reviewTime: S.optional(S.String),
+          content: S.optional(S.String),
+          merchantLink: S.optional(S.String),
+          title: S.optional(S.String),
+          merchantId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MerchantReviewStatus" });
+      ).annotate({ identifier: "MerchantReviewAttributes" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          merchantReviewAttributes: S.optional(__S(64, __c8, 0)),
-          dataSource: S.optional(S.String),
           customAttributes: S.optional(__S(57, __c7, 1)),
-          name: S.optional(S.String),
-          merchantReviewStatus: S.optional(__S(67, __c8, 3)),
           merchantReviewId: S.optional(S.String),
+          merchantReviewStatus: S.optional(__S(66, __c8, 2)),
+          name: S.optional(S.String),
+          dataSource: S.optional(S.String),
+          merchantReviewAttributes: S.optional(__S(67, __c8, 3)),
         }),
       ).annotate({ identifier: "MerchantReview" });
   }
@@ -902,57 +902,57 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          link: S.optional(S.String),
           type: S.optional(S.String),
+          link: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReviewLink" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          asins: S.optional(__S(80, __c10, 0)),
-          reviewCountry: S.optional(S.String),
-          productNames: S.optional(__S(80, __c10, 0)),
-          isSpam: S.optional(S.Boolean),
-          publisherName: S.optional(S.String),
-          reviewerId: S.optional(S.String),
-          maxRating: S.optional(S.String),
-          reviewerImageLinks: S.optional(__S(80, __c10, 0)),
-          isVerifiedPurchase: S.optional(S.Boolean),
-          pros: S.optional(__S(80, __c10, 0)),
-          isIncentivizedReview: S.optional(S.Boolean),
-          gtins: S.optional(__S(80, __c10, 0)),
-          transactionId: S.optional(S.String),
-          reviewerUsername: S.optional(S.String),
-          reviewTime: S.optional(S.String),
-          collectionMethod: S.optional(S.String),
-          subclientName: S.optional(S.String),
-          rating: S.optional(S.Number),
-          skus: S.optional(__S(80, __c10, 0)),
-          reviewerIsAnonymous: S.optional(S.Boolean),
-          cons: S.optional(__S(80, __c10, 0)),
-          publisherFavicon: S.optional(S.String),
-          reviewLanguage: S.optional(S.String),
-          productLinks: S.optional(__S(80, __c10, 0)),
-          title: S.optional(S.String),
-          minRating: S.optional(S.String),
-          brands: S.optional(__S(80, __c10, 0)),
           content: S.optional(S.String),
-          aggregatorName: S.optional(S.String),
+          reviewerUsername: S.optional(S.String),
+          maxRating: S.optional(S.String),
+          isVerifiedPurchase: S.optional(S.Boolean),
+          productLinks: S.optional(__S(80, __c10, 0)),
           reviewLink: S.optional(__S(81, __c10, 1)),
+          cons: S.optional(__S(80, __c10, 0)),
+          isSpam: S.optional(S.Boolean),
           mpns: S.optional(__S(80, __c10, 0)),
+          publisherName: S.optional(S.String),
+          minRating: S.optional(S.String),
+          subclientName: S.optional(S.String),
+          reviewCountry: S.optional(S.String),
+          reviewerId: S.optional(S.String),
+          brands: S.optional(__S(80, __c10, 0)),
+          aggregatorName: S.optional(S.String),
+          pros: S.optional(__S(80, __c10, 0)),
+          rating: S.optional(S.Number),
+          reviewerImageLinks: S.optional(__S(80, __c10, 0)),
+          isIncentivizedReview: S.optional(S.Boolean),
+          transactionId: S.optional(S.String),
+          reviewLanguage: S.optional(S.String),
+          title: S.optional(S.String),
+          gtins: S.optional(__S(80, __c10, 0)),
+          collectionMethod: S.optional(S.String),
+          reviewTime: S.optional(S.String),
+          reviewerIsAnonymous: S.optional(S.Boolean),
+          publisherFavicon: S.optional(S.String),
+          asins: S.optional(__S(80, __c10, 0)),
+          productNames: S.optional(__S(80, __c10, 0)),
+          skus: S.optional(__S(80, __c10, 0)),
         }),
       ).annotate({ identifier: "ProductReviewAttributes" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          documentation: S.optional(S.String),
           detail: S.optional(S.String),
           resolution: S.optional(S.String),
-          description: S.optional(S.String),
           severity: S.optional(S.String),
+          description: S.optional(S.String),
           reportingContext: S.optional(S.String),
-          code: S.optional(S.String),
           attribute: S.optional(S.String),
+          code: S.optional(S.String),
+          documentation: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProductReviewItemLevelIssue" });
     case 4:
@@ -960,21 +960,21 @@ function __c10(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          destinationStatuses: S.optional(__S(59, __c7, 3)),
           itemLevelIssues: S.optional(__S(84, __c10, 4)),
-          createTime: S.optional(S.String),
           lastUpdateTime: S.optional(S.String),
+          destinationStatuses: S.optional(__S(59, __c7, 3)),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProductReviewStatus" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          dataSource: S.optional(S.String),
-          productReviewId: S.optional(S.String),
-          productReviewAttributes: S.optional(__S(82, __c10, 2)),
-          productReviewStatus: S.optional(__S(85, __c10, 5)),
           customAttributes: S.optional(__S(57, __c7, 1)),
+          productReviewAttributes: S.optional(__S(82, __c10, 2)),
+          productReviewId: S.optional(S.String),
+          productReviewStatus: S.optional(__S(85, __c10, 5)),
+          dataSource: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProductReview" });
   }
@@ -984,8 +984,8 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataSource: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          dataSource: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(68, __c8, 4).pipe(T.HttpBody())),
         }).pipe(
           T.Http({

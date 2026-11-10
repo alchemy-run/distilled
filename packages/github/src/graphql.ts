@@ -3802,6 +3802,7 @@ export interface FileExtensionRestrictionParametersInput {
 /** Prevent commits that include changes in specified file and folder paths from
 being pushed to the commit graph. This includes absolute paths that contain file names. */
 export interface FilePathRestrictionParametersInput {
+  readonly ignoredFilePaths?: ReadonlyArray<string> | null | undefined;
   readonly restrictedFilePaths: ReadonlyArray<string>;
 }
 
@@ -4071,6 +4072,7 @@ export interface MaxFilePathLengthParametersInput {
 
 /** Prevent commits with individual files that exceed the specified limit from being pushed to the commit graph. */
 export interface MaxFileSizeParametersInput {
+  readonly ignoredFilePaths?: ReadonlyArray<string> | null | undefined;
   readonly maxFileSize: number;
 }
 
@@ -4367,6 +4369,7 @@ export interface PullRequestParametersInput {
   readonly dismissStaleReviewsOnPush: boolean;
   readonly dismissalRestriction?: DismissalRestrictionInput | null | undefined;
   readonly requireCodeOwnerReview: boolean;
+  readonly requireExtraApprovalForUnattributedChanges?: boolean | null | undefined;
   readonly requireLastPushApproval: boolean;
   readonly requiredApprovingReviewCount: number;
   readonly requiredReviewThreadResolution: boolean;
@@ -9544,6 +9547,7 @@ export interface FileExtensionRestrictionParameters {
 /** Prevent commits that include changes in specified file and folder paths from
 being pushed to the commit graph. This includes absolute paths that contain file names. */
 export interface FilePathRestrictionParameters {
+  readonly ignoredFilePaths: ReadonlyArray<string> | null;
   readonly restrictedFilePaths: ReadonlyArray<string>;
 }
 
@@ -11068,6 +11072,7 @@ export interface MaxFilePathLengthParameters {
 
 /** Prevent commits with individual files that exceed the specified limit from being pushed to the commit graph. */
 export interface MaxFileSizeParameters {
+  readonly ignoredFilePaths: ReadonlyArray<string> | null;
   readonly maxFileSize: number;
 }
 
@@ -14647,6 +14652,7 @@ export interface PullRequestParameters {
   readonly requiredApprovingReviewCount: number;
   readonly requiredReviewers: ReadonlyArray<RequiredReviewerConfiguration> | null;
   readonly requiredReviewThreadResolution: boolean;
+  readonly requireExtraApprovalForUnattributedChanges: boolean;
   readonly requireLastPushApproval: boolean;
 }
 
@@ -29582,6 +29588,7 @@ const FileExtensionRestrictionParametersFields: TypeMeta["fields"] = {
 };
 
 const FilePathRestrictionParametersFields: TypeMeta["fields"] = {
+  ignoredFilePaths: scalarField("ignoredFilePaths"),
   restrictedFilePaths: scalarField("restrictedFilePaths"),
 };
 
@@ -30797,6 +30804,7 @@ const MaxFilePathLengthParametersFields: TypeMeta["fields"] = {
 };
 
 const MaxFileSizeParametersFields: TypeMeta["fields"] = {
+  ignoredFilePaths: scalarField("ignoredFilePaths"),
   maxFileSize: scalarField("maxFileSize"),
 };
 
@@ -33845,6 +33853,9 @@ const PullRequestParametersFields: TypeMeta["fields"] = {
   requiredApprovingReviewCount: scalarField("requiredApprovingReviewCount"),
   requiredReviewers: listField("requiredReviewers", RequiredReviewerConfiguration),
   requiredReviewThreadResolution: scalarField("requiredReviewThreadResolution"),
+  requireExtraApprovalForUnattributedChanges: scalarField(
+    "requireExtraApprovalForUnattributedChanges",
+  ),
   requireLastPushApproval: scalarField("requireLastPushApproval"),
 };
 

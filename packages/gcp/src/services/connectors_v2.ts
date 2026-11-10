@@ -105,9 +105,9 @@ export interface CheckReadinessResponse {
   status?: string | undefined;
 }
 export interface CheckStatusProjectsLocationsConnectionsRequest {
+  name: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string | undefined;
-  name: string;
 }
 export type CheckStatusResponseStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "ERROR" | "AUTH_ERROR";
 export type DocumentMap = { [key: string]: unknown | undefined };
@@ -123,18 +123,18 @@ export interface CheckStatusResponse {
 }
 /** 'Entity row'/ 'Entity' refers to a single row of an entity type. */
 export interface Entity {
-  /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
-  name?: string | undefined;
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap | undefined;
   /** Fields of the entity. The key is name of the field and the value contains the applicable `google.protobuf.Value` entry for this field. */
   fields?: DocumentMap | undefined;
+  /** Metadata like service latency, etc. */
+  metadata?: DocumentMapMap | undefined;
+  /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest {
-  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string | undefined;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   parent: string;
+  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
+  "executionConfig.headers"?: string | undefined;
   /** Request body */
   body?: Entity | undefined;
 }
@@ -149,41 +149,41 @@ export interface DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityT
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export interface DeleteProjectsLocationsConnectionsEntityTypesEntitiesRequest {
-  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string | undefined;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name: string;
+  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
+  "executionConfig.headers"?: string | undefined;
+}
+export interface OAuth2Config {
+  /** Client ID for the OAuth2 flow. */
+  clientId?: string | undefined;
+  /** Authorization Server URL/Token Endpoint for Authorization Code Flow */
+  authUri?: string | undefined;
+  /** Client secret for the OAuth2 flow. */
+  clientSecret?: string | undefined;
 }
 export interface ExecutionConfig {
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   headers?: string | undefined;
 }
-export interface OAuth2Config {
-  /** Client secret for the OAuth2 flow. */
-  clientSecret?: string | undefined;
-  /** Client ID for the OAuth2 flow. */
-  clientId?: string | undefined;
-  /** Authorization Server URL/Token Endpoint for Authorization Code Flow */
-  authUri?: string | undefined;
-}
 export type StringList = Array<string>;
 /** AuthCodeData contains the data the runtime plane will give the connector backend in exchange for access and refresh tokens. */
 export interface AuthCodeData {
-  /** Scopes the connection will request when the user performs the auth code flow. */
-  scopes?: StringList | undefined;
-  /** OAuth authorization code. */
-  authCode?: string | undefined;
   /** OAuth redirect URI passed in during the auth code flow, required by some OAuth backends. */
   redirectUri?: string | undefined;
   /** OAuth PKCE verifier, needed if PKCE is enabled for this particular connection. */
   pkceVerifier?: string | undefined;
+  /** Scopes the connection will request when the user performs the auth code flow. */
+  scopes?: StringList | undefined;
+  /** OAuth authorization code. */
+  authCode?: string | undefined;
 }
 /** ExchangeAuthCodeRequest currently includes the auth code data. */
 export interface ExchangeAuthCodeRequest {
-  /** ExecutionConfig contains the configuration for the execution of the request. */
-  executionConfig?: ExecutionConfig | undefined;
   /** OAuth2Config contains the OAuth2 config for the connection. */
   oauth2Config?: OAuth2Config | undefined;
+  /** ExecutionConfig contains the configuration for the execution of the request. */
+  executionConfig?: ExecutionConfig | undefined;
   /** Optional. AuthCodeData contains the data the runtime requires to exchange for access and refresh tokens. If the data is not provided, the runtime will read the data from the secret manager. */
   authCodeData?: AuthCodeData | undefined;
 }
@@ -194,12 +194,12 @@ export interface ExchangeAuthCodeProjectsLocationsConnectionsRequest {
 }
 /** AccessCredentials includes the OAuth access token, and the other fields returned along with it. */
 export interface AccessCredentials {
-  /** OAuth refresh token. */
-  refreshToken?: string | undefined;
   /** OAuth access token. */
   accessToken?: string | undefined;
   /** Duration till the access token expires. */
   expiresIn?: string | undefined;
+  /** OAuth refresh token. */
+  refreshToken?: string | undefined;
 }
 /** ExchangeAuthCodeResponse includes the returned access token and its associated credentials. */
 export interface ExchangeAuthCodeResponse {
@@ -207,6 +207,14 @@ export interface ExchangeAuthCodeResponse {
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap | undefined;
 }
+/** A single HTTP header. Keys are case-insensitive. Multiple headers with the same key may be present. */
+export interface HttpHeader {
+  /** The header name. */
+  key?: string | undefined;
+  /** The header value. */
+  value?: string | undefined;
+}
+export type HttpHeaderList = Array<HttpHeader>;
 export type ExecuteHttpRequestRequestHttpMethodEnum =
   | "HTTP_METHOD_UNSPECIFIED"
   | "HTTP_METHOD_GET"
@@ -216,23 +224,15 @@ export type ExecuteHttpRequestRequestHttpMethodEnum =
   | "HTTP_METHOD_DELETE"
   | "HTTP_METHOD_HEAD"
   | "HTTP_METHOD_OPTIONS";
-/** A single HTTP header. Keys are case-insensitive. Multiple headers with the same key may be present. */
-export interface HttpHeader {
-  /** The header value. */
-  value?: string | undefined;
-  /** The header name. */
-  key?: string | undefined;
-}
-export type HttpHeaderList = Array<HttpHeader>;
 export interface ExecuteHttpRequestRequest {
+  /** HTTP headers to send with the request (e.g., Content-Type: application/json). Order is preserved and duplicate keys are allowed. */
+  headers?: HttpHeaderList | undefined;
+  /** Raw byte payload. Used for all pre-serialized formats including JSON, XML, GraphQL, and Multipart. */
+  rawBody?: string | undefined;
   /** Required. The HTTP method to use for the request. */
   httpMethod?: ExecuteHttpRequestRequestHttpMethodEnum | (string & {}) | undefined;
   /** Required. The fully resolved absolute target URL. Callers must pre-encode any query parameters. */
   url?: string | undefined;
-  /** Raw byte payload. Used for all pre-serialized formats including JSON, XML, GraphQL, and Multipart. */
-  rawBody?: string | undefined;
-  /** HTTP headers to send with the request (e.g., Content-Type: application/json). Order is preserved and duplicate keys are allowed. */
-  headers?: HttpHeaderList | undefined;
 }
 export interface ExecuteHttpRequestProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
@@ -241,21 +241,21 @@ export interface ExecuteHttpRequestProjectsLocationsConnectionsRequest {
   body?: ExecuteHttpRequestRequest | undefined;
 }
 export interface ExecuteHttpRequestResponse {
+  /** The HTTP status code received from the backend. */
+  statusCode?: number | undefined;
+  /** The raw response body. */
+  body?: string | undefined;
   /** HTTP headers received in the response. Order is preserved and duplicate keys are allowed (e.g., multiple Set-Cookie headers). */
   headers?: HttpHeaderList | undefined;
   /** The HTTP status reason phrase received from the backend (e.g., "Not Found"). May be empty if the backend did not provide one. */
   reason?: string | undefined;
-  /** The raw response body. */
-  body?: string | undefined;
-  /** The HTTP status code received from the backend. */
-  statusCode?: number | undefined;
 }
 /** Request message for ActionService.ExecuteAction */
 export interface ExecuteActionRequest {
-  /** Execution config for the request. */
-  executionConfig?: ExecutionConfig | undefined;
   /** Parameters for executing the action. The parameters can be key/value pairs or nested structs. */
   parameters?: DocumentMap | undefined;
+  /** Execution config for the request. */
+  executionConfig?: ExecutionConfig | undefined;
 }
 export interface ExecuteProjectsLocationsConnectionsActionsRequest {
   /** Required. Resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection}/actions/{action} */
@@ -266,17 +266,17 @@ export interface ExecuteProjectsLocationsConnectionsActionsRequest {
 export type DocumentMapList = Array<DocumentMap>;
 /** Response message for ActionService.ExecuteAction */
 export interface ExecuteActionResponse {
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap | undefined;
   /** In the case of successful invocation of the specified action, the results Struct contains values based on the response of the action invoked. 1. If the action execution produces any entities as a result, they are returned as an array of Structs with the 'key' being the field name and the 'value' being the value of that field in each result row. { 'results': [{'key': 'value'}, ...] } */
   results?: DocumentMapList | undefined;
+  /** Metadata like service latency, etc. */
+  metadata?: DocumentMapMap | undefined;
 }
 /** Request message for ConnectorAgentService.ExecuteTool */
 export interface ExecuteToolRequest {
-  /** execution config for the request. */
-  executionConfig?: ExecutionConfig | undefined;
   /** Input parameters for the tool. */
   parameters?: DocumentMap | undefined;
+  /** execution config for the request. */
+  executionConfig?: ExecutionConfig | undefined;
   /** Tool definition for the tool to be executed. */
   toolDefinition?: DocumentMap | undefined;
 }
@@ -288,10 +288,10 @@ export interface ExecuteProjectsLocationsConnectionsToolsRequest {
 }
 /** Response message for ConnectorAgentService.ExecuteTool */
 export interface ExecuteToolResponse {
-  /** Output from the tool execution. */
-  result?: DocumentMap | undefined;
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap | undefined;
+  /** Output from the tool execution. */
+  result?: DocumentMap | undefined;
   /** Metadata for the tool execution result. */
   _meta?: DocumentMap | undefined;
 }
@@ -343,20 +343,20 @@ export type QueryParameterDataTypeEnum =
   | "TIMESTAMP_WITH_TIMEZONE";
 /** Query parameter definition */
 export interface QueryParameter {
-  value?: unknown | undefined;
   dataType?: QueryParameterDataTypeEnum | (string & {}) | undefined;
+  value?: unknown | undefined;
 }
 export type QueryParameterList = Array<QueryParameter>;
 /** A wrapper around the SQL query statement. This is needed so that the JSON representation of ExecuteSqlQueryRequest has the following format: `{"query":"select *"}`. */
 export interface Query {
-  /** Required. Sql query to execute. */
-  query?: string | undefined;
+  /** Sets the limit for the maximum number of rows returned after the query execution. */
+  maxRows?: string | undefined;
   /** In the struct, the value corresponds to the value of query parameter and date type corresponds to the date type of the query parameter. */
   queryParameters?: QueryParameterList | undefined;
   /** Sets the number of seconds the driver will wait for a query to execute. */
   timeout?: string | undefined;
-  /** Sets the limit for the maximum number of rows returned after the query execution. */
-  maxRows?: string | undefined;
+  /** Required. Sql query to execute. */
+  query?: string | undefined;
 }
 /** An execute sql query request containing the query and the connection to execute it on. */
 export interface ExecuteSqlQueryRequest {
@@ -382,12 +382,12 @@ export type ToolNameOperationEnum =
   | "UPDATE"
   | "DELETE";
 export interface ToolName {
-  /** Operation for which the tool was generated. */
-  operation?: ToolNameOperationEnum | (string & {}) | undefined;
   /** Tool name that was generated in the list tools call. */
   name?: string | undefined;
   /** Entity name for which the tool was generated. */
   entityName?: string | undefined;
+  /** Operation for which the tool was generated. */
+  operation?: ToolNameOperationEnum | (string & {}) | undefined;
 }
 export type ToolNameList = Array<ToolName>;
 export interface GenerateCustomToolspecRequest {
@@ -401,10 +401,10 @@ export interface GenerateConnectionToolspecOverrideProjectsLocationsConnectionsR
   body?: GenerateCustomToolspecRequest | undefined;
 }
 export interface ToolSpec {
-  /** List of tool definitions. */
-  toolDefinitions?: DocumentMapList | undefined;
   /** Version of the tool spec. Format: providerId/connectorId/versionId/toolSpecId */
   toolSpecVersion?: string | undefined;
+  /** List of tool definitions. */
+  toolDefinitions?: DocumentMapList | undefined;
 }
 export interface GenerateCustomToolspecResponse {
   /** tool spec that has tool_defitions array containing the tools for all sted tool_names. */
@@ -415,13 +415,14 @@ export type GetProjectsLocationsConnectionsActionsViewEnum =
   | "ACTION_SCHEMA_VIEW_BASIC"
   | "ACTION_SCHEMA_VIEW_ENRICHED";
 export interface GetProjectsLocationsConnectionsActionsRequest {
-  /** Specified view of the action schema. */
-  view?: GetProjectsLocationsConnectionsActionsViewEnum | (string & {}) | undefined;
   /** Required. Resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection}/actions/{action} */
   name: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string | undefined;
+  /** Specified view of the action schema. */
+  view?: GetProjectsLocationsConnectionsActionsViewEnum | (string & {}) | undefined;
 }
+export type DocumentList = Array<unknown>;
 export type JsonSchemaMap = { [key: string]: JsonSchema | undefined };
 export type JsonSchemaList = Array<JsonSchema>;
 export type JsonSchemaJdbcTypeEnum =
@@ -470,107 +471,106 @@ export type JsonSchemaJdbcTypeEnum =
   | "REF_CURSOR"
   | "TIME_WITH_TIMEZONE"
   | "TIMESTAMP_WITH_TIMEZONE";
-export type DocumentList = Array<unknown>;
 /** JsonSchema representation of schema metadata */
 export interface JsonSchema {
-  /** A description of this schema. */
-  description?: string | undefined;
-  /** The URI defining the core schema meta-schema. */
-  $id?: string | undefined;
-  /** Schema that applies to array values, applicable only if this is of type `array`. */
-  items?: JsonSchema | undefined;
-  /** The child schemas, applicable only if this is of type `object`. The key is the name of the property and the value is the json schema that describes that property */
-  properties?: JsonSchemaMap | undefined;
-  /** Schema for additional properties. */
-  additionalProperties?: JsonSchema | undefined;
-  /** Regex pattern of the string field. This is a string value that describes the regular expression that the string value should match. */
-  pattern?: string | undefined;
-  /** Definitions for the schema. */
-  definitions?: JsonSchemaMap | undefined;
-  /** Minimum number of items in the array field. */
-  minItems?: number | undefined;
-  /** Format of the value as per https://json-schema.org/understanding-json-schema/reference/string.html#format */
-  format?: string | undefined;
-  /** JSON Schema Validation: A Vocabulary for Structural Validation of JSON */
-  type?: StringList | undefined;
-  /** Maximum value of the number field. */
-  maximum?: unknown | undefined;
-  /** The default value of the field or object described by this schema. */
-  default?: unknown | undefined;
-  /** Schema that must be valid if the "if" schema is invalid. */
-  else?: JsonSchema | undefined;
-  /** A reference to another schema. */
-  $ref?: string | undefined;
-  /** Whether the value is read-only. */
-  readOnly?: boolean | undefined;
-  /** Schema that must not be valid. */
-  not?: JsonSchema | undefined;
-  /** Schema that must be valid against at least one of the sub-schemas. */
-  oneOf?: JsonSchemaList | undefined;
-  /** Dependencies for the schema. */
-  dependencies?: DocumentMap | undefined;
-  /** Minimum value of the number field. */
-  minimum?: unknown | undefined;
-  /** Definitions for the schema. */
-  $defs?: JsonSchemaMap | undefined;
-  /** Whether the minimum number value is exclusive. */
-  exclusiveMinimum?: unknown | undefined;
-  /** Encoding of the content. */
-  contentEncoding?: string | undefined;
-  /** Maximum number of properties. */
-  maxProperties?: number | undefined;
-  /** Schema that must be valid against all of the sub-schemas. */
-  allOf?: JsonSchemaList | undefined;
-  /** Maximum number of items in the array field. */
-  maxItems?: number | undefined;
-  /** A title of the schema. */
-  title?: string | undefined;
-  /** Schema that must be valid if the "if" schema is valid. */
-  if?: JsonSchema | undefined;
-  /** Schema that must be valid if the "if" schema is valid. */
-  then?: JsonSchema | undefined;
-  /** Pattern properties for the schema. */
-  patternProperties?: JsonSchemaMap | undefined;
-  /** JDBC datatype of the field. */
-  jdbcType?: JsonSchemaJdbcTypeEnum | undefined;
-  /** Maximum length of the string field. */
-  maxLength?: number | undefined;
-  /** Schema that must be valid against at least one of the sub-schemas. */
-  anyOf?: JsonSchemaList | undefined;
-  /** Possible values for an enumeration. This works in conjunction with `type` to represent types with a fixed set of legal values */
-  enum?: DocumentList | undefined;
-  /** Whether the value is write-only. */
-  writeOnly?: boolean | undefined;
-  /** Additional details apart from standard json schema fields, this gives flexibility to store metadata about the schema */
-  additionalDetails?: DocumentMap | undefined;
-  /** Schema for property names. */
-  propertyNames?: JsonSchema | undefined;
   /** Examples of the value. */
   examples?: DocumentList | undefined;
-  /** A comment on the schema. */
-  $comment?: string | undefined;
-  /** Whether the items in the array field are unique. */
-  uniqueItems?: boolean | undefined;
-  /** Whether the maximum number value is exclusive. */
-  exclusiveMaximum?: unknown | undefined;
-  /** The URI defining the schema. */
-  $schema?: string | undefined;
-  /** Minimum number of properties. */
-  minProperties?: number | undefined;
   /** Const value that the data must match. */
   const?: unknown | undefined;
-  /** Whether this property is required. */
-  required?: StringList | undefined;
-  /** Schema that applies to at least one item in an array. */
-  contains?: JsonSchema | undefined;
-  /** Number must be a multiple of this value. */
-  multipleOf?: number | undefined;
-  /** Media type of the content. */
-  contentMediaType?: string | undefined;
-  /** Schema for additional items. */
-  additionalItems?: JsonSchema | undefined;
+  /** Whether the value is write-only. */
+  writeOnly?: boolean | undefined;
+  /** Schema for property names. */
+  propertyNames?: JsonSchema | undefined;
+  /** Possible values for an enumeration. This works in conjunction with `type` to represent types with a fixed set of legal values */
+  enum?: DocumentList | undefined;
+  /** The child schemas, applicable only if this is of type `object`. The key is the name of the property and the value is the json schema that describes that property */
+  properties?: JsonSchemaMap | undefined;
+  /** Maximum value of the number field. */
+  maximum?: unknown | undefined;
+  /** Schema that must be valid if the "if" schema is valid. */
+  if?: JsonSchema | undefined;
   /** Minimum length of the string field. */
   minLength?: number | undefined;
+  /** A title of the schema. */
+  title?: string | undefined;
+  /** The URI defining the core schema meta-schema. */
+  $id?: string | undefined;
+  /** Maximum number of properties. */
+  maxProperties?: number | undefined;
+  /** Whether the maximum number value is exclusive. */
+  exclusiveMaximum?: unknown | undefined;
+  /** Minimum number of properties. */
+  minProperties?: number | undefined;
+  /** Regex pattern of the string field. This is a string value that describes the regular expression that the string value should match. */
+  pattern?: string | undefined;
+  /** Schema that must be valid against all of the sub-schemas. */
+  allOf?: JsonSchemaList | undefined;
+  /** Schema that must be valid against at least one of the sub-schemas. */
+  anyOf?: JsonSchemaList | undefined;
+  /** Maximum number of items in the array field. */
+  maxItems?: number | undefined;
+  /** Maximum length of the string field. */
+  maxLength?: number | undefined;
+  /** Schema that applies to array values, applicable only if this is of type `array`. */
+  items?: JsonSchema | undefined;
+  /** Minimum number of items in the array field. */
+  minItems?: number | undefined;
+  /** Dependencies for the schema. */
+  dependencies?: DocumentMap | undefined;
+  /** A comment on the schema. */
+  $comment?: string | undefined;
+  /** Schema for additional properties. */
+  additionalProperties?: JsonSchema | undefined;
+  /** Whether the items in the array field are unique. */
+  uniqueItems?: boolean | undefined;
+  /** Encoding of the content. */
+  contentEncoding?: string | undefined;
+  /** Definitions for the schema. */
+  $defs?: JsonSchemaMap | undefined;
+  /** Schema that must be valid against at least one of the sub-schemas. */
+  oneOf?: JsonSchemaList | undefined;
+  /** Schema for additional items. */
+  additionalItems?: JsonSchema | undefined;
+  /** Minimum value of the number field. */
+  minimum?: unknown | undefined;
+  /** Additional details apart from standard json schema fields, this gives flexibility to store metadata about the schema */
+  additionalDetails?: DocumentMap | undefined;
+  /** JDBC datatype of the field. */
+  jdbcType?: JsonSchemaJdbcTypeEnum | undefined;
+  /** A reference to another schema. */
+  $ref?: string | undefined;
+  /** Format of the value as per https://json-schema.org/understanding-json-schema/reference/string.html#format */
+  format?: string | undefined;
+  /** Whether the minimum number value is exclusive. */
+  exclusiveMinimum?: unknown | undefined;
+  /** JSON Schema Validation: A Vocabulary for Structural Validation of JSON */
+  type?: StringList | undefined;
+  /** A description of this schema. */
+  description?: string | undefined;
+  /** Definitions for the schema. */
+  definitions?: JsonSchemaMap | undefined;
+  /** Schema that must be valid if the "if" schema is valid. */
+  then?: JsonSchema | undefined;
+  /** Number must be a multiple of this value. */
+  multipleOf?: number | undefined;
+  /** Schema that applies to at least one item in an array. */
+  contains?: JsonSchema | undefined;
+  /** Schema that must be valid if the "if" schema is invalid. */
+  else?: JsonSchema | undefined;
+  /** Whether this property is required. */
+  required?: StringList | undefined;
+  /** Pattern properties for the schema. */
+  patternProperties?: JsonSchemaMap | undefined;
+  /** Whether the value is read-only. */
+  readOnly?: boolean | undefined;
+  /** Media type of the content. */
+  contentMediaType?: string | undefined;
+  /** Schema that must not be valid. */
+  not?: JsonSchema | undefined;
+  /** The default value of the field or object described by this schema. */
+  default?: unknown | undefined;
+  /** The URI defining the schema. */
+  $schema?: string | undefined;
 }
 export type ResultMetadataDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -620,18 +620,18 @@ export type ResultMetadataDataTypeEnum =
   | "TIMESTAMP_WITH_TIMEZONE";
 /** Result Metadata message contains metadata about the result returned after executing an Action. */
 export interface ResultMetadata {
-  /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
-  defaultValue?: unknown | undefined;
   /** JsonSchema of the result, applicable only if parameter is of type `STRUCT` */
   jsonSchema?: JsonSchema | undefined;
-  /** The data type of the metadata field */
-  dataType?: ResultMetadataDataTypeEnum | undefined;
-  /** A brief description of the metadata field. */
-  description?: string | undefined;
-  /** Specifies whether a null value is allowed. */
-  nullable?: boolean | undefined;
+  /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
+  defaultValue?: unknown | undefined;
   /** Name of the metadata field. */
   name?: string | undefined;
+  /** A brief description of the metadata field. */
+  description?: string | undefined;
+  /** The data type of the metadata field */
+  dataType?: ResultMetadataDataTypeEnum | undefined;
+  /** Specifies whether a null value is allowed. */
+  nullable?: boolean | undefined;
 }
 export type ResultMetadataList = Array<ResultMetadata>;
 export type InputParameterDataTypeEnum =
@@ -682,63 +682,61 @@ export type InputParameterDataTypeEnum =
   | "TIMESTAMP_WITH_TIMEZONE";
 /** Input Parameter message contains metadata about the parameters required for executing an Action. */
 export interface InputParameter {
-  /** Specifies whether a null value is allowed. */
-  nullable?: boolean | undefined;
-  /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
-  defaultValue?: unknown | undefined;
   /** A brief description of the Parameter. */
   description?: string | undefined;
-  /** The data type of the Parameter */
-  dataType?: InputParameterDataTypeEnum | undefined;
-  /** Name of the Parameter. */
-  name?: string | undefined;
-  /** The following map contains fields that are not explicitly mentioned above,this give connectors the flexibility to add new metadata fields. */
-  additionalDetails?: DocumentMap | undefined;
+  /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
+  defaultValue?: unknown | undefined;
   /** JsonSchema of the parameter, applicable only if parameter is of type `STRUCT` */
   jsonSchema?: JsonSchema | undefined;
+  /** Name of the Parameter. */
+  name?: string | undefined;
+  /** The data type of the Parameter */
+  dataType?: InputParameterDataTypeEnum | undefined;
+  /** The following map contains fields that are not explicitly mentioned above,this give connectors the flexibility to add new metadata fields. */
+  additionalDetails?: DocumentMap | undefined;
+  /** Specifies whether a null value is allowed. */
+  nullable?: boolean | undefined;
 }
 export type InputParameterList = Array<InputParameter>;
 /** Action message contains metadata information about a single action present in the external system. */
 export interface Action {
   /** List containing the metadata of result fields. */
   resultMetadata?: ResultMetadataList | undefined;
-  /** JsonSchema representation of this actions's result schema */
-  resultJsonSchema?: JsonSchema | undefined;
-  /** JsonSchema representation of this actions's input schema */
-  inputJsonSchema?: JsonSchema | undefined;
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap | undefined;
-  /** Brief Description of action */
-  description?: string | undefined;
   /** Name of the action. */
   name?: string | undefined;
+  /** Metadata like service latency, etc. */
+  metadata?: DocumentMapMap | undefined;
   /** List containing input parameter metadata. */
   inputParameters?: InputParameterList | undefined;
+  /** JsonSchema representation of this actions's input schema */
+  inputJsonSchema?: JsonSchema | undefined;
+  /** Brief Description of action */
+  description?: string | undefined;
   /** Display Name of action to be shown on client side */
   displayName?: string | undefined;
+  /** JsonSchema representation of this actions's result schema */
+  resultJsonSchema?: JsonSchema | undefined;
 }
 export type GetProjectsLocationsConnectionsEntityTypesViewEnum =
   | "ENTITY_TYPE_SCHEMA_VIEW_UNSPECIFIED"
   | "ENTITY_TYPE_SCHEMA_VIEW_BASIC"
   | "ENTITY_TYPE_SCHEMA_VIEW_ENRICHED";
 export interface GetProjectsLocationsConnectionsEntityTypesRequest {
-  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string | undefined;
-  /** Specifies view for entity type schema. */
-  view?: GetProjectsLocationsConnectionsEntityTypesViewEnum | (string & {}) | undefined;
-  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{entityType} */
-  name: string;
   /** Context metadata for request could be used to fetch customization of entity type schema. */
   contextMetadata?: string | undefined;
+  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{entityType} */
+  name: string;
+  /** Specifies view for entity type schema. */
+  view?: GetProjectsLocationsConnectionsEntityTypesViewEnum | (string & {}) | undefined;
+  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
+  "executionConfig.headers"?: string | undefined;
 }
-export type EntityTypeOperationsItemEnum =
-  | "OPERATION_UNSPECIFIED"
-  | "LIST"
-  | "GET"
-  | "CREATE"
-  | "UPDATE"
-  | "DELETE";
-export type EntityTypeOperationsItemEnumList = Array<EntityTypeOperationsItemEnum>;
+export interface Reference {
+  /** Name of reference entity type. */
+  type?: string | undefined;
+  /** Name of the reference field. */
+  name?: string | undefined;
+}
 export type FieldDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
   | "INT"
@@ -785,41 +783,43 @@ export type FieldDataTypeEnum =
   | "REF_CURSOR"
   | "TIME_WITH_TIMEZONE"
   | "TIMESTAMP_WITH_TIMEZONE";
-export interface Reference {
-  /** Name of reference entity type. */
-  type?: string | undefined;
-  /** Name of the reference field. */
-  name?: string | undefined;
-}
 /** Message contains EntityType's Field metadata. */
 export interface Field {
-  /** The following boolean field specifies if the current Field acts as a primary key or id if the parent is of type entity. */
-  key?: boolean | undefined;
   /** Name of the Field. */
   name?: string | undefined;
-  /** The data type of the Field. */
-  dataType?: FieldDataTypeEnum | undefined;
-  /** Specifies whether a null value is allowed. */
-  nullable?: boolean | undefined;
+  /** A brief description of the Field. */
+  description?: string | undefined;
+  /** Reference captures the association between two different entity types. Value links to the reference of another entity type. */
+  reference?: Reference | undefined;
+  /** The following boolean field specifies if the current Field acts as a primary key or id if the parent is of type entity. */
+  key?: boolean | undefined;
+  /** The following map contains fields that are not explicitly mentioned above,this give connectors the flexibility to add new metadata fields. */
+  additionalDetails?: DocumentMap | undefined;
   /** JsonSchema of the field, applicable only if field is of type `STRUCT` */
   jsonSchema?: JsonSchema | undefined;
   /** The following field specifies the default value of the Field provided by the external system if a value is not provided. */
   defaultValue?: unknown | undefined;
-  /** A brief description of the Field. */
-  description?: string | undefined;
-  /** The following map contains fields that are not explicitly mentioned above,this give connectors the flexibility to add new metadata fields. */
-  additionalDetails?: DocumentMap | undefined;
-  /** Reference captures the association between two different entity types. Value links to the reference of another entity type. */
-  reference?: Reference | undefined;
+  /** Specifies whether a null value is allowed. */
+  nullable?: boolean | undefined;
+  /** The data type of the Field. */
+  dataType?: FieldDataTypeEnum | undefined;
 }
 export type FieldList = Array<Field>;
+export type EntityTypeOperationsItemEnum =
+  | "OPERATION_UNSPECIFIED"
+  | "LIST"
+  | "GET"
+  | "CREATE"
+  | "UPDATE"
+  | "DELETE";
+export type EntityTypeOperationsItemEnumList = Array<EntityTypeOperationsItemEnum>;
 /** EntityType message contains metadata information about a single entity type present in the external system. */
 export interface EntityType {
-  operations?: EntityTypeOperationsItemEnumList | undefined;
-  /** List containing metadata information about each field of the entity type. */
-  fields?: FieldList | undefined;
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap | undefined;
+  /** List containing metadata information about each field of the entity type. */
+  fields?: FieldList | undefined;
+  operations?: EntityTypeOperationsItemEnumList | undefined;
   /** The name of the entity type. */
   name?: string | undefined;
   defaultSortBy?: string | undefined;
@@ -827,10 +827,10 @@ export interface EntityType {
   jsonSchema?: JsonSchema | undefined;
 }
 export interface GetProjectsLocationsConnectionsEntityTypesEntitiesRequest {
-  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string | undefined;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name: string;
+  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
+  "executionConfig.headers"?: string | undefined;
 }
 export interface GetProjectsLocationsConnectionsResourcesRequest {
   /** Required. Resource name of the Resource. Format: projects/{project}/locations/{location}/connections/{connection}/resources/{resource} */
@@ -839,21 +839,21 @@ export interface GetProjectsLocationsConnectionsResourcesRequest {
   "executionConfig.headers"?: string | undefined;
 }
 export interface GetResourceResponse {
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap | undefined;
   /** The MIME type of the resource. */
   mimeType?: string | undefined;
   /** The content of the resource. */
   data?: string | undefined;
+  /** Metadata like service latency, etc. */
+  metadata?: DocumentMapMap | undefined;
   /** Metadata for the resource. */
   _meta?: DocumentMap | undefined;
 }
 /** Request message for ConnectorAgentService.GetResourcePost */
 export interface GetResourcePostRequest {
-  /** List of tool specifications. */
-  toolSpec?: ToolSpec | undefined;
   /** execution config for the request. */
   executionConfig?: ExecutionConfig | undefined;
+  /** List of tool specifications. */
+  toolSpec?: ToolSpec | undefined;
 }
 export interface GetResourcePostProjectsLocationsConnectionsResourcesRequest {
   /** Required. Resource name of the Resource. Format: projects/{project}/locations/{location}/connections/{connection}/resources/{resource} */
@@ -874,26 +874,26 @@ export type ListProjectsLocationsConnectionsActionsViewEnum =
   | "ACTION_VIEW_BASIC"
   | "ACTION_VIEW_FULL";
 export interface ListProjectsLocationsConnectionsActionsRequest {
-  /** Number of Actions to return. Defaults to 25. */
-  pageSize?: number | undefined;
-  /** Page token, return from a previous ListActions call, that can be used retrieve the next page of content. If unspecified, the request returns the first page of actions. */
-  pageToken?: string | undefined;
-  /** Required. Parent resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection} */
-  parent: string;
-  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string | undefined;
   /** Specifies which fields of the Action are returned in the response. */
   view?: ListProjectsLocationsConnectionsActionsViewEnum | (string & {}) | undefined;
+  /** Page token, return from a previous ListActions call, that can be used retrieve the next page of content. If unspecified, the request returns the first page of actions. */
+  pageToken?: string | undefined;
+  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
+  "executionConfig.headers"?: string | undefined;
+  /** Required. Parent resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection} */
+  parent: string;
+  /** Number of Actions to return. Defaults to 25. */
+  pageSize?: number | undefined;
 }
 export type ActionList = Array<Action>;
 /** Response message for ActionService.ListActions */
 export interface ListActionsResponse {
-  /** Next page token if more actions available. */
-  nextPageToken?: string | undefined;
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap | undefined;
   /** List of actions which contain unsupported Datatypes. Check datatype.proto for more information. */
   unsupportedActionNames?: StringList | undefined;
+  /** Metadata like service latency, etc. */
+  metadata?: DocumentMapMap | undefined;
+  /** Next page token if more actions available. */
+  nextPageToken?: string | undefined;
   /** List of action metadata. */
   actions?: ActionList | undefined;
 }
@@ -902,78 +902,78 @@ export type ListProjectsLocationsConnectionsEntityTypesViewEnum =
   | "ENTITY_TYPE_VIEW_BASIC"
   | "ENTITY_TYPE_VIEW_FULL";
 export interface ListProjectsLocationsConnectionsEntityTypesRequest {
-  /** Number of entity types to return. Defaults to 25. */
-  pageSize?: number | undefined;
-  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection} */
-  parent: string;
   /** Specifies which fields of the Entity Type are returned in the response. */
   view?: ListProjectsLocationsConnectionsEntityTypesViewEnum | (string & {}) | undefined;
-  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string | undefined;
+  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection} */
+  parent: string;
   /** Page token, return from a previous ListEntityTypes call, that can be used retrieve the next page of content. If unspecified, the request returns the first page of entity types. */
   pageToken?: string | undefined;
+  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
+  "executionConfig.headers"?: string | undefined;
+  /** Number of entity types to return. Defaults to 25. */
+  pageSize?: number | undefined;
 }
 export type EntityTypeList = Array<EntityType>;
 /** Response message for EntityService.ListEntityTypes */
 export interface ListEntityTypesResponse {
+  /** Metadata like service latency, etc. */
+  metadata?: DocumentMapMap | undefined;
   /** List of entity type names which contain unsupported Datatypes. Check datatype.proto for more information. */
   unsupportedTypeNames?: StringList | undefined;
   /** List of metadata related to all entity types. */
   types?: EntityTypeList | undefined;
   /** Next page token if more entity types available. */
   nextPageToken?: string | undefined;
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap | undefined;
 }
 export interface ListProjectsLocationsConnectionsEntityTypesEntitiesRequest {
-  /** Conditions to be used when listing entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. */
-  conditions?: string | undefined;
-  /** List of 'sort_by' columns to use when returning the results. */
-  sortBy?: StringList | undefined;
   /** List of 'sort_order' columns to use when returning the results. */
   sortOrder?: StringList | undefined;
-  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string | undefined;
   /** Page token value if available from a previous request. */
   pageToken?: string | undefined;
+  /** List of 'sort_by' columns to use when returning the results. */
+  sortBy?: StringList | undefined;
+  /** Conditions to be used when listing entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. */
+  conditions?: string | undefined;
   /** Number of entity rows to return. Defaults page size = 25. Max page size = 200. */
   pageSize?: number | undefined;
+  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
+  "executionConfig.headers"?: string | undefined;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   parent: string;
 }
 export type EntityList = Array<Entity>;
 /** Response message for EntityService.ListEntities */
 export interface ListEntitiesResponse {
-  /** Next page token if more records are available. */
-  nextPageToken?: string | undefined;
-  /** List containing entity rows. */
-  entities?: EntityList | undefined;
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap | undefined;
+  /** List containing entity rows. */
+  entities?: EntityList | undefined;
+  /** Next page token if more records are available. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsConnectionsResourcesRequest {
   /** Required. Resource name of the connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
-  /** Optional. Page size for the request. */
-  pageSize?: number | undefined;
   /** Optional. Page token for the request. */
   pageToken?: string | undefined;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string | undefined;
+  /** Optional. Page size for the request. */
+  pageSize?: number | undefined;
 }
 export interface Resource {
-  /** A description of what this resource represents. */
-  description?: string | undefined;
-  /** The size of the raw resource content, in bytes, if known. */
-  size?: string | undefined;
-  /** The MIME type of this resource, if known. */
-  mimeType?: string | undefined;
   /** The URI of this resource. */
   uri?: string | undefined;
-  /** A human-readable name for this resource. */
-  name?: string | undefined;
+  /** The size of the raw resource content, in bytes, if known. */
+  size?: string | undefined;
   /** Metadata for the resource. */
   _meta?: DocumentMap | undefined;
+  /** The MIME type of this resource, if known. */
+  mimeType?: string | undefined;
+  /** A human-readable name for this resource. */
+  name?: string | undefined;
+  /** A description of what this resource represents. */
+  description?: string | undefined;
 }
 export type ResourceList = Array<Resource>;
 export interface ListResourcesResponse {
@@ -989,52 +989,52 @@ export interface ListProjectsLocationsConnectionsToolsRequest {
   pageSize?: number | undefined;
   /** Page token. */
   pageToken?: string | undefined;
-  /** List of tool names for selective tool fetching. */
-  toolNames?: StringList | undefined;
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string | undefined;
+  /** List of tool names for selective tool fetching. */
+  toolNames?: StringList | undefined;
 }
 /** ToolAnnotations holds annotations for a tool. */
 export interface ToolAnnotations {
   /** If true, the tool may perform destructive updates to its environment. If false, the tool performs only additive updates. (This property is meaningful only when `read_only_hint == false`) */
   destructiveHint?: boolean | undefined;
-  /** If true, the tool does not modify its environment. */
-  readOnlyHint?: boolean | undefined;
-  /** If true, this tool may interact with an "open world" of external entities. If false, the tool's domain of interaction is closed. For example, the world of a web search tool is open, whereas that of a memory tool is not. */
-  openWorldHint?: boolean | undefined;
   /** A human-readable title for the tool. */
   title?: string | undefined;
+  /** If true, this tool may interact with an "open world" of external entities. If false, the tool's domain of interaction is closed. For example, the world of a web search tool is open, whereas that of a memory tool is not. */
+  openWorldHint?: boolean | undefined;
+  /** If true, the tool does not modify its environment. */
+  readOnlyHint?: boolean | undefined;
   /** If true, calling the tool repeatedly with the same arguments will have no additional effect on the environment. (This property is meaningful only when `read_only_hint == false`) */
   idempotentHint?: boolean | undefined;
 }
 /** Message representing a single tool. */
 export interface Tool {
-  /** Description of the tool. */
-  description?: string | undefined;
+  /** JSON schema for the input parameters of the tool. */
+  inputSchema?: JsonSchema | undefined;
+  /** Annotations for the tool. */
+  annotations?: ToolAnnotations | undefined;
   /** Metadata for the tool. */
   _meta?: DocumentMap | undefined;
   /** Name of the tool. */
   name?: string | undefined;
-  /** Annotations for the tool. */
-  annotations?: ToolAnnotations | undefined;
   /** List of tool names that this tool depends on. */
   dependsOn?: StringList | undefined;
   /** JSON schema for the output of the tool. */
   outputSchema?: JsonSchema | undefined;
-  /** JSON schema for the input parameters of the tool. */
-  inputSchema?: JsonSchema | undefined;
+  /** Description of the tool. */
+  description?: string | undefined;
 }
 export type ToolList = Array<Tool>;
 /** Response message for ConnectorAgentService.ListTools */
 export interface ListToolsResponse {
+  /** Metadata like service latency, etc. */
+  metadata?: DocumentMapMap | undefined;
   /** List of available tools. */
   tools?: ToolList | undefined;
   /** Next page token. */
   nextPageToken?: string | undefined;
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap | undefined;
 }
 export interface PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
@@ -1046,10 +1046,10 @@ export interface PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest {
 }
 /** RefreshAccessTokenRequest includes the refresh token. */
 export interface RefreshAccessTokenRequest {
-  /** Optional. Refresh Token String. If the Refresh Token is not provided, the runtime will read the data from the secret manager. */
-  refreshToken?: string | undefined;
   /** ExecutionConfig contains the configuration for the execution of the request. */
   executionConfig?: ExecutionConfig | undefined;
+  /** Optional. Refresh Token String. If the Refresh Token is not provided, the runtime will read the data from the secret manager. */
+  refreshToken?: string | undefined;
   /** OAuth2Config contains the OAuth2 config for the connection. */
   oauth2Config?: OAuth2Config | undefined;
 }
@@ -1060,22 +1060,22 @@ export interface RefreshAccessTokenProjectsLocationsConnectionsRequest {
 }
 /** RefreshAccessTokenResponse includes the returned access token and its associated credentials. */
 export interface RefreshAccessTokenResponse {
-  accessCredentials?: AccessCredentials | undefined;
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap | undefined;
+  accessCredentials?: AccessCredentials | undefined;
 }
 /** Request message for ConnectorAgentService.ListToolsPost */
 export interface ListToolsPostRequest {
-  /** Page token. */
-  pageToken?: string | undefined;
-  /** List of tool names to for selective tool fetching. */
-  toolNames?: StringList | undefined;
-  /** List of tool specifications. */
-  toolSpec?: ToolSpec | undefined;
-  /** execution config for the request. */
-  executionConfig?: ExecutionConfig | undefined;
   /** Page size. */
   pageSize?: number | undefined;
+  /** List of tool specifications. */
+  toolSpec?: ToolSpec | undefined;
+  /** Page token. */
+  pageToken?: string | undefined;
+  /** execution config for the request. */
+  executionConfig?: ExecutionConfig | undefined;
+  /** List of tool names to for selective tool fetching. */
+  toolNames?: StringList | undefined;
 }
 export interface ToolsProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
@@ -1086,10 +1086,10 @@ export interface ToolsProjectsLocationsConnectionsRequest {
 export interface UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   entityType: string;
-  /** Required. Conditions to be used when updating entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. Note: If this conditions field is left empty, an exception is thrown. We don't want to consider 'empty conditions' to be a match-all case. Connector developers can determine and document what a match-all case constraint would be. */
-  conditions?: string | undefined;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string | undefined;
+  /** Required. Conditions to be used when updating entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. Note: If this conditions field is left empty, an exception is thrown. We don't want to consider 'empty conditions' to be a match-all case. Connector developers can determine and document what a match-all case constraint would be. */
+  conditions?: string | undefined;
   /** Request body */
   body?: Entity | undefined;
 }
@@ -1228,7 +1228,7 @@ export const exchangeAuthCodeProjectsLocationsConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<ExchangeAuthCodeProjectsLocationsConnectionsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ExchangeAuthCodeResponse>,
+  output: __S(3, __c0, 3) as any as S.Schema<ExchangeAuthCodeResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1624,7 +1624,7 @@ export const refreshAccessTokenProjectsLocationsConnections: API.OperationMethod
     __c29,
     1,
   ) as any as S.Schema<RefreshAccessTokenProjectsLocationsConnectionsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<RefreshAccessTokenResponse>,
+  output: __S(234, __c29, 2) as any as S.Schema<RefreshAccessTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1686,17 +1686,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(__S(16, __c2, 0)),
-          authCode: S.optional(S.String),
           redirectUri: S.optional(S.String),
           pkceVerifier: S.optional(S.String),
+          scopes: S.optional(__S(16, __c2, 0)),
+          authCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthCodeData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          executionConfig: S.optional(__S(8, __c1, 0)),
           oauth2Config: S.optional(__S(24, __c3, 0)),
+          executionConfig: S.optional(__S(8, __c1, 0)),
           authCodeData: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "ExchangeAuthCodeRequest" });
@@ -1713,6 +1713,13 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExchangeAuthCodeProjectsLocationsConnectionsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          accessCredentials: S.optional(__S(25, __c3, 1)),
+          metadata: S.optional(__S(280, __c35, 0)),
+        }),
+      ).annotate({ identifier: "ExchangeAuthCodeResponse" });
   }
 }
 function __c1(j: number): any {
@@ -1736,26 +1743,19 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientSecret: S.optional(S.String),
           clientId: S.optional(S.String),
           authUri: S.optional(S.String),
+          clientSecret: S.optional(S.String),
         }),
       ).annotate({ identifier: "OAuth2Config" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          refreshToken: S.optional(S.String),
           accessToken: S.optional(S.String),
           expiresIn: S.optional(S.String),
+          refreshToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccessCredentials" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          accessCredentials: S.optional(__S(25, __c3, 1)),
-          metadata: S.optional(__S(280, __c35, 0)),
-        }),
-      ).annotate({ identifier: "ExchangeAuthCodeResponse" });
   }
 }
 function __c4(j: number): any {
@@ -1763,8 +1763,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
           key: S.optional(S.String),
+          value: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpHeader" });
     case 1:
@@ -1772,10 +1772,10 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          headers: S.optional(__S(33, __c4, 1)),
+          rawBody: S.optional(S.String),
           httpMethod: S.optional(S.String),
           url: S.optional(S.String),
-          rawBody: S.optional(S.String),
-          headers: S.optional(__S(33, __c4, 1)),
         }),
       ).annotate({ identifier: "ExecuteHttpRequestRequest" });
     case 3:
@@ -1794,10 +1794,10 @@ function __c4(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          statusCode: S.optional(S.Number),
+          body: S.optional(S.String),
           headers: S.optional(__S(33, __c4, 1)),
           reason: S.optional(S.String),
-          body: S.optional(S.String),
-          statusCode: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ExecuteHttpRequestResponse" });
   }
@@ -1807,8 +1807,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          executionConfig: S.optional(__S(8, __c1, 0)),
           parameters: S.optional(__S(272, __c34, 0)),
+          executionConfig: S.optional(__S(8, __c1, 0)),
         }),
       ).annotate({ identifier: "ExecuteActionRequest" });
     case 1:
@@ -1827,8 +1827,8 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(280, __c35, 0)),
           results: S.optional(__S(48, __c6, 0)),
+          metadata: S.optional(__S(280, __c35, 0)),
         }),
       ).annotate({ identifier: "ExecuteActionResponse" });
   }
@@ -1844,8 +1844,8 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          executionConfig: S.optional(__S(8, __c1, 0)),
           parameters: S.optional(__S(272, __c34, 0)),
+          executionConfig: S.optional(__S(8, __c1, 0)),
           toolDefinition: S.optional(__S(272, __c34, 0)),
         }),
       ).annotate({ identifier: "ExecuteToolRequest" });
@@ -1865,8 +1865,8 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(272, __c34, 0)),
           metadata: S.optional(__S(280, __c35, 0)),
+          result: S.optional(__S(272, __c34, 0)),
           _meta: S.optional(__S(272, __c34, 0)),
         }),
       ).annotate({ identifier: "ExecuteToolResponse" });
@@ -1877,8 +1877,8 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.Unknown),
           dataType: S.optional(S.String),
+          value: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "QueryParameter" });
     case 1:
@@ -1886,10 +1886,10 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(S.String),
+          maxRows: S.optional(S.String),
           queryParameters: S.optional(__S(65, __c8, 1)),
           timeout: S.optional(S.String),
-          maxRows: S.optional(S.String),
+          query: S.optional(S.String),
         }),
       ).annotate({ identifier: "Query" });
     case 3:
@@ -1949,8 +1949,8 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          toolDefinitions: S.optional(__S(48, __c6, 0)),
           toolSpecVersion: S.optional(S.String),
+          toolDefinitions: S.optional(__S(48, __c6, 0)),
         }),
       ).annotate({ identifier: "ToolSpec" });
   }
@@ -1960,9 +1960,9 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          operation: S.optional(S.String),
           name: S.optional(S.String),
           entityName: S.optional(S.String),
+          operation: S.optional(S.String),
         }),
       ).annotate({ identifier: "ToolName" });
     case 1:
@@ -1980,9 +1980,9 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1996,66 +1996,66 @@ function __c12(j: number): any {
 function __c13(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Unknown);
+    case 1:
       return S.Record(
         S.String,
         /*@__PURE__*/ S.suspend(() => __S(107, __c13, 3)),
       );
-    case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(107, __c13, 3)));
     case 2:
-      return S.Array(S.Unknown);
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(107, __c13, 3)));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          $id: S.optional(S.String),
-          items: S.optional(__S(107, __c13, 3)),
-          properties: S.optional(__S(104, __c13, 0)),
-          additionalProperties: S.optional(__S(107, __c13, 3)),
-          pattern: S.optional(S.String),
-          definitions: S.optional(__S(104, __c13, 0)),
-          minItems: S.optional(S.Number),
-          format: S.optional(S.String),
-          type: S.optional(__S(16, __c2, 0)),
-          maximum: S.optional(S.Unknown),
-          default: S.optional(S.Unknown),
-          else: S.optional(__S(107, __c13, 3)),
-          $ref: S.optional(S.String),
-          readOnly: S.optional(S.Boolean),
-          not: S.optional(__S(107, __c13, 3)),
-          oneOf: S.optional(__S(105, __c13, 1)),
-          dependencies: S.optional(__S(272, __c34, 0)),
-          minimum: S.optional(S.Unknown),
-          $defs: S.optional(__S(104, __c13, 0)),
-          exclusiveMinimum: S.optional(S.Unknown),
-          contentEncoding: S.optional(S.String),
-          maxProperties: S.optional(S.Number),
-          allOf: S.optional(__S(105, __c13, 1)),
-          maxItems: S.optional(S.Number),
-          title: S.optional(S.String),
-          if: S.optional(__S(107, __c13, 3)),
-          then: S.optional(__S(107, __c13, 3)),
-          patternProperties: S.optional(__S(104, __c13, 0)),
-          jdbcType: S.optional(S.String),
-          maxLength: S.optional(S.Number),
-          anyOf: S.optional(__S(105, __c13, 1)),
-          enum: S.optional(__S(106, __c13, 2)),
-          writeOnly: S.optional(S.Boolean),
-          additionalDetails: S.optional(__S(272, __c34, 0)),
-          propertyNames: S.optional(__S(107, __c13, 3)),
-          examples: S.optional(__S(106, __c13, 2)),
-          $comment: S.optional(S.String),
-          uniqueItems: S.optional(S.Boolean),
-          exclusiveMaximum: S.optional(S.Unknown),
-          $schema: S.optional(S.String),
-          minProperties: S.optional(S.Number),
+          examples: S.optional(__S(104, __c13, 0)),
           const: S.optional(S.Unknown),
-          required: S.optional(__S(16, __c2, 0)),
-          contains: S.optional(__S(107, __c13, 3)),
-          multipleOf: S.optional(S.Number),
-          contentMediaType: S.optional(S.String),
-          additionalItems: S.optional(__S(107, __c13, 3)),
+          writeOnly: S.optional(S.Boolean),
+          propertyNames: S.optional(__S(107, __c13, 3)),
+          enum: S.optional(__S(104, __c13, 0)),
+          properties: S.optional(__S(105, __c13, 1)),
+          maximum: S.optional(S.Unknown),
+          if: S.optional(__S(107, __c13, 3)),
           minLength: S.optional(S.Number),
+          title: S.optional(S.String),
+          $id: S.optional(S.String),
+          maxProperties: S.optional(S.Number),
+          exclusiveMaximum: S.optional(S.Unknown),
+          minProperties: S.optional(S.Number),
+          pattern: S.optional(S.String),
+          allOf: S.optional(__S(106, __c13, 2)),
+          anyOf: S.optional(__S(106, __c13, 2)),
+          maxItems: S.optional(S.Number),
+          maxLength: S.optional(S.Number),
+          items: S.optional(__S(107, __c13, 3)),
+          minItems: S.optional(S.Number),
+          dependencies: S.optional(__S(272, __c34, 0)),
+          $comment: S.optional(S.String),
+          additionalProperties: S.optional(__S(107, __c13, 3)),
+          uniqueItems: S.optional(S.Boolean),
+          contentEncoding: S.optional(S.String),
+          $defs: S.optional(__S(105, __c13, 1)),
+          oneOf: S.optional(__S(106, __c13, 2)),
+          additionalItems: S.optional(__S(107, __c13, 3)),
+          minimum: S.optional(S.Unknown),
+          additionalDetails: S.optional(__S(272, __c34, 0)),
+          jdbcType: S.optional(S.String),
+          $ref: S.optional(S.String),
+          format: S.optional(S.String),
+          exclusiveMinimum: S.optional(S.Unknown),
+          type: S.optional(__S(16, __c2, 0)),
+          description: S.optional(S.String),
+          definitions: S.optional(__S(105, __c13, 1)),
+          then: S.optional(__S(107, __c13, 3)),
+          multipleOf: S.optional(S.Number),
+          contains: S.optional(__S(107, __c13, 3)),
+          else: S.optional(__S(107, __c13, 3)),
+          required: S.optional(__S(16, __c2, 0)),
+          patternProperties: S.optional(__S(105, __c13, 1)),
+          readOnly: S.optional(S.Boolean),
+          contentMediaType: S.optional(S.String),
+          not: S.optional(__S(107, __c13, 3)),
+          default: S.optional(S.Unknown),
+          $schema: S.optional(S.String),
         }),
       ).annotate({ identifier: "JsonSchema" });
   }
@@ -2065,12 +2065,12 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          defaultValue: S.optional(S.Unknown),
           jsonSchema: S.optional(__S(107, __c13, 3)),
-          dataType: S.optional(S.String),
-          description: S.optional(S.String),
-          nullable: S.optional(S.Boolean),
+          defaultValue: S.optional(S.Unknown),
           name: S.optional(S.String),
+          description: S.optional(S.String),
+          dataType: S.optional(S.String),
+          nullable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ResultMetadata" });
     case 1:
@@ -2078,13 +2078,13 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nullable: S.optional(S.Boolean),
-          defaultValue: S.optional(S.Unknown),
           description: S.optional(S.String),
-          dataType: S.optional(S.String),
-          name: S.optional(S.String),
-          additionalDetails: S.optional(__S(272, __c34, 0)),
+          defaultValue: S.optional(S.Unknown),
           jsonSchema: S.optional(__S(107, __c13, 3)),
+          name: S.optional(S.String),
+          dataType: S.optional(S.String),
+          additionalDetails: S.optional(__S(272, __c34, 0)),
+          nullable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "InputParameter" });
     case 3:
@@ -2093,13 +2093,13 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resultMetadata: S.optional(__S(113, __c14, 1)),
-          resultJsonSchema: S.optional(__S(107, __c13, 3)),
-          inputJsonSchema: S.optional(__S(107, __c13, 3)),
-          metadata: S.optional(__S(280, __c35, 0)),
-          description: S.optional(S.String),
           name: S.optional(S.String),
+          metadata: S.optional(__S(280, __c35, 0)),
           inputParameters: S.optional(__S(115, __c14, 3)),
+          inputJsonSchema: S.optional(__S(107, __c13, 3)),
+          description: S.optional(S.String),
           displayName: S.optional(S.String),
+          resultJsonSchema: S.optional(__S(107, __c13, 3)),
         }),
       ).annotate({ identifier: "Action" });
   }
@@ -2109,10 +2109,10 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           contextMetadata: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
+          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2126,36 +2126,36 @@ function __c15(j: number): any {
 function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Reference" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(S.Boolean),
           name: S.optional(S.String),
-          dataType: S.optional(S.String),
-          nullable: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          reference: S.optional(__S(128, __c16, 0)),
+          key: S.optional(S.Boolean),
+          additionalDetails: S.optional(__S(272, __c34, 0)),
           jsonSchema: S.optional(__S(107, __c13, 3)),
           defaultValue: S.optional(S.Unknown),
-          description: S.optional(S.String),
-          additionalDetails: S.optional(__S(272, __c34, 0)),
-          reference: S.optional(__S(129, __c16, 1)),
+          nullable: S.optional(S.Boolean),
+          dataType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Field" });
+    case 2:
+      return S.Array(__S(129, __c16, 1));
     case 3:
-      return S.Array(__S(130, __c16, 2));
+      return S.Array(S.String);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(128, __c16, 0)),
-          fields: S.optional(__S(131, __c16, 3)),
           metadata: S.optional(__S(280, __c35, 0)),
+          fields: S.optional(__S(130, __c16, 2)),
+          operations: S.optional(__S(131, __c16, 3)),
           name: S.optional(S.String),
           defaultSortBy: S.optional(S.String),
           jsonSchema: S.optional(__S(107, __c13, 3)),
@@ -2168,8 +2168,8 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2202,9 +2202,9 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(280, __c35, 0)),
           mimeType: S.optional(S.String),
           data: S.optional(S.String),
+          metadata: S.optional(__S(280, __c35, 0)),
           _meta: S.optional(__S(272, __c34, 0)),
         }),
       ).annotate({ identifier: "GetResourceResponse" });
@@ -2215,8 +2215,8 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          toolSpec: S.optional(__S(80, __c10, 0)),
           executionConfig: S.optional(__S(8, __c1, 0)),
+          toolSpec: S.optional(__S(80, __c10, 0)),
         }),
       ).annotate({ identifier: "GetResourcePostRequest" });
     case 1:
@@ -2255,11 +2255,11 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2273,9 +2273,9 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          metadata: S.optional(__S(280, __c35, 0)),
           unsupportedActionNames: S.optional(__S(16, __c2, 0)),
+          metadata: S.optional(__S(280, __c35, 0)),
+          nextPageToken: S.optional(S.String),
           actions: S.optional(__S(177, __c22, 1)),
         }),
       ).annotate({ identifier: "ListActionsResponse" });
@@ -2286,11 +2286,11 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2304,10 +2304,10 @@ function __c23(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          metadata: S.optional(__S(280, __c35, 0)),
           unsupportedTypeNames: S.optional(__S(16, __c2, 0)),
           types: S.optional(__S(185, __c23, 1)),
           nextPageToken: S.optional(S.String),
-          metadata: S.optional(__S(280, __c35, 0)),
         }),
       ).annotate({ identifier: "ListEntityTypesResponse" });
   }
@@ -2317,12 +2317,12 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          conditions: S.optional(S.String.pipe(T.Query())),
-          sortBy: S.optional(__S(16, __c2, 0).pipe(T.Query())),
           sortOrder: S.optional(__S(16, __c2, 0).pipe(T.Query())),
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          sortBy: S.optional(__S(16, __c2, 0).pipe(T.Query())),
+          conditions: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2337,9 +2337,9 @@ function __c24(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          entities: S.optional(__S(193, __c24, 1)),
           metadata: S.optional(__S(280, __c35, 0)),
+          entities: S.optional(__S(193, __c24, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEntitiesResponse" });
   }
@@ -2350,9 +2350,9 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2364,12 +2364,12 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          size: S.optional(S.String),
-          mimeType: S.optional(S.String),
           uri: S.optional(S.String),
-          name: S.optional(S.String),
+          size: S.optional(S.String),
           _meta: S.optional(__S(272, __c34, 0)),
+          mimeType: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Resource" });
     case 2:
@@ -2391,9 +2391,9 @@ function __c26(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          toolNames: S.optional(__S(16, __c2, 0).pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+          toolNames: S.optional(__S(16, __c2, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2410,22 +2410,22 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           destructiveHint: S.optional(S.Boolean),
-          readOnlyHint: S.optional(S.Boolean),
-          openWorldHint: S.optional(S.Boolean),
           title: S.optional(S.String),
+          openWorldHint: S.optional(S.Boolean),
+          readOnlyHint: S.optional(S.Boolean),
           idempotentHint: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ToolAnnotations" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
+          inputSchema: S.optional(__S(107, __c13, 3)),
+          annotations: S.optional(__S(216, __c27, 0)),
           _meta: S.optional(__S(272, __c34, 0)),
           name: S.optional(S.String),
-          annotations: S.optional(__S(216, __c27, 0)),
           dependsOn: S.optional(__S(16, __c2, 0)),
           outputSchema: S.optional(__S(107, __c13, 3)),
-          inputSchema: S.optional(__S(107, __c13, 3)),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Tool" });
     case 2:
@@ -2433,9 +2433,9 @@ function __c27(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          metadata: S.optional(__S(280, __c35, 0)),
           tools: S.optional(__S(218, __c27, 2)),
           nextPageToken: S.optional(S.String),
-          metadata: S.optional(__S(280, __c35, 0)),
         }),
       ).annotate({ identifier: "ListToolsResponse" });
   }
@@ -2463,8 +2463,8 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          refreshToken: S.optional(S.String),
           executionConfig: S.optional(__S(8, __c1, 0)),
+          refreshToken: S.optional(S.String),
           oauth2Config: S.optional(__S(24, __c3, 0)),
         }),
       ).annotate({ identifier: "RefreshAccessTokenRequest" });
@@ -2481,6 +2481,13 @@ function __c29(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RefreshAccessTokenProjectsLocationsConnectionsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          metadata: S.optional(__S(280, __c35, 0)),
+          accessCredentials: S.optional(__S(25, __c3, 1)),
+        }),
+      ).annotate({ identifier: "RefreshAccessTokenResponse" });
   }
 }
 function __c30(j: number): any {
@@ -2488,11 +2495,11 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String),
-          toolNames: S.optional(__S(16, __c2, 0)),
-          toolSpec: S.optional(__S(80, __c10, 0)),
-          executionConfig: S.optional(__S(8, __c1, 0)),
           pageSize: S.optional(S.Number),
+          toolSpec: S.optional(__S(80, __c10, 0)),
+          pageToken: S.optional(S.String),
+          executionConfig: S.optional(__S(8, __c1, 0)),
+          toolNames: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "ListToolsPostRequest" });
     case 1:
@@ -2516,8 +2523,8 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           entityType: S.String.pipe(T.Label()),
-          conditions: S.optional(S.String.pipe(T.Query())),
           "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+          conditions: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(296, __c37, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -2566,8 +2573,8 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2603,8 +2610,8 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(296, __c37, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -2621,9 +2628,9 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          metadata: S.optional(__S(280, __c35, 0)),
           fields: S.optional(__S(272, __c34, 0)),
+          metadata: S.optional(__S(280, __c35, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Entity" });
   }
@@ -2660,8 +2667,8 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",

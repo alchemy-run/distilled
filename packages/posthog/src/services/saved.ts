@@ -197,10 +197,106 @@ export interface CreateSavedPrewarmRequest {
   /** When true, ask the headless browser to dismiss cookie/consent banners before capturing. Must match the value used at creation time for the prewarmed render to be reused. */
   block_consent_modals?: boolean | undefined;
 }
+export interface CreateSavedScreenshotHistoryCaptureRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  short_id: string;
+}
+export interface CreateSavedScreenshotHistoryCaptureResponse {}
 export interface GetSavedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   short_id: string;
+}
+export interface GetSavedScreenshotHistoryRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  short_id: string;
+}
+/** * `scheduled` - Daily capture * `manual` - Requested capture */
+export type HeatmapScreenshotHistoryTriggerEnum = "scheduled" | "manual";
+/** * `ok` - Captured * `pending` - Capture pending * `failed` - Capture failed */
+export type HeatmapScreenshotHistoryStatusEnum = "ok" | "pending" | "failed";
+/** * `queued` - Queued * `running` - Running * `succeeded` - Succeeded * `failed` - Failed * `cancelled` - Cancelled */
+export type HeatmapCaptureRequestStateEnum =
+  | "queued"
+  | "running"
+  | "succeeded"
+  | "failed"
+  | "cancelled";
+export interface HeatmapCaptureRequest {
+  /** Durable capture request identifier. */
+  request_id: string;
+  /** Queued, running, succeeded, failed, or cancelled. * `queued` - Queued * `running` - Running * `succeeded` - Succeeded * `failed` - Failed * `cancelled` - Cancelled */
+  state: HeatmapCaptureRequestStateEnum;
+  /** Deadline after which this request cannot publish an image. */
+  deadline: string;
+  /** Reason this capture failed, when known. */
+  failure_cause: string | null;
+  /** HTTP status returned by the rendered page. */
+  page_status: number | null;
+  /** When this request finished. */
+  completed_at: string | null;
+}
+export interface HeatmapScreenshotHistoryItem {
+  id: string;
+  /** Project-local calendar day of this capture. */
+  captured_on: string;
+  /** Time of the last successful capture. */
+  captured_at: string | null;
+  /** Actual viewport width of the available image, in CSS pixels. */
+  width: number;
+  /** Project timezone when this image was captured. */
+  timezone: string;
+  /** Inclusive UTC start of the captured project day. */
+  day_start: string;
+  /** Exclusive UTC end of the captured project day. */
+  day_end: string;
+  /** Time this history item expires. */
+  expires_at: string;
+  /** Successful request UUID identifying this image revision. */
+  revision: string | null;
+  trigger: HeatmapScreenshotHistoryTriggerEnum;
+  status: HeatmapScreenshotHistoryStatusEnum;
+  failure_cause: string | null;
+  page_status: number | null;
+  /** Authenticated, versioned URL of the available JPEG. */
+  content_url: string | null;
+  /** Preview URL, or null when no preview is available. */
+  thumbnail_url: string | null;
+  /** Latest attempt, independent of the available image. */
+  latest_request: HeatmapCaptureRequest | null;
+}
+/** Captures within the retention window, newest first. */
+export type HeatmapScreenshotHistoryResponseResultsList = Array<HeatmapScreenshotHistoryItem>;
+export interface HeatmapScreenshotHistoryResponse {
+  /** Viewport width (CSS pixels) daily captures of this heatmap are rendered at. */
+  width: number;
+  /** Captures older than this many days are deleted together with their images. */
+  retention_days: number;
+  /** Whether object storage is configured on this installation. Captures are only kept when it is. */
+  storage_available: boolean;
+  /** Captures within the retention window, newest first. */
+  results: HeatmapScreenshotHistoryResponseResultsList;
+}
+export type GetSavedScreenshotHistoryContentRequestVariant = "full" | "thumbnail";
+export interface GetSavedScreenshotHistoryContentRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  short_id: string;
+  /** ID of the capture, as listed by the screenshot history endpoint. */
+  history_id: string;
+  /** Successful request UUID; stale revisions return 404. */
+  v: string;
+  /** Full JPEG or thumbnail. Missing thumbnails return 404. * `full` - Full page * `thumbnail` - Thumbnail */
+  variant?: GetSavedScreenshotHistoryContentRequestVariant | (string & {}) | undefined;
+}
+export interface GetSavedScreenshotHistoryContentResponse {}
+export interface GetSavedScreenshotHistoryRequestRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  short_id: string;
+  request_id: string;
 }
 export interface ListSavedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -268,8 +364,8 @@ export const createSaved: API.OperationMethod<
   CreateSavedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateSavedRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<HeatmapScreenshotResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateSavedRequest>,
+  output: __S(61, __c7, 5) as any as S.Schema<HeatmapScreenshotResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -285,8 +381,8 @@ export const createSavedCapture: API.OperationMethod<
   CreateSavedCaptureError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c4, 1) as any as S.Schema<CreateSavedCaptureRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<HeatmapScreenshotResponse>,
+  input: __S(65, __c8, 1) as any as S.Schema<CreateSavedCaptureRequest>,
+  output: __S(61, __c7, 5) as any as S.Schema<HeatmapScreenshotResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -302,8 +398,8 @@ export const createSavedPreflight: API.OperationMethod<
   CreateSavedPreflightError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateSavedPreflightRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<HeatmapPreflightResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateSavedPreflightRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<HeatmapPreflightResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -319,13 +415,30 @@ export const createSavedPrewarm: API.OperationMethod<
   CreateSavedPrewarmError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CreateSavedPrewarmRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<HeatmapScreenshotResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateSavedPrewarmRequest>,
+  output: __S(61, __c7, 5) as any as S.Schema<HeatmapScreenshotResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSavedPrewarm",
+}));
+
+export type CreateSavedScreenshotHistoryCaptureError = BadRequest | NotFound | PosthogOpError;
+/** Render and keep a capture of the page now, instead of waiting for the daily run, for example right after a deploy. The render runs in the background; poll the history list for the new capture. A capture requested on a day that already has one replaces that day's image. */
+export const createSavedScreenshotHistoryCapture: API.OperationMethod<
+  CreateSavedScreenshotHistoryCaptureRequest,
+  CreateSavedScreenshotHistoryCaptureResponse,
+  CreateSavedScreenshotHistoryCaptureError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(88, __c11, 0) as any as S.Schema<CreateSavedScreenshotHistoryCaptureRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<CreateSavedScreenshotHistoryCaptureResponse>,
+  errors: [BadRequest, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedScreenshotHistoryCapture",
 }));
 
 export type GetSavedError = Forbidden | NotFound | PosthogOpError;
@@ -336,13 +449,64 @@ export const getSaved: API.OperationMethod<
   GetSavedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetSavedRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<HeatmapScreenshotResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetSavedRequest>,
+  output: __S(61, __c7, 5) as any as S.Schema<HeatmapScreenshotResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSaved",
+}));
+
+export type GetSavedScreenshotHistoryError = NotFound | PosthogOpError;
+/** List the daily screenshot captures kept for a saved heatmap, newest first. Each capture is a render of the page on that day at one viewport width, so the clicks of a day or a range can be viewed over the background that matches it. Captures older than the retention window are deleted. */
+export const getSavedScreenshotHistory: API.OperationMethod<
+  GetSavedScreenshotHistoryRequest,
+  HeatmapScreenshotHistoryResponse,
+  GetSavedScreenshotHistoryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c14, 0) as any as S.Schema<GetSavedScreenshotHistoryRequest>,
+  output: __S(115, __c14, 3) as any as S.Schema<HeatmapScreenshotHistoryResponse>,
+  errors: [NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedScreenshotHistory",
+}));
+
+export type GetSavedScreenshotHistoryContentError = NotFound | PosthogOpError;
+/** Fetch the JPEG for one daily capture, or its thumbnail. The list endpoint hands out versioned URLs, so the response carries a private day-long cache lifetime and an ETag that changes when the day is captured again. */
+export const getSavedScreenshotHistoryContent: API.OperationMethod<
+  GetSavedScreenshotHistoryContentRequest,
+  GetSavedScreenshotHistoryContentResponse,
+  GetSavedScreenshotHistoryContentError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<GetSavedScreenshotHistoryContentRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<GetSavedScreenshotHistoryContentResponse>,
+  errors: [NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedScreenshotHistoryContent",
+}));
+
+export type GetSavedScreenshotHistoryRequest2Error = PosthogOpError;
+/** Read the outcome of a capture request. */
+export const getSavedScreenshotHistoryRequest2: API.OperationMethod<
+  GetSavedScreenshotHistoryRequestRequest,
+  HeatmapCaptureRequest,
+  GetSavedScreenshotHistoryRequest2Error,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(8, __c1, 0) as any as S.Schema<GetSavedScreenshotHistoryRequestRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<HeatmapCaptureRequest>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedScreenshotHistoryRequest2",
 }));
 
 export type ListSavedError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -353,8 +517,8 @@ export const listSaved: API.OperationMethod<
   ListSavedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListSavedRequest>,
-  output: __S(68, __c8, 4) as any as S.Schema<ListSavedResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<ListSavedRequest>,
+  output: __S(20, __c2, 4) as any as S.Schema<ListSavedResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -370,8 +534,8 @@ export const savedDestroy: API.OperationMethod<
   SavedDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<SavedDestroyRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<SavedDestroyResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<SavedDestroyRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<SavedDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -387,8 +551,8 @@ export const savedRegenerateCreate: API.OperationMethod<
   SavedRegenerateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<SavedRegenerateCreateRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<HeatmapScreenshotResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<SavedRegenerateCreateRequest>,
+  output: __S(61, __c7, 5) as any as S.Schema<HeatmapScreenshotResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -404,8 +568,8 @@ export const updateSavedPartial: API.OperationMethod<
   UpdateSavedPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<UpdateSavedPartialRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<HeatmapScreenshotResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<UpdateSavedPartialRequest>,
+  output: __S(61, __c7, 5) as any as S.Schema<HeatmapScreenshotResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -415,6 +579,93 @@ export const updateSavedPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          short_id: S.String.pipe(T.Label()),
+          history_id: S.String.pipe(T.Label()),
+          v: S.String.pipe(T.Query()),
+          variant: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/saved/{short_id}/screenshot_history/{history_id}/content/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSavedScreenshotHistoryContentRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          short_id: S.String.pipe(T.Label()),
+          request_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/saved/{short_id}/screenshot_history/requests/{request_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSavedScreenshotHistoryRequestRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          created_by: S.optional(S.Number.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/saved/", code: 200 })),
+      ).annotate({ identifier: "ListSavedRequest" });
+    case 1:
+      return S.Array(__S(61, __c7, 5));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(17, __c2, 1),
+          count: S.Number,
+        }),
+      ).annotate({ identifier: "SavedHeatmapListResponse" });
+    case 3:
+      return S.Array(__S(18, __c2, 2));
+    case 4:
+      return S.suspend(() => __S(19, __c2, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSavedResponse",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          short_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/saved/{short_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SavedDestroyRequest" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -431,7 +682,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "SavedRegenerateCreateRequest" });
   }
 }
-function __c1(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -441,7 +692,7 @@ function __c1(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           url: S.optional(S.String),
           data_url: S.optional(S.String),
-          widths: S.optional(__S(24, __c3, 0)),
+          widths: S.optional(__S(56, __c7, 0)),
           type: S.optional(S.String),
           deleted: S.optional(S.Boolean),
           block_consent_modals: S.optional(S.Boolean),
@@ -455,7 +706,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "UpdateSavedPartialRequest" });
   }
 }
-function __c2(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -464,7 +715,7 @@ function __c2(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           url: S.String,
           data_url: S.optional(S.String),
-          widths: S.optional(__S(24, __c3, 0)),
+          widths: S.optional(__S(56, __c7, 0)),
           type: S.optional(S.String),
           deleted: S.optional(S.Boolean),
           block_consent_modals: S.optional(S.Boolean),
@@ -472,7 +723,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateSavedRequest" });
   }
 }
-function __c3(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -484,7 +735,7 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "HeatmapSnapshotMetadata" });
     case 2:
-      return S.Array(__S(25, __c3, 1));
+      return S.Array(__S(57, __c7, 1));
     case 3:
       return S.Record(S.String, S.Unknown);
     case 4:
@@ -497,7 +748,7 @@ function __c3(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(27, __c3, 3))),
+          hedgehog_config: S.optional(S.NullOr(__S(59, __c7, 3))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
@@ -509,15 +760,15 @@ function __c3(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           url: S.optional(S.String),
           data_url: S.optional(S.String),
-          target_widths: S.optional(__S(24, __c3, 0)),
+          target_widths: S.optional(__S(56, __c7, 0)),
           type: S.optional(S.String),
           source: S.optional(S.String),
           status: S.optional(S.String),
           has_content: S.optional(S.Boolean),
-          snapshots: S.optional(__S(26, __c3, 2)),
+          snapshots: S.optional(__S(58, __c7, 2)),
           deleted: S.optional(S.Boolean),
           block_consent_modals: S.optional(S.Boolean),
-          created_by: S.optional(S.NullOr(__S(28, __c3, 4))),
+          created_by: S.optional(S.NullOr(__S(60, __c7, 4))),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           exception: S.optional(S.NullOr(S.String)),
@@ -526,7 +777,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "HeatmapScreenshotResponse" });
   }
 }
-function __c4(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -536,8 +787,8 @@ function __c4(j: number): any {
           project_id: S.String.pipe(T.Label()),
           image: S.optional(S.NullOr(S.String)),
           width: S.optional(S.Number),
-          images: S.optional(__S(32, __c4, 0)),
-          widths: S.optional(__S(24, __c3, 0)),
+          images: S.optional(__S(64, __c8, 0)),
+          widths: S.optional(__S(56, __c7, 0)),
           url: S.String,
           data_url: S.optional(S.String),
           name: S.optional(S.String),
@@ -552,7 +803,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateSavedCaptureRequest" });
   }
 }
-function __c5(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -574,7 +825,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "HeatmapPreflightResponse" });
   }
 }
-function __c6(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -588,7 +839,32 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateSavedPrewarmRequest" });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          short_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/saved/{short_id}/screenshot_history/capture/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSavedScreenshotHistoryCaptureRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "CreateSavedScreenshotHistoryCaptureResponse",
+      });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -601,39 +877,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetSavedRequest" });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          created_by: S.optional(S.Number.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/saved/", code: 200 })),
-      ).annotate({ identifier: "ListSavedRequest" });
-    case 1:
-      return S.Array(__S(29, __c3, 5));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(65, __c8, 1),
-          count: S.Number,
-        }),
-      ).annotate({ identifier: "SavedHeatmapListResponse" });
-    case 3:
-      return S.Array(__S(66, __c8, 2));
-    case 4:
-      return S.suspend(() => __S(67, __c8, 3).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListSavedResponse",
-      });
-  }
-}
-function __c9(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -642,14 +886,59 @@ function __c9(j: number): any {
           short_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/saved/{short_id}/",
+            method: "GET",
+            uri: "/api/projects/{project_id}/saved/{short_id}/screenshot_history/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "SavedDestroyRequest" });
+      ).annotate({ identifier: "GetSavedScreenshotHistoryRequest" });
     case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "SavedDestroyResponse" });
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          captured_on: S.String,
+          captured_at: S.NullOr(S.String),
+          width: S.Number,
+          timezone: S.String,
+          day_start: S.String,
+          day_end: S.String,
+          expires_at: S.String,
+          revision: S.NullOr(S.String),
+          trigger: S.String,
+          status: S.String,
+          failure_cause: S.NullOr(S.String),
+          page_status: S.NullOr(S.Number),
+          content_url: S.NullOr(S.String),
+          thumbnail_url: S.NullOr(S.String),
+          latest_request: S.NullOr(__S(120, __c15, 0)),
+        }),
+      ).annotate({ identifier: "HeatmapScreenshotHistoryItem" });
+    case 2:
+      return S.Array(__S(113, __c14, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          width: S.Number,
+          retention_days: S.Number,
+          storage_available: S.Boolean,
+          results: __S(114, __c14, 2),
+        }),
+      ).annotate({ identifier: "HeatmapScreenshotHistoryResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          request_id: S.String,
+          state: S.String,
+          deadline: S.String,
+          failure_cause: S.NullOr(S.String),
+          page_status: S.NullOr(S.Number),
+          completed_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "HeatmapCaptureRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

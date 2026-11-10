@@ -41,7 +41,6 @@ export interface FullTextSearchDocsResponseHitsItemFormatted {
   hierarchy_lvl5?: string | undefined;
   hierarchy_lvl6?: string | undefined;
   content?: string | undefined;
-  anchor?: string | undefined;
 }
 export interface FullTextSearchDocsResponseHitsItem {
   url: string;
@@ -52,8 +51,6 @@ export interface FullTextSearchDocsResponseHitsItem {
   hierarchy_lvl4?: string | undefined;
   hierarchy_lvl5?: string | undefined;
   hierarchy_lvl6?: string | undefined;
-  content?: string | undefined;
-  anchor?: string | undefined;
   _formatted?: FullTextSearchDocsResponseHitsItemFormatted | undefined;
 }
 export type FullTextSearchDocsResponseHitsList = Array<FullTextSearchDocsResponseHitsItem>;
@@ -144,6 +141,7 @@ export interface SearchDocsResponseBodyItem {
   _vectors: SearchDocsResponseBodyItemVectors;
   heading1: string;
   text: string;
+  text_plain: string;
   product: string;
   source_page_url: string;
   source_page_title: string;
@@ -228,7 +226,6 @@ function __c0(j: number): any {
           hierarchy_lvl5: S.optional(S.String),
           hierarchy_lvl6: S.optional(S.String),
           content: S.optional(S.String),
-          anchor: S.optional(S.String),
         }),
       ).annotate({ identifier: "FullTextSearchDocsResponseHitsItemFormatted" });
     case 2:
@@ -242,8 +239,6 @@ function __c0(j: number): any {
           hierarchy_lvl4: S.optional(S.String),
           hierarchy_lvl5: S.optional(S.String),
           hierarchy_lvl6: S.optional(S.String),
-          content: S.optional(S.String),
-          anchor: S.optional(S.String),
           _formatted: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "FullTextSearchDocsResponseHitsItem" });
@@ -304,6 +299,7 @@ function __c2(j: number): any {
           _vectors: __S(18, __c2, 2),
           heading1: S.String,
           text: S.String,
+          text_plain: S.String,
           product: S.String,
           source_page_url: S.String,
           source_page_title: S.String,

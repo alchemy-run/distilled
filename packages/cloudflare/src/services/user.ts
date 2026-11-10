@@ -320,6 +320,10 @@ export interface CreateTokenResponse {
   provisionerType?: string | null | undefined;
   /** Status of the token. */
   status?: TokensCreateResponseStatus | null | undefined;
+  /** The prefix of the token value, before the first underscore. Use it with `token_suffix` to identify a token. Only present for tokens created or rolled after this field was added. */
+  tokenPrefix?: string | null | undefined;
+  /** The last 4 characters of the token value. Use it with `token_prefix` to identify a token. It is not unique. Only present for tokens created or rolled after this field was added. */
+  tokenSuffix?: string | null | undefined;
   /** The token value. */
   value?: string | null | undefined;
 }
@@ -589,6 +593,10 @@ export interface GetTokenResponse {
   provisionerType?: string | null | undefined;
   /** Status of the token. */
   status?: TokensGetResponseStatus | null | undefined;
+  /** The prefix of the token value, before the first underscore. Use it with `token_suffix` to identify a token. Only present for tokens created or rolled after this field was added. */
+  tokenPrefix?: string | null | undefined;
+  /** The last 4 characters of the token value. Use it with `token_prefix` to identify a token. It is not unique. Only present for tokens created or rolled after this field was added. */
+  tokenSuffix?: string | null | undefined;
 }
 export interface GetUserRequest {}
 export type GetResponseBetasList = Array<string>;
@@ -846,42 +854,117 @@ export interface ListOrganizationsResponse {
   resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListTenantsRequest {}
-export type TenantsListResultItemMetaHierarchyTagsList = Array<string>;
-export interface TenantsListResultItemMetaTenantFlags {
-  accountCreation: string;
-  accountCreationAppliesTenantDefaults: string;
-  accountDeletion: string;
-  accountMigration: string;
-  accountMobility: string;
-  enterpriseCapability: string;
-  memberManagement: string;
-  subOrgCreation: string;
+export interface TenantsListResultItemTenantContacts {
+  email?: string | null | undefined;
+  website?: string | null | undefined;
 }
-export interface TenantsListResultItemMeta {
-  /** Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy. */
-  hierarchyTags?: TenantsListResultItemMetaHierarchyTagsList | null | undefined;
-  managedBy?: string | null | undefined;
-  /** Enable features for Organizations. */
-  tenantFlags?: TenantsListResultItemMetaTenantFlags | null | undefined;
+export type TenantsListResultItemTenantLabelsList = Array<string>;
+export interface TenantsListResultItemTenantMetadataDnsNsPool {
+  primary: string;
+  secondary: string;
 }
-export interface TenantsListResultItemParent {
-  id: string;
-  name: string;
+export interface TenantsListResultItemTenantMetadataDns {
+  nsPool: TenantsListResultItemTenantMetadataDnsNsPool;
 }
-export interface TenantsListResultItemProfile {
-  businessAddress: string;
-  businessEmail: string;
-  businessName: string;
-  businessPhone: string;
-  externalMetadata: string;
+export type TenantsListResultItemTenantMetadataFlagsMap = { [key: string]: string | undefined };
+export type TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemAllocationValueCase3Map =
+  { [key: string]: unknown | undefined };
+export type TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemAllocationValueCase4List =
+  Array<unknown>;
+export type TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemAllocationValue =
+  | string
+  | number
+  | boolean
+  | TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemAllocationValueCase3Map
+  | TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemAllocationValueCase4List;
+export interface TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemAllocation {
+  type: string;
+  value: TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemAllocationValue;
+}
+export interface TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemFeature {
+  key: string;
+}
+export interface TenantsListResultItemTenantMetadataInnateAccountEntitlementsItem {
+  allocation: TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemAllocation;
+  feature: TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemFeature;
+}
+export type TenantsListResultItemTenantMetadataInnateAccountEntitlementsList =
+  Array<TenantsListResultItemTenantMetadataInnateAccountEntitlementsItem>;
+export type TenantsListResultItemTenantMetadataTenantEntitlementsItemAllocationValueCase3Map = {
+  [key: string]: unknown | undefined;
+};
+export type TenantsListResultItemTenantMetadataTenantEntitlementsItemAllocationValueCase4List =
+  Array<unknown>;
+export type TenantsListResultItemTenantMetadataTenantEntitlementsItemAllocationValue =
+  | string
+  | number
+  | boolean
+  | TenantsListResultItemTenantMetadataTenantEntitlementsItemAllocationValueCase3Map
+  | TenantsListResultItemTenantMetadataTenantEntitlementsItemAllocationValueCase4List;
+export interface TenantsListResultItemTenantMetadataTenantEntitlementsItemAllocation {
+  type: string;
+  value: TenantsListResultItemTenantMetadataTenantEntitlementsItemAllocationValue;
+}
+export type TenantsListResultItemTenantMetadataTenantEntitlementsItemFeature =
+  TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemFeature;
+export interface TenantsListResultItemTenantMetadataTenantEntitlementsItem {
+  allocation: TenantsListResultItemTenantMetadataTenantEntitlementsItemAllocation;
+  feature: TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemFeature;
+}
+export type TenantsListResultItemTenantMetadataTenantEntitlementsList =
+  Array<TenantsListResultItemTenantMetadataTenantEntitlementsItem>;
+export interface TenantsListResultItemTenantMetadata {
+  billingAccountType?: string | null | undefined;
+  configurationAccount?: string | null | undefined;
+  createdBy?: string | null | undefined;
+  dns?: TenantsListResultItemTenantMetadataDns | null | undefined;
+  flags?: TenantsListResultItemTenantMetadataFlagsMap | null | undefined;
+  innateAccountEntitlements?:
+    | TenantsListResultItemTenantMetadataInnateAccountEntitlementsList
+    | null
+    | undefined;
+  tenantEntitlements?: TenantsListResultItemTenantMetadataTenantEntitlementsList | null | undefined;
+}
+export type TenantsListResultItemTenantNetworkChoicesMap = { [key: string]: unknown | undefined };
+export interface TenantsListResultItemTenantNetwork {
+  choices?: TenantsListResultItemTenantNetworkChoicesMap | null | undefined;
+}
+export interface TenantsListResultItemTenantUnitsItemUnitMembershipsItem {
+  memberMetadata: unknown;
+  memberStatus: string;
+  memberTag: string;
+}
+export type TenantsListResultItemTenantUnitsItemUnitMembershipsList =
+  Array<TenantsListResultItemTenantUnitsItemUnitMembershipsItem>;
+export interface TenantsListResultItemTenantUnitsItem {
+  unitMemberships: TenantsListResultItemTenantUnitsItemUnitMembershipsList;
+  unitMetadata: unknown;
+  unitName: string;
+  unitStatus: string;
+  unitTag: string;
+}
+export type TenantsListResultItemTenantUnitsList = Array<TenantsListResultItemTenantUnitsItem>;
+export interface TenantsListResultItemUiFlags {
+  /** Render the Organizations experience for this tenant. */
+  showOrgsUi: boolean;
+  /** Render the legacy Tenants experience for this tenant. */
+  showTenantsUi: boolean;
 }
 export interface TenantsListResultItem {
-  id: string;
-  createTime: string;
-  meta: TenantsListResultItemMeta;
-  name: string;
-  parent?: TenantsListResultItemParent | null | undefined;
-  profile?: TenantsListResultItemProfile | null | undefined;
+  cdate: string;
+  customerId: string;
+  edate: string;
+  tenantContacts: TenantsListResultItemTenantContacts;
+  tenantLabels: TenantsListResultItemTenantLabelsList;
+  tenantMetadata: TenantsListResultItemTenantMetadata;
+  tenantName: string;
+  tenantNetwork: TenantsListResultItemTenantNetwork;
+  tenantStatus: string;
+  tenantTag: string;
+  tenantType: string;
+  tenantUnits: TenantsListResultItemTenantUnitsList;
+  /** Which top-level dashboard experiences to render for this tenant; both may be true. */
+  uiFlags: TenantsListResultItemUiFlags;
 }
 export type TenantsListResultList = Array<TenantsListResultItem>;
 export interface ListTenantsResponse {
@@ -1013,6 +1096,10 @@ export interface TokensListResultItem {
   provisionerType?: string | null | undefined;
   /** Status of the token. */
   status?: TokensListResultItemStatus | null | undefined;
+  /** The prefix of the token value, before the first underscore. Use it with `token_suffix` to identify a token. Only present for tokens created or rolled after this field was added. */
+  tokenPrefix?: string | null | undefined;
+  /** The last 4 characters of the token value. Use it with `token_prefix` to identify a token. It is not unique. Only present for tokens created or rolled after this field was added. */
+  tokenSuffix?: string | null | undefined;
 }
 export type TokensListResultList = Array<TokensListResultItem>;
 export interface ListTokensResponse {
@@ -1278,6 +1365,10 @@ export interface UpdateTokenResponse {
   provisionerType?: string | null | undefined;
   /** Status of the token. */
   status?: TokensUpdateResponseStatus | null | undefined;
+  /** The prefix of the token value, before the first underscore. Use it with `token_suffix` to identify a token. Only present for tokens created or rolled after this field was added. */
+  tokenPrefix?: string | null | undefined;
+  /** The last 4 characters of the token value. Use it with `token_prefix` to identify a token. It is not unique. Only present for tokens created or rolled after this field was added. */
+  tokenSuffix?: string | null | undefined;
 }
 export interface VerifyTokenRequest {}
 export type TokensVerifyResponseStatus = "active" | "disabled" | "expired";
@@ -1304,8 +1395,8 @@ export const createToken: API.OperationMethod<
   CreateTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(388, __c24, 4) as any as S.Schema<CreateTokenRequest>,
-  output: __S(393, __c24, 9) as any as S.Schema<CreateTokenResponse>,
+  input: __S(772, __c24, 4) as any as S.Schema<CreateTokenRequest>,
+  output: __S(777, __c24, 9) as any as S.Schema<CreateTokenResponse>,
   errors: [
     InvalidRoute,
     InvalidTokenName,
@@ -1327,8 +1418,8 @@ export const deleteOrganization: API.OperationMethod<
   DeleteOrganizationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<DeleteOrganizationRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<DeleteOrganizationResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<DeleteOrganizationRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<DeleteOrganizationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1344,8 +1435,8 @@ export const deleteSubscription: API.OperationMethod<
   DeleteSubscriptionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DeleteSubscriptionRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<DeleteSubscriptionResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteSubscriptionRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<DeleteSubscriptionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1361,8 +1452,8 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<DeleteTokenRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<DeleteTokenResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<DeleteTokenResponse>,
   errors: [InvalidRoute, MethodNotAllowed, TokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1395,8 +1486,8 @@ export const getInvite: API.OperationMethod<
   GetInviteError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetInviteRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<GetInviteResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<GetInviteRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<GetInviteResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1412,8 +1503,8 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<GetOrganizationResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<GetOrganizationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1429,8 +1520,8 @@ export const getSpectrumAnalyticsZonesReport: API.OperationMethod<
   GetSpectrumAnalyticsZonesReportError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetSpectrumAnalyticsZonesReportRequest>,
-  output: __S(85, __c5, 5) as any as S.Schema<GetSpectrumAnalyticsZonesReportResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<GetSpectrumAnalyticsZonesReportRequest>,
+  output: __S(165, __c5, 5) as any as S.Schema<GetSpectrumAnalyticsZonesReportResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1448,8 +1539,8 @@ export const getSubscription: API.PaginatedOperationMethod<
   SubscriptionsGetResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(96, __c6, 0) as any as S.Schema<GetSubscriptionRequest>,
-    output: __S(100, __c6, 4) as any as S.Schema<GetSubscriptionResponse>,
+    input: __S(192, __c6, 0) as any as S.Schema<GetSubscriptionRequest>,
+    output: __S(196, __c6, 4) as any as S.Schema<GetSubscriptionResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1468,8 +1559,8 @@ export const getToken: API.OperationMethod<
   GetTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetTokenRequest>,
-  output: __S(117, __c7, 5) as any as S.Schema<GetTokenResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetTokenRequest>,
+  output: __S(229, __c7, 5) as any as S.Schema<GetTokenResponse>,
   errors: [InvalidRoute, TokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1485,8 +1576,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<GetUserResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<GetUserResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1504,8 +1595,8 @@ export const listAuditLogs: API.PaginatedOperationMethod<
   AuditLogsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(179, __c11, 3) as any as S.Schema<ListAuditLogsRequest>,
-    output: __S(186, __c11, 10) as any as S.Schema<ListAuditLogsResponse>,
+    input: __S(355, __c11, 3) as any as S.Schema<ListAuditLogsRequest>,
+    output: __S(362, __c11, 10) as any as S.Schema<ListAuditLogsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1532,8 +1623,8 @@ export const listBillingHistories: API.PaginatedOperationMethod<
   BillingHistoryListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(192, __c12, 0) as any as S.Schema<ListBillingHistoriesRequest>,
-    output: __S(196, __c12, 4) as any as S.Schema<ListBillingHistoriesResponse>,
+    input: __S(384, __c12, 0) as any as S.Schema<ListBillingHistoriesRequest>,
+    output: __S(388, __c12, 4) as any as S.Schema<ListBillingHistoriesResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1560,8 +1651,8 @@ export const listInvites: API.PaginatedOperationMethod<
   InvitesListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(208, __c13, 0) as any as S.Schema<ListInvitesRequest>,
-    output: __S(211, __c13, 3) as any as S.Schema<ListInvitesResponse>,
+    input: __S(416, __c13, 0) as any as S.Schema<ListInvitesRequest>,
+    output: __S(419, __c13, 3) as any as S.Schema<ListInvitesResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1582,8 +1673,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
   OrganizationsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(224, __c14, 0) as any as S.Schema<ListOrganizationsRequest>,
-    output: __S(225, __c14, 1) as any as S.Schema<ListOrganizationsResponse>,
+    input: __S(448, __c14, 0) as any as S.Schema<ListOrganizationsRequest>,
+    output: __S(449, __c14, 1) as any as S.Schema<ListOrganizationsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1601,7 +1692,7 @@ export const listOrganizations: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListTenantsError = CloudflareOpError;
-/** Retrieves list of tenants the authenticated user / method has access to. */
+/** Lists the Cloudflare tenants in which the authenticated user has direct membership using the legacy Tenant response shape. Use `GET /organizations` to list Organizations the user can access, including through hierarchy, using the modern Organization response shape. */
 export const listTenants: API.PaginatedOperationMethod<
   ListTenantsRequest,
   ListTenantsResponse,
@@ -1610,8 +1701,8 @@ export const listTenants: API.PaginatedOperationMethod<
   TenantsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(240, __c15, 0) as any as S.Schema<ListTenantsRequest>,
-    output: __S(247, __c15, 7) as any as S.Schema<ListTenantsResponse>,
+    input: __S(481, __c15, 1) as any as S.Schema<ListTenantsRequest>,
+    output: __S(504, __c15, 24) as any as S.Schema<ListTenantsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1632,8 +1723,8 @@ export const listTokenPermissionGroups: API.PaginatedOperationMethod<
   TokensPermissionGroupsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(256, __c16, 0) as any as S.Schema<ListTokenPermissionGroupsRequest>,
-    output: __S(260, __c16, 4) as any as S.Schema<ListTokenPermissionGroupsResponse>,
+    input: __S(512, __c16, 0) as any as S.Schema<ListTokenPermissionGroupsRequest>,
+    output: __S(516, __c16, 4) as any as S.Schema<ListTokenPermissionGroupsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1654,8 +1745,8 @@ export const listTokens: API.PaginatedOperationMethod<
   TokensListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(272, __c17, 0) as any as S.Schema<ListTokensRequest>,
-    output: __S(279, __c17, 7) as any as S.Schema<ListTokensResponse>,
+    input: __S(544, __c17, 0) as any as S.Schema<ListTokensRequest>,
+    output: __S(551, __c17, 7) as any as S.Schema<ListTokensResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1680,8 +1771,8 @@ export const patchInvite: API.OperationMethod<
   PatchInviteError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<PatchInviteRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<PatchInviteResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<PatchInviteRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<PatchInviteResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1697,8 +1788,8 @@ export const patchUser: API.OperationMethod<
   PatchUserError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<PatchUserRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<PatchUserResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<PatchUserRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<PatchUserResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1714,8 +1805,8 @@ export const putSubscription: API.OperationMethod<
   PutSubscriptionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(321, __c20, 1) as any as S.Schema<PutSubscriptionRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<PutSubscriptionResponse>,
+  input: __S(641, __c20, 1) as any as S.Schema<PutSubscriptionRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<PutSubscriptionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1731,8 +1822,8 @@ export const putTokenValue: API.OperationMethod<
   PutTokenValueError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<PutTokenValueRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<PutTokenValueResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<PutTokenValueRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<PutTokenValueResponse>,
   errors: [InvalidRoute, TokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1753,8 +1844,8 @@ export const updateToken: API.OperationMethod<
   UpdateTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(356, __c22, 4) as any as S.Schema<UpdateTokenRequest>,
-  output: __S(361, __c22, 9) as any as S.Schema<UpdateTokenResponse>,
+  input: __S(708, __c22, 4) as any as S.Schema<UpdateTokenRequest>,
+  output: __S(713, __c22, 9) as any as S.Schema<UpdateTokenResponse>,
   errors: [
     InvalidRoute,
     MethodNotAllowed,
@@ -1777,8 +1868,8 @@ export const verifyToken: API.OperationMethod<
   VerifyTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<VerifyTokenRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<VerifyTokenResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<VerifyTokenRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<VerifyTokenResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1872,7 +1963,7 @@ function __c2(j: number): any {
             S.NullOr(S.Boolean).pipe(T.Body("organization_is_enforcing_twofactor")),
           ),
           organizationName: S.optional(S.NullOr(S.String).pipe(T.Body("organization_name"))),
-          roles: S.optional(S.NullOr(__S(400, __c25, 0))),
+          roles: S.optional(S.NullOr(__S(800, __c25, 0))),
           status: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetInviteResponse" });
@@ -1921,21 +2012,21 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          bandwidth: __S(81, __c5, 1),
+          bandwidth: __S(161, __c5, 1),
         }),
       ).annotate({ identifier: "GetSpectrumAnalyticsZonesReportResultItemTotals" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          totals: __S(82, __c5, 2),
+          totals: __S(162, __c5, 2),
           zoneId: S.String.pipe(T.Body("zone_id")),
         }),
       ).annotate({ identifier: "GetSpectrumAnalyticsZonesReportResultItem" });
     case 4:
-      return S.Array(__S(83, __c5, 3));
+      return S.Array(__S(163, __c5, 3));
     case 5:
       return S.suspend(() =>
-        __S(84, __c5, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(164, __c5, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSpectrumAnalyticsZonesReportResponse" });
   }
 }
@@ -1956,7 +2047,7 @@ function __c6(j: number): any {
           isContract: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_contract"))),
           publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
           scope: S.optional(S.NullOr(S.String)),
-          sets: S.optional(S.NullOr(__S(400, __c25, 0))),
+          sets: S.optional(S.NullOr(__S(800, __c25, 0))),
         }),
       ).annotate({ identifier: "SubscriptionsGetResultItemRatePlan" });
     case 2:
@@ -1968,16 +2059,16 @@ function __c6(j: number): any {
           currentPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_start"))),
           frequency: S.optional(S.NullOr(S.String)),
           price: S.optional(S.NullOr(S.Number)),
-          ratePlan: S.optional(S.NullOr(__S(97, __c6, 1)).pipe(T.Body("rate_plan"))),
+          ratePlan: S.optional(S.NullOr(__S(193, __c6, 1)).pipe(T.Body("rate_plan"))),
           state: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "SubscriptionsGetResultItem" });
     case 3:
-      return S.Array(__S(98, __c6, 2));
+      return S.Array(__S(194, __c6, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: __S(99, __c6, 3).pipe(T.EnvelopePayload()),
+          result: __S(195, __c6, 3).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSubscriptionResponse" });
@@ -1996,23 +2087,23 @@ function __c7(j: number): any {
     case 1:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 2:
-      return S.Record(S.String, __S(113, __c7, 1));
+      return S.Record(S.String, __S(225, __c7, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           effect: S.String,
-          permissionGroups: __S(420, __c26, 4).pipe(T.Body("permission_groups")),
-          resources: __S(114, __c7, 2),
+          permissionGroups: __S(836, __c26, 4).pipe(T.Body("permission_groups")),
+          resources: __S(226, __c7, 2),
         }),
       ).annotate({ identifier: "TokensGetResponsePoliciesItem" });
     case 4:
-      return S.Array(__S(115, __c7, 3));
+      return S.Array(__S(227, __c7, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          condition: S.optional(S.NullOr(__S(417, __c26, 1))),
+          condition: S.optional(S.NullOr(__S(833, __c26, 1))),
           creatorEmailAtCreation: S.optional(
             S.NullOr(S.String).pipe(T.Body("creator_email_at_creation")),
           ),
@@ -2022,10 +2113,12 @@ function __c7(j: number): any {
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
           name: S.optional(S.NullOr(S.String)),
           notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
-          policies: S.optional(S.NullOr(__S(116, __c7, 4))),
+          policies: S.optional(S.NullOr(__S(228, __c7, 4))),
           provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
           provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
           status: S.optional(S.NullOr(S.String)),
+          tokenPrefix: S.optional(S.NullOr(S.String).pipe(T.Body("token_prefix"))),
+          tokenSuffix: S.optional(S.NullOr(S.String).pipe(T.Body("token_suffix"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetTokenResponse" });
   }
@@ -2049,13 +2142,13 @@ function __c9(j: number): any {
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
-          permissions: S.optional(S.NullOr(__S(144, __c9, 0))),
-          roles: S.optional(S.NullOr(__S(400, __c25, 0))),
+          permissions: S.optional(S.NullOr(__S(288, __c9, 0))),
+          roles: S.optional(S.NullOr(__S(800, __c25, 0))),
           status: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetResponseOrganizationsItem" });
     case 2:
-      return S.Array(__S(145, __c9, 1));
+      return S.Array(__S(289, __c9, 1));
   }
 }
 function __c10(j: number): any {
@@ -2065,14 +2158,14 @@ function __c10(j: number): any {
         S.Struct({
           id: S.String,
           email: S.String,
-          betas: S.optional(S.NullOr(__S(400, __c25, 0))),
+          betas: S.optional(S.NullOr(__S(800, __c25, 0))),
           country: S.optional(S.NullOr(S.String)),
           firstName: S.optional(S.NullOr(S.String).pipe(T.Body("first_name"))),
           hasBusinessZones: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_business_zones"))),
           hasEnterpriseZones: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_enterprise_zones"))),
           hasProZones: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_pro_zones"))),
           lastName: S.optional(S.NullOr(S.String).pipe(T.Body("last_name"))),
-          organizations: S.optional(S.NullOr(__S(146, __c9, 2))),
+          organizations: S.optional(S.NullOr(__S(290, __c9, 2))),
           suspended: S.optional(S.NullOr(S.Boolean)),
           telephone: S.optional(S.NullOr(S.String)),
           twoFactorAuthenticationEnabled: S.optional(
@@ -2111,8 +2204,8 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String.pipe(T.Query())),
-          action: S.optional(__S(176, __c11, 0).pipe(T.DeepQuery("action"))),
-          actor: S.optional(__S(177, __c11, 1).pipe(T.DeepQuery("actor"))),
+          action: S.optional(__S(352, __c11, 0).pipe(T.DeepQuery("action"))),
+          actor: S.optional(__S(353, __c11, 1).pipe(T.DeepQuery("actor"))),
           before: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
           export: S.optional(S.Boolean.pipe(T.Query())),
@@ -2120,7 +2213,7 @@ function __c11(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           since: S.optional(S.String.pipe(T.Query())),
-          zone: S.optional(__S(178, __c11, 2).pipe(T.DeepQuery("zone"))),
+          zone: S.optional(__S(354, __c11, 2).pipe(T.DeepQuery("zone"))),
         })
           .pipe(T.Http({ method: "GET", uri: "/user/audit_logs", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -2158,23 +2251,23 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          action: S.optional(S.NullOr(__S(180, __c11, 4))),
-          actor: S.optional(S.NullOr(__S(181, __c11, 5))),
+          action: S.optional(S.NullOr(__S(356, __c11, 4))),
+          actor: S.optional(S.NullOr(__S(357, __c11, 5))),
           interface: S.optional(S.NullOr(S.String)),
           metadata: S.optional(S.NullOr(S.Unknown)),
           newValue: S.optional(S.NullOr(S.String)),
           oldValue: S.optional(S.NullOr(S.String)),
-          owner: S.optional(S.NullOr(__S(182, __c11, 6))),
-          resource: S.optional(S.NullOr(__S(183, __c11, 7))),
+          owner: S.optional(S.NullOr(__S(358, __c11, 6))),
+          resource: S.optional(S.NullOr(__S(359, __c11, 7))),
           when: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "AuditLogsListResultItem" });
     case 9:
-      return S.Array(__S(184, __c11, 8));
+      return S.Array(__S(360, __c11, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          result: __S(185, __c11, 9).pipe(T.EnvelopePayload()),
+          result: __S(361, __c11, 9).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListAuditLogsResponse" });
@@ -2211,15 +2304,15 @@ function __c12(j: number): any {
           description: S.String,
           occurredAt: S.String.pipe(T.Body("occurred_at")),
           type: S.String,
-          zone: __S(193, __c12, 1),
+          zone: __S(385, __c12, 1),
         }),
       ).annotate({ identifier: "BillingHistoryListResultItem" });
     case 3:
-      return S.Array(__S(194, __c12, 2));
+      return S.Array(__S(386, __c12, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: __S(195, __c12, 3).pipe(T.EnvelopePayload()),
+          result: __S(387, __c12, 3).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBillingHistoriesResponse" });
@@ -2247,16 +2340,16 @@ function __c13(j: number): any {
             S.NullOr(S.Boolean).pipe(T.Body("organization_is_enforcing_twofactor")),
           ),
           organizationName: S.optional(S.NullOr(S.String).pipe(T.Body("organization_name"))),
-          roles: S.optional(S.NullOr(__S(400, __c25, 0))),
+          roles: S.optional(S.NullOr(__S(800, __c25, 0))),
           status: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "InvitesListResultItem" });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(210, __c13, 2).pipe(T.EnvelopePayload()),
+          result: __S(418, __c13, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListInvitesResponse" });
@@ -2281,7 +2374,7 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          result: __S(146, __c9, 2).pipe(T.EnvelopePayload()),
+          result: __S(290, __c9, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListOrganizationsResponse" });
@@ -2290,68 +2383,162 @@ function __c14(j: number): any {
 function __c15(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({})
           .pipe(T.Http({ method: "GET", uri: "/user/tenants", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListTenantsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accountCreation: S.String.pipe(T.Body("account_creation")),
-          accountCreationAppliesTenantDefaults: S.String.pipe(
-            T.Body("account_creation_applies_tenant_defaults"),
-          ),
-          accountDeletion: S.String.pipe(T.Body("account_deletion")),
-          accountMigration: S.String.pipe(T.Body("account_migration")),
-          accountMobility: S.String.pipe(T.Body("account_mobility")),
-          enterpriseCapability: S.String.pipe(T.Body("enterprise_capability")),
-          memberManagement: S.String.pipe(T.Body("member_management")),
-          subOrgCreation: S.String.pipe(T.Body("sub_org_creation")),
-        }),
-      ).annotate({ identifier: "TenantsListResultItemMetaTenantFlags" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          hierarchyTags: S.optional(S.NullOr(__S(400, __c25, 0)).pipe(T.Body("hierarchy_tags"))),
-          managedBy: S.optional(S.NullOr(S.String).pipe(T.Body("managed_by"))),
-          tenantFlags: S.optional(S.NullOr(__S(241, __c15, 1)).pipe(T.Body("tenant_flags"))),
+          email: S.optional(S.NullOr(S.String)),
+          website: S.optional(S.NullOr(S.String)),
         }),
-      ).annotate({ identifier: "TenantsListResultItemMeta" });
+      ).annotate({ identifier: "TenantsListResultItemTenantContacts" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
-          name: S.String,
+          primary: S.String,
+          secondary: S.String,
         }),
-      ).annotate({ identifier: "TenantsListResultItemParent" });
+      ).annotate({ identifier: "TenantsListResultItemTenantMetadataDnsNsPool" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          businessAddress: S.String.pipe(T.Body("business_address")),
-          businessEmail: S.String.pipe(T.Body("business_email")),
-          businessName: S.String.pipe(T.Body("business_name")),
-          businessPhone: S.String.pipe(T.Body("business_phone")),
-          externalMetadata: S.String.pipe(T.Body("external_metadata")),
+          nsPool: __S(483, __c15, 3).pipe(T.Body("ns_pool")),
         }),
-      ).annotate({ identifier: "TenantsListResultItemProfile" });
+      ).annotate({ identifier: "TenantsListResultItemTenantMetadataDns" });
     case 5:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          createTime: S.String.pipe(T.Body("create_time")),
-          meta: __S(242, __c15, 2),
-          name: S.String,
-          parent: S.optional(S.NullOr(__S(243, __c15, 3))),
-          profile: S.optional(S.NullOr(__S(244, __c15, 4))),
-        }),
-      ).annotate({ identifier: "TenantsListResultItem" });
+      return S.Record(S.String, S.Unknown);
     case 6:
-      return S.Array(__S(245, __c15, 5));
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], [], [], []]));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          result: __S(246, __c15, 6).pipe(T.EnvelopePayload()),
+          type: S.String,
+          value: __S(486, __c15, 6),
+        }),
+      ).annotate({
+        identifier: "TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemAllocation",
+      });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+        }),
+      ).annotate({
+        identifier: "TenantsListResultItemTenantMetadataInnateAccountEntitlementsItemFeature",
+      });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          allocation: __S(487, __c15, 7),
+          feature: __S(488, __c15, 8),
+        }),
+      ).annotate({
+        identifier: "TenantsListResultItemTenantMetadataInnateAccountEntitlementsItem",
+      });
+    case 10:
+      return S.Array(__S(489, __c15, 9));
+    case 11:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], [], [], []]));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          value: __S(491, __c15, 11),
+        }),
+      ).annotate({
+        identifier: "TenantsListResultItemTenantMetadataTenantEntitlementsItemAllocation",
+      });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          allocation: __S(492, __c15, 12),
+          feature: __S(488, __c15, 8),
+        }),
+      ).annotate({ identifier: "TenantsListResultItemTenantMetadataTenantEntitlementsItem" });
+    case 14:
+      return S.Array(__S(493, __c15, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          billingAccountType: S.optional(S.NullOr(S.String).pipe(T.Body("billing_account_type"))),
+          configurationAccount: S.optional(
+            S.NullOr(S.String).pipe(T.Body("configuration_account")),
+          ),
+          createdBy: S.optional(S.NullOr(S.String).pipe(T.Body("created_by"))),
+          dns: S.optional(S.NullOr(__S(484, __c15, 4))),
+          flags: S.optional(S.NullOr(__S(480, __c15, 0))),
+          innateAccountEntitlements: S.optional(
+            S.NullOr(__S(490, __c15, 10)).pipe(T.Body("innate_account_entitlements")),
+          ),
+          tenantEntitlements: S.optional(
+            S.NullOr(__S(494, __c15, 14)).pipe(T.Body("tenant_entitlements")),
+          ),
+        }),
+      ).annotate({ identifier: "TenantsListResultItemTenantMetadata" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          choices: S.optional(S.NullOr(__S(485, __c15, 5))),
+        }),
+      ).annotate({ identifier: "TenantsListResultItemTenantNetwork" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          memberMetadata: S.Unknown.pipe(T.Body("member_metadata")),
+          memberStatus: S.String.pipe(T.Body("member_status")),
+          memberTag: S.String.pipe(T.Body("member_tag")),
+        }),
+      ).annotate({ identifier: "TenantsListResultItemTenantUnitsItemUnitMembershipsItem" });
+    case 18:
+      return S.Array(__S(497, __c15, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          unitMemberships: __S(498, __c15, 18).pipe(T.Body("unit_memberships")),
+          unitMetadata: S.Unknown.pipe(T.Body("unit_metadata")),
+          unitName: S.String.pipe(T.Body("unit_name")),
+          unitStatus: S.String.pipe(T.Body("unit_status")),
+          unitTag: S.String.pipe(T.Body("unit_tag")),
+        }),
+      ).annotate({ identifier: "TenantsListResultItemTenantUnitsItem" });
+    case 20:
+      return S.Array(__S(499, __c15, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          showOrgsUi: S.Boolean.pipe(T.Body("show_orgs_ui")),
+          showTenantsUi: S.Boolean.pipe(T.Body("show_tenants_ui")),
+        }),
+      ).annotate({ identifier: "TenantsListResultItemUiFlags" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          cdate: S.String,
+          customerId: S.String.pipe(T.Body("customer_id")),
+          edate: S.String,
+          tenantContacts: __S(482, __c15, 2).pipe(T.Body("tenant_contacts")),
+          tenantLabels: __S(800, __c25, 0).pipe(T.Body("tenant_labels")),
+          tenantMetadata: __S(495, __c15, 15).pipe(T.Body("tenant_metadata")),
+          tenantName: S.String.pipe(T.Body("tenant_name")),
+          tenantNetwork: __S(496, __c15, 16).pipe(T.Body("tenant_network")),
+          tenantStatus: S.String.pipe(T.Body("tenant_status")),
+          tenantTag: S.String.pipe(T.Body("tenant_tag")),
+          tenantType: S.String.pipe(T.Body("tenant_type")),
+          tenantUnits: __S(500, __c15, 20).pipe(T.Body("tenant_units")),
+          uiFlags: __S(501, __c15, 21).pipe(T.Body("ui_flags")),
+        }),
+      ).annotate({ identifier: "TenantsListResultItem" });
+    case 23:
+      return S.Array(__S(502, __c15, 22));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          result: __S(503, __c15, 23).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListTenantsResponse" });
@@ -2377,15 +2564,15 @@ function __c16(j: number): any {
           category: S.optional(S.NullOr(S.String)),
           isSelectable: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_selectable"))),
           name: S.optional(S.NullOr(S.String)),
-          scopes: S.optional(S.NullOr(__S(257, __c16, 1))),
+          scopes: S.optional(S.NullOr(__S(513, __c16, 1))),
         }),
       ).annotate({ identifier: "TokensPermissionGroupsListResultItem" });
     case 3:
-      return S.Array(__S(258, __c16, 2));
+      return S.Array(__S(514, __c16, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: __S(259, __c16, 3).pipe(T.EnvelopePayload()),
+          result: __S(515, __c16, 3).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListTokenPermissionGroupsResponse" });
@@ -2407,23 +2594,23 @@ function __c17(j: number): any {
     case 1:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 2:
-      return S.Record(S.String, __S(273, __c17, 1));
+      return S.Record(S.String, __S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           effect: S.String,
-          permissionGroups: __S(420, __c26, 4).pipe(T.Body("permission_groups")),
-          resources: __S(274, __c17, 2),
+          permissionGroups: __S(836, __c26, 4).pipe(T.Body("permission_groups")),
+          resources: __S(546, __c17, 2),
         }),
       ).annotate({ identifier: "TokensListResultItemPoliciesItem" });
     case 4:
-      return S.Array(__S(275, __c17, 3));
+      return S.Array(__S(547, __c17, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          condition: S.optional(S.NullOr(__S(417, __c26, 1))),
+          condition: S.optional(S.NullOr(__S(833, __c26, 1))),
           creatorEmailAtCreation: S.optional(
             S.NullOr(S.String).pipe(T.Body("creator_email_at_creation")),
           ),
@@ -2433,18 +2620,20 @@ function __c17(j: number): any {
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
           name: S.optional(S.NullOr(S.String)),
           notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
-          policies: S.optional(S.NullOr(__S(276, __c17, 4))),
+          policies: S.optional(S.NullOr(__S(548, __c17, 4))),
           provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
           provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
           status: S.optional(S.NullOr(S.String)),
+          tokenPrefix: S.optional(S.NullOr(S.String).pipe(T.Body("token_prefix"))),
+          tokenSuffix: S.optional(S.NullOr(S.String).pipe(T.Body("token_suffix"))),
         }),
       ).annotate({ identifier: "TokensListResultItem" });
     case 6:
-      return S.Array(__S(277, __c17, 5));
+      return S.Array(__S(549, __c17, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          result: __S(278, __c17, 6).pipe(T.EnvelopePayload()),
+          result: __S(550, __c17, 6).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListTokensResponse" });
@@ -2490,7 +2679,7 @@ function __c20(j: number): any {
           isContract: S.optional(S.Boolean.pipe(T.Body("is_contract"))),
           publicName: S.optional(S.String.pipe(T.Body("public_name"))),
           scope: S.optional(S.String),
-          sets: S.optional(__S(400, __c25, 0)),
+          sets: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "SubscriptionsUpdateRequestRatePlan" });
     case 1:
@@ -2498,7 +2687,7 @@ function __c20(j: number): any {
         S.Struct({
           identifier: S.String.pipe(T.Label()),
           frequency: S.optional(S.String),
-          ratePlan: S.optional(__S(320, __c20, 0).pipe(T.Body("rate_plan"))),
+          ratePlan: S.optional(__S(640, __c20, 0).pipe(T.Body("rate_plan"))),
         })
           .pipe(T.Http({ method: "PUT", uri: "/user/subscriptions/{identifier}", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -2522,24 +2711,24 @@ function __c22(j: number): any {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 1:
-      return S.Record(S.String, __S(352, __c22, 0));
+      return S.Record(S.String, __S(704, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           effect: S.String,
-          permissionGroups: __S(434, __c27, 2).pipe(T.Body("permission_groups")),
-          resources: __S(353, __c22, 1),
+          permissionGroups: __S(866, __c27, 2).pipe(T.Body("permission_groups")),
+          resources: __S(705, __c22, 1),
         }),
       ).annotate({ identifier: "TokensUpdateRequestPoliciesItem" });
     case 3:
-      return S.Array(__S(354, __c22, 2));
+      return S.Array(__S(706, __c22, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           tokenId: S.String.pipe(T.Label("token_id")),
           name: S.String,
-          policies: __S(355, __c22, 3),
-          condition: S.optional(__S(436, __c27, 4)),
+          policies: __S(707, __c22, 3),
+          condition: S.optional(__S(868, __c27, 4)),
           expiresOn: S.optional(S.String.pipe(T.Body("expires_on"))),
           notBefore: S.optional(S.String.pipe(T.Body("not_before"))),
           status: S.optional(S.String),
@@ -2550,23 +2739,23 @@ function __c22(j: number): any {
     case 5:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 6:
-      return S.Record(S.String, __S(357, __c22, 5));
+      return S.Record(S.String, __S(709, __c22, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           effect: S.String,
-          permissionGroups: __S(420, __c26, 4).pipe(T.Body("permission_groups")),
-          resources: __S(358, __c22, 6),
+          permissionGroups: __S(836, __c26, 4).pipe(T.Body("permission_groups")),
+          resources: __S(710, __c22, 6),
         }),
       ).annotate({ identifier: "TokensUpdateResponsePoliciesItem" });
     case 8:
-      return S.Array(__S(359, __c22, 7));
+      return S.Array(__S(711, __c22, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          condition: S.optional(S.NullOr(__S(417, __c26, 1))),
+          condition: S.optional(S.NullOr(__S(833, __c26, 1))),
           creatorEmailAtCreation: S.optional(
             S.NullOr(S.String).pipe(T.Body("creator_email_at_creation")),
           ),
@@ -2576,10 +2765,12 @@ function __c22(j: number): any {
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
           name: S.optional(S.NullOr(S.String)),
           notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
-          policies: S.optional(S.NullOr(__S(360, __c22, 8))),
+          policies: S.optional(S.NullOr(__S(712, __c22, 8))),
           provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
           provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
           status: S.optional(S.NullOr(S.String)),
+          tokenPrefix: S.optional(S.NullOr(S.String).pipe(T.Body("token_prefix"))),
+          tokenSuffix: S.optional(S.NullOr(S.String).pipe(T.Body("token_suffix"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateTokenResponse" });
   }
@@ -2608,23 +2799,23 @@ function __c24(j: number): any {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 1:
-      return S.Record(S.String, __S(384, __c24, 0));
+      return S.Record(S.String, __S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           effect: S.String,
-          permissionGroups: __S(434, __c27, 2).pipe(T.Body("permission_groups")),
-          resources: __S(385, __c24, 1),
+          permissionGroups: __S(866, __c27, 2).pipe(T.Body("permission_groups")),
+          resources: __S(769, __c24, 1),
         }),
       ).annotate({ identifier: "TokensCreateRequestPoliciesItem" });
     case 3:
-      return S.Array(__S(386, __c24, 2));
+      return S.Array(__S(770, __c24, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          policies: __S(387, __c24, 3),
-          condition: S.optional(__S(436, __c27, 4)),
+          policies: __S(771, __c24, 3),
+          condition: S.optional(__S(868, __c27, 4)),
           expiresOn: S.optional(S.String.pipe(T.Body("expires_on"))),
           notBefore: S.optional(S.String.pipe(T.Body("not_before"))),
         })
@@ -2634,23 +2825,23 @@ function __c24(j: number): any {
     case 5:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 6:
-      return S.Record(S.String, __S(389, __c24, 5));
+      return S.Record(S.String, __S(773, __c24, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           effect: S.String,
-          permissionGroups: __S(420, __c26, 4).pipe(T.Body("permission_groups")),
-          resources: __S(390, __c24, 6),
+          permissionGroups: __S(836, __c26, 4).pipe(T.Body("permission_groups")),
+          resources: __S(774, __c24, 6),
         }),
       ).annotate({ identifier: "TokensCreateResponsePoliciesItem" });
     case 8:
-      return S.Array(__S(391, __c24, 7));
+      return S.Array(__S(775, __c24, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          condition: S.optional(S.NullOr(__S(417, __c26, 1))),
+          condition: S.optional(S.NullOr(__S(833, __c26, 1))),
           creatorEmailAtCreation: S.optional(
             S.NullOr(S.String).pipe(T.Body("creator_email_at_creation")),
           ),
@@ -2660,10 +2851,12 @@ function __c24(j: number): any {
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
           name: S.optional(S.NullOr(S.String)),
           notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
-          policies: S.optional(S.NullOr(__S(392, __c24, 8))),
+          policies: S.optional(S.NullOr(__S(776, __c24, 8))),
           provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
           provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
           status: S.optional(S.NullOr(S.String)),
+          tokenPrefix: S.optional(S.NullOr(S.String).pipe(T.Body("token_prefix"))),
+          tokenSuffix: S.optional(S.NullOr(S.String).pipe(T.Body("token_suffix"))),
           value: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateTokenResponse" });
@@ -2680,14 +2873,14 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          in: S.optional(S.NullOr(__S(400, __c25, 0))),
-          notIn: S.optional(S.NullOr(__S(400, __c25, 0)).pipe(T.Body("not_in"))),
+          in: S.optional(S.NullOr(__S(800, __c25, 0))),
+          notIn: S.optional(S.NullOr(__S(800, __c25, 0)).pipe(T.Body("not_in"))),
         }),
       ).annotate({ identifier: "TokensCreateResponseConditionRequestIp" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          requestIp: S.optional(S.NullOr(__S(416, __c26, 0)).pipe(T.Body("request_ip"))),
+          requestIp: S.optional(S.NullOr(__S(832, __c26, 0)).pipe(T.Body("request_ip"))),
         }),
       ).annotate({ identifier: "TokensCreateResponseCondition" });
     case 2:
@@ -2707,12 +2900,12 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          meta: S.optional(S.NullOr(__S(418, __c26, 2))),
+          meta: S.optional(S.NullOr(__S(834, __c26, 2))),
           name: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TokensCreateResponsePoliciesItemPermissionGroupsItem" });
     case 4:
-      return S.Array(__S(419, __c26, 3));
+      return S.Array(__S(835, __c26, 3));
   }
 }
 function __c27(j: number): any {
@@ -2734,23 +2927,23 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          meta: S.optional(__S(432, __c27, 0)),
+          meta: S.optional(__S(864, __c27, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "TokensCreateRequestPoliciesItemPermissionGroupsItem" });
     case 2:
-      return S.Array(__S(433, __c27, 1));
+      return S.Array(__S(865, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          in: S.optional(__S(400, __c25, 0)),
-          notIn: S.optional(__S(400, __c25, 0).pipe(T.Body("not_in"))),
+          in: S.optional(__S(800, __c25, 0)),
+          notIn: S.optional(__S(800, __c25, 0).pipe(T.Body("not_in"))),
         }),
       ).annotate({ identifier: "TokensCreateRequestConditionRequestIp" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          requestIp: S.optional(__S(435, __c27, 3).pipe(T.Body("request_ip"))),
+          requestIp: S.optional(__S(867, __c27, 3).pipe(T.Body("request_ip"))),
         }),
       ).annotate({ identifier: "TokensCreateRequestCondition" });
   }

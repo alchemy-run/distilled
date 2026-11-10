@@ -223,6 +223,8 @@ export interface ContentAutopilotProposalList {
   validation_report: ContentAutopilotValidationReport;
   /** Repository-relative export path. */
   file_path: string;
+  /** Existing or intended public URL. */
+  target_url: string;
   created_at: string;
   updated_at: string;
 }
@@ -431,6 +433,7 @@ function __c2(j: number): any {
           evidence: __S(17, __c1, 1),
           validation_report: __S(20, __c1, 4),
           file_path: S.String,
+          target_url: S.String,
           created_at: S.String,
           updated_at: S.String,
         }),

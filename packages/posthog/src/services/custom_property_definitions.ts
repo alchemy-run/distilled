@@ -240,6 +240,7 @@ export interface CustomPropertyValueSuggestionsResponse {
   /** Always false -- present for compatibility with the property-values consumer. */
   refreshing: boolean;
 }
+export type ListCustomPropertyDefinitionsRequestPagination = "none";
 export interface ListCustomPropertyDefinitionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -247,6 +248,8 @@ export interface ListCustomPropertyDefinitionsRequest {
   limit?: number | undefined;
   /** The initial index from which to return the results. */
   offset?: number | undefined;
+  /** Return all definitions in one response when set to none. */
+  pagination?: ListCustomPropertyDefinitionsRequestPagination | (string & {}) | undefined;
 }
 export type PaginatedCustomPropertyDefinitionListResultsList = Array<CustomPropertyDefinition>;
 export interface PaginatedCustomPropertyDefinitionList {
@@ -607,6 +610,7 @@ function __c5(j: number): any {
           project_id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          pagination: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

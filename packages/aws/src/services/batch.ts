@@ -805,6 +805,18 @@ export interface EksContainerVolumeMount {
   readOnly?: boolean | undefined;
 }
 export type EksContainerVolumeMounts = EksContainerVolumeMount[];
+export type EksContainerLinuxCapability = string;
+export type EksContainerLinuxCapabilityList = string[];
+export interface EksContainerLinuxCapabilities {
+  add?: string[] | undefined;
+  drop?: string[] | undefined;
+}
+export type EksSeccompProfileType = "RuntimeDefault" | "Localhost" | "Unconfined" | (string & {});
+export type EksSeccompLocalhostProfile = string;
+export interface EksSeccompProfile {
+  type?: EksSeccompProfileType | undefined;
+  localhostProfile?: string | undefined;
+}
 export interface EksContainerSecurityContext {
   runAsUser?: number | undefined;
   runAsGroup?: number | undefined;
@@ -812,6 +824,8 @@ export interface EksContainerSecurityContext {
   allowPrivilegeEscalation?: boolean | undefined;
   readOnlyRootFilesystem?: boolean | undefined;
   runAsNonRoot?: boolean | undefined;
+  capabilities?: EksContainerLinuxCapabilities | undefined;
+  seccompProfile?: EksSeccompProfile | undefined;
 }
 export interface EksContainer {
   name?: string | undefined;
@@ -855,6 +869,13 @@ export interface EksMetadata {
   annotations?: { [key: string]: string | undefined } | undefined;
   namespace?: string | undefined;
 }
+export interface EksPodSecurityContext {
+  runAsUser?: number | undefined;
+  runAsGroup?: number | undefined;
+  runAsNonRoot?: boolean | undefined;
+  seccompProfile?: EksSeccompProfile | undefined;
+  fsGroup?: number | undefined;
+}
 export interface EksPodProperties {
   serviceAccountName?: string | undefined;
   hostNetwork?: boolean | undefined;
@@ -865,6 +886,7 @@ export interface EksPodProperties {
   volumes?: EksVolume[] | undefined;
   metadata?: EksMetadata | undefined;
   shareProcessNamespace?: boolean | undefined;
+  securityContext?: EksPodSecurityContext | undefined;
 }
 export interface EksProperties {
   podProperties?: EksPodProperties | undefined;
@@ -1005,16 +1027,25 @@ export interface DescribeJobDefinitionsResponse {
                 containers: (EksContainer & {
                   image: string;
                   env: (EksContainerEnvironmentVariable & { name: string })[];
+                  securityContext: EksContainerSecurityContext & {
+                    seccompProfile: EksSeccompProfile & { type: EksSeccompProfileType };
+                  };
                 })[];
                 initContainers: (EksContainer & {
                   image: string;
                   env: (EksContainerEnvironmentVariable & { name: string })[];
+                  securityContext: EksContainerSecurityContext & {
+                    seccompProfile: EksSeccompProfile & { type: EksSeccompProfileType };
+                  };
                 })[];
                 volumes: (EksVolume & {
                   name: string;
                   secret: EksSecret & { secretName: string };
                   persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
                 })[];
+                securityContext: EksPodSecurityContext & {
+                  seccompProfile: EksSeccompProfile & { type: EksSeccompProfileType };
+                };
               };
             };
           })[];
@@ -1050,16 +1081,25 @@ export interface DescribeJobDefinitionsResponse {
             containers: (EksContainer & {
               image: string;
               env: (EksContainerEnvironmentVariable & { name: string })[];
+              securityContext: EksContainerSecurityContext & {
+                seccompProfile: EksSeccompProfile & { type: EksSeccompProfileType };
+              };
             })[];
             initContainers: (EksContainer & {
               image: string;
               env: (EksContainerEnvironmentVariable & { name: string })[];
+              securityContext: EksContainerSecurityContext & {
+                seccompProfile: EksSeccompProfile & { type: EksSeccompProfileType };
+              };
             })[];
             volumes: (EksVolume & {
               name: string;
               secret: EksSecret & { secretName: string };
               persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
             })[];
+            securityContext: EksPodSecurityContext & {
+              seccompProfile: EksSeccompProfile & { type: EksSeccompProfileType };
+            };
           };
         };
       })[]
@@ -1242,6 +1282,7 @@ export interface EksPodPropertiesDetail {
   nodeName?: string | undefined;
   metadata?: EksMetadata | undefined;
   shareProcessNamespace?: boolean | undefined;
+  securityContext?: EksPodSecurityContext | undefined;
 }
 export interface EksPropertiesDetail {
   podProperties?: EksPodPropertiesDetail | undefined;
@@ -1437,16 +1478,25 @@ export interface DescribeJobsResponse {
                 containers: (EksContainer & {
                   image: string;
                   env: (EksContainerEnvironmentVariable & { name: string })[];
+                  securityContext: EksContainerSecurityContext & {
+                    seccompProfile: EksSeccompProfile & { type: EksSeccompProfileType };
+                  };
                 })[];
                 initContainers: (EksContainer & {
                   image: string;
                   env: (EksContainerEnvironmentVariable & { name: string })[];
+                  securityContext: EksContainerSecurityContext & {
+                    seccompProfile: EksSeccompProfile & { type: EksSeccompProfileType };
+                  };
                 })[];
                 volumes: (EksVolume & {
                   name: string;
                   secret: EksSecret & { secretName: string };
                   persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
                 })[];
+                securityContext: EksPodSecurityContext & {
+                  seccompProfile: EksSeccompProfile & { type: EksSeccompProfileType };
+                };
               };
             };
           })[];
@@ -1456,15 +1506,24 @@ export interface DescribeJobsResponse {
             imagePullSecrets: (ImagePullSecret & { name: string })[];
             containers: (EksContainerDetail & {
               env: (EksContainerEnvironmentVariable & { name: string })[];
+              securityContext: EksContainerSecurityContext & {
+                seccompProfile: EksSeccompProfile & { type: EksSeccompProfileType };
+              };
             })[];
             initContainers: (EksContainerDetail & {
               env: (EksContainerEnvironmentVariable & { name: string })[];
+              securityContext: EksContainerSecurityContext & {
+                seccompProfile: EksSeccompProfile & { type: EksSeccompProfileType };
+              };
             })[];
             volumes: (EksVolume & {
               name: string;
               secret: EksSecret & { secretName: string };
               persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
             })[];
+            securityContext: EksPodSecurityContext & {
+              seccompProfile: EksSeccompProfile & { type: EksSeccompProfileType };
+            };
           };
         };
         ecsProperties: EcsPropertiesDetail & {
@@ -4180,12 +4239,12 @@ function __c30(j: number): any {
           retryStrategy: S.optional(__S(1122, __c35, 2)),
           containerProperties: S.optional(__S(1080, __c33, 24)),
           timeout: S.optional(__S(992, __c31, 0)),
-          nodeProperties: S.optional(__S(1106, __c34, 18)),
+          nodeProperties: S.optional(__S(1109, __c34, 21)),
           tags: S.optional(__S(128, __c4, 0)),
           propagateTags: S.optional(S.Boolean),
           platformCapabilities: S.optional(__S(1066, __c33, 10)),
           ecsProperties: S.optional(__S(1088, __c34, 0)),
-          eksProperties: S.optional(__S(1103, __c34, 15)),
+          eksProperties: S.optional(__S(1106, __c34, 18)),
           containerOrchestrationType: S.optional(S.String),
           consumableResourceProperties: S.optional(__S(1026, __c32, 2)),
         }),
@@ -4464,6 +4523,14 @@ function __c34(j: number): any {
       return S.Array(__S(1091, __c34, 3));
     case 5:
       return S.suspend(() =>
+        S.Struct({ add: S.optional(__S(32, __c1, 0)), drop: S.optional(__S(32, __c1, 0)) }),
+      ).annotate({ identifier: "EksContainerLinuxCapabilities" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ type: S.optional(S.String), localhostProfile: S.optional(S.String) }),
+      ).annotate({ identifier: "EksSeccompProfile" });
+    case 7:
+      return S.suspend(() =>
         S.Struct({
           runAsUser: S.optional(S.Number),
           runAsGroup: S.optional(S.Number),
@@ -4471,9 +4538,11 @@ function __c34(j: number): any {
           allowPrivilegeEscalation: S.optional(S.Boolean),
           readOnlyRootFilesystem: S.optional(S.Boolean),
           runAsNonRoot: S.optional(S.Boolean),
+          capabilities: S.optional(__S(1093, __c34, 5)),
+          seccompProfile: S.optional(__S(1094, __c34, 6)),
         }),
       ).annotate({ identifier: "EksContainerSecurityContext" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -4484,76 +4553,87 @@ function __c34(j: number): any {
           env: S.optional(__S(1124, __c35, 4)),
           resources: S.optional(__S(1127, __c35, 7)),
           volumeMounts: S.optional(__S(1092, __c34, 4)),
-          securityContext: S.optional(__S(1093, __c34, 5)),
+          securityContext: S.optional(__S(1095, __c34, 7)),
         }),
       ).annotate({ identifier: "EksContainer" });
-    case 7:
-      return S.Array(__S(1094, __c34, 6));
-    case 8:
+    case 9:
+      return S.Array(__S(1096, __c34, 8));
+    case 10:
       return S.suspend(() => S.Struct({ path: S.optional(S.String) })).annotate({
         identifier: "EksHostPath",
       });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({ medium: S.optional(S.String), sizeLimit: S.optional(S.String) }),
       ).annotate({ identifier: "EksEmptyDir" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({ secretName: S.optional(S.String), optional: S.optional(S.Boolean) }),
       ).annotate({ identifier: "EksSecret" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({ claimName: S.optional(S.String), readOnly: S.optional(S.Boolean) }),
       ).annotate({ identifier: "EksPersistentVolumeClaim" });
-    case 12:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          hostPath: S.optional(__S(1096, __c34, 8)),
-          emptyDir: S.optional(__S(1097, __c34, 9)),
-          secret: S.optional(__S(1098, __c34, 10)),
-          persistentVolumeClaim: S.optional(__S(1099, __c34, 11)),
+          hostPath: S.optional(__S(1098, __c34, 10)),
+          emptyDir: S.optional(__S(1099, __c34, 11)),
+          secret: S.optional(__S(1100, __c34, 12)),
+          persistentVolumeClaim: S.optional(__S(1101, __c34, 13)),
         }),
       ).annotate({ identifier: "EksVolume" });
-    case 13:
-      return S.Array(__S(1100, __c34, 12));
-    case 14:
+    case 15:
+      return S.Array(__S(1102, __c34, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          runAsUser: S.optional(S.Number),
+          runAsGroup: S.optional(S.Number),
+          runAsNonRoot: S.optional(S.Boolean),
+          seccompProfile: S.optional(__S(1094, __c34, 6)),
+          fsGroup: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "EksPodSecurityContext" });
+    case 17:
       return S.suspend(() =>
         S.Struct({
           serviceAccountName: S.optional(S.String),
           hostNetwork: S.optional(S.Boolean),
           dnsPolicy: S.optional(S.String),
           imagePullSecrets: S.optional(__S(1090, __c34, 2)),
-          containers: S.optional(__S(1095, __c34, 7)),
-          initContainers: S.optional(__S(1095, __c34, 7)),
-          volumes: S.optional(__S(1101, __c34, 13)),
+          containers: S.optional(__S(1097, __c34, 9)),
+          initContainers: S.optional(__S(1097, __c34, 9)),
+          volumes: S.optional(__S(1103, __c34, 15)),
           metadata: S.optional(__S(1128, __c35, 8)),
           shareProcessNamespace: S.optional(S.Boolean),
+          securityContext: S.optional(__S(1104, __c34, 16)),
         }),
       ).annotate({ identifier: "EksPodProperties" });
-    case 15:
+    case 18:
       return S.suspend(() =>
-        S.Struct({ podProperties: S.optional(__S(1102, __c34, 14)) }),
+        S.Struct({ podProperties: S.optional(__S(1105, __c34, 17)) }),
       ).annotate({ identifier: "EksProperties" });
-    case 16:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           targetNodes: S.optional(S.String),
           container: S.optional(__S(1080, __c33, 24)),
           instanceTypes: S.optional(__S(32, __c1, 0)),
           ecsProperties: S.optional(__S(1088, __c34, 0)),
-          eksProperties: S.optional(__S(1103, __c34, 15)),
+          eksProperties: S.optional(__S(1106, __c34, 18)),
           consumableResourceProperties: S.optional(__S(1026, __c32, 2)),
         }),
       ).annotate({ identifier: "NodeRangeProperty" });
-    case 17:
-      return S.Array(__S(1104, __c34, 16));
-    case 18:
+    case 20:
+      return S.Array(__S(1107, __c34, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           numNodes: S.optional(S.Number),
           mainNode: S.optional(S.Number),
-          nodeRangeProperties: S.optional(__S(1105, __c34, 17)),
+          nodeRangeProperties: S.optional(__S(1108, __c34, 20)),
         }),
       ).annotate({ identifier: "NodeProperties" });
   }
@@ -4787,7 +4867,7 @@ function __c37(j: number): any {
           exitCode: S.optional(S.Number),
           reason: S.optional(S.String),
           volumeMounts: S.optional(__S(1092, __c34, 4)),
-          securityContext: S.optional(__S(1093, __c34, 5)),
+          securityContext: S.optional(__S(1095, __c34, 7)),
         }),
       ).annotate({ identifier: "EksContainerDetail" });
     case 14:
@@ -4801,11 +4881,12 @@ function __c37(j: number): any {
           imagePullSecrets: S.optional(__S(1090, __c34, 2)),
           containers: S.optional(__S(1198, __c37, 14)),
           initContainers: S.optional(__S(1198, __c37, 14)),
-          volumes: S.optional(__S(1101, __c34, 13)),
+          volumes: S.optional(__S(1103, __c34, 15)),
           podName: S.optional(S.String),
           nodeName: S.optional(S.String),
           metadata: S.optional(__S(1128, __c35, 8)),
           shareProcessNamespace: S.optional(S.Boolean),
+          securityContext: S.optional(__S(1104, __c34, 16)),
         }),
       ).annotate({ identifier: "EksPodPropertiesDetail" });
     case 16:
@@ -4915,7 +4996,7 @@ function __c37(j: number): any {
           parameters: S.optional(__S(128, __c4, 0)),
           container: S.optional(__S(1194, __c37, 10)),
           nodeDetails: S.optional(__S(1195, __c37, 11)),
-          nodeProperties: S.optional(__S(1106, __c34, 18)),
+          nodeProperties: S.optional(__S(1109, __c34, 21)),
           arrayProperties: S.optional(__S(1196, __c37, 12)),
           timeout: S.optional(__S(992, __c31, 0)),
           tags: S.optional(__S(128, __c4, 0)),
@@ -5581,13 +5662,13 @@ function __c56(j: number): any {
           parameters: S.optional(__S(128, __c4, 0)),
           schedulingPriority: S.optional(S.Number),
           containerProperties: S.optional(__S(1080, __c33, 24)),
-          nodeProperties: S.optional(__S(1106, __c34, 18)),
+          nodeProperties: S.optional(__S(1109, __c34, 21)),
           retryStrategy: S.optional(__S(1122, __c35, 2)),
           propagateTags: S.optional(S.Boolean),
           timeout: S.optional(__S(992, __c31, 0)),
           tags: S.optional(__S(128, __c4, 0)),
           platformCapabilities: S.optional(__S(1066, __c33, 10)),
-          eksProperties: S.optional(__S(1103, __c34, 15)),
+          eksProperties: S.optional(__S(1106, __c34, 18)),
           ecsProperties: S.optional(__S(1088, __c34, 0)),
           consumableResourceProperties: S.optional(__S(1026, __c32, 2)),
         }).pipe(

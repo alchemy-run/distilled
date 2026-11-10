@@ -726,11 +726,22 @@ export interface ExecMount {
 export type ExecRequestDisksValue = string | ExecMount;
 /** Map of relative path under `/mnt/archil` to the disk to mount there. At least one entry is required. Relative paths must be non-empty, non-absolute, and contain no `.` or `..` segments. Each value is either a plain disk ID string (mounts the disk's root, read-write) or an object that additionally selects a subdirectory of the disk and/or marks the mount as read-only. */
 export type ExecRequestDisksMap = { [key: string]: ExecRequestDisksValue | undefined };
+/** Network policy for the command's microVM, using the [sandbox firewall](/compute/sandboxes/firewall) egress rules. Egress is unrestricted when omitted. The Free plan cannot set one; a request with one is rejected with 403 `network_plan_required`. */
+export type ExecNetwork = SandboxNetwork;
 export interface ExecRequest {
   /** Map of relative path under `/mnt/archil` to the disk to mount there. At least one entry is required. Relative paths must be non-empty, non-absolute, and contain no `.` or `..` segments. Each value is either a plain disk ID string (mounts the disk's root, read-write) or an object that additionally selects a subdirectory of the disk and/or marks the mount as read-only. */
   disks: ExecRequestDisksMap;
   /** Shell command to execute inside the microVM */
   command: string;
+  /** Public Linux OCI image reference to run the command in, such as `python:3.13`. Docker Hub shorthand, tags, and digests are accepted. The first exec with an image waits while Archil prepares it; later execs reuse it. Defaults to Archil's exec image when neither this nor `imageId` is set. Mutually exclusive with `imageId`. */
+  baseImage?: string | undefined;
+  /** An image built with [Build Image](/api-reference/images/build-image), for private images or to prepare a public image ahead of time. The exec runs the image's latest successful build. Mutually exclusive with `baseImage`. */
+  imageId?: string | undefined;
+  /** vCPUs for the command's microVM. Defaults to 2. An exec larger than the default size (2 vCPU, 4096 MiB) bills as that many multiples of a call, by whichever of vCPU and memory is the larger multiple, rounded up. The Free plan allows only the default size. */
+  vcpuCount?: number | undefined;
+  /** Memory in MiB for the command's microVM. Defaults to 4096. Billed as described for `vcpuCount`. */
+  memSizeMib?: number | undefined;
+  network?: SandboxNetwork | undefined;
 }
 /** Server-measured timings for an exec request. */
 export interface ExecTiming {
@@ -759,6 +770,15 @@ export interface ExecDiskRequest {
   id: string;
   /** Shell command to execute inside the microVM */
   command: string;
+  /** Public Linux OCI image reference to run the command in, such as `python:3.13`. Docker Hub shorthand, tags, and digests are accepted. The first exec with an image waits while Archil prepares it; later execs reuse it. Defaults to Archil's exec image when neither this nor `imageId` is set. Mutually exclusive with `imageId`. */
+  baseImage?: string | undefined;
+  /** An image built with [Build Image](/api-reference/images/build-image), for private images or to prepare a public image ahead of time. The exec runs the image's latest successful build. Mutually exclusive with `baseImage`. */
+  imageId?: string | undefined;
+  /** vCPUs for the command's microVM. Defaults to 2. An exec larger than the default size (2 vCPU, 4096 MiB) bills as that many multiples of a call, by whichever of vCPU and memory is the larger multiple, rounded up. The Free plan allows only the default size. */
+  vcpuCount?: number | undefined;
+  /** Memory in MiB for the command's microVM. Defaults to 4096. Billed as described for `vcpuCount`. */
+  memSizeMib?: number | undefined;
+  network?: SandboxNetwork | undefined;
 }
 export interface ApiResponseExecDisk {
   success: boolean;
@@ -1183,12 +1203,18 @@ export interface ApiResponseSandboxPortToken {
   success: boolean;
   data: SandboxPortToken;
 }
+/** Path globs with ripgrep's `-g` rules, matched against paths relative to `directory`. A leading `!` excludes. A glob without a `/` matches a file or directory name at any depth; a glob with a `/` matches the whole relative path, and a leading `/` anchors it to `directory`. A trailing `/` matches only directories, so use `dir/**` to search the files under `dir`. When several globs match a path, the last one wins. A directory excluded this way is skipped with everything under it. If any non-`!` glob is given, files that match no glob are skipped. A file a glob matches is searched or skipped regardless of `types` and `typesNot`. */
+export type GrepDiskRequestGlobsList = Array<string>;
+/** Only search files of these types, using ripgrep's default type names (for example `py`, `ts`, `go`, `md`). */
+export type GrepDiskRequestTypesList = Array<string>;
+/** Skip files of these types, using ripgrep's default type names. Takes precedence over `types`. */
+export type GrepDiskRequestTypesNotList = Array<string>;
 export interface GrepDiskRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
   id: string;
   /** Directory on the disk to search, relative to the disk root. An empty string or "/" means the disk root. */
   directory: string;
-  /** Extended regular expression (passed to `grep -E`) */
+  /** Regular expression in [ripgrep syntax](https://docs.rs/regex/latest/regex/#syntax). A newline separates alternative patterns, except with `multiline`, where it matches a line break. */
   pattern: string;
   /** When true, walks subdirectories breadth-first. */
   recursive?: boolean | undefined;
@@ -1198,17 +1224,50 @@ export interface GrepDiskRequest {
   concurrency?: number | undefined;
   /** Stop scanning once the aggregator has this many matches. Returned matches are a sample of whichever workers reported first, not the lexicographically first N. */
   maxResults?: number | undefined;
+  /** Match the pattern case-insensitively (`rg -i`). Defaults to false. */
+  ignoreCase?: boolean | undefined;
+  /** Let a match span lines (`rg -U`): `\n` or a newline character in the pattern matches a line break, and `.` matches one only after `(?s)`. Files with Windows line endings need `\r?\n` instead of `\n`. Matches on adjacent lines come back as one match covering all of them, with `endLine` set, and count once toward `maxResults`. A file with at least `maxResults` matching lines stops the request with `max_results`, even when merging leaves fewer matches. Defaults to false. */
+  multiline?: boolean | undefined;
+  /** Path globs with ripgrep's `-g` rules, matched against paths relative to `directory`. A leading `!` excludes. A glob without a `/` matches a file or directory name at any depth; a glob with a `/` matches the whole relative path, and a leading `/` anchors it to `directory`. A trailing `/` matches only directories, so use `dir/**` to search the files under `dir`. When several globs match a path, the last one wins. A directory excluded this way is skipped with everything under it. If any non-`!` glob is given, files that match no glob are skipped. A file a glob matches is searched or skipped regardless of `types` and `typesNot`. */
+  globs?: GrepDiskRequestGlobsList | undefined;
+  /** Only search files of these types, using ripgrep's default type names (for example `py`, `ts`, `go`, `md`). */
+  types?: GrepDiskRequestTypesList | undefined;
+  /** Skip files of these types, using ripgrep's default type names. Takes precedence over `types`. */
+  typesNot?: GrepDiskRequestTypesNotList | undefined;
+  /** Lines of context to return before each match (`rg -B`). When either context field is set, the result includes `groups`. */
+  contextBefore?: number | undefined;
+  /** Lines of context to return after each match (`rg -A`). When either context field is set, the result includes `groups`. */
+  contextAfter?: number | undefined;
 }
 export interface GrepMatch {
   /** Path to the file (relative to the disk root). */
   file: string;
-  /** 1-based line number where the match occurred. */
+  /** 1-based line number where the match occurred. With `multiline`, the match's first line. */
   line: number;
-  /** The matching line. */
+  /** With `multiline`, the 1-based number of the match's last line. */
+  endLine?: number | undefined;
+  /** The matching line, truncated at 512 KiB, or shorter with context. With `multiline`, every line the match covers, joined by `\n`, each truncated separately. */
   text: string;
 }
 export type GrepDiskResultMatchesList = Array<GrepMatch>;
-/** Why the search stopped. - `completed`: every file under the directory was scanned successfully. - `incomplete`: pipeline ran to its natural end but one or more batches errored (invalid regex, unreadable file, runtime issue). Results may be partial or wrong; do not rely on completeness. - `max_results`: hit `maxResults` before scanning everything. - `deadline`: hit `maxDurationSeconds`. - `list_failed`: directory listing failed; partial results may be present. */
+export interface GrepGroupLine {
+  /** 1-based line number. */
+  line: number;
+  /** The line, truncated like `GrepMatch.text`. */
+  text: string;
+  /** True for a matching line, false for a context line. */
+  match: boolean;
+}
+export type GrepGroupLinesList = Array<GrepGroupLine>;
+/** A run of consecutive lines from one file, as grep prints it with context: each match with its surrounding lines, with nearby matches merged into one group so every line appears once. */
+export interface GrepGroup {
+  /** Path to the file (relative to the disk root). */
+  file: string;
+  lines: GrepGroupLinesList;
+}
+/** Matches with their context lines, grouped the way grep prints them. Present only when `contextBefore` or `contextAfter` is set. Holds the same matches as `matches`. When the search stops at `maxResults`, the last group ends up to `contextAfter` lines after its last kept match, and any matches in those lines are shown as context. Each line of a group counts toward the 32 MiB response limit, so large context and `maxResults` multiply it. */
+export type GrepDiskResultGroupsList = Array<GrepGroup>;
+/** Why the search stopped. - `completed`: every file under the directory was scanned successfully. - `incomplete`: pipeline ran to its natural end but one or more batches errored (invalid regex, unreadable file, runtime issue) or exceeded the 4 MiB output limit. Results may be partial or wrong; do not rely on completeness. - `max_results`: hit `maxResults`, or the response size limit (32 MiB of match and context text), before scanning everything. - `deadline`: hit `maxDurationSeconds`. - `list_failed`: directory listing failed; partial results may be present. */
 export type GrepStoppedReason =
   | "completed"
   | "incomplete"
@@ -1217,6 +1276,8 @@ export type GrepStoppedReason =
   | "list_failed";
 export interface GrepDiskResult {
   matches: GrepDiskResultMatchesList;
+  /** Matches with their context lines, grouped the way grep prints them. Present only when `contextBefore` or `contextAfter` is set. Holds the same matches as `matches`. When the search stops at `maxResults`, the last group ends up to `contextAfter` lines after its last kept match, and any matches in those lines are shown as context. Each line of a group counts toward the 32 MiB response limit, so large context and `maxResults` multiply it. */
+  groups?: GrepDiskResultGroupsList | undefined;
   stoppedReason: GrepStoppedReason;
   /** Files actually fed to a grep microVM. */
   filesScanned: number;
@@ -1353,6 +1414,44 @@ export interface ApiResponseSandboxPortTokenList {
 export interface PauseSandboxRequest {
   /** Sandbox UUID */
   sid: string;
+}
+export interface PrefetchRange {
+  /** Path of a regular file, relative to the disk root. */
+  path: string;
+  /** First byte to warm. Defaults to 0. */
+  offset?: number | undefined;
+  /** Bytes to warm from `offset`. Defaults to the end of the file. */
+  length?: number | undefined;
+}
+/** Byte ranges to warm. A request may name at most 1000. */
+export type PrefetchDiskRequestRangesList = Array<PrefetchRange>;
+export interface PrefetchDiskRequest {
+  /** Disk ID (format `dsk-{16 hex chars}`) */
+  id: string;
+  /** Byte ranges to warm. A request may name at most 1000. */
+  ranges: PrefetchDiskRequestRangesList;
+}
+/** Set when this range was not warmed: `retry` for a transient failure worth retrying, `failed` otherwise. Other ranges in the request are unaffected. */
+export type PrefetchRangeResultError = "retry" | "failed";
+export interface PrefetchRangeResult {
+  /** Whether the path exists. */
+  found: boolean;
+  /** Bytes of the range being warmed, including bytes that were already cached. */
+  bytesRequested: number;
+  /** Of `bytesRequested`, the bytes fetched (or still being fetched) from object storage. The rest were already cached. */
+  bytesWarmed: number;
+  /** Set when this range was not warmed: `retry` for a transient failure worth retrying, `failed` otherwise. Other ranges in the request are unaffected. */
+  error?: PrefetchRangeResultError | undefined;
+}
+/** One result per requested range, in request order. */
+export type ApiResponsePrefetchDataResultsList = Array<PrefetchRangeResult>;
+export interface ApiResponsePrefetchData {
+  /** One result per requested range, in request order. */
+  results: ApiResponsePrefetchDataResultsList;
+}
+export interface ApiResponsePrefetch {
+  success: boolean;
+  data: ApiResponsePrefetchData;
 }
 export type RemoveDiskUserRequestUserType = "token" | "awssts" | "s3";
 export interface RemoveDiskUserRequest {
@@ -1519,7 +1618,7 @@ export const createSandbox: API.OperationMethod<
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(162, __c10, 2) as any as S.Schema<CreateSandboxRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
   errors: [BadRequest, NotFound, ImageNotReady, SandboxNameConflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1726,7 +1825,7 @@ export const forkSandbox: API.OperationMethod<
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ForkSandboxRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
   errors: [
     BadRequest,
     NotFound,
@@ -1870,7 +1969,7 @@ export const getSandbox: API.OperationMethod<
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetSandboxRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1930,7 +2029,7 @@ export const getSandboxPortToken: API.OperationMethod<
 }));
 
 export type GrepDiskError = BadRequest | NotFound | ArchilOpError;
-/** Parallel grep over a directory on a disk Searches files under a directory on the disk for lines matching a regular expression. Listing and matching are fanned out across ephemeral exec microVMs, so the request finishes within the user's time budget regardless of the size of the directory. The user controls search latency and scope with three knobs: - `maxDurationSeconds` is the wall-clock deadline (capped at 30s). - `concurrency` is the maximum number of parallel grep workers. Higher concurrency finishes larger datasets within the deadline, at proportionally more compute. - `maxResults` causes the search to short-circuit after the aggregator has collected this many matches. With `recursive: false` only files directly under `directory` are searched. With `recursive: true` subdirectories are walked breadth-first and grep workers are dispatched as soon as each level finishes listing -- listing and matching overlap. The matches returned when stopping early on `maxResults` are a sample of whichever workers reported first, not the lexicographically first N. The response surfaces `stoppedReason` so callers can distinguish completion from early termination. */
+/** Parallel grep over a directory on a disk Searches files under a directory on the disk for lines matching a regular expression. Listing and matching are fanned out across ephemeral exec microVMs, so the request finishes within the user's time budget regardless of the size of the directory. The user controls search latency and scope with three knobs: - `maxDurationSeconds` is the wall-clock deadline (capped at 30s). - `concurrency` is the maximum number of parallel grep workers. Higher concurrency finishes larger datasets within the deadline, at proportionally more compute. - `maxResults` causes the search to short-circuit after the aggregator has collected this many matches. With `recursive: false` only files directly under `directory` are searched. With `recursive: true` subdirectories are walked breadth-first and grep workers are dispatched as soon as each level finishes listing -- listing and matching overlap. Matching runs on ripgrep. Narrow the files searched with `globs`, `types`, and `typesNot`; change matching with `ignoreCase` and `multiline`; and ask for surrounding lines with `contextBefore` and `contextAfter`, which adds `groups` to the result. The matches returned when stopping early on `maxResults`, or on the 32 MiB limit on match and context text, are a sample of whichever workers reported first, not the lexicographically first N. The response surfaces `stoppedReason` so callers can distinguish completion from early termination. */
 export const grepDisk: API.OperationMethod<
   GrepDiskRequest,
   ApiResponseGrepDisk,
@@ -1938,7 +2037,7 @@ export const grepDisk: API.OperationMethod<
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<GrepDiskRequest>,
-  output: __S(788, __c49, 4) as any as S.Schema<ApiResponseGrepDisk>,
+  output: __S(792, __c49, 8) as any as S.Schema<ApiResponseGrepDisk>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -2074,12 +2173,29 @@ export const pauseSandbox: API.OperationMethod<
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<PauseSandboxRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
   errors: [BadRequest, NotFound, SandboxNotReady, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseSandbox",
+}));
+
+export type PrefetchDiskError = BadRequest | NotFound | ArchilOpError;
+/** Prefetch file ranges Warms byte ranges of files on a disk into Archil's storage cache, so later reads from any client, serverless exec, or sandbox are served without going to the backing object storage. Each range names one file and an optional `offset` and `length`; a file may appear in several ranges. Paths are relative to the disk root. Ranges must name regular files: a directory is found but warms nothing, so list a directory's files to warm its contents. The response reports one result per range, in request order, and may return before the data is fully fetched. A path that does not exist reports `found: false`. A failed range does not fail the others; retry the ranges whose `error` is `retry`. If the disk is not mounted anywhere, prefetching loads it. Warmed data becomes active data and is metered like data your clients read. */
+export const prefetchDisk: API.OperationMethod<
+  PrefetchDiskRequest,
+  ApiResponsePrefetch,
+  PrefetchDiskError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(930, __c58, 2) as any as S.Schema<PrefetchDiskRequest>,
+  output: __S(934, __c58, 6) as any as S.Schema<ApiResponsePrefetch>,
+  errors: [BadRequest, NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrefetchDisk",
 }));
 
 export type RemoveDiskUserError = BadRequest | NotFound | ArchilOpError;
@@ -2090,7 +2206,7 @@ export const removeDiskUser: API.OperationMethod<
   RemoveDiskUserError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<RemoveDiskUserRequest>,
+  input: __S(944, __c59, 0) as any as S.Schema<RemoveDiskUserRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<ApiResponseMessage>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
@@ -2107,8 +2223,8 @@ export const resumeSandbox: API.OperationMethod<
   ResumeSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<ResumeSandboxRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
+  input: __S(960, __c60, 0) as any as S.Schema<ResumeSandboxRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
   errors: [BadRequest, NotFound, SandboxStartConflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -2124,7 +2240,7 @@ export const revokeDelegation: API.OperationMethod<
   RevokeDelegationError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<RevokeDelegationRequest>,
+  input: __S(976, __c61, 0) as any as S.Schema<RevokeDelegationRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<ApiResponseMessage>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
@@ -2141,7 +2257,7 @@ export const setAllowedIps: API.OperationMethod<
   SetAllowedIpsError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<SetAllowedIpsRequest>,
+  input: __S(992, __c62, 0) as any as S.Schema<SetAllowedIpsRequest>,
   output: __S(529, __c33, 1) as any as S.Schema<ApiResponseAllowedIps>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
@@ -2158,7 +2274,7 @@ export const setSandboxMount: API.OperationMethod<
   SetSandboxMountError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<SetSandboxMountRequest>,
+  input: __S(1008, __c63, 0) as any as S.Schema<SetSandboxMountRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<ApiResponseSandboxMount>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
@@ -2175,8 +2291,8 @@ export const setSandboxTimeout: API.OperationMethod<
   SetSandboxTimeoutError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<SetSandboxTimeoutRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
+  input: __S(1024, __c64, 0) as any as S.Schema<SetSandboxTimeoutRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -2200,8 +2316,8 @@ export const startSandbox: API.OperationMethod<
   StartSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<StartSandboxRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
+  input: __S(1040, __c65, 0) as any as S.Schema<StartSandboxRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
   errors: [
     BadRequest,
     NotFound,
@@ -2226,8 +2342,8 @@ export const stopSandbox: API.OperationMethod<
   StopSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<StopSandboxRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
+  input: __S(1056, __c66, 0) as any as S.Schema<StopSandboxRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
   errors: [BadRequest, NotFound, SandboxStopConflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -2243,7 +2359,7 @@ export const updateSandboxNetwork: API.OperationMethod<
   UpdateSandboxNetworkError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<UpdateSandboxNetworkRequest>,
+  input: __S(1072, __c67, 0) as any as S.Schema<UpdateSandboxNetworkRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<ApiResponseSandboxNetwork>,
   errors: [BadRequest, Forbidden, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
@@ -2460,8 +2576,8 @@ function __c10(j: number): any {
           ports: S.optional(__S(160, __c10, 0)),
           enable_service_ingress: S.optional(S.Boolean),
           env: S.optional(__S(161, __c10, 1)),
-          network: S.optional(__S(258, __c16, 2)),
-          mounts: S.optional(__S(209, __c13, 1)),
+          network: S.optional(__S(194, __c12, 2)),
+          mounts: S.optional(__S(241, __c15, 1)),
           max_ttl_seconds: S.optional(S.Number),
           idle_ttl_seconds: S.optional(S.Number),
           max_concurrent_execs: S.optional(S.Number),
@@ -2472,6 +2588,33 @@ function __c10(j: number): any {
 function __c11(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          default: S.String,
+          allow: S.optional(__S(192, __c12, 0)),
+          deny: S.optional(__S(176, __c11, 0)),
+          drain_on_pause: S.optional(__S(176, __c11, 0)),
+        }),
+      ).annotate({ identifier: "SandboxEgressPolicy" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          egress: S.optional(__S(193, __c12, 1)),
+        }),
+      ).annotate({ identifier: "SandboxNetwork" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           port: S.Number,
@@ -2480,13 +2623,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "SandboxEndpoint" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(176, __c11, 0));
+      return S.Array(__S(208, __c13, 0));
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2500,7 +2643,7 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "SandboxMount" });
     case 1:
-      return S.Array(__S(208, __c13, 0));
+      return S.Array(__S(240, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2515,9 +2658,9 @@ function __c13(j: number): any {
           base_image: S.String,
           image_digest: S.optional(S.String),
           platform: S.optional(S.String),
-          endpoints: S.optional(__S(192, __c12, 0)),
+          endpoints: S.optional(__S(224, __c14, 0)),
           enable_service_ingress: S.optional(S.Boolean),
-          mounts: S.optional(__S(209, __c13, 1)),
+          mounts: S.optional(__S(241, __c15, 1)),
           created_at: S.String,
           running_at: S.optional(S.String),
           finished_at: S.optional(S.String),
@@ -2528,42 +2671,15 @@ function __c13(j: number): any {
       ).annotate({ identifier: "Sandbox" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(210, __c13, 2),
+          data: __S(242, __c15, 2),
         }),
       ).annotate({ identifier: "ApiResponseSandbox" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          default: S.String,
-          allow: S.optional(__S(256, __c16, 0)),
-          deny: S.optional(__S(240, __c15, 0)),
-          drain_on_pause: S.optional(__S(240, __c15, 0)),
-        }),
-      ).annotate({ identifier: "SandboxEgressPolicy" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          egress: S.optional(__S(257, __c16, 1)),
-        }),
-      ).annotate({ identifier: "SandboxNetwork" });
   }
 }
 function __c17(j: number): any {
@@ -2742,6 +2858,11 @@ function __c27(j: number): any {
         S.Struct({
           disks: __S(432, __c27, 0),
           command: S.String,
+          baseImage: S.optional(S.String),
+          imageId: S.optional(S.String),
+          vcpuCount: S.optional(S.Number),
+          memSizeMib: S.optional(S.Number),
+          network: S.optional(__S(194, __c12, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/api/exec", code: 200 })),
       ).annotate({ identifier: "ExecRequest" });
   }
@@ -2781,6 +2902,11 @@ function __c29(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           command: S.String,
+          baseImage: S.optional(S.String),
+          imageId: S.optional(S.String),
+          vcpuCount: S.optional(S.Number),
+          memSizeMib: S.optional(S.Number),
+          network: S.optional(__S(194, __c12, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/exec", code: 200 })),
       ).annotate({ identifier: "ExecDiskRequest" });
   }
@@ -2798,7 +2924,7 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(176, __c11, 0),
+          data: __S(208, __c13, 0),
         }),
       ).annotate({ identifier: "ApiResponseSandboxPort" });
   }
@@ -2831,7 +2957,7 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowedIps: __S(240, __c15, 0),
+          allowedIps: __S(176, __c11, 0),
         }),
       ).annotate({ identifier: "ApiResponseAllowedIpsData" });
     case 1:
@@ -3226,7 +3352,7 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(258, __c16, 2),
+          data: __S(194, __c12, 2),
         }),
       ).annotate({ identifier: "ApiResponseSandboxNetwork" });
   }
@@ -3276,6 +3402,13 @@ function __c49(j: number): any {
           maxDurationSeconds: S.optional(S.Number),
           concurrency: S.optional(S.Number),
           maxResults: S.optional(S.Number),
+          ignoreCase: S.optional(S.Boolean),
+          multiline: S.optional(S.Boolean),
+          globs: S.optional(__S(176, __c11, 0)),
+          types: S.optional(__S(176, __c11, 0)),
+          typesNot: S.optional(__S(176, __c11, 0)),
+          contextBefore: S.optional(S.Number),
+          contextAfter: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/grep", code: 200 })),
       ).annotate({ identifier: "GrepDiskRequest" });
     case 1:
@@ -3283,6 +3416,7 @@ function __c49(j: number): any {
         S.Struct({
           file: S.String,
           line: S.Number,
+          endLine: S.optional(S.Number),
           text: S.String,
         }),
       ).annotate({ identifier: "GrepMatch" });
@@ -3291,7 +3425,27 @@ function __c49(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          line: S.Number,
+          text: S.String,
+          match: S.Boolean,
+        }),
+      ).annotate({ identifier: "GrepGroupLine" });
+    case 4:
+      return S.Array(__S(787, __c49, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          file: S.String,
+          lines: __S(788, __c49, 4),
+        }),
+      ).annotate({ identifier: "GrepGroup" });
+    case 6:
+      return S.Array(__S(789, __c49, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           matches: __S(786, __c49, 2),
+          groups: S.optional(__S(790, __c49, 6)),
           stoppedReason: S.String,
           filesScanned: S.Number,
           containersDispatched: S.Number,
@@ -3301,11 +3455,11 @@ function __c49(j: number): any {
           grepMs: S.Number,
         }),
       ).annotate({ identifier: "GrepDiskResult" });
-    case 4:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(787, __c49, 3),
+          data: __S(791, __c49, 7),
         }),
       ).annotate({ identifier: "ApiResponseGrepDisk" });
   }
@@ -3432,7 +3586,7 @@ function __c54(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/sandboxes", code: 200 })),
       ).annotate({ identifier: "ListSandboxesRequest" });
     case 1:
-      return S.Array(__S(210, __c13, 2));
+      return S.Array(__S(242, __c15, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3459,7 +3613,7 @@ function __c55(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ports: __S(192, __c12, 0),
+          ports: __S(224, __c14, 0),
         }),
       ).annotate({ identifier: "SandboxPortList" });
     case 2:
@@ -3514,6 +3668,51 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          path: S.String,
+          offset: S.optional(S.Number),
+          length: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PrefetchRange" });
+    case 1:
+      return S.Array(__S(928, __c58, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          ranges: __S(929, __c58, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/prefetch", code: 200 })),
+      ).annotate({ identifier: "PrefetchDiskRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          found: S.Boolean,
+          bytesRequested: S.Number,
+          bytesWarmed: S.Number,
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrefetchRangeResult" });
+    case 4:
+      return S.Array(__S(931, __c58, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(932, __c58, 4),
+        }),
+      ).annotate({ identifier: "ApiResponsePrefetchData" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(933, __c58, 5),
+        }),
+      ).annotate({ identifier: "ApiResponsePrefetch" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
           userType: S.String.pipe(T.Label()),
           identifier: S.optional(S.String.pipe(T.Query())),
@@ -3522,7 +3721,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "RemoveDiskUserRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3533,7 +3732,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ResumeSandboxRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3545,18 +3744,18 @@ function __c60(j: number): any {
       ).annotate({ identifier: "RevokeDelegationRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          allowedIps: __S(240, __c15, 0),
+          allowedIps: __S(176, __c11, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/api/disks/{id}/allowed-ips", code: 200 })),
       ).annotate({ identifier: "SetAllowedIpsRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3567,7 +3766,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SetSandboxMountRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3579,19 +3778,19 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SetSandboxTimeoutRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sid: S.String.pipe(T.Label()),
           wait: S.optional(S.Boolean.pipe(T.Query())),
-          mounts: S.optional(__S(209, __c13, 1)),
+          mounts: S.optional(__S(241, __c15, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/start", code: 200 })),
       ).annotate({ identifier: "StartSandboxRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3601,13 +3800,13 @@ function __c65(j: number): any {
       ).annotate({ identifier: "StopSandboxRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sid: S.String.pipe(T.Label()),
-          egress: S.optional(__S(257, __c16, 1)),
+          egress: S.optional(__S(193, __c12, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/sandboxes/{sid}/network", code: 200 })),
       ).annotate({ identifier: "UpdateSandboxNetworkRequest" });
   }
