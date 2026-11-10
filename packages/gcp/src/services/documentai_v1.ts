@@ -83,38 +83,37 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** The sharding config for the output document. */
-export interface GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfigShardingConfig {
-  /** The number of overlapping pages between consecutive shards. */
-  pagesOverlap?: number;
-  /** The number of pages per shard. */
-  pagesPerShard?: number;
+export type IntegerList = Array<number>;
+/** A list of individual page numbers. */
+export interface GoogleCloudDocumentaiV1ProcessOptionsIndividualPageSelector {
+  /** Optional. Indices of the pages (starting from 1). */
+  pages?: IntegerList | undefined;
 }
-/** The configuration used when outputting documents. */
-export interface GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfig {
-  /** Specifies the sharding config for the output document. */
-  shardingConfig?: GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfigShardingConfig;
-  /** Specifies which fields to include in the output documents. Only supports top level document and pages field so it must be in the form of `{document_field_name}` or `pages.{page_field_name}`. */
-  fieldMask?: string;
-  /** The Cloud Storage uri (a directory) of the output. */
-  gcsUri?: string;
+/** Serving config for chunking. */
+export interface GoogleCloudDocumentaiV1ProcessOptionsLayoutConfigChunkingConfig {
+  /** Optional. The chunk sizes to use when splitting documents, in order of level. */
+  chunkSize?: number | undefined;
+  /** Optional. Whether or not to include ancestor headings when splitting. */
+  includeAncestorHeadings?: boolean | undefined;
 }
-/** Config that controls the output of documents. All documents will be written as a JSON file. */
-export interface GoogleCloudDocumentaiV1DocumentOutputConfig {
-  /** Output config to write the results to Cloud Storage. */
-  gcsOutputConfig?: GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfig;
+/** Serving config for layout parser processor. */
+export interface GoogleCloudDocumentaiV1ProcessOptionsLayoutConfig {
+  /** Optional. Whether to include table annotations in layout parser response. */
+  enableTableAnnotation?: boolean | undefined;
+  /** Optional. Whether to include images in layout parser processor response. */
+  returnImages?: boolean | undefined;
+  /** Optional. Whether to include bounding boxes in layout parser processor response. */
+  returnBoundingBoxes?: boolean | undefined;
+  /** Optional. Config for chunking in layout parser processor. */
+  chunkingConfig?: GoogleCloudDocumentaiV1ProcessOptionsLayoutConfigChunkingConfig | undefined;
+  /** Optional. Whether to include image annotations in layout parser response. */
+  enableImageAnnotation?: boolean | undefined;
 }
-export type StringMap = { [key: string]: string | undefined };
-/** Metadata for global schema behavior. */
-export interface GoogleCloudDocumentaiV1DocumentSchemaMetadata {
-  /** If true, a `document` entity type can be applied to subdocument (splitting). Otherwise, it can only be applied to the entire document (classification). */
-  documentSplitter?: boolean;
-  /** If set, all the nested entities must be prefixed with the parents. */
-  prefixedNamingOnProperties?: boolean;
-  /** If set, this will skip the naming format validation in the schema. So the string values in `DocumentSchema.EntityType.name` and `DocumentSchema.EntityType.Property.name` will not be checked. */
-  skipNamingValidation?: boolean;
-  /** If true, on a given page, there can be multiple `document` annotations covering it. */
-  documentAllowMultipleLabels?: boolean;
+export type StringList = Array<string>;
+/** Defines the a list of enum values. */
+export interface GoogleCloudDocumentaiV1DocumentSchemaEntityTypeEnumValues {
+  /** The individual values that this enum values type can include. */
+  values?: StringList | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentSchemaEntityTypePropertyOccurrenceTypeEnum =
   | "OCCURRENCE_TYPE_UNSPECIFIED"
@@ -129,202 +128,209 @@ export type GoogleCloudDocumentaiV1DocumentSchemaEntityTypePropertyMethodEnum =
   | "RELAXED_EXTRACT";
 /** Defines properties that can be part of the entity type. */
 export interface GoogleCloudDocumentaiV1DocumentSchemaEntityTypeProperty {
+  /** A reference to the value type of the property. This type is subject to the same conventions as the `Entity.base_types` field. */
+  valueType?: string | undefined;
   /** User defined name for the property. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Occurrence type limits the number of instances an entity type appears in the document. */
   occurrenceType?:
     | GoogleCloudDocumentaiV1DocumentSchemaEntityTypePropertyOccurrenceTypeEnum
-    | (string & {});
-  /** A reference to the value type of the property. This type is subject to the same conventions as the `Entity.base_types` field. */
-  valueType?: string;
-  /** The name of the property. Follows the same guidelines as the EntityType name. */
-  name?: string;
+    | (string & {})
+    | undefined;
   /** Specifies how the entity's value is obtained. */
-  method?: GoogleCloudDocumentaiV1DocumentSchemaEntityTypePropertyMethodEnum | (string & {});
+  method?:
+    | GoogleCloudDocumentaiV1DocumentSchemaEntityTypePropertyMethodEnum
+    | (string & {})
+    | undefined;
+  /** The name of the property. Follows the same guidelines as the EntityType name. */
+  name?: string | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentSchemaEntityTypePropertyList =
   Array<GoogleCloudDocumentaiV1DocumentSchemaEntityTypeProperty>;
-export type StringList = Array<string>;
-/** Defines the a list of enum values. */
-export interface GoogleCloudDocumentaiV1DocumentSchemaEntityTypeEnumValues {
-  /** The individual values that this enum values type can include. */
-  values?: StringList;
-}
 /** EntityType is the wrapper of a label of the corresponding model with detailed attributes and limitations for entity-based processors. Multiple types can also compose a dependency tree to represent nested types. */
 export interface GoogleCloudDocumentaiV1DocumentSchemaEntityType {
-  /** Name of the type. It must be unique within the schema file and cannot be a "Common Type". The following naming conventions are used: - Use `snake_casing`. - Name matching is case-sensitive. - Maximum 64 characters. - Must start with a letter. - Allowed characters: ASCII letters `[a-z0-9_-]`. (For backward compatibility, internal infrastructure and tooling can handle any ASCII character.) - The `/` is sometimes used to denote a property of a type. For example, `line_item/amount`. This convention is deprecated, but will still be honored for backward compatibility. */
-  name?: string;
-  /** User defined name for the type. */
-  displayName?: string;
-  /** Description the nested structure, or composition of an entity. */
-  properties?: GoogleCloudDocumentaiV1DocumentSchemaEntityTypePropertyList;
   /** The entity type that this type is derived from. For now, one and only one should be set. */
-  baseTypes?: StringList;
+  baseTypes?: StringList | undefined;
+  /** User defined name for the type. */
+  displayName?: string | undefined;
+  /** Name of the type. It must be unique within the schema file and cannot be a "Common Type". The following naming conventions are used: - Use `snake_casing`. - Name matching is case-sensitive. - Maximum 64 characters. - Must start with a letter. - Allowed characters: ASCII letters `[a-z0-9_-]`. (For backward compatibility, internal infrastructure and tooling can handle any ASCII character.) - The `/` is sometimes used to denote a property of a type. For example, `line_item/amount`. This convention is deprecated, but will still be honored for backward compatibility. */
+  name?: string | undefined;
   /** If specified, lists all the possible values for this entity. This should not be more than a handful of values. If the number of values is >10 or could change frequently, use the `EntityType.value_ontology` field and specify a list of all possible values in a value ontology file. */
-  enumValues?: GoogleCloudDocumentaiV1DocumentSchemaEntityTypeEnumValues;
+  enumValues?: GoogleCloudDocumentaiV1DocumentSchemaEntityTypeEnumValues | undefined;
+  /** Description the nested structure, or composition of an entity. */
+  properties?: GoogleCloudDocumentaiV1DocumentSchemaEntityTypePropertyList | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentSchemaEntityTypeList =
   Array<GoogleCloudDocumentaiV1DocumentSchemaEntityType>;
+/** Metadata for global schema behavior. */
+export interface GoogleCloudDocumentaiV1DocumentSchemaMetadata {
+  /** If set, this will skip the naming format validation in the schema. So the string values in `DocumentSchema.EntityType.name` and `DocumentSchema.EntityType.Property.name` will not be checked. */
+  skipNamingValidation?: boolean | undefined;
+  /** If true, on a given page, there can be multiple `document` annotations covering it. */
+  documentAllowMultipleLabels?: boolean | undefined;
+  /** If true, a `document` entity type can be applied to subdocument (splitting). Otherwise, it can only be applied to the entire document (classification). */
+  documentSplitter?: boolean | undefined;
+  /** If set, all the nested entities must be prefixed with the parents. */
+  prefixedNamingOnProperties?: boolean | undefined;
+}
 /** The schema defines the output of the processed document by a processor. */
 export interface GoogleCloudDocumentaiV1DocumentSchema {
-  /** Optional. Document-level prompt provided by the user. This custom text is injected into the AI model's prompt to provide extra, document-wide guidance for processing. */
-  documentPrompt?: string;
-  /** Description of the schema. */
-  description?: string;
-  /** Metadata of the schema. */
-  metadata?: GoogleCloudDocumentaiV1DocumentSchemaMetadata;
-  /** Display name to show users. */
-  displayName?: string;
   /** Entity types of the schema. */
-  entityTypes?: GoogleCloudDocumentaiV1DocumentSchemaEntityTypeList;
-}
-/** Configurations for premium OCR features. */
-export interface GoogleCloudDocumentaiV1OcrConfigPremiumFeatures {
-  /** Turn on font identification model and return font style information. */
-  computeStyleInfo?: boolean;
-  /** Turn on selection mark detector in OCR engine. Only available in OCR 2.0 (and later) processors. */
-  enableSelectionMarkDetection?: boolean;
-  /** Turn on the model that can extract LaTeX math formulas. */
-  enableMathOcr?: boolean;
+  entityTypes?: GoogleCloudDocumentaiV1DocumentSchemaEntityTypeList | undefined;
+  /** Description of the schema. */
+  description?: string | undefined;
+  /** Metadata of the schema. */
+  metadata?: GoogleCloudDocumentaiV1DocumentSchemaMetadata | undefined;
+  /** Optional. Document-level prompt provided by the user. This custom text is injected into the AI model's prompt to provide extra, document-wide guidance for processing. */
+  documentPrompt?: string | undefined;
+  /** Display name to show users. */
+  displayName?: string | undefined;
 }
 /** Hints for OCR Engine */
 export interface GoogleCloudDocumentaiV1OcrConfigHints {
   /** List of BCP-47 language codes to use for OCR. In most cases, not specifying it yields the best results since it enables automatic language detection. For languages based on the Latin alphabet, setting hints is not needed. In rare cases, when the language of the text in the image is known, setting a hint will help get better results (although it will be a significant hindrance if the hint is wrong). */
-  languageHints?: StringList;
+  languageHints?: StringList | undefined;
+}
+/** Configurations for premium OCR features. */
+export interface GoogleCloudDocumentaiV1OcrConfigPremiumFeatures {
+  /** Turn on selection mark detector in OCR engine. Only available in OCR 2.0 (and later) processors. */
+  enableSelectionMarkDetection?: boolean | undefined;
+  /** Turn on the model that can extract LaTeX math formulas. */
+  enableMathOcr?: boolean | undefined;
+  /** Turn on font identification model and return font style information. */
+  computeStyleInfo?: boolean | undefined;
 }
 /** Config for Document OCR. */
 export interface GoogleCloudDocumentaiV1OcrConfig {
-  /** Configurations for premium OCR features. */
-  premiumFeatures?: GoogleCloudDocumentaiV1OcrConfigPremiumFeatures;
-  /** Hints for the OCR model. */
-  hints?: GoogleCloudDocumentaiV1OcrConfigHints;
-  /** A list of advanced OCR options to further fine-tune OCR behavior. Current valid values are: - `legacy_layout`: a heuristics layout detection algorithm, which serves as an alternative to the current ML-based layout detection algorithm. Customers can choose the best suitable layout algorithm based on their situation. */
-  advancedOcrOptions?: StringList;
   /** Turn on font identification model and return font style information. Deprecated, use PremiumFeatures.compute_style_info instead. */
-  computeStyleInfo?: boolean;
-  /** Turn off character box detector in OCR engine. Character box detection is enabled by default in OCR 2.0 (and later) processors. */
-  disableCharacterBoxesDetection?: boolean;
-  /** Enables intelligent document quality scores after OCR. Can help with diagnosing why OCR responses are of poor quality for a given input. Adds additional latency comparable to regular OCR to the process call. */
-  enableImageQualityScores?: boolean;
+  computeStyleInfo?: boolean | undefined;
+  /** A list of advanced OCR options to further fine-tune OCR behavior. Current valid values are: - `legacy_layout`: a heuristics layout detection algorithm, which serves as an alternative to the current ML-based layout detection algorithm. Customers can choose the best suitable layout algorithm based on their situation. */
+  advancedOcrOptions?: StringList | undefined;
   /** Includes symbol level OCR information if set to true. */
-  enableSymbol?: boolean;
+  enableSymbol?: boolean | undefined;
+  /** Hints for the OCR model. */
+  hints?: GoogleCloudDocumentaiV1OcrConfigHints | undefined;
+  /** Turn off character box detector in OCR engine. Character box detection is enabled by default in OCR 2.0 (and later) processors. */
+  disableCharacterBoxesDetection?: boolean | undefined;
+  /** Configurations for premium OCR features. */
+  premiumFeatures?: GoogleCloudDocumentaiV1OcrConfigPremiumFeatures | undefined;
+  /** Enables intelligent document quality scores after OCR. Can help with diagnosing why OCR responses are of poor quality for a given input. Adds additional latency comparable to regular OCR to the process call. */
+  enableImageQualityScores?: boolean | undefined;
   /** Enables special handling for PDFs with existing text information. Results in better text extraction quality in such PDF inputs. */
-  enableNativePdfParsing?: boolean;
-}
-export type IntegerList = Array<number>;
-/** A list of individual page numbers. */
-export interface GoogleCloudDocumentaiV1ProcessOptionsIndividualPageSelector {
-  /** Optional. Indices of the pages (starting from 1). */
-  pages?: IntegerList;
-}
-/** Serving config for chunking. */
-export interface GoogleCloudDocumentaiV1ProcessOptionsLayoutConfigChunkingConfig {
-  /** Optional. Whether or not to include ancestor headings when splitting. */
-  includeAncestorHeadings?: boolean;
-  /** Optional. The chunk sizes to use when splitting documents, in order of level. */
-  chunkSize?: number;
-}
-/** Serving config for layout parser processor. */
-export interface GoogleCloudDocumentaiV1ProcessOptionsLayoutConfig {
-  /** Optional. Whether to include image annotations in layout parser response. */
-  enableImageAnnotation?: boolean;
-  /** Optional. Whether to include bounding boxes in layout parser processor response. */
-  returnBoundingBoxes?: boolean;
-  /** Optional. Config for chunking in layout parser processor. */
-  chunkingConfig?: GoogleCloudDocumentaiV1ProcessOptionsLayoutConfigChunkingConfig;
-  /** Optional. Whether to include table annotations in layout parser response. */
-  enableTableAnnotation?: boolean;
-  /** Optional. Whether to include images in layout parser processor response. */
-  returnImages?: boolean;
+  enableNativePdfParsing?: boolean | undefined;
 }
 /** Options for Process API */
 export interface GoogleCloudDocumentaiV1ProcessOptions {
   /** Only process certain pages from the end, same as above. */
-  fromEnd?: number;
-  /** Only process certain pages from the start. Process all if the document has fewer pages. */
-  fromStart?: number;
-  /** Optional. Override the schema of the ProcessorVersion. Will return an Invalid Argument error if this field is set when the underlying ProcessorVersion doesn't support schema override. */
-  schemaOverride?: GoogleCloudDocumentaiV1DocumentSchema;
-  /** Only applicable to `OCR_PROCESSOR` and `FORM_PARSER_PROCESSOR`. Returns error if set on other processor types. */
-  ocrConfig?: GoogleCloudDocumentaiV1OcrConfig;
+  fromEnd?: number | undefined;
   /** Which pages to process (1-indexed). */
-  individualPageSelector?: GoogleCloudDocumentaiV1ProcessOptionsIndividualPageSelector;
+  individualPageSelector?: GoogleCloudDocumentaiV1ProcessOptionsIndividualPageSelector | undefined;
   /** Optional. Only applicable to `LAYOUT_PARSER_PROCESSOR`. Returns error if set on other processor types. */
-  layoutConfig?: GoogleCloudDocumentaiV1ProcessOptionsLayoutConfig;
+  layoutConfig?: GoogleCloudDocumentaiV1ProcessOptionsLayoutConfig | undefined;
+  /** Only process certain pages from the start. Process all if the document has fewer pages. */
+  fromStart?: number | undefined;
+  /** Optional. Override the schema of the ProcessorVersion. Will return an Invalid Argument error if this field is set when the underlying ProcessorVersion doesn't support schema override. */
+  schemaOverride?: GoogleCloudDocumentaiV1DocumentSchema | undefined;
+  /** Only applicable to `OCR_PROCESSOR` and `FORM_PARSER_PROCESSOR`. Returns error if set on other processor types. */
+  ocrConfig?: GoogleCloudDocumentaiV1OcrConfig | undefined;
 }
+/** The sharding config for the output document. */
+export interface GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfigShardingConfig {
+  /** The number of overlapping pages between consecutive shards. */
+  pagesOverlap?: number | undefined;
+  /** The number of pages per shard. */
+  pagesPerShard?: number | undefined;
+}
+/** The configuration used when outputting documents. */
+export interface GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfig {
+  /** Specifies the sharding config for the output document. */
+  shardingConfig?:
+    | GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfigShardingConfig
+    | undefined;
+  /** The Cloud Storage uri (a directory) of the output. */
+  gcsUri?: string | undefined;
+  /** Specifies which fields to include in the output documents. Only supports top level document and pages field so it must be in the form of `{document_field_name}` or `pages.{page_field_name}`. */
+  fieldMask?: string | undefined;
+}
+/** Config that controls the output of documents. All documents will be written as a JSON file. */
+export interface GoogleCloudDocumentaiV1DocumentOutputConfig {
+  /** Output config to write the results to Cloud Storage. */
+  gcsOutputConfig?: GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfig | undefined;
+}
+export type StringMap = { [key: string]: string | undefined };
 /** Specifies a document stored on Cloud Storage. */
 export interface GoogleCloudDocumentaiV1GcsDocument {
-  /** An IANA MIME type (RFC6838) of the content. */
-  mimeType?: string;
   /** The Cloud Storage object uri. */
-  gcsUri?: string;
+  gcsUri?: string | undefined;
+  /** An IANA MIME type (RFC6838) of the content. */
+  mimeType?: string | undefined;
 }
 export type GoogleCloudDocumentaiV1GcsDocumentList = Array<GoogleCloudDocumentaiV1GcsDocument>;
 /** Specifies a set of documents on Cloud Storage. */
 export interface GoogleCloudDocumentaiV1GcsDocuments {
   /** The list of documents. */
-  documents?: GoogleCloudDocumentaiV1GcsDocumentList;
+  documents?: GoogleCloudDocumentaiV1GcsDocumentList | undefined;
 }
 /** Specifies all documents on Cloud Storage with a common prefix. */
 export interface GoogleCloudDocumentaiV1GcsPrefix {
   /** The URI prefix. */
-  gcsUriPrefix?: string;
+  gcsUriPrefix?: string | undefined;
 }
 /** The common config to specify a set of documents used as input. */
 export interface GoogleCloudDocumentaiV1BatchDocumentsInputConfig {
   /** The set of documents individually specified on Cloud Storage. */
-  gcsDocuments?: GoogleCloudDocumentaiV1GcsDocuments;
+  gcsDocuments?: GoogleCloudDocumentaiV1GcsDocuments | undefined;
   /** The set of documents that match the specified Cloud Storage `gcs_prefix`. */
-  gcsPrefix?: GoogleCloudDocumentaiV1GcsPrefix;
+  gcsPrefix?: GoogleCloudDocumentaiV1GcsPrefix | undefined;
 }
 /** Request message for BatchProcessDocuments. */
 export interface GoogleCloudDocumentaiV1BatchProcessRequest {
-  /** The output configuration for the BatchProcessDocuments method. */
-  documentOutputConfig?: GoogleCloudDocumentaiV1DocumentOutputConfig;
-  /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints) and can only contain lowercase letters, numeric characters, underscores, and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
-  labels?: StringMap;
-  /** Whether human review should be skipped for this request. Default to `false`. */
-  skipHumanReview?: boolean;
   /** Inference-time options for the process API */
-  processOptions?: GoogleCloudDocumentaiV1ProcessOptions;
+  processOptions?: GoogleCloudDocumentaiV1ProcessOptions | undefined;
+  /** The output configuration for the BatchProcessDocuments method. */
+  documentOutputConfig?: GoogleCloudDocumentaiV1DocumentOutputConfig | undefined;
+  /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints) and can only contain lowercase letters, numeric characters, underscores, and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
+  labels?: StringMap | undefined;
+  /** Whether human review should be skipped for this request. Default to `false`. */
+  skipHumanReview?: boolean | undefined;
   /** The input documents for the BatchProcessDocuments method. */
-  inputDocuments?: GoogleCloudDocumentaiV1BatchDocumentsInputConfig;
+  inputDocuments?: GoogleCloudDocumentaiV1BatchDocumentsInputConfig | undefined;
 }
 export interface BatchProcessProjectsLocationsProcessorsRequest {
   /** Required. The resource name of Processor or ProcessorVersion. Format: `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1BatchProcessRequest;
+  body?: GoogleCloudDocumentaiV1BatchProcessRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
 }
 export interface BatchProcessProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The resource name of Processor or ProcessorVersion. Format: `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1BatchProcessRequest;
+  body?: GoogleCloudDocumentaiV1BatchProcessRequest | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -332,6 +338,15 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
+/** Contains the alias and the aliased resource name of processor version. */
+export interface GoogleCloudDocumentaiV1ProcessorVersionAlias {
+  /** The resource name of aliased processor version. */
+  processorVersion?: string | undefined;
+  /** The alias in the form of `processor_version` resource name. */
+  alias?: string | undefined;
+}
+export type GoogleCloudDocumentaiV1ProcessorVersionAliasList =
+  Array<GoogleCloudDocumentaiV1ProcessorVersionAlias>;
 export type GoogleCloudDocumentaiV1ProcessorStateEnum =
   | "STATE_UNSPECIFIED"
   | "ENABLED"
@@ -341,85 +356,76 @@ export type GoogleCloudDocumentaiV1ProcessorStateEnum =
   | "CREATING"
   | "FAILED"
   | "DELETING";
-/** Contains the alias and the aliased resource name of processor version. */
-export interface GoogleCloudDocumentaiV1ProcessorVersionAlias {
-  /** The resource name of aliased processor version. */
-  processorVersion?: string;
-  /** The alias in the form of `processor_version` resource name. */
-  alias?: string;
-}
-export type GoogleCloudDocumentaiV1ProcessorVersionAliasList =
-  Array<GoogleCloudDocumentaiV1ProcessorVersionAlias>;
 /** The first-class citizen for Document AI. Each processor defines how to extract structural information from a document. */
 export interface GoogleCloudDocumentaiV1Processor {
-  /** The default processor version. */
-  defaultProcessorVersion?: string;
-  /** Output only. The state of the processor. */
-  state?: GoogleCloudDocumentaiV1ProcessorStateEnum | (string & {});
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
-  /** Optional. SchemaVersion used by the Processor. It is the same as Processor's DatasetSchema.schema_version Format is `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}. */
-  activeSchemaVersion?: string;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
   /** Output only. The processor version aliases. */
-  processorVersionAliases?: GoogleCloudDocumentaiV1ProcessorVersionAliasList;
-  /** Output only. The time the processor was created. */
-  createTime?: string;
-  /** Output only. Immutable. The resource name of the processor. Format: `projects/{project}/locations/{location}/processors/{processor}` */
-  name?: string;
-  /** Output only. Immutable. The http endpoint that can be called to invoke processing. */
-  processEndpoint?: string;
-  /** The processor type, such as: `OCR_PROCESSOR`, `INVOICE_PROCESSOR`. To get a list of processor types, see FetchProcessorTypes. */
-  type?: string;
+  processorVersionAliases?: GoogleCloudDocumentaiV1ProcessorVersionAliasList | undefined;
   /** The display name of the processor. */
-  displayName?: string;
+  displayName?: string | undefined;
+  /** The default processor version. */
+  defaultProcessorVersion?: string | undefined;
+  /** Output only. The time the processor was created. */
+  createTime?: string | undefined;
+  /** Optional. SchemaVersion used by the Processor. It is the same as Processor's DatasetSchema.schema_version Format is `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}. */
+  activeSchemaVersion?: string | undefined;
+  /** Output only. The state of the processor. */
+  state?: GoogleCloudDocumentaiV1ProcessorStateEnum | (string & {}) | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
   /** The [KMS key](https://cloud.google.com/security-key-management) used for encryption and decryption in CMEK scenarios. */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** The processor type, such as: `OCR_PROCESSOR`, `INVOICE_PROCESSOR`. To get a list of processor types, see FetchProcessorTypes. */
+  type?: string | undefined;
+  /** Output only. Immutable. The http endpoint that can be called to invoke processing. */
+  processEndpoint?: string | undefined;
+  /** Output only. Immutable. The resource name of the processor. Format: `projects/{project}/locations/{location}/processors/{processor}` */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsProcessorsRequest {
   /** Required. The parent (project and location) under which to create the processor. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1Processor;
+  body?: GoogleCloudDocumentaiV1Processor | undefined;
 }
 /** NextSchema is a collection of SchemaVersions. */
 export interface GoogleCloudDocumentaiV1NextSchema {
-  /** Output only. The time when the Schema was created. */
-  createTime?: string;
-  /** Optional. The {{gcp_name_short}} labels for the Schema. */
-  labels?: StringMap;
-  /** Required. The user-defined name of the Schema. */
-  displayName?: string;
-  /** Output only. The time when the Schema was last updated. */
-  updateTime?: string;
   /** Identifier. The resource name of the Schema. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
-  name?: string;
+  name?: string | undefined;
+  /** Output only. The time when the Schema was created. */
+  createTime?: string | undefined;
+  /** Optional. The {{gcp_name_short}} labels for the Schema. */
+  labels?: StringMap | undefined;
+  /** Output only. The time when the Schema was last updated. */
+  updateTime?: string | undefined;
+  /** Required. The user-defined name of the Schema. */
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsSchemasRequest {
   /** Required. The parent (project and location) under which to create the Schema. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1NextSchema;
+  body?: GoogleCloudDocumentaiV1NextSchema | undefined;
 }
 /** SchemaVersion is a version of the Schema which is created in SchemaGroup. */
 export interface GoogleCloudDocumentaiV1SchemaVersion {
-  /** Identifier. The resource name of the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
-  name?: string;
-  /** Optional. The {{gcp_name_short}} labels for the SchemaVersion. */
-  labels?: StringMap;
-  /** Output only. The time when the SchemaVersion was created. */
-  createTime?: string;
   /** Required. The schema of the SchemaVersion. */
-  schema?: GoogleCloudDocumentaiV1DocumentSchema;
+  schema?: GoogleCloudDocumentaiV1DocumentSchema | undefined;
+  /** Output only. The time when the SchemaVersion was created. */
+  createTime?: string | undefined;
+  /** Identifier. The resource name of the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
+  name?: string | undefined;
+  /** Optional. The {{gcp_name_short}} labels for the SchemaVersion. */
+  labels?: StringMap | undefined;
   /** Required. The user-defined name of the SchemaVersion. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsSchemasSchemaVersionsRequest {
   /** Required. The parent (project and location) under which to create the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1SchemaVersion;
+  body?: GoogleCloudDocumentaiV1SchemaVersion | undefined;
 }
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -434,10 +440,10 @@ export interface DeleteProjectsLocationsProcessorsProcessorVersionsRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsSchemasRequest {
+  /** Optional. If set to true, any child resources of this Schema will also be deleted. (Otherwise, the request will only work if the Schema has no child resources.) */
+  force?: boolean | undefined;
   /** Required. The name of the Schema to be deleted. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   name: string;
-  /** Optional. If set to true, any child resources of this Schema will also be deleted. (Otherwise, the request will only work if the Schema has no child resources.) */
-  force?: boolean;
 }
 export interface DeleteProjectsLocationsSchemasSchemaVersionsRequest {
   /** Required. The name of the SchemaVersion to delete. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
@@ -449,7 +455,7 @@ export interface DeployProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The processor version resource name to be deployed. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1DeployProcessorVersionRequest;
+  body?: GoogleCloudDocumentaiV1DeployProcessorVersionRequest | undefined;
 }
 /** Request message for the DisableProcessor method. */
 export type GoogleCloudDocumentaiV1DisableProcessorRequest =
@@ -458,7 +464,7 @@ export interface DisableProjectsLocationsProcessorsRequest {
   /** Required. The processor resource name to be disabled. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1DeployProcessorVersionRequest;
+  body?: GoogleCloudDocumentaiV1DeployProcessorVersionRequest | undefined;
 }
 /** Request message for the EnableProcessor method. */
 export type GoogleCloudDocumentaiV1EnableProcessorRequest =
@@ -467,30 +473,23 @@ export interface EnableProjectsLocationsProcessorsRequest {
   /** Required. The processor resource name to be enabled. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1DeployProcessorVersionRequest;
+  body?: GoogleCloudDocumentaiV1DeployProcessorVersionRequest | undefined;
 }
 /** Evaluates the given ProcessorVersion against the supplied documents. */
 export interface GoogleCloudDocumentaiV1EvaluateProcessorVersionRequest {
   /** Optional. The documents used in the evaluation. If unspecified, use the processor's dataset as evaluation input. */
-  evaluationDocuments?: GoogleCloudDocumentaiV1BatchDocumentsInputConfig;
+  evaluationDocuments?: GoogleCloudDocumentaiV1BatchDocumentsInputConfig | undefined;
 }
 export interface EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The resource name of the ProcessorVersion to evaluate. `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   processorVersion: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1EvaluateProcessorVersionRequest;
+  body?: GoogleCloudDocumentaiV1EvaluateProcessorVersionRequest | undefined;
 }
 export interface FetchProcessorTypesProjectsLocationsRequest {
   /** Required. The location of processor types to list. Format: `projects/{project}/locations/{location}`. */
   parent: string;
 }
-/** The location information about where the processor is available. */
-export interface GoogleCloudDocumentaiV1ProcessorTypeLocationInfo {
-  /** The location ID. For supported locations, refer to [regional and multi-regional support](/document-ai/docs/regions). */
-  locationId?: string;
-}
-export type GoogleCloudDocumentaiV1ProcessorTypeLocationInfoList =
-  Array<GoogleCloudDocumentaiV1ProcessorTypeLocationInfo>;
 export type GoogleCloudDocumentaiV1ProcessorTypeLaunchStageEnum =
   | "LAUNCH_STAGE_UNSPECIFIED"
   | "UNIMPLEMENTED"
@@ -500,123 +499,160 @@ export type GoogleCloudDocumentaiV1ProcessorTypeLaunchStageEnum =
   | "BETA"
   | "GA"
   | "DEPRECATED";
+/** The location information about where the processor is available. */
+export interface GoogleCloudDocumentaiV1ProcessorTypeLocationInfo {
+  /** The location ID. For supported locations, refer to [regional and multi-regional support](/document-ai/docs/regions). */
+  locationId?: string | undefined;
+}
+export type GoogleCloudDocumentaiV1ProcessorTypeLocationInfoList =
+  Array<GoogleCloudDocumentaiV1ProcessorTypeLocationInfo>;
 /** A processor type is responsible for performing a certain document understanding task on a certain type of document. */
 export interface GoogleCloudDocumentaiV1ProcessorType {
-  /** The locations in which this processor is available. */
-  availableLocations?: GoogleCloudDocumentaiV1ProcessorTypeLocationInfoList;
-  /** A set of Cloud Storage URIs of sample documents for this processor. */
-  sampleDocumentUris?: StringList;
-  /** Whether the processor type allows creation. If true, users can create a processor of this processor type. Otherwise, users need to request access. */
-  allowCreation?: boolean;
   /** Launch stage of the processor type */
-  launchStage?: GoogleCloudDocumentaiV1ProcessorTypeLaunchStageEnum;
+  launchStage?: GoogleCloudDocumentaiV1ProcessorTypeLaunchStageEnum | undefined;
   /** The processor type, such as: `OCR_PROCESSOR`, `INVOICE_PROCESSOR`. */
-  type?: string;
-  /** The resource name of the processor type. Format: `projects/{project}/processorTypes/{processor_type}` */
-  name?: string;
+  type?: string | undefined;
   /** The processor category, used by UI to group processor types. */
-  category?: string;
+  category?: string | undefined;
+  /** Whether the processor type allows creation. If true, users can create a processor of this processor type. Otherwise, users need to request access. */
+  allowCreation?: boolean | undefined;
+  /** The resource name of the processor type. Format: `projects/{project}/processorTypes/{processor_type}` */
+  name?: string | undefined;
+  /** A set of Cloud Storage URIs of sample documents for this processor. */
+  sampleDocumentUris?: StringList | undefined;
+  /** The locations in which this processor is available. */
+  availableLocations?: GoogleCloudDocumentaiV1ProcessorTypeLocationInfoList | undefined;
 }
 export type GoogleCloudDocumentaiV1ProcessorTypeList = Array<GoogleCloudDocumentaiV1ProcessorType>;
 /** Response message for the FetchProcessorTypes method. */
 export interface GoogleCloudDocumentaiV1FetchProcessorTypesResponse {
   /** The list of processor types. */
-  processorTypes?: GoogleCloudDocumentaiV1ProcessorTypeList;
+  processorTypes?: GoogleCloudDocumentaiV1ProcessorTypeList | undefined;
 }
+/** A single iteration of the schema generation. */
+export interface GoogleCloudDocumentaiV1SchemaGenerationIteration {
+  /** Optional. The prompt used for the iteration. */
+  prompt?: string | undefined;
+  /** Optional. The previous schema version adjusted by the model. */
+  adjustedSchema?: GoogleCloudDocumentaiV1SchemaVersion | undefined;
+  /** Required. The schema version generated by the model. */
+  generatedSchema?: GoogleCloudDocumentaiV1SchemaVersion | undefined;
+}
+export type GoogleCloudDocumentaiV1SchemaGenerationIterationList =
+  Array<GoogleCloudDocumentaiV1SchemaGenerationIteration>;
+/** The history of schema generation iterations. */
+export interface GoogleCloudDocumentaiV1SchemaGenerationHistory {
+  /** Required. Previous prompt-answers in a chronological order. */
+  iterations?: GoogleCloudDocumentaiV1SchemaGenerationIterationList | undefined;
+}
+/** The parameters for the schema generation. */
+export interface GoogleCloudDocumentaiV1GenerateSchemaVersionRequestGenerateSchemaVersionParams {
+  /** Optional. The prompt used for the schema generation. */
+  prompt?: string | undefined;
+  /** Optional. Previous prompt-answers in a chronological order. */
+  history?: GoogleCloudDocumentaiV1SchemaGenerationHistory | undefined;
+}
+/** Relationship between Entities. */
+export interface GoogleCloudDocumentaiV1DocumentEntityRelation {
+  /** Subject entity id. */
+  subjectId?: string | undefined;
+  /** Object entity id. */
+  objectId?: string | undefined;
+  /** Relationship description. */
+  relation?: string | undefined;
+}
+export type GoogleCloudDocumentaiV1DocumentEntityRelationList =
+  Array<GoogleCloudDocumentaiV1DocumentEntityRelation>;
+/** Represents where the chunk starts and ends in the document. */
+export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan {
+  /** Page where chunk ends in the document. */
+  pageEnd?: number | undefined;
+  /** Page where chunk starts in the document. */
+  pageStart?: number | undefined;
+}
+/** Represents the page footer associated with the chunk. */
+export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter {
+  /** Page span of the footer. */
+  pageSpan?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan | undefined;
+  /** Footer in text format. */
+  text?: string | undefined;
+}
+export type GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooterList =
+  Array<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter>;
+/** Represents the page header associated with the chunk. */
+export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader {
+  /** Page span of the header. */
+  pageSpan?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan | undefined;
+  /** Header in text format. */
+  text?: string | undefined;
+}
+export type GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeaderList =
+  Array<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader>;
 /** Represents the annotation of a block or a chunk. */
 export interface GoogleCloudDocumentaiV1DocumentAnnotations {
   /** The description of the content with this annotation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The image chunk field in the chunk. */
 export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkImageChunkField {
-  /** Optional. Asset ID of the inline image. If set, find the image content in the blob_assets field. */
-  blobAssetId?: string;
-  /** Optional. Google Cloud Storage URI of the image. */
-  gcsUri?: string;
   /** Optional. Data URI of the image. It is composed of four parts: a prefix (data:), a MIME type indicating the type of data, an optional base64 token if non-textual, and the data itself: data:, */
-  dataUri?: string;
+  dataUri?: string | undefined;
   /** Annotation of the image chunk field. */
-  annotations?: GoogleCloudDocumentaiV1DocumentAnnotations;
+  annotations?: GoogleCloudDocumentaiV1DocumentAnnotations | undefined;
+  /** Optional. Asset ID of the inline image. If set, find the image content in the blob_assets field. */
+  blobAssetId?: string | undefined;
+  /** Optional. Google Cloud Storage URI of the image. */
+  gcsUri?: string | undefined;
 }
 /** The table chunk field in the chunk. */
 export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkTableChunkField {
   /** Annotation of the table chunk field. */
-  annotations?: GoogleCloudDocumentaiV1DocumentAnnotations;
+  annotations?: GoogleCloudDocumentaiV1DocumentAnnotations | undefined;
 }
 /** The chunk field in the chunk. A chunk field could be one of the various types (for example, image, table) supported. */
 export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkField {
   /** The image chunk field in the chunk. */
-  imageChunkField?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkImageChunkField;
+  imageChunkField?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkImageChunkField | undefined;
   /** The table chunk field in the chunk. */
-  tableChunkField?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkTableChunkField;
+  tableChunkField?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkTableChunkField | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkFieldList =
   Array<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkField>;
-/** Represents where the chunk starts and ends in the document. */
-export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan {
-  /** Page where chunk starts in the document. */
-  pageStart?: number;
-  /** Page where chunk ends in the document. */
-  pageEnd?: number;
-}
-/** Represents the page header associated with the chunk. */
-export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader {
-  /** Header in text format. */
-  text?: string;
-  /** Page span of the header. */
-  pageSpan?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan;
-}
-export type GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeaderList =
-  Array<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader>;
-/** Represents the page footer associated with the chunk. */
-export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter {
-  /** Footer in text format. */
-  text?: string;
-  /** Page span of the footer. */
-  pageSpan?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan;
-}
-export type GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooterList =
-  Array<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter>;
 /** Represents a chunk. */
 export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk {
-  /** ID of the chunk. */
-  chunkId?: string;
-  /** Chunk fields inside this chunk. */
-  chunkFields?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkFieldList;
-  /** Page headers associated with the chunk. */
-  pageHeaders?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeaderList;
-  /** Page span of the chunk. */
-  pageSpan?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan;
   /** Text content of the chunk. */
-  content?: string;
-  /** Unused. */
-  sourceBlockIds?: StringList;
+  content?: string | undefined;
   /** Page footers associated with the chunk. */
-  pageFooters?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooterList;
+  pageFooters?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooterList | undefined;
+  /** ID of the chunk. */
+  chunkId?: string | undefined;
+  /** Page headers associated with the chunk. */
+  pageHeaders?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeaderList | undefined;
+  /** Chunk fields inside this chunk. */
+  chunkFields?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkFieldList | undefined;
+  /** Page span of the chunk. */
+  pageSpan?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan | undefined;
+  /** Unused. */
+  sourceBlockIds?: StringList | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkList =
   Array<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk>;
 /** Represents the chunks that the document is divided into. */
 export interface GoogleCloudDocumentaiV1DocumentChunkedDocument {
   /** List of chunks. */
-  chunks?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkList;
+  chunks?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkList | undefined;
 }
-/** Represents a blob asset. It's used to store the content of the inline blob in this document, for example, image bytes, such that it can be referenced by other fields in the document via asset ID. */
-export interface GoogleCloudDocumentaiV1DocumentBlobAsset {
-  /** The mime type of the blob asset. An IANA published [media type (MIME type)](https://www.iana.org/assignments/media-types/media-types.xhtml). */
-  mimeType?: string;
-  /** Optional. The ID of the blob asset. */
-  assetId?: string;
-  /** Optional. The content of the blob asset, for example, image bytes. */
-  content?: string;
+/** The parent element the current element is based on. Used for referencing/aligning, removal and replacement operations. */
+export interface GoogleCloudDocumentaiV1DocumentProvenanceParent {
+  /** The ID of the parent provenance. */
+  id?: number | undefined;
+  /** The index of the parent item in the corresponding item list (eg. list of entities, properties within entities, etc.) in the parent revision. */
+  index?: number | undefined;
+  /** The index of the index into current revision's parent_ids list. */
+  revision?: number | undefined;
 }
-export type GoogleCloudDocumentaiV1DocumentBlobAssetList =
-  Array<GoogleCloudDocumentaiV1DocumentBlobAsset>;
-export type GoogleCloudDocumentaiV1DocumentEntityMethodEnum =
-  | "METHOD_UNSPECIFIED"
-  | "EXTRACT"
-  | "DERIVE";
+export type GoogleCloudDocumentaiV1DocumentProvenanceParentList =
+  Array<GoogleCloudDocumentaiV1DocumentProvenanceParent>;
 export type GoogleCloudDocumentaiV1DocumentProvenanceTypeEnum =
   | "OPERATION_TYPE_UNSPECIFIED"
   | "ADD"
@@ -626,138 +662,32 @@ export type GoogleCloudDocumentaiV1DocumentProvenanceTypeEnum =
   | "EVAL_REQUESTED"
   | "EVAL_APPROVED"
   | "EVAL_SKIPPED";
-/** The parent element the current element is based on. Used for referencing/aligning, removal and replacement operations. */
-export interface GoogleCloudDocumentaiV1DocumentProvenanceParent {
-  /** The index of the parent item in the corresponding item list (eg. list of entities, properties within entities, etc.) in the parent revision. */
-  index?: number;
-  /** The ID of the parent provenance. */
-  id?: number;
-  /** The index of the index into current revision's parent_ids list. */
-  revision?: number;
-}
-export type GoogleCloudDocumentaiV1DocumentProvenanceParentList =
-  Array<GoogleCloudDocumentaiV1DocumentProvenanceParent>;
 /** Structure to identify provenance relationships between annotations in different revisions. */
 export interface GoogleCloudDocumentaiV1DocumentProvenance {
-  /** The type of provenance operation. */
-  type?: GoogleCloudDocumentaiV1DocumentProvenanceTypeEnum | (string & {});
   /** The ID of this operation. Needs to be unique within the scope of the revision. */
-  id?: number;
+  id?: number | undefined;
   /** The index of the revision that produced this element. */
-  revision?: number;
+  revision?: number | undefined;
   /** References to the original elements that are replaced. */
-  parents?: GoogleCloudDocumentaiV1DocumentProvenanceParentList;
+  parents?: GoogleCloudDocumentaiV1DocumentProvenanceParentList | undefined;
+  /** The type of provenance operation. */
+  type?: GoogleCloudDocumentaiV1DocumentProvenanceTypeEnum | (string & {}) | undefined;
 }
-/** Represents an amount of money with its currency type. */
-export interface GoogleTypeMoney {
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
-  /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string;
+/** A text segment in the Document.text. The indices may be out of bounds which indicate that the text extends into another document shard for large sharded documents. See ShardInfo.text_offset */
+export interface GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment {
+  /** TextSegment start UTF-8 char index in the Document.text. */
+  startIndex?: string | undefined;
+  /** TextSegment half open end UTF-8 char index in the Document.text. */
+  endIndex?: string | undefined;
 }
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface GoogleTypeDate {
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-}
-/** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
-export interface GoogleTypePostalAddress {
-  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
-  revision?: number;
-  /** Optional. The name of the organization at the address. */
-  organization?: string;
-  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
-  locality?: string;
-  /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
-  postalCode?: string;
-  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
-  sortingCode?: string;
-  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
-  addressLines?: StringList;
-  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
-  recipients?: StringList;
-  /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
-  sublocality?: string;
-  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
-  administrativeArea?: string;
-  /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
-  languageCode?: string;
-  /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
-  regionCode?: string;
-}
-/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
-export interface GoogleTypeTimeZone {
-  /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
-  /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
-}
-/** Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations. */
-export interface GoogleTypeDateTime {
-  /** Time zone. */
-  timeZone?: GoogleTypeTimeZone;
-  /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
-  year?: number;
-  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
-  minutes?: number;
-  /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
-  utcOffset?: string;
-  /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
-  /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
-  day?: number;
-  /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
-  nanos?: number;
-  /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-  /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
-  month?: number;
-}
-/** Parsed and normalized entity value. */
-export interface GoogleCloudDocumentaiV1DocumentEntityNormalizedValue {
-  /** Money value. See also: https://github.com/googleapis/googleapis/blob/master/google/type/money.proto */
-  moneyValue?: GoogleTypeMoney;
-  /** A signature, which is a graphical representation of a person's name, often used to sign a document. */
-  signatureValue?: boolean;
-  /** Integer value. */
-  integerValue?: number;
-  /** Date value. Includes year, month, day. See also: https://github.com/googleapis/googleapis/blob/master/google/type/date.proto */
-  dateValue?: GoogleTypeDate;
-  /** Boolean value. Can be used for entities with binary values, or for checkboxes. */
-  booleanValue?: boolean;
-  /** Postal address. See also: https://github.com/googleapis/googleapis/blob/master/google/type/postal_address.proto */
-  addressValue?: GoogleTypePostalAddress;
-  /** Float value. */
-  floatValue?: number;
-  /** Optional. An optional field to store a normalized string. For some entity types, one of respective `structured_value` fields may also be populated. Also not all the types of `structured_value` will be normalized. For example, some processors may not generate `float` or `integer` normalized text by default. Below are sample formats mapped to structured values. - Money/Currency type (`money_value`) is in the ISO 4217 text format. - Date type (`date_value`) is in the ISO 8601 text format. - Datetime type (`datetime_value`) is in the ISO 8601 text format. */
-  text?: string;
-  /** DateTime value. Includes date, time, and timezone. See also: https://github.com/googleapis/googleapis/blob/master/google/type/datetime.proto */
-  datetimeValue?: GoogleTypeDateTime;
-}
-/** A vertex represents a 2D point in the image. NOTE: the normalized vertex coordinates are relative to the original image and range from 0 to 1. */
-export interface GoogleCloudDocumentaiV1NormalizedVertex {
-  /** X coordinate. */
-  x?: number;
-  /** Y coordinate (starts from the top of the image). */
-  y?: number;
-}
-export type GoogleCloudDocumentaiV1NormalizedVertexList =
-  Array<GoogleCloudDocumentaiV1NormalizedVertex>;
-/** A vertex represents a 2D point in the image. NOTE: the vertex coordinates are in the same scale as the original image. */
-export type GoogleCloudDocumentaiV1Vertex = GoogleCloudDocumentaiV1NormalizedVertex;
-export type GoogleCloudDocumentaiV1VertexList = Array<GoogleCloudDocumentaiV1NormalizedVertex>;
-/** A bounding polygon for the detected image annotation. */
-export interface GoogleCloudDocumentaiV1BoundingPoly {
-  /** The bounding polygon normalized vertices. */
-  normalizedVertices?: GoogleCloudDocumentaiV1NormalizedVertexList;
-  /** The bounding polygon vertices. */
-  vertices?: GoogleCloudDocumentaiV1VertexList;
+export type GoogleCloudDocumentaiV1DocumentTextAnchorTextSegmentList =
+  Array<GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment>;
+/** Text reference indexing into the Document.text. */
+export interface GoogleCloudDocumentaiV1DocumentTextAnchor {
+  /** Contains the content of the text span so that users do not have to look it up in the text_segments. It is always populated for formFields. */
+  content?: string | undefined;
+  /** The text segments from the Document.text. */
+  textSegments?: GoogleCloudDocumentaiV1DocumentTextAnchorTextSegmentList | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentPageAnchorPageRefLayoutTypeEnum =
   | "LAYOUT_TYPE_UNSPECIFIED"
@@ -768,68 +698,175 @@ export type GoogleCloudDocumentaiV1DocumentPageAnchorPageRefLayoutTypeEnum =
   | "VISUAL_ELEMENT"
   | "TABLE"
   | "FORM_FIELD";
+/** A vertex represents a 2D point in the image. NOTE: the normalized vertex coordinates are relative to the original image and range from 0 to 1. */
+export interface GoogleCloudDocumentaiV1NormalizedVertex {
+  /** Y coordinate (starts from the top of the image). */
+  y?: number | undefined;
+  /** X coordinate. */
+  x?: number | undefined;
+}
+export type GoogleCloudDocumentaiV1NormalizedVertexList =
+  Array<GoogleCloudDocumentaiV1NormalizedVertex>;
+/** A vertex represents a 2D point in the image. NOTE: the vertex coordinates are in the same scale as the original image. */
+export interface GoogleCloudDocumentaiV1Vertex {
+  /** X coordinate. */
+  x?: number | undefined;
+  /** Y coordinate (starts from the top of the image). */
+  y?: number | undefined;
+}
+export type GoogleCloudDocumentaiV1VertexList = Array<GoogleCloudDocumentaiV1Vertex>;
+/** A bounding polygon for the detected image annotation. */
+export interface GoogleCloudDocumentaiV1BoundingPoly {
+  /** The bounding polygon normalized vertices. */
+  normalizedVertices?: GoogleCloudDocumentaiV1NormalizedVertexList | undefined;
+  /** The bounding polygon vertices. */
+  vertices?: GoogleCloudDocumentaiV1VertexList | undefined;
+}
 /** Represents a weak reference to a page element within a document. */
 export interface GoogleCloudDocumentaiV1DocumentPageAnchorPageRef {
-  /** Required. Index into the Document.pages element, for example using `Document.pages` to locate the related page element. This field is skipped when its value is the default `0`. See https://developers.google.com/protocol-buffers/docs/proto3#json. */
-  page?: string;
-  /** Optional. Deprecated. Use PageRef.bounding_poly instead. */
-  layoutId?: string;
-  /** Optional. Identifies the bounding polygon of a layout element on the page. If `layout_type` is set, the bounding polygon must be exactly the same to the layout element it's referring to. */
-  boundingPoly?: GoogleCloudDocumentaiV1BoundingPoly;
-  /** Optional. Confidence of detected page element, if applicable. Range `[0, 1]`. */
-  confidence?: number;
   /** Optional. The type of the layout element that is being referenced if any. */
-  layoutType?: GoogleCloudDocumentaiV1DocumentPageAnchorPageRefLayoutTypeEnum | (string & {});
+  layoutType?:
+    | GoogleCloudDocumentaiV1DocumentPageAnchorPageRefLayoutTypeEnum
+    | (string & {})
+    | undefined;
+  /** Required. Index into the Document.pages element, for example using `Document.pages` to locate the related page element. This field is skipped when its value is the default `0`. See https://developers.google.com/protocol-buffers/docs/proto3#json. */
+  page?: string | undefined;
+  /** Optional. Confidence of detected page element, if applicable. Range `[0, 1]`. */
+  confidence?: number | undefined;
+  /** Optional. Deprecated. Use PageRef.bounding_poly instead. */
+  layoutId?: string | undefined;
+  /** Optional. Identifies the bounding polygon of a layout element on the page. If `layout_type` is set, the bounding polygon must be exactly the same to the layout element it's referring to. */
+  boundingPoly?: GoogleCloudDocumentaiV1BoundingPoly | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentPageAnchorPageRefList =
   Array<GoogleCloudDocumentaiV1DocumentPageAnchorPageRef>;
 /** Referencing the visual context of the entity in the Document.pages. Page anchors can be cross-page, consist of multiple bounding polygons and optionally reference specific layout element types. */
 export interface GoogleCloudDocumentaiV1DocumentPageAnchor {
   /** One or more references to visual page elements */
-  pageRefs?: GoogleCloudDocumentaiV1DocumentPageAnchorPageRefList;
+  pageRefs?: GoogleCloudDocumentaiV1DocumentPageAnchorPageRefList | undefined;
 }
-/** A text segment in the Document.text. The indices may be out of bounds which indicate that the text extends into another document shard for large sharded documents. See ShardInfo.text_offset */
-export interface GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment {
-  /** TextSegment half open end UTF-8 char index in the Document.text. */
-  endIndex?: string;
-  /** TextSegment start UTF-8 char index in the Document.text. */
-  startIndex?: string;
+export type GoogleCloudDocumentaiV1DocumentEntityMethodEnum =
+  | "METHOD_UNSPECIFIED"
+  | "EXTRACT"
+  | "DERIVE";
+/** Represents an amount of money with its currency type. */
+export interface GoogleTypeMoney {
+  /** The three-letter currency code defined in ISO 4217. */
+  currencyCode?: string | undefined;
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string | undefined;
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number | undefined;
 }
-export type GoogleCloudDocumentaiV1DocumentTextAnchorTextSegmentList =
-  Array<GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment>;
-/** Text reference indexing into the Document.text. */
-export interface GoogleCloudDocumentaiV1DocumentTextAnchor {
-  /** Contains the content of the text span so that users do not have to look it up in the text_segments. It is always populated for formFields. */
-  content?: string;
-  /** The text segments from the Document.text. */
-  textSegments?: GoogleCloudDocumentaiV1DocumentTextAnchorTextSegmentList;
+/** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
+export interface GoogleTypePostalAddress {
+  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
+  administrativeArea?: string | undefined;
+  /** Optional. The name of the organization at the address. */
+  organization?: string | undefined;
+  /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
+  sublocality?: string | undefined;
+  /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
+  languageCode?: string | undefined;
+  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
+  revision?: number | undefined;
+  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
+  addressLines?: StringList | undefined;
+  /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
+  postalCode?: string | undefined;
+  /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
+  regionCode?: string | undefined;
+  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
+  sortingCode?: string | undefined;
+  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
+  recipients?: StringList | undefined;
+  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
+  locality?: string | undefined;
+}
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface GoogleTypeDate {
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+}
+/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
+export interface GoogleTypeTimeZone {
+  /** Optional. IANA Time Zone Database version number. For example "2019a". */
+  version?: string | undefined;
+  /** IANA Time Zone Database time zone. For example "America/New_York". */
+  id?: string | undefined;
+}
+/** Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations. */
+export interface GoogleTypeDateTime {
+  /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
+  nanos?: number | undefined;
+  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
+  minutes?: number | undefined;
+  /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
+  day?: number | undefined;
+  /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
+  utcOffset?: string | undefined;
+  /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number | undefined;
+  /** Time zone. */
+  timeZone?: GoogleTypeTimeZone | undefined;
+  /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
+  month?: number | undefined;
+  /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
+  year?: number | undefined;
+  /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number | undefined;
+}
+/** Parsed and normalized entity value. */
+export interface GoogleCloudDocumentaiV1DocumentEntityNormalizedValue {
+  /** Money value. See also: https://github.com/googleapis/googleapis/blob/master/google/type/money.proto */
+  moneyValue?: GoogleTypeMoney | undefined;
+  /** Postal address. See also: https://github.com/googleapis/googleapis/blob/master/google/type/postal_address.proto */
+  addressValue?: GoogleTypePostalAddress | undefined;
+  /** Date value. Includes year, month, day. See also: https://github.com/googleapis/googleapis/blob/master/google/type/date.proto */
+  dateValue?: GoogleTypeDate | undefined;
+  /** Optional. An optional field to store a normalized string. For some entity types, one of respective `structured_value` fields may also be populated. Also not all the types of `structured_value` will be normalized. For example, some processors may not generate `float` or `integer` normalized text by default. Below are sample formats mapped to structured values. - Money/Currency type (`money_value`) is in the ISO 4217 text format. - Date type (`date_value`) is in the ISO 8601 text format. - Datetime type (`datetime_value`) is in the ISO 8601 text format. */
+  text?: string | undefined;
+  /** Boolean value. Can be used for entities with binary values, or for checkboxes. */
+  booleanValue?: boolean | undefined;
+  /** DateTime value. Includes date, time, and timezone. See also: https://github.com/googleapis/googleapis/blob/master/google/type/datetime.proto */
+  datetimeValue?: GoogleTypeDateTime | undefined;
+  /** Float value. */
+  floatValue?: number | undefined;
+  /** Integer value. */
+  integerValue?: number | undefined;
+  /** A signature, which is a graphical representation of a person's name, often used to sign a document. */
+  signatureValue?: boolean | undefined;
 }
 /** An entity that could be a phrase in the text or a property that belongs to the document. It is a known entity type, such as a person, an organization, or location. */
 export interface GoogleCloudDocumentaiV1DocumentEntity {
-  /** Optional. Specifies how the entity's value is obtained. */
-  method?: GoogleCloudDocumentaiV1DocumentEntityMethodEnum | (string & {});
   /** Optional. The history of this annotation. */
-  provenance?: GoogleCloudDocumentaiV1DocumentProvenance;
-  /** Optional. Deprecated. Use `id` field instead. */
-  mentionId?: string;
-  /** Optional. Confidence of detected Schema entity. Range `[0, 1]`. */
-  confidence?: number;
-  /** Optional. Text value of the entity, for example, `1600 Amphitheatre Pkwy`. */
-  mentionText?: string;
-  /** Optional. Normalized entity value. Absent if the extracted value could not be converted or the type (for example, address) is not supported for certain parsers. This field is also only populated for certain supported document types. */
-  normalizedValue?: GoogleCloudDocumentaiV1DocumentEntityNormalizedValue;
-  /** Required. Entity type from a schema, for example, `Address`. */
-  type?: string;
-  /** Optional. Represents the provenance of this entity wrt. the location on the page where it was found. */
-  pageAnchor?: GoogleCloudDocumentaiV1DocumentPageAnchor;
-  /** Optional. Entities can be nested to form a hierarchical data structure representing the content in the document. */
-  properties?: GoogleCloudDocumentaiV1DocumentEntityList;
+  provenance?: GoogleCloudDocumentaiV1DocumentProvenance | undefined;
   /** Optional. Whether the entity will be redacted for de-identification purposes. */
-  redacted?: boolean;
-  /** Optional. Canonical id. This will be a unique value in the entity list for this document. */
-  id?: string;
+  redacted?: boolean | undefined;
+  /** Optional. Text value of the entity, for example, `1600 Amphitheatre Pkwy`. */
+  mentionText?: string | undefined;
   /** Optional. Provenance of the entity. Text anchor indexing into the Document.text. */
-  textAnchor?: GoogleCloudDocumentaiV1DocumentTextAnchor;
+  textAnchor?: GoogleCloudDocumentaiV1DocumentTextAnchor | undefined;
+  /** Optional. Canonical id. This will be a unique value in the entity list for this document. */
+  id?: string | undefined;
+  /** Optional. Represents the provenance of this entity wrt. the location on the page where it was found. */
+  pageAnchor?: GoogleCloudDocumentaiV1DocumentPageAnchor | undefined;
+  /** Optional. Entities can be nested to form a hierarchical data structure representing the content in the document. */
+  properties?: GoogleCloudDocumentaiV1DocumentEntityList | undefined;
+  /** Required. Entity type from a schema, for example, `Address`. */
+  type?: string | undefined;
+  /** Optional. Specifies how the entity's value is obtained. */
+  method?: GoogleCloudDocumentaiV1DocumentEntityMethodEnum | (string & {}) | undefined;
+  /** Optional. Deprecated. Use `id` field instead. */
+  mentionId?: string | undefined;
+  /** Optional. Confidence of detected Schema entity. Range `[0, 1]`. */
+  confidence?: number | undefined;
+  /** Optional. Normalized entity value. Absent if the extracted value could not be converted or the type (for example, address) is not supported for certain parsers. This field is also only populated for certain supported document types. */
+  normalizedValue?: GoogleCloudDocumentaiV1DocumentEntityNormalizedValue | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentEntityList =
   Array<GoogleCloudDocumentaiV1DocumentEntity>;
@@ -841,165 +878,152 @@ export type GoogleCloudDocumentaiV1DocumentEntityValidationOutputValidationResul
   | "VALIDATION_RESULT_TYPE_NOT_APPLICABLE";
 /** Validation result for a single validation rule. */
 export interface GoogleCloudDocumentaiV1DocumentEntityValidationOutputValidationResult {
-  /** The display name of the validation rule. */
-  ruleName?: string;
-  /** Optional. The name of the rule resource that is used for validation. Format: `projects/{project}/locations/{location}/rules/{rule}` */
-  rule?: string;
-  /** The detailed information of the running the validation process using the entity from the document based on the validation rule. */
-  validationDetails?: string;
-  /** The description of the validation rule. */
-  ruleDescription?: string;
   /** The result of the validation rule. */
   validationResultType?:
     | GoogleCloudDocumentaiV1DocumentEntityValidationOutputValidationResultValidationResultTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
+  /** The detailed information of the running the validation process using the entity from the document based on the validation rule. */
+  validationDetails?: string | undefined;
+  /** Optional. The name of the rule resource that is used for validation. Format: `projects/{project}/locations/{location}/rules/{rule}` */
+  rule?: string | undefined;
+  /** The display name of the validation rule. */
+  ruleName?: string | undefined;
+  /** The description of the validation rule. */
+  ruleDescription?: string | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentEntityValidationOutputValidationResultList =
   Array<GoogleCloudDocumentaiV1DocumentEntityValidationOutputValidationResult>;
 /** The output of the validation given the document and the validation rules. */
 export interface GoogleCloudDocumentaiV1DocumentEntityValidationOutput {
-  /** The overall result of the validation, true if all applicable rules are valid. */
-  passAllRules?: boolean;
   /** The result of each validation rule. */
-  validationResults?: GoogleCloudDocumentaiV1DocumentEntityValidationOutputValidationResultList;
+  validationResults?:
+    | GoogleCloudDocumentaiV1DocumentEntityValidationOutputValidationResultList
+    | undefined;
+  /** The overall result of the validation, true if all applicable rules are valid. */
+  passAllRules?: boolean | undefined;
 }
-/** Represents a text type block. */
-export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock {
-  /** Type of the text in the block. Available options are: `paragraph`, `subtitle`, `heading-1`, `heading-2`, `heading-3`, `heading-4`, `heading-5`, `header`, `footer`. */
-  type?: string;
-  /** A text block could further have child blocks. Repeated blocks support further hierarchies and nested blocks. */
-  blocks?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockList;
-  /** Annotation of the text block. */
-  annotations?: GoogleCloudDocumentaiV1DocumentAnnotations;
-  /** Text content stored in the block. */
-  text?: string;
+/** Entity revision. */
+export interface GoogleCloudDocumentaiV1DocumentEntitiesRevision {
+  /** The entity validation output for this revision. */
+  entityValidationOutput?: GoogleCloudDocumentaiV1DocumentEntityValidationOutput | undefined;
+  /** The entities in this revision. */
+  entities?: GoogleCloudDocumentaiV1DocumentEntityList | undefined;
+  /** The revision id. */
+  revisionId?: string | undefined;
+  /** Optional. The history of this revision. */
+  provenance?: GoogleCloudDocumentaiV1DocumentProvenance | undefined;
 }
-/** Represents a cell in a table row. */
-export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell {
-  /** How many columns this cell spans. */
-  colSpan?: number;
-  /** How many rows this cell spans. */
-  rowSpan?: number;
-  /** A table cell is a list of blocks. Repeated blocks support further hierarchies and nested blocks. */
-  blocks?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockList;
+export type GoogleCloudDocumentaiV1DocumentEntitiesRevisionList =
+  Array<GoogleCloudDocumentaiV1DocumentEntitiesRevision>;
+/** For a large document, sharding may be performed to produce several document shards. Each document shard contains this field to detail which shard it is. */
+export interface GoogleCloudDocumentaiV1DocumentShardInfo {
+  /** Total number of shards. */
+  shardCount?: string | undefined;
+  /** The index of the first character in Document.text in the overall document global text. */
+  textOffset?: string | undefined;
+  /** The 0-based index of this shard. */
+  shardIndex?: string | undefined;
+  /** The index of the first page in Document.pages in the overall document global pages. Available for document shards created by the document splitter. */
+  pageOffset?: number | undefined;
 }
-export type GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCellList =
-  Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell>;
-/** Represents a row in a table. */
-export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow {
-  /** A table row is a list of table cells. */
-  cells?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCellList;
+/** Represents a blob asset. It's used to store the content of the inline blob in this document, for example, image bytes, such that it can be referenced by other fields in the document via asset ID. */
+export interface GoogleCloudDocumentaiV1DocumentBlobAsset {
+  /** The mime type of the blob asset. An IANA published [media type (MIME type)](https://www.iana.org/assignments/media-types/media-types.xhtml). */
+  mimeType?: string | undefined;
+  /** Optional. The ID of the blob asset. */
+  assetId?: string | undefined;
+  /** Optional. The content of the blob asset, for example, image bytes. */
+  content?: string | undefined;
 }
-export type GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRowList =
-  Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow>;
-/** Represents a table type block. */
-export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock {
-  /** Body rows containing main table content. */
-  bodyRows?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRowList;
-  /** Table caption/title. */
-  caption?: string;
-  /** Annotation of the table block. */
-  annotations?: GoogleCloudDocumentaiV1DocumentAnnotations;
-  /** Header rows at the top of the table. */
-  headerRows?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRowList;
+export type GoogleCloudDocumentaiV1DocumentBlobAssetList =
+  Array<GoogleCloudDocumentaiV1DocumentBlobAsset>;
+export type GoogleCloudDocumentaiV1DocumentProvenanceList =
+  Array<GoogleCloudDocumentaiV1DocumentProvenance>;
+/** This message is used for text changes aka. OCR corrections. */
+export interface GoogleCloudDocumentaiV1DocumentTextChange {
+  /** Provenance of the correction. Text anchor indexing into the Document.text. There can only be a single `TextAnchor.text_segments` element. If the start and end index of the text segment are the same, the text change is inserted before that index. */
+  textAnchor?: GoogleCloudDocumentaiV1DocumentTextAnchor | undefined;
+  /** The history of this annotation. */
+  provenance?: GoogleCloudDocumentaiV1DocumentProvenanceList | undefined;
+  /** The text that replaces the text identified in the `text_anchor`. */
+  changedText?: string | undefined;
 }
-/** Represents an image type block. */
-export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutImageBlock {
-  /** Text extracted from the image using OCR or alt text describing the image. */
-  imageText?: string;
-  /** Mime type of the image. An IANA published [media type (MIME type)] (https://www.iana.org/assignments/media-types/media-types.xhtml). */
-  mimeType?: string;
-  /** Optional. Asset ID of the inline image. If set, find the image content in the blob_assets field. */
-  blobAssetId?: string;
-  /** Optional. Google Cloud Storage URI of the image. */
-  gcsUri?: string;
-  /** Optional. Data URI of the image. It is composed of four parts: a prefix (data:), a MIME type indicating the type of data, an optional base64 token if non-textual, and the data itself: data:, */
-  dataUri?: string;
-  /** Annotation of the image block. */
-  annotations?: GoogleCloudDocumentaiV1DocumentAnnotations;
+export type GoogleCloudDocumentaiV1DocumentTextChangeList =
+  Array<GoogleCloudDocumentaiV1DocumentTextChange>;
+/** Represents a color in the RGBA color space. This representation is designed for simplicity of conversion to and from color representations in various languages over compactness. For example, the fields of this representation can be trivially provided to the constructor of `java.awt.Color` in Java; it can also be trivially provided to UIColor's `+colorWithRed:green:blue:alpha` method in iOS; and, with just a little work, it can be easily formatted into a CSS `rgba()` string in JavaScript. This reference page doesn't have information about the absolute color space that should be used to interpret the RGB value--for example, sRGB, Adobe RGB, DCI-P3, and BT.2020. By default, applications should assume the sRGB color space. When color equality needs to be decided, implementations, unless documented otherwise, treat two colors as equal if all their red, green, blue, and alpha values each differ by at most `1e-5`. Example (Java): import com.google.type.Color; // ... public static java.awt.Color fromProto(Color protocolor) { float alpha = protocolor.hasAlpha() ? protocolor.getAlpha().getValue() : 1.0; return new java.awt.Color( protocolor.getRed(), protocolor.getGreen(), protocolor.getBlue(), alpha); } public static Color toProto(java.awt.Color color) { float red = (float) color.getRed(); float green = (float) color.getGreen(); float blue = (float) color.getBlue(); float denominator = 255.0; Color.Builder resultBuilder = Color .newBuilder() .setRed(red / denominator) .setGreen(green / denominator) .setBlue(blue / denominator); int alpha = color.getAlpha(); if (alpha != 255) { result.setAlpha( FloatValue .newBuilder() .setValue(((float) alpha) / denominator) .build()); } return resultBuilder.build(); } // ... Example (iOS / Obj-C): // ... static UIColor* fromProto(Color* protocolor) { float red = [protocolor red]; float green = [protocolor green]; float blue = [protocolor blue]; FloatValue* alpha_wrapper = [protocolor alpha]; float alpha = 1.0; if (alpha_wrapper != nil) { alpha = [alpha_wrapper value]; } return [UIColor colorWithRed:red green:green blue:blue alpha:alpha]; } static Color* toProto(UIColor* color) { CGFloat red, green, blue, alpha; if (![color getRed:&red green:&green blue:&blue alpha:&alpha]) { return nil; } Color* result = [[Color alloc] init]; [result setRed:red]; [result setGreen:green]; [result setBlue:blue]; if (alpha <= 0.9999) { [result setAlpha:floatWrapperWithValue(alpha)]; } [result autorelease]; return result; } // ... Example (JavaScript): // ... var protoToCssColor = function(rgb_color) { var redFrac = rgb_color.red || 0.0; var greenFrac = rgb_color.green || 0.0; var blueFrac = rgb_color.blue || 0.0; var red = Math.floor(redFrac * 255); var green = Math.floor(greenFrac * 255); var blue = Math.floor(blueFrac * 255); if (!('alpha' in rgb_color)) { return rgbToCssColor(red, green, blue); } var alphaFrac = rgb_color.alpha.value || 0.0; var rgbParams = [red, green, blue].join(','); return ['rgba(', rgbParams, ',', alphaFrac, ')'].join(''); }; var rgbToCssColor = function(red, green, blue) { var rgbNumber = new Number((red << 16) | (green << 8) | blue); var hexString = rgbNumber.toString(16); var missingZeros = 6 - hexString.length; var resultBuilder = ['#']; for (var i = 0; i < missingZeros; i++) { resultBuilder.push('0'); } resultBuilder.push(hexString); return resultBuilder.join(''); }; // ... */
+export interface GoogleTypeColor {
+  /** The amount of red in the color as a value in the interval [0, 1]. */
+  red?: number | undefined;
+  /** The amount of green in the color as a value in the interval [0, 1]. */
+  green?: number | undefined;
+  /** The fraction of this color that should be applied to the pixel. That is, the final pixel color is defined by the equation: `pixel color = alpha * (this color) + (1.0 - alpha) * (background color)` This means that a value of 1.0 corresponds to a solid color, whereas a value of 0.0 corresponds to a completely transparent color. This uses a wrapper message rather than a simple float scalar so that it is possible to distinguish between a default value and the value being unset. If omitted, this color object is rendered as a solid color (as if the alpha value had been explicitly given a value of 1.0). */
+  alpha?: number | undefined;
+  /** The amount of blue in the color as a value in the interval [0, 1]. */
+  blue?: number | undefined;
 }
-/** Represents where the block starts and ends in the document. */
-export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan {
-  /** Page where block ends in the document. */
-  pageEnd?: number;
-  /** Page where block starts in the document. */
-  pageStart?: number;
+/** Font size with unit. */
+export interface GoogleCloudDocumentaiV1DocumentStyleFontSize {
+  /** Font size for the text. */
+  size?: number | undefined;
+  /** Unit for the font size. Follows CSS naming (such as `in`, `px`, and `pt`). */
+  unit?: string | undefined;
 }
-/** Represents an entry in the list. */
-export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry {
-  /** A list entry is a list of blocks. Repeated blocks support further hierarchies and nested blocks. */
-  blocks?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockList;
+/** Annotation for common text style attributes. This adheres to CSS conventions as much as possible. */
+export interface GoogleCloudDocumentaiV1DocumentStyle {
+  /** Text color. */
+  color?: GoogleTypeColor | undefined;
+  /** Font size. */
+  fontSize?: GoogleCloudDocumentaiV1DocumentStyleFontSize | undefined;
+  /** [Font weight](https://www.w3schools.com/cssref/pr_font_weight.asp). Possible values are `normal`, `bold`, `bolder`, and `lighter`. */
+  fontWeight?: string | undefined;
+  /** [Text decoration](https://www.w3schools.com/cssref/pr_text_text-decoration.asp). Follows CSS standard. */
+  textDecoration?: string | undefined;
+  /** Text anchor indexing into the Document.text. */
+  textAnchor?: GoogleCloudDocumentaiV1DocumentTextAnchor | undefined;
+  /** [Text style](https://www.w3schools.com/cssref/pr_font_font-style.asp). Possible values are `normal`, `italic`, and `oblique`. */
+  textStyle?: string | undefined;
+  /** Text background color. */
+  backgroundColor?: GoogleTypeColor | undefined;
+  /** Font family such as `Arial`, `Times New Roman`. https://www.w3schools.com/cssref/pr_font_font-family.asp */
+  fontFamily?: string | undefined;
 }
-export type GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntryList =
-  Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry>;
-/** Represents a list type block. */
-export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock {
-  /** Type of the list_entries (if exist). Available options are `ordered` and `unordered`. */
-  type?: string;
-  /** List entries that constitute a list block. */
-  listEntries?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntryList;
-}
-/** Represents a block. A block could be one of the various types (text, table, list) supported. */
-export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock {
-  /** Block consisting of text content. */
-  textBlock?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock;
-  /** Block consisting of table content/structure. */
-  tableBlock?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock;
-  /** Block consisting of image content. */
-  imageBlock?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutImageBlock;
-  /** Page span of the block. */
-  pageSpan?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan;
-  /** Block consisting of list content/structure. */
-  listBlock?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock;
-  /** ID of the block. */
-  blockId?: string;
-  /** Identifies the bounding box for the block. */
-  boundingBox?: GoogleCloudDocumentaiV1BoundingPoly;
-}
-export type GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockList =
-  Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock>;
-/** Represents the parsed layout of a document as a collection of blocks that the document is divided into. */
-export interface GoogleCloudDocumentaiV1DocumentDocumentLayout {
-  /** List of blocks in the document. */
-  blocks?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockList;
-}
-/** Relationship between Entities. */
-export interface GoogleCloudDocumentaiV1DocumentEntityRelation {
-  /** Object entity id. */
-  objectId?: string;
-  /** Relationship description. */
-  relation?: string;
-  /** Subject entity id. */
-  subjectId?: string;
-}
-export type GoogleCloudDocumentaiV1DocumentEntityRelationList =
-  Array<GoogleCloudDocumentaiV1DocumentEntityRelation>;
+export type GoogleCloudDocumentaiV1DocumentStyleList = Array<GoogleCloudDocumentaiV1DocumentStyle>;
 /** Human Review information of the document. */
 export interface GoogleCloudDocumentaiV1DocumentRevisionHumanReview {
-  /** Human review state. For example, `requested`, `succeeded`, `rejected`. */
-  state?: string;
   /** A message providing more details about the current state of processing. For example, the rejection reason when the state is `rejected`. */
-  stateMessage?: string;
+  stateMessage?: string | undefined;
+  /** Human review state. For example, `requested`, `succeeded`, `rejected`. */
+  state?: string | undefined;
 }
 /** Contains past or forward revisions of this document. */
 export interface GoogleCloudDocumentaiV1DocumentRevision {
-  /** If the change was made by a person specify the name or ID of that person. */
-  agent?: string;
   /** If the annotation was made by processor identify the processor by its resource name. */
-  processor?: string;
-  /** Human Review information of this revision. */
-  humanReview?: GoogleCloudDocumentaiV1DocumentRevisionHumanReview;
+  processor?: string | undefined;
   /** The revisions that this revision is based on. This can include one or more parent (when documents are merged.) This field represents the index into the `revisions` field. */
-  parent?: IntegerList;
+  parent?: IntegerList | undefined;
+  /** Human Review information of this revision. */
+  humanReview?: GoogleCloudDocumentaiV1DocumentRevisionHumanReview | undefined;
+  /** If the change was made by a person specify the name or ID of that person. */
+  agent?: string | undefined;
   /** The revisions that this revision is based on. Must include all the ids that have anything to do with this revision - eg. there are `provenance.parent.revision` fields that index into this field. */
-  parentIds?: StringList;
+  parentIds?: StringList | undefined;
   /** ID of the revision, internally generated by doc proto storage. Unique within the context of the document. */
-  id?: string;
+  id?: string | undefined;
   /** The time that the revision was created, internally generated by doc proto storage at the time of create. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentRevisionList =
   Array<GoogleCloudDocumentaiV1DocumentRevision>;
+/** Detected language for a structural component. */
+export interface GoogleCloudDocumentaiV1DocumentPageDetectedLanguage {
+  /** Confidence of detected language. Range `[0, 1]`. */
+  confidence?: number | undefined;
+  /** The [BCP-47 language code](https://www.unicode.org/reports/tr35/#Unicode_locale_identifier), such as `en-US` or `sr-Latn`. */
+  languageCode?: string | undefined;
+}
+export type GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList =
+  Array<GoogleCloudDocumentaiV1DocumentPageDetectedLanguage>;
 export type GoogleCloudDocumentaiV1DocumentPageLayoutOrientationEnum =
   | "ORIENTATION_UNSPECIFIED"
   | "PAGE_UP"
@@ -1008,123 +1032,126 @@ export type GoogleCloudDocumentaiV1DocumentPageLayoutOrientationEnum =
   | "PAGE_LEFT";
 /** Visual element describing a layout unit on a page. */
 export interface GoogleCloudDocumentaiV1DocumentPageLayout {
-  /** Detected orientation for the Layout. */
-  orientation?: GoogleCloudDocumentaiV1DocumentPageLayoutOrientationEnum | (string & {});
-  /** The bounding polygon for the Layout. */
-  boundingPoly?: GoogleCloudDocumentaiV1BoundingPoly;
-  /** Text anchor indexing into the Document.text. */
-  textAnchor?: GoogleCloudDocumentaiV1DocumentTextAnchor;
   /** Confidence of the current Layout within context of the object this layout is for. For example, confidence can be for a single token, a table, a visual element, etc. depending on context. Range `[0, 1]`. */
-  confidence?: number;
+  confidence?: number | undefined;
+  /** The bounding polygon for the Layout. */
+  boundingPoly?: GoogleCloudDocumentaiV1BoundingPoly | undefined;
+  /** Detected orientation for the Layout. */
+  orientation?:
+    | GoogleCloudDocumentaiV1DocumentPageLayoutOrientationEnum
+    | (string & {})
+    | undefined;
+  /** Text anchor indexing into the Document.text. */
+  textAnchor?: GoogleCloudDocumentaiV1DocumentTextAnchor | undefined;
 }
-/** Detected language for a structural component. */
-export interface GoogleCloudDocumentaiV1DocumentPageDetectedLanguage {
-  /** Confidence of detected language. Range `[0, 1]`. */
-  confidence?: number;
-  /** The [BCP-47 language code](https://www.unicode.org/reports/tr35/#Unicode_locale_identifier), such as `en-US` or `sr-Latn`. */
-  languageCode?: string;
+/** A block has a set of lines (collected into paragraphs) that have a common line-spacing and orientation. */
+export interface GoogleCloudDocumentaiV1DocumentPageBlock {
+  /** A list of detected languages together with confidence. */
+  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList | undefined;
+  /** The history of this annotation. */
+  provenance?: GoogleCloudDocumentaiV1DocumentProvenance | undefined;
+  /** Layout for Block. */
+  layout?: GoogleCloudDocumentaiV1DocumentPageLayout | undefined;
 }
-export type GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList =
-  Array<GoogleCloudDocumentaiV1DocumentPageDetectedLanguage>;
+export type GoogleCloudDocumentaiV1DocumentPageBlockList =
+  Array<GoogleCloudDocumentaiV1DocumentPageBlock>;
+/** Dimension for the page. */
+export interface GoogleCloudDocumentaiV1DocumentPageDimension {
+  /** Dimension unit. */
+  unit?: string | undefined;
+  /** Page height. */
+  height?: number | undefined;
+  /** Page width. */
+  width?: number | undefined;
+}
+/** Rendered image contents for this page. */
+export interface GoogleCloudDocumentaiV1DocumentPageImage {
+  /** Raw byte content of the image. */
+  content?: string | undefined;
+  /** Encoding [media type (MIME type)](https://www.iana.org/assignments/media-types/media-types.xhtml) for the image. */
+  mimeType?: string | undefined;
+  /** Height of the image in pixels. */
+  height?: number | undefined;
+  /** Width of the image in pixels. */
+  width?: number | undefined;
+}
+/** A collection of lines that a human would perceive as a paragraph. */
+export interface GoogleCloudDocumentaiV1DocumentPageParagraph {
+  /** Layout for Paragraph. */
+  layout?: GoogleCloudDocumentaiV1DocumentPageLayout | undefined;
+  /** A list of detected languages together with confidence. */
+  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList | undefined;
+  /** The history of this annotation. */
+  provenance?: GoogleCloudDocumentaiV1DocumentProvenance | undefined;
+}
+export type GoogleCloudDocumentaiV1DocumentPageParagraphList =
+  Array<GoogleCloudDocumentaiV1DocumentPageParagraph>;
 /** A cell representation inside the table. */
 export interface GoogleCloudDocumentaiV1DocumentPageTableTableCell {
-  /** How many columns this cell spans. */
-  colSpan?: number;
   /** A list of detected languages together with confidence. */
-  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList;
+  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList | undefined;
+  /** How many columns this cell spans. */
+  colSpan?: number | undefined;
   /** How many rows this cell spans. */
-  rowSpan?: number;
+  rowSpan?: number | undefined;
   /** Layout for TableCell. */
-  layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
+  layout?: GoogleCloudDocumentaiV1DocumentPageLayout | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentPageTableTableCellList =
   Array<GoogleCloudDocumentaiV1DocumentPageTableTableCell>;
 /** A row of table cells. */
 export interface GoogleCloudDocumentaiV1DocumentPageTableTableRow {
   /** Cells that make up this row. */
-  cells?: GoogleCloudDocumentaiV1DocumentPageTableTableCellList;
+  cells?: GoogleCloudDocumentaiV1DocumentPageTableTableCellList | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentPageTableTableRowList =
   Array<GoogleCloudDocumentaiV1DocumentPageTableTableRow>;
 /** A table representation similar to HTML table structure. */
 export interface GoogleCloudDocumentaiV1DocumentPageTable {
   /** Layout for Table. */
-  layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
-  /** The history of this table. */
-  provenance?: GoogleCloudDocumentaiV1DocumentProvenance;
-  /** A list of detected languages together with confidence. */
-  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList;
-  /** Body rows of the table. */
-  bodyRows?: GoogleCloudDocumentaiV1DocumentPageTableTableRowList;
+  layout?: GoogleCloudDocumentaiV1DocumentPageLayout | undefined;
   /** Header rows of the table. */
-  headerRows?: GoogleCloudDocumentaiV1DocumentPageTableTableRowList;
+  headerRows?: GoogleCloudDocumentaiV1DocumentPageTableTableRowList | undefined;
+  /** Body rows of the table. */
+  bodyRows?: GoogleCloudDocumentaiV1DocumentPageTableTableRowList | undefined;
+  /** A list of detected languages together with confidence. */
+  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList | undefined;
+  /** The history of this table. */
+  provenance?: GoogleCloudDocumentaiV1DocumentProvenance | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentPageTableList =
   Array<GoogleCloudDocumentaiV1DocumentPageTable>;
+/** Image Quality Defects */
+export interface GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect {
+  /** Name of the defect type. Supported values are: - `quality/defect_blurry` - `quality/defect_noisy` - `quality/defect_dark` - `quality/defect_faint` - `quality/defect_text_too_small` - `quality/defect_document_cutoff` - `quality/defect_text_cutoff` - `quality/defect_glare` */
+  type?: string | undefined;
+  /** Confidence of detected defect. Range `[0, 1]` where `1` indicates strong confidence that the defect exists. */
+  confidence?: number | undefined;
+}
+export type GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefectList =
+  Array<GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect>;
+/** Image quality scores for the page image. */
+export interface GoogleCloudDocumentaiV1DocumentPageImageQualityScores {
+  /** The overall quality score. Range `[0, 1]` where `1` is perfect quality. */
+  qualityScore?: number | undefined;
+  /** A list of detected defects. */
+  detectedDefects?:
+    | GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefectList
+    | undefined;
+}
 /** Representation for transformation matrix, intended to be compatible and used with OpenCV format for image manipulation. */
 export interface GoogleCloudDocumentaiV1DocumentPageMatrix {
-  /** Number of rows in the matrix. */
-  rows?: number;
   /** Number of columns in the matrix. */
-  cols?: number;
+  cols?: number | undefined;
   /** This encodes information about what data type the matrix uses. For example, 0 (CV_8U) is an unsigned 8-bit image. For the full list of OpenCV primitive data types, please refer to https://docs.opencv.org/4.3.0/d1/d1b/group__core__hal__interface.html */
-  type?: number;
+  type?: number | undefined;
+  /** Number of rows in the matrix. */
+  rows?: number | undefined;
   /** The matrix data. */
-  data?: string;
+  data?: string | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentPageMatrixList =
   Array<GoogleCloudDocumentaiV1DocumentPageMatrix>;
-/** Rendered image contents for this page. */
-export interface GoogleCloudDocumentaiV1DocumentPageImage {
-  /** Height of the image in pixels. */
-  height?: number;
-  /** Encoding [media type (MIME type)](https://www.iana.org/assignments/media-types/media-types.xhtml) for the image. */
-  mimeType?: string;
-  /** Width of the image in pixels. */
-  width?: number;
-  /** Raw byte content of the image. */
-  content?: string;
-}
-/** A collection of lines that a human would perceive as a paragraph. */
-export interface GoogleCloudDocumentaiV1DocumentPageParagraph {
-  /** The history of this annotation. */
-  provenance?: GoogleCloudDocumentaiV1DocumentProvenance;
-  /** A list of detected languages together with confidence. */
-  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList;
-  /** Layout for Paragraph. */
-  layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
-}
-export type GoogleCloudDocumentaiV1DocumentPageParagraphList =
-  Array<GoogleCloudDocumentaiV1DocumentPageParagraph>;
-/** Encodes the detailed information of a barcode. */
-export interface GoogleCloudDocumentaiV1Barcode {
-  /** Format of a barcode. The supported formats are: - `CODE_128`: Code 128 type. - `CODE_39`: Code 39 type. - `CODE_93`: Code 93 type. - `CODABAR`: Codabar type. - `DATA_MATRIX`: 2D Data Matrix type. - `ITF`: ITF type. - `EAN_13`: EAN-13 type. - `EAN_8`: EAN-8 type. - `QR_CODE`: 2D QR code type. - `UPC_A`: UPC-A type. - `UPC_E`: UPC-E type. - `PDF417`: PDF417 type. - `AZTEC`: 2D Aztec code type. - `DATABAR`: GS1 DataBar code type. */
-  format?: string;
-  /** Raw value encoded in the barcode. For example: `'MEBKM:TITLE:Google;URL:https://www.google.com;;'`. */
-  rawValue?: string;
-  /** Value format describes the format of the value that a barcode encodes. The supported formats are: - `CONTACT_INFO`: Contact information. - `EMAIL`: Email address. - `ISBN`: ISBN identifier. - `PHONE`: Phone number. - `PRODUCT`: Product. - `SMS`: SMS message. - `TEXT`: Text string. - `URL`: URL address. - `WIFI`: Wifi information. - `GEO`: Geo-localization. - `CALENDAR_EVENT`: Calendar event. - `DRIVER_LICENSE`: Driver's license. */
-  valueFormat?: string;
-}
-/** A detected barcode. */
-export interface GoogleCloudDocumentaiV1DocumentPageDetectedBarcode {
-  /** Detailed barcode information of the DetectedBarcode. */
-  barcode?: GoogleCloudDocumentaiV1Barcode;
-  /** Layout for DetectedBarcode. */
-  layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
-}
-export type GoogleCloudDocumentaiV1DocumentPageDetectedBarcodeList =
-  Array<GoogleCloudDocumentaiV1DocumentPageDetectedBarcode>;
-/** A collection of tokens that a human would perceive as a line. Does not cross column boundaries, can be horizontal, vertical, etc. */
-export interface GoogleCloudDocumentaiV1DocumentPageLine {
-  /** A list of detected languages together with confidence. */
-  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList;
-  /** The history of this annotation. */
-  provenance?: GoogleCloudDocumentaiV1DocumentProvenance;
-  /** Layout for Line. */
-  layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
-}
-export type GoogleCloudDocumentaiV1DocumentPageLineList =
-  Array<GoogleCloudDocumentaiV1DocumentPageLine>;
 export type GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreakTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "SPACE"
@@ -1133,356 +1160,371 @@ export type GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreakTypeEnum =
 /** Detected break at the end of a Token. */
 export interface GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak {
   /** Detected break type. */
-  type?: GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreakTypeEnum | (string & {});
-}
-/** Represents a color in the RGBA color space. This representation is designed for simplicity of conversion to and from color representations in various languages over compactness. For example, the fields of this representation can be trivially provided to the constructor of `java.awt.Color` in Java; it can also be trivially provided to UIColor's `+colorWithRed:green:blue:alpha` method in iOS; and, with just a little work, it can be easily formatted into a CSS `rgba()` string in JavaScript. This reference page doesn't have information about the absolute color space that should be used to interpret the RGB value--for example, sRGB, Adobe RGB, DCI-P3, and BT.2020. By default, applications should assume the sRGB color space. When color equality needs to be decided, implementations, unless documented otherwise, treat two colors as equal if all their red, green, blue, and alpha values each differ by at most `1e-5`. Example (Java): import com.google.type.Color; // ... public static java.awt.Color fromProto(Color protocolor) { float alpha = protocolor.hasAlpha() ? protocolor.getAlpha().getValue() : 1.0; return new java.awt.Color( protocolor.getRed(), protocolor.getGreen(), protocolor.getBlue(), alpha); } public static Color toProto(java.awt.Color color) { float red = (float) color.getRed(); float green = (float) color.getGreen(); float blue = (float) color.getBlue(); float denominator = 255.0; Color.Builder resultBuilder = Color .newBuilder() .setRed(red / denominator) .setGreen(green / denominator) .setBlue(blue / denominator); int alpha = color.getAlpha(); if (alpha != 255) { result.setAlpha( FloatValue .newBuilder() .setValue(((float) alpha) / denominator) .build()); } return resultBuilder.build(); } // ... Example (iOS / Obj-C): // ... static UIColor* fromProto(Color* protocolor) { float red = [protocolor red]; float green = [protocolor green]; float blue = [protocolor blue]; FloatValue* alpha_wrapper = [protocolor alpha]; float alpha = 1.0; if (alpha_wrapper != nil) { alpha = [alpha_wrapper value]; } return [UIColor colorWithRed:red green:green blue:blue alpha:alpha]; } static Color* toProto(UIColor* color) { CGFloat red, green, blue, alpha; if (![color getRed:&red green:&green blue:&blue alpha:&alpha]) { return nil; } Color* result = [[Color alloc] init]; [result setRed:red]; [result setGreen:green]; [result setBlue:blue]; if (alpha <= 0.9999) { [result setAlpha:floatWrapperWithValue(alpha)]; } [result autorelease]; return result; } // ... Example (JavaScript): // ... var protoToCssColor = function(rgb_color) { var redFrac = rgb_color.red || 0.0; var greenFrac = rgb_color.green || 0.0; var blueFrac = rgb_color.blue || 0.0; var red = Math.floor(redFrac * 255); var green = Math.floor(greenFrac * 255); var blue = Math.floor(blueFrac * 255); if (!('alpha' in rgb_color)) { return rgbToCssColor(red, green, blue); } var alphaFrac = rgb_color.alpha.value || 0.0; var rgbParams = [red, green, blue].join(','); return ['rgba(', rgbParams, ',', alphaFrac, ')'].join(''); }; var rgbToCssColor = function(red, green, blue) { var rgbNumber = new Number((red << 16) | (green << 8) | blue); var hexString = rgbNumber.toString(16); var missingZeros = 6 - hexString.length; var resultBuilder = ['#']; for (var i = 0; i < missingZeros; i++) { resultBuilder.push('0'); } resultBuilder.push(hexString); return resultBuilder.join(''); }; // ... */
-export interface GoogleTypeColor {
-  /** The amount of red in the color as a value in the interval [0, 1]. */
-  red?: number;
-  /** The amount of blue in the color as a value in the interval [0, 1]. */
-  blue?: number;
-  /** The fraction of this color that should be applied to the pixel. That is, the final pixel color is defined by the equation: `pixel color = alpha * (this color) + (1.0 - alpha) * (background color)` This means that a value of 1.0 corresponds to a solid color, whereas a value of 0.0 corresponds to a completely transparent color. This uses a wrapper message rather than a simple float scalar so that it is possible to distinguish between a default value and the value being unset. If omitted, this color object is rendered as a solid color (as if the alpha value had been explicitly given a value of 1.0). */
-  alpha?: number;
-  /** The amount of green in the color as a value in the interval [0, 1]. */
-  green?: number;
+  type?: GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreakTypeEnum | (string & {}) | undefined;
 }
 /** Font and other text style attributes. */
 export interface GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo {
-  /** Whether the text is a superscript. This feature is not supported yet. */
-  superscript?: boolean;
-  /** TrueType weight on a scale `100` (thin) to `1000` (ultra-heavy). Normal is `400`, bold is `700`. */
-  fontWeight?: number;
-  /** Color of the text. */
-  textColor?: GoogleTypeColor;
-  /** Whether the text is handwritten. */
-  handwritten?: boolean;
-  /** Whether the text is bold (equivalent to font_weight is at least `700`). */
-  bold?: boolean;
-  /** Whether the text is underlined. */
-  underlined?: boolean;
-  /** Color of the background. */
-  backgroundColor?: GoogleTypeColor;
-  /** Letter spacing in points. */
-  letterSpacing?: number;
-  /** Whether the text is in small caps. This feature is not supported yet. */
-  smallcaps?: boolean;
-  /** Font size in pixels, equal to _unrounded font_size_ * _resolution_ ÷ `72.0`. */
-  pixelFontSize?: number;
-  /** Whether the text is strikethrough. This feature is not supported yet. */
-  strikeout?: boolean;
-  /** Whether the text is a subscript. This feature is not supported yet. */
-  subscript?: boolean;
   /** Name or style of the font. */
-  fontType?: string;
+  fontType?: string | undefined;
+  /** Whether the text is strikethrough. This feature is not supported yet. */
+  strikeout?: boolean | undefined;
+  /** Whether the text is a subscript. This feature is not supported yet. */
+  subscript?: boolean | undefined;
+  /** Whether the text is bold (equivalent to font_weight is at least `700`). */
+  bold?: boolean | undefined;
+  /** Font size in pixels, equal to _unrounded font_size_ * _resolution_ ÷ `72.0`. */
+  pixelFontSize?: number | undefined;
+  /** TrueType weight on a scale `100` (thin) to `1000` (ultra-heavy). Normal is `400`, bold is `700`. */
+  fontWeight?: number | undefined;
+  /** Whether the text is handwritten. */
+  handwritten?: boolean | undefined;
+  /** Whether the text is in small caps. This feature is not supported yet. */
+  smallcaps?: boolean | undefined;
   /** Font size in points (`1` point is `¹U+2044U+2087U+2082` inches). */
-  fontSize?: number;
+  fontSize?: number | undefined;
+  /** Color of the background. */
+  backgroundColor?: GoogleTypeColor | undefined;
+  /** Whether the text is underlined. */
+  underlined?: boolean | undefined;
   /** Whether the text is italic. */
-  italic?: boolean;
+  italic?: boolean | undefined;
+  /** Letter spacing in points. */
+  letterSpacing?: number | undefined;
+  /** Color of the text. */
+  textColor?: GoogleTypeColor | undefined;
+  /** Whether the text is a superscript. This feature is not supported yet. */
+  superscript?: boolean | undefined;
 }
 /** A detected token. */
 export interface GoogleCloudDocumentaiV1DocumentPageToken {
-  /** A list of detected languages together with confidence. */
-  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList;
-  /** Detected break at the end of a Token. */
-  detectedBreak?: GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak;
-  /** The history of this annotation. */
-  provenance?: GoogleCloudDocumentaiV1DocumentProvenance;
   /** Layout for Token. */
-  layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
+  layout?: GoogleCloudDocumentaiV1DocumentPageLayout | undefined;
+  /** A list of detected languages together with confidence. */
+  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList | undefined;
+  /** The history of this annotation. */
+  provenance?: GoogleCloudDocumentaiV1DocumentProvenance | undefined;
+  /** Detected break at the end of a Token. */
+  detectedBreak?: GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak | undefined;
   /** Text style attributes. */
-  styleInfo?: GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo;
+  styleInfo?: GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentPageTokenList =
   Array<GoogleCloudDocumentaiV1DocumentPageToken>;
+/** Detected non-text visual elements, for example, checkbox, signature etc. on the page. */
+export interface GoogleCloudDocumentaiV1DocumentPageVisualElement {
+  /** A list of detected languages together with confidence. */
+  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList | undefined;
+  /** Layout for VisualElement. */
+  layout?: GoogleCloudDocumentaiV1DocumentPageLayout | undefined;
+  /** Type of the VisualElement. */
+  type?: string | undefined;
+}
+export type GoogleCloudDocumentaiV1DocumentPageVisualElementList =
+  Array<GoogleCloudDocumentaiV1DocumentPageVisualElement>;
 /** A form field detected on the page. */
 export interface GoogleCloudDocumentaiV1DocumentPageFormField {
-  /** A list of detected languages for value together with confidence. */
-  valueDetectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList;
-  /** Created for Labeling UI to export value text. If corrections were made to the text identified by the `field_value.text_anchor`, this field will contain the correction. */
-  correctedValueText?: string;
-  /** If the value is non-textual, this field represents the type. Current valid values are: - blank (this indicates the `field_value` is normal text) - `unfilled_checkbox` - `filled_checkbox` */
-  valueType?: string;
-  /** Created for Labeling UI to export key text. If corrections were made to the text identified by the `field_name.text_anchor`, this field will contain the correction. */
-  correctedKeyText?: string;
   /** Layout for the FormField value. */
-  fieldValue?: GoogleCloudDocumentaiV1DocumentPageLayout;
-  /** A list of detected languages for name together with confidence. */
-  nameDetectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList;
-  /** The history of this annotation. */
-  provenance?: GoogleCloudDocumentaiV1DocumentProvenance;
+  fieldValue?: GoogleCloudDocumentaiV1DocumentPageLayout | undefined;
   /** Layout for the FormField name. For example, `Address`, `Email`, `Grand total`, `Phone number`, etc. */
-  fieldName?: GoogleCloudDocumentaiV1DocumentPageLayout;
+  fieldName?: GoogleCloudDocumentaiV1DocumentPageLayout | undefined;
+  /** If the value is non-textual, this field represents the type. Current valid values are: - blank (this indicates the `field_value` is normal text) - `unfilled_checkbox` - `filled_checkbox` */
+  valueType?: string | undefined;
+  /** Created for Labeling UI to export key text. If corrections were made to the text identified by the `field_name.text_anchor`, this field will contain the correction. */
+  correctedKeyText?: string | undefined;
+  /** A list of detected languages for value together with confidence. */
+  valueDetectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList | undefined;
+  /** Created for Labeling UI to export value text. If corrections were made to the text identified by the `field_value.text_anchor`, this field will contain the correction. */
+  correctedValueText?: string | undefined;
+  /** The history of this annotation. */
+  provenance?: GoogleCloudDocumentaiV1DocumentProvenance | undefined;
+  /** A list of detected languages for name together with confidence. */
+  nameDetectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentPageFormFieldList =
   Array<GoogleCloudDocumentaiV1DocumentPageFormField>;
 /** A detected symbol. */
 export interface GoogleCloudDocumentaiV1DocumentPageSymbol {
   /** Layout for Symbol. */
-  layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
+  layout?: GoogleCloudDocumentaiV1DocumentPageLayout | undefined;
   /** A list of detected languages together with confidence. */
-  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList;
+  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentPageSymbolList =
   Array<GoogleCloudDocumentaiV1DocumentPageSymbol>;
-/** A block has a set of lines (collected into paragraphs) that have a common line-spacing and orientation. */
-export interface GoogleCloudDocumentaiV1DocumentPageBlock {
-  /** Layout for Block. */
-  layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
-  /** A list of detected languages together with confidence. */
-  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList;
+/** A collection of tokens that a human would perceive as a line. Does not cross column boundaries, can be horizontal, vertical, etc. */
+export interface GoogleCloudDocumentaiV1DocumentPageLine {
   /** The history of this annotation. */
-  provenance?: GoogleCloudDocumentaiV1DocumentProvenance;
-}
-export type GoogleCloudDocumentaiV1DocumentPageBlockList =
-  Array<GoogleCloudDocumentaiV1DocumentPageBlock>;
-/** Detected non-text visual elements, for example, checkbox, signature etc. on the page. */
-export interface GoogleCloudDocumentaiV1DocumentPageVisualElement {
-  /** Layout for VisualElement. */
-  layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
+  provenance?: GoogleCloudDocumentaiV1DocumentProvenance | undefined;
   /** A list of detected languages together with confidence. */
-  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList;
-  /** Type of the VisualElement. */
-  type?: string;
+  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList | undefined;
+  /** Layout for Line. */
+  layout?: GoogleCloudDocumentaiV1DocumentPageLayout | undefined;
 }
-export type GoogleCloudDocumentaiV1DocumentPageVisualElementList =
-  Array<GoogleCloudDocumentaiV1DocumentPageVisualElement>;
-/** Image Quality Defects */
-export interface GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect {
-  /** Name of the defect type. Supported values are: - `quality/defect_blurry` - `quality/defect_noisy` - `quality/defect_dark` - `quality/defect_faint` - `quality/defect_text_too_small` - `quality/defect_document_cutoff` - `quality/defect_text_cutoff` - `quality/defect_glare` */
-  type?: string;
-  /** Confidence of detected defect. Range `[0, 1]` where `1` indicates strong confidence that the defect exists. */
-  confidence?: number;
+export type GoogleCloudDocumentaiV1DocumentPageLineList =
+  Array<GoogleCloudDocumentaiV1DocumentPageLine>;
+/** Encodes the detailed information of a barcode. */
+export interface GoogleCloudDocumentaiV1Barcode {
+  /** Format of a barcode. The supported formats are: - `CODE_128`: Code 128 type. - `CODE_39`: Code 39 type. - `CODE_93`: Code 93 type. - `CODABAR`: Codabar type. - `DATA_MATRIX`: 2D Data Matrix type. - `ITF`: ITF type. - `EAN_13`: EAN-13 type. - `EAN_8`: EAN-8 type. - `QR_CODE`: 2D QR code type. - `UPC_A`: UPC-A type. - `UPC_E`: UPC-E type. - `PDF417`: PDF417 type. - `AZTEC`: 2D Aztec code type. - `DATABAR`: GS1 DataBar code type. */
+  format?: string | undefined;
+  /** Raw value encoded in the barcode. For example: `'MEBKM:TITLE:Google;URL:https://www.google.com;;'`. */
+  rawValue?: string | undefined;
+  /** Value format describes the format of the value that a barcode encodes. The supported formats are: - `CONTACT_INFO`: Contact information. - `EMAIL`: Email address. - `ISBN`: ISBN identifier. - `PHONE`: Phone number. - `PRODUCT`: Product. - `SMS`: SMS message. - `TEXT`: Text string. - `URL`: URL address. - `WIFI`: Wifi information. - `GEO`: Geo-localization. - `CALENDAR_EVENT`: Calendar event. - `DRIVER_LICENSE`: Driver's license. */
+  valueFormat?: string | undefined;
 }
-export type GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefectList =
-  Array<GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect>;
-/** Image quality scores for the page image. */
-export interface GoogleCloudDocumentaiV1DocumentPageImageQualityScores {
-  /** The overall quality score. Range `[0, 1]` where `1` is perfect quality. */
-  qualityScore?: number;
-  /** A list of detected defects. */
-  detectedDefects?: GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefectList;
+/** A detected barcode. */
+export interface GoogleCloudDocumentaiV1DocumentPageDetectedBarcode {
+  /** Detailed barcode information of the DetectedBarcode. */
+  barcode?: GoogleCloudDocumentaiV1Barcode | undefined;
+  /** Layout for DetectedBarcode. */
+  layout?: GoogleCloudDocumentaiV1DocumentPageLayout | undefined;
 }
-/** Dimension for the page. */
-export interface GoogleCloudDocumentaiV1DocumentPageDimension {
-  /** Dimension unit. */
-  unit?: string;
-  /** Page width. */
-  width?: number;
-  /** Page height. */
-  height?: number;
-}
+export type GoogleCloudDocumentaiV1DocumentPageDetectedBarcodeList =
+  Array<GoogleCloudDocumentaiV1DocumentPageDetectedBarcode>;
 /** A page in a Document. */
 export interface GoogleCloudDocumentaiV1DocumentPage {
-  /** A list of visually detected tables on the page. */
-  tables?: GoogleCloudDocumentaiV1DocumentPageTableList;
-  /** Transformation matrices that were applied to the original document image to produce Page.image. */
-  transforms?: GoogleCloudDocumentaiV1DocumentPageMatrixList;
-  /** Rendered image for this page. This image is preprocessed to remove any skew, rotation, and distortions such that the annotation bounding boxes can be upright and axis-aligned. */
-  image?: GoogleCloudDocumentaiV1DocumentPageImage;
-  /** 1-based index for current Page in a parent Document. Useful when a page is taken out of a Document for individual processing. */
-  pageNumber?: number;
-  /** A list of visually detected text paragraphs on the page. A collection of lines that a human would perceive as a paragraph. */
-  paragraphs?: GoogleCloudDocumentaiV1DocumentPageParagraphList;
-  /** The history of this page. */
-  provenance?: GoogleCloudDocumentaiV1DocumentProvenance;
-  /** A list of detected barcodes. */
-  detectedBarcodes?: GoogleCloudDocumentaiV1DocumentPageDetectedBarcodeList;
-  /** A list of visually detected text lines on the page. A collection of tokens that a human would perceive as a line. */
-  lines?: GoogleCloudDocumentaiV1DocumentPageLineList;
-  /** A list of visually detected tokens on the page. */
-  tokens?: GoogleCloudDocumentaiV1DocumentPageTokenList;
-  /** A list of visually detected form fields on the page. */
-  formFields?: GoogleCloudDocumentaiV1DocumentPageFormFieldList;
-  /** A list of detected languages together with confidence. */
-  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList;
-  /** Layout for the page. */
-  layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
-  /** A list of visually detected symbols on the page. */
-  symbols?: GoogleCloudDocumentaiV1DocumentPageSymbolList;
   /** A list of visually detected text blocks on the page. A block has a set of lines (collected into paragraphs) that have a common line-spacing and orientation. */
-  blocks?: GoogleCloudDocumentaiV1DocumentPageBlockList;
-  /** A list of detected non-text visual elements, for example, checkbox, signature etc. on the page. */
-  visualElements?: GoogleCloudDocumentaiV1DocumentPageVisualElementList;
-  /** Image quality scores. */
-  imageQualityScores?: GoogleCloudDocumentaiV1DocumentPageImageQualityScores;
+  blocks?: GoogleCloudDocumentaiV1DocumentPageBlockList | undefined;
   /** Physical dimension of the page. */
-  dimension?: GoogleCloudDocumentaiV1DocumentPageDimension;
+  dimension?: GoogleCloudDocumentaiV1DocumentPageDimension | undefined;
+  /** Rendered image for this page. This image is preprocessed to remove any skew, rotation, and distortions such that the annotation bounding boxes can be upright and axis-aligned. */
+  image?: GoogleCloudDocumentaiV1DocumentPageImage | undefined;
+  /** A list of visually detected text paragraphs on the page. A collection of lines that a human would perceive as a paragraph. */
+  paragraphs?: GoogleCloudDocumentaiV1DocumentPageParagraphList | undefined;
+  /** 1-based index for current Page in a parent Document. Useful when a page is taken out of a Document for individual processing. */
+  pageNumber?: number | undefined;
+  /** A list of visually detected tables on the page. */
+  tables?: GoogleCloudDocumentaiV1DocumentPageTableList | undefined;
+  /** Layout for the page. */
+  layout?: GoogleCloudDocumentaiV1DocumentPageLayout | undefined;
+  /** Image quality scores. */
+  imageQualityScores?: GoogleCloudDocumentaiV1DocumentPageImageQualityScores | undefined;
+  /** Transformation matrices that were applied to the original document image to produce Page.image. */
+  transforms?: GoogleCloudDocumentaiV1DocumentPageMatrixList | undefined;
+  /** A list of visually detected tokens on the page. */
+  tokens?: GoogleCloudDocumentaiV1DocumentPageTokenList | undefined;
+  /** A list of detected non-text visual elements, for example, checkbox, signature etc. on the page. */
+  visualElements?: GoogleCloudDocumentaiV1DocumentPageVisualElementList | undefined;
+  /** A list of visually detected form fields on the page. */
+  formFields?: GoogleCloudDocumentaiV1DocumentPageFormFieldList | undefined;
+  /** A list of detected languages together with confidence. */
+  detectedLanguages?: GoogleCloudDocumentaiV1DocumentPageDetectedLanguageList | undefined;
+  /** A list of visually detected symbols on the page. */
+  symbols?: GoogleCloudDocumentaiV1DocumentPageSymbolList | undefined;
+  /** A list of visually detected text lines on the page. A collection of tokens that a human would perceive as a line. */
+  lines?: GoogleCloudDocumentaiV1DocumentPageLineList | undefined;
+  /** A list of detected barcodes. */
+  detectedBarcodes?: GoogleCloudDocumentaiV1DocumentPageDetectedBarcodeList | undefined;
+  /** The history of this page. */
+  provenance?: GoogleCloudDocumentaiV1DocumentProvenance | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentPageList = Array<GoogleCloudDocumentaiV1DocumentPage>;
-/** Entity revision. */
-export interface GoogleCloudDocumentaiV1DocumentEntitiesRevision {
-  /** The revision id. */
-  revisionId?: string;
-  /** The entity validation output for this revision. */
-  entityValidationOutput?: GoogleCloudDocumentaiV1DocumentEntityValidationOutput;
-  /** The entities in this revision. */
-  entities?: GoogleCloudDocumentaiV1DocumentEntityList;
-  /** Optional. The history of this revision. */
-  provenance?: GoogleCloudDocumentaiV1DocumentProvenance;
+/** Represents a text type block. */
+export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock {
+  /** Text content stored in the block. */
+  text?: string | undefined;
+  /** A text block could further have child blocks. Repeated blocks support further hierarchies and nested blocks. */
+  blocks?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockList | undefined;
+  /** Annotation of the text block. */
+  annotations?: GoogleCloudDocumentaiV1DocumentAnnotations | undefined;
+  /** Type of the text in the block. Available options are: `paragraph`, `subtitle`, `heading-1`, `heading-2`, `heading-3`, `heading-4`, `heading-5`, `header`, `footer`. */
+  type?: string | undefined;
 }
-export type GoogleCloudDocumentaiV1DocumentEntitiesRevisionList =
-  Array<GoogleCloudDocumentaiV1DocumentEntitiesRevision>;
-/** For a large document, sharding may be performed to produce several document shards. Each document shard contains this field to detail which shard it is. */
-export interface GoogleCloudDocumentaiV1DocumentShardInfo {
-  /** Total number of shards. */
-  shardCount?: string;
-  /** The index of the first character in Document.text in the overall document global text. */
-  textOffset?: string;
-  /** The index of the first page in Document.pages in the overall document global pages. Available for document shards created by the document splitter. */
-  pageOffset?: number;
-  /** The 0-based index of this shard. */
-  shardIndex?: string;
+/** Represents an entry in the list. */
+export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry {
+  /** A list entry is a list of blocks. Repeated blocks support further hierarchies and nested blocks. */
+  blocks?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockList | undefined;
 }
-/** Font size with unit. */
-export interface GoogleCloudDocumentaiV1DocumentStyleFontSize {
-  /** Unit for the font size. Follows CSS naming (such as `in`, `px`, and `pt`). */
-  unit?: string;
-  /** Font size for the text. */
-  size?: number;
+export type GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntryList =
+  Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry>;
+/** Represents a list type block. */
+export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock {
+  /** List entries that constitute a list block. */
+  listEntries?:
+    | GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntryList
+    | undefined;
+  /** Type of the list_entries (if exist). Available options are `ordered` and `unordered`. */
+  type?: string | undefined;
 }
-/** Annotation for common text style attributes. This adheres to CSS conventions as much as possible. */
-export interface GoogleCloudDocumentaiV1DocumentStyle {
-  /** Text background color. */
-  backgroundColor?: GoogleTypeColor;
-  /** [Text decoration](https://www.w3schools.com/cssref/pr_text_text-decoration.asp). Follows CSS standard. */
-  textDecoration?: string;
-  /** Text color. */
-  color?: GoogleTypeColor;
-  /** Font size. */
-  fontSize?: GoogleCloudDocumentaiV1DocumentStyleFontSize;
-  /** Text anchor indexing into the Document.text. */
-  textAnchor?: GoogleCloudDocumentaiV1DocumentTextAnchor;
-  /** [Font weight](https://www.w3schools.com/cssref/pr_font_weight.asp). Possible values are `normal`, `bold`, `bolder`, and `lighter`. */
-  fontWeight?: string;
-  /** Font family such as `Arial`, `Times New Roman`. https://www.w3schools.com/cssref/pr_font_font-family.asp */
-  fontFamily?: string;
-  /** [Text style](https://www.w3schools.com/cssref/pr_font_font-style.asp). Possible values are `normal`, `italic`, and `oblique`. */
-  textStyle?: string;
+/** Represents an image type block. */
+export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutImageBlock {
+  /** Text extracted from the image using OCR or alt text describing the image. */
+  imageText?: string | undefined;
+  /** Optional. Asset ID of the inline image. If set, find the image content in the blob_assets field. */
+  blobAssetId?: string | undefined;
+  /** Optional. Data URI of the image. It is composed of four parts: a prefix (data:), a MIME type indicating the type of data, an optional base64 token if non-textual, and the data itself: data:, */
+  dataUri?: string | undefined;
+  /** Optional. Google Cloud Storage URI of the image. */
+  gcsUri?: string | undefined;
+  /** Annotation of the image block. */
+  annotations?: GoogleCloudDocumentaiV1DocumentAnnotations | undefined;
+  /** Mime type of the image. An IANA published [media type (MIME type)] (https://www.iana.org/assignments/media-types/media-types.xhtml). */
+  mimeType?: string | undefined;
 }
-export type GoogleCloudDocumentaiV1DocumentStyleList = Array<GoogleCloudDocumentaiV1DocumentStyle>;
-export type GoogleCloudDocumentaiV1DocumentProvenanceList =
-  Array<GoogleCloudDocumentaiV1DocumentProvenance>;
-/** This message is used for text changes aka. OCR corrections. */
-export interface GoogleCloudDocumentaiV1DocumentTextChange {
-  /** The text that replaces the text identified in the `text_anchor`. */
-  changedText?: string;
-  /** The history of this annotation. */
-  provenance?: GoogleCloudDocumentaiV1DocumentProvenanceList;
-  /** Provenance of the correction. Text anchor indexing into the Document.text. There can only be a single `TextAnchor.text_segments` element. If the start and end index of the text segment are the same, the text change is inserted before that index. */
-  textAnchor?: GoogleCloudDocumentaiV1DocumentTextAnchor;
+/** Represents a cell in a table row. */
+export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell {
+  /** How many columns this cell spans. */
+  colSpan?: number | undefined;
+  /** A table cell is a list of blocks. Repeated blocks support further hierarchies and nested blocks. */
+  blocks?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockList | undefined;
+  /** How many rows this cell spans. */
+  rowSpan?: number | undefined;
 }
-export type GoogleCloudDocumentaiV1DocumentTextChangeList =
-  Array<GoogleCloudDocumentaiV1DocumentTextChange>;
+export type GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCellList =
+  Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell>;
+/** Represents a row in a table. */
+export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow {
+  /** A table row is a list of table cells. */
+  cells?:
+    | GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCellList
+    | undefined;
+}
+export type GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRowList =
+  Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow>;
+/** Represents a table type block. */
+export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock {
+  /** Annotation of the table block. */
+  annotations?: GoogleCloudDocumentaiV1DocumentAnnotations | undefined;
+  /** Body rows containing main table content. */
+  bodyRows?:
+    | GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRowList
+    | undefined;
+  /** Header rows at the top of the table. */
+  headerRows?:
+    | GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRowList
+    | undefined;
+  /** Table caption/title. */
+  caption?: string | undefined;
+}
+/** Represents where the block starts and ends in the document. */
+export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan {
+  /** Page where block starts in the document. */
+  pageStart?: number | undefined;
+  /** Page where block ends in the document. */
+  pageEnd?: number | undefined;
+}
+/** Represents a block. A block could be one of the various types (text, table, list) supported. */
+export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock {
+  /** ID of the block. */
+  blockId?: string | undefined;
+  /** Block consisting of text content. */
+  textBlock?:
+    | GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock
+    | undefined;
+  /** Block consisting of list content/structure. */
+  listBlock?:
+    | GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock
+    | undefined;
+  /** Identifies the bounding box for the block. */
+  boundingBox?: GoogleCloudDocumentaiV1BoundingPoly | undefined;
+  /** Block consisting of image content. */
+  imageBlock?:
+    | GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutImageBlock
+    | undefined;
+  /** Block consisting of table content/structure. */
+  tableBlock?:
+    | GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock
+    | undefined;
+  /** Page span of the block. */
+  pageSpan?:
+    | GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan
+    | undefined;
+}
+export type GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockList =
+  Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock>;
+/** Represents the parsed layout of a document as a collection of blocks that the document is divided into. */
+export interface GoogleCloudDocumentaiV1DocumentDocumentLayout {
+  /** List of blocks in the document. */
+  blocks?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockList | undefined;
+}
 /** Document represents the canonical document resource in Document AI. It is an interchange format that provides insights into documents and allows for collaboration between users and Document AI to iterate and optimize for quality. */
 export interface GoogleCloudDocumentaiV1Document {
-  /** Any error that occurred while processing this document. */
-  error?: GoogleRpcStatus;
-  /** Document chunked based on chunking config. */
-  chunkedDocument?: GoogleCloudDocumentaiV1DocumentChunkedDocument;
   /** Optional. UTF-8 encoded text in reading order from the document. */
-  text?: string;
-  /** The entity revision ID that `document.entities` field is based on. If this field and `entities_revisions` are set, the entities in `document.entities` are the entities in the entity revision with this ID. The `document.entity_validation_output` field is the `entity_validation_output` field in this entity revision. */
-  entitiesRevisionId?: string;
-  /** Optional. The blob assets in this document. This is used to store the content of the inline blobs in this document, for example, image bytes, such that it can be referenced by other fields in the document via asset ID. */
-  blobAssets?: GoogleCloudDocumentaiV1DocumentBlobAssetList;
-  /** A list of entities detected on Document.text. For document shards, entities in this list may cross shard boundaries. */
-  entities?: GoogleCloudDocumentaiV1DocumentEntityList;
-  /** An IANA published [media type (MIME type)](https://www.iana.org/assignments/media-types/media-types.xhtml). */
-  mimeType?: string;
-  /** The entity validation output for the document. This is the validation output for `document.entities` field. */
-  entityValidationOutput?: GoogleCloudDocumentaiV1DocumentEntityValidationOutput;
-  /** Parsed layout of the document. */
-  documentLayout?: GoogleCloudDocumentaiV1DocumentDocumentLayout;
+  text?: string | undefined;
   /** Placeholder. Relationship among Document.entities. */
-  entityRelations?: GoogleCloudDocumentaiV1DocumentEntityRelationList;
-  /** Optional. An internal identifier for document. Should be loggable (no PII). */
-  docid?: string;
-  /** Placeholder. Revision history of this document. */
-  revisions?: GoogleCloudDocumentaiV1DocumentRevisionList;
+  entityRelations?: GoogleCloudDocumentaiV1DocumentEntityRelationList | undefined;
+  /** The entity revision ID that `document.entities` field is based on. If this field and `entities_revisions` are set, the entities in `document.entities` are the entities in the entity revision with this ID. The `document.entity_validation_output` field is the `entity_validation_output` field in this entity revision. */
+  entitiesRevisionId?: string | undefined;
+  /** Document chunked based on chunking config. */
+  chunkedDocument?: GoogleCloudDocumentaiV1DocumentChunkedDocument | undefined;
   /** Optional. Inline document content, represented as a stream of bytes. Note: As with all `bytes` fields, protobuffers use a pure binary representation, whereas JSON representations use base64. */
-  content?: string;
-  /** Visual page layout for the Document. */
-  pages?: GoogleCloudDocumentaiV1DocumentPageList;
+  content?: string | undefined;
+  /** A list of entities detected on Document.text. For document shards, entities in this list may cross shard boundaries. */
+  entities?: GoogleCloudDocumentaiV1DocumentEntityList | undefined;
   /** A list of entity revisions. The entity revisions are appended to the document in the processing order. This field can be used for comparing the entity extraction results at different stages of the processing. */
-  entitiesRevisions?: GoogleCloudDocumentaiV1DocumentEntitiesRevisionList;
+  entitiesRevisions?: GoogleCloudDocumentaiV1DocumentEntitiesRevisionList | undefined;
   /** Information about the sharding if this document is sharded part of a larger document. If the document is not sharded, this message is not specified. */
-  shardInfo?: GoogleCloudDocumentaiV1DocumentShardInfo;
-  /** Styles for the Document.text. */
-  textStyles?: GoogleCloudDocumentaiV1DocumentStyleList;
+  shardInfo?: GoogleCloudDocumentaiV1DocumentShardInfo | undefined;
+  /** Optional. The blob assets in this document. This is used to store the content of the inline blobs in this document, for example, image bytes, such that it can be referenced by other fields in the document via asset ID. */
+  blobAssets?: GoogleCloudDocumentaiV1DocumentBlobAssetList | undefined;
   /** Placeholder. A list of text corrections made to Document.text. This is usually used for annotating corrections to OCR mistakes. Text changes for a given revision may not overlap with each other. */
-  textChanges?: GoogleCloudDocumentaiV1DocumentTextChangeList;
+  textChanges?: GoogleCloudDocumentaiV1DocumentTextChangeList | undefined;
+  /** An IANA published [media type (MIME type)](https://www.iana.org/assignments/media-types/media-types.xhtml). */
+  mimeType?: string | undefined;
+  /** Styles for the Document.text. */
+  textStyles?: GoogleCloudDocumentaiV1DocumentStyleList | undefined;
+  /** Placeholder. Revision history of this document. */
+  revisions?: GoogleCloudDocumentaiV1DocumentRevisionList | undefined;
+  /** Optional. An internal identifier for document. Should be loggable (no PII). */
+  docid?: string | undefined;
+  /** Visual page layout for the Document. */
+  pages?: GoogleCloudDocumentaiV1DocumentPageList | undefined;
+  /** Any error that occurred while processing this document. */
+  error?: GoogleRpcStatus | undefined;
+  /** Parsed layout of the document. */
+  documentLayout?: GoogleCloudDocumentaiV1DocumentDocumentLayout | undefined;
   /** Optional. Currently supports Google Cloud Storage URI of the form `gs://bucket_name/object_name`. Object versioning is not supported. For more information, refer to [Google Cloud Storage Request URIs](https://cloud.google.com/storage/docs/reference-uris). */
-  uri?: string;
+  uri?: string | undefined;
+  /** The entity validation output for the document. This is the validation output for `document.entities` field. */
+  entityValidationOutput?: GoogleCloudDocumentaiV1DocumentEntityValidationOutput | undefined;
 }
 export type GoogleCloudDocumentaiV1DocumentList = Array<GoogleCloudDocumentaiV1Document>;
 /** A set of inline documents. */
 export interface GoogleCloudDocumentaiV1Documents {
   /** The list of documents. */
-  documents?: GoogleCloudDocumentaiV1DocumentList;
+  documents?: GoogleCloudDocumentaiV1DocumentList | undefined;
 }
 /** Payload message of raw document content (bytes). */
 export interface GoogleCloudDocumentaiV1RawDocument {
-  /** An IANA MIME type (RFC6838) indicating the nature and format of the content. */
-  mimeType?: string;
-  /** Inline document content. */
-  content?: string;
   /** The display name of the document, it supports all Unicode characters except the following: `*`, `?`, `[`, `]`, `%`, `{`, `}`,`'`, `\"`, `,` `~`, `=` and `:` are reserved. If not specified, a default ID is generated. */
-  displayName?: string;
+  displayName?: string | undefined;
+  /** An IANA MIME type (RFC6838) indicating the nature and format of the content. */
+  mimeType?: string | undefined;
+  /** Inline document content. */
+  content?: string | undefined;
 }
 export type GoogleCloudDocumentaiV1RawDocumentList = Array<GoogleCloudDocumentaiV1RawDocument>;
 /** Specifies a set of raw documents. */
 export interface GoogleCloudDocumentaiV1RawDocuments {
   /** Specifies raw document content and mime type. */
-  documents?: GoogleCloudDocumentaiV1RawDocumentList;
-}
-/** A single iteration of the schema generation. */
-export interface GoogleCloudDocumentaiV1SchemaGenerationIteration {
-  /** Required. The schema version generated by the model. */
-  generatedSchema?: GoogleCloudDocumentaiV1SchemaVersion;
-  /** Optional. The previous schema version adjusted by the model. */
-  adjustedSchema?: GoogleCloudDocumentaiV1SchemaVersion;
-  /** Optional. The prompt used for the iteration. */
-  prompt?: string;
-}
-export type GoogleCloudDocumentaiV1SchemaGenerationIterationList =
-  Array<GoogleCloudDocumentaiV1SchemaGenerationIteration>;
-/** The history of schema generation iterations. */
-export interface GoogleCloudDocumentaiV1SchemaGenerationHistory {
-  /** Required. Previous prompt-answers in a chronological order. */
-  iterations?: GoogleCloudDocumentaiV1SchemaGenerationIterationList;
-}
-/** The parameters for the schema generation. */
-export interface GoogleCloudDocumentaiV1GenerateSchemaVersionRequestGenerateSchemaVersionParams {
-  /** Optional. The prompt used for the schema generation. */
-  prompt?: string;
-  /** Optional. Previous prompt-answers in a chronological order. */
-  history?: GoogleCloudDocumentaiV1SchemaGenerationHistory;
+  documents?: GoogleCloudDocumentaiV1RawDocumentList | undefined;
 }
 /** Request message for GenerateSchemaVersion. */
 export interface GoogleCloudDocumentaiV1GenerateSchemaVersionRequest {
-  /** The set of documents specified inline. For each document, its `uri` or `content` field must be set. */
-  inlineDocuments?: GoogleCloudDocumentaiV1Documents;
-  /** The set of raw documents. */
-  rawDocuments?: GoogleCloudDocumentaiV1RawDocuments;
-  /** The base schema version name to use for the schema generation. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
-  baseSchemaVersion?: string;
-  /** The set of documents placed on Cloud Storage. */
-  gcsDocuments?: GoogleCloudDocumentaiV1GcsDocuments;
   /** Optional. User specified parameters for the schema generation. */
-  generateSchemaVersionParams?: GoogleCloudDocumentaiV1GenerateSchemaVersionRequestGenerateSchemaVersionParams;
+  generateSchemaVersionParams?:
+    | GoogleCloudDocumentaiV1GenerateSchemaVersionRequestGenerateSchemaVersionParams
+    | undefined;
+  /** The set of documents placed on Cloud Storage. */
+  gcsDocuments?: GoogleCloudDocumentaiV1GcsDocuments | undefined;
+  /** The set of documents specified inline. For each document, its `uri` or `content` field must be set. */
+  inlineDocuments?: GoogleCloudDocumentaiV1Documents | undefined;
+  /** The base schema version name to use for the schema generation. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
+  baseSchemaVersion?: string | undefined;
   /** The common prefix of documents placed on Cloud Storage. */
-  gcsPrefix?: GoogleCloudDocumentaiV1GcsPrefix;
+  gcsPrefix?: GoogleCloudDocumentaiV1GcsPrefix | undefined;
+  /** The set of raw documents. */
+  rawDocuments?: GoogleCloudDocumentaiV1RawDocuments | undefined;
 }
 export interface GenerateProjectsLocationsSchemasSchemaVersionsRequest {
   /** Required. The parent (project, location and schema) under which to generate the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1GenerateSchemaVersionRequest;
+  body?: GoogleCloudDocumentaiV1GenerateSchemaVersionRequest | undefined;
 }
 /** Response message for GenerateSchemaVersion. */
 export interface GoogleCloudDocumentaiV1GenerateSchemaVersionResponse {
   /** The schema version generated by the model. */
-  schemaVersion?: GoogleCloudDocumentaiV1SchemaVersion;
+  schemaVersion?: GoogleCloudDocumentaiV1SchemaVersion | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -1491,15 +1533,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface GoogleCloudLocationLocation {
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  metadata?: DocumentMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1513,52 +1555,41 @@ export interface GetProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The processor resource name. */
   name: string;
 }
-/** Information about the upcoming deprecation of this processor version. */
-export interface GoogleCloudDocumentaiV1ProcessorVersionDeprecationInfo {
-  /** The time at which this processor version will be deprecated. */
-  deprecationTime?: string;
-  /** If set, the processor version that will be used as a replacement. */
-  replacementProcessorVersion?: string;
-}
 export type GoogleCloudDocumentaiV1ProcessorVersionModelTypeEnum =
   | "MODEL_TYPE_UNSPECIFIED"
   | "MODEL_TYPE_GENERATIVE"
   | "MODEL_TYPE_CUSTOM";
-/** Evaluation metrics, either in aggregate or about a specific entity. */
-export interface GoogleCloudDocumentaiV1EvaluationMetrics {
-  /** The calculated recall. */
-  recall?: number;
-  /** The amount of documents with a ground truth occurrence. */
-  groundTruthDocumentCount?: number;
-  /** The amount of true positives. */
-  truePositivesCount?: number;
-  /** The calculated F1 score. */
-  f1Score?: number;
-  /** The amount of documents that had an occurrence of this label. */
-  totalDocumentsCount?: number;
-  /** The amount of false positives. */
-  falsePositivesCount?: number;
-  /** The amount of occurrences in predicted documents. */
-  predictedOccurrencesCount?: number;
-  /** The amount of documents with a predicted occurrence. */
-  predictedDocumentCount?: number;
-  /** The amount of occurrences in ground truth documents. */
-  groundTruthOccurrencesCount?: number;
-  /** The amount of false negatives. */
-  falseNegativesCount?: number;
-  /** The calculated precision. */
-  precision?: number;
+/** Information for a pretrained Google-managed foundation model. */
+export interface GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoFoundationGenAiModelInfo {
+  /** The minimum number of labeled documents in the training dataset required for fine tuning. */
+  minTrainLabeledDocuments?: number | undefined;
+  /** Whether fine tuning is allowed for this base processor version. */
+  finetuningAllowed?: boolean | undefined;
 }
-/** Gives a short summary of an evaluation, and links to the evaluation itself. */
-export interface GoogleCloudDocumentaiV1EvaluationReference {
-  /** An aggregate of the statistics for the evaluation with fuzzy matching off. */
-  aggregateMetricsExact?: GoogleCloudDocumentaiV1EvaluationMetrics;
-  /** The resource name of the Long Running Operation for the evaluation. */
-  operation?: string;
-  /** The resource name of the evaluation. */
-  evaluation?: string;
-  /** An aggregate of the statistics for the evaluation with fuzzy matching on. */
-  aggregateMetrics?: GoogleCloudDocumentaiV1EvaluationMetrics;
+export type GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoCustomGenAiModelInfoCustomModelTypeEnum =
+  | "CUSTOM_MODEL_TYPE_UNSPECIFIED"
+  | "VERSIONED_FOUNDATION"
+  | "FINE_TUNED";
+/** Information for a custom Generative AI model created by the user. These are created with `Create New Version` in either the `Call foundation model` or `Fine tuning` tabs. */
+export interface GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoCustomGenAiModelInfo {
+  /** The type of custom model created by the user. */
+  customModelType?:
+    | GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoCustomGenAiModelInfoCustomModelTypeEnum
+    | (string & {})
+    | undefined;
+  /** The base processor version ID for the custom model. */
+  baseProcessorVersionId?: string | undefined;
+}
+/** Information about Generative AI model-based processor versions. */
+export interface GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfo {
+  /** Information for a pretrained Google-managed foundation model. */
+  foundationGenAiModelInfo?:
+    | GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoFoundationGenAiModelInfo
+    | undefined;
+  /** Information for a custom Generative AI model created by the user. */
+  customGenAiModelInfo?:
+    | GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoCustomGenAiModelInfo
+    | undefined;
 }
 export type GoogleCloudDocumentaiV1ProcessorVersionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1570,74 +1601,101 @@ export type GoogleCloudDocumentaiV1ProcessorVersionStateEnum =
   | "DELETING"
   | "FAILED"
   | "IMPORTING";
-/** Information for a pretrained Google-managed foundation model. */
-export interface GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoFoundationGenAiModelInfo {
-  /** The minimum number of labeled documents in the training dataset required for fine tuning. */
-  minTrainLabeledDocuments?: number;
-  /** Whether fine tuning is allowed for this base processor version. */
-  finetuningAllowed?: boolean;
+/** Evaluation metrics, either in aggregate or about a specific entity. */
+export interface GoogleCloudDocumentaiV1EvaluationMetrics {
+  /** The calculated recall. */
+  recall?: number | undefined;
+  /** The amount of false negatives. */
+  falseNegativesCount?: number | undefined;
+  /** The amount of documents with a ground truth occurrence. */
+  groundTruthDocumentCount?: number | undefined;
+  /** The calculated precision. */
+  precision?: number | undefined;
+  /** The amount of occurrences in predicted documents. */
+  predictedOccurrencesCount?: number | undefined;
+  /** The amount of documents with a predicted occurrence. */
+  predictedDocumentCount?: number | undefined;
+  /** The amount of documents that had an occurrence of this label. */
+  totalDocumentsCount?: number | undefined;
+  /** The amount of occurrences in ground truth documents. */
+  groundTruthOccurrencesCount?: number | undefined;
+  /** The amount of false positives. */
+  falsePositivesCount?: number | undefined;
+  /** The calculated F1 score. */
+  f1Score?: number | undefined;
+  /** The amount of true positives. */
+  truePositivesCount?: number | undefined;
 }
-export type GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoCustomGenAiModelInfoCustomModelTypeEnum =
-  | "CUSTOM_MODEL_TYPE_UNSPECIFIED"
-  | "VERSIONED_FOUNDATION"
-  | "FINE_TUNED";
-/** Information for a custom Generative AI model created by the user. These are created with `Create New Version` in either the `Call foundation model` or `Fine tuning` tabs. */
-export interface GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoCustomGenAiModelInfo {
-  /** The type of custom model created by the user. */
-  customModelType?:
-    | GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoCustomGenAiModelInfoCustomModelTypeEnum
-    | (string & {});
-  /** The base processor version ID for the custom model. */
-  baseProcessorVersionId?: string;
+/** Gives a short summary of an evaluation, and links to the evaluation itself. */
+export interface GoogleCloudDocumentaiV1EvaluationReference {
+  /** An aggregate of the statistics for the evaluation with fuzzy matching on. */
+  aggregateMetrics?: GoogleCloudDocumentaiV1EvaluationMetrics | undefined;
+  /** The resource name of the evaluation. */
+  evaluation?: string | undefined;
+  /** The resource name of the Long Running Operation for the evaluation. */
+  operation?: string | undefined;
+  /** An aggregate of the statistics for the evaluation with fuzzy matching off. */
+  aggregateMetricsExact?: GoogleCloudDocumentaiV1EvaluationMetrics | undefined;
 }
-/** Information about Generative AI model-based processor versions. */
-export interface GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfo {
-  /** Information for a pretrained Google-managed foundation model. */
-  foundationGenAiModelInfo?: GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoFoundationGenAiModelInfo;
-  /** Information for a custom Generative AI model created by the user. */
-  customGenAiModelInfo?: GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoCustomGenAiModelInfo;
+/** Information about the upcoming deprecation of this processor version. */
+export interface GoogleCloudDocumentaiV1ProcessorVersionDeprecationInfo {
+  /** If set, the processor version that will be used as a replacement. */
+  replacementProcessorVersion?: string | undefined;
+  /** The time at which this processor version will be deprecated. */
+  deprecationTime?: string | undefined;
 }
 /** A processor version is an implementation of a processor. Each processor can have multiple versions, pretrained by Google internally or uptrained by the customer. A processor can only have one default version at a time. Its document-processing behavior is defined by that version. */
 export interface GoogleCloudDocumentaiV1ProcessorVersion {
-  /** The display name of the processor version. */
-  displayName?: string;
-  /** Output only. The time the processor version was created. */
-  createTime?: string;
-  /** Identifier. The resource name of the processor version. Format: `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processor_version}` */
-  name?: string;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
-  /** Output only. The schema of the processor version. Describes the output. */
-  documentSchema?: GoogleCloudDocumentaiV1DocumentSchema;
-  /** Output only. The KMS key name used for encryption. */
-  kmsKeyName?: string;
-  /** Output only. If set, information about the eventual deprecation of this version. */
-  deprecationInfo?: GoogleCloudDocumentaiV1ProcessorVersionDeprecationInfo;
   /** Output only. The model type of this processor version. */
-  modelType?: GoogleCloudDocumentaiV1ProcessorVersionModelTypeEnum | (string & {});
-  /** Output only. The most recently invoked evaluation for the processor version. */
-  latestEvaluation?: GoogleCloudDocumentaiV1EvaluationReference;
-  /** Output only. The state of the processor version. */
-  state?: GoogleCloudDocumentaiV1ProcessorVersionStateEnum | (string & {});
-  /** Output only. Denotes that this `ProcessorVersion` is managed by Google. */
-  googleManaged?: boolean;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  modelType?: GoogleCloudDocumentaiV1ProcessorVersionModelTypeEnum | (string & {}) | undefined;
   /** Output only. Information about Generative AI model-based processor versions. */
-  genAiModelInfo?: GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfo;
+  genAiModelInfo?: GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfo | undefined;
+  /** Output only. The state of the processor version. */
+  state?: GoogleCloudDocumentaiV1ProcessorVersionStateEnum | (string & {}) | undefined;
+  /** Output only. The most recently invoked evaluation for the processor version. */
+  latestEvaluation?: GoogleCloudDocumentaiV1EvaluationReference | undefined;
+  /** Output only. The schema of the processor version. Describes the output. */
+  documentSchema?: GoogleCloudDocumentaiV1DocumentSchema | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. Denotes that this `ProcessorVersion` is managed by Google. */
+  googleManaged?: boolean | undefined;
+  /** The display name of the processor version. */
+  displayName?: string | undefined;
+  /** Output only. The time the processor version was created. */
+  createTime?: string | undefined;
+  /** Output only. If set, information about the eventual deprecation of this version. */
+  deprecationInfo?: GoogleCloudDocumentaiV1ProcessorVersionDeprecationInfo | undefined;
+  /** Output only. The KMS key name used for encryption. */
+  kmsKeyName?: string | undefined;
+  /** Identifier. The resource name of the processor version. Format: `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processor_version}` */
+  name?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
   /** Output only. The KMS key version with which data is encrypted. */
-  kmsKeyVersionName?: string;
+  kmsKeyVersionName?: string | undefined;
 }
 export interface GetProjectsLocationsProcessorsProcessorVersionsEvaluationsRequest {
   /** Required. The resource name of the Evaluation to get. `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}/evaluations/{evaluation}` */
   name: string;
 }
+/** Evaluation counters for the documents that were used. */
+export interface GoogleCloudDocumentaiV1EvaluationCounters {
+  /** How many documents were sent for evaluation. */
+  inputDocumentsCount?: number | undefined;
+  /** How many documents were used in the evaluation. */
+  evaluatedDocumentsCount?: number | undefined;
+  /** How many documents were not included in the evaluation as they didn't pass validation. */
+  invalidDocumentsCount?: number | undefined;
+  /** How many documents were not included in the evaluation as Document AI failed to process them. */
+  failedDocumentsCount?: number | undefined;
+}
 /** Evaluations metrics, at a specific confidence level. */
 export interface GoogleCloudDocumentaiV1EvaluationConfidenceLevelMetrics {
   /** The confidence level. */
-  confidenceLevel?: number;
+  confidenceLevel?: number | undefined;
   /** The metrics at the specific confidence level. */
-  metrics?: GoogleCloudDocumentaiV1EvaluationMetrics;
+  metrics?: GoogleCloudDocumentaiV1EvaluationMetrics | undefined;
 }
 export type GoogleCloudDocumentaiV1EvaluationConfidenceLevelMetricsList =
   Array<GoogleCloudDocumentaiV1EvaluationConfidenceLevelMetrics>;
@@ -1647,65 +1705,56 @@ export type GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetricsMetricsTypeEn
 /** Metrics across multiple confidence levels. */
 export interface GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetrics {
   /** Metrics across confidence levels with only exact matching. */
-  confidenceLevelMetricsExact?: GoogleCloudDocumentaiV1EvaluationConfidenceLevelMetricsList;
-  /** The metrics type for the label. */
-  metricsType?: GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetricsMetricsTypeEnum;
-  /** The ECE for the predicted entities with fuzzy matching disabled, i.e., exact matching only. */
-  estimatedCalibrationErrorExact?: number;
+  confidenceLevelMetricsExact?:
+    | GoogleCloudDocumentaiV1EvaluationConfidenceLevelMetricsList
+    | undefined;
   /** The calculated area under the precision recall curve (AUPRC), computed by integrating over all confidence thresholds. */
-  auprc?: number;
-  /** The AUPRC for metrics with fuzzy matching disabled, i.e., exact matching only. */
-  auprcExact?: number;
-  /** The Estimated Calibration Error (ECE) of the confidence of the predicted entities. */
-  estimatedCalibrationError?: number;
+  auprc?: number | undefined;
   /** Metrics across confidence levels with fuzzy matching enabled. */
-  confidenceLevelMetrics?: GoogleCloudDocumentaiV1EvaluationConfidenceLevelMetricsList;
+  confidenceLevelMetrics?: GoogleCloudDocumentaiV1EvaluationConfidenceLevelMetricsList | undefined;
+  /** The metrics type for the label. */
+  metricsType?: GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetricsMetricsTypeEnum | undefined;
+  /** The AUPRC for metrics with fuzzy matching disabled, i.e., exact matching only. */
+  auprcExact?: number | undefined;
+  /** The ECE for the predicted entities with fuzzy matching disabled, i.e., exact matching only. */
+  estimatedCalibrationErrorExact?: number | undefined;
+  /** The Estimated Calibration Error (ECE) of the confidence of the predicted entities. */
+  estimatedCalibrationError?: number | undefined;
 }
 export type GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetricsMap = {
   [key: string]: GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetrics | undefined;
 };
-/** Evaluation counters for the documents that were used. */
-export interface GoogleCloudDocumentaiV1EvaluationCounters {
-  /** How many documents were not included in the evaluation as Document AI failed to process them. */
-  failedDocumentsCount?: number;
-  /** How many documents were used in the evaluation. */
-  evaluatedDocumentsCount?: number;
-  /** How many documents were not included in the evaluation as they didn't pass validation. */
-  invalidDocumentsCount?: number;
-  /** How many documents were sent for evaluation. */
-  inputDocumentsCount?: number;
-}
 /** A revision of the evaluation. */
 export interface GoogleCloudDocumentaiV1EvaluationEvaluationRevision {
-  /** Output only. Metrics for all the entities in aggregate. */
-  allEntitiesMetrics?: GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetrics;
   /** Output only. Metrics across confidence levels, for different entities. */
-  entityMetrics?: GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetricsMap;
+  entityMetrics?: GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetricsMap | undefined;
+  /** Output only. Metrics for all the entities in aggregate. */
+  allEntitiesMetrics?: GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetrics | undefined;
   /** Output only. The revision ID of the evaluation. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** Output only. Counters for the documents used in the evaluation. */
-  documentCounters?: GoogleCloudDocumentaiV1EvaluationCounters;
+  documentCounters?: GoogleCloudDocumentaiV1EvaluationCounters | undefined;
 }
 export type GoogleCloudDocumentaiV1EvaluationEvaluationRevisionList =
   Array<GoogleCloudDocumentaiV1EvaluationEvaluationRevision>;
 /** An evaluation of a ProcessorVersion's performance. */
 export interface GoogleCloudDocumentaiV1Evaluation {
-  /** The time that the evaluation was created. */
-  createTime?: string;
-  /** Contains all revisions of the evaluation, excluding the latest one. */
-  revisions?: GoogleCloudDocumentaiV1EvaluationEvaluationRevisionList;
   /** Counters for the documents used in the evaluation. */
-  documentCounters?: GoogleCloudDocumentaiV1EvaluationCounters;
-  /** The KMS key version with which data is encrypted. */
-  kmsKeyVersionName?: string;
-  /** Metrics for all the entities in aggregate. */
-  allEntitiesMetrics?: GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetrics;
-  /** The KMS key name used for encryption. */
-  kmsKeyName?: string;
-  /** The resource name of the evaluation. Format: `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processor_version}/evaluations/{evaluation}` */
-  name?: string;
+  documentCounters?: GoogleCloudDocumentaiV1EvaluationCounters | undefined;
   /** Metrics across confidence levels, for different entities. */
-  entityMetrics?: GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetricsMap;
+  entityMetrics?: GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetricsMap | undefined;
+  /** The KMS key name used for encryption. */
+  kmsKeyName?: string | undefined;
+  /** Metrics for all the entities in aggregate. */
+  allEntitiesMetrics?: GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetrics | undefined;
+  /** Contains all revisions of the evaluation, excluding the latest one. */
+  revisions?: GoogleCloudDocumentaiV1EvaluationEvaluationRevisionList | undefined;
+  /** The KMS key version with which data is encrypted. */
+  kmsKeyVersionName?: string | undefined;
+  /** The resource name of the evaluation. Format: `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processor_version}/evaluations/{evaluation}` */
+  name?: string | undefined;
+  /** The time that the evaluation was created. */
+  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsProcessorTypesRequest {
   /** Required. The processor type resource name. */
@@ -1724,183 +1773,183 @@ export interface GetProjectsOperationsRequest {
   name: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
 }
 export type GoogleCloudLocationLocationList = Array<GoogleCloudLocationLocation>;
 /** The response message for Locations.ListLocations. */
 export interface GoogleCloudLocationListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: GoogleCloudLocationLocationList;
+  locations?: GoogleCloudLocationLocationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The standard list page size. */
-  pageSize?: number;
-  /** The standard list filter. */
-  filter?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList;
+  operations?: GoogleLongrunningOperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsProcessorsRequest {
+  /** We will return the processors sorted by creation time. The page token will point to the next processor. */
+  pageToken?: string | undefined;
   /** The maximum number of processors to return. If unspecified, at most `50` processors will be returned. The maximum value is `100`. Values above `100` will be coerced to `100`. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent (project and location) which owns this collection of Processors. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** We will return the processors sorted by creation time. The page token will point to the next processor. */
-  pageToken?: string;
 }
 export type GoogleCloudDocumentaiV1ProcessorList = Array<GoogleCloudDocumentaiV1Processor>;
 /** Response message for the ListProcessors method. */
 export interface GoogleCloudDocumentaiV1ListProcessorsResponse {
-  /** The list of processors. */
-  processors?: GoogleCloudDocumentaiV1ProcessorList;
   /** Points to the next processor, otherwise empty. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** The list of processors. */
+  processors?: GoogleCloudDocumentaiV1ProcessorList | undefined;
 }
 export interface ListProjectsLocationsProcessorsProcessorVersionsRequest {
-  /** The maximum number of processor versions to return. If unspecified, at most `10` processor versions will be returned. The maximum value is `20`. Values above `20` will be coerced to `20`. */
-  pageSize?: number;
   /** Required. The parent (project, location and processor) to list all versions. Format: `projects/{project}/locations/{location}/processors/{processor}` */
   parent: string;
   /** We will return the processor versions sorted by creation time. The page token will point to the next processor version. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** The maximum number of processor versions to return. If unspecified, at most `10` processor versions will be returned. The maximum value is `20`. Values above `20` will be coerced to `20`. */
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDocumentaiV1ProcessorVersionList =
   Array<GoogleCloudDocumentaiV1ProcessorVersion>;
 /** Response message for the ListProcessorVersions method. */
 export interface GoogleCloudDocumentaiV1ListProcessorVersionsResponse {
-  /** The list of processors. */
-  processorVersions?: GoogleCloudDocumentaiV1ProcessorVersionList;
   /** Points to the next processor, otherwise empty. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** The list of processors. */
+  processorVersions?: GoogleCloudDocumentaiV1ProcessorVersionList | undefined;
 }
 export interface ListProjectsLocationsProcessorsProcessorVersionsEvaluationsRequest {
-  /** A page token, received from a previous `ListEvaluations` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
-  /** The standard list page size. If unspecified, at most `5` evaluations are returned. The maximum value is `100`. Values above `100` are coerced to `100`. */
-  pageSize?: number;
   /** Required. The resource name of the ProcessorVersion to list evaluations for. `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   parent: string;
+  /** A page token, received from a previous `ListEvaluations` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string | undefined;
+  /** The standard list page size. If unspecified, at most `5` evaluations are returned. The maximum value is `100`. Values above `100` are coerced to `100`. */
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDocumentaiV1EvaluationList = Array<GoogleCloudDocumentaiV1Evaluation>;
 /** The response from `ListEvaluations`. */
 export interface GoogleCloudDocumentaiV1ListEvaluationsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The evaluations requested. */
-  evaluations?: GoogleCloudDocumentaiV1EvaluationList;
+  evaluations?: GoogleCloudDocumentaiV1EvaluationList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsProcessorTypesRequest {
   /** Used to retrieve the next page of results, empty if at the end of the list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** The maximum number of processor types to return. If unspecified, at most `100` processor types will be returned. The maximum value is `500`. Values above `500` will be coerced to `500`. */
+  pageSize?: number | undefined;
   /** Required. The location of processor types to list. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** The maximum number of processor types to return. If unspecified, at most `100` processor types will be returned. The maximum value is `500`. Values above `500` will be coerced to `500`. */
-  pageSize?: number;
 }
 /** Response message for the ListProcessorTypes method. */
 export interface GoogleCloudDocumentaiV1ListProcessorTypesResponse {
-  /** The processor types. */
-  processorTypes?: GoogleCloudDocumentaiV1ProcessorTypeList;
   /** Points to the next page, otherwise empty. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** The processor types. */
+  processorTypes?: GoogleCloudDocumentaiV1ProcessorTypeList | undefined;
 }
 export interface ListProjectsLocationsSchemasRequest {
-  /** Optional. Returns the schema groups sorted by creation time. The page token will point to the next Schema. */
-  pageToken?: string;
-  /** Optional. The maximum number of schema groups to return. If unspecified, at most `10` Schema will be returned. The maximum value is `20`. Values above `20` will be coerced to `20`. */
-  pageSize?: number;
   /** Required. Format: `projects/{project}/locations/{location}` */
   parent: string;
+  /** Optional. The maximum number of schema groups to return. If unspecified, at most `10` Schema will be returned. The maximum value is `20`. Values above `20` will be coerced to `20`. */
+  pageSize?: number | undefined;
+  /** Optional. Returns the schema groups sorted by creation time. The page token will point to the next Schema. */
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDocumentaiV1NextSchemaList = Array<GoogleCloudDocumentaiV1NextSchema>;
 /** Response message for ListSchemas. */
 export interface GoogleCloudDocumentaiV1ListSchemasResponse {
   /** The list of Schemas. */
-  schemas?: GoogleCloudDocumentaiV1NextSchemaList;
+  schemas?: GoogleCloudDocumentaiV1NextSchemaList | undefined;
   /** Points to the next Schema, otherwise empty. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsSchemasSchemaVersionsRequest {
-  /** Optional. Returns the SchemaVersion sorted by creation time. The page token will point to the next SchemaVersion. */
-  pageToken?: string;
-  /** Optional. The maximum number of SchemaVersion to return. If unspecified, at most `10` SchemaVersion will be returned. The maximum value is `20`. Values above `20` will be coerced to `20`. */
-  pageSize?: number;
   /** Required. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   parent: string;
+  /** Optional. The maximum number of SchemaVersion to return. If unspecified, at most `10` SchemaVersion will be returned. The maximum value is `20`. Values above `20` will be coerced to `20`. */
+  pageSize?: number | undefined;
+  /** Optional. Returns the SchemaVersion sorted by creation time. The page token will point to the next SchemaVersion. */
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDocumentaiV1SchemaVersionList = Array<GoogleCloudDocumentaiV1SchemaVersion>;
 /** Response message for ListSchemaVersions. */
 export interface GoogleCloudDocumentaiV1ListSchemaVersionsResponse {
-  /** Points to the next SchemaVersion, otherwise empty. */
-  nextPageToken?: string;
   /** The list of SchemaVersions. */
-  schemaVersions?: GoogleCloudDocumentaiV1SchemaVersionList;
+  schemaVersions?: GoogleCloudDocumentaiV1SchemaVersionList | undefined;
+  /** Points to the next SchemaVersion, otherwise empty. */
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsSchemasRequest {
   /** Optional. The update mask to apply to the resource. **Note:** Only the following fields can be updated: - `display_name` - `labels` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The resource name of the Schema. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1NextSchema;
+  body?: GoogleCloudDocumentaiV1NextSchema | undefined;
 }
 export interface PatchProjectsLocationsSchemasSchemaVersionsRequest {
+  /** Optional. The update mask to apply to the resource. **Note:** Only the following fields can be updated: - `display_name` - `labels` */
+  updateMask?: string | undefined;
   /** Identifier. The resource name of the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
   name: string;
-  /** Optional. The update mask to apply to the resource. **Note:** Only the following fields can be updated: - `display_name` - `labels` */
-  updateMask?: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1SchemaVersion;
+  body?: GoogleCloudDocumentaiV1SchemaVersion | undefined;
 }
 /** Request message for the ProcessDocument method. */
 export interface GoogleCloudDocumentaiV1ProcessRequest {
-  /** An inline document proto. */
-  inlineDocument?: GoogleCloudDocumentaiV1Document;
-  /** Inference-time options for the process API */
-  processOptions?: GoogleCloudDocumentaiV1ProcessOptions;
   /** Optional. Option to remove images from the document. */
-  imagelessMode?: boolean;
-  /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints) and can only contain lowercase letters, numeric characters, underscores, and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
-  labels?: StringMap;
+  imagelessMode?: boolean | undefined;
   /** Specifies which fields to include in the ProcessResponse.document output. Only supports top-level document and pages field, so it must be in the form of `{document_field_name}` or `pages.{page_field_name}`. */
-  fieldMask?: string;
+  fieldMask?: string | undefined;
+  /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints) and can only contain lowercase letters, numeric characters, underscores, and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
+  labels?: StringMap | undefined;
   /** A raw document content (bytes). */
-  rawDocument?: GoogleCloudDocumentaiV1RawDocument;
+  rawDocument?: GoogleCloudDocumentaiV1RawDocument | undefined;
   /** A raw document on Google Cloud Storage. */
-  gcsDocument?: GoogleCloudDocumentaiV1GcsDocument;
+  gcsDocument?: GoogleCloudDocumentaiV1GcsDocument | undefined;
+  /** Inference-time options for the process API */
+  processOptions?: GoogleCloudDocumentaiV1ProcessOptions | undefined;
   /** Whether human review should be skipped for this request. Default to `false`. */
-  skipHumanReview?: boolean;
+  skipHumanReview?: boolean | undefined;
+  /** An inline document proto. */
+  inlineDocument?: GoogleCloudDocumentaiV1Document | undefined;
 }
 export interface ProcessProjectsLocationsProcessorsRequest {
   /** Required. The resource name of the Processor or ProcessorVersion to use for processing. If a Processor is specified, the server will use its default version. Format: `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1ProcessRequest;
+  body?: GoogleCloudDocumentaiV1ProcessRequest | undefined;
 }
 export type GoogleCloudDocumentaiV1HumanReviewStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1910,63 +1959,54 @@ export type GoogleCloudDocumentaiV1HumanReviewStatusStateEnum =
   | "ERROR";
 /** The status of human review on a processed document. */
 export interface GoogleCloudDocumentaiV1HumanReviewStatus {
-  /** A message providing more details about the human review state. */
-  stateMessage?: string;
-  /** The name of the operation triggered by the processed document. This field is populated only when the state is `HUMAN_REVIEW_IN_PROGRESS`. It has the same response type and metadata as the long-running operation returned by ReviewDocument. */
-  humanReviewOperation?: string;
   /** The state of human review on the processing request. */
-  state?: GoogleCloudDocumentaiV1HumanReviewStatusStateEnum;
+  state?: GoogleCloudDocumentaiV1HumanReviewStatusStateEnum | undefined;
+  /** A message providing more details about the human review state. */
+  stateMessage?: string | undefined;
+  /** The name of the operation triggered by the processed document. This field is populated only when the state is `HUMAN_REVIEW_IN_PROGRESS`. It has the same response type and metadata as the long-running operation returned by ReviewDocument. */
+  humanReviewOperation?: string | undefined;
 }
 /** Response message for the ProcessDocument method. */
 export interface GoogleCloudDocumentaiV1ProcessResponse {
-  /** The status of human review on the processed document. */
-  humanReviewStatus?: GoogleCloudDocumentaiV1HumanReviewStatus;
   /** The document payload, will populate fields based on the processor's behavior. */
-  document?: GoogleCloudDocumentaiV1Document;
+  document?: GoogleCloudDocumentaiV1Document | undefined;
+  /** The status of human review on the processed document. */
+  humanReviewStatus?: GoogleCloudDocumentaiV1HumanReviewStatus | undefined;
 }
 export interface ProcessProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The resource name of the Processor or ProcessorVersion to use for processing. If a Processor is specified, the server will use its default version. Format: `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1ProcessRequest;
+  body?: GoogleCloudDocumentaiV1ProcessRequest | undefined;
 }
 export type GoogleCloudDocumentaiV1ReviewDocumentRequestPriorityEnum = "DEFAULT" | "URGENT";
 /** Request message for the ReviewDocument method. */
 export interface GoogleCloudDocumentaiV1ReviewDocumentRequest {
-  /** An inline document proto. */
-  inlineDocument?: GoogleCloudDocumentaiV1Document;
   /** The document schema of the human review task. */
-  documentSchema?: GoogleCloudDocumentaiV1DocumentSchema;
-  /** Whether the validation should be performed on the ad-hoc review request. */
-  enableSchemaValidation?: boolean;
+  documentSchema?: GoogleCloudDocumentaiV1DocumentSchema | undefined;
+  /** An inline document proto. */
+  inlineDocument?: GoogleCloudDocumentaiV1Document | undefined;
   /** The priority of the human review task. */
-  priority?: GoogleCloudDocumentaiV1ReviewDocumentRequestPriorityEnum | (string & {});
+  priority?: GoogleCloudDocumentaiV1ReviewDocumentRequestPriorityEnum | (string & {}) | undefined;
+  /** Whether the validation should be performed on the ad-hoc review request. */
+  enableSchemaValidation?: boolean | undefined;
 }
 export interface ReviewDocumentProjectsLocationsProcessorsHumanReviewConfigRequest {
   /** Required. The resource name of the HumanReviewConfig that the document will be reviewed with. */
   humanReviewConfig: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1ReviewDocumentRequest;
+  body?: GoogleCloudDocumentaiV1ReviewDocumentRequest | undefined;
 }
 /** Request message for the SetDefaultProcessorVersion method. */
 export interface GoogleCloudDocumentaiV1SetDefaultProcessorVersionRequest {
   /** Required. The resource name of child ProcessorVersion to use as default. Format: `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{version}` */
-  defaultProcessorVersion?: string;
+  defaultProcessorVersion?: string | undefined;
 }
 export interface SetDefaultProcessorVersionProjectsLocationsProcessorsRequest {
   /** Required. The resource name of the Processor to change default version. */
   processor: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1SetDefaultProcessorVersionRequest;
-}
-/** Options to control foundation model tuning of the processor. */
-export interface GoogleCloudDocumentaiV1TrainProcessorVersionRequestFoundationModelTuningOptions {
-  /** Optional. The multiplier to apply to the recommended learning rate. Valid values are between 0.1 and 10. If not provided, recommended learning rate will be used. */
-  learningRateMultiplier?: number;
-  /** Optional. The number of steps to run for model tuning. Valid values are between 1 and 400. If not provided, recommended steps will be used. */
-  trainSteps?: number;
-  /** Optional. Resource name of a previously fine tuned version ID to copy the overwritten configs from. The base_processor_version should be newer than the base processor version used to fine tune this provided processor version. Format: `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}`. */
-  previousFineTunedProcessorVersionName?: string;
+  body?: GoogleCloudDocumentaiV1SetDefaultProcessorVersionRequest | undefined;
 }
 export type GoogleCloudDocumentaiV1TrainProcessorVersionRequestCustomDocumentExtractionOptionsTrainingMethodEnum =
   | "TRAINING_METHOD_UNSPECIFIED"
@@ -1977,35 +2017,49 @@ export interface GoogleCloudDocumentaiV1TrainProcessorVersionRequestCustomDocume
   /** Optional. Training method to use for CDE training. */
   trainingMethod?:
     | GoogleCloudDocumentaiV1TrainProcessorVersionRequestCustomDocumentExtractionOptionsTrainingMethodEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
+}
+/** Options to control foundation model tuning of the processor. */
+export interface GoogleCloudDocumentaiV1TrainProcessorVersionRequestFoundationModelTuningOptions {
+  /** Optional. The number of steps to run for model tuning. Valid values are between 1 and 400. If not provided, recommended steps will be used. */
+  trainSteps?: number | undefined;
+  /** Optional. Resource name of a previously fine tuned version ID to copy the overwritten configs from. The base_processor_version should be newer than the base processor version used to fine tune this provided processor version. Format: `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}`. */
+  previousFineTunedProcessorVersionName?: string | undefined;
+  /** Optional. The multiplier to apply to the recommended learning rate. Valid values are between 0.1 and 10. If not provided, recommended learning rate will be used. */
+  learningRateMultiplier?: number | undefined;
 }
 /** The input data used to train a new ProcessorVersion. */
 export interface GoogleCloudDocumentaiV1TrainProcessorVersionRequestInputData {
-  /** The documents used for training the new version. */
-  trainingDocuments?: GoogleCloudDocumentaiV1BatchDocumentsInputConfig;
   /** The documents used for testing the trained version. */
-  testDocuments?: GoogleCloudDocumentaiV1BatchDocumentsInputConfig;
+  testDocuments?: GoogleCloudDocumentaiV1BatchDocumentsInputConfig | undefined;
+  /** The documents used for training the new version. */
+  trainingDocuments?: GoogleCloudDocumentaiV1BatchDocumentsInputConfig | undefined;
 }
 /** Request message for the TrainProcessorVersion method. */
 export interface GoogleCloudDocumentaiV1TrainProcessorVersionRequest {
-  /** Options to control foundation model tuning of a processor. */
-  foundationModelTuningOptions?: GoogleCloudDocumentaiV1TrainProcessorVersionRequestFoundationModelTuningOptions;
-  /** Optional. The schema the processor version will be trained with. */
-  documentSchema?: GoogleCloudDocumentaiV1DocumentSchema;
-  /** Optional. The processor version to use as a base for training. This processor version must be a child of `parent`. Format: `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}`. */
-  baseProcessorVersion?: string;
   /** Options to control Custom Document Extraction (CDE) Processor. */
-  customDocumentExtractionOptions?: GoogleCloudDocumentaiV1TrainProcessorVersionRequestCustomDocumentExtractionOptions;
+  customDocumentExtractionOptions?:
+    | GoogleCloudDocumentaiV1TrainProcessorVersionRequestCustomDocumentExtractionOptions
+    | undefined;
+  /** Optional. The processor version to use as a base for training. This processor version must be a child of `parent`. Format: `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}`. */
+  baseProcessorVersion?: string | undefined;
+  /** Options to control foundation model tuning of a processor. */
+  foundationModelTuningOptions?:
+    | GoogleCloudDocumentaiV1TrainProcessorVersionRequestFoundationModelTuningOptions
+    | undefined;
+  /** Optional. The schema the processor version will be trained with. */
+  documentSchema?: GoogleCloudDocumentaiV1DocumentSchema | undefined;
   /** Required. The processor version to be created. */
-  processorVersion?: GoogleCloudDocumentaiV1ProcessorVersion;
+  processorVersion?: GoogleCloudDocumentaiV1ProcessorVersion | undefined;
   /** Optional. The input data used to train the ProcessorVersion. */
-  inputData?: GoogleCloudDocumentaiV1TrainProcessorVersionRequestInputData;
+  inputData?: GoogleCloudDocumentaiV1TrainProcessorVersionRequestInputData | undefined;
 }
 export interface TrainProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The parent (project, location and processor) to create the new version for. Format: `projects/{project}/locations/{location}/processors/{processor}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1TrainProcessorVersionRequest;
+  body?: GoogleCloudDocumentaiV1TrainProcessorVersionRequest | undefined;
 }
 /** Request message for the UndeployProcessorVersion method. */
 export type GoogleCloudDocumentaiV1UndeployProcessorVersionRequest =
@@ -2014,7 +2068,7 @@ export interface UndeployProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The processor version resource name to be undeployed. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDocumentaiV1DeployProcessorVersionRequest;
+  body?: GoogleCloudDocumentaiV1DeployProcessorVersionRequest | undefined;
 }
 export type BatchProcessProjectsLocationsProcessorsError =
   | NotFound
@@ -2995,8 +3049,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3134,13 +3188,13 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          availableLocations: S.optional(__S(321, __c10, 1)),
-          sampleDocumentUris: S.optional(__S(1664, __c52, 0)),
-          allowCreation: S.optional(S.Boolean),
           launchStage: S.optional(S.String),
           type: S.optional(S.String),
-          name: S.optional(S.String),
           category: S.optional(S.String),
+          allowCreation: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          sampleDocumentUris: S.optional(__S(1664, __c52, 0)),
+          availableLocations: S.optional(__S(321, __c10, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessorType" });
   }
@@ -3154,56 +3208,56 @@ function __c11(j: number): any {
 function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(550, __c17, 6));
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          documents: S.optional(__S(384, __c12, 0)),
+          prompt: S.optional(S.String),
+          adjustedSchema: S.optional(__S(2208, __c69, 0)),
+          generatedSchema: S.optional(__S(2208, __c69, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1Documents" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1SchemaGenerationIteration" });
+    case 1:
+      return S.Array(__S(384, __c12, 0));
     case 2:
-      return S.Array(__S(416, __c13, 0));
+      return S.suspend(() =>
+        S.Struct({
+          iterations: S.optional(__S(385, __c12, 1)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1SchemaGenerationHistory" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          documents: S.optional(__S(386, __c12, 2)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1RawDocuments" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          generatedSchema: S.optional(__S(2208, __c69, 0)),
-          adjustedSchema: S.optional(__S(2208, __c69, 0)),
           prompt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1SchemaGenerationIteration" });
-    case 5:
-      return S.Array(__S(388, __c12, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          iterations: S.optional(__S(389, __c12, 5)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1SchemaGenerationHistory" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          prompt: S.optional(S.String),
-          history: S.optional(__S(390, __c12, 6)),
+          history: S.optional(__S(386, __c12, 2)),
         }),
       ).annotate({
         identifier:
           "GoogleCloudDocumentaiV1GenerateSchemaVersionRequestGenerateSchemaVersionParams",
       });
+    case 4:
+      return S.Array(__S(552, __c17, 8));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          documents: S.optional(__S(388, __c12, 4)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1Documents" });
+    case 6:
+      return S.Array(__S(416, __c13, 0));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          documents: S.optional(__S(390, __c12, 6)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1RawDocuments" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          inlineDocuments: S.optional(__S(385, __c12, 1)),
-          rawDocuments: S.optional(__S(387, __c12, 3)),
-          baseSchemaVersion: S.optional(S.String),
+          generateSchemaVersionParams: S.optional(__S(387, __c12, 3)),
           gcsDocuments: S.optional(__S(1505, __c47, 1)),
-          generateSchemaVersionParams: S.optional(__S(391, __c12, 7)),
+          inlineDocuments: S.optional(__S(389, __c12, 5)),
+          baseSchemaVersion: S.optional(S.String),
           gcsPrefix: S.optional(__S(1506, __c47, 2)),
+          rawDocuments: S.optional(__S(391, __c12, 7)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1GenerateSchemaVersionRequest" });
     case 9:
@@ -3232,9 +3286,9 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          displayName: S.optional(S.String),
           mimeType: S.optional(S.String),
           content: S.optional(S.String),
-          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1RawDocument" });
   }
@@ -3244,92 +3298,92 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
+          subjectId: S.optional(S.String),
+          objectId: S.optional(S.String),
+          relation: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentAnnotations" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntityRelation" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          blobAssetId: S.optional(S.String),
-          gcsUri: S.optional(S.String),
-          dataUri: S.optional(S.String),
-          annotations: S.optional(__S(448, __c14, 0)),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkImageChunkField",
-      });
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          annotations: S.optional(__S(448, __c14, 0)),
+          pageEnd: S.optional(S.Number),
+          pageStart: S.optional(S.Number),
         }),
       ).annotate({
-        identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkTableChunkField",
+        identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan",
       });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          imageChunkField: S.optional(__S(449, __c14, 1)),
-          tableChunkField: S.optional(__S(450, __c14, 2)),
+          pageSpan: S.optional(__S(450, __c14, 2)),
+          text: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkField" });
+      ).annotate({
+        identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter",
+      });
     case 4:
       return S.Array(__S(451, __c14, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          pageStart: S.optional(S.Number),
-          pageEnd: S.optional(S.Number),
+          description: S.optional(S.String),
         }),
-      ).annotate({
-        identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan",
-      });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentAnnotations" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(S.String),
-          pageSpan: S.optional(__S(453, __c14, 5)),
+          dataUri: S.optional(S.String),
+          annotations: S.optional(__S(453, __c14, 5)),
+          blobAssetId: S.optional(S.String),
+          gcsUri: S.optional(S.String),
         }),
       ).annotate({
-        identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader",
+        identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkImageChunkField",
       });
     case 7:
-      return S.Array(__S(454, __c14, 6));
+      return S.suspend(() =>
+        S.Struct({
+          annotations: S.optional(__S(453, __c14, 5)),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkTableChunkField",
+      });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          chunkId: S.optional(S.String),
-          chunkFields: S.optional(__S(452, __c14, 4)),
-          pageHeaders: S.optional(__S(455, __c14, 7)),
-          pageSpan: S.optional(__S(453, __c14, 5)),
-          content: S.optional(S.String),
-          sourceBlockIds: S.optional(__S(1664, __c52, 0)),
-          pageFooters: S.optional(__S(455, __c14, 7)),
+          imageChunkField: S.optional(__S(454, __c14, 6)),
+          tableChunkField: S.optional(__S(455, __c14, 7)),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkField" });
     case 9:
       return S.Array(__S(456, __c14, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          chunks: S.optional(__S(457, __c14, 9)),
+          content: S.optional(S.String),
+          pageFooters: S.optional(__S(452, __c14, 4)),
+          chunkId: S.optional(S.String),
+          pageHeaders: S.optional(__S(452, __c14, 4)),
+          chunkFields: S.optional(__S(457, __c14, 9)),
+          pageSpan: S.optional(__S(450, __c14, 2)),
+          sourceBlockIds: S.optional(__S(1664, __c52, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocument" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk" });
     case 11:
+      return S.Array(__S(458, __c14, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          mimeType: S.optional(S.String),
-          assetId: S.optional(S.String),
-          content: S.optional(S.String),
+          chunks: S.optional(__S(459, __c14, 11)),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentBlobAsset" });
-    case 12:
-      return S.Array(__S(459, __c14, 11));
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocument" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(S.Number),
           id: S.optional(S.Number),
+          index: S.optional(S.Number),
           revision: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentProvenanceParent" });
@@ -3338,366 +3392,340 @@ function __c14(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
           id: S.optional(S.Number),
           revision: S.optional(S.Number),
           parents: S.optional(__S(462, __c14, 14)),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentProvenance" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          nanos: S.optional(S.Number),
-          currencyCode: S.optional(S.String),
-          units: S.optional(S.String),
+          startIndex: S.optional(S.String),
+          endIndex: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleTypeMoney" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment" });
     case 17:
-      return S.suspend(() =>
-        S.Struct({
-          month: S.optional(S.Number),
-          day: S.optional(S.Number),
-          year: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleTypeDate" });
+      return S.Array(__S(464, __c14, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          revision: S.optional(S.Number),
-          organization: S.optional(S.String),
-          locality: S.optional(S.String),
-          postalCode: S.optional(S.String),
-          sortingCode: S.optional(S.String),
-          addressLines: S.optional(__S(1664, __c52, 0)),
-          recipients: S.optional(__S(1664, __c52, 0)),
-          sublocality: S.optional(S.String),
-          administrativeArea: S.optional(S.String),
-          languageCode: S.optional(S.String),
-          regionCode: S.optional(S.String),
+          content: S.optional(S.String),
+          textSegments: S.optional(__S(465, __c14, 17)),
         }),
-      ).annotate({ identifier: "GoogleTypePostalAddress" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentTextAnchor" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          version: S.optional(S.String),
+          y: S.optional(S.Number),
+          x: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleTypeTimeZone" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1NormalizedVertex" });
     case 20:
-      return S.suspend(() =>
-        S.Struct({
-          timeZone: S.optional(__S(467, __c14, 19)),
-          year: S.optional(S.Number),
-          minutes: S.optional(S.Number),
-          utcOffset: S.optional(S.String),
-          hours: S.optional(S.Number),
-          day: S.optional(S.Number),
-          nanos: S.optional(S.Number),
-          seconds: S.optional(S.Number),
-          month: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleTypeDateTime" });
+      return S.Array(__S(467, __c14, 19));
     case 21:
-      return S.suspend(() =>
-        S.Struct({
-          moneyValue: S.optional(__S(464, __c14, 16)),
-          signatureValue: S.optional(S.Boolean),
-          integerValue: S.optional(S.Number),
-          dateValue: S.optional(__S(465, __c14, 17)),
-          booleanValue: S.optional(S.Boolean),
-          addressValue: S.optional(__S(466, __c14, 18)),
-          floatValue: S.optional(S.Number),
-          text: S.optional(S.String),
-          datetimeValue: S.optional(__S(468, __c14, 20)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntityNormalizedValue" });
-    case 22:
       return S.suspend(() =>
         S.Struct({
           x: S.optional(S.Number),
           y: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1NormalizedVertex" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1Vertex" });
+    case 22:
+      return S.Array(__S(469, __c14, 21));
     case 23:
-      return S.Array(__S(470, __c14, 22));
+      return S.suspend(() =>
+        S.Struct({
+          normalizedVertices: S.optional(__S(468, __c14, 20)),
+          vertices: S.optional(__S(470, __c14, 22)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1BoundingPoly" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          normalizedVertices: S.optional(__S(471, __c14, 23)),
-          vertices: S.optional(__S(471, __c14, 23)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1BoundingPoly" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          page: S.optional(S.String),
-          layoutId: S.optional(S.String),
-          boundingPoly: S.optional(__S(472, __c14, 24)),
-          confidence: S.optional(S.Number),
           layoutType: S.optional(S.String),
+          page: S.optional(S.String),
+          confidence: S.optional(S.Number),
+          layoutId: S.optional(S.String),
+          boundingPoly: S.optional(__S(471, __c14, 23)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageAnchorPageRef" });
+    case 25:
+      return S.Array(__S(472, __c14, 24));
     case 26:
-      return S.Array(__S(473, __c14, 25));
+      return S.suspend(() =>
+        S.Struct({
+          pageRefs: S.optional(__S(473, __c14, 25)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageAnchor" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          pageRefs: S.optional(__S(474, __c14, 26)),
+          currencyCode: S.optional(S.String),
+          units: S.optional(S.String),
+          nanos: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageAnchor" });
+      ).annotate({ identifier: "GoogleTypeMoney" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          endIndex: S.optional(S.String),
-          startIndex: S.optional(S.String),
+          administrativeArea: S.optional(S.String),
+          organization: S.optional(S.String),
+          sublocality: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          revision: S.optional(S.Number),
+          addressLines: S.optional(__S(1664, __c52, 0)),
+          postalCode: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          sortingCode: S.optional(S.String),
+          recipients: S.optional(__S(1664, __c52, 0)),
+          locality: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment" });
+      ).annotate({ identifier: "GoogleTypePostalAddress" });
     case 29:
-      return S.Array(__S(476, __c14, 28));
+      return S.suspend(() =>
+        S.Struct({
+          day: S.optional(S.Number),
+          year: S.optional(S.Number),
+          month: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleTypeDate" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(S.String),
-          textSegments: S.optional(__S(477, __c14, 29)),
+          version: S.optional(S.String),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentTextAnchor" });
+      ).annotate({ identifier: "GoogleTypeTimeZone" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          method: S.optional(S.String),
-          provenance: S.optional(__S(463, __c14, 15)),
-          mentionId: S.optional(S.String),
-          confidence: S.optional(S.Number),
-          mentionText: S.optional(S.String),
-          normalizedValue: S.optional(__S(469, __c14, 21)),
-          type: S.optional(S.String),
-          pageAnchor: S.optional(__S(475, __c14, 27)),
-          properties: S.optional(S.suspend(() => __S(480, __c15, 0))),
-          redacted: S.optional(S.Boolean),
-          id: S.optional(S.String),
-          textAnchor: S.optional(__S(478, __c14, 30)),
+          nanos: S.optional(S.Number),
+          minutes: S.optional(S.Number),
+          day: S.optional(S.Number),
+          utcOffset: S.optional(S.String),
+          seconds: S.optional(S.Number),
+          timeZone: S.optional(__S(478, __c14, 30)),
+          month: S.optional(S.Number),
+          year: S.optional(S.Number),
+          hours: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntity" });
+      ).annotate({ identifier: "GoogleTypeDateTime" });
   }
 }
 function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(479, __c14, 31));
+      return S.suspend(() =>
+        S.Struct({
+          moneyValue: S.optional(__S(475, __c14, 27)),
+          addressValue: S.optional(__S(476, __c14, 28)),
+          dateValue: S.optional(__S(477, __c14, 29)),
+          text: S.optional(S.String),
+          booleanValue: S.optional(S.Boolean),
+          datetimeValue: S.optional(__S(479, __c14, 31)),
+          floatValue: S.optional(S.Number),
+          integerValue: S.optional(S.Number),
+          signatureValue: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntityNormalizedValue" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ruleName: S.optional(S.String),
-          rule: S.optional(S.String),
-          validationDetails: S.optional(S.String),
-          ruleDescription: S.optional(S.String),
-          validationResultType: S.optional(S.String),
+          provenance: S.optional(__S(463, __c14, 15)),
+          redacted: S.optional(S.Boolean),
+          mentionText: S.optional(S.String),
+          textAnchor: S.optional(__S(466, __c14, 18)),
+          id: S.optional(S.String),
+          pageAnchor: S.optional(__S(474, __c14, 26)),
+          properties: S.optional(S.suspend(() => __S(482, __c15, 2))),
+          type: S.optional(S.String),
+          method: S.optional(S.String),
+          mentionId: S.optional(S.String),
+          confidence: S.optional(S.Number),
+          normalizedValue: S.optional(__S(480, __c15, 0)),
         }),
-      ).annotate({
-        identifier: "GoogleCloudDocumentaiV1DocumentEntityValidationOutputValidationResult",
-      });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntity" });
     case 2:
       return S.Array(__S(481, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          passAllRules: S.optional(S.Boolean),
-          validationResults: S.optional(__S(482, __c15, 2)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntityValidationOutput" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          blocks: S.optional(S.suspend(() => __S(496, __c15, 16))),
-          annotations: S.optional(__S(448, __c14, 0)),
-          text: S.optional(S.String),
+          validationResultType: S.optional(S.String),
+          validationDetails: S.optional(S.String),
+          rule: S.optional(S.String),
+          ruleName: S.optional(S.String),
+          ruleDescription: S.optional(S.String),
         }),
       ).annotate({
-        identifier:
-          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock",
+        identifier: "GoogleCloudDocumentaiV1DocumentEntityValidationOutputValidationResult",
       });
+    case 4:
+      return S.Array(__S(483, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          colSpan: S.optional(S.Number),
-          rowSpan: S.optional(S.Number),
-          blocks: S.optional(S.suspend(() => __S(496, __c15, 16))),
+          validationResults: S.optional(__S(484, __c15, 4)),
+          passAllRules: S.optional(S.Boolean),
         }),
-      ).annotate({
-        identifier:
-          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell",
-      });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntityValidationOutput" });
     case 6:
-      return S.Array(__S(485, __c15, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          cells: S.optional(__S(486, __c15, 6)),
+          entityValidationOutput: S.optional(__S(485, __c15, 5)),
+          entities: S.optional(__S(482, __c15, 2)),
+          revisionId: S.optional(S.String),
+          provenance: S.optional(__S(463, __c14, 15)),
         }),
-      ).annotate({
-        identifier:
-          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow",
-      });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntitiesRevision" });
+    case 7:
+      return S.Array(__S(486, __c15, 6));
     case 8:
-      return S.Array(__S(487, __c15, 7));
+      return S.suspend(() =>
+        S.Struct({
+          shardCount: S.optional(S.String),
+          textOffset: S.optional(S.String),
+          shardIndex: S.optional(S.String),
+          pageOffset: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentShardInfo" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          bodyRows: S.optional(__S(488, __c15, 8)),
-          caption: S.optional(S.String),
-          annotations: S.optional(__S(448, __c14, 0)),
-          headerRows: S.optional(__S(488, __c15, 8)),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock",
-      });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          imageText: S.optional(S.String),
           mimeType: S.optional(S.String),
-          blobAssetId: S.optional(S.String),
-          gcsUri: S.optional(S.String),
-          dataUri: S.optional(S.String),
-          annotations: S.optional(__S(448, __c14, 0)),
+          assetId: S.optional(S.String),
+          content: S.optional(S.String),
         }),
-      ).annotate({
-        identifier:
-          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutImageBlock",
-      });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentBlobAsset" });
+    case 10:
+      return S.Array(__S(489, __c15, 9));
     case 11:
-      return S.suspend(() =>
-        S.Struct({
-          pageEnd: S.optional(S.Number),
-          pageStart: S.optional(S.Number),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan",
-      });
+      return S.Array(__S(463, __c14, 15));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          blocks: S.optional(S.suspend(() => __S(496, __c15, 16))),
+          textAnchor: S.optional(__S(466, __c14, 18)),
+          provenance: S.optional(__S(491, __c15, 11)),
+          changedText: S.optional(S.String),
         }),
-      ).annotate({
-        identifier:
-          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry",
-      });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentTextChange" });
     case 13:
       return S.Array(__S(492, __c15, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          listEntries: S.optional(__S(493, __c15, 13)),
+          red: S.optional(S.Number),
+          green: S.optional(S.Number),
+          alpha: S.optional(S.Number),
+          blue: S.optional(S.Number),
         }),
-      ).annotate({
-        identifier:
-          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock",
-      });
+      ).annotate({ identifier: "GoogleTypeColor" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          textBlock: S.optional(__S(484, __c15, 4)),
-          tableBlock: S.optional(__S(489, __c15, 9)),
-          imageBlock: S.optional(__S(490, __c15, 10)),
-          pageSpan: S.optional(__S(491, __c15, 11)),
-          listBlock: S.optional(__S(494, __c15, 14)),
-          blockId: S.optional(S.String),
-          boundingBox: S.optional(__S(472, __c14, 24)),
+          size: S.optional(S.Number),
+          unit: S.optional(S.String),
         }),
-      ).annotate({
-        identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock",
-      });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentStyleFontSize" });
     case 16:
-      return S.Array(__S(495, __c15, 15));
-    case 17:
       return S.suspend(() =>
         S.Struct({
-          blocks: S.optional(__S(496, __c15, 16)),
+          color: S.optional(__S(494, __c15, 14)),
+          fontSize: S.optional(__S(495, __c15, 15)),
+          fontWeight: S.optional(S.String),
+          textDecoration: S.optional(S.String),
+          textAnchor: S.optional(__S(466, __c14, 18)),
+          textStyle: S.optional(S.String),
+          backgroundColor: S.optional(__S(494, __c15, 14)),
+          fontFamily: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayout" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentStyle" });
+    case 17:
+      return S.Array(__S(496, __c15, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          objectId: S.optional(S.String),
-          relation: S.optional(S.String),
-          subjectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntityRelation" });
-    case 19:
-      return S.Array(__S(498, __c15, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
           stateMessage: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentRevisionHumanReview" });
-    case 21:
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          agent: S.optional(S.String),
           processor: S.optional(S.String),
-          humanReview: S.optional(__S(500, __c15, 20)),
           parent: S.optional(__S(1568, __c49, 0)),
+          humanReview: S.optional(__S(498, __c15, 18)),
+          agent: S.optional(S.String),
           parentIds: S.optional(__S(1664, __c52, 0)),
           id: S.optional(S.String),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentRevision" });
-    case 22:
-      return S.Array(__S(501, __c15, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          orientation: S.optional(S.String),
-          boundingPoly: S.optional(__S(472, __c14, 24)),
-          textAnchor: S.optional(__S(478, __c14, 30)),
-          confidence: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageLayout" });
-    case 24:
+    case 20:
+      return S.Array(__S(499, __c15, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           confidence: S.optional(S.Number),
           languageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageDetectedLanguage" });
+    case 22:
+      return S.Array(__S(501, __c15, 21));
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          confidence: S.optional(S.Number),
+          boundingPoly: S.optional(__S(471, __c14, 23)),
+          orientation: S.optional(S.String),
+          textAnchor: S.optional(__S(466, __c14, 18)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageLayout" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          detectedLanguages: S.optional(__S(502, __c15, 22)),
+          provenance: S.optional(__S(463, __c14, 15)),
+          layout: S.optional(__S(503, __c15, 23)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageBlock" });
     case 25:
       return S.Array(__S(504, __c15, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          colSpan: S.optional(S.Number),
-          detectedLanguages: S.optional(__S(505, __c15, 25)),
-          rowSpan: S.optional(S.Number),
-          layout: S.optional(__S(503, __c15, 23)),
+          unit: S.optional(S.String),
+          height: S.optional(S.Number),
+          width: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTableTableCell" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageDimension" });
     case 27:
-      return S.Array(__S(506, __c15, 26));
+      return S.suspend(() =>
+        S.Struct({
+          content: S.optional(S.String),
+          mimeType: S.optional(S.String),
+          height: S.optional(S.Number),
+          width: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageImage" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          cells: S.optional(__S(507, __c15, 27)),
+          layout: S.optional(__S(503, __c15, 23)),
+          detectedLanguages: S.optional(__S(502, __c15, 22)),
+          provenance: S.optional(__S(463, __c14, 15)),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTableTableRow" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageParagraph" });
     case 29:
       return S.Array(__S(508, __c15, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
+          detectedLanguages: S.optional(__S(502, __c15, 22)),
+          colSpan: S.optional(S.Number),
+          rowSpan: S.optional(S.Number),
           layout: S.optional(__S(503, __c15, 23)),
-          provenance: S.optional(__S(463, __c14, 15)),
-          detectedLanguages: S.optional(__S(505, __c15, 25)),
-          bodyRows: S.optional(__S(509, __c15, 29)),
-          headerRows: S.optional(__S(509, __c15, 29)),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTable" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTableTableCell" });
     case 31:
       return S.Array(__S(510, __c15, 30));
   }
@@ -3707,152 +3735,24 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          rows: S.optional(S.Number),
-          cols: S.optional(S.Number),
-          type: S.optional(S.Number),
-          data: S.optional(S.String),
+          cells: S.optional(__S(511, __c15, 31)),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageMatrix" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTableTableRow" });
     case 1:
       return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          height: S.optional(S.Number),
-          mimeType: S.optional(S.String),
-          width: S.optional(S.Number),
-          content: S.optional(S.String),
+          layout: S.optional(__S(503, __c15, 23)),
+          headerRows: S.optional(__S(513, __c16, 1)),
+          bodyRows: S.optional(__S(513, __c16, 1)),
+          detectedLanguages: S.optional(__S(502, __c15, 22)),
+          provenance: S.optional(__S(463, __c14, 15)),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageImage" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTable" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          provenance: S.optional(__S(463, __c14, 15)),
-          detectedLanguages: S.optional(__S(505, __c15, 25)),
-          layout: S.optional(__S(503, __c15, 23)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageParagraph" });
+      return S.Array(__S(514, __c16, 2));
     case 4:
-      return S.Array(__S(515, __c16, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          format: S.optional(S.String),
-          rawValue: S.optional(S.String),
-          valueFormat: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1Barcode" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          barcode: S.optional(__S(517, __c16, 5)),
-          layout: S.optional(__S(503, __c15, 23)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageDetectedBarcode" });
-    case 7:
-      return S.Array(__S(518, __c16, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          detectedLanguages: S.optional(__S(505, __c15, 25)),
-          provenance: S.optional(__S(463, __c14, 15)),
-          layout: S.optional(__S(503, __c15, 23)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageLine" });
-    case 9:
-      return S.Array(__S(520, __c16, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          red: S.optional(S.Number),
-          blue: S.optional(S.Number),
-          alpha: S.optional(S.Number),
-          green: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleTypeColor" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          superscript: S.optional(S.Boolean),
-          fontWeight: S.optional(S.Number),
-          textColor: S.optional(__S(523, __c16, 11)),
-          handwritten: S.optional(S.Boolean),
-          bold: S.optional(S.Boolean),
-          underlined: S.optional(S.Boolean),
-          backgroundColor: S.optional(__S(523, __c16, 11)),
-          letterSpacing: S.optional(S.Number),
-          smallcaps: S.optional(S.Boolean),
-          pixelFontSize: S.optional(S.Number),
-          strikeout: S.optional(S.Boolean),
-          subscript: S.optional(S.Boolean),
-          fontType: S.optional(S.String),
-          fontSize: S.optional(S.Number),
-          italic: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          detectedLanguages: S.optional(__S(505, __c15, 25)),
-          detectedBreak: S.optional(__S(522, __c16, 10)),
-          provenance: S.optional(__S(463, __c14, 15)),
-          layout: S.optional(__S(503, __c15, 23)),
-          styleInfo: S.optional(__S(524, __c16, 12)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageToken" });
-    case 14:
-      return S.Array(__S(525, __c16, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          valueDetectedLanguages: S.optional(__S(505, __c15, 25)),
-          correctedValueText: S.optional(S.String),
-          valueType: S.optional(S.String),
-          correctedKeyText: S.optional(S.String),
-          fieldValue: S.optional(__S(503, __c15, 23)),
-          nameDetectedLanguages: S.optional(__S(505, __c15, 25)),
-          provenance: S.optional(__S(463, __c14, 15)),
-          fieldName: S.optional(__S(503, __c15, 23)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageFormField" });
-    case 16:
-      return S.Array(__S(527, __c16, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          layout: S.optional(__S(503, __c15, 23)),
-          detectedLanguages: S.optional(__S(505, __c15, 25)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageSymbol" });
-    case 18:
-      return S.Array(__S(529, __c16, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          layout: S.optional(__S(503, __c15, 23)),
-          detectedLanguages: S.optional(__S(505, __c15, 25)),
-          provenance: S.optional(__S(463, __c14, 15)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageBlock" });
-    case 20:
-      return S.Array(__S(531, __c16, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          layout: S.optional(__S(503, __c15, 23)),
-          detectedLanguages: S.optional(__S(505, __c15, 25)),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageVisualElement" });
-    case 22:
-      return S.Array(__S(533, __c16, 21));
-    case 23:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -3861,127 +3761,290 @@ function __c16(j: number): any {
       ).annotate({
         identifier: "GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect",
       });
-    case 24:
-      return S.Array(__S(535, __c16, 23));
-    case 25:
+    case 5:
+      return S.Array(__S(516, __c16, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           qualityScore: S.optional(S.Number),
-          detectedDefects: S.optional(__S(536, __c16, 24)),
+          detectedDefects: S.optional(__S(517, __c16, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageImageQualityScores" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          cols: S.optional(S.Number),
+          type: S.optional(S.Number),
+          rows: S.optional(S.Number),
+          data: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageMatrix" });
+    case 8:
+      return S.Array(__S(519, __c16, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          fontType: S.optional(S.String),
+          strikeout: S.optional(S.Boolean),
+          subscript: S.optional(S.Boolean),
+          bold: S.optional(S.Boolean),
+          pixelFontSize: S.optional(S.Number),
+          fontWeight: S.optional(S.Number),
+          handwritten: S.optional(S.Boolean),
+          smallcaps: S.optional(S.Boolean),
+          fontSize: S.optional(S.Number),
+          backgroundColor: S.optional(__S(494, __c15, 14)),
+          underlined: S.optional(S.Boolean),
+          italic: S.optional(S.Boolean),
+          letterSpacing: S.optional(S.Number),
+          textColor: S.optional(__S(494, __c15, 14)),
+          superscript: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          layout: S.optional(__S(503, __c15, 23)),
+          detectedLanguages: S.optional(__S(502, __c15, 22)),
+          provenance: S.optional(__S(463, __c14, 15)),
+          detectedBreak: S.optional(__S(521, __c16, 9)),
+          styleInfo: S.optional(__S(522, __c16, 10)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageToken" });
+    case 12:
+      return S.Array(__S(523, __c16, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          detectedLanguages: S.optional(__S(502, __c15, 22)),
+          layout: S.optional(__S(503, __c15, 23)),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageVisualElement" });
+    case 14:
+      return S.Array(__S(525, __c16, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          fieldValue: S.optional(__S(503, __c15, 23)),
+          fieldName: S.optional(__S(503, __c15, 23)),
+          valueType: S.optional(S.String),
+          correctedKeyText: S.optional(S.String),
+          valueDetectedLanguages: S.optional(__S(502, __c15, 22)),
+          correctedValueText: S.optional(S.String),
+          provenance: S.optional(__S(463, __c14, 15)),
+          nameDetectedLanguages: S.optional(__S(502, __c15, 22)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageFormField" });
+    case 16:
+      return S.Array(__S(527, __c16, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          layout: S.optional(__S(503, __c15, 23)),
+          detectedLanguages: S.optional(__S(502, __c15, 22)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageSymbol" });
+    case 18:
+      return S.Array(__S(529, __c16, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          provenance: S.optional(__S(463, __c14, 15)),
+          detectedLanguages: S.optional(__S(502, __c15, 22)),
+          layout: S.optional(__S(503, __c15, 23)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageLine" });
+    case 20:
+      return S.Array(__S(531, __c16, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          format: S.optional(S.String),
+          rawValue: S.optional(S.String),
+          valueFormat: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1Barcode" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          barcode: S.optional(__S(533, __c16, 21)),
+          layout: S.optional(__S(503, __c15, 23)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageDetectedBarcode" });
+    case 23:
+      return S.Array(__S(534, __c16, 22));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          blocks: S.optional(__S(505, __c15, 25)),
+          dimension: S.optional(__S(506, __c15, 26)),
+          image: S.optional(__S(507, __c15, 27)),
+          paragraphs: S.optional(__S(509, __c15, 29)),
+          pageNumber: S.optional(S.Number),
+          tables: S.optional(__S(515, __c16, 3)),
+          layout: S.optional(__S(503, __c15, 23)),
+          imageQualityScores: S.optional(__S(518, __c16, 6)),
+          transforms: S.optional(__S(520, __c16, 8)),
+          tokens: S.optional(__S(524, __c16, 12)),
+          visualElements: S.optional(__S(526, __c16, 14)),
+          formFields: S.optional(__S(528, __c16, 16)),
+          detectedLanguages: S.optional(__S(502, __c15, 22)),
+          symbols: S.optional(__S(530, __c16, 18)),
+          lines: S.optional(__S(532, __c16, 20)),
+          detectedBarcodes: S.optional(__S(535, __c16, 23)),
+          provenance: S.optional(__S(463, __c14, 15)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPage" });
+    case 25:
+      return S.Array(__S(536, __c16, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          unit: S.optional(S.String),
-          width: S.optional(S.Number),
-          height: S.optional(S.Number),
+          text: S.optional(S.String),
+          blocks: S.optional(S.suspend(() => __S(550, __c17, 6))),
+          annotations: S.optional(__S(453, __c14, 5)),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageDimension" });
+      ).annotate({
+        identifier:
+          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock",
+      });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          tables: S.optional(__S(511, __c15, 31)),
-          transforms: S.optional(__S(513, __c16, 1)),
-          image: S.optional(__S(514, __c16, 2)),
-          pageNumber: S.optional(S.Number),
-          paragraphs: S.optional(__S(516, __c16, 4)),
-          provenance: S.optional(__S(463, __c14, 15)),
-          detectedBarcodes: S.optional(__S(519, __c16, 7)),
-          lines: S.optional(__S(521, __c16, 9)),
-          tokens: S.optional(__S(526, __c16, 14)),
-          formFields: S.optional(__S(528, __c16, 16)),
-          detectedLanguages: S.optional(__S(505, __c15, 25)),
-          layout: S.optional(__S(503, __c15, 23)),
-          symbols: S.optional(__S(530, __c16, 18)),
-          blocks: S.optional(__S(532, __c16, 20)),
-          visualElements: S.optional(__S(534, __c16, 22)),
-          imageQualityScores: S.optional(__S(537, __c16, 25)),
-          dimension: S.optional(__S(538, __c16, 26)),
+          blocks: S.optional(S.suspend(() => __S(550, __c17, 6))),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPage" });
+      ).annotate({
+        identifier:
+          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry",
+      });
     case 28:
       return S.Array(__S(539, __c16, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          revisionId: S.optional(S.String),
-          entityValidationOutput: S.optional(__S(483, __c15, 3)),
-          entities: S.optional(__S(480, __c15, 0)),
-          provenance: S.optional(__S(463, __c14, 15)),
+          listEntries: S.optional(__S(540, __c16, 28)),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntitiesRevision" });
+      ).annotate({
+        identifier:
+          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock",
+      });
     case 30:
-      return S.Array(__S(541, __c16, 29));
+      return S.suspend(() =>
+        S.Struct({
+          imageText: S.optional(S.String),
+          blobAssetId: S.optional(S.String),
+          dataUri: S.optional(S.String),
+          gcsUri: S.optional(S.String),
+          annotations: S.optional(__S(453, __c14, 5)),
+          mimeType: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutImageBlock",
+      });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          shardCount: S.optional(S.String),
-          textOffset: S.optional(S.String),
-          pageOffset: S.optional(S.Number),
-          shardIndex: S.optional(S.String),
+          colSpan: S.optional(S.Number),
+          blocks: S.optional(S.suspend(() => __S(550, __c17, 6))),
+          rowSpan: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentShardInfo" });
+      ).annotate({
+        identifier:
+          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell",
+      });
   }
 }
 function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          unit: S.optional(S.String),
-          size: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentStyleFontSize" });
+      return S.Array(__S(543, __c16, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          backgroundColor: S.optional(__S(523, __c16, 11)),
-          textDecoration: S.optional(S.String),
-          color: S.optional(__S(523, __c16, 11)),
-          fontSize: S.optional(__S(544, __c17, 0)),
-          textAnchor: S.optional(__S(478, __c14, 30)),
-          fontWeight: S.optional(S.String),
-          fontFamily: S.optional(S.String),
-          textStyle: S.optional(S.String),
+          cells: S.optional(__S(544, __c17, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentStyle" });
+      ).annotate({
+        identifier:
+          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow",
+      });
     case 2:
       return S.Array(__S(545, __c17, 1));
     case 3:
-      return S.Array(__S(463, __c14, 15));
+      return S.suspend(() =>
+        S.Struct({
+          annotations: S.optional(__S(453, __c14, 5)),
+          bodyRows: S.optional(__S(546, __c17, 2)),
+          headerRows: S.optional(__S(546, __c17, 2)),
+          caption: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock",
+      });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          changedText: S.optional(S.String),
-          provenance: S.optional(__S(547, __c17, 3)),
-          textAnchor: S.optional(__S(478, __c14, 30)),
+          pageStart: S.optional(S.Number),
+          pageEnd: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentTextChange" });
+      ).annotate({
+        identifier:
+          "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan",
+      });
     case 5:
-      return S.Array(__S(548, __c17, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(1409, __c44, 1)),
-          chunkedDocument: S.optional(__S(458, __c14, 10)),
+          blockId: S.optional(S.String),
+          textBlock: S.optional(__S(538, __c16, 26)),
+          listBlock: S.optional(__S(541, __c16, 29)),
+          boundingBox: S.optional(__S(471, __c14, 23)),
+          imageBlock: S.optional(__S(542, __c16, 30)),
+          tableBlock: S.optional(__S(547, __c17, 3)),
+          pageSpan: S.optional(__S(548, __c17, 4)),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock",
+      });
+    case 6:
+      return S.Array(__S(549, __c17, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          blocks: S.optional(__S(550, __c17, 6)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayout" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           text: S.optional(S.String),
+          entityRelations: S.optional(__S(449, __c14, 1)),
           entitiesRevisionId: S.optional(S.String),
-          blobAssets: S.optional(__S(460, __c14, 12)),
-          entities: S.optional(__S(480, __c15, 0)),
-          mimeType: S.optional(S.String),
-          entityValidationOutput: S.optional(__S(483, __c15, 3)),
-          documentLayout: S.optional(__S(497, __c15, 17)),
-          entityRelations: S.optional(__S(499, __c15, 19)),
-          docid: S.optional(S.String),
-          revisions: S.optional(__S(502, __c15, 22)),
+          chunkedDocument: S.optional(__S(460, __c14, 12)),
           content: S.optional(S.String),
-          pages: S.optional(__S(540, __c16, 28)),
-          entitiesRevisions: S.optional(__S(542, __c16, 30)),
-          shardInfo: S.optional(__S(543, __c16, 31)),
-          textStyles: S.optional(__S(546, __c17, 2)),
-          textChanges: S.optional(__S(549, __c17, 5)),
+          entities: S.optional(__S(482, __c15, 2)),
+          entitiesRevisions: S.optional(__S(487, __c15, 7)),
+          shardInfo: S.optional(__S(488, __c15, 8)),
+          blobAssets: S.optional(__S(490, __c15, 10)),
+          textChanges: S.optional(__S(493, __c15, 13)),
+          mimeType: S.optional(S.String),
+          textStyles: S.optional(__S(497, __c15, 17)),
+          revisions: S.optional(__S(500, __c15, 20)),
+          docid: S.optional(S.String),
+          pages: S.optional(__S(537, __c16, 25)),
+          error: S.optional(__S(1409, __c44, 1)),
+          documentLayout: S.optional(__S(551, __c17, 7)),
           uri: S.optional(S.String),
+          entityValidationOutput: S.optional(__S(485, __c15, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1Document" });
   }
@@ -4009,8 +4072,8 @@ function __c19(j: number): any {
         S.Struct({
           locationId: S.optional(S.String),
           metadata: S.optional(__S(1376, __c43, 0)),
-          labels: S.optional(__S(1632, __c51, 0)),
           displayName: S.optional(S.String),
+          labels: S.optional(__S(1632, __c51, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudLocationLocation" });
@@ -4070,16 +4133,16 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           recall: S.optional(S.Number),
+          falseNegativesCount: S.optional(S.Number),
           groundTruthDocumentCount: S.optional(S.Number),
-          truePositivesCount: S.optional(S.Number),
-          f1Score: S.optional(S.Number),
-          totalDocumentsCount: S.optional(S.Number),
-          falsePositivesCount: S.optional(S.Number),
+          precision: S.optional(S.Number),
           predictedOccurrencesCount: S.optional(S.Number),
           predictedDocumentCount: S.optional(S.Number),
+          totalDocumentsCount: S.optional(S.Number),
           groundTruthOccurrencesCount: S.optional(S.Number),
-          falseNegativesCount: S.optional(S.Number),
-          precision: S.optional(S.Number),
+          falsePositivesCount: S.optional(S.Number),
+          f1Score: S.optional(S.Number),
+          truePositivesCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1EvaluationMetrics" });
   }
@@ -4089,29 +4152,13 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deprecationTime: S.optional(S.String),
-          replacementProcessorVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessorVersionDeprecationInfo" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          aggregateMetricsExact: S.optional(__S(736, __c23, 0)),
-          operation: S.optional(S.String),
-          evaluation: S.optional(S.String),
-          aggregateMetrics: S.optional(__S(736, __c23, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1EvaluationReference" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           minTrainLabeledDocuments: S.optional(S.Number),
           finetuningAllowed: S.optional(S.Boolean),
         }),
       ).annotate({
         identifier: "GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoFoundationGenAiModelInfo",
       });
-    case 3:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           customModelType: S.optional(S.String),
@@ -4120,29 +4167,45 @@ function __c24(j: number): any {
       ).annotate({
         identifier: "GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfoCustomGenAiModelInfo",
       });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          foundationGenAiModelInfo: S.optional(__S(768, __c24, 0)),
+          customGenAiModelInfo: S.optional(__S(769, __c24, 1)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfo" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          aggregateMetrics: S.optional(__S(736, __c23, 0)),
+          evaluation: S.optional(S.String),
+          operation: S.optional(S.String),
+          aggregateMetricsExact: S.optional(__S(736, __c23, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1EvaluationReference" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          foundationGenAiModelInfo: S.optional(__S(770, __c24, 2)),
-          customGenAiModelInfo: S.optional(__S(771, __c24, 3)),
+          replacementProcessorVersion: S.optional(S.String),
+          deprecationTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfo" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessorVersionDeprecationInfo" });
     case 5:
       return S.suspend(() =>
         S.Struct({
+          modelType: S.optional(S.String),
+          genAiModelInfo: S.optional(__S(770, __c24, 2)),
+          state: S.optional(S.String),
+          latestEvaluation: S.optional(__S(771, __c24, 3)),
+          documentSchema: S.optional(__S(1702, __c53, 6)),
+          satisfiesPzs: S.optional(S.Boolean),
+          googleManaged: S.optional(S.Boolean),
           displayName: S.optional(S.String),
           createTime: S.optional(S.String),
+          deprecationInfo: S.optional(__S(772, __c24, 4)),
+          kmsKeyName: S.optional(S.String),
           name: S.optional(S.String),
           satisfiesPzi: S.optional(S.Boolean),
-          documentSchema: S.optional(__S(1702, __c53, 6)),
-          kmsKeyName: S.optional(S.String),
-          deprecationInfo: S.optional(__S(768, __c24, 0)),
-          modelType: S.optional(S.String),
-          latestEvaluation: S.optional(__S(769, __c24, 1)),
-          state: S.optional(S.String),
-          googleManaged: S.optional(S.Boolean),
-          satisfiesPzs: S.optional(S.Boolean),
-          genAiModelInfo: S.optional(__S(772, __c24, 4)),
           kmsKeyVersionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessorVersion" });
@@ -4171,42 +4234,42 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          inputDocumentsCount: S.optional(S.Number),
+          evaluatedDocumentsCount: S.optional(S.Number),
+          invalidDocumentsCount: S.optional(S.Number),
+          failedDocumentsCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1EvaluationCounters" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           confidenceLevel: S.optional(S.Number),
           metrics: S.optional(__S(736, __c23, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1EvaluationConfidenceLevelMetrics" });
-    case 1:
-      return S.Array(__S(832, __c26, 0));
     case 2:
+      return S.Array(__S(833, __c26, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          confidenceLevelMetricsExact: S.optional(__S(833, __c26, 1)),
-          metricsType: S.optional(S.String),
-          estimatedCalibrationErrorExact: S.optional(S.Number),
+          confidenceLevelMetricsExact: S.optional(__S(834, __c26, 2)),
           auprc: S.optional(S.Number),
+          confidenceLevelMetrics: S.optional(__S(834, __c26, 2)),
+          metricsType: S.optional(S.String),
           auprcExact: S.optional(S.Number),
+          estimatedCalibrationErrorExact: S.optional(S.Number),
           estimatedCalibrationError: S.optional(S.Number),
-          confidenceLevelMetrics: S.optional(__S(833, __c26, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetrics" });
-    case 3:
-      return S.Record(S.String, __S(834, __c26, 2));
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          failedDocumentsCount: S.optional(S.Number),
-          evaluatedDocumentsCount: S.optional(S.Number),
-          invalidDocumentsCount: S.optional(S.Number),
-          inputDocumentsCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1EvaluationCounters" });
+      return S.Record(S.String, __S(835, __c26, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          allEntitiesMetrics: S.optional(__S(834, __c26, 2)),
-          entityMetrics: S.optional(__S(835, __c26, 3)),
+          entityMetrics: S.optional(__S(836, __c26, 4)),
+          allEntitiesMetrics: S.optional(__S(835, __c26, 3)),
           revisionId: S.optional(S.String),
-          documentCounters: S.optional(__S(836, __c26, 4)),
+          documentCounters: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1EvaluationEvaluationRevision" });
     case 6:
@@ -4214,14 +4277,14 @@ function __c26(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          revisions: S.optional(__S(838, __c26, 6)),
-          documentCounters: S.optional(__S(836, __c26, 4)),
-          kmsKeyVersionName: S.optional(S.String),
-          allEntitiesMetrics: S.optional(__S(834, __c26, 2)),
+          documentCounters: S.optional(__S(832, __c26, 0)),
+          entityMetrics: S.optional(__S(836, __c26, 4)),
           kmsKeyName: S.optional(S.String),
+          allEntitiesMetrics: S.optional(__S(835, __c26, 3)),
+          revisions: S.optional(__S(838, __c26, 6)),
+          kmsKeyVersionName: S.optional(S.String),
           name: S.optional(S.String),
-          entityMetrics: S.optional(__S(835, __c26, 3)),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1Evaluation" });
   }
@@ -4295,11 +4358,11 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          extraLocationTypes: S.optional(__S(1664, __c52, 0).pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(1664, __c52, 0).pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4313,8 +4376,8 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           locations: S.optional(__S(993, __c31, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudLocationListLocationsResponse" });
   }
@@ -4325,10 +4388,10 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4354,9 +4417,9 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4370,8 +4433,8 @@ function __c33(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          processors: S.optional(__S(1057, __c33, 1)),
           nextPageToken: S.optional(S.String),
+          processors: S.optional(__S(1057, __c33, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1ListProcessorsResponse" });
   }
@@ -4381,9 +4444,9 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4397,8 +4460,8 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          processorVersions: S.optional(__S(1089, __c34, 1)),
           nextPageToken: S.optional(S.String),
+          processorVersions: S.optional(__S(1089, __c34, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1ListProcessorVersionsResponse" });
   }
@@ -4408,9 +4471,9 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4426,8 +4489,8 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           evaluations: S.optional(__S(1121, __c35, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1ListEvaluationsResponse" });
   }
@@ -4438,8 +4501,8 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4451,8 +4514,8 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          processorTypes: S.optional(__S(352, __c11, 0)),
           nextPageToken: S.optional(S.String),
+          processorTypes: S.optional(__S(352, __c11, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1ListProcessorTypesResponse" });
   }
@@ -4462,9 +4525,9 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4489,9 +4552,9 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4505,8 +4568,8 @@ function __c38(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           schemaVersions: S.optional(__S(1217, __c38, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1ListSchemaVersionsResponse" });
   }
@@ -4534,8 +4597,8 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -4579,8 +4642,8 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           shardingConfig: S.optional(__S(1344, __c42, 0)),
-          fieldMask: S.optional(S.String),
           gcsUri: S.optional(S.String),
+          fieldMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfig" });
     case 2:
@@ -4592,10 +4655,10 @@ function __c42(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          processOptions: S.optional(__S(1606, __c50, 6)),
           documentOutputConfig: S.optional(__S(1346, __c42, 2)),
           labels: S.optional(__S(1632, __c51, 0)),
           skipHumanReview: S.optional(S.Boolean),
-          processOptions: S.optional(__S(1606, __c50, 6)),
           inputDocuments: S.optional(__S(1536, __c48, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1BatchProcessRequest" });
@@ -4614,9 +4677,9 @@ function __c44(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          message: S.optional(S.String),
           details: S.optional(__S(1408, __c44, 0)),
           code: S.optional(S.Number),
-          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
   }
@@ -4627,9 +4690,9 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(1376, __c43, 0)),
-          name: S.optional(S.String),
-          done: S.optional(S.Boolean),
           response: S.optional(__S(1376, __c43, 0)),
+          done: S.optional(S.Boolean),
+          name: S.optional(S.String),
           error: S.optional(__S(1409, __c44, 1)),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
@@ -4640,8 +4703,8 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          mimeType: S.optional(S.String),
           gcsUri: S.optional(S.String),
+          mimeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1GcsDocument" });
   }
@@ -4686,62 +4749,62 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          computeStyleInfo: S.optional(S.Boolean),
-          enableSelectionMarkDetection: S.optional(S.Boolean),
-          enableMathOcr: S.optional(S.Boolean),
+          pages: S.optional(__S(1568, __c49, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1OcrConfigPremiumFeatures" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessOptionsIndividualPageSelector" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          chunkSize: S.optional(S.Number),
+          includeAncestorHeadings: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessOptionsLayoutConfigChunkingConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          enableTableAnnotation: S.optional(S.Boolean),
+          returnImages: S.optional(S.Boolean),
+          returnBoundingBoxes: S.optional(S.Boolean),
+          chunkingConfig: S.optional(__S(1601, __c50, 1)),
+          enableImageAnnotation: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessOptionsLayoutConfig" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           languageHints: S.optional(__S(1664, __c52, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1OcrConfigHints" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          premiumFeatures: S.optional(__S(1600, __c50, 0)),
-          hints: S.optional(__S(1601, __c50, 1)),
-          advancedOcrOptions: S.optional(__S(1664, __c52, 0)),
-          computeStyleInfo: S.optional(S.Boolean),
-          disableCharacterBoxesDetection: S.optional(S.Boolean),
-          enableImageQualityScores: S.optional(S.Boolean),
-          enableSymbol: S.optional(S.Boolean),
-          enableNativePdfParsing: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1OcrConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          pages: S.optional(__S(1568, __c49, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessOptionsIndividualPageSelector" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          includeAncestorHeadings: S.optional(S.Boolean),
-          chunkSize: S.optional(S.Number),
+          enableSelectionMarkDetection: S.optional(S.Boolean),
+          enableMathOcr: S.optional(S.Boolean),
+          computeStyleInfo: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessOptionsLayoutConfigChunkingConfig" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1OcrConfigPremiumFeatures" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          enableImageAnnotation: S.optional(S.Boolean),
-          returnBoundingBoxes: S.optional(S.Boolean),
-          chunkingConfig: S.optional(__S(1604, __c50, 4)),
-          enableTableAnnotation: S.optional(S.Boolean),
-          returnImages: S.optional(S.Boolean),
+          computeStyleInfo: S.optional(S.Boolean),
+          advancedOcrOptions: S.optional(__S(1664, __c52, 0)),
+          enableSymbol: S.optional(S.Boolean),
+          hints: S.optional(__S(1603, __c50, 3)),
+          disableCharacterBoxesDetection: S.optional(S.Boolean),
+          premiumFeatures: S.optional(__S(1604, __c50, 4)),
+          enableImageQualityScores: S.optional(S.Boolean),
+          enableNativePdfParsing: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessOptionsLayoutConfig" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1OcrConfig" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           fromEnd: S.optional(S.Number),
+          individualPageSelector: S.optional(__S(1600, __c50, 0)),
+          layoutConfig: S.optional(__S(1602, __c50, 2)),
           fromStart: S.optional(S.Number),
           schemaOverride: S.optional(__S(1702, __c53, 6)),
-          ocrConfig: S.optional(__S(1602, __c50, 2)),
-          individualPageSelector: S.optional(__S(1603, __c50, 3)),
-          layoutConfig: S.optional(__S(1605, __c50, 5)),
+          ocrConfig: S.optional(__S(1605, __c50, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessOptions" });
   }
@@ -4763,20 +4826,17 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          documentSplitter: S.optional(S.Boolean),
-          prefixedNamingOnProperties: S.optional(S.Boolean),
-          skipNamingValidation: S.optional(S.Boolean),
-          documentAllowMultipleLabels: S.optional(S.Boolean),
+          values: S.optional(__S(1664, __c52, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentSchemaMetadata" });
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentSchemaEntityTypeEnumValues" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          valueType: S.optional(S.String),
           displayName: S.optional(S.String),
           occurrenceType: S.optional(S.String),
-          valueType: S.optional(S.String),
-          name: S.optional(S.String),
           method: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentSchemaEntityTypeProperty" });
     case 2:
@@ -4784,29 +4844,32 @@ function __c53(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(1664, __c52, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentSchemaEntityTypeEnumValues" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          properties: S.optional(__S(1698, __c53, 2)),
           baseTypes: S.optional(__S(1664, __c52, 0)),
-          enumValues: S.optional(__S(1699, __c53, 3)),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          enumValues: S.optional(__S(1696, __c53, 0)),
+          properties: S.optional(__S(1698, __c53, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentSchemaEntityType" });
+    case 4:
+      return S.Array(__S(1699, __c53, 3));
     case 5:
-      return S.Array(__S(1700, __c53, 4));
+      return S.suspend(() =>
+        S.Struct({
+          skipNamingValidation: S.optional(S.Boolean),
+          documentAllowMultipleLabels: S.optional(S.Boolean),
+          documentSplitter: S.optional(S.Boolean),
+          prefixedNamingOnProperties: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentSchemaMetadata" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          documentPrompt: S.optional(S.String),
+          entityTypes: S.optional(__S(1700, __c53, 4)),
           description: S.optional(S.String),
-          metadata: S.optional(__S(1696, __c53, 0)),
+          metadata: S.optional(__S(1701, __c53, 5)),
+          documentPrompt: S.optional(S.String),
           displayName: S.optional(S.String),
-          entityTypes: S.optional(__S(1701, __c53, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentSchema" });
   }
@@ -4833,29 +4896,29 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          inlineDocument: S.optional(__S(550, __c17, 6)),
-          processOptions: S.optional(__S(1606, __c50, 6)),
           imagelessMode: S.optional(S.Boolean),
-          labels: S.optional(__S(1632, __c51, 0)),
           fieldMask: S.optional(S.String),
+          labels: S.optional(__S(1632, __c51, 0)),
           rawDocument: S.optional(__S(416, __c13, 0)),
           gcsDocument: S.optional(__S(1472, __c46, 0)),
+          processOptions: S.optional(__S(1606, __c50, 6)),
           skipHumanReview: S.optional(S.Boolean),
+          inlineDocument: S.optional(__S(552, __c17, 8)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          state: S.optional(S.String),
           stateMessage: S.optional(S.String),
           humanReviewOperation: S.optional(S.String),
-          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1HumanReviewStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          document: S.optional(__S(552, __c17, 8)),
           humanReviewStatus: S.optional(__S(1761, __c55, 1)),
-          document: S.optional(__S(550, __c17, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1ProcessResponse" });
   }
@@ -4882,10 +4945,10 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          inlineDocument: S.optional(__S(550, __c17, 6)),
           documentSchema: S.optional(__S(1702, __c53, 6)),
-          enableSchemaValidation: S.optional(S.Boolean),
+          inlineDocument: S.optional(__S(552, __c17, 8)),
           priority: S.optional(S.String),
+          enableSchemaValidation: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1ReviewDocumentRequest" });
     case 1:
@@ -4933,37 +4996,37 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          learningRateMultiplier: S.optional(S.Number),
-          trainSteps: S.optional(S.Number),
-          previousFineTunedProcessorVersionName: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudDocumentaiV1TrainProcessorVersionRequestFoundationModelTuningOptions",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           trainingMethod: S.optional(S.String),
         }),
       ).annotate({
         identifier:
           "GoogleCloudDocumentaiV1TrainProcessorVersionRequestCustomDocumentExtractionOptions",
       });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          trainSteps: S.optional(S.Number),
+          previousFineTunedProcessorVersionName: S.optional(S.String),
+          learningRateMultiplier: S.optional(S.Number),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudDocumentaiV1TrainProcessorVersionRequestFoundationModelTuningOptions",
+      });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          trainingDocuments: S.optional(__S(1536, __c48, 0)),
           testDocuments: S.optional(__S(1536, __c48, 0)),
+          trainingDocuments: S.optional(__S(1536, __c48, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1TrainProcessorVersionRequestInputData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          foundationModelTuningOptions: S.optional(__S(1888, __c59, 0)),
-          documentSchema: S.optional(__S(1702, __c53, 6)),
+          customDocumentExtractionOptions: S.optional(__S(1888, __c59, 0)),
           baseProcessorVersion: S.optional(S.String),
-          customDocumentExtractionOptions: S.optional(__S(1889, __c59, 1)),
+          foundationModelTuningOptions: S.optional(__S(1889, __c59, 1)),
+          documentSchema: S.optional(__S(1702, __c53, 6)),
           processorVersion: S.optional(__S(773, __c24, 5)),
           inputData: S.optional(__S(1890, __c59, 2)),
         }),
@@ -5070,18 +5133,18 @@ function __c65(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          processorVersionAliases: S.optional(__S(2081, __c65, 1)),
+          displayName: S.optional(S.String),
           defaultProcessorVersion: S.optional(S.String),
+          createTime: S.optional(S.String),
+          activeSchemaVersion: S.optional(S.String),
           state: S.optional(S.String),
           satisfiesPzs: S.optional(S.Boolean),
-          activeSchemaVersion: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          processorVersionAliases: S.optional(__S(2081, __c65, 1)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          processEndpoint: S.optional(S.String),
-          type: S.optional(S.String),
-          displayName: S.optional(S.String),
           kmsKeyName: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          processEndpoint: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1Processor" });
   }
@@ -5108,11 +5171,11 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           createTime: S.optional(S.String),
           labels: S.optional(__S(1632, __c51, 0)),
-          displayName: S.optional(S.String),
           updateTime: S.optional(S.String),
-          name: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1NextSchema" });
   }
@@ -5139,10 +5202,10 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          schema: S.optional(__S(1702, __c53, 6)),
+          createTime: S.optional(S.String),
           name: S.optional(S.String),
           labels: S.optional(__S(1632, __c51, 0)),
-          createTime: S.optional(S.String),
-          schema: S.optional(__S(1702, __c53, 6)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1SchemaVersion" });

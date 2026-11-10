@@ -64,9 +64,9 @@ export class NotFound
 /** The uploaded build file: `{ id }` for an existing file or `{ direct_upload_id }` for a completed direct upload. */
 export interface CreateAppBuildRequestAttachment {
   /** The signed id of a completed direct upload. */
-  direct_upload_id?: string;
+  direct_upload_id?: string | undefined;
   /** The tag of an already-uploaded file. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The target platform for the build. */
 export type CreateAppBuildRequestPlatform = "ios" | "android" | "web";
@@ -86,9 +86,9 @@ export type CreateAppBuildRequestSupportedAppViewTypesList = Array<
 >;
 export interface CreateAppBuildRequest {
   /** The AI prompt that generated this build, if applicable. */
-  ai_prompt_id?: string;
+  ai_prompt_id?: string | undefined;
   /** The app to create the build for, prefixed `app_`. Defaults to the app behind the presented credential. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** The uploaded build file: `{ id }` for an existing file or `{ direct_upload_id }` for a completed direct upload. */
   attachment: CreateAppBuildRequestAttachment;
   /** A client-generated checksum of the build file, used to verify file integrity when unpacked. */
@@ -96,11 +96,11 @@ export interface CreateAppBuildRequest {
   /** The target platform for the build. */
   platform: CreateAppBuildRequestPlatform | (string & {});
   /** An optional compressed archive (.zip or .gz) of the source code that produced this build, stored alongside the build so it can be downloaded later. Referenced like `attachment`, and must be a different file. */
-  source_attachment?: CreateAppBuildRequestAttachment;
+  source_attachment?: CreateAppBuildRequestAttachment | undefined;
   /** The view types this build supports. Only list the ones its code implements. */
-  supported_app_view_types?: CreateAppBuildRequestSupportedAppViewTypesList;
+  supported_app_view_types?: CreateAppBuildRequestSupportedAppViewTypesList | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** The target platform for this build. */
 export type AppBuildPlatform = "ios" | "android" | "web";
@@ -147,21 +147,21 @@ export interface ListAppBuildsRequest {
   /** The app to list builds for, prefixed `app_`. */
   app_id: string;
   /** Filter builds by target platform. */
-  platform?: ListAppBuildsRequestPlatform | (string & {});
+  platform?: ListAppBuildsRequestPlatform | (string & {}) | undefined;
   /** Filter builds by review status. */
-  status?: ListAppBuildsRequestStatus | (string & {});
+  status?: ListAppBuildsRequestStatus | (string & {}) | undefined;
   /** Only return builds created before this ISO 8601 timestamp. */
-  created_before?: unknown;
+  created_before?: unknown | undefined;
   /** Only return builds created after this ISO 8601 timestamp. */
-  created_after?: unknown;
+  created_after?: unknown | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListAppBuildsResponseDataList = Array<AppBuild>;
 export interface ListAppBuildsResponsePageInfo {
@@ -178,7 +178,7 @@ export interface PromoteAppBuildRequest {
   /** App build ID, prefixed `abld_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type CreateAppBuildError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create App Build Uploads a new build artifact for an app. Upload the file first (POST /files or a direct upload), then reference it here; iOS and Android take a .zip bundle, web takes a JavaScript file or a .zip archive of the hosted site. */

@@ -39,9 +39,9 @@ export interface ServiceConfigurationPropertiesInput {
   /** Name of the service. */
   serviceName: ServiceName | (string & {});
   /** The resource Id of the connectivity endpoint (optional). */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The port on which service is enabled. */
-  port?: number;
+  port?: number | undefined;
 }
 export interface CreateServiceConfigurationOrupdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -51,7 +51,7 @@ export interface CreateServiceConfigurationOrupdateRequest {
   /** The service name. */
   serviceConfigurationName: string;
   /** The service configuration properties. */
-  properties?: ServiceConfigurationPropertiesInput;
+  properties?: ServiceConfigurationPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -60,17 +60,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The resource provisioning state. */
 export type ProvisioningState = "Succeeded" | "Creating" | "Updating" | "Failed" | "Canceled";
@@ -79,23 +79,23 @@ export interface ServiceConfigurationProperties {
   /** Name of the service. */
   serviceName: ServiceName;
   /** The resource Id of the connectivity endpoint (optional). */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The port on which service is enabled. */
-  port?: number;
+  port?: number | undefined;
   /** The resource provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CreateServiceConfigurationOrupdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The service configuration properties. */
-  properties?: ServiceConfigurationProperties;
+  properties?: ServiceConfigurationProperties | undefined;
 }
 export interface DeleteEndpointRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -136,7 +136,7 @@ export interface EndpointPropertiesInput {
   /** The type of endpoint. */
   type: Type | (string & {});
   /** The resource Id of the connectivity endpoint (optional). */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export interface EndpointsCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -144,28 +144,28 @@ export interface EndpointsCreateOrUpdateRequest {
   /** The endpoint name. */
   endpointName: string;
   /** The endpoint properties. */
-  properties?: EndpointPropertiesInput;
+  properties?: EndpointPropertiesInput | undefined;
 }
 /** Endpoint details */
 export interface EndpointProperties {
   /** The type of endpoint. */
   type: Type;
   /** The resource Id of the connectivity endpoint (optional). */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The resource provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface EndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint properties. */
-  properties?: EndpointProperties;
+  properties?: EndpointProperties | undefined;
 }
 export interface GetEndpointRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -175,15 +175,15 @@ export interface GetEndpointRequest {
 }
 export interface GetEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint properties. */
-  properties?: EndpointProperties;
+  properties?: EndpointProperties | undefined;
 }
 export interface GetInventoryRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -202,29 +202,29 @@ export type AzureResourceManagerResourceProvisioningState = "Succeeded" | "Faile
 /** Definition of inventory. */
 export interface InventoryProperties {
   /** Gets or sets the cloud native resource type. */
-  cloudNativeType?: CloudNativeType;
+  cloudNativeType?: CloudNativeType | undefined;
   /** Gets or sets the cloud native resource name. */
-  cloudNativeResourceId?: string;
+  cloudNativeResourceId?: string | undefined;
   /** Gets or sets the mapped azure resource id. */
-  azureResourceId?: string;
+  azureResourceId?: string | undefined;
   /** Gets or sets the status of the inventory. */
-  status?: SolutionConfigurationStatus;
+  status?: SolutionConfigurationStatus | undefined;
   /** Gets or sets the status details. */
-  statusDetails?: string;
+  statusDetails?: string | undefined;
   /** The resource provisioning state. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface GetInventoryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: InventoryProperties;
+  properties?: InventoryProperties | undefined;
 }
 export interface GetPublicCloudConnectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -243,9 +243,9 @@ export interface AwsCloudProfile {
   /** Account id for the AWS account. */
   accountId: string;
   /** List of AWS accounts which need to be excluded. */
-  excludedAccounts?: AwsCloudProfileExcludedAccountsList;
+  excludedAccounts?: AwsCloudProfileExcludedAccountsList | undefined;
   /** Boolean value that indicates whether the account is organizational or not. True represents organization account, whereas false represents a single account. */
-  isOrganizationalAccount?: boolean;
+  isOrganizationalAccount?: boolean | undefined;
 }
 /** GCP project properties. */
 export interface GcpProjectProperties {
@@ -267,49 +267,49 @@ export interface GcpOrganizationProperties {
   /** The project Id of the management project under the GCP organization. */
   managementProjectId: string;
   /** List of GCP projects which need to be excluded. */
-  excludedProjectNumbers?: GcpOrganizationPropertiesExcludedProjectNumbersList;
+  excludedProjectNumbers?: GcpOrganizationPropertiesExcludedProjectNumbersList | undefined;
   /** List of GCP folders which need to be excluded. */
-  excludedFolderIds?: GcpOrganizationPropertiesExcludedFolderIdsList;
+  excludedFolderIds?: GcpOrganizationPropertiesExcludedFolderIdsList | undefined;
 }
 /** cloud profile for GCP. */
 export interface GcpCloudProfile {
   /** The project properties of the GCP project. */
-  projectProperties?: GcpProjectProperties;
+  projectProperties?: GcpProjectProperties | undefined;
   /** The organization properties of the GCP organization. */
-  organizationProperties?: GcpOrganizationProperties;
+  organizationProperties?: GcpOrganizationProperties | undefined;
 }
 /** Enum of host cloud the public cloud connector is referencing. */
 export type HostType = "AWS" | "GCP";
 /** Properties of public cloud connectors. */
 export interface PublicCloudConnectorProperties {
   /** Cloud profile for AWS. */
-  awsCloudProfile?: AwsCloudProfile;
+  awsCloudProfile?: AwsCloudProfile | undefined;
   /** Cloud profile for GCP. */
-  gcpCloudProfile?: GcpCloudProfile;
+  gcpCloudProfile?: GcpCloudProfile | undefined;
   /** Host cloud the public cloud connector. */
   hostType: HostType;
   /** The resource provisioning state. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** Connector primary identifier. */
-  connectorPrimaryIdentifier?: string;
+  connectorPrimaryIdentifier?: string | undefined;
 }
 export interface GetPublicCloudConnectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPublicCloudConnectorResponseTagsMap;
+  tags?: GetPublicCloudConnectorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PublicCloudConnectorProperties;
+  properties?: PublicCloudConnectorProperties | undefined;
   /** The kind of the public cloud connector. */
-  kind?: HostType;
+  kind?: HostType | undefined;
 }
 export interface GetServiceConfigurationRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -321,15 +321,15 @@ export interface GetServiceConfigurationRequest {
 }
 export interface GetServiceConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The service configuration properties. */
-  properties?: ServiceConfigurationProperties;
+  properties?: ServiceConfigurationProperties | undefined;
 }
 export interface GetSolutionConfigurationRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -342,29 +342,29 @@ export type SolutionSettings = { [key: string]: string | undefined };
 /** Solution configuration resource. */
 export interface SolutionConfigurationProperties {
   /** The resource provisioning state. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** The type of the solution */
   solutionType: string;
   /** Solution settings */
-  solutionSettings?: SolutionSettings;
+  solutionSettings?: SolutionSettings | undefined;
   /** The status of solution configurations */
-  status?: SolutionConfigurationStatus;
+  status?: SolutionConfigurationStatus | undefined;
   /** The detailed message of status details */
-  statusDetails?: string;
+  statusDetails?: string | undefined;
   /** The last time resources were inventoried */
-  lastSyncTime?: string;
+  lastSyncTime?: string | undefined;
 }
 export interface GetSolutionConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionConfigurationProperties;
+  properties?: SolutionConfigurationProperties | undefined;
 }
 export interface GetSolutionTypeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -404,27 +404,27 @@ export type SolutionTypePropertiesSolutionSettingsList = Array<SolutionTypeSetti
 /** Definition of Solution type resource. */
 export interface SolutionTypeProperties {
   /** The name of the solution type. */
-  solutionType?: string;
+  solutionType?: string | undefined;
   /** Short description of solution type. */
-  description?: string;
+  description?: string | undefined;
   /** The locations this solution is supported in. */
-  supportedAzureRegions?: SolutionTypePropertiesSupportedAzureRegionsList;
+  supportedAzureRegions?: SolutionTypePropertiesSupportedAzureRegionsList | undefined;
   /** The supported host types for the current solution type. */
-  hostTypes?: SolutionTypePropertiesHostTypesList;
+  hostTypes?: SolutionTypePropertiesHostTypesList | undefined;
   /** Array of solution settings and its description. */
-  solutionSettings?: SolutionTypePropertiesSolutionSettingsList;
+  solutionSettings?: SolutionTypePropertiesSolutionSettingsList | undefined;
 }
 export interface GetSolutionTypeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTypeProperties;
+  properties?: SolutionTypeProperties | undefined;
 }
 export interface ListEndpointCredentialsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -432,9 +432,9 @@ export interface ListEndpointCredentialsRequest {
   /** The endpoint name. */
   endpointName: string;
   /** The is how long the endpoint access token is valid (in seconds). */
-  expiresin?: number;
+  expiresin?: number | undefined;
   /** The name of the service. If not provided, the request will by pass the generation of service configuration token */
-  serviceName?: ServiceName | (string & {});
+  serviceName?: ServiceName | (string & {}) | undefined;
 }
 /** Azure relay hybrid connection access properties */
 export interface RelayNamespaceAccessProperties {
@@ -445,16 +445,16 @@ export interface RelayNamespaceAccessProperties {
   /** Azure Relay hybrid connection name for the resource. */
   hybridConnectionName: string;
   /** Access key for hybrid connection. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   /** The expiration of access key in unix time. */
-  expiresOn?: number;
+  expiresOn?: number | undefined;
   /** The token to access the enabled service. */
-  serviceConfigurationToken?: string;
+  serviceConfigurationToken?: string | undefined;
 }
 /** The endpoint access for the target resource. */
 export interface EndpointAccessResource {
   /** Azure relay hybrid connection access properties */
-  relay?: RelayNamespaceAccessProperties;
+  relay?: RelayNamespaceAccessProperties | undefined;
 }
 export interface ListEndpointIngressGatewayCredentialsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -462,9 +462,9 @@ export interface ListEndpointIngressGatewayCredentialsRequest {
   /** The endpoint name. */
   endpointName: string;
   /** The is how long the endpoint access token is valid (in seconds). */
-  expiresin?: number;
+  expiresin?: number | undefined;
   /** The name of the service. If not provided, the request will by pass the generation of service configuration token. */
-  serviceName?: ServiceName | (string & {});
+  serviceName?: ServiceName | (string & {}) | undefined;
 }
 /** The AAD Profile */
 export interface AADProfileProperties {
@@ -483,9 +483,9 @@ export interface IngressProfileProperties {
 /** The ingress gateway access credentials */
 export interface IngressGatewayResource {
   /** Azure relay hybrid connection access properties */
-  relay?: RelayNamespaceAccessProperties;
+  relay?: RelayNamespaceAccessProperties | undefined;
   /** Ingress gateway profile */
-  ingress?: IngressProfileProperties;
+  ingress?: IngressProfileProperties | undefined;
 }
 export interface ListEndpointManagedProxyDetailsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -495,9 +495,9 @@ export interface ListEndpointManagedProxyDetailsRequest {
   /** The name of the service. */
   service: string;
   /** The target host name. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** The name of the service. It is an optional property, if not provided, service configuration tokens issue code would be by passed. */
-  serviceName?: ServiceName | (string & {});
+  serviceName?: ServiceName | (string & {}) | undefined;
 }
 /** Managed Proxy */
 export interface ManagedProxyResource {
@@ -513,15 +513,15 @@ export interface ListEndpointsRequest {
 /** The endpoint for the target resource. */
 export interface EndpointResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint properties. */
-  properties?: EndpointProperties;
+  properties?: EndpointProperties | undefined;
 }
 /** The list of endpoint. */
 export type EndpointsListValueList = Array<EndpointResource>;
@@ -530,7 +530,7 @@ export interface EndpointsList {
   /** The list of endpoint. */
   value: EndpointsListValueList;
   /** The link used to get the next page of endpoints list. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInventoryBySolutionConfigurationRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -541,15 +541,15 @@ export interface ListInventoryBySolutionConfigurationRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface InventoryResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: InventoryProperties;
+  properties?: InventoryProperties | undefined;
 }
 /** The InventoryResource items on this page */
 export type InventoryResourceListResultValueList = Array<InventoryResource>;
@@ -558,19 +558,19 @@ export interface InventoryResourceListResult {
   /** The InventoryResource items on this page */
   value: InventoryResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -579,23 +579,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPublicCloudConnectorByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -608,21 +608,21 @@ export type PublicCloudConnectorTagsMap = { [key: string]: string | undefined };
 /** Public Cloud Connector */
 export interface PublicCloudConnector {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PublicCloudConnectorTagsMap;
+  tags?: PublicCloudConnectorTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PublicCloudConnectorProperties;
+  properties?: PublicCloudConnectorProperties | undefined;
   /** The kind of the public cloud connector. */
-  kind?: HostType;
+  kind?: HostType | undefined;
 }
 /** The PublicCloudConnector items on this page */
 export type PublicCloudConnectorListResultValueList = Array<PublicCloudConnector>;
@@ -631,7 +631,7 @@ export interface PublicCloudConnectorListResult {
   /** The PublicCloudConnector items on this page */
   value: PublicCloudConnectorListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPublicCloudConnectorBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -646,15 +646,15 @@ export interface ListServiceConfigurationByEndpointResourceRequest {
 /** The service configuration details associated with the target resource. */
 export interface ServiceConfigurationResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The service configuration properties. */
-  properties?: ServiceConfigurationProperties;
+  properties?: ServiceConfigurationProperties | undefined;
 }
 /** The list of service configuration */
 export type ServiceConfigurationListValueList = Array<ServiceConfigurationResource>;
@@ -663,7 +663,7 @@ export interface ServiceConfigurationList {
   /** The list of service configuration */
   value: ServiceConfigurationListValueList;
   /** The link to fetch the next page of connected cluster */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSolutionConfigurationsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -672,15 +672,15 @@ export interface ListSolutionConfigurationsRequest {
 /** Solution Configuration */
 export interface SolutionConfiguration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionConfigurationProperties;
+  properties?: SolutionConfigurationProperties | undefined;
 }
 /** The SolutionConfiguration items on this page */
 export type SolutionConfigurationListResultValueList = Array<SolutionConfiguration>;
@@ -689,7 +689,7 @@ export interface SolutionConfigurationListResult {
   /** The SolutionConfiguration items on this page */
   value: SolutionConfigurationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSolutionTypeByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -700,15 +700,15 @@ export interface ListSolutionTypeByResourceGroupRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface SolutionTypeResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTypeProperties;
+  properties?: SolutionTypeProperties | undefined;
 }
 /** The SolutionTypeResource items on this page */
 export type SolutionTypeResourceListResultValueList = Array<SolutionTypeResource>;
@@ -717,7 +717,7 @@ export interface SolutionTypeResourceListResult {
   /** The SolutionTypeResource items on this page */
   value: SolutionTypeResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSolutionTypeBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -728,7 +728,7 @@ export interface SolutionTypeSettings {
   /** The type of the solution */
   solutionType: string;
   /** Solution settings */
-  solutionSettings?: SolutionSettings;
+  solutionSettings?: SolutionSettings | undefined;
 }
 /** The list of solution types and their settings */
 export type PostGenerateAwsTemplateRequestSolutionTypesList = Array<SolutionTypeSettings>;
@@ -738,7 +738,7 @@ export interface PostGenerateAwsTemplateRequest {
   /** The name of public cloud connector */
   connectorId: string;
   /** The list of solution types and their settings */
-  solutionTypes?: PostGenerateAwsTemplateRequestSolutionTypesList;
+  solutionTypes?: PostGenerateAwsTemplateRequestSolutionTypesList | undefined;
 }
 export type PostGenerateAwsTemplateResponse = unknown;
 /** The list of solution types and their settings */
@@ -751,11 +751,11 @@ export interface PostGenerateGcpTemplateRequest {
   /** The name of public cloud connector */
   connectorId: string;
   /** The list of solution types and their settings */
-  solutionTypes?: PostGenerateGcpTemplateRequestSolutionTypesList;
+  solutionTypes?: PostGenerateGcpTemplateRequestSolutionTypesList | undefined;
   /** The GCP cloud profile. */
-  gcpCloudProfile?: GcpCloudProfile;
+  gcpCloudProfile?: GcpCloudProfile | undefined;
   /** Optional template output format. Defaults to 'terraform' if not provided */
-  gcpTemplateFormat?: GcpTemplateFormat | (string & {});
+  gcpTemplateFormat?: GcpTemplateFormat | (string & {}) | undefined;
 }
 export type PostGenerateGcpTemplateResponse = unknown;
 /** Resource tags. */
@@ -765,9 +765,9 @@ export type PublicCloudConnectorsCreateOrUpdateRequestTagsMap = {
 /** Properties of public cloud connectors. */
 export interface PublicCloudConnectorPropertiesInput {
   /** Cloud profile for AWS. */
-  awsCloudProfile?: AwsCloudProfile;
+  awsCloudProfile?: AwsCloudProfile | undefined;
   /** Cloud profile for GCP. */
-  gcpCloudProfile?: GcpCloudProfile;
+  gcpCloudProfile?: GcpCloudProfile | undefined;
   /** Host cloud the public cloud connector. */
   hostType: HostType | (string & {});
 }
@@ -779,11 +779,11 @@ export interface PublicCloudConnectorsCreateOrUpdateRequest {
   /** Represent public cloud connectors resource. */
   publicCloudConnector: string;
   /** Resource tags. */
-  tags?: PublicCloudConnectorsCreateOrUpdateRequestTagsMap;
+  tags?: PublicCloudConnectorsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PublicCloudConnectorPropertiesInput;
+  properties?: PublicCloudConnectorPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type PublicCloudConnectorsCreateOrUpdateResponseTagsMap = {
@@ -791,25 +791,25 @@ export type PublicCloudConnectorsCreateOrUpdateResponseTagsMap = {
 };
 export interface PublicCloudConnectorsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PublicCloudConnectorsCreateOrUpdateResponseTagsMap;
+  tags?: PublicCloudConnectorsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PublicCloudConnectorProperties;
+  properties?: PublicCloudConnectorProperties | undefined;
   /** The kind of the public cloud connector. */
-  kind?: HostType;
+  kind?: HostType | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Solution configuration resource. */
 export type SolutionConfigurationPropertiesInput = SolutionTypeSettings;
@@ -819,19 +819,19 @@ export interface SolutionConfigurationsCreateOrUpdateRequest {
   /** Represent Solution Configuration Resource. */
   solutionConfiguration: string;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTypeSettings;
+  properties?: SolutionTypeSettings | undefined;
 }
 export interface SolutionConfigurationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionConfigurationProperties;
+  properties?: SolutionConfigurationProperties | undefined;
 }
 export interface SyncSolutionConfigurationNowRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -846,71 +846,71 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type SyncSolutionConfigurationNowResponseOperationsList = Array<OperationStatusResult>;
 export interface SyncSolutionConfigurationNowResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: SyncSolutionConfigurationNowResponseOperationsList;
+  operations?: SyncSolutionConfigurationNowResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface TestPublicCloudConnectorPermissionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -925,27 +925,27 @@ export type TestPublicCloudConnectorPermissionsResponseOperationsList =
   Array<OperationStatusResult>;
 export interface TestPublicCloudConnectorPermissionsResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: TestPublicCloudConnectorPermissionsResponseOperationsList;
+  operations?: TestPublicCloudConnectorPermissionsResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateEndpointRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -953,19 +953,19 @@ export interface UpdateEndpointRequest {
   /** The endpoint name. */
   endpointName: string;
   /** The endpoint properties. */
-  properties?: EndpointPropertiesInput;
+  properties?: EndpointPropertiesInput | undefined;
 }
 export interface UpdateEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint properties. */
-  properties?: EndpointProperties;
+  properties?: EndpointProperties | undefined;
 }
 /** Resource tags. */
 export type UpdatePublicCloudConnectorRequestTagsMap = { [key: string]: string | undefined };
@@ -974,7 +974,7 @@ export type AwsCloudProfileUpdateExcludedAccountsList = Array<string>;
 /** cloud profile for AWS. */
 export interface AwsCloudProfileUpdate {
   /** List of AWS accounts which need to be excluded. */
-  excludedAccounts?: AwsCloudProfileUpdateExcludedAccountsList;
+  excludedAccounts?: AwsCloudProfileUpdateExcludedAccountsList | undefined;
 }
 /** List of GCP projects which need to be excluded. */
 export type GcpOrganizationPropertiesUpdateExcludedProjectNumbersList = Array<string>;
@@ -983,21 +983,21 @@ export type GcpOrganizationPropertiesUpdateExcludedFolderIdsList = Array<string>
 /** GCP organization properties for update. */
 export interface GcpOrganizationPropertiesUpdate {
   /** List of GCP projects which need to be excluded. */
-  excludedProjectNumbers?: GcpOrganizationPropertiesUpdateExcludedProjectNumbersList;
+  excludedProjectNumbers?: GcpOrganizationPropertiesUpdateExcludedProjectNumbersList | undefined;
   /** List of GCP folders which need to be excluded. */
-  excludedFolderIds?: GcpOrganizationPropertiesUpdateExcludedFolderIdsList;
+  excludedFolderIds?: GcpOrganizationPropertiesUpdateExcludedFolderIdsList | undefined;
 }
 /** cloud profile for GCP. */
 export interface GcpCloudProfileUpdate {
   /** The organization properties of the GCP organization. */
-  organizationProperties?: GcpOrganizationPropertiesUpdate;
+  organizationProperties?: GcpOrganizationPropertiesUpdate | undefined;
 }
 /** Properties of public cloud connectors. */
 export interface PublicCloudConnectorPropertiesUpdate {
   /** Cloud profile for AWS. */
-  awsCloudProfile?: AwsCloudProfileUpdate;
+  awsCloudProfile?: AwsCloudProfileUpdate | undefined;
   /** Cloud profile for GCP. */
-  gcpCloudProfile?: GcpCloudProfileUpdate;
+  gcpCloudProfile?: GcpCloudProfileUpdate | undefined;
 }
 export interface UpdatePublicCloudConnectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1007,34 +1007,34 @@ export interface UpdatePublicCloudConnectorRequest {
   /** Represent public cloud connectors resource. */
   publicCloudConnector: string;
   /** Resource tags. */
-  tags?: UpdatePublicCloudConnectorRequestTagsMap;
+  tags?: UpdatePublicCloudConnectorRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PublicCloudConnectorPropertiesUpdate;
+  properties?: PublicCloudConnectorPropertiesUpdate | undefined;
 }
 /** Resource tags. */
 export type UpdatePublicCloudConnectorResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePublicCloudConnectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePublicCloudConnectorResponseTagsMap;
+  tags?: UpdatePublicCloudConnectorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PublicCloudConnectorProperties;
+  properties?: PublicCloudConnectorProperties | undefined;
   /** The kind of the public cloud connector. */
-  kind?: HostType;
+  kind?: HostType | undefined;
 }
 /** Service configuration details */
 export interface ServiceConfigurationPropertiesPatch {
   /** The port on which service is enabled. */
-  port?: number;
+  port?: number | undefined;
 }
 export interface UpdateServiceConfigurationRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1044,26 +1044,26 @@ export interface UpdateServiceConfigurationRequest {
   /** The service name. */
   serviceConfigurationName: string;
   /** The service configuration properties. */
-  properties?: ServiceConfigurationPropertiesPatch;
+  properties?: ServiceConfigurationPropertiesPatch | undefined;
 }
 export interface UpdateServiceConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The service configuration properties. */
-  properties?: ServiceConfigurationProperties;
+  properties?: ServiceConfigurationProperties | undefined;
 }
 /** Solution configuration resource. */
 export interface SolutionConfigurationPropertiesUpdate {
   /** The type of the solution */
-  solutionType?: string;
+  solutionType?: string | undefined;
   /** Solution settings */
-  solutionSettings?: SolutionSettings;
+  solutionSettings?: SolutionSettings | undefined;
 }
 export interface UpdateSolutionConfigurationRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1071,19 +1071,19 @@ export interface UpdateSolutionConfigurationRequest {
   /** Represent Solution Configuration Resource. */
   solutionConfiguration: string;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionConfigurationPropertiesUpdate;
+  properties?: SolutionConfigurationPropertiesUpdate | undefined;
 }
 export interface UpdateSolutionConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionConfigurationProperties;
+  properties?: SolutionConfigurationProperties | undefined;
 }
 export type CreateServiceConfigurationOrupdateError = AzureOpError;
 /** Create or update a service in serviceConfiguration for the endpoint resource. */

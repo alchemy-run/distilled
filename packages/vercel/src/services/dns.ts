@@ -86,14 +86,14 @@ export interface CreateRecordRequest {
   /** The domain used to create the DNS record. */
   domain: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The type of record, it could be one of the valid DNS records. */
   type: CreateRecordRequestType | (string & {});
 }
 export interface CreateRecordResponseBodyCase0 {
-  uid?: string;
+  uid?: string | undefined;
   updated: number;
 }
 export interface CreateRecordResponseBodyCase1 {
@@ -131,29 +131,29 @@ export type GetDomainsRecordResponseType =
   | "SRV"
   | "TXT";
 export interface GetDomainsRecordResponse {
-  comment?: string;
-  createdAt?: number | null;
+  comment?: string | undefined;
+  createdAt?: number | null | undefined;
   creator: string;
   domain: string;
   id: string;
   name: string;
   recordType: GetDomainsRecordResponseRecordType;
-  ttl?: number;
+  ttl?: number | undefined;
   type: GetDomainsRecordResponseType;
   value: string;
 }
 export interface GetRecordsRequest {
   domain: string;
   /** Maximum number of records to list from a request. */
-  limit?: string;
+  limit?: string | undefined;
   /** Get records created after this JavaScript timestamp. */
-  since?: string;
+  since?: string | undefined;
   /** Get records created before this JavaScript timestamp. */
-  until?: string;
+  until?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetRecordsResponseBodyCase1RecordsItemType =
   | "A"
@@ -167,16 +167,16 @@ export type GetRecordsResponseBodyCase1RecordsItemType =
   | "SRV"
   | "TXT";
 export interface GetRecordsResponseBodyCase1RecordsItem {
-  comment?: string;
+  comment?: string | undefined;
   created: number | null;
   createdAt: number | null;
   creator: string;
   id: string;
-  mxPriority?: number;
+  mxPriority?: number | undefined;
   name: string;
-  priority?: number;
+  priority?: number | undefined;
   slug: string;
-  ttl?: number;
+  ttl?: number | undefined;
   type: GetRecordsResponseBodyCase1RecordsItemType;
   updated: number | null;
   updatedAt: number | null;
@@ -207,16 +207,16 @@ export type GetRecordsResponseBodyCase2RecordsItemType =
   | "SRV"
   | "TXT";
 export interface GetRecordsResponseBodyCase2RecordsItem {
-  comment?: string;
+  comment?: string | undefined;
   created: number | null;
   createdAt: number | null;
   creator: string;
   id: string;
-  mxPriority?: number;
+  mxPriority?: number | undefined;
   name: string;
-  priority?: number;
+  priority?: number | undefined;
   slug: string;
-  ttl?: number;
+  ttl?: number | undefined;
   type: GetRecordsResponseBodyCase2RecordsItemType;
   updated: number | null;
   updatedAt: number | null;
@@ -237,9 +237,9 @@ export interface RemoveRecordRequest {
   domain: string;
   recordId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type RemoveRecordResponse = unknown;
 export interface ReplaceDomainsByDomainRecordsRequest {
@@ -271,29 +271,29 @@ export interface UpdateRecordRequestSrv {
 export interface UpdateRecordRequestHttps {
   priority: number | null;
   target: string | null;
-  params?: string | null;
+  params?: string | null | undefined;
 }
 export interface UpdateRecordRequest {
   /** The id of the DNS record */
   recordId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The name of the DNS record */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The value of the DNS record */
-  value?: string | null;
+  value?: string | null | undefined;
   /** The type of the DNS record */
-  type?: UpdateRecordRequestType | (string & {}) | null;
+  type?: UpdateRecordRequestType | (string & {}) | null | undefined;
   /** The Time to live (TTL) value of the DNS record */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** The MX priority value of the DNS record */
-  mxPriority?: number | null;
-  srv?: UpdateRecordRequestSrv | null;
-  https?: UpdateRecordRequestHttps | null;
+  mxPriority?: number | null | undefined;
+  srv?: UpdateRecordRequestSrv | null | undefined;
+  https?: UpdateRecordRequestHttps | null | undefined;
   /** A comment to add context on what this DNS record is for */
-  comment?: string;
+  comment?: string | undefined;
 }
 export type UpdateRecordResponseRecordType =
   | "A"
@@ -308,14 +308,14 @@ export type UpdateRecordResponseRecordType =
   | "TXT";
 export type UpdateRecordResponseType = "record" | "record-sys";
 export interface UpdateRecordResponse {
-  comment?: string;
-  createdAt?: number | null;
+  comment?: string | undefined;
+  createdAt?: number | null | undefined;
   creator: string;
   domain: string;
   id: string;
   name: string;
   recordType: UpdateRecordResponseRecordType;
-  ttl?: number;
+  ttl?: number | undefined;
   type: UpdateRecordResponseType;
   value: string;
 }

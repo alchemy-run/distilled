@@ -63,7 +63,7 @@ export interface GetAiSecurityRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAiSecurityResponse {
   /** Whether AI Security for Apps is enabled on the zone. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export interface GetCustomTopicRequest {
   /** Defines the zone. */
@@ -79,18 +79,18 @@ export type CustomTopicsGetResponseTopicsList = Array<CustomTopicsGetResponseTop
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCustomTopicResponse {
   /** Custom topic categories for AI Security for Apps content detection. */
-  topics?: CustomTopicsGetResponseTopicsList | null;
+  topics?: CustomTopicsGetResponseTopicsList | null | undefined;
 }
 export interface PutAiSecurityRequest {
   /** Defines the zone. */
   zoneId: string;
   /** Whether AI Security for Apps is enabled on the zone. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutAiSecurityResponse {
   /** Whether AI Security for Apps is enabled on the zone. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type CustomTopicsUpdateRequestTopicsItem = CustomTopicsGetResponseTopicsItem;
 export type CustomTopicsUpdateRequestTopicsList = Array<CustomTopicsGetResponseTopicsItem>;
@@ -98,14 +98,14 @@ export interface PutCustomTopicRequest {
   /** Defines the zone. */
   zoneId: string;
   /** Custom topic categories for AI Security for Apps content detection. */
-  topics?: CustomTopicsUpdateRequestTopicsList;
+  topics?: CustomTopicsUpdateRequestTopicsList | undefined;
 }
 export type CustomTopicsUpdateResponseTopicsItem = CustomTopicsGetResponseTopicsItem;
 export type CustomTopicsUpdateResponseTopicsList = Array<CustomTopicsGetResponseTopicsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutCustomTopicResponse {
   /** Custom topic categories for AI Security for Apps content detection. */
-  topics?: CustomTopicsUpdateResponseTopicsList | null;
+  topics?: CustomTopicsUpdateResponseTopicsList | null | undefined;
 }
 export type GetAiSecurityError =
   | AiSecurityNotEntitled

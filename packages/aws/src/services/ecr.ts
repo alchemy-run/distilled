@@ -462,6 +462,21 @@ export class RegistryPolicyNotFoundException
     "RegistryPolicyNotFoundException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
+export class ReplicationBackfillInProgressException
+  extends /*@__PURE__*/ S.TaggedError<ReplicationBackfillInProgressException>()(
+    "ReplicationBackfillInProgressException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+  ) {}
+export class ReplicationBackfillInvalidStatusException
+  extends /*@__PURE__*/ S.TaggedError<ReplicationBackfillInvalidStatusException>()(
+    "ReplicationBackfillInvalidStatusException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+  ) {}
+export class ReplicationBackfillNotFoundException
+  extends /*@__PURE__*/ S.TaggedError<ReplicationBackfillNotFoundException>()(
+    "ReplicationBackfillNotFoundException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+  ) {}
 export class RepositoryAlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<RepositoryAlreadyExistsException>()(
     "RepositoryAlreadyExistsException",
@@ -562,7 +577,7 @@ export type RepositoryName = string;
 export type BatchedOperationLayerDigest = string;
 export type BatchedOperationLayerDigestList = string[];
 export interface BatchCheckLayerAvailabilityRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   layerDigests: string[];
 }
@@ -571,33 +586,33 @@ export type LayerAvailability = "AVAILABLE" | "UNAVAILABLE" | "ARCHIVED" | (stri
 export type LayerSizeInBytes = number;
 export type MediaType = string;
 export interface Layer {
-  layerDigest?: string;
-  layerAvailability?: LayerAvailability;
-  layerSize?: number;
-  mediaType?: string;
+  layerDigest?: string | undefined;
+  layerAvailability?: LayerAvailability | undefined;
+  layerSize?: number | undefined;
+  mediaType?: string | undefined;
 }
 export type LayerList = Layer[];
 export type LayerFailureCode = "InvalidLayerDigest" | "MissingLayerDigest" | (string & {});
 export type LayerFailureReason = string;
 export interface LayerFailure {
-  layerDigest?: string;
-  failureCode?: LayerFailureCode;
-  failureReason?: string;
+  layerDigest?: string | undefined;
+  failureCode?: LayerFailureCode | undefined;
+  failureReason?: string | undefined;
 }
 export type LayerFailureList = LayerFailure[];
 export interface BatchCheckLayerAvailabilityResponse {
-  layers?: Layer[];
-  failures?: LayerFailure[];
+  layers?: Layer[] | undefined;
+  failures?: LayerFailure[] | undefined;
 }
 export type ImageDigest = string;
 export type ImageTag = string;
 export interface ImageIdentifier {
-  imageDigest?: string;
-  imageTag?: string;
+  imageDigest?: string | undefined;
+  imageTag?: string | undefined;
 }
 export type ImageIdentifierList = ImageIdentifier[];
 export interface BatchDeleteImageRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageIds: ImageIdentifier[];
 }
@@ -616,34 +631,34 @@ export type ImageFailureCode =
   | (string & {});
 export type ImageFailureReason = string;
 export interface ImageFailure {
-  imageId?: ImageIdentifier;
-  failureCode?: ImageFailureCode;
-  failureReason?: string;
+  imageId?: ImageIdentifier | undefined;
+  failureCode?: ImageFailureCode | undefined;
+  failureReason?: string | undefined;
 }
 export type ImageFailureList = ImageFailure[];
 export interface BatchDeleteImageResponse {
-  imageIds?: ImageIdentifier[];
-  failures?: ImageFailure[];
+  imageIds?: ImageIdentifier[] | undefined;
+  failures?: ImageFailure[] | undefined;
 }
 export type MediaTypeList = string[];
 export interface BatchGetImageRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageIds: ImageIdentifier[];
-  acceptedMediaTypes?: string[];
+  acceptedMediaTypes?: string[] | undefined;
 }
 export type ImageManifest = string;
 export interface Image {
-  registryId?: string;
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  imageManifest?: string;
-  imageManifestMediaType?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  imageManifest?: string | undefined;
+  imageManifestMediaType?: string | undefined;
 }
 export type ImageList = Image[];
 export interface BatchGetImageResponse {
-  images?: Image[];
-  failures?: ImageFailure[];
+  images?: Image[] | undefined;
+  failures?: ImageFailure[] | undefined;
 }
 export type ScanningConfigurationRepositoryNameList = string[];
 export interface BatchGetRepositoryScanningConfigurationRequest {
@@ -660,38 +675,38 @@ export interface ScanningRepositoryFilter {
 }
 export type ScanningRepositoryFilterList = ScanningRepositoryFilter[];
 export interface RepositoryScanningConfiguration {
-  repositoryArn?: string;
-  repositoryName?: string;
-  scanOnPush?: boolean;
-  scanFrequency?: ScanFrequency;
-  appliedScanFilters?: ScanningRepositoryFilter[];
+  repositoryArn?: string | undefined;
+  repositoryName?: string | undefined;
+  scanOnPush?: boolean | undefined;
+  scanFrequency?: ScanFrequency | undefined;
+  appliedScanFilters?: ScanningRepositoryFilter[] | undefined;
 }
 export type RepositoryScanningConfigurationList = RepositoryScanningConfiguration[];
 export type ScanningConfigurationFailureCode = "REPOSITORY_NOT_FOUND" | (string & {});
 export type ScanningConfigurationFailureReason = string;
 export interface RepositoryScanningConfigurationFailure {
-  repositoryName?: string;
-  failureCode?: ScanningConfigurationFailureCode;
-  failureReason?: string;
+  repositoryName?: string | undefined;
+  failureCode?: ScanningConfigurationFailureCode | undefined;
+  failureReason?: string | undefined;
 }
 export type RepositoryScanningConfigurationFailureList = RepositoryScanningConfigurationFailure[];
 export interface BatchGetRepositoryScanningConfigurationResponse {
-  scanningConfigurations?: RepositoryScanningConfiguration[];
-  failures?: RepositoryScanningConfigurationFailure[];
+  scanningConfigurations?: RepositoryScanningConfiguration[] | undefined;
+  failures?: RepositoryScanningConfigurationFailure[] | undefined;
 }
 export type UploadId = string;
 export type LayerDigestList = string[];
 export interface CompleteLayerUploadRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   uploadId: string;
   layerDigests: string[];
 }
 export interface CompleteLayerUploadResponse {
-  registryId?: string;
-  repositoryName?: string;
-  uploadId?: string;
-  layerDigest?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  uploadId?: string | undefined;
+  layerDigest?: string | undefined;
 }
 export type PullThroughCacheRuleRepositoryPrefix = string;
 export type Url = string;
@@ -711,22 +726,22 @@ export type CustomRoleArn = string;
 export interface CreatePullThroughCacheRuleRequest {
   ecrRepositoryPrefix: string;
   upstreamRegistryUrl: string;
-  registryId?: string;
-  upstreamRegistry?: UpstreamRegistry;
-  credentialArn?: string;
-  customRoleArn?: string;
-  upstreamRepositoryPrefix?: string;
+  registryId?: string | undefined;
+  upstreamRegistry?: UpstreamRegistry | undefined;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
 }
 export type CreationTimestamp = Date;
 export interface CreatePullThroughCacheRuleResponse {
-  ecrRepositoryPrefix?: string;
-  upstreamRegistryUrl?: string;
-  createdAt?: Date;
-  registryId?: string;
-  upstreamRegistry?: UpstreamRegistry;
-  credentialArn?: string;
-  customRoleArn?: string;
-  upstreamRepositoryPrefix?: string;
+  ecrRepositoryPrefix?: string | undefined;
+  upstreamRegistryUrl?: string | undefined;
+  createdAt?: Date | undefined;
+  registryId?: string | undefined;
+  upstreamRegistry?: UpstreamRegistry | undefined;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -749,43 +764,43 @@ export interface ImageTagMutabilityExclusionFilter {
 }
 export type ImageTagMutabilityExclusionFilters = ImageTagMutabilityExclusionFilter[];
 export interface ImageScanningConfiguration {
-  scanOnPush?: boolean;
+  scanOnPush?: boolean | undefined;
 }
 export type EncryptionType = "AES256" | "KMS" | "KMS_DSSE" | (string & {});
 export type KmsKey = string;
 export interface EncryptionConfiguration {
   encryptionType: EncryptionType;
-  kmsKey?: string;
+  kmsKey?: string | undefined;
 }
 export interface CreateRepositoryRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  tags?: Tag[];
-  imageTagMutability?: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
-  imageScanningConfiguration?: ImageScanningConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
+  tags?: Tag[] | undefined;
+  imageTagMutability?: ImageTagMutability | undefined;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
+  imageScanningConfiguration?: ImageScanningConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface Repository {
-  repositoryArn?: string;
-  registryId?: string;
-  repositoryName?: string;
-  repositoryUri?: string;
-  createdAt?: Date;
-  imageTagMutability?: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
-  imageScanningConfiguration?: ImageScanningConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
+  repositoryArn?: string | undefined;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  repositoryUri?: string | undefined;
+  createdAt?: Date | undefined;
+  imageTagMutability?: ImageTagMutability | undefined;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
+  imageScanningConfiguration?: ImageScanningConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface CreateRepositoryResponse {
-  repository?: Repository;
+  repository?: Repository | undefined;
 }
 export type Prefix = string;
 export type RepositoryTemplateDescription = string;
 export type KmsKeyForRepositoryCreationTemplate = string;
 export interface EncryptionConfigurationForRepositoryCreationTemplate {
   encryptionType: EncryptionType;
-  kmsKey?: string;
+  kmsKey?: string | undefined;
 }
 export type RepositoryPolicyText = string;
 export type LifecyclePolicyTextForRepositoryCreationTemplate = string;
@@ -793,89 +808,89 @@ export type RCTAppliedFor = "REPLICATION" | "PULL_THROUGH_CACHE" | "CREATE_ON_PU
 export type RCTAppliedForList = RCTAppliedFor[];
 export interface CreateRepositoryCreationTemplateRequest {
   prefix: string;
-  description?: string;
-  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate;
-  resourceTags?: Tag[];
-  imageTagMutability?: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
-  repositoryPolicy?: string;
-  lifecyclePolicy?: string;
+  description?: string | undefined;
+  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate | undefined;
+  resourceTags?: Tag[] | undefined;
+  imageTagMutability?: ImageTagMutability | undefined;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
+  repositoryPolicy?: string | undefined;
+  lifecyclePolicy?: string | undefined;
   appliedFor: RCTAppliedFor[];
-  customRoleArn?: string;
+  customRoleArn?: string | undefined;
 }
 export interface RepositoryCreationTemplate {
-  prefix?: string;
-  description?: string;
-  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate;
-  resourceTags?: Tag[];
-  imageTagMutability?: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
-  repositoryPolicy?: string;
-  lifecyclePolicy?: string;
-  appliedFor?: RCTAppliedFor[];
-  customRoleArn?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  prefix?: string | undefined;
+  description?: string | undefined;
+  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate | undefined;
+  resourceTags?: Tag[] | undefined;
+  imageTagMutability?: ImageTagMutability | undefined;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
+  repositoryPolicy?: string | undefined;
+  lifecyclePolicy?: string | undefined;
+  appliedFor?: RCTAppliedFor[] | undefined;
+  customRoleArn?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateRepositoryCreationTemplateResponse {
-  registryId?: string;
-  repositoryCreationTemplate?: RepositoryCreationTemplate;
+  registryId?: string | undefined;
+  repositoryCreationTemplate?: RepositoryCreationTemplate | undefined;
 }
 export interface DeleteLifecyclePolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export type LifecyclePolicyText = string;
 export type EvaluationTimestamp = Date;
 export interface DeleteLifecyclePolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  lifecyclePolicyText?: string;
-  lastEvaluatedAt?: Date;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  lifecyclePolicyText?: string | undefined;
+  lastEvaluatedAt?: Date | undefined;
 }
 export interface DeletePullThroughCacheRuleRequest {
   ecrRepositoryPrefix: string;
-  registryId?: string;
+  registryId?: string | undefined;
 }
 export interface DeletePullThroughCacheRuleResponse {
-  ecrRepositoryPrefix?: string;
-  upstreamRegistryUrl?: string;
-  createdAt?: Date;
-  registryId?: string;
-  credentialArn?: string;
-  customRoleArn?: string;
-  upstreamRepositoryPrefix?: string;
+  ecrRepositoryPrefix?: string | undefined;
+  upstreamRegistryUrl?: string | undefined;
+  createdAt?: Date | undefined;
+  registryId?: string | undefined;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
 }
 export interface DeleteRegistryPolicyRequest {}
 export type RegistryPolicyText = string;
 export interface DeleteRegistryPolicyResponse {
-  registryId?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  policyText?: string | undefined;
 }
 export type ForceFlag = boolean;
 export interface DeleteRepositoryRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteRepositoryResponse {
-  repository?: Repository;
+  repository?: Repository | undefined;
 }
 export interface DeleteRepositoryCreationTemplateRequest {
   prefix: string;
 }
 export interface DeleteRepositoryCreationTemplateResponse {
-  registryId?: string;
-  repositoryCreationTemplate?: RepositoryCreationTemplate;
+  registryId?: string | undefined;
+  repositoryCreationTemplate?: RepositoryCreationTemplate | undefined;
 }
 export interface DeleteRepositoryPolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export interface DeleteRepositoryPolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  policyText?: string | undefined;
 }
 export interface DeleteSigningConfigurationRequest {}
 export type SigningProfileArn = string;
@@ -888,58 +903,58 @@ export interface SigningRepositoryFilter {
 export type SigningRepositoryFilterList = SigningRepositoryFilter[];
 export interface SigningRule {
   signingProfileArn: string;
-  repositoryFilters?: SigningRepositoryFilter[];
+  repositoryFilters?: SigningRepositoryFilter[] | undefined;
 }
 export type SigningRuleList = SigningRule[];
 export interface SigningConfiguration {
   rules: SigningRule[];
 }
 export interface DeleteSigningConfigurationResponse {
-  registryId?: string;
-  signingConfiguration?: SigningConfiguration;
+  registryId?: string | undefined;
+  signingConfiguration?: SigningConfiguration | undefined;
 }
 export type PrincipalArn = string;
 export interface DeregisterPullTimeUpdateExclusionRequest {
   principalArn: string;
 }
 export interface DeregisterPullTimeUpdateExclusionResponse {
-  principalArn?: string;
+  principalArn?: string | undefined;
 }
 export interface DescribeImageReplicationStatusRequest {
   repositoryName: string;
   imageId: ImageIdentifier;
-  registryId?: string;
+  registryId?: string | undefined;
 }
 export type Region = string;
 export type ReplicationStatus = "IN_PROGRESS" | "COMPLETE" | "FAILED" | (string & {});
 export type ReplicationError = string;
 export interface ImageReplicationStatus {
-  region?: string;
-  registryId?: string;
-  status?: ReplicationStatus;
-  failureCode?: string;
+  region?: string | undefined;
+  registryId?: string | undefined;
+  status?: ReplicationStatus | undefined;
+  failureCode?: string | undefined;
 }
 export type ImageReplicationStatusList = ImageReplicationStatus[];
 export interface DescribeImageReplicationStatusResponse {
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  replicationStatuses?: ImageReplicationStatus[];
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  replicationStatuses?: ImageReplicationStatus[] | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export type TagStatus = "TAGGED" | "UNTAGGED" | "ANY" | (string & {});
 export type ImageStatusFilter = "ACTIVE" | "ARCHIVED" | "ACTIVATING" | "ANY" | (string & {});
 export interface DescribeImagesFilter {
-  tagStatus?: TagStatus;
-  imageStatus?: ImageStatusFilter;
+  tagStatus?: TagStatus | undefined;
+  imageStatus?: ImageStatusFilter | undefined;
 }
 export interface DescribeImagesRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  imageIds?: ImageIdentifier[];
-  nextToken?: string;
-  maxResults?: number;
-  filter?: DescribeImagesFilter;
+  imageIds?: ImageIdentifier[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: DescribeImagesFilter | undefined;
 }
 export type ImageTagList = string[];
 export type ImageSizeInBytes = number;
@@ -958,8 +973,8 @@ export type ScanStatus =
   | (string & {});
 export type ScanStatusDescription = string;
 export interface ImageScanStatus {
-  status?: ScanStatus;
-  description?: string;
+  status?: ScanStatus | undefined;
+  description?: string | undefined;
 }
 export type ScanTimestamp = Date;
 export type VulnerabilitySourceUpdateTimestamp = Date;
@@ -972,44 +987,44 @@ export type FindingSeverity =
   | "UNDEFINED"
   | (string & {});
 export type SeverityCount = number;
-export type FindingSeverityCounts = { [key in FindingSeverity]?: number };
+export type FindingSeverityCounts = { [key in FindingSeverity]?: number | undefined };
 export interface ImageScanFindingsSummary {
-  imageScanCompletedAt?: Date;
-  vulnerabilitySourceUpdatedAt?: Date;
-  findingSeverityCounts?: { [key: string]: number | undefined };
+  imageScanCompletedAt?: Date | undefined;
+  vulnerabilitySourceUpdatedAt?: Date | undefined;
+  findingSeverityCounts?: { [key: string]: number | undefined } | undefined;
 }
 export type RecordedPullTimestamp = Date;
 export type ImageStatus = "ACTIVE" | "ARCHIVED" | "ACTIVATING" | (string & {});
 export type LastArchivedAtTimestamp = Date;
 export type LastActivatedAtTimestamp = Date;
 export interface ImageDetail {
-  registryId?: string;
-  repositoryName?: string;
-  imageDigest?: string;
-  imageTags?: string[];
-  imageSizeInBytes?: number;
-  imagePushedAt?: Date;
-  imageScanStatus?: ImageScanStatus;
-  imageScanFindingsSummary?: ImageScanFindingsSummary;
-  imageManifestMediaType?: string;
-  artifactMediaType?: string;
-  lastRecordedPullTime?: Date;
-  subjectManifestDigest?: string;
-  imageStatus?: ImageStatus;
-  lastArchivedAt?: Date;
-  lastActivatedAt?: Date;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageDigest?: string | undefined;
+  imageTags?: string[] | undefined;
+  imageSizeInBytes?: number | undefined;
+  imagePushedAt?: Date | undefined;
+  imageScanStatus?: ImageScanStatus | undefined;
+  imageScanFindingsSummary?: ImageScanFindingsSummary | undefined;
+  imageManifestMediaType?: string | undefined;
+  artifactMediaType?: string | undefined;
+  lastRecordedPullTime?: Date | undefined;
+  subjectManifestDigest?: string | undefined;
+  imageStatus?: ImageStatus | undefined;
+  lastArchivedAt?: Date | undefined;
+  lastActivatedAt?: Date | undefined;
 }
 export type ImageDetailList = ImageDetail[];
 export interface DescribeImagesResponse {
-  imageDetails?: ImageDetail[];
-  nextToken?: string;
+  imageDetails?: ImageDetail[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeImageScanFindingsRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageId: ImageIdentifier;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type FindingName = string;
 export type FindingDescription = string;
@@ -1017,15 +1032,15 @@ export type AttributeKey = string;
 export type AttributeValue = string;
 export interface Attribute {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type AttributeList = Attribute[];
 export interface ImageScanFinding {
-  name?: string;
-  description?: string;
-  uri?: string;
-  severity?: FindingSeverity;
-  attributes?: Attribute[];
+  name?: string | undefined;
+  description?: string | undefined;
+  uri?: string | undefined;
+  severity?: FindingSeverity | undefined;
+  attributes?: Attribute[] | undefined;
 }
 export type ImageScanFindingList = ImageScanFinding[];
 export type FindingArn = string;
@@ -1034,10 +1049,10 @@ export type ScoringVector = string;
 export type Source = string;
 export type Version = string;
 export interface CvssScore {
-  baseScore?: number;
-  scoringVector?: string;
-  source?: string;
-  version?: string;
+  baseScore?: number | undefined;
+  scoringVector?: string | undefined;
+  source?: string | undefined;
+  version?: string | undefined;
 }
 export type CvssScoreList = CvssScore[];
 export type ReferenceUrlsList = string[];
@@ -1054,167 +1069,167 @@ export type Release = string;
 export type SourceLayerHash = string;
 export type FixedInVersion = string;
 export interface VulnerablePackage {
-  arch?: string;
-  epoch?: number;
-  filePath?: string;
-  name?: string;
-  packageManager?: string;
-  release?: string;
-  sourceLayerHash?: string;
-  version?: string;
-  fixedInVersion?: string;
+  arch?: string | undefined;
+  epoch?: number | undefined;
+  filePath?: string | undefined;
+  name?: string | undefined;
+  packageManager?: string | undefined;
+  release?: string | undefined;
+  sourceLayerHash?: string | undefined;
+  version?: string | undefined;
+  fixedInVersion?: string | undefined;
 }
 export type VulnerablePackagesList = VulnerablePackage[];
 export interface PackageVulnerabilityDetails {
-  cvss?: CvssScore[];
-  referenceUrls?: string[];
-  relatedVulnerabilities?: string[];
-  source?: string;
-  sourceUrl?: string;
-  vendorCreatedAt?: Date;
-  vendorSeverity?: string;
-  vendorUpdatedAt?: Date;
-  vulnerabilityId?: string;
-  vulnerablePackages?: VulnerablePackage[];
+  cvss?: CvssScore[] | undefined;
+  referenceUrls?: string[] | undefined;
+  relatedVulnerabilities?: string[] | undefined;
+  source?: string | undefined;
+  sourceUrl?: string | undefined;
+  vendorCreatedAt?: Date | undefined;
+  vendorSeverity?: string | undefined;
+  vendorUpdatedAt?: Date | undefined;
+  vulnerabilityId?: string | undefined;
+  vulnerablePackages?: VulnerablePackage[] | undefined;
 }
 export type RecommendationText = string;
 export interface Recommendation {
-  url?: string;
-  text?: string;
+  url?: string | undefined;
+  text?: string | undefined;
 }
 export interface Remediation {
-  recommendation?: Recommendation;
+  recommendation?: Recommendation | undefined;
 }
 export type Author = string;
 export type ImageTagsList = string[];
 export type Platform = string;
 export type InUseCount = number;
 export interface AwsEcrContainerImageDetails {
-  architecture?: string;
-  author?: string;
-  imageHash?: string;
-  imageTags?: string[];
-  platform?: string;
-  pushedAt?: Date;
-  lastInUseAt?: Date;
-  inUseCount?: number;
-  registry?: string;
-  repositoryName?: string;
+  architecture?: string | undefined;
+  author?: string | undefined;
+  imageHash?: string | undefined;
+  imageTags?: string[] | undefined;
+  platform?: string | undefined;
+  pushedAt?: Date | undefined;
+  lastInUseAt?: Date | undefined;
+  inUseCount?: number | undefined;
+  registry?: string | undefined;
+  repositoryName?: string | undefined;
 }
 export interface ResourceDetails {
-  awsEcrContainerImage?: AwsEcrContainerImageDetails;
+  awsEcrContainerImage?: AwsEcrContainerImageDetails | undefined;
 }
 export type ResourceId = string;
 export type Tags = { [key: string]: string | undefined };
 export type Type = string;
 export interface Resource {
-  details?: ResourceDetails;
-  id?: string;
-  tags?: { [key: string]: string | undefined };
-  type?: string;
+  details?: ResourceDetails | undefined;
+  id?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  type?: string | undefined;
 }
 export type ResourceList = Resource[];
 export type Score = number;
 export type Metric = string;
 export type Reason = string;
 export interface CvssScoreAdjustment {
-  metric?: string;
-  reason?: string;
+  metric?: string | undefined;
+  reason?: string | undefined;
 }
 export type CvssScoreAdjustmentList = CvssScoreAdjustment[];
 export interface CvssScoreDetails {
-  adjustments?: CvssScoreAdjustment[];
-  score?: number;
-  scoreSource?: string;
-  scoringVector?: string;
-  version?: string;
+  adjustments?: CvssScoreAdjustment[] | undefined;
+  score?: number | undefined;
+  scoreSource?: string | undefined;
+  scoringVector?: string | undefined;
+  version?: string | undefined;
 }
 export interface ScoreDetails {
-  cvss?: CvssScoreDetails;
+  cvss?: CvssScoreDetails | undefined;
 }
 export type Status = string;
 export type Title = string;
 export type FixAvailable = string;
 export type ExploitAvailable = string;
 export interface EnhancedImageScanFinding {
-  awsAccountId?: string;
-  description?: string;
-  findingArn?: string;
-  firstObservedAt?: Date;
-  lastObservedAt?: Date;
-  packageVulnerabilityDetails?: PackageVulnerabilityDetails;
-  remediation?: Remediation;
-  resources?: Resource[];
-  score?: number;
-  scoreDetails?: ScoreDetails;
-  severity?: string;
-  status?: string;
-  title?: string;
-  type?: string;
-  updatedAt?: Date;
-  fixAvailable?: string;
-  exploitAvailable?: string;
+  awsAccountId?: string | undefined;
+  description?: string | undefined;
+  findingArn?: string | undefined;
+  firstObservedAt?: Date | undefined;
+  lastObservedAt?: Date | undefined;
+  packageVulnerabilityDetails?: PackageVulnerabilityDetails | undefined;
+  remediation?: Remediation | undefined;
+  resources?: Resource[] | undefined;
+  score?: number | undefined;
+  scoreDetails?: ScoreDetails | undefined;
+  severity?: string | undefined;
+  status?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  updatedAt?: Date | undefined;
+  fixAvailable?: string | undefined;
+  exploitAvailable?: string | undefined;
 }
 export type EnhancedImageScanFindingList = EnhancedImageScanFinding[];
 export interface ImageScanFindings {
-  imageScanCompletedAt?: Date;
-  vulnerabilitySourceUpdatedAt?: Date;
-  findingSeverityCounts?: { [key: string]: number | undefined };
-  findings?: ImageScanFinding[];
-  enhancedFindings?: EnhancedImageScanFinding[];
+  imageScanCompletedAt?: Date | undefined;
+  vulnerabilitySourceUpdatedAt?: Date | undefined;
+  findingSeverityCounts?: { [key: string]: number | undefined } | undefined;
+  findings?: ImageScanFinding[] | undefined;
+  enhancedFindings?: EnhancedImageScanFinding[] | undefined;
 }
 export interface DescribeImageScanFindingsResponse {
-  registryId?: string;
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  imageScanStatus?: ImageScanStatus;
-  imageScanFindings?: ImageScanFindings;
-  nextToken?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  imageScanStatus?: ImageScanStatus | undefined;
+  imageScanFindings?: ImageScanFindings | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeImageSigningStatusRequest {
   repositoryName: string;
   imageId: ImageIdentifier;
-  registryId?: string;
+  registryId?: string | undefined;
 }
 export type SigningStatusFailureCode = string;
 export type SigningStatusFailureReason = string;
 export type SigningStatus = "IN_PROGRESS" | "COMPLETE" | "FAILED" | (string & {});
 export interface ImageSigningStatus {
-  signingProfileArn?: string;
-  failureCode?: string;
-  failureReason?: string;
-  status?: SigningStatus;
+  signingProfileArn?: string | undefined;
+  failureCode?: string | undefined;
+  failureReason?: string | undefined;
+  status?: SigningStatus | undefined;
 }
 export type ImageSigningStatusList = ImageSigningStatus[];
 export interface DescribeImageSigningStatusResponse {
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  registryId?: string;
-  signingStatuses?: ImageSigningStatus[];
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  registryId?: string | undefined;
+  signingStatuses?: ImageSigningStatus[] | undefined;
 }
 export type PullThroughCacheRuleRepositoryPrefixList = string[];
 export interface DescribePullThroughCacheRulesRequest {
-  registryId?: string;
-  ecrRepositoryPrefixes?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  registryId?: string | undefined;
+  ecrRepositoryPrefixes?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type UpdatedTimestamp = Date;
 export interface PullThroughCacheRule {
-  ecrRepositoryPrefix?: string;
-  upstreamRegistryUrl?: string;
-  createdAt?: Date;
-  registryId?: string;
-  credentialArn?: string;
-  customRoleArn?: string;
-  upstreamRepositoryPrefix?: string;
-  upstreamRegistry?: UpstreamRegistry;
-  updatedAt?: Date;
+  ecrRepositoryPrefix?: string | undefined;
+  upstreamRegistryUrl?: string | undefined;
+  createdAt?: Date | undefined;
+  registryId?: string | undefined;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
+  upstreamRegistry?: UpstreamRegistry | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PullThroughCacheRuleList = PullThroughCacheRule[];
 export interface DescribePullThroughCacheRulesResponse {
-  pullThroughCacheRules?: PullThroughCacheRule[];
-  nextToken?: string;
+  pullThroughCacheRules?: PullThroughCacheRule[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeRegistryRequest {}
 export interface ReplicationDestination {
@@ -1231,94 +1246,140 @@ export interface RepositoryFilter {
 export type RepositoryFilterList = RepositoryFilter[];
 export interface ReplicationRule {
   destinations: ReplicationDestination[];
-  repositoryFilters?: RepositoryFilter[];
+  repositoryFilters?: RepositoryFilter[] | undefined;
 }
 export type ReplicationRuleList = ReplicationRule[];
 export interface ReplicationConfiguration {
   rules: ReplicationRule[];
 }
 export interface DescribeRegistryResponse {
-  registryId?: string;
-  replicationConfiguration?: ReplicationConfiguration;
+  registryId?: string | undefined;
+  replicationConfiguration?: ReplicationConfiguration | undefined;
+}
+export type ReplicationBackfillId = string;
+export type ReplicationBackfillResultStatus = "COMPLETE" | "FAILED" | (string & {});
+export interface DescribeReplicationBackfillResultsRequest {
+  registryId?: string | undefined;
+  replicationBackfillId: string;
+  resultStatusFilter?: ReplicationBackfillResultStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export type ReplicationBackfillStatus =
+  | "PREPARING"
+  | "IN_PROGRESS"
+  | "COMPLETE"
+  | "FAILED"
+  | "STOPPING"
+  | "STOPPED"
+  | (string & {});
+export type ReplicationBackfillError = string;
+export type NonNegativeInteger = number;
+export type ReplicationErrorList = string[];
+export interface ReplicationBackfillProgress {
+  totalReplicationCount: number;
+  completedReplicationCount: number;
+  failedReplicationCount: number;
+  failureCodes: string[];
+}
+export interface ReplicationBackfillResult {
+  repositoryName: string;
+  imageId: ImageIdentifier;
+  status: ReplicationBackfillResultStatus;
+  failureCode?: string | undefined;
+  subImageFailureCodes?: string[] | undefined;
+}
+export type ReplicationBackfillResultList = ReplicationBackfillResult[];
+export interface DescribeReplicationBackfillResultsResponse {
+  registryId?: string | undefined;
+  replicationBackfillId?: string | undefined;
+  destination?: ReplicationDestination | undefined;
+  status?: ReplicationBackfillStatus | undefined;
+  failureCode?: string | undefined;
+  progress?: ReplicationBackfillProgress | undefined;
+  results?: ReplicationBackfillResult[] | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  nextToken?: string | undefined;
 }
 export type RepositoryNameList = string[];
 export interface DescribeRepositoriesRequest {
-  registryId?: string;
-  repositoryNames?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  registryId?: string | undefined;
+  repositoryNames?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type RepositoryList = Repository[];
 export interface DescribeRepositoriesResponse {
-  repositories?: Repository[];
-  nextToken?: string;
+  repositories?: Repository[] | undefined;
+  nextToken?: string | undefined;
 }
 export type PrefixList = string[];
 export interface DescribeRepositoryCreationTemplatesRequest {
-  prefixes?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  prefixes?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type RepositoryCreationTemplateList = RepositoryCreationTemplate[];
 export interface DescribeRepositoryCreationTemplatesResponse {
-  registryId?: string;
-  repositoryCreationTemplates?: RepositoryCreationTemplate[];
-  nextToken?: string;
+  registryId?: string | undefined;
+  repositoryCreationTemplates?: RepositoryCreationTemplate[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AccountSettingName = string;
 export interface GetAccountSettingRequest {
   name: string;
 }
 export interface GetAccountSettingResponse {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type GetAuthorizationTokenRegistryIdList = string[];
 export interface GetAuthorizationTokenRequest {
-  registryIds?: string[];
+  registryIds?: string[] | undefined;
 }
 export type Base64 = string;
 export type ExpirationTimestamp = Date;
 export type ProxyEndpoint = string;
 export interface AuthorizationData {
-  authorizationToken?: string | redacted.Redacted<string>;
-  expiresAt?: Date;
-  proxyEndpoint?: string;
+  authorizationToken?: string | redacted.Redacted<string> | undefined;
+  expiresAt?: Date | undefined;
+  proxyEndpoint?: string | undefined;
 }
 export type AuthorizationDataList = AuthorizationData[];
 export interface GetAuthorizationTokenResponse {
-  authorizationData?: AuthorizationData[];
+  authorizationData?: AuthorizationData[] | undefined;
 }
 export interface GetDownloadUrlForLayerRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   layerDigest: string;
 }
 export interface GetDownloadUrlForLayerResponse {
-  downloadUrl?: string;
-  layerDigest?: string;
+  downloadUrl?: string | undefined;
+  layerDigest?: string | undefined;
 }
 export interface GetLifecyclePolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export interface GetLifecyclePolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  lifecyclePolicyText?: string;
-  lastEvaluatedAt?: Date;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  lifecyclePolicyText?: string | undefined;
+  lastEvaluatedAt?: Date | undefined;
 }
 export type LifecyclePreviewMaxResults = number;
 export interface LifecyclePolicyPreviewFilter {
-  tagStatus?: TagStatus;
+  tagStatus?: TagStatus | undefined;
 }
 export interface GetLifecyclePolicyPreviewRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  imageIds?: ImageIdentifier[];
-  nextToken?: string;
-  maxResults?: number;
-  filter?: LifecyclePolicyPreviewFilter;
+  imageIds?: ImageIdentifier[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: LifecyclePolicyPreviewFilter | undefined;
 }
 export type LifecyclePolicyPreviewStatus =
   | "IN_PROGRESS"
@@ -1329,43 +1390,43 @@ export type LifecyclePolicyPreviewStatus =
 export type ImageActionType = "EXPIRE" | "TRANSITION" | (string & {});
 export type LifecyclePolicyTargetStorageClass = "ARCHIVE" | (string & {});
 export interface LifecyclePolicyRuleAction {
-  type?: ImageActionType;
-  targetStorageClass?: LifecyclePolicyTargetStorageClass;
+  type?: ImageActionType | undefined;
+  targetStorageClass?: LifecyclePolicyTargetStorageClass | undefined;
 }
 export type LifecyclePolicyRulePriority = number;
 export type LifecyclePolicyStorageClass = "ARCHIVE" | "STANDARD" | (string & {});
 export interface LifecyclePolicyPreviewResult {
-  imageTags?: string[];
-  imageDigest?: string;
-  imagePushedAt?: Date;
-  action?: LifecyclePolicyRuleAction;
-  appliedRulePriority?: number;
-  storageClass?: LifecyclePolicyStorageClass;
+  imageTags?: string[] | undefined;
+  imageDigest?: string | undefined;
+  imagePushedAt?: Date | undefined;
+  action?: LifecyclePolicyRuleAction | undefined;
+  appliedRulePriority?: number | undefined;
+  storageClass?: LifecyclePolicyStorageClass | undefined;
 }
 export type LifecyclePolicyPreviewResultList = LifecyclePolicyPreviewResult[];
 export type ImageCount = number;
 export interface TransitioningImageTotalCount {
-  targetStorageClass?: LifecyclePolicyTargetStorageClass;
-  imageTotalCount?: number;
+  targetStorageClass?: LifecyclePolicyTargetStorageClass | undefined;
+  imageTotalCount?: number | undefined;
 }
 export type TransitioningImageTotalCounts = TransitioningImageTotalCount[];
 export interface LifecyclePolicyPreviewSummary {
-  expiringImageTotalCount?: number;
-  transitioningImageTotalCounts?: TransitioningImageTotalCount[];
+  expiringImageTotalCount?: number | undefined;
+  transitioningImageTotalCounts?: TransitioningImageTotalCount[] | undefined;
 }
 export interface GetLifecyclePolicyPreviewResponse {
-  registryId?: string;
-  repositoryName?: string;
-  lifecyclePolicyText?: string;
-  status?: LifecyclePolicyPreviewStatus;
-  nextToken?: string;
-  previewResults?: LifecyclePolicyPreviewResult[];
-  summary?: LifecyclePolicyPreviewSummary;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  lifecyclePolicyText?: string | undefined;
+  status?: LifecyclePolicyPreviewStatus | undefined;
+  nextToken?: string | undefined;
+  previewResults?: LifecyclePolicyPreviewResult[] | undefined;
+  summary?: LifecyclePolicyPreviewSummary | undefined;
 }
 export interface GetRegistryPolicyRequest {}
 export interface GetRegistryPolicyResponse {
-  registryId?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  policyText?: string | undefined;
 }
 export interface GetRegistryScanningConfigurationRequest {}
 export type ScanType = "BASIC" | "ENHANCED" | (string & {});
@@ -1375,35 +1436,35 @@ export interface RegistryScanningRule {
 }
 export type RegistryScanningRuleList = RegistryScanningRule[];
 export interface RegistryScanningConfiguration {
-  scanType?: ScanType;
-  rules?: RegistryScanningRule[];
+  scanType?: ScanType | undefined;
+  rules?: RegistryScanningRule[] | undefined;
 }
 export interface GetRegistryScanningConfigurationResponse {
-  registryId?: string;
-  scanningConfiguration?: RegistryScanningConfiguration;
+  registryId?: string | undefined;
+  scanningConfiguration?: RegistryScanningConfiguration | undefined;
 }
 export interface GetRepositoryPolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export interface GetRepositoryPolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  policyText?: string | undefined;
 }
 export interface GetSigningConfigurationRequest {}
 export interface GetSigningConfigurationResponse {
-  registryId?: string;
-  signingConfiguration?: SigningConfiguration;
+  registryId?: string | undefined;
+  signingConfiguration?: SigningConfiguration | undefined;
 }
 export interface InitiateLayerUploadRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export type PartSize = number;
 export interface InitiateLayerUploadResponse {
-  uploadId?: string;
-  partSize?: number;
+  uploadId?: string | undefined;
+  partSize?: number | undefined;
 }
 export interface SubjectIdentifier {
   imageDigest: string;
@@ -1412,62 +1473,82 @@ export type ArtifactType = string;
 export type ArtifactTypeList = string[];
 export type ArtifactStatusFilter = "ACTIVE" | "ARCHIVED" | "ACTIVATING" | "ANY" | (string & {});
 export interface ListImageReferrersFilter {
-  artifactTypes?: string[];
-  artifactStatus?: ArtifactStatusFilter;
+  artifactTypes?: string[] | undefined;
+  artifactStatus?: ArtifactStatusFilter | undefined;
 }
 export type FiftyMaxResults = number;
 export interface ListImageReferrersRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   subjectId: SubjectIdentifier;
-  filter?: ListImageReferrersFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: ListImageReferrersFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Annotations = { [key: string]: string | undefined };
 export type ArtifactStatus = "ACTIVE" | "ARCHIVED" | "ACTIVATING" | (string & {});
 export interface ImageReferrer {
   digest: string;
   mediaType: string;
-  artifactType?: string;
+  artifactType?: string | undefined;
   size: number;
-  annotations?: { [key: string]: string | undefined };
-  artifactStatus?: ArtifactStatus;
+  annotations?: { [key: string]: string | undefined } | undefined;
+  artifactStatus?: ArtifactStatus | undefined;
 }
 export type ImageReferrerList = ImageReferrer[];
 export interface ListImageReferrersResponse {
-  referrers?: ImageReferrer[];
-  nextToken?: string;
+  referrers?: ImageReferrer[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListImagesFilter {
-  tagStatus?: TagStatus;
-  imageStatus?: ImageStatusFilter;
+  tagStatus?: TagStatus | undefined;
+  imageStatus?: ImageStatusFilter | undefined;
 }
 export interface ListImagesRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  nextToken?: string;
-  maxResults?: number;
-  filter?: ListImagesFilter;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: ListImagesFilter | undefined;
 }
 export interface ListImagesResponse {
-  imageIds?: ImageIdentifier[];
-  nextToken?: string;
+  imageIds?: ImageIdentifier[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPullTimeUpdateExclusionsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type PullTimeUpdateExclusionList = string[];
 export interface ListPullTimeUpdateExclusionsResponse {
-  pullTimeUpdateExclusions?: string[];
-  nextToken?: string;
+  pullTimeUpdateExclusions?: string[] | undefined;
+  nextToken?: string | undefined;
+}
+export interface ListReplicationBackfillsRequest {
+  registryId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export interface ReplicationBackfillSummary {
+  replicationBackfillId: string;
+  destination: ReplicationDestination;
+  status: ReplicationBackfillStatus;
+  failureCode?: string | undefined;
+  progress?: ReplicationBackfillProgress | undefined;
+  startedAt: Date;
+  endedAt?: Date | undefined;
+}
+export type ReplicationBackfillSummaryList = ReplicationBackfillSummary[];
+export interface ListReplicationBackfillsResponse {
+  registryId?: string | undefined;
+  backfills?: ReplicationBackfillSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type AccountSettingValue = string;
 export interface PutAccountSettingRequest {
@@ -1475,117 +1556,139 @@ export interface PutAccountSettingRequest {
   value: string;
 }
 export interface PutAccountSettingResponse {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export interface PutImageRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageManifest: string;
-  imageManifestMediaType?: string;
-  imageTag?: string;
-  imageDigest?: string;
+  imageManifestMediaType?: string | undefined;
+  imageTag?: string | undefined;
+  imageDigest?: string | undefined;
 }
 export interface PutImageResponse {
-  image?: Image;
+  image?: Image | undefined;
 }
 export interface PutImageScanningConfigurationRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageScanningConfiguration: ImageScanningConfiguration;
 }
 export interface PutImageScanningConfigurationResponse {
-  registryId?: string;
-  repositoryName?: string;
-  imageScanningConfiguration?: ImageScanningConfiguration;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageScanningConfiguration?: ImageScanningConfiguration | undefined;
 }
 export interface PutImageTagMutabilityRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageTagMutability: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
 }
 export interface PutImageTagMutabilityResponse {
-  registryId?: string;
-  repositoryName?: string;
-  imageTagMutability?: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageTagMutability?: ImageTagMutability | undefined;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
 }
 export interface PutLifecyclePolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   lifecyclePolicyText: string;
 }
 export interface PutLifecyclePolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  lifecyclePolicyText?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  lifecyclePolicyText?: string | undefined;
 }
 export interface PutRegistryPolicyRequest {
   policyText: string;
 }
 export interface PutRegistryPolicyResponse {
-  registryId?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  policyText?: string | undefined;
 }
 export interface PutRegistryScanningConfigurationRequest {
-  scanType?: ScanType;
-  rules?: RegistryScanningRule[];
+  scanType?: ScanType | undefined;
+  rules?: RegistryScanningRule[] | undefined;
 }
 export interface PutRegistryScanningConfigurationResponse {
-  registryScanningConfiguration?: RegistryScanningConfiguration;
+  registryScanningConfiguration?: RegistryScanningConfiguration | undefined;
 }
 export interface PutReplicationConfigurationRequest {
   replicationConfiguration: ReplicationConfiguration;
 }
 export interface PutReplicationConfigurationResponse {
-  replicationConfiguration?: ReplicationConfiguration;
+  replicationConfiguration?: ReplicationConfiguration | undefined;
 }
 export interface PutSigningConfigurationRequest {
   signingConfiguration: SigningConfiguration;
 }
 export interface PutSigningConfigurationResponse {
-  signingConfiguration?: SigningConfiguration;
+  signingConfiguration?: SigningConfiguration | undefined;
 }
 export interface RegisterPullTimeUpdateExclusionRequest {
   principalArn: string;
 }
 export interface RegisterPullTimeUpdateExclusionResponse {
-  principalArn?: string;
-  createdAt?: Date;
+  principalArn?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export interface SetRepositoryPolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   policyText: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface SetRepositoryPolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  policyText?: string | undefined;
 }
 export interface StartImageScanRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageId: ImageIdentifier;
 }
 export interface StartImageScanResponse {
-  registryId?: string;
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  imageScanStatus?: ImageScanStatus;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  imageScanStatus?: ImageScanStatus | undefined;
 }
 export interface StartLifecyclePolicyPreviewRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  lifecyclePolicyText?: string;
+  lifecyclePolicyText?: string | undefined;
 }
 export interface StartLifecyclePolicyPreviewResponse {
-  registryId?: string;
-  repositoryName?: string;
-  lifecyclePolicyText?: string;
-  status?: LifecyclePolicyPreviewStatus;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  lifecyclePolicyText?: string | undefined;
+  status?: LifecyclePolicyPreviewStatus | undefined;
+}
+export interface StartReplicationBackfillRequest {
+  registryId?: string | undefined;
+  destination: ReplicationDestination;
+}
+export interface StartReplicationBackfillResponse {
+  replicationBackfillId?: string | undefined;
+  registryId?: string | undefined;
+  destination?: ReplicationDestination | undefined;
+  status?: ReplicationBackfillStatus | undefined;
+  startedAt?: Date | undefined;
+}
+export interface StopReplicationBackfillRequest {
+  registryId?: string | undefined;
+  replicationBackfillId: string;
+}
+export interface StopReplicationBackfillResponse {
+  registryId?: string | undefined;
+  replicationBackfillId?: string | undefined;
+  destination?: ReplicationDestination | undefined;
+  status?: ReplicationBackfillStatus | undefined;
+  startedAt?: Date | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1600,50 +1703,50 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export type TargetStorageClass = "STANDARD" | "ARCHIVE" | (string & {});
 export interface UpdateImageStorageClassRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageId: ImageIdentifier;
   targetStorageClass: TargetStorageClass;
 }
 export interface UpdateImageStorageClassResponse {
-  registryId?: string;
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  imageStatus?: ImageStatus;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  imageStatus?: ImageStatus | undefined;
 }
 export interface UpdatePullThroughCacheRuleRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   ecrRepositoryPrefix: string;
-  credentialArn?: string;
-  customRoleArn?: string;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
 }
 export interface UpdatePullThroughCacheRuleResponse {
-  ecrRepositoryPrefix?: string;
-  registryId?: string;
-  updatedAt?: Date;
-  credentialArn?: string;
-  customRoleArn?: string;
-  upstreamRepositoryPrefix?: string;
+  ecrRepositoryPrefix?: string | undefined;
+  registryId?: string | undefined;
+  updatedAt?: Date | undefined;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
 }
 export interface UpdateRepositoryCreationTemplateRequest {
   prefix: string;
-  description?: string;
-  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate;
-  resourceTags?: Tag[];
-  imageTagMutability?: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
-  repositoryPolicy?: string;
-  lifecyclePolicy?: string;
-  appliedFor?: RCTAppliedFor[];
-  customRoleArn?: string;
+  description?: string | undefined;
+  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate | undefined;
+  resourceTags?: Tag[] | undefined;
+  imageTagMutability?: ImageTagMutability | undefined;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
+  repositoryPolicy?: string | undefined;
+  lifecyclePolicy?: string | undefined;
+  appliedFor?: RCTAppliedFor[] | undefined;
+  customRoleArn?: string | undefined;
 }
 export interface UpdateRepositoryCreationTemplateResponse {
-  registryId?: string;
-  repositoryCreationTemplate?: RepositoryCreationTemplate;
+  registryId?: string | undefined;
+  repositoryCreationTemplate?: RepositoryCreationTemplate | undefined;
 }
 export type LayerPartBlob = Uint8Array;
 export interface UploadLayerPartRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   uploadId: string;
   partFirstByte: number;
@@ -1651,26 +1754,26 @@ export interface UploadLayerPartRequest {
   layerPartBlob: Uint8Array;
 }
 export interface UploadLayerPartResponse {
-  registryId?: string;
-  repositoryName?: string;
-  uploadId?: string;
-  lastByteReceived?: number;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  uploadId?: string | undefined;
+  lastByteReceived?: number | undefined;
 }
 export interface ValidatePullThroughCacheRuleRequest {
   ecrRepositoryPrefix: string;
-  registryId?: string;
+  registryId?: string | undefined;
 }
 export type IsPTCRuleValid = boolean;
 export type PTCValidateFailure = string;
 export interface ValidatePullThroughCacheRuleResponse {
-  ecrRepositoryPrefix?: string;
-  registryId?: string;
-  upstreamRegistryUrl?: string;
-  credentialArn?: string;
-  customRoleArn?: string;
-  upstreamRepositoryPrefix?: string;
-  isValid?: boolean;
-  failure?: string;
+  ecrRepositoryPrefix?: string | undefined;
+  registryId?: string | undefined;
+  upstreamRegistryUrl?: string | undefined;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
+  isValid?: boolean | undefined;
+  failure?: string | undefined;
 }
 export type ExceptionMessage = string;
 export type KmsError = string;
@@ -1695,8 +1798,8 @@ export const batchCheckLayerAvailability: API.OperationMethod<
   BatchCheckLayerAvailabilityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<BatchCheckLayerAvailabilityRequest>,
-  output: __S(165, __c5, 5) as any as S.Schema<BatchCheckLayerAvailabilityResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<BatchCheckLayerAvailabilityRequest>,
+  output: __S(421, __c13, 5) as any as S.Schema<BatchCheckLayerAvailabilityResponse>,
   errors: [InvalidParameterException, RepositoryNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1726,8 +1829,8 @@ export const batchDeleteImage: API.OperationMethod<
   BatchDeleteImageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<BatchDeleteImageRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<BatchDeleteImageResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<BatchDeleteImageRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<BatchDeleteImageResponse>,
   errors: [InvalidParameterException, RepositoryNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1756,8 +1859,8 @@ export const batchGetImage: API.OperationMethod<
   BatchGetImageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<BatchGetImageRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<BatchGetImageResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<BatchGetImageRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<BatchGetImageResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -1787,8 +1890,8 @@ export const batchGetRepositoryScanningConfiguration: API.OperationMethod<
   BatchGetRepositoryScanningConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<BatchGetRepositoryScanningConfigurationRequest>,
-  output: __S(421, __c13, 5) as any as S.Schema<BatchGetRepositoryScanningConfigurationResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<BatchGetRepositoryScanningConfigurationRequest>,
+  output: __S(677, __c21, 5) as any as S.Schema<BatchGetRepositoryScanningConfigurationResponse>,
   errors: [
     InvalidParameterException,
     RepositoryNotFoundException,
@@ -1830,8 +1933,8 @@ export const completeLayerUpload: API.OperationMethod<
   CompleteLayerUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CompleteLayerUploadRequest>,
-  output: __S(481, __c15, 1) as any as S.Schema<CompleteLayerUploadResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<CompleteLayerUploadRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<CompleteLayerUploadResponse>,
   errors: [
     EmptyUploadException,
     InvalidLayerException,
@@ -1873,8 +1976,8 @@ export const createPullThroughCacheRule: API.OperationMethod<
   CreatePullThroughCacheRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<CreatePullThroughCacheRuleRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<CreatePullThroughCacheRuleResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreatePullThroughCacheRuleRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<CreatePullThroughCacheRuleResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -1912,8 +2015,8 @@ export const createRepository: API.OperationMethod<
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<CreateRepositoryRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<CreateRepositoryResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<CreateRepositoryRequest>,
+  output: __S(928, __c29, 0) as any as S.Schema<CreateRepositoryResponse>,
   errors: [
     InvalidParameterException,
     InvalidTagParameterException,
@@ -1950,8 +2053,8 @@ export const createRepositoryCreationTemplate: API.OperationMethod<
   CreateRepositoryCreationTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<CreateRepositoryCreationTemplateRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<CreateRepositoryCreationTemplateResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<CreateRepositoryCreationTemplateRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<CreateRepositoryCreationTemplateResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -1982,8 +2085,8 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteLifecyclePolicyRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<DeleteLifecyclePolicyResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<DeleteLifecyclePolicyRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<DeleteLifecyclePolicyResponse>,
   errors: [
     InvalidParameterException,
     LifecyclePolicyNotFoundException,
@@ -2013,8 +2116,8 @@ export const deletePullThroughCacheRule: API.OperationMethod<
   DeletePullThroughCacheRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeletePullThroughCacheRuleRequest>,
-  output: __S(929, __c29, 1) as any as S.Schema<DeletePullThroughCacheRuleResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<DeletePullThroughCacheRuleRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<DeletePullThroughCacheRuleResponse>,
   errors: [
     InvalidParameterException,
     PullThroughCacheRuleNotFoundException,
@@ -2043,8 +2146,8 @@ export const deleteRegistryPolicy: API.OperationMethod<
   DeleteRegistryPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteRegistryPolicyRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<DeleteRegistryPolicyResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DeleteRegistryPolicyRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<DeleteRegistryPolicyResponse>,
   errors: [
     InvalidParameterException,
     RegistryPolicyNotFoundException,
@@ -2076,8 +2179,8 @@ export const deleteRepository: API.OperationMethod<
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeleteRepositoryRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<DeleteRepositoryResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<DeleteRepositoryRequest>,
+  output: __S(928, __c29, 0) as any as S.Schema<DeleteRepositoryResponse>,
   errors: [
     InvalidParameterException,
     KmsException,
@@ -2107,8 +2210,8 @@ export const deleteRepositoryCreationTemplate: API.OperationMethod<
   DeleteRepositoryCreationTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DeleteRepositoryCreationTemplateRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<DeleteRepositoryCreationTemplateResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<DeleteRepositoryCreationTemplateRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<DeleteRepositoryCreationTemplateResponse>,
   errors: [
     InvalidParameterException,
     ServerException,
@@ -2137,8 +2240,8 @@ export const deleteRepositoryPolicy: API.OperationMethod<
   DeleteRepositoryPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DeleteRepositoryPolicyRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<DeleteRepositoryPolicyResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<DeleteRepositoryPolicyRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<DeleteRepositoryPolicyResponse>,
   errors: [
     InvalidParameterException,
     RepositoryNotFoundException,
@@ -2172,8 +2275,8 @@ export const deleteSigningConfiguration: API.OperationMethod<
   DeleteSigningConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<DeleteSigningConfigurationRequest>,
-  output: __S(1184, __c37, 0) as any as S.Schema<DeleteSigningConfigurationResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<DeleteSigningConfigurationRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<DeleteSigningConfigurationResponse>,
   errors: [ServerException, SigningConfigurationNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2198,8 +2301,8 @@ export const deregisterPullTimeUpdateExclusion: API.OperationMethod<
   DeregisterPullTimeUpdateExclusionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<DeregisterPullTimeUpdateExclusionRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<DeregisterPullTimeUpdateExclusionResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DeregisterPullTimeUpdateExclusionRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<DeregisterPullTimeUpdateExclusionResponse>,
   errors: [
     ExclusionNotFoundException,
     InvalidParameterException,
@@ -2230,8 +2333,8 @@ export const describeImageReplicationStatus: API.OperationMethod<
   DescribeImageReplicationStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DescribeImageReplicationStatusRequest>,
-  output: __S(1283, __c40, 3) as any as S.Schema<DescribeImageReplicationStatusResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DescribeImageReplicationStatusRequest>,
+  output: __S(1539, __c48, 3) as any as S.Schema<DescribeImageReplicationStatusResponse>,
   errors: [
     ImageNotFoundException,
     InvalidParameterException,
@@ -2273,8 +2376,8 @@ export const describeImages: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ImageDetail
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DescribeImagesRequest>,
-  output: __S(1316, __c41, 4) as any as S.Schema<DescribeImagesResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DescribeImagesRequest>,
+  output: __S(1572, __c49, 4) as any as S.Schema<DescribeImagesResponse>,
   errors: [
     ImageNotFoundException,
     InvalidParameterException,
@@ -2312,8 +2415,8 @@ export const describeImageScanFindings: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DescribeImageScanFindingsRequest>,
-  output: __S(1463, __c45, 23) as any as S.Schema<DescribeImageScanFindingsResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<DescribeImageScanFindingsRequest>,
+  output: __S(1719, __c53, 23) as any as S.Schema<DescribeImageScanFindingsResponse>,
   errors: [
     ImageNotFoundException,
     InvalidParameterException,
@@ -2355,8 +2458,8 @@ export const describeImageSigningStatus: API.OperationMethod<
   DescribeImageSigningStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<DescribeImageSigningStatusRequest>,
-  output: __S(1507, __c47, 3) as any as S.Schema<DescribeImageSigningStatusResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<DescribeImageSigningStatusRequest>,
+  output: __S(1763, __c55, 3) as any as S.Schema<DescribeImageSigningStatusResponse>,
   errors: [
     ImageNotFoundException,
     InvalidParameterException,
@@ -2387,8 +2490,8 @@ export const describePullThroughCacheRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PullThroughCacheRule
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DescribePullThroughCacheRulesRequest>,
-  output: __S(1539, __c48, 3) as any as S.Schema<DescribePullThroughCacheRulesResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<DescribePullThroughCacheRulesRequest>,
+  output: __S(1795, __c56, 3) as any as S.Schema<DescribePullThroughCacheRulesResponse>,
   errors: [
     InvalidParameterException,
     PullThroughCacheRuleNotFoundException,
@@ -2424,8 +2527,8 @@ export const describeRegistry: API.OperationMethod<
   DescribeRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DescribeRegistryRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<DescribeRegistryResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DescribeRegistryRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<DescribeRegistryResponse>,
   errors: [InvalidParameterException, ServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2433,6 +2536,48 @@ export const describeRegistry: API.OperationMethod<
   telemetry: TELEMETRY,
   span: "DescribeRegistry",
 }));
+
+export type DescribeReplicationBackfillResultsError =
+  | InvalidParameterException
+  | ReplicationBackfillNotFoundException
+  | ServerException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the status, progress, and per-image results for a replication backfill. The
+ * backfill to describe is identified by the `replicationBackfillId` returned by
+ * the StartReplicationBackfill operation.
+ *
+ * The per-image results are available only after the replication backfill reaches a
+ * terminal status.
+ */
+export const describeReplicationBackfillResults: API.PaginatedOperationMethod<
+  DescribeReplicationBackfillResultsRequest & RegionInput,
+  DescribeReplicationBackfillResultsResponse,
+  DescribeReplicationBackfillResultsError,
+  Credentials | HttpClient.HttpClient,
+  ReplicationBackfillResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1920, __c60, 0) as any as S.Schema<DescribeReplicationBackfillResultsRequest>,
+  output: __S(1923, __c60, 3) as any as S.Schema<DescribeReplicationBackfillResultsResponse>,
+  errors: [
+    InvalidParameterException,
+    ReplicationBackfillNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeReplicationBackfillResults",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "results",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationBackfillResults",
+})) as any;
 
 export type DescribeRepositoriesError =
   | InvalidParameterException
@@ -2449,8 +2594,8 @@ export const describeRepositories: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Repository
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DescribeRepositoriesRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<DescribeRepositoriesResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DescribeRepositoriesRequest>,
+  output: __S(1986, __c62, 2) as any as S.Schema<DescribeRepositoriesResponse>,
   errors: [InvalidParameterException, RepositoryNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2482,8 +2627,8 @@ export const describeRepositoryCreationTemplates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RepositoryCreationTemplate
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DescribeRepositoryCreationTemplatesRequest>,
-  output: __S(1666, __c52, 2) as any as S.Schema<DescribeRepositoryCreationTemplatesResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<DescribeRepositoryCreationTemplatesRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<DescribeRepositoryCreationTemplatesResponse>,
   errors: [InvalidParameterException, ServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2512,8 +2657,8 @@ export const getAccountSetting: API.OperationMethod<
   GetAccountSettingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetAccountSettingRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<GetAccountSettingResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetAccountSettingRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<GetAccountSettingResponse>,
   errors: [InvalidParameterException, ServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2540,8 +2685,8 @@ export const getAuthorizationToken: API.OperationMethod<
   GetAuthorizationTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetAuthorizationTokenRequest>,
-  output: __S(1763, __c55, 3) as any as S.Schema<GetAuthorizationTokenResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetAuthorizationTokenRequest>,
+  output: __S(2115, __c66, 3) as any as S.Schema<GetAuthorizationTokenResponse>,
   errors: [InvalidParameterException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2574,8 +2719,8 @@ export const getDownloadUrlForLayer: API.OperationMethod<
   GetDownloadUrlForLayerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetDownloadUrlForLayerRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<GetDownloadUrlForLayerResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<GetDownloadUrlForLayerRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<GetDownloadUrlForLayerResponse>,
   errors: [
     InvalidParameterException,
     LayerInaccessibleException,
@@ -2607,8 +2752,8 @@ export const getLifecyclePolicy: API.OperationMethod<
   GetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetLifecyclePolicyRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<GetLifecyclePolicyResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetLifecyclePolicyRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<GetLifecyclePolicyResponse>,
   errors: [
     InvalidParameterException,
     LifecyclePolicyNotFoundException,
@@ -2641,8 +2786,8 @@ export const getLifecyclePolicyPreview: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LifecyclePolicyPreviewResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1857, __c58, 1) as any as S.Schema<GetLifecyclePolicyPreviewRequest>,
-  output: __S(1864, __c58, 8) as any as S.Schema<GetLifecyclePolicyPreviewResponse>,
+  input: __S(2209, __c69, 1) as any as S.Schema<GetLifecyclePolicyPreviewRequest>,
+  output: __S(2216, __c69, 8) as any as S.Schema<GetLifecyclePolicyPreviewResponse>,
   errors: [
     InvalidParameterException,
     LifecyclePolicyPreviewNotFoundException,
@@ -2678,8 +2823,8 @@ export const getRegistryPolicy: API.OperationMethod<
   GetRegistryPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetRegistryPolicyRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<GetRegistryPolicyResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<GetRegistryPolicyRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<GetRegistryPolicyResponse>,
   errors: [
     InvalidParameterException,
     RegistryPolicyNotFoundException,
@@ -2707,8 +2852,8 @@ export const getRegistryScanningConfiguration: API.OperationMethod<
   GetRegistryScanningConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetRegistryScanningConfigurationRequest>,
-  output: __S(1921, __c60, 1) as any as S.Schema<GetRegistryScanningConfigurationResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetRegistryScanningConfigurationRequest>,
+  output: __S(2273, __c71, 1) as any as S.Schema<GetRegistryScanningConfigurationResponse>,
   errors: [InvalidParameterException, ServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2732,8 +2877,8 @@ export const getRepositoryPolicy: API.OperationMethod<
   GetRepositoryPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<GetRepositoryPolicyRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<GetRepositoryPolicyResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetRepositoryPolicyRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<GetRepositoryPolicyResponse>,
   errors: [
     InvalidParameterException,
     RepositoryNotFoundException,
@@ -2766,8 +2911,8 @@ export const getSigningConfiguration: API.OperationMethod<
   GetSigningConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetSigningConfigurationRequest>,
-  output: __S(1184, __c37, 0) as any as S.Schema<GetSigningConfigurationResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<GetSigningConfigurationRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<GetSigningConfigurationResponse>,
   errors: [
     InvalidParameterException,
     ServerException,
@@ -2803,8 +2948,8 @@ export const initiateLayerUpload: API.OperationMethod<
   InitiateLayerUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<InitiateLayerUploadRequest>,
-  output: __S(2049, __c64, 1) as any as S.Schema<InitiateLayerUploadResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<InitiateLayerUploadRequest>,
+  output: __S(2401, __c75, 1) as any as S.Schema<InitiateLayerUploadResponse>,
   errors: [InvalidParameterException, KmsException, RepositoryNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2831,8 +2976,8 @@ export const listImageReferrers: API.OperationMethod<
   ListImageReferrersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2082, __c65, 2) as any as S.Schema<ListImageReferrersRequest>,
-  output: __S(2085, __c65, 5) as any as S.Schema<ListImageReferrersResponse>,
+  input: __S(2434, __c76, 2) as any as S.Schema<ListImageReferrersRequest>,
+  output: __S(2437, __c76, 5) as any as S.Schema<ListImageReferrersResponse>,
   errors: [
     InvalidParameterException,
     RepositoryNotFoundException,
@@ -2869,8 +3014,8 @@ export const listImages: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ImageIdentifier
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListImagesRequest>,
-  output: __S(2113, __c66, 1) as any as S.Schema<ListImagesResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListImagesRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<ListImagesResponse>,
   errors: [InvalidParameterException, RepositoryNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2900,8 +3045,8 @@ export const listPullTimeUpdateExclusions: API.OperationMethod<
   ListPullTimeUpdateExclusionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListPullTimeUpdateExclusionsRequest>,
-  output: __S(2145, __c67, 1) as any as S.Schema<ListPullTimeUpdateExclusionsResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListPullTimeUpdateExclusionsRequest>,
+  output: __S(2497, __c78, 1) as any as S.Schema<ListPullTimeUpdateExclusionsResponse>,
   errors: [InvalidParameterException, LimitExceededException, ServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2909,6 +3054,41 @@ export const listPullTimeUpdateExclusions: API.OperationMethod<
   telemetry: TELEMETRY,
   span: "ListPullTimeUpdateExclusions",
 }));
+
+export type ListReplicationBackfillsError =
+  | InvalidParameterException
+  | ServerException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the replication backfills for a registry, including their status and
+ * progress.
+ *
+ * Replication backfills that have reached a terminal status are retained for 90 days
+ * after they end, after which they are no longer returned.
+ */
+export const listReplicationBackfills: API.PaginatedOperationMethod<
+  ListReplicationBackfillsRequest & RegionInput,
+  ListReplicationBackfillsResponse,
+  ListReplicationBackfillsError,
+  Credentials | HttpClient.HttpClient,
+  ReplicationBackfillSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(2528, __c79, 0) as any as S.Schema<ListReplicationBackfillsRequest>,
+  output: __S(2531, __c79, 3) as any as S.Schema<ListReplicationBackfillsResponse>,
+  errors: [InvalidParameterException, ServerException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListReplicationBackfills",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "backfills",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListReplicationBackfills",
+})) as any;
 
 export type ListTagsForResourceError =
   | InvalidParameterException
@@ -2924,8 +3104,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(2177, __c68, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InvalidParameterException, RepositoryNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2949,8 +3129,8 @@ export const putAccountSetting: API.OperationMethod<
   PutAccountSettingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<PutAccountSettingRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<PutAccountSettingResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<PutAccountSettingRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<PutAccountSettingResponse>,
   errors: [InvalidParameterException, LimitExceededException, ServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2987,8 +3167,8 @@ export const putImage: API.OperationMethod<
   PutImageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<PutImageRequest>,
-  output: __S(2241, __c70, 1) as any as S.Schema<PutImageResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<PutImageRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<PutImageResponse>,
   errors: [
     ImageAlreadyExistsException,
     ImageDigestDoesNotMatchException,
@@ -3027,8 +3207,8 @@ export const putImageScanningConfiguration: API.OperationMethod<
   PutImageScanningConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<PutImageScanningConfigurationRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<PutImageScanningConfigurationResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<PutImageScanningConfigurationRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<PutImageScanningConfigurationResponse>,
   errors: [
     InvalidParameterException,
     RepositoryNotFoundException,
@@ -3058,8 +3238,8 @@ export const putImageTagMutability: API.OperationMethod<
   PutImageTagMutabilityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<PutImageTagMutabilityRequest>,
-  output: __S(2305, __c72, 1) as any as S.Schema<PutImageTagMutabilityResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<PutImageTagMutabilityRequest>,
+  output: __S(2689, __c84, 1) as any as S.Schema<PutImageTagMutabilityResponse>,
   errors: [InvalidParameterException, RepositoryNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3085,8 +3265,8 @@ export const putLifecyclePolicy: API.OperationMethod<
   PutLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<PutLifecyclePolicyRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<PutLifecyclePolicyResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<PutLifecyclePolicyRequest>,
+  output: __S(2721, __c85, 1) as any as S.Schema<PutLifecyclePolicyResponse>,
   errors: [
     InvalidParameterException,
     RepositoryNotFoundException,
@@ -3117,8 +3297,8 @@ export const putRegistryPolicy: API.OperationMethod<
   PutRegistryPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<PutRegistryPolicyRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<PutRegistryPolicyResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<PutRegistryPolicyRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<PutRegistryPolicyResponse>,
   errors: [InvalidParameterException, ServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3142,8 +3322,8 @@ export const putRegistryScanningConfiguration: API.OperationMethod<
   PutRegistryScanningConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<PutRegistryScanningConfigurationRequest>,
-  output: __S(2401, __c75, 1) as any as S.Schema<PutRegistryScanningConfigurationResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<PutRegistryScanningConfigurationRequest>,
+  output: __S(2785, __c87, 1) as any as S.Schema<PutRegistryScanningConfigurationResponse>,
   errors: [
     BlockedByOrganizationPolicyException,
     InvalidParameterException,
@@ -3180,8 +3360,8 @@ export const putReplicationConfiguration: API.OperationMethod<
   PutReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<PutReplicationConfigurationRequest>,
-  output: __S(2433, __c76, 1) as any as S.Schema<PutReplicationConfigurationResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<PutReplicationConfigurationRequest>,
+  output: __S(2817, __c88, 1) as any as S.Schema<PutReplicationConfigurationResponse>,
   errors: [InvalidParameterException, ServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3212,8 +3392,8 @@ export const putSigningConfiguration: API.OperationMethod<
   PutSigningConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<PutSigningConfigurationRequest>,
-  output: __S(2465, __c77, 1) as any as S.Schema<PutSigningConfigurationResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<PutSigningConfigurationRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<PutSigningConfigurationResponse>,
   errors: [InvalidParameterException, ServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3238,8 +3418,8 @@ export const registerPullTimeUpdateExclusion: API.OperationMethod<
   RegisterPullTimeUpdateExclusionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<RegisterPullTimeUpdateExclusionRequest>,
-  output: __S(2497, __c78, 1) as any as S.Schema<RegisterPullTimeUpdateExclusionResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<RegisterPullTimeUpdateExclusionRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<RegisterPullTimeUpdateExclusionResponse>,
   errors: [
     ExclusionAlreadyExistsException,
     InvalidParameterException,
@@ -3270,8 +3450,8 @@ export const setRepositoryPolicy: API.OperationMethod<
   SetRepositoryPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<SetRepositoryPolicyRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<SetRepositoryPolicyResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<SetRepositoryPolicyRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<SetRepositoryPolicyResponse>,
   errors: [InvalidParameterException, RepositoryNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3304,8 +3484,8 @@ export const startImageScan: API.OperationMethod<
   StartImageScanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<StartImageScanRequest>,
-  output: __S(2561, __c80, 1) as any as S.Schema<StartImageScanResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<StartImageScanRequest>,
+  output: __S(33, __c1, 1) as any as S.Schema<StartImageScanResponse>,
   errors: [
     ImageArchivedException,
     ImageNotFoundException,
@@ -3341,8 +3521,8 @@ export const startLifecyclePolicyPreview: API.OperationMethod<
   StartLifecyclePolicyPreviewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<StartLifecyclePolicyPreviewRequest>,
-  output: __S(2593, __c81, 1) as any as S.Schema<StartLifecyclePolicyPreviewResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<StartLifecyclePolicyPreviewRequest>,
+  output: __S(65, __c2, 1) as any as S.Schema<StartLifecyclePolicyPreviewResponse>,
   errors: [
     InvalidParameterException,
     LifecyclePolicyNotFoundException,
@@ -3356,6 +3536,88 @@ export const startLifecyclePolicyPreview: API.OperationMethod<
   operationName: "StartLifecyclePolicyPreview",
   telemetry: TELEMETRY,
   span: "StartLifecyclePolicyPreview",
+}));
+
+export type StartReplicationBackfillError =
+  | InvalidParameterException
+  | LimitExceededException
+  | ReplicationBackfillInProgressException
+  | ServerException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts a replication backfill for a registry. A replication backfill replicates a
+ * registry's existing images that match its replication configuration to the specified
+ * destination. Use the DescribeReplicationBackfillResults operation to
+ * monitor the progress of a replication backfill, and to retrieve its per-image results
+ * after it reaches a terminal status.
+ *
+ * The destination must already be configured in the registry's replication
+ * configuration.
+ *
+ * Only one replication backfill can be in progress for a given destination Region at
+ * a time. Starting a replication backfill for a destination Region that already has one
+ * in progress fails with a `ReplicationBackfillInProgressException`. In
+ * addition, a registry can have at most 10 replication backfills in progress at once.
+ * Starting a replication backfill that would exceed this limit fails with a
+ * `LimitExceededException`.
+ */
+export const startReplicationBackfill: API.OperationMethod<
+  StartReplicationBackfillRequest & RegionInput,
+  StartReplicationBackfillResponse,
+  StartReplicationBackfillError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c3, 0) as any as S.Schema<StartReplicationBackfillRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<StartReplicationBackfillResponse>,
+  errors: [
+    InvalidParameterException,
+    LimitExceededException,
+    ReplicationBackfillInProgressException,
+    ServerException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartReplicationBackfill",
+  telemetry: TELEMETRY,
+  span: "StartReplicationBackfill",
+}));
+
+export type StopReplicationBackfillError =
+  | InvalidParameterException
+  | ReplicationBackfillInvalidStatusException
+  | ReplicationBackfillNotFoundException
+  | ServerException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Stops an in progress replication backfill for a registry. The backfill to stop is
+ * identified by the `replicationBackfillId` returned by the StartReplicationBackfill operation.
+ *
+ * Images that have already been replicated are not affected, and replications that
+ * are already in progress continue to completion.
+ */
+export const stopReplicationBackfill: API.OperationMethod<
+  StopReplicationBackfillRequest & RegionInput,
+  StopReplicationBackfillResponse,
+  StopReplicationBackfillError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c4, 0) as any as S.Schema<StopReplicationBackfillRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<StopReplicationBackfillResponse>,
+  errors: [
+    InvalidParameterException,
+    ReplicationBackfillInvalidStatusException,
+    ReplicationBackfillNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StopReplicationBackfill",
+  telemetry: TELEMETRY,
+  span: "StopReplicationBackfill",
 }));
 
 export type TagResourceError =
@@ -3375,8 +3637,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(2656, __c83, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InvalidParameterException,
     InvalidTagParameterException,
@@ -3407,8 +3669,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(2656, __c83, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InvalidParameterException,
     InvalidTagParameterException,
@@ -3440,8 +3702,8 @@ export const updateImageStorageClass: API.OperationMethod<
   UpdateImageStorageClassError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<UpdateImageStorageClassRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<UpdateImageStorageClassResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<UpdateImageStorageClassRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<UpdateImageStorageClassResponse>,
   errors: [
     ImageNotFoundException,
     ImageStorageClassUpdateNotSupportedException,
@@ -3475,8 +3737,8 @@ export const updatePullThroughCacheRule: API.OperationMethod<
   UpdatePullThroughCacheRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<UpdatePullThroughCacheRuleRequest>,
-  output: __S(33, __c1, 1) as any as S.Schema<UpdatePullThroughCacheRuleResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<UpdatePullThroughCacheRuleRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<UpdatePullThroughCacheRuleResponse>,
   errors: [
     InvalidParameterException,
     PullThroughCacheRuleNotFoundException,
@@ -3508,8 +3770,8 @@ export const updateRepositoryCreationTemplate: API.OperationMethod<
   UpdateRepositoryCreationTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<UpdateRepositoryCreationTemplateRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<UpdateRepositoryCreationTemplateResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<UpdateRepositoryCreationTemplateRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<UpdateRepositoryCreationTemplateResponse>,
   errors: [
     InvalidParameterException,
     ServerException,
@@ -3548,8 +3810,8 @@ export const uploadLayerPart: API.OperationMethod<
   UploadLayerPartError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<UploadLayerPartRequest>,
-  output: __S(97, __c3, 1) as any as S.Schema<UploadLayerPartResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<UploadLayerPartRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<UploadLayerPartResponse>,
   errors: [
     InvalidLayerPartException,
     InvalidParameterException,
@@ -3584,8 +3846,8 @@ export const validatePullThroughCacheRule: API.OperationMethod<
   ValidatePullThroughCacheRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<ValidatePullThroughCacheRuleRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<ValidatePullThroughCacheRuleResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ValidatePullThroughCacheRuleRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<ValidatePullThroughCacheRuleResponse>,
   errors: [
     InvalidParameterException,
     PullThroughCacheRuleNotFoundException,
@@ -3607,7 +3869,128 @@ function __c0(j: number): any {
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.String,
-          imageId: __S(288, __c9, 0),
+          policyText: S.String,
+          force: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "SetRepositoryPolicyRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          registryId: S.optional(S.String),
+          repositoryName: S.String,
+          imageId: __S(544, __c17, 0),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartImageScanRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          registryId: S.optional(S.String),
+          repositoryName: S.optional(S.String),
+          imageId: S.optional(__S(544, __c17, 0)),
+          imageScanStatus: S.optional(__S(1632, __c51, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "StartImageScanResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          registryId: S.optional(S.String),
+          repositoryName: S.String,
+          lifecyclePolicyText: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartLifecyclePolicyPreviewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          registryId: S.optional(S.String),
+          repositoryName: S.optional(S.String),
+          lifecyclePolicyText: S.optional(S.String),
+          status: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "StartLifecyclePolicyPreviewResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ registryId: S.optional(S.String), destination: __S(1856, __c58, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartReplicationBackfillRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          replicationBackfillId: S.optional(S.String),
+          registryId: S.optional(S.String),
+          destination: S.optional(__S(1856, __c58, 0)),
+          status: S.optional(S.String),
+          startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }).pipe(ns),
+      ).annotate({ identifier: "StartReplicationBackfillResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ registryId: S.optional(S.String), replicationBackfillId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopReplicationBackfillRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          registryId: S.optional(S.String),
+          replicationBackfillId: S.optional(S.String),
+          destination: S.optional(__S(1856, __c58, 0)),
+          status: S.optional(S.String),
+          startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }).pipe(ns),
+      ).annotate({ identifier: "StopReplicationBackfillResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, tags: __S(897, __c28, 1) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "TagResourceResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, tagKeys: __S(448, __c14, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          registryId: S.optional(S.String),
+          repositoryName: S.String,
+          imageId: __S(544, __c17, 0),
           targetStorageClass: S.String,
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateImageStorageClassRequest" });
@@ -3616,13 +3999,13 @@ function __c0(j: number): any {
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.optional(S.String),
-          imageId: S.optional(__S(288, __c9, 0)),
+          imageId: S.optional(__S(544, __c17, 0)),
           imageStatus: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "UpdateImageStorageClassResponse" });
   }
 }
-function __c1(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3646,26 +4029,26 @@ function __c1(j: number): any {
       ).annotate({ identifier: "UpdatePullThroughCacheRuleResponse" });
   }
 }
-function __c2(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           prefix: S.String,
           description: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(576, __c18, 0)),
-          resourceTags: S.optional(__S(641, __c20, 1)),
+          encryptionConfiguration: S.optional(__S(832, __c26, 0)),
+          resourceTags: S.optional(__S(897, __c28, 1)),
           imageTagMutability: S.optional(S.String),
-          imageTagMutabilityExclusionFilters: S.optional(__S(609, __c19, 1)),
+          imageTagMutabilityExclusionFilters: S.optional(__S(865, __c27, 1)),
           repositoryPolicy: S.optional(S.String),
           lifecyclePolicy: S.optional(S.String),
-          appliedFor: S.optional(__S(832, __c26, 0)),
+          appliedFor: S.optional(__S(1088, __c34, 0)),
           customRoleArn: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateRepositoryCreationTemplateRequest" });
   }
 }
-function __c3(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3689,7 +4072,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UploadLayerPartResponse" });
   }
 }
-function __c4(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3712,14 +4095,14 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ValidatePullThroughCacheRuleResponse" });
   }
 }
-function __c5(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.String,
-          layerDigests: __S(192, __c6, 0),
+          layerDigests: __S(448, __c14, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "BatchCheckLayerAvailabilityRequest" });
     case 1:
@@ -3732,7 +4115,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "Layer" });
     case 2:
-      return S.Array(__S(161, __c5, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3742,56 +4125,56 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "LayerFailure" });
     case 4:
-      return S.Array(__S(163, __c5, 3));
+      return S.Array(__S(419, __c13, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          layers: S.optional(__S(162, __c5, 2)),
-          failures: S.optional(__S(164, __c5, 4)),
+          layers: S.optional(__S(418, __c13, 2)),
+          failures: S.optional(__S(420, __c13, 4)),
         }).pipe(ns),
       ).annotate({ identifier: "BatchCheckLayerAvailabilityResponse" });
   }
 }
-function __c6(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c7(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.String,
-          imageIds: __S(320, __c10, 0),
+          imageIds: __S(576, __c18, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "BatchDeleteImageRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          imageIds: S.optional(__S(320, __c10, 0)),
-          failures: S.optional(__S(257, __c8, 1)),
+          imageIds: S.optional(__S(576, __c18, 0)),
+          failures: S.optional(__S(513, __c16, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "BatchDeleteImageResponse" });
   }
 }
-function __c8(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          imageId: S.optional(__S(288, __c9, 0)),
+          imageId: S.optional(__S(544, __c17, 0)),
           failureCode: S.optional(S.String),
           failureReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageFailure" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(512, __c16, 0));
   }
 }
-function __c9(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3799,53 +4182,53 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ImageIdentifier" });
   }
 }
-function __c10(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(288, __c9, 0));
+      return S.Array(__S(544, __c17, 0));
   }
 }
-function __c11(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.String,
-          imageIds: __S(320, __c10, 0),
-          acceptedMediaTypes: S.optional(__S(192, __c6, 0)),
+          imageIds: __S(576, __c18, 0),
+          acceptedMediaTypes: S.optional(__S(448, __c14, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "BatchGetImageRequest" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(640, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          images: S.optional(__S(353, __c11, 1)),
-          failures: S.optional(__S(257, __c8, 1)),
+          images: S.optional(__S(609, __c19, 1)),
+          failures: S.optional(__S(513, __c16, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "BatchGetImageResponse" });
   }
 }
-function __c12(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.optional(S.String),
-          imageId: S.optional(__S(288, __c9, 0)),
+          imageId: S.optional(__S(544, __c17, 0)),
           imageManifest: S.optional(S.String),
           imageManifestMediaType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Image" });
   }
 }
-function __c13(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ repositoryNames: __S(192, __c6, 0) }).pipe(
+        S.Struct({ repositoryNames: __S(448, __c14, 0) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetRepositoryScanningConfigurationRequest" });
@@ -3856,11 +4239,11 @@ function __c13(j: number): any {
           repositoryName: S.optional(S.String),
           scanOnPush: S.optional(S.Boolean),
           scanFrequency: S.optional(S.String),
-          appliedScanFilters: S.optional(__S(449, __c14, 1)),
+          appliedScanFilters: S.optional(__S(705, __c22, 1)),
         }),
       ).annotate({ identifier: "RepositoryScanningConfiguration" });
     case 2:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3870,27 +4253,27 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "RepositoryScanningConfigurationFailure" });
     case 4:
-      return S.Array(__S(419, __c13, 3));
+      return S.Array(__S(675, __c21, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          scanningConfigurations: S.optional(__S(418, __c13, 2)),
-          failures: S.optional(__S(420, __c13, 4)),
+          scanningConfigurations: S.optional(__S(674, __c21, 2)),
+          failures: S.optional(__S(676, __c21, 4)),
         }).pipe(ns),
       ).annotate({ identifier: "BatchGetRepositoryScanningConfigurationResponse" });
   }
 }
-function __c14(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ filter: S.String, filterType: S.String })).annotate({
         identifier: "ScanningRepositoryFilter",
       });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(704, __c22, 0));
   }
 }
-function __c15(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3898,7 +4281,7 @@ function __c15(j: number): any {
           registryId: S.optional(S.String),
           repositoryName: S.String,
           uploadId: S.String,
-          layerDigests: __S(192, __c6, 0),
+          layerDigests: __S(448, __c14, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CompleteLayerUploadRequest" });
     case 1:
@@ -3912,7 +4295,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CompleteLayerUploadResponse" });
   }
 }
-function __c16(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3941,23 +4324,23 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreatePullThroughCacheRuleResponse" });
   }
 }
-function __c17(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.String,
-          tags: S.optional(__S(641, __c20, 1)),
+          tags: S.optional(__S(897, __c28, 1)),
           imageTagMutability: S.optional(S.String),
-          imageTagMutabilityExclusionFilters: S.optional(__S(609, __c19, 1)),
-          imageScanningConfiguration: S.optional(__S(736, __c23, 0)),
-          encryptionConfiguration: S.optional(__S(576, __c18, 0)),
+          imageTagMutabilityExclusionFilters: S.optional(__S(865, __c27, 1)),
+          imageScanningConfiguration: S.optional(__S(992, __c31, 0)),
+          encryptionConfiguration: S.optional(__S(832, __c26, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateRepositoryRequest" });
   }
 }
-function __c18(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3965,35 +4348,35 @@ function __c18(j: number): any {
       ).annotate({ identifier: "EncryptionConfiguration" });
   }
 }
-function __c19(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ filterType: S.String, filter: S.String })).annotate({
         identifier: "ImageTagMutabilityExclusionFilter",
       });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(864, __c27, 0));
   }
 }
-function __c20(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
         identifier: "Tag",
       });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(896, __c28, 0));
   }
 }
-function __c21(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ repository: S.optional(__S(704, __c22, 0)) }).pipe(ns),
+        S.Struct({ repository: S.optional(__S(960, __c30, 0)) }).pipe(ns),
       ).annotate({ identifier: "CreateRepositoryResponse" });
   }
 }
-function __c22(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4004,14 +4387,14 @@ function __c22(j: number): any {
           repositoryUri: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           imageTagMutability: S.optional(S.String),
-          imageTagMutabilityExclusionFilters: S.optional(__S(609, __c19, 1)),
-          imageScanningConfiguration: S.optional(__S(736, __c23, 0)),
-          encryptionConfiguration: S.optional(__S(576, __c18, 0)),
+          imageTagMutabilityExclusionFilters: S.optional(__S(865, __c27, 1)),
+          imageScanningConfiguration: S.optional(__S(992, __c31, 0)),
+          encryptionConfiguration: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "Repository" });
   }
 }
-function __c23(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ scanOnPush: S.optional(S.Boolean) })).annotate({
@@ -4019,37 +4402,37 @@ function __c23(j: number): any {
       });
   }
 }
-function __c24(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           prefix: S.String,
           description: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(576, __c18, 0)),
-          resourceTags: S.optional(__S(641, __c20, 1)),
+          encryptionConfiguration: S.optional(__S(832, __c26, 0)),
+          resourceTags: S.optional(__S(897, __c28, 1)),
           imageTagMutability: S.optional(S.String),
-          imageTagMutabilityExclusionFilters: S.optional(__S(609, __c19, 1)),
+          imageTagMutabilityExclusionFilters: S.optional(__S(865, __c27, 1)),
           repositoryPolicy: S.optional(S.String),
           lifecyclePolicy: S.optional(S.String),
-          appliedFor: __S(832, __c26, 0),
+          appliedFor: __S(1088, __c34, 0),
           customRoleArn: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateRepositoryCreationTemplateRequest" });
   }
 }
-function __c25(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
-          repositoryCreationTemplate: S.optional(__S(833, __c26, 1)),
+          repositoryCreationTemplate: S.optional(__S(1089, __c34, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "CreateRepositoryCreationTemplateResponse" });
   }
 }
-function __c26(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -4058,13 +4441,13 @@ function __c26(j: number): any {
         S.Struct({
           prefix: S.optional(S.String),
           description: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(576, __c18, 0)),
-          resourceTags: S.optional(__S(641, __c20, 1)),
+          encryptionConfiguration: S.optional(__S(832, __c26, 0)),
+          resourceTags: S.optional(__S(897, __c28, 1)),
           imageTagMutability: S.optional(S.String),
-          imageTagMutabilityExclusionFilters: S.optional(__S(609, __c19, 1)),
+          imageTagMutabilityExclusionFilters: S.optional(__S(865, __c27, 1)),
           repositoryPolicy: S.optional(S.String),
           lifecyclePolicy: S.optional(S.String),
-          appliedFor: S.optional(__S(832, __c26, 0)),
+          appliedFor: S.optional(__S(1088, __c34, 0)),
           customRoleArn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4072,7 +4455,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "RepositoryCreationTemplate" });
   }
 }
-function __c27(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4082,7 +4465,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteLifecyclePolicyRequest" });
   }
 }
-function __c28(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4095,7 +4478,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteLifecyclePolicyResponse" });
   }
 }
-function __c29(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4117,7 +4500,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeletePullThroughCacheRuleResponse" });
   }
 }
-function __c30(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4127,7 +4510,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteRegistryPolicyRequest" });
   }
 }
-function __c31(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4135,7 +4518,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteRegistryPolicyResponse" });
   }
 }
-function __c32(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4147,7 +4530,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteRepositoryRequest" });
   }
 }
-function __c33(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4157,7 +4540,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteRepositoryCreationTemplateRequest" });
   }
 }
-function __c34(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4167,7 +4550,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteRepositoryPolicyRequest" });
   }
 }
-function __c35(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4179,7 +4562,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DeleteRepositoryPolicyResponse" });
   }
 }
-function __c36(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4189,35 +4572,35 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DeleteSigningConfigurationRequest" });
   }
 }
-function __c37(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
-          signingConfiguration: S.optional(__S(1218, __c38, 2)),
+          signingConfiguration: S.optional(__S(1474, __c46, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "DeleteSigningConfigurationResponse" });
   }
 }
-function __c38(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           signingProfileArn: S.String,
-          repositoryFilters: S.optional(__S(449, __c14, 1)),
+          repositoryFilters: S.optional(__S(705, __c22, 1)),
         }),
       ).annotate({ identifier: "SigningRule" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1472, __c46, 0));
     case 2:
-      return S.suspend(() => S.Struct({ rules: __S(1217, __c38, 1) })).annotate({
+      return S.suspend(() => S.Struct({ rules: __S(1473, __c46, 1) })).annotate({
         identifier: "SigningConfiguration",
       });
   }
 }
-function __c39(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4231,13 +4614,13 @@ function __c39(j: number): any {
       });
   }
 }
-function __c40(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repositoryName: S.String,
-          imageId: __S(288, __c9, 0),
+          imageId: __S(544, __c17, 0),
           registryId: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeImageReplicationStatusRequest" });
@@ -4251,28 +4634,28 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "ImageReplicationStatus" });
     case 2:
-      return S.Array(__S(1281, __c40, 1));
+      return S.Array(__S(1537, __c48, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           repositoryName: S.optional(S.String),
-          imageId: S.optional(__S(288, __c9, 0)),
-          replicationStatuses: S.optional(__S(1282, __c40, 2)),
+          imageId: S.optional(__S(544, __c17, 0)),
+          replicationStatuses: S.optional(__S(1538, __c48, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeImageReplicationStatusResponse" });
   }
 }
-function __c41(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.String,
-          imageIds: S.optional(__S(320, __c10, 0)),
+          imageIds: S.optional(__S(576, __c18, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
-          filter: S.optional(__S(1408, __c44, 0)),
+          filter: S.optional(__S(1664, __c52, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeImagesRequest" });
     case 1:
@@ -4280,7 +4663,7 @@ function __c41(j: number): any {
         S.Struct({
           imageScanCompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           vulnerabilitySourceUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          findingSeverityCounts: S.optional(__S(1344, __c42, 0)),
+          findingSeverityCounts: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "ImageScanFindingsSummary" });
     case 2:
@@ -4289,11 +4672,11 @@ function __c41(j: number): any {
           registryId: S.optional(S.String),
           repositoryName: S.optional(S.String),
           imageDigest: S.optional(S.String),
-          imageTags: S.optional(__S(192, __c6, 0)),
+          imageTags: S.optional(__S(448, __c14, 0)),
           imageSizeInBytes: S.optional(S.Number),
           imagePushedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          imageScanStatus: S.optional(__S(1376, __c43, 0)),
-          imageScanFindingsSummary: S.optional(__S(1313, __c41, 1)),
+          imageScanStatus: S.optional(__S(1632, __c51, 0)),
+          imageScanFindingsSummary: S.optional(__S(1569, __c49, 1)),
           imageManifestMediaType: S.optional(S.String),
           artifactMediaType: S.optional(S.String),
           lastRecordedPullTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4304,23 +4687,23 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "ImageDetail" });
     case 3:
-      return S.Array(__S(1314, __c41, 2));
+      return S.Array(__S(1570, __c49, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          imageDetails: S.optional(__S(1315, __c41, 3)),
+          imageDetails: S.optional(__S(1571, __c49, 3)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeImagesResponse" });
   }
 }
-function __c42(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
   }
 }
-function __c43(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4328,7 +4711,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ImageScanStatus" });
   }
 }
-function __c44(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4336,14 +4719,14 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DescribeImagesFilter" });
   }
 }
-function __c45(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.String,
-          imageId: __S(288, __c9, 0),
+          imageId: __S(544, __c17, 0),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -4353,7 +4736,7 @@ function __c45(j: number): any {
         identifier: "Attribute",
       });
     case 2:
-      return S.Array(__S(1441, __c45, 1));
+      return S.Array(__S(1697, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4361,11 +4744,11 @@ function __c45(j: number): any {
           description: S.optional(S.String),
           uri: S.optional(S.String),
           severity: S.optional(S.String),
-          attributes: S.optional(__S(1442, __c45, 2)),
+          attributes: S.optional(__S(1698, __c53, 2)),
         }),
       ).annotate({ identifier: "ImageScanFinding" });
     case 4:
-      return S.Array(__S(1443, __c45, 3));
+      return S.Array(__S(1699, __c53, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4376,7 +4759,7 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "CvssScore" });
     case 6:
-      return S.Array(__S(1445, __c45, 5));
+      return S.Array(__S(1701, __c53, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -4392,20 +4775,20 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "VulnerablePackage" });
     case 8:
-      return S.Array(__S(1447, __c45, 7));
+      return S.Array(__S(1703, __c53, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          cvss: S.optional(__S(1446, __c45, 6)),
-          referenceUrls: S.optional(__S(192, __c6, 0)),
-          relatedVulnerabilities: S.optional(__S(192, __c6, 0)),
+          cvss: S.optional(__S(1702, __c53, 6)),
+          referenceUrls: S.optional(__S(448, __c14, 0)),
+          relatedVulnerabilities: S.optional(__S(448, __c14, 0)),
           source: S.optional(S.String),
           sourceUrl: S.optional(S.String),
           vendorCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           vendorSeverity: S.optional(S.String),
           vendorUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           vulnerabilityId: S.optional(S.String),
-          vulnerablePackages: S.optional(__S(1448, __c45, 8)),
+          vulnerablePackages: S.optional(__S(1704, __c53, 8)),
         }),
       ).annotate({ identifier: "PackageVulnerabilityDetails" });
     case 10:
@@ -4414,7 +4797,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "Recommendation" });
     case 11:
       return S.suspend(() =>
-        S.Struct({ recommendation: S.optional(__S(1450, __c45, 10)) }),
+        S.Struct({ recommendation: S.optional(__S(1706, __c53, 10)) }),
       ).annotate({ identifier: "Remediation" });
     case 12:
       return S.suspend(() =>
@@ -4422,7 +4805,7 @@ function __c45(j: number): any {
           architecture: S.optional(S.String),
           author: S.optional(S.String),
           imageHash: S.optional(S.String),
-          imageTags: S.optional(__S(192, __c6, 0)),
+          imageTags: S.optional(__S(448, __c14, 0)),
           platform: S.optional(S.String),
           pushedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastInUseAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4433,29 +4816,29 @@ function __c45(j: number): any {
       ).annotate({ identifier: "AwsEcrContainerImageDetails" });
     case 13:
       return S.suspend(() =>
-        S.Struct({ awsEcrContainerImage: S.optional(__S(1452, __c45, 12)) }),
+        S.Struct({ awsEcrContainerImage: S.optional(__S(1708, __c53, 12)) }),
       ).annotate({ identifier: "ResourceDetails" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(1453, __c45, 13)),
+          details: S.optional(__S(1709, __c53, 13)),
           id: S.optional(S.String),
-          tags: S.optional(__S(1472, __c46, 0)),
+          tags: S.optional(__S(1728, __c54, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Resource" });
     case 15:
-      return S.Array(__S(1454, __c45, 14));
+      return S.Array(__S(1710, __c53, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({ metric: S.optional(S.String), reason: S.optional(S.String) }),
       ).annotate({ identifier: "CvssScoreAdjustment" });
     case 17:
-      return S.Array(__S(1456, __c45, 16));
+      return S.Array(__S(1712, __c53, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          adjustments: S.optional(__S(1457, __c45, 17)),
+          adjustments: S.optional(__S(1713, __c53, 17)),
           score: S.optional(S.Number),
           scoreSource: S.optional(S.String),
           scoringVector: S.optional(S.String),
@@ -4463,7 +4846,7 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "CvssScoreDetails" });
     case 19:
-      return S.suspend(() => S.Struct({ cvss: S.optional(__S(1458, __c45, 18)) })).annotate({
+      return S.suspend(() => S.Struct({ cvss: S.optional(__S(1714, __c53, 18)) })).annotate({
         identifier: "ScoreDetails",
       });
     case 20:
@@ -4474,11 +4857,11 @@ function __c45(j: number): any {
           findingArn: S.optional(S.String),
           firstObservedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastObservedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          packageVulnerabilityDetails: S.optional(__S(1449, __c45, 9)),
-          remediation: S.optional(__S(1451, __c45, 11)),
-          resources: S.optional(__S(1455, __c45, 15)),
+          packageVulnerabilityDetails: S.optional(__S(1705, __c53, 9)),
+          remediation: S.optional(__S(1707, __c53, 11)),
+          resources: S.optional(__S(1711, __c53, 15)),
           score: S.optional(S.Number),
-          scoreDetails: S.optional(__S(1459, __c45, 19)),
+          scoreDetails: S.optional(__S(1715, __c53, 19)),
           severity: S.optional(S.String),
           status: S.optional(S.String),
           title: S.optional(S.String),
@@ -4489,15 +4872,15 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "EnhancedImageScanFinding" });
     case 21:
-      return S.Array(__S(1460, __c45, 20));
+      return S.Array(__S(1716, __c53, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
           imageScanCompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           vulnerabilitySourceUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          findingSeverityCounts: S.optional(__S(1344, __c42, 0)),
-          findings: S.optional(__S(1444, __c45, 4)),
-          enhancedFindings: S.optional(__S(1461, __c45, 21)),
+          findingSeverityCounts: S.optional(__S(1600, __c50, 0)),
+          findings: S.optional(__S(1700, __c53, 4)),
+          enhancedFindings: S.optional(__S(1717, __c53, 21)),
         }),
       ).annotate({ identifier: "ImageScanFindings" });
     case 23:
@@ -4505,27 +4888,27 @@ function __c45(j: number): any {
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.optional(S.String),
-          imageId: S.optional(__S(288, __c9, 0)),
-          imageScanStatus: S.optional(__S(1376, __c43, 0)),
-          imageScanFindings: S.optional(__S(1462, __c45, 22)),
+          imageId: S.optional(__S(544, __c17, 0)),
+          imageScanStatus: S.optional(__S(1632, __c51, 0)),
+          imageScanFindings: S.optional(__S(1718, __c53, 22)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeImageScanFindingsResponse" });
   }
 }
-function __c46(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c47(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repositoryName: S.String,
-          imageId: __S(288, __c9, 0),
+          imageId: __S(544, __c17, 0),
           registryId: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeImageSigningStatusRequest" });
@@ -4539,25 +4922,25 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "ImageSigningStatus" });
     case 2:
-      return S.Array(__S(1505, __c47, 1));
+      return S.Array(__S(1761, __c55, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           repositoryName: S.optional(S.String),
-          imageId: S.optional(__S(288, __c9, 0)),
+          imageId: S.optional(__S(544, __c17, 0)),
           registryId: S.optional(S.String),
-          signingStatuses: S.optional(__S(1506, __c47, 2)),
+          signingStatuses: S.optional(__S(1762, __c55, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeImageSigningStatusResponse" });
   }
 }
-function __c48(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
-          ecrRepositoryPrefixes: S.optional(__S(192, __c6, 0)),
+          ecrRepositoryPrefixes: S.optional(__S(448, __c14, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -4577,17 +4960,17 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "PullThroughCacheRule" });
     case 2:
-      return S.Array(__S(1537, __c48, 1));
+      return S.Array(__S(1793, __c56, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pullThroughCacheRules: S.optional(__S(1538, __c48, 2)),
+          pullThroughCacheRules: S.optional(__S(1794, __c56, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribePullThroughCacheRulesResponse" });
   }
 }
-function __c49(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4599,79 +4982,137 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
-          replicationConfiguration: S.optional(__S(1604, __c50, 4)),
+          replicationConfiguration: S.optional(__S(1891, __c59, 3)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeRegistryResponse" });
   }
 }
-function __c50(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ region: S.String, registryId: S.String })).annotate({
         identifier: "ReplicationDestination",
       });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1856, __c58, 0));
     case 1:
-      return S.Array(__S(1600, __c50, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          destinations: __S(1601, __c50, 1),
-          repositoryFilters: S.optional(__S(449, __c14, 1)),
+          destinations: __S(1888, __c59, 0),
+          repositoryFilters: S.optional(__S(705, __c22, 1)),
         }),
       ).annotate({ identifier: "ReplicationRule" });
+    case 2:
+      return S.Array(__S(1889, __c59, 1));
     case 3:
-      return S.Array(__S(1602, __c50, 2));
-    case 4:
-      return S.suspend(() => S.Struct({ rules: __S(1603, __c50, 3) })).annotate({
+      return S.suspend(() => S.Struct({ rules: __S(1890, __c59, 2) })).annotate({
         identifier: "ReplicationConfiguration",
       });
   }
 }
-function __c51(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
-          repositoryNames: S.optional(__S(192, __c6, 0)),
+          replicationBackfillId: S.String,
+          resultStatusFilter: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReplicationBackfillResultsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          repositoryName: S.String,
+          imageId: __S(544, __c17, 0),
+          status: S.String,
+          failureCode: S.optional(S.String),
+          subImageFailureCodes: S.optional(__S(448, __c14, 0)),
+        }),
+      ).annotate({ identifier: "ReplicationBackfillResult" });
+    case 2:
+      return S.Array(__S(1921, __c60, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          registryId: S.optional(S.String),
+          replicationBackfillId: S.optional(S.String),
+          destination: S.optional(__S(1856, __c58, 0)),
+          status: S.optional(S.String),
+          failureCode: S.optional(S.String),
+          progress: S.optional(__S(1952, __c61, 0)),
+          results: S.optional(__S(1922, __c60, 2)),
+          startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReplicationBackfillResultsResponse" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          totalReplicationCount: S.Number,
+          completedReplicationCount: S.Number,
+          failedReplicationCount: S.Number,
+          failureCodes: __S(448, __c14, 0),
+        }),
+      ).annotate({ identifier: "ReplicationBackfillProgress" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          registryId: S.optional(S.String),
+          repositoryNames: S.optional(__S(448, __c14, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeRepositoriesRequest" });
     case 1:
-      return S.Array(__S(704, __c22, 0));
+      return S.Array(__S(960, __c30, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          repositories: S.optional(__S(1633, __c51, 1)),
+          repositories: S.optional(__S(1985, __c62, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeRepositoriesResponse" });
   }
 }
-function __c52(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          prefixes: S.optional(__S(192, __c6, 0)),
+          prefixes: S.optional(__S(448, __c14, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeRepositoryCreationTemplatesRequest" });
     case 1:
-      return S.Array(__S(833, __c26, 1));
+      return S.Array(__S(1089, __c34, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
-          repositoryCreationTemplates: S.optional(__S(1665, __c52, 1)),
+          repositoryCreationTemplates: S.optional(__S(2017, __c63, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeRepositoryCreationTemplatesResponse" });
   }
 }
-function __c53(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4681,7 +5122,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetAccountSettingRequest" });
   }
 }
-function __c54(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4689,11 +5130,11 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetAccountSettingResponse" });
   }
 }
-function __c55(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ registryIds: S.optional(__S(192, __c6, 0)) }).pipe(
+        S.Struct({ registryIds: S.optional(__S(448, __c14, 0)) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "GetAuthorizationTokenRequest" });
@@ -4706,14 +5147,14 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "AuthorizationData" });
     case 2:
-      return S.Array(__S(1761, __c55, 1));
+      return S.Array(__S(2113, __c66, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ authorizationData: S.optional(__S(1762, __c55, 2)) }).pipe(ns),
+        S.Struct({ authorizationData: S.optional(__S(2114, __c66, 2)) }).pipe(ns),
       ).annotate({ identifier: "GetAuthorizationTokenResponse" });
   }
 }
-function __c56(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4729,7 +5170,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetDownloadUrlForLayerResponse" });
   }
 }
-function __c57(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4739,7 +5180,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetLifecyclePolicyRequest" });
   }
 }
-function __c58(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ tagStatus: S.optional(S.String) })).annotate({
@@ -4750,10 +5191,10 @@ function __c58(j: number): any {
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.String,
-          imageIds: S.optional(__S(320, __c10, 0)),
+          imageIds: S.optional(__S(576, __c18, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
-          filter: S.optional(__S(1856, __c58, 0)),
+          filter: S.optional(__S(2208, __c69, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetLifecyclePolicyPreviewRequest" });
     case 2:
@@ -4763,16 +5204,16 @@ function __c58(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          imageTags: S.optional(__S(192, __c6, 0)),
+          imageTags: S.optional(__S(448, __c14, 0)),
           imageDigest: S.optional(S.String),
           imagePushedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          action: S.optional(__S(1858, __c58, 2)),
+          action: S.optional(__S(2210, __c69, 2)),
           appliedRulePriority: S.optional(S.Number),
           storageClass: S.optional(S.String),
         }),
       ).annotate({ identifier: "LifecyclePolicyPreviewResult" });
     case 4:
-      return S.Array(__S(1859, __c58, 3));
+      return S.Array(__S(2211, __c69, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4781,12 +5222,12 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "TransitioningImageTotalCount" });
     case 6:
-      return S.Array(__S(1861, __c58, 5));
+      return S.Array(__S(2213, __c69, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           expiringImageTotalCount: S.optional(S.Number),
-          transitioningImageTotalCounts: S.optional(__S(1862, __c58, 6)),
+          transitioningImageTotalCounts: S.optional(__S(2214, __c69, 6)),
         }),
       ).annotate({ identifier: "LifecyclePolicyPreviewSummary" });
     case 8:
@@ -4797,13 +5238,13 @@ function __c58(j: number): any {
           lifecyclePolicyText: S.optional(S.String),
           status: S.optional(S.String),
           nextToken: S.optional(S.String),
-          previewResults: S.optional(__S(1860, __c58, 4)),
-          summary: S.optional(__S(1863, __c58, 7)),
+          previewResults: S.optional(__S(2212, __c69, 4)),
+          summary: S.optional(__S(2215, __c69, 7)),
         }).pipe(ns),
       ).annotate({ identifier: "GetLifecyclePolicyPreviewResponse" });
   }
 }
-function __c59(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4813,7 +5254,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetRegistryPolicyRequest" });
   }
 }
-function __c60(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4825,26 +5266,26 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
-          scanningConfiguration: S.optional(__S(1954, __c61, 2)),
+          scanningConfiguration: S.optional(__S(2306, __c72, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "GetRegistryScanningConfigurationResponse" });
   }
 }
-function __c61(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ scanFrequency: S.String, repositoryFilters: __S(449, __c14, 1) }),
+        S.Struct({ scanFrequency: S.String, repositoryFilters: __S(705, __c22, 1) }),
       ).annotate({ identifier: "RegistryScanningRule" });
     case 1:
-      return S.Array(__S(1952, __c61, 0));
+      return S.Array(__S(2304, __c72, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ scanType: S.optional(S.String), rules: S.optional(__S(1953, __c61, 1)) }),
+        S.Struct({ scanType: S.optional(S.String), rules: S.optional(__S(2305, __c72, 1)) }),
       ).annotate({ identifier: "RegistryScanningConfiguration" });
   }
 }
-function __c62(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4854,7 +5295,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GetRepositoryPolicyRequest" });
   }
 }
-function __c63(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4864,7 +5305,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetSigningConfigurationRequest" });
   }
 }
-function __c64(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4878,7 +5319,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "InitiateLayerUploadResponse" });
   }
 }
-function __c65(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ imageDigest: S.String })).annotate({
@@ -4887,7 +5328,7 @@ function __c65(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          artifactTypes: S.optional(__S(192, __c6, 0)),
+          artifactTypes: S.optional(__S(448, __c14, 0)),
           artifactStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListImageReferrersFilter" });
@@ -4896,8 +5337,8 @@ function __c65(j: number): any {
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.String,
-          subjectId: __S(2080, __c65, 0),
-          filter: S.optional(__S(2081, __c65, 1)),
+          subjectId: __S(2432, __c76, 0),
+          filter: S.optional(__S(2433, __c76, 1)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -4909,22 +5350,22 @@ function __c65(j: number): any {
           mediaType: S.String,
           artifactType: S.optional(S.String),
           size: S.Number,
-          annotations: S.optional(__S(1472, __c46, 0)),
+          annotations: S.optional(__S(1728, __c54, 0)),
           artifactStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageReferrer" });
     case 4:
-      return S.Array(__S(2083, __c65, 3));
+      return S.Array(__S(2435, __c76, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          referrers: S.optional(__S(2084, __c65, 4)),
+          referrers: S.optional(__S(2436, __c76, 4)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListImageReferrersResponse" });
   }
 }
-function __c66(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4933,19 +5374,19 @@ function __c66(j: number): any {
           repositoryName: S.String,
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
-          filter: S.optional(__S(1408, __c44, 0)),
+          filter: S.optional(__S(1664, __c52, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListImagesRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          imageIds: S.optional(__S(320, __c10, 0)),
+          imageIds: S.optional(__S(576, __c18, 0)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListImagesResponse" });
   }
 }
-function __c67(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4956,13 +5397,47 @@ function __c67(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pullTimeUpdateExclusions: S.optional(__S(192, __c6, 0)),
+          pullTimeUpdateExclusions: S.optional(__S(448, __c14, 0)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListPullTimeUpdateExclusionsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          registryId: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListReplicationBackfillsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          replicationBackfillId: S.String,
+          destination: __S(1856, __c58, 0),
+          status: S.String,
+          failureCode: S.optional(S.String),
+          progress: S.optional(__S(1952, __c61, 0)),
+          startedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ReplicationBackfillSummary" });
+    case 2:
+      return S.Array(__S(2529, __c79, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          registryId: S.optional(S.String),
+          backfills: S.optional(__S(2530, __c79, 2)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListReplicationBackfillsResponse" });
+  }
+}
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4971,12 +5446,12 @@ function __c68(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(641, __c20, 1)) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(897, __c28, 1)) }).pipe(ns)).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c69(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4986,7 +5461,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "PutAccountSettingRequest" });
   }
 }
-function __c70(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5000,19 +5475,19 @@ function __c70(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutImageRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ image: S.optional(__S(384, __c12, 0)) }).pipe(ns)).annotate(
+      return S.suspend(() => S.Struct({ image: S.optional(__S(640, __c20, 0)) }).pipe(ns)).annotate(
         { identifier: "PutImageResponse" },
       );
   }
 }
-function __c71(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.String,
-          imageScanningConfiguration: __S(736, __c23, 0),
+          imageScanningConfiguration: __S(992, __c31, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutImageScanningConfigurationRequest" });
     case 1:
@@ -5020,12 +5495,12 @@ function __c71(j: number): any {
         S.Struct({
           registryId: S.optional(S.String),
           repositoryName: S.optional(S.String),
-          imageScanningConfiguration: S.optional(__S(736, __c23, 0)),
+          imageScanningConfiguration: S.optional(__S(992, __c31, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "PutImageScanningConfigurationResponse" });
   }
 }
-function __c72(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5033,7 +5508,7 @@ function __c72(j: number): any {
           registryId: S.optional(S.String),
           repositoryName: S.String,
           imageTagMutability: S.String,
-          imageTagMutabilityExclusionFilters: S.optional(__S(609, __c19, 1)),
+          imageTagMutabilityExclusionFilters: S.optional(__S(865, __c27, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutImageTagMutabilityRequest" });
     case 1:
@@ -5042,12 +5517,12 @@ function __c72(j: number): any {
           registryId: S.optional(S.String),
           repositoryName: S.optional(S.String),
           imageTagMutability: S.optional(S.String),
-          imageTagMutabilityExclusionFilters: S.optional(__S(609, __c19, 1)),
+          imageTagMutabilityExclusionFilters: S.optional(__S(865, __c27, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "PutImageTagMutabilityResponse" });
   }
 }
-function __c73(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5067,7 +5542,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "PutLifecyclePolicyResponse" });
   }
 }
-function __c74(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5077,49 +5552,49 @@ function __c74(j: number): any {
       ).annotate({ identifier: "PutRegistryPolicyRequest" });
   }
 }
-function __c75(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ scanType: S.optional(S.String), rules: S.optional(__S(1953, __c61, 1)) }).pipe(
+        S.Struct({ scanType: S.optional(S.String), rules: S.optional(__S(2305, __c72, 1)) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutRegistryScanningConfigurationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ registryScanningConfiguration: S.optional(__S(1954, __c61, 2)) }).pipe(ns),
+        S.Struct({ registryScanningConfiguration: S.optional(__S(2306, __c72, 2)) }).pipe(ns),
       ).annotate({ identifier: "PutRegistryScanningConfigurationResponse" });
   }
 }
-function __c76(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ replicationConfiguration: __S(1604, __c50, 4) }).pipe(
+        S.Struct({ replicationConfiguration: __S(1891, __c59, 3) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutReplicationConfigurationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ replicationConfiguration: S.optional(__S(1604, __c50, 4)) }).pipe(ns),
+        S.Struct({ replicationConfiguration: S.optional(__S(1891, __c59, 3)) }).pipe(ns),
       ).annotate({ identifier: "PutReplicationConfigurationResponse" });
   }
 }
-function __c77(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ signingConfiguration: __S(1218, __c38, 2) }).pipe(
+        S.Struct({ signingConfiguration: __S(1474, __c46, 2) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutSigningConfigurationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ signingConfiguration: S.optional(__S(1218, __c38, 2)) }).pipe(ns),
+        S.Struct({ signingConfiguration: S.optional(__S(1474, __c46, 2)) }).pipe(ns),
       ).annotate({ identifier: "PutSigningConfigurationResponse" });
   }
 }
-function __c78(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5134,87 +5609,6 @@ function __c78(j: number): any {
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }).pipe(ns),
       ).annotate({ identifier: "RegisterPullTimeUpdateExclusionResponse" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          registryId: S.optional(S.String),
-          repositoryName: S.String,
-          policyText: S.String,
-          force: S.optional(S.Boolean),
-        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "SetRepositoryPolicyRequest" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          registryId: S.optional(S.String),
-          repositoryName: S.String,
-          imageId: __S(288, __c9, 0),
-        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "StartImageScanRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          registryId: S.optional(S.String),
-          repositoryName: S.optional(S.String),
-          imageId: S.optional(__S(288, __c9, 0)),
-          imageScanStatus: S.optional(__S(1376, __c43, 0)),
-        }).pipe(ns),
-      ).annotate({ identifier: "StartImageScanResponse" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          registryId: S.optional(S.String),
-          repositoryName: S.String,
-          lifecyclePolicyText: S.optional(S.String),
-        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "StartLifecyclePolicyPreviewRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          registryId: S.optional(S.String),
-          repositoryName: S.optional(S.String),
-          lifecyclePolicyText: S.optional(S.String),
-          status: S.optional(S.String),
-        }).pipe(ns),
-      ).annotate({ identifier: "StartLifecyclePolicyPreviewResponse" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tags: __S(641, __c20, 1) }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "TagResourceRequest" });
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "TagResourceResponse" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tagKeys: __S(192, __c6, 0) }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

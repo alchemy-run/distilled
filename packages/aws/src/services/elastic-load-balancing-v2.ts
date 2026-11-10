@@ -632,29 +632,29 @@ export type ListenerArn = string;
 export type CertificateArn = string;
 export type Default = boolean;
 export interface Certificate {
-  CertificateArn?: string;
-  IsDefault?: boolean;
+  CertificateArn?: string | undefined;
+  IsDefault?: boolean | undefined;
 }
 export type CertificateList = Certificate[];
 export interface AddListenerCertificatesInput {
-  ListenerArn?: string;
-  Certificates?: Certificate[];
+  ListenerArn?: string | undefined;
+  Certificates?: Certificate[] | undefined;
 }
 export interface AddListenerCertificatesOutput {
-  Certificates?: Certificate[];
+  Certificates?: Certificate[] | undefined;
 }
 export type ResourceArn = string;
 export type ResourceArns = string[];
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface AddTagsInput {
-  ResourceArns?: string[];
-  Tags?: Tag[];
+  ResourceArns?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface AddTagsOutput {}
 export type TrustStoreArn = string;
@@ -663,27 +663,27 @@ export type S3Key = string;
 export type S3ObjectVersion = string;
 export type RevocationType = "CRL" | (string & {});
 export interface RevocationContent {
-  S3Bucket?: string;
-  S3Key?: string;
-  S3ObjectVersion?: string;
-  RevocationType?: RevocationType;
+  S3Bucket?: string | undefined;
+  S3Key?: string | undefined;
+  S3ObjectVersion?: string | undefined;
+  RevocationType?: RevocationType | undefined;
 }
 export type RevocationContents = RevocationContent[];
 export interface AddTrustStoreRevocationsInput {
-  TrustStoreArn?: string;
-  RevocationContents?: RevocationContent[];
+  TrustStoreArn?: string | undefined;
+  RevocationContents?: RevocationContent[] | undefined;
 }
 export type RevocationId = number;
 export type NumberOfRevokedEntries = number;
 export interface TrustStoreRevocation {
-  TrustStoreArn?: string;
-  RevocationId?: number;
-  RevocationType?: RevocationType;
-  NumberOfRevokedEntries?: number;
+  TrustStoreArn?: string | undefined;
+  RevocationId?: number | undefined;
+  RevocationType?: RevocationType | undefined;
+  NumberOfRevokedEntries?: number | undefined;
 }
 export type TrustStoreRevocations = TrustStoreRevocation[];
 export interface AddTrustStoreRevocationsOutput {
-  TrustStoreRevocations?: TrustStoreRevocation[];
+  TrustStoreRevocations?: TrustStoreRevocation[] | undefined;
 }
 export type LoadBalancerArn = string;
 export type ProtocolEnum =
@@ -729,18 +729,18 @@ export type AuthenticateOidcActionConditionalBehaviorEnum =
   | (string & {});
 export type AuthenticateOidcActionUseExistingClientSecret = boolean;
 export interface AuthenticateOidcActionConfig {
-  Issuer?: string;
-  AuthorizationEndpoint?: string;
-  TokenEndpoint?: string;
-  UserInfoEndpoint?: string;
-  ClientId?: string;
-  ClientSecret?: string | redacted.Redacted<string>;
-  SessionCookieName?: string;
-  Scope?: string;
-  SessionTimeout?: number;
-  AuthenticationRequestExtraParams?: { [key: string]: string | undefined };
-  OnUnauthenticatedRequest?: AuthenticateOidcActionConditionalBehaviorEnum;
-  UseExistingClientSecret?: boolean;
+  Issuer?: string | undefined;
+  AuthorizationEndpoint?: string | undefined;
+  TokenEndpoint?: string | undefined;
+  UserInfoEndpoint?: string | undefined;
+  ClientId?: string | undefined;
+  ClientSecret?: string | redacted.Redacted<string> | undefined;
+  SessionCookieName?: string | undefined;
+  Scope?: string | undefined;
+  SessionTimeout?: number | undefined;
+  AuthenticationRequestExtraParams?: { [key: string]: string | undefined } | undefined;
+  OnUnauthenticatedRequest?: AuthenticateOidcActionConditionalBehaviorEnum | undefined;
+  UseExistingClientSecret?: boolean | undefined;
 }
 export type AuthenticateCognitoActionUserPoolArn = string;
 export type AuthenticateCognitoActionUserPoolClientId = string;
@@ -759,14 +759,14 @@ export type AuthenticateCognitoActionConditionalBehaviorEnum =
   | "authenticate"
   | (string & {});
 export interface AuthenticateCognitoActionConfig {
-  UserPoolArn?: string;
-  UserPoolClientId?: string;
-  UserPoolDomain?: string;
-  SessionCookieName?: string;
-  Scope?: string;
-  SessionTimeout?: number;
-  AuthenticationRequestExtraParams?: { [key: string]: string | undefined };
-  OnUnauthenticatedRequest?: AuthenticateCognitoActionConditionalBehaviorEnum;
+  UserPoolArn?: string | undefined;
+  UserPoolClientId?: string | undefined;
+  UserPoolDomain?: string | undefined;
+  SessionCookieName?: string | undefined;
+  Scope?: string | undefined;
+  SessionTimeout?: number | undefined;
+  AuthenticationRequestExtraParams?: { [key: string]: string | undefined } | undefined;
+  OnUnauthenticatedRequest?: AuthenticateCognitoActionConditionalBehaviorEnum | undefined;
 }
 export type ActionOrder = number;
 export type RedirectActionProtocol = string;
@@ -776,36 +776,36 @@ export type RedirectActionPath = string;
 export type RedirectActionQuery = string;
 export type RedirectActionStatusCodeEnum = "HTTP_301" | "HTTP_302" | (string & {});
 export interface RedirectActionConfig {
-  Protocol?: string;
-  Port?: string;
-  Host?: string;
-  Path?: string;
-  Query?: string;
-  StatusCode?: RedirectActionStatusCodeEnum;
+  Protocol?: string | undefined;
+  Port?: string | undefined;
+  Host?: string | undefined;
+  Path?: string | undefined;
+  Query?: string | undefined;
+  StatusCode?: RedirectActionStatusCodeEnum | undefined;
 }
 export type FixedResponseActionMessage = string;
 export type FixedResponseActionStatusCode = string;
 export type FixedResponseActionContentType = string;
 export interface FixedResponseActionConfig {
-  MessageBody?: string;
-  StatusCode?: string;
-  ContentType?: string;
+  MessageBody?: string | undefined;
+  StatusCode?: string | undefined;
+  ContentType?: string | undefined;
 }
 export type TargetGroupWeight = number;
 export interface TargetGroupTuple {
-  TargetGroupArn?: string;
-  Weight?: number;
+  TargetGroupArn?: string | undefined;
+  Weight?: number | undefined;
 }
 export type TargetGroupList = TargetGroupTuple[];
 export type TargetGroupStickinessEnabled = boolean;
 export type TargetGroupStickinessDurationSeconds = number;
 export interface TargetGroupStickinessConfig {
-  Enabled?: boolean;
-  DurationSeconds?: number;
+  Enabled?: boolean | undefined;
+  DurationSeconds?: number | undefined;
 }
 export interface ForwardActionConfig {
-  TargetGroups?: TargetGroupTuple[];
-  TargetGroupStickinessConfig?: TargetGroupStickinessConfig;
+  TargetGroups?: TargetGroupTuple[] | undefined;
+  TargetGroupStickinessConfig?: TargetGroupStickinessConfig | undefined;
 }
 export type JwtValidationActionJwksEndpoint = string;
 export type JwtValidationActionIssuer = string;
@@ -818,26 +818,26 @@ export type JwtValidationActionAdditionalClaimName = string;
 export type JwtValidationActionAdditionalClaimValue = string;
 export type JwtValidationActionAdditionalClaimValues = string[];
 export interface JwtValidationActionAdditionalClaim {
-  Format?: JwtValidationActionAdditionalClaimFormatEnum;
-  Name?: string;
-  Values?: string[];
+  Format?: JwtValidationActionAdditionalClaimFormatEnum | undefined;
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type JwtValidationActionAdditionalClaims = JwtValidationActionAdditionalClaim[];
 export interface JwtValidationActionConfig {
-  JwksEndpoint?: string;
-  Issuer?: string;
-  AdditionalClaims?: JwtValidationActionAdditionalClaim[];
+  JwksEndpoint?: string | undefined;
+  Issuer?: string | undefined;
+  AdditionalClaims?: JwtValidationActionAdditionalClaim[] | undefined;
 }
 export interface Action {
-  Type?: ActionTypeEnum;
-  TargetGroupArn?: string;
-  AuthenticateOidcConfig?: AuthenticateOidcActionConfig;
-  AuthenticateCognitoConfig?: AuthenticateCognitoActionConfig;
-  Order?: number;
-  RedirectConfig?: RedirectActionConfig;
-  FixedResponseConfig?: FixedResponseActionConfig;
-  ForwardConfig?: ForwardActionConfig;
-  JwtValidationConfig?: JwtValidationActionConfig;
+  Type?: ActionTypeEnum | undefined;
+  TargetGroupArn?: string | undefined;
+  AuthenticateOidcConfig?: AuthenticateOidcActionConfig | undefined;
+  AuthenticateCognitoConfig?: AuthenticateCognitoActionConfig | undefined;
+  Order?: number | undefined;
+  RedirectConfig?: RedirectActionConfig | undefined;
+  FixedResponseConfig?: FixedResponseActionConfig | undefined;
+  ForwardConfig?: ForwardActionConfig | undefined;
+  JwtValidationConfig?: JwtValidationActionConfig | undefined;
 }
 export type Actions = Action[];
 export type AlpnPolicyValue = string;
@@ -847,66 +847,68 @@ export type IgnoreClientCertificateExpiry = boolean;
 export type TrustStoreAssociationStatusEnum = "active" | "removed" | (string & {});
 export type AdvertiseTrustStoreCaNamesEnum = "on" | "off" | (string & {});
 export interface MutualAuthenticationAttributes {
-  Mode?: string;
-  TrustStoreArn?: string;
-  IgnoreClientCertificateExpiry?: boolean;
-  TrustStoreAssociationStatus?: TrustStoreAssociationStatusEnum;
-  AdvertiseTrustStoreCaNames?: AdvertiseTrustStoreCaNamesEnum;
+  Mode?: string | undefined;
+  TrustStoreArn?: string | undefined;
+  IgnoreClientCertificateExpiry?: boolean | undefined;
+  TrustStoreAssociationStatus?: TrustStoreAssociationStatusEnum | undefined;
+  AdvertiseTrustStoreCaNames?: AdvertiseTrustStoreCaNamesEnum | undefined;
 }
 export interface CreateListenerInput {
-  LoadBalancerArn?: string;
-  Protocol?: ProtocolEnum;
-  Port?: number;
-  SslPolicy?: string;
-  Certificates?: Certificate[];
-  DefaultActions?: Action[];
-  AlpnPolicy?: string[];
-  Tags?: Tag[];
-  MutualAuthentication?: MutualAuthenticationAttributes;
+  LoadBalancerArn?: string | undefined;
+  Protocol?: ProtocolEnum | undefined;
+  Port?: number | undefined;
+  SslPolicy?: string | undefined;
+  Certificates?: Certificate[] | undefined;
+  DefaultActions?: Action[] | undefined;
+  AlpnPolicy?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  MutualAuthentication?: MutualAuthenticationAttributes | undefined;
 }
 export interface Listener {
-  ListenerArn?: string;
-  LoadBalancerArn?: string;
-  Port?: number;
-  Protocol?: ProtocolEnum;
-  Certificates?: Certificate[];
-  SslPolicy?: string;
-  DefaultActions?: Action[];
-  AlpnPolicy?: string[];
-  MutualAuthentication?: MutualAuthenticationAttributes;
+  ListenerArn?: string | undefined;
+  LoadBalancerArn?: string | undefined;
+  Port?: number | undefined;
+  Protocol?: ProtocolEnum | undefined;
+  Certificates?: Certificate[] | undefined;
+  SslPolicy?: string | undefined;
+  DefaultActions?: Action[] | undefined;
+  AlpnPolicy?: string[] | undefined;
+  MutualAuthentication?: MutualAuthenticationAttributes | undefined;
 }
 export type Listeners = Listener[];
 export interface CreateListenerOutput {
-  Listeners?: (Listener & {
-    DefaultActions: (Action & {
-      Type: ActionTypeEnum;
-      AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
-        Issuer: AuthenticateOidcActionIssuer;
-        AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
-        TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
-        UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
-        ClientId: AuthenticateOidcActionClientId;
-      };
-      AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
-        UserPoolArn: AuthenticateCognitoActionUserPoolArn;
-        UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
-        UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
-      };
-      RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
-      FixedResponseConfig: FixedResponseActionConfig & {
-        StatusCode: FixedResponseActionStatusCode;
-      };
-      JwtValidationConfig: JwtValidationActionConfig & {
-        JwksEndpoint: JwtValidationActionJwksEndpoint;
-        Issuer: JwtValidationActionIssuer;
-        AdditionalClaims: (JwtValidationActionAdditionalClaim & {
-          Format: JwtValidationActionAdditionalClaimFormatEnum;
-          Name: JwtValidationActionAdditionalClaimName;
-          Values: JwtValidationActionAdditionalClaimValues;
+  Listeners?:
+    | (Listener & {
+        DefaultActions: (Action & {
+          Type: ActionTypeEnum;
+          AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
+            Issuer: AuthenticateOidcActionIssuer;
+            AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
+            TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
+            UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
+            ClientId: AuthenticateOidcActionClientId;
+          };
+          AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
+            UserPoolArn: AuthenticateCognitoActionUserPoolArn;
+            UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
+            UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
+          };
+          RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
+          FixedResponseConfig: FixedResponseActionConfig & {
+            StatusCode: FixedResponseActionStatusCode;
+          };
+          JwtValidationConfig: JwtValidationActionConfig & {
+            JwksEndpoint: JwtValidationActionJwksEndpoint;
+            Issuer: JwtValidationActionIssuer;
+            AdditionalClaims: (JwtValidationActionAdditionalClaim & {
+              Format: JwtValidationActionAdditionalClaimFormatEnum;
+              Name: JwtValidationActionAdditionalClaimName;
+              Values: JwtValidationActionAdditionalClaimValues;
+            })[];
+          };
         })[];
-      };
-    })[];
-  })[];
+      })[]
+    | undefined;
 }
 export type LoadBalancerName = string;
 export type SubnetId = string;
@@ -916,11 +918,11 @@ export type PrivateIPv4Address = string;
 export type IPv6Address = string;
 export type SourceNatIpv6Prefix = string;
 export interface SubnetMapping {
-  SubnetId?: string;
-  AllocationId?: string;
-  PrivateIPv4Address?: string;
-  IPv6Address?: string;
-  SourceNatIpv6Prefix?: string;
+  SubnetId?: string | undefined;
+  AllocationId?: string | undefined;
+  PrivateIPv4Address?: string | undefined;
+  IPv6Address?: string | undefined;
+  SourceNatIpv6Prefix?: string | undefined;
 }
 export type SubnetMappings = SubnetMapping[];
 export type SecurityGroupId = string;
@@ -932,20 +934,20 @@ export type CustomerOwnedIpv4Pool = string;
 export type EnablePrefixForIpv6SourceNatEnum = "on" | "off" | (string & {});
 export type IpamPoolId = string;
 export interface IpamPools {
-  Ipv4IpamPoolId?: string;
+  Ipv4IpamPoolId?: string | undefined;
 }
 export interface CreateLoadBalancerInput {
-  Name?: string;
-  Subnets?: string[];
-  SubnetMappings?: SubnetMapping[];
-  SecurityGroups?: string[];
-  Scheme?: LoadBalancerSchemeEnum;
-  Tags?: Tag[];
-  Type?: LoadBalancerTypeEnum;
-  IpAddressType?: IpAddressType;
-  CustomerOwnedIpv4Pool?: string;
-  EnablePrefixForIpv6SourceNat?: EnablePrefixForIpv6SourceNatEnum;
-  IpamPools?: IpamPools;
+  Name?: string | undefined;
+  Subnets?: string[] | undefined;
+  SubnetMappings?: SubnetMapping[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  Scheme?: LoadBalancerSchemeEnum | undefined;
+  Tags?: Tag[] | undefined;
+  Type?: LoadBalancerTypeEnum | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  CustomerOwnedIpv4Pool?: string | undefined;
+  EnablePrefixForIpv6SourceNat?: EnablePrefixForIpv6SourceNatEnum | undefined;
+  IpamPools?: IpamPools | undefined;
 }
 export type DNSName = string;
 export type CanonicalHostedZoneId = string;
@@ -959,174 +961,176 @@ export type LoadBalancerStateEnum =
   | (string & {});
 export type StateReason = string;
 export interface LoadBalancerState {
-  Code?: LoadBalancerStateEnum;
-  Reason?: string;
+  Code?: LoadBalancerStateEnum | undefined;
+  Reason?: string | undefined;
 }
 export type ZoneName = string;
 export type OutpostId = string;
 export type IpAddress = string;
 export interface LoadBalancerAddress {
-  IpAddress?: string;
-  AllocationId?: string;
-  PrivateIPv4Address?: string;
-  IPv6Address?: string;
+  IpAddress?: string | undefined;
+  AllocationId?: string | undefined;
+  PrivateIPv4Address?: string | undefined;
+  IPv6Address?: string | undefined;
 }
 export type LoadBalancerAddresses = LoadBalancerAddress[];
 export type SourceNatIpv6Prefixes = string[];
 export interface AvailabilityZone {
-  ZoneName?: string;
-  SubnetId?: string;
-  OutpostId?: string;
-  LoadBalancerAddresses?: LoadBalancerAddress[];
-  SourceNatIpv6Prefixes?: string[];
+  ZoneName?: string | undefined;
+  SubnetId?: string | undefined;
+  OutpostId?: string | undefined;
+  LoadBalancerAddresses?: LoadBalancerAddress[] | undefined;
+  SourceNatIpv6Prefixes?: string[] | undefined;
 }
 export type AvailabilityZones = AvailabilityZone[];
 export type EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic = string;
 export interface LoadBalancer {
-  LoadBalancerArn?: string;
-  DNSName?: string;
-  CanonicalHostedZoneId?: string;
-  CreatedTime?: Date;
-  LoadBalancerName?: string;
-  Scheme?: LoadBalancerSchemeEnum;
-  VpcId?: string;
-  State?: LoadBalancerState;
-  Type?: LoadBalancerTypeEnum;
-  AvailabilityZones?: AvailabilityZone[];
-  SecurityGroups?: string[];
-  IpAddressType?: IpAddressType;
-  CustomerOwnedIpv4Pool?: string;
-  EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic?: string;
-  EnablePrefixForIpv6SourceNat?: EnablePrefixForIpv6SourceNatEnum;
-  IpamPools?: IpamPools;
+  LoadBalancerArn?: string | undefined;
+  DNSName?: string | undefined;
+  CanonicalHostedZoneId?: string | undefined;
+  CreatedTime?: Date | undefined;
+  LoadBalancerName?: string | undefined;
+  Scheme?: LoadBalancerSchemeEnum | undefined;
+  VpcId?: string | undefined;
+  State?: LoadBalancerState | undefined;
+  Type?: LoadBalancerTypeEnum | undefined;
+  AvailabilityZones?: AvailabilityZone[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  CustomerOwnedIpv4Pool?: string | undefined;
+  EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic?: string | undefined;
+  EnablePrefixForIpv6SourceNat?: EnablePrefixForIpv6SourceNatEnum | undefined;
+  IpamPools?: IpamPools | undefined;
 }
 export type LoadBalancers = LoadBalancer[];
 export interface CreateLoadBalancerOutput {
-  LoadBalancers?: LoadBalancer[];
+  LoadBalancers?: LoadBalancer[] | undefined;
 }
 export type ConditionFieldName = string;
 export type StringValue = string;
 export type ListOfString = string[];
 export interface HostHeaderConditionConfig {
-  Values?: string[];
-  RegexValues?: string[];
+  Values?: string[] | undefined;
+  RegexValues?: string[] | undefined;
 }
 export interface PathPatternConditionConfig {
-  Values?: string[];
-  RegexValues?: string[];
+  Values?: string[] | undefined;
+  RegexValues?: string[] | undefined;
 }
 export type HttpHeaderConditionName = string;
 export interface HttpHeaderConditionConfig {
-  HttpHeaderName?: string;
-  Values?: string[];
-  RegexValues?: string[];
+  HttpHeaderName?: string | undefined;
+  Values?: string[] | undefined;
+  RegexValues?: string[] | undefined;
 }
 export interface QueryStringKeyValuePair {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type QueryStringKeyValuePairList = QueryStringKeyValuePair[];
 export interface QueryStringConditionConfig {
-  Values?: QueryStringKeyValuePair[];
+  Values?: QueryStringKeyValuePair[] | undefined;
 }
 export interface HttpRequestMethodConditionConfig {
-  Values?: string[];
+  Values?: string[] | undefined;
 }
 export type SourceIpAddressTypeEnum = "ipv4" | "ipv6" | (string & {});
 export interface SourceIpConditionConfig {
-  Values?: string[];
-  IpAddressType?: SourceIpAddressTypeEnum;
+  Values?: string[] | undefined;
+  IpAddressType?: SourceIpAddressTypeEnum | undefined;
 }
 export interface RuleCondition {
-  Field?: string;
-  Values?: string[];
-  HostHeaderConfig?: HostHeaderConditionConfig;
-  PathPatternConfig?: PathPatternConditionConfig;
-  HttpHeaderConfig?: HttpHeaderConditionConfig;
-  QueryStringConfig?: QueryStringConditionConfig;
-  HttpRequestMethodConfig?: HttpRequestMethodConditionConfig;
-  SourceIpConfig?: SourceIpConditionConfig;
-  RegexValues?: string[];
+  Field?: string | undefined;
+  Values?: string[] | undefined;
+  HostHeaderConfig?: HostHeaderConditionConfig | undefined;
+  PathPatternConfig?: PathPatternConditionConfig | undefined;
+  HttpHeaderConfig?: HttpHeaderConditionConfig | undefined;
+  QueryStringConfig?: QueryStringConditionConfig | undefined;
+  HttpRequestMethodConfig?: HttpRequestMethodConditionConfig | undefined;
+  SourceIpConfig?: SourceIpConditionConfig | undefined;
+  RegexValues?: string[] | undefined;
 }
 export type RuleConditionList = RuleCondition[];
 export type RulePriority = number;
 export type TransformTypeEnum = "host-header-rewrite" | "url-rewrite" | (string & {});
 export interface RewriteConfig {
-  Regex?: string;
-  Replace?: string;
+  Regex?: string | undefined;
+  Replace?: string | undefined;
 }
 export type RewriteConfigList = RewriteConfig[];
 export interface HostHeaderRewriteConfig {
-  Rewrites?: RewriteConfig[];
+  Rewrites?: RewriteConfig[] | undefined;
 }
 export interface UrlRewriteConfig {
-  Rewrites?: RewriteConfig[];
+  Rewrites?: RewriteConfig[] | undefined;
 }
 export interface RuleTransform {
-  Type?: TransformTypeEnum;
-  HostHeaderRewriteConfig?: HostHeaderRewriteConfig;
-  UrlRewriteConfig?: UrlRewriteConfig;
+  Type?: TransformTypeEnum | undefined;
+  HostHeaderRewriteConfig?: HostHeaderRewriteConfig | undefined;
+  UrlRewriteConfig?: UrlRewriteConfig | undefined;
 }
 export type RuleTransformList = RuleTransform[];
 export interface CreateRuleInput {
-  ListenerArn?: string;
-  Conditions?: RuleCondition[];
-  Priority?: number;
-  Actions?: Action[];
-  Tags?: Tag[];
-  Transforms?: RuleTransform[];
+  ListenerArn?: string | undefined;
+  Conditions?: RuleCondition[] | undefined;
+  Priority?: number | undefined;
+  Actions?: Action[] | undefined;
+  Tags?: Tag[] | undefined;
+  Transforms?: RuleTransform[] | undefined;
 }
 export type RuleArn = string;
 export type IsDefault = boolean;
 export interface Rule {
-  RuleArn?: string;
-  Priority?: string;
-  Conditions?: RuleCondition[];
-  Actions?: Action[];
-  IsDefault?: boolean;
-  Transforms?: RuleTransform[];
+  RuleArn?: string | undefined;
+  Priority?: string | undefined;
+  Conditions?: RuleCondition[] | undefined;
+  Actions?: Action[] | undefined;
+  IsDefault?: boolean | undefined;
+  Transforms?: RuleTransform[] | undefined;
 }
 export type Rules = Rule[];
 export interface CreateRuleOutput {
-  Rules?: (Rule & {
-    Actions: (Action & {
-      Type: ActionTypeEnum;
-      AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
-        Issuer: AuthenticateOidcActionIssuer;
-        AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
-        TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
-        UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
-        ClientId: AuthenticateOidcActionClientId;
-      };
-      AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
-        UserPoolArn: AuthenticateCognitoActionUserPoolArn;
-        UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
-        UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
-      };
-      RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
-      FixedResponseConfig: FixedResponseActionConfig & {
-        StatusCode: FixedResponseActionStatusCode;
-      };
-      JwtValidationConfig: JwtValidationActionConfig & {
-        JwksEndpoint: JwtValidationActionJwksEndpoint;
-        Issuer: JwtValidationActionIssuer;
-        AdditionalClaims: (JwtValidationActionAdditionalClaim & {
-          Format: JwtValidationActionAdditionalClaimFormatEnum;
-          Name: JwtValidationActionAdditionalClaimName;
-          Values: JwtValidationActionAdditionalClaimValues;
+  Rules?:
+    | (Rule & {
+        Actions: (Action & {
+          Type: ActionTypeEnum;
+          AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
+            Issuer: AuthenticateOidcActionIssuer;
+            AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
+            TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
+            UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
+            ClientId: AuthenticateOidcActionClientId;
+          };
+          AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
+            UserPoolArn: AuthenticateCognitoActionUserPoolArn;
+            UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
+            UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
+          };
+          RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
+          FixedResponseConfig: FixedResponseActionConfig & {
+            StatusCode: FixedResponseActionStatusCode;
+          };
+          JwtValidationConfig: JwtValidationActionConfig & {
+            JwksEndpoint: JwtValidationActionJwksEndpoint;
+            Issuer: JwtValidationActionIssuer;
+            AdditionalClaims: (JwtValidationActionAdditionalClaim & {
+              Format: JwtValidationActionAdditionalClaimFormatEnum;
+              Name: JwtValidationActionAdditionalClaimName;
+              Values: JwtValidationActionAdditionalClaimValues;
+            })[];
+          };
         })[];
-      };
-    })[];
-    Transforms: (RuleTransform & {
-      Type: TransformTypeEnum;
-      HostHeaderRewriteConfig: HostHeaderRewriteConfig & {
-        Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
-      };
-      UrlRewriteConfig: UrlRewriteConfig & {
-        Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
-      };
-    })[];
-  })[];
+        Transforms: (RuleTransform & {
+          Type: TransformTypeEnum;
+          HostHeaderRewriteConfig: HostHeaderRewriteConfig & {
+            Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
+          };
+          UrlRewriteConfig: UrlRewriteConfig & {
+            Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
+          };
+        })[];
+      })[]
+    | undefined;
 }
 export type TargetGroupName = string;
 export type ProtocolVersion = string;
@@ -1139,144 +1143,144 @@ export type HealthCheckThresholdCount = number;
 export type HttpCode = string;
 export type GrpcCode = string;
 export interface Matcher {
-  HttpCode?: string;
-  GrpcCode?: string;
+  HttpCode?: string | undefined;
+  GrpcCode?: string | undefined;
 }
 export type TargetTypeEnum = "instance" | "ip" | "lambda" | "alb" | (string & {});
 export type TargetGroupIpAddressTypeEnum = "ipv4" | "ipv6" | (string & {});
 export type TargetControlPort = number;
 export interface CreateTargetGroupInput {
-  Name?: string;
-  Protocol?: ProtocolEnum;
-  ProtocolVersion?: string;
-  Port?: number;
-  VpcId?: string;
-  HealthCheckProtocol?: ProtocolEnum;
-  HealthCheckPort?: string;
-  HealthCheckEnabled?: boolean;
-  HealthCheckPath?: string;
-  HealthCheckIntervalSeconds?: number;
-  HealthCheckTimeoutSeconds?: number;
-  HealthyThresholdCount?: number;
-  UnhealthyThresholdCount?: number;
-  Matcher?: Matcher;
-  TargetType?: TargetTypeEnum;
-  Tags?: Tag[];
-  IpAddressType?: TargetGroupIpAddressTypeEnum;
-  TargetControlPort?: number;
+  Name?: string | undefined;
+  Protocol?: ProtocolEnum | undefined;
+  ProtocolVersion?: string | undefined;
+  Port?: number | undefined;
+  VpcId?: string | undefined;
+  HealthCheckProtocol?: ProtocolEnum | undefined;
+  HealthCheckPort?: string | undefined;
+  HealthCheckEnabled?: boolean | undefined;
+  HealthCheckPath?: string | undefined;
+  HealthCheckIntervalSeconds?: number | undefined;
+  HealthCheckTimeoutSeconds?: number | undefined;
+  HealthyThresholdCount?: number | undefined;
+  UnhealthyThresholdCount?: number | undefined;
+  Matcher?: Matcher | undefined;
+  TargetType?: TargetTypeEnum | undefined;
+  Tags?: Tag[] | undefined;
+  IpAddressType?: TargetGroupIpAddressTypeEnum | undefined;
+  TargetControlPort?: number | undefined;
 }
 export type LoadBalancerArns = string[];
 export interface TargetGroup {
-  TargetGroupArn?: string;
-  TargetGroupName?: string;
-  Protocol?: ProtocolEnum;
-  Port?: number;
-  VpcId?: string;
-  HealthCheckProtocol?: ProtocolEnum;
-  HealthCheckPort?: string;
-  HealthCheckEnabled?: boolean;
-  HealthCheckIntervalSeconds?: number;
-  HealthCheckTimeoutSeconds?: number;
-  HealthyThresholdCount?: number;
-  UnhealthyThresholdCount?: number;
-  HealthCheckPath?: string;
-  Matcher?: Matcher;
-  LoadBalancerArns?: string[];
-  TargetType?: TargetTypeEnum;
-  ProtocolVersion?: string;
-  IpAddressType?: TargetGroupIpAddressTypeEnum;
-  TargetControlPort?: number;
+  TargetGroupArn?: string | undefined;
+  TargetGroupName?: string | undefined;
+  Protocol?: ProtocolEnum | undefined;
+  Port?: number | undefined;
+  VpcId?: string | undefined;
+  HealthCheckProtocol?: ProtocolEnum | undefined;
+  HealthCheckPort?: string | undefined;
+  HealthCheckEnabled?: boolean | undefined;
+  HealthCheckIntervalSeconds?: number | undefined;
+  HealthCheckTimeoutSeconds?: number | undefined;
+  HealthyThresholdCount?: number | undefined;
+  UnhealthyThresholdCount?: number | undefined;
+  HealthCheckPath?: string | undefined;
+  Matcher?: Matcher | undefined;
+  LoadBalancerArns?: string[] | undefined;
+  TargetType?: TargetTypeEnum | undefined;
+  ProtocolVersion?: string | undefined;
+  IpAddressType?: TargetGroupIpAddressTypeEnum | undefined;
+  TargetControlPort?: number | undefined;
 }
 export type TargetGroups = TargetGroup[];
 export interface CreateTargetGroupOutput {
-  TargetGroups?: TargetGroup[];
+  TargetGroups?: TargetGroup[] | undefined;
 }
 export type TrustStoreName = string;
 export interface CreateTrustStoreInput {
-  Name?: string;
-  CaCertificatesBundleS3Bucket?: string;
-  CaCertificatesBundleS3Key?: string;
-  CaCertificatesBundleS3ObjectVersion?: string;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  CaCertificatesBundleS3Bucket?: string | undefined;
+  CaCertificatesBundleS3Key?: string | undefined;
+  CaCertificatesBundleS3ObjectVersion?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type TrustStoreStatus = "ACTIVE" | "CREATING" | (string & {});
 export type NumberOfCaCertificates = number;
 export type TotalRevokedEntries = number;
 export interface TrustStore {
-  Name?: string;
-  TrustStoreArn?: string;
-  Status?: TrustStoreStatus;
-  NumberOfCaCertificates?: number;
-  TotalRevokedEntries?: number;
+  Name?: string | undefined;
+  TrustStoreArn?: string | undefined;
+  Status?: TrustStoreStatus | undefined;
+  NumberOfCaCertificates?: number | undefined;
+  TotalRevokedEntries?: number | undefined;
 }
 export type TrustStores = TrustStore[];
 export interface CreateTrustStoreOutput {
-  TrustStores?: TrustStore[];
+  TrustStores?: TrustStore[] | undefined;
 }
 export interface DeleteListenerInput {
-  ListenerArn?: string;
+  ListenerArn?: string | undefined;
 }
 export interface DeleteListenerOutput {}
 export interface DeleteLoadBalancerInput {
-  LoadBalancerArn?: string;
+  LoadBalancerArn?: string | undefined;
 }
 export interface DeleteLoadBalancerOutput {}
 export interface DeleteRuleInput {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export interface DeleteRuleOutput {}
 export interface DeleteSharedTrustStoreAssociationInput {
-  TrustStoreArn?: string;
-  ResourceArn?: string;
+  TrustStoreArn?: string | undefined;
+  ResourceArn?: string | undefined;
 }
 export interface DeleteSharedTrustStoreAssociationOutput {}
 export interface DeleteTargetGroupInput {
-  TargetGroupArn?: string;
+  TargetGroupArn?: string | undefined;
 }
 export interface DeleteTargetGroupOutput {}
 export interface DeleteTrustStoreInput {
-  TrustStoreArn?: string;
+  TrustStoreArn?: string | undefined;
 }
 export interface DeleteTrustStoreOutput {}
 export type TargetId = string;
 export type QuicServerId = string;
 export interface TargetDescription {
-  Id?: string;
-  Port?: number;
-  AvailabilityZone?: string;
-  QuicServerId?: string;
+  Id?: string | undefined;
+  Port?: number | undefined;
+  AvailabilityZone?: string | undefined;
+  QuicServerId?: string | undefined;
 }
 export type TargetDescriptions = TargetDescription[];
 export interface DeregisterTargetsInput {
-  TargetGroupArn?: string;
-  Targets?: TargetDescription[];
+  TargetGroupArn?: string | undefined;
+  Targets?: TargetDescription[] | undefined;
 }
 export interface DeregisterTargetsOutput {}
 export type Marker = string;
 export type PageSize = number;
 export interface DescribeAccountLimitsInput {
-  Marker?: string;
-  PageSize?: number;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type Name = string;
 export type Max = string;
 export interface Limit {
-  Name?: string;
-  Max?: string;
+  Name?: string | undefined;
+  Max?: string | undefined;
 }
 export type Limits = Limit[];
 export interface DescribeAccountLimitsOutput {
-  Limits?: Limit[];
-  NextMarker?: string;
+  Limits?: Limit[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface DescribeCapacityReservationInput {
-  LoadBalancerArn?: string;
+  LoadBalancerArn?: string | undefined;
 }
 export type LastModifiedTime = Date;
 export type DecreaseRequestsRemaining = number;
 export type CapacityUnits = number;
 export interface MinimumLoadBalancerCapacity {
-  CapacityUnits?: number;
+  CapacityUnits?: number | undefined;
 }
 export type CapacityReservationStateEnum =
   | "provisioned"
@@ -1285,227 +1289,231 @@ export type CapacityReservationStateEnum =
   | "failed"
   | (string & {});
 export interface CapacityReservationStatus {
-  Code?: CapacityReservationStateEnum;
-  Reason?: string;
+  Code?: CapacityReservationStateEnum | undefined;
+  Reason?: string | undefined;
 }
 export type CapacityUnitsDouble = number;
 export interface ZonalCapacityReservationState {
-  State?: CapacityReservationStatus;
-  AvailabilityZone?: string;
-  EffectiveCapacityUnits?: number;
+  State?: CapacityReservationStatus | undefined;
+  AvailabilityZone?: string | undefined;
+  EffectiveCapacityUnits?: number | undefined;
 }
 export type ZonalCapacityReservationStates = ZonalCapacityReservationState[];
 export interface DescribeCapacityReservationOutput {
-  LastModifiedTime?: Date;
-  DecreaseRequestsRemaining?: number;
-  MinimumLoadBalancerCapacity?: MinimumLoadBalancerCapacity;
-  CapacityReservationState?: ZonalCapacityReservationState[];
+  LastModifiedTime?: Date | undefined;
+  DecreaseRequestsRemaining?: number | undefined;
+  MinimumLoadBalancerCapacity?: MinimumLoadBalancerCapacity | undefined;
+  CapacityReservationState?: ZonalCapacityReservationState[] | undefined;
 }
 export interface DescribeListenerAttributesInput {
-  ListenerArn?: string;
+  ListenerArn?: string | undefined;
 }
 export type ListenerAttributeKey = string;
 export type ListenerAttributeValue = string;
 export interface ListenerAttribute {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type ListenerAttributes = ListenerAttribute[];
 export interface DescribeListenerAttributesOutput {
-  Attributes?: ListenerAttribute[];
+  Attributes?: ListenerAttribute[] | undefined;
 }
 export interface DescribeListenerCertificatesInput {
-  ListenerArn?: string;
-  Marker?: string;
-  PageSize?: number;
+  ListenerArn?: string | undefined;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface DescribeListenerCertificatesOutput {
-  Certificates?: Certificate[];
-  NextMarker?: string;
+  Certificates?: Certificate[] | undefined;
+  NextMarker?: string | undefined;
 }
 export type ListenerArns = string[];
 export interface DescribeListenersInput {
-  LoadBalancerArn?: string;
-  ListenerArns?: string[];
-  Marker?: string;
-  PageSize?: number;
+  LoadBalancerArn?: string | undefined;
+  ListenerArns?: string[] | undefined;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface DescribeListenersOutput {
-  Listeners?: (Listener & {
-    DefaultActions: (Action & {
-      Type: ActionTypeEnum;
-      AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
-        Issuer: AuthenticateOidcActionIssuer;
-        AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
-        TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
-        UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
-        ClientId: AuthenticateOidcActionClientId;
-      };
-      AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
-        UserPoolArn: AuthenticateCognitoActionUserPoolArn;
-        UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
-        UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
-      };
-      RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
-      FixedResponseConfig: FixedResponseActionConfig & {
-        StatusCode: FixedResponseActionStatusCode;
-      };
-      JwtValidationConfig: JwtValidationActionConfig & {
-        JwksEndpoint: JwtValidationActionJwksEndpoint;
-        Issuer: JwtValidationActionIssuer;
-        AdditionalClaims: (JwtValidationActionAdditionalClaim & {
-          Format: JwtValidationActionAdditionalClaimFormatEnum;
-          Name: JwtValidationActionAdditionalClaimName;
-          Values: JwtValidationActionAdditionalClaimValues;
+  Listeners?:
+    | (Listener & {
+        DefaultActions: (Action & {
+          Type: ActionTypeEnum;
+          AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
+            Issuer: AuthenticateOidcActionIssuer;
+            AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
+            TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
+            UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
+            ClientId: AuthenticateOidcActionClientId;
+          };
+          AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
+            UserPoolArn: AuthenticateCognitoActionUserPoolArn;
+            UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
+            UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
+          };
+          RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
+          FixedResponseConfig: FixedResponseActionConfig & {
+            StatusCode: FixedResponseActionStatusCode;
+          };
+          JwtValidationConfig: JwtValidationActionConfig & {
+            JwksEndpoint: JwtValidationActionJwksEndpoint;
+            Issuer: JwtValidationActionIssuer;
+            AdditionalClaims: (JwtValidationActionAdditionalClaim & {
+              Format: JwtValidationActionAdditionalClaimFormatEnum;
+              Name: JwtValidationActionAdditionalClaimName;
+              Values: JwtValidationActionAdditionalClaimValues;
+            })[];
+          };
         })[];
-      };
-    })[];
-  })[];
-  NextMarker?: string;
+      })[]
+    | undefined;
+  NextMarker?: string | undefined;
 }
 export interface DescribeLoadBalancerAttributesInput {
-  LoadBalancerArn?: string;
+  LoadBalancerArn?: string | undefined;
 }
 export type LoadBalancerAttributeKey = string;
 export type LoadBalancerAttributeValue = string;
 export interface LoadBalancerAttribute {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type LoadBalancerAttributes = LoadBalancerAttribute[];
 export interface DescribeLoadBalancerAttributesOutput {
-  Attributes?: LoadBalancerAttribute[];
+  Attributes?: LoadBalancerAttribute[] | undefined;
 }
 export type LoadBalancerNames = string[];
 export interface DescribeLoadBalancersInput {
-  LoadBalancerArns?: string[];
-  Names?: string[];
-  Marker?: string;
-  PageSize?: number;
+  LoadBalancerArns?: string[] | undefined;
+  Names?: string[] | undefined;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface DescribeLoadBalancersOutput {
-  LoadBalancers?: LoadBalancer[];
-  NextMarker?: string;
+  LoadBalancers?: LoadBalancer[] | undefined;
+  NextMarker?: string | undefined;
 }
 export type RuleArns = string[];
 export interface DescribeRulesInput {
-  ListenerArn?: string;
-  RuleArns?: string[];
-  Marker?: string;
-  PageSize?: number;
+  ListenerArn?: string | undefined;
+  RuleArns?: string[] | undefined;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface DescribeRulesOutput {
-  Rules?: (Rule & {
-    Actions: (Action & {
-      Type: ActionTypeEnum;
-      AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
-        Issuer: AuthenticateOidcActionIssuer;
-        AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
-        TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
-        UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
-        ClientId: AuthenticateOidcActionClientId;
-      };
-      AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
-        UserPoolArn: AuthenticateCognitoActionUserPoolArn;
-        UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
-        UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
-      };
-      RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
-      FixedResponseConfig: FixedResponseActionConfig & {
-        StatusCode: FixedResponseActionStatusCode;
-      };
-      JwtValidationConfig: JwtValidationActionConfig & {
-        JwksEndpoint: JwtValidationActionJwksEndpoint;
-        Issuer: JwtValidationActionIssuer;
-        AdditionalClaims: (JwtValidationActionAdditionalClaim & {
-          Format: JwtValidationActionAdditionalClaimFormatEnum;
-          Name: JwtValidationActionAdditionalClaimName;
-          Values: JwtValidationActionAdditionalClaimValues;
+  Rules?:
+    | (Rule & {
+        Actions: (Action & {
+          Type: ActionTypeEnum;
+          AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
+            Issuer: AuthenticateOidcActionIssuer;
+            AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
+            TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
+            UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
+            ClientId: AuthenticateOidcActionClientId;
+          };
+          AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
+            UserPoolArn: AuthenticateCognitoActionUserPoolArn;
+            UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
+            UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
+          };
+          RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
+          FixedResponseConfig: FixedResponseActionConfig & {
+            StatusCode: FixedResponseActionStatusCode;
+          };
+          JwtValidationConfig: JwtValidationActionConfig & {
+            JwksEndpoint: JwtValidationActionJwksEndpoint;
+            Issuer: JwtValidationActionIssuer;
+            AdditionalClaims: (JwtValidationActionAdditionalClaim & {
+              Format: JwtValidationActionAdditionalClaimFormatEnum;
+              Name: JwtValidationActionAdditionalClaimName;
+              Values: JwtValidationActionAdditionalClaimValues;
+            })[];
+          };
         })[];
-      };
-    })[];
-    Transforms: (RuleTransform & {
-      Type: TransformTypeEnum;
-      HostHeaderRewriteConfig: HostHeaderRewriteConfig & {
-        Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
-      };
-      UrlRewriteConfig: UrlRewriteConfig & {
-        Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
-      };
-    })[];
-  })[];
-  NextMarker?: string;
+        Transforms: (RuleTransform & {
+          Type: TransformTypeEnum;
+          HostHeaderRewriteConfig: HostHeaderRewriteConfig & {
+            Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
+          };
+          UrlRewriteConfig: UrlRewriteConfig & {
+            Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
+          };
+        })[];
+      })[]
+    | undefined;
+  NextMarker?: string | undefined;
 }
 export type SslPolicyNames = string[];
 export interface DescribeSSLPoliciesInput {
-  Names?: string[];
-  Marker?: string;
-  PageSize?: number;
-  LoadBalancerType?: LoadBalancerTypeEnum;
+  Names?: string[] | undefined;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
+  LoadBalancerType?: LoadBalancerTypeEnum | undefined;
 }
 export type SslProtocol = string;
 export type SslProtocols = string[];
 export type CipherName = string;
 export type CipherPriority = number;
 export interface Cipher {
-  Name?: string;
-  Priority?: number;
+  Name?: string | undefined;
+  Priority?: number | undefined;
 }
 export type Ciphers = Cipher[];
 export interface SslPolicy {
-  SslProtocols?: string[];
-  Ciphers?: Cipher[];
-  Name?: string;
-  SupportedLoadBalancerTypes?: string[];
+  SslProtocols?: string[] | undefined;
+  Ciphers?: Cipher[] | undefined;
+  Name?: string | undefined;
+  SupportedLoadBalancerTypes?: string[] | undefined;
 }
 export type SslPolicies = SslPolicy[];
 export interface DescribeSSLPoliciesOutput {
-  SslPolicies?: SslPolicy[];
-  NextMarker?: string;
+  SslPolicies?: SslPolicy[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface DescribeTagsInput {
-  ResourceArns?: string[];
+  ResourceArns?: string[] | undefined;
 }
 export interface TagDescription {
-  ResourceArn?: string;
-  Tags?: Tag[];
+  ResourceArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type TagDescriptions = TagDescription[];
 export interface DescribeTagsOutput {
-  TagDescriptions?: (TagDescription & { Tags: (Tag & { Key: TagKey })[] })[];
+  TagDescriptions?: (TagDescription & { Tags: (Tag & { Key: TagKey })[] })[] | undefined;
 }
 export interface DescribeTargetGroupAttributesInput {
-  TargetGroupArn?: string;
+  TargetGroupArn?: string | undefined;
 }
 export type TargetGroupAttributeKey = string;
 export type TargetGroupAttributeValue = string;
 export interface TargetGroupAttribute {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TargetGroupAttributes = TargetGroupAttribute[];
 export interface DescribeTargetGroupAttributesOutput {
-  Attributes?: TargetGroupAttribute[];
+  Attributes?: TargetGroupAttribute[] | undefined;
 }
 export type TargetGroupArns = string[];
 export type TargetGroupNames = string[];
 export interface DescribeTargetGroupsInput {
-  LoadBalancerArn?: string;
-  TargetGroupArns?: string[];
-  Names?: string[];
-  Marker?: string;
-  PageSize?: number;
+  LoadBalancerArn?: string | undefined;
+  TargetGroupArns?: string[] | undefined;
+  Names?: string[] | undefined;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface DescribeTargetGroupsOutput {
-  TargetGroups?: TargetGroup[];
-  NextMarker?: string;
+  TargetGroups?: TargetGroup[] | undefined;
+  NextMarker?: string | undefined;
 }
 export type DescribeTargetHealthInputIncludeEnum = "AnomalyDetection" | "All" | (string & {});
 export type ListOfDescribeTargetHealthIncludeOptions = DescribeTargetHealthInputIncludeEnum[];
 export interface DescribeTargetHealthInput {
-  TargetGroupArn?: string;
-  Targets?: TargetDescription[];
-  Include?: DescribeTargetHealthInputIncludeEnum[];
+  TargetGroupArn?: string | undefined;
+  Targets?: TargetDescription[] | undefined;
+  Include?: DescribeTargetHealthInputIncludeEnum[] | undefined;
 }
 export type TargetHealthStateEnum =
   | "initial"
@@ -1532,15 +1540,15 @@ export type TargetHealthReasonEnum =
   | (string & {});
 export type Description = string;
 export interface TargetHealth {
-  State?: TargetHealthStateEnum;
-  Reason?: TargetHealthReasonEnum;
-  Description?: string;
+  State?: TargetHealthStateEnum | undefined;
+  Reason?: TargetHealthReasonEnum | undefined;
+  Description?: string | undefined;
 }
 export type AnomalyResultEnum = "anomalous" | "normal" | (string & {});
 export type MitigationInEffectEnum = "yes" | "no" | (string & {});
 export interface AnomalyDetection {
-  Result?: AnomalyResultEnum;
-  MitigationInEffect?: MitigationInEffectEnum;
+  Result?: AnomalyResultEnum | undefined;
+  MitigationInEffect?: MitigationInEffectEnum | undefined;
 }
 export type TargetAdministrativeOverrideStateEnum =
   | "unknown"
@@ -1555,344 +1563,354 @@ export type TargetAdministrativeOverrideReasonEnum =
   | "AdministrativeOverride.ZonalShiftDelegatedToDns"
   | (string & {});
 export interface AdministrativeOverride {
-  State?: TargetAdministrativeOverrideStateEnum;
-  Reason?: TargetAdministrativeOverrideReasonEnum;
-  Description?: string;
+  State?: TargetAdministrativeOverrideStateEnum | undefined;
+  Reason?: TargetAdministrativeOverrideReasonEnum | undefined;
+  Description?: string | undefined;
 }
 export interface TargetHealthDescription {
-  Target?: TargetDescription;
-  HealthCheckPort?: string;
-  TargetHealth?: TargetHealth;
-  AnomalyDetection?: AnomalyDetection;
-  AdministrativeOverride?: AdministrativeOverride;
+  Target?: TargetDescription | undefined;
+  HealthCheckPort?: string | undefined;
+  TargetHealth?: TargetHealth | undefined;
+  AnomalyDetection?: AnomalyDetection | undefined;
+  AdministrativeOverride?: AdministrativeOverride | undefined;
 }
 export type TargetHealthDescriptions = TargetHealthDescription[];
 export interface DescribeTargetHealthOutput {
-  TargetHealthDescriptions?: (TargetHealthDescription & {
-    Target: TargetDescription & { Id: TargetId };
-  })[];
+  TargetHealthDescriptions?:
+    | (TargetHealthDescription & { Target: TargetDescription & { Id: TargetId } })[]
+    | undefined;
 }
 export interface DescribeTrustStoreAssociationsInput {
-  TrustStoreArn?: string;
-  Marker?: string;
-  PageSize?: number;
+  TrustStoreArn?: string | undefined;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type TrustStoreAssociationResourceArn = string;
 export interface TrustStoreAssociation {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export type TrustStoreAssociations = TrustStoreAssociation[];
 export interface DescribeTrustStoreAssociationsOutput {
-  TrustStoreAssociations?: TrustStoreAssociation[];
-  NextMarker?: string;
+  TrustStoreAssociations?: TrustStoreAssociation[] | undefined;
+  NextMarker?: string | undefined;
 }
 export type RevocationIds = number[];
 export interface DescribeTrustStoreRevocationsInput {
-  TrustStoreArn?: string;
-  RevocationIds?: number[];
-  Marker?: string;
-  PageSize?: number;
+  TrustStoreArn?: string | undefined;
+  RevocationIds?: number[] | undefined;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface DescribeTrustStoreRevocation {
-  TrustStoreArn?: string;
-  RevocationId?: number;
-  RevocationType?: RevocationType;
-  NumberOfRevokedEntries?: number;
+  TrustStoreArn?: string | undefined;
+  RevocationId?: number | undefined;
+  RevocationType?: RevocationType | undefined;
+  NumberOfRevokedEntries?: number | undefined;
 }
 export type DescribeTrustStoreRevocationResponse = DescribeTrustStoreRevocation[];
 export interface DescribeTrustStoreRevocationsOutput {
-  TrustStoreRevocations?: DescribeTrustStoreRevocation[];
-  NextMarker?: string;
+  TrustStoreRevocations?: DescribeTrustStoreRevocation[] | undefined;
+  NextMarker?: string | undefined;
 }
 export type TrustStoreArns = string[];
 export type TrustStoreNames = string[];
 export interface DescribeTrustStoresInput {
-  TrustStoreArns?: string[];
-  Names?: string[];
-  Marker?: string;
-  PageSize?: number;
+  TrustStoreArns?: string[] | undefined;
+  Names?: string[] | undefined;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface DescribeTrustStoresOutput {
-  TrustStores?: TrustStore[];
-  NextMarker?: string;
+  TrustStores?: TrustStore[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface GetResourcePolicyInput {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export type Policy = string;
 export interface GetResourcePolicyOutput {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface GetTrustStoreCaCertificatesBundleInput {
-  TrustStoreArn?: string;
+  TrustStoreArn?: string | undefined;
 }
 export type Location = string;
 export interface GetTrustStoreCaCertificatesBundleOutput {
-  Location?: string;
+  Location?: string | undefined;
 }
 export interface GetTrustStoreRevocationContentInput {
-  TrustStoreArn?: string;
-  RevocationId?: number;
+  TrustStoreArn?: string | undefined;
+  RevocationId?: number | undefined;
 }
 export interface GetTrustStoreRevocationContentOutput {
-  Location?: string;
+  Location?: string | undefined;
 }
 export type ResetCapacityReservation = boolean;
 export interface ModifyCapacityReservationInput {
-  LoadBalancerArn?: string;
-  MinimumLoadBalancerCapacity?: MinimumLoadBalancerCapacity;
-  ResetCapacityReservation?: boolean;
+  LoadBalancerArn?: string | undefined;
+  MinimumLoadBalancerCapacity?: MinimumLoadBalancerCapacity | undefined;
+  ResetCapacityReservation?: boolean | undefined;
 }
 export interface ModifyCapacityReservationOutput {
-  LastModifiedTime?: Date;
-  DecreaseRequestsRemaining?: number;
-  MinimumLoadBalancerCapacity?: MinimumLoadBalancerCapacity;
-  CapacityReservationState?: ZonalCapacityReservationState[];
+  LastModifiedTime?: Date | undefined;
+  DecreaseRequestsRemaining?: number | undefined;
+  MinimumLoadBalancerCapacity?: MinimumLoadBalancerCapacity | undefined;
+  CapacityReservationState?: ZonalCapacityReservationState[] | undefined;
 }
 export type RemoveIpamPoolEnum = "ipv4" | (string & {});
 export type RemoveIpamPools = RemoveIpamPoolEnum[];
 export interface ModifyIpPoolsInput {
-  LoadBalancerArn?: string;
-  IpamPools?: IpamPools;
-  RemoveIpamPools?: RemoveIpamPoolEnum[];
+  LoadBalancerArn?: string | undefined;
+  IpamPools?: IpamPools | undefined;
+  RemoveIpamPools?: RemoveIpamPoolEnum[] | undefined;
 }
 export interface ModifyIpPoolsOutput {
-  IpamPools?: IpamPools;
+  IpamPools?: IpamPools | undefined;
 }
 export interface ModifyListenerInput {
-  ListenerArn?: string;
-  Port?: number;
-  Protocol?: ProtocolEnum;
-  SslPolicy?: string;
-  Certificates?: Certificate[];
-  DefaultActions?: Action[];
-  AlpnPolicy?: string[];
-  MutualAuthentication?: MutualAuthenticationAttributes;
+  ListenerArn?: string | undefined;
+  Port?: number | undefined;
+  Protocol?: ProtocolEnum | undefined;
+  SslPolicy?: string | undefined;
+  Certificates?: Certificate[] | undefined;
+  DefaultActions?: Action[] | undefined;
+  AlpnPolicy?: string[] | undefined;
+  MutualAuthentication?: MutualAuthenticationAttributes | undefined;
 }
 export interface ModifyListenerOutput {
-  Listeners?: (Listener & {
-    DefaultActions: (Action & {
-      Type: ActionTypeEnum;
-      AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
-        Issuer: AuthenticateOidcActionIssuer;
-        AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
-        TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
-        UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
-        ClientId: AuthenticateOidcActionClientId;
-      };
-      AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
-        UserPoolArn: AuthenticateCognitoActionUserPoolArn;
-        UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
-        UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
-      };
-      RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
-      FixedResponseConfig: FixedResponseActionConfig & {
-        StatusCode: FixedResponseActionStatusCode;
-      };
-      JwtValidationConfig: JwtValidationActionConfig & {
-        JwksEndpoint: JwtValidationActionJwksEndpoint;
-        Issuer: JwtValidationActionIssuer;
-        AdditionalClaims: (JwtValidationActionAdditionalClaim & {
-          Format: JwtValidationActionAdditionalClaimFormatEnum;
-          Name: JwtValidationActionAdditionalClaimName;
-          Values: JwtValidationActionAdditionalClaimValues;
+  Listeners?:
+    | (Listener & {
+        DefaultActions: (Action & {
+          Type: ActionTypeEnum;
+          AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
+            Issuer: AuthenticateOidcActionIssuer;
+            AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
+            TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
+            UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
+            ClientId: AuthenticateOidcActionClientId;
+          };
+          AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
+            UserPoolArn: AuthenticateCognitoActionUserPoolArn;
+            UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
+            UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
+          };
+          RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
+          FixedResponseConfig: FixedResponseActionConfig & {
+            StatusCode: FixedResponseActionStatusCode;
+          };
+          JwtValidationConfig: JwtValidationActionConfig & {
+            JwksEndpoint: JwtValidationActionJwksEndpoint;
+            Issuer: JwtValidationActionIssuer;
+            AdditionalClaims: (JwtValidationActionAdditionalClaim & {
+              Format: JwtValidationActionAdditionalClaimFormatEnum;
+              Name: JwtValidationActionAdditionalClaimName;
+              Values: JwtValidationActionAdditionalClaimValues;
+            })[];
+          };
         })[];
-      };
-    })[];
-  })[];
+      })[]
+    | undefined;
 }
 export interface ModifyListenerAttributesInput {
-  ListenerArn?: string;
-  Attributes?: ListenerAttribute[];
+  ListenerArn?: string | undefined;
+  Attributes?: ListenerAttribute[] | undefined;
 }
 export interface ModifyListenerAttributesOutput {
-  Attributes?: ListenerAttribute[];
+  Attributes?: ListenerAttribute[] | undefined;
 }
 export interface ModifyLoadBalancerAttributesInput {
-  LoadBalancerArn?: string;
-  Attributes?: LoadBalancerAttribute[];
+  LoadBalancerArn?: string | undefined;
+  Attributes?: LoadBalancerAttribute[] | undefined;
 }
 export interface ModifyLoadBalancerAttributesOutput {
-  Attributes?: LoadBalancerAttribute[];
+  Attributes?: LoadBalancerAttribute[] | undefined;
 }
 export type ResetTransforms = boolean;
 export interface ModifyRuleInput {
-  RuleArn?: string;
-  Conditions?: RuleCondition[];
-  Actions?: Action[];
-  Transforms?: RuleTransform[];
-  ResetTransforms?: boolean;
+  RuleArn?: string | undefined;
+  Conditions?: RuleCondition[] | undefined;
+  Actions?: Action[] | undefined;
+  Transforms?: RuleTransform[] | undefined;
+  ResetTransforms?: boolean | undefined;
 }
 export interface ModifyRuleOutput {
-  Rules?: (Rule & {
-    Actions: (Action & {
-      Type: ActionTypeEnum;
-      AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
-        Issuer: AuthenticateOidcActionIssuer;
-        AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
-        TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
-        UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
-        ClientId: AuthenticateOidcActionClientId;
-      };
-      AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
-        UserPoolArn: AuthenticateCognitoActionUserPoolArn;
-        UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
-        UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
-      };
-      RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
-      FixedResponseConfig: FixedResponseActionConfig & {
-        StatusCode: FixedResponseActionStatusCode;
-      };
-      JwtValidationConfig: JwtValidationActionConfig & {
-        JwksEndpoint: JwtValidationActionJwksEndpoint;
-        Issuer: JwtValidationActionIssuer;
-        AdditionalClaims: (JwtValidationActionAdditionalClaim & {
-          Format: JwtValidationActionAdditionalClaimFormatEnum;
-          Name: JwtValidationActionAdditionalClaimName;
-          Values: JwtValidationActionAdditionalClaimValues;
+  Rules?:
+    | (Rule & {
+        Actions: (Action & {
+          Type: ActionTypeEnum;
+          AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
+            Issuer: AuthenticateOidcActionIssuer;
+            AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
+            TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
+            UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
+            ClientId: AuthenticateOidcActionClientId;
+          };
+          AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
+            UserPoolArn: AuthenticateCognitoActionUserPoolArn;
+            UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
+            UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
+          };
+          RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
+          FixedResponseConfig: FixedResponseActionConfig & {
+            StatusCode: FixedResponseActionStatusCode;
+          };
+          JwtValidationConfig: JwtValidationActionConfig & {
+            JwksEndpoint: JwtValidationActionJwksEndpoint;
+            Issuer: JwtValidationActionIssuer;
+            AdditionalClaims: (JwtValidationActionAdditionalClaim & {
+              Format: JwtValidationActionAdditionalClaimFormatEnum;
+              Name: JwtValidationActionAdditionalClaimName;
+              Values: JwtValidationActionAdditionalClaimValues;
+            })[];
+          };
         })[];
-      };
-    })[];
-    Transforms: (RuleTransform & {
-      Type: TransformTypeEnum;
-      HostHeaderRewriteConfig: HostHeaderRewriteConfig & {
-        Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
-      };
-      UrlRewriteConfig: UrlRewriteConfig & {
-        Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
-      };
-    })[];
-  })[];
+        Transforms: (RuleTransform & {
+          Type: TransformTypeEnum;
+          HostHeaderRewriteConfig: HostHeaderRewriteConfig & {
+            Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
+          };
+          UrlRewriteConfig: UrlRewriteConfig & {
+            Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
+          };
+        })[];
+      })[]
+    | undefined;
 }
 export interface ModifyTargetGroupInput {
-  TargetGroupArn?: string;
-  HealthCheckProtocol?: ProtocolEnum;
-  HealthCheckPort?: string;
-  HealthCheckPath?: string;
-  HealthCheckEnabled?: boolean;
-  HealthCheckIntervalSeconds?: number;
-  HealthCheckTimeoutSeconds?: number;
-  HealthyThresholdCount?: number;
-  UnhealthyThresholdCount?: number;
-  Matcher?: Matcher;
+  TargetGroupArn?: string | undefined;
+  HealthCheckProtocol?: ProtocolEnum | undefined;
+  HealthCheckPort?: string | undefined;
+  HealthCheckPath?: string | undefined;
+  HealthCheckEnabled?: boolean | undefined;
+  HealthCheckIntervalSeconds?: number | undefined;
+  HealthCheckTimeoutSeconds?: number | undefined;
+  HealthyThresholdCount?: number | undefined;
+  UnhealthyThresholdCount?: number | undefined;
+  Matcher?: Matcher | undefined;
 }
 export interface ModifyTargetGroupOutput {
-  TargetGroups?: TargetGroup[];
+  TargetGroups?: TargetGroup[] | undefined;
 }
 export interface ModifyTargetGroupAttributesInput {
-  TargetGroupArn?: string;
-  Attributes?: TargetGroupAttribute[];
+  TargetGroupArn?: string | undefined;
+  Attributes?: TargetGroupAttribute[] | undefined;
 }
 export interface ModifyTargetGroupAttributesOutput {
-  Attributes?: TargetGroupAttribute[];
+  Attributes?: TargetGroupAttribute[] | undefined;
 }
 export interface ModifyTrustStoreInput {
-  TrustStoreArn?: string;
-  CaCertificatesBundleS3Bucket?: string;
-  CaCertificatesBundleS3Key?: string;
-  CaCertificatesBundleS3ObjectVersion?: string;
+  TrustStoreArn?: string | undefined;
+  CaCertificatesBundleS3Bucket?: string | undefined;
+  CaCertificatesBundleS3Key?: string | undefined;
+  CaCertificatesBundleS3ObjectVersion?: string | undefined;
 }
 export interface ModifyTrustStoreOutput {
-  TrustStores?: TrustStore[];
+  TrustStores?: TrustStore[] | undefined;
 }
 export interface RegisterTargetsInput {
-  TargetGroupArn?: string;
-  Targets?: TargetDescription[];
+  TargetGroupArn?: string | undefined;
+  Targets?: TargetDescription[] | undefined;
 }
 export interface RegisterTargetsOutput {}
 export interface RemoveListenerCertificatesInput {
-  ListenerArn?: string;
-  Certificates?: Certificate[];
+  ListenerArn?: string | undefined;
+  Certificates?: Certificate[] | undefined;
 }
 export interface RemoveListenerCertificatesOutput {}
 export type TagKeys = string[];
 export interface RemoveTagsInput {
-  ResourceArns?: string[];
-  TagKeys?: string[];
+  ResourceArns?: string[] | undefined;
+  TagKeys?: string[] | undefined;
 }
 export interface RemoveTagsOutput {}
 export interface RemoveTrustStoreRevocationsInput {
-  TrustStoreArn?: string;
-  RevocationIds?: number[];
+  TrustStoreArn?: string | undefined;
+  RevocationIds?: number[] | undefined;
 }
 export interface RemoveTrustStoreRevocationsOutput {}
 export interface SetIpAddressTypeInput {
-  LoadBalancerArn?: string;
-  IpAddressType?: IpAddressType;
+  LoadBalancerArn?: string | undefined;
+  IpAddressType?: IpAddressType | undefined;
 }
 export interface SetIpAddressTypeOutput {
-  IpAddressType?: IpAddressType;
+  IpAddressType?: IpAddressType | undefined;
 }
 export interface RulePriorityPair {
-  RuleArn?: string;
-  Priority?: number;
+  RuleArn?: string | undefined;
+  Priority?: number | undefined;
 }
 export type RulePriorityList = RulePriorityPair[];
 export interface SetRulePrioritiesInput {
-  RulePriorities?: RulePriorityPair[];
+  RulePriorities?: RulePriorityPair[] | undefined;
 }
 export interface SetRulePrioritiesOutput {
-  Rules?: (Rule & {
-    Actions: (Action & {
-      Type: ActionTypeEnum;
-      AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
-        Issuer: AuthenticateOidcActionIssuer;
-        AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
-        TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
-        UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
-        ClientId: AuthenticateOidcActionClientId;
-      };
-      AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
-        UserPoolArn: AuthenticateCognitoActionUserPoolArn;
-        UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
-        UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
-      };
-      RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
-      FixedResponseConfig: FixedResponseActionConfig & {
-        StatusCode: FixedResponseActionStatusCode;
-      };
-      JwtValidationConfig: JwtValidationActionConfig & {
-        JwksEndpoint: JwtValidationActionJwksEndpoint;
-        Issuer: JwtValidationActionIssuer;
-        AdditionalClaims: (JwtValidationActionAdditionalClaim & {
-          Format: JwtValidationActionAdditionalClaimFormatEnum;
-          Name: JwtValidationActionAdditionalClaimName;
-          Values: JwtValidationActionAdditionalClaimValues;
+  Rules?:
+    | (Rule & {
+        Actions: (Action & {
+          Type: ActionTypeEnum;
+          AuthenticateOidcConfig: AuthenticateOidcActionConfig & {
+            Issuer: AuthenticateOidcActionIssuer;
+            AuthorizationEndpoint: AuthenticateOidcActionAuthorizationEndpoint;
+            TokenEndpoint: AuthenticateOidcActionTokenEndpoint;
+            UserInfoEndpoint: AuthenticateOidcActionUserInfoEndpoint;
+            ClientId: AuthenticateOidcActionClientId;
+          };
+          AuthenticateCognitoConfig: AuthenticateCognitoActionConfig & {
+            UserPoolArn: AuthenticateCognitoActionUserPoolArn;
+            UserPoolClientId: AuthenticateCognitoActionUserPoolClientId;
+            UserPoolDomain: AuthenticateCognitoActionUserPoolDomain;
+          };
+          RedirectConfig: RedirectActionConfig & { StatusCode: RedirectActionStatusCodeEnum };
+          FixedResponseConfig: FixedResponseActionConfig & {
+            StatusCode: FixedResponseActionStatusCode;
+          };
+          JwtValidationConfig: JwtValidationActionConfig & {
+            JwksEndpoint: JwtValidationActionJwksEndpoint;
+            Issuer: JwtValidationActionIssuer;
+            AdditionalClaims: (JwtValidationActionAdditionalClaim & {
+              Format: JwtValidationActionAdditionalClaimFormatEnum;
+              Name: JwtValidationActionAdditionalClaimName;
+              Values: JwtValidationActionAdditionalClaimValues;
+            })[];
+          };
         })[];
-      };
-    })[];
-    Transforms: (RuleTransform & {
-      Type: TransformTypeEnum;
-      HostHeaderRewriteConfig: HostHeaderRewriteConfig & {
-        Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
-      };
-      UrlRewriteConfig: UrlRewriteConfig & {
-        Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
-      };
-    })[];
-  })[];
+        Transforms: (RuleTransform & {
+          Type: TransformTypeEnum;
+          HostHeaderRewriteConfig: HostHeaderRewriteConfig & {
+            Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
+          };
+          UrlRewriteConfig: UrlRewriteConfig & {
+            Rewrites: (RewriteConfig & { Regex: StringValue; Replace: StringValue })[];
+          };
+        })[];
+      })[]
+    | undefined;
 }
 export type EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum = "on" | "off" | (string & {});
 export interface SetSecurityGroupsInput {
-  LoadBalancerArn?: string;
-  SecurityGroups?: string[];
-  EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic?: EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum;
+  LoadBalancerArn?: string | undefined;
+  SecurityGroups?: string[] | undefined;
+  EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic?:
+    | EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum
+    | undefined;
 }
 export interface SetSecurityGroupsOutput {
-  SecurityGroupIds?: string[];
-  EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic?: EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum;
+  SecurityGroupIds?: string[] | undefined;
+  EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic?:
+    | EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum
+    | undefined;
 }
 export interface SetSubnetsInput {
-  LoadBalancerArn?: string;
-  Subnets?: string[];
-  SubnetMappings?: SubnetMapping[];
-  IpAddressType?: IpAddressType;
-  EnablePrefixForIpv6SourceNat?: EnablePrefixForIpv6SourceNatEnum;
+  LoadBalancerArn?: string | undefined;
+  Subnets?: string[] | undefined;
+  SubnetMappings?: SubnetMapping[] | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  EnablePrefixForIpv6SourceNat?: EnablePrefixForIpv6SourceNatEnum | undefined;
 }
 export interface SetSubnetsOutput {
-  AvailabilityZones?: AvailabilityZone[];
-  IpAddressType?: IpAddressType;
-  EnablePrefixForIpv6SourceNat?: EnablePrefixForIpv6SourceNatEnum;
+  AvailabilityZones?: AvailabilityZone[] | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  EnablePrefixForIpv6SourceNat?: EnablePrefixForIpv6SourceNatEnum | undefined;
 }
 export type ErrorDescription = string;
 export type AddListenerCertificatesError =

@@ -108,12 +108,12 @@ export interface CourseStudent {
   user: CourseStudentUser;
 }
 export interface ListCourseStudentRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
   course_id: string;
-  keyword?: string;
+  keyword?: string | undefined;
 }
 /** The user profile of the enrolled student. */
 export type CourseStudentListItemUser = CourseStudentUser;

@@ -69,11 +69,11 @@ export interface GetCostsForProjectRequest {
   /** Inclusive end date of the selection range. Internally, usages are recorded in UTC. This means all usages starting up to and including 23:59:59 UTC on the specified date are included. */
   to: string;
   /** Depth of desired cost information. "project" provides costs grouped by project, without services. "service" provides costs separated on service level. */
-  depth?: GetCostsForProjectRequestDepth | (string & {});
+  depth?: GetCostsForProjectRequestDepth | (string & {}) | undefined;
   /** Define granularity of costs - Default is "none" which does NOT include detailed report data. If "monthly", "weekly" or "yearly" is requested, the "from" parameter SHOULD be the first day and the "to" parameter SHOULD be the last day of that time period. If not, they are normalized accordingly. If "daily" is requested, the date range defined by "from" and "to" MUST NOT be longer than 92 days. */
-  granularity?: GetCostsForProjectRequestGranularity | (string & {});
+  granularity?: GetCostsForProjectRequestGranularity | (string & {}) | undefined;
   /** Whether costs of 0 should be included in the response */
-  includeZeroCosts?: boolean;
+  includeZeroCosts?: boolean | undefined;
 }
 /** Summarized costs for a project */
 export interface SummarizedProjectCost {
@@ -87,8 +87,8 @@ export interface SummarizedProjectCost {
 }
 /** Time period according to desired granularity */
 export interface ReportDataTimePeriod {
-  end?: string;
-  start?: string;
+  end?: string | undefined;
+  start?: string | undefined;
 }
 /** Costs report for a certain period of time */
 export interface ReportData {
@@ -111,7 +111,7 @@ export interface ProjectCostWithReports {
   projectId: string;
   projectName: string;
   /** Detailed project costs which are ONLY included if granularity is provided AND depth is "project" */
-  reportData?: ProjectCostWithReportsReportDataList;
+  reportData?: ProjectCostWithReportsReportDataList | undefined;
   /** Total charge (including discounts) for all services and the whole requested date range (value in cents) */
   totalCharge: number;
   /** Total discount for all services and the whole requested date range (value in cents) */
@@ -127,7 +127,7 @@ export interface ProjectCostWithSummarizedServices {
   projectId: string;
   projectName: string;
   /** Summarized service costs */
-  services?: ProjectCostWithSummarizedServicesServicesList;
+  services?: ProjectCostWithSummarizedServicesServicesList | undefined;
   /** Total charge (including discounts) for all services and the whole requested date range (value in cents) */
   totalCharge: number;
   /** Total discount for all services and the whole requested date range (value in cents) */
@@ -138,7 +138,7 @@ export type DetailedServiceCostReportDataList = Array<ReportData>;
 /** Costs for a single service */
 export interface DetailedServiceCost {
   /** Detailed service costs which are ONLY included if granularity is provided */
-  reportData?: DetailedServiceCostReportDataList;
+  reportData?: DetailedServiceCostReportDataList | undefined;
   /** Service category name */
   serviceCategoryName: string;
   /** Name of the service */
@@ -164,7 +164,7 @@ export interface ProjectCostWithDetailedServices {
   projectId: string;
   projectName: string;
   /** Total discount for all services and the whole requested date range (value in cents). Please see "depth" parameter for more details. */
-  services?: ProjectCostWithDetailedServicesServicesList;
+  services?: ProjectCostWithDetailedServicesServicesList | undefined;
   /** Total charge (including discounts) for all services and the whole requested date range (value in cents) */
   totalCharge: number;
   /** Total discount for all services and the whole requested date range (value in cents) */
@@ -191,11 +191,11 @@ export interface ListCostsForCustomerRequest {
   /** Inclusive end date of the selection range. Internally, usages are recorded in UTC. This means all usages starting up to and including 23:59:59 UTC on the specified date are included. */
   to: string;
   /** Depth of desired cost information. "project" provides costs grouped by project, without services. "service" provides costs separated on service level. */
-  depth?: ListCostsForCustomerRequestDepth | (string & {});
+  depth?: ListCostsForCustomerRequestDepth | (string & {}) | undefined;
   /** Define granularity of costs - Default is "none" which does NOT include detailed report data. If "monthly", "weekly" or "yearly" is requested, the "from" parameter SHOULD be the first day and the "to" parameter SHOULD be the last day of that time period. If not, they are normalized accordingly. If "daily" is requested, the date range defined by "from" and "to" MUST NOT be longer than 92 days. */
-  granularity?: ListCostsForCustomerRequestGranularity | (string & {});
+  granularity?: ListCostsForCustomerRequestGranularity | (string & {}) | undefined;
   /** Whether costs of 0 should be included in the response */
-  includeZeroCosts?: boolean;
+  includeZeroCosts?: boolean | undefined;
 }
 export type ListCostsForCustomerResponseBodyList = Array<ProjectCost>;
 export type ListCostsForCustomerResponse = ListCostsForCustomerResponseBodyList;
@@ -214,11 +214,11 @@ export interface ListCostsForResellerRequest {
   /** Inclusive end date of the selection range. Internally, usages are recorded in UTC. This means all usages starting up to and including 23:59:59 UTC on the specified date are included. */
   to: string;
   /** Depth of desired cost information. "project" provides costs grouped by project, without services. "service" provides costs separated on service level. */
-  depth?: ListCostsForResellerRequestDepth | (string & {});
+  depth?: ListCostsForResellerRequestDepth | (string & {}) | undefined;
   /** Define granularity of costs - Default is "none" which does NOT include detailed report data. If "monthly", "weekly" or "yearly" is requested, the "from" parameter SHOULD be the first day and the "to" parameter SHOULD be the last day of that time period. If not, they are normalized accordingly. If "daily" is requested, the date range defined by "from" and "to" MUST NOT be longer than 92 days. */
-  granularity?: ListCostsForResellerRequestGranularity | (string & {});
+  granularity?: ListCostsForResellerRequestGranularity | (string & {}) | undefined;
   /** Whether costs of 0 should be included in the response */
-  includeZeroCosts?: boolean;
+  includeZeroCosts?: boolean | undefined;
 }
 export type ListCostsForResellerResponseBodyList = Array<ProjectCost>;
 export type ListCostsForResellerResponse = ListCostsForResellerResponseBodyList;

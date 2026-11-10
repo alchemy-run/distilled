@@ -40,7 +40,7 @@ export interface CreateEmbedRequest {
   repo: string;
   sql: string;
   title: string;
-  private?: boolean;
+  private?: boolean | undefined;
   views: CreateEmbedRequestViewsList;
 }
 export type CreateEmbedResponseViewsItem = CreateEmbedRequestViewsItem;
@@ -57,9 +57,9 @@ export interface CreateEmbedResponse {
   userId: string;
   createdAt: string;
   slug: string;
-  private?: boolean;
-  rating?: number;
-  justification?: string;
+  private?: boolean | undefined;
+  rating?: number | undefined;
+  justification?: string | undefined;
 }
 export type DeleteEmbedRequestRepoType = "datasets";
 export interface DeleteEmbedRequest {
@@ -83,9 +83,9 @@ export interface UpdateEmbedRequest {
   namespace: string;
   repo: string;
   id: string;
-  title?: string;
-  private?: boolean;
-  sql?: string;
+  title?: string | undefined;
+  private?: boolean | undefined;
+  sql?: string | undefined;
 }
 export type UpdateEmbedResponseViewsItem = CreateEmbedRequestViewsItem;
 export type UpdateEmbedResponseViewsList = Array<CreateEmbedRequestViewsItem>;
@@ -101,9 +101,9 @@ export interface UpdateEmbedResponse {
   userId: string;
   createdAt: string;
   slug: string;
-  private?: boolean;
-  rating?: number;
-  justification?: string;
+  private?: boolean | undefined;
+  rating?: number | undefined;
+  justification?: string | undefined;
 }
 export type CreateEmbedError = HuggingFaceOpError;
 /** Create embed Create SQL Console embed */

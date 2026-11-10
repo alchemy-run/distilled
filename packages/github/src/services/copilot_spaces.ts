@@ -49,8 +49,8 @@ export type CopilotSpaceCollaboratorCase0ActorType = "User";
 /** The role granted to the collaborator */
 export type CopilotSpaceCollaboratorCase0Role = "reader" | "writer" | "admin";
 export interface CopilotSpaceCollaboratorCase0 {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -69,8 +69,8 @@ export interface CopilotSpaceCollaboratorCase0 {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
   /** The collaborator actor type. */
   actor_type: CopilotSpaceCollaboratorCase0ActorType;
   /** The role granted to the collaborator */
@@ -91,15 +91,15 @@ export interface CopilotSpaceCollaboratorCase1 {
   name: string;
   slug: string;
   type: CopilotSpaceCollaboratorCase1Type;
-  description?: string | null;
-  privacy?: string;
-  notification_setting?: string;
-  url?: string;
-  html_url?: string;
-  members_url?: string;
-  repositories_url?: string;
-  organization_id?: number;
-  parent?: unknown | null;
+  description?: string | null | undefined;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
+  url?: string | undefined;
+  html_url?: string | undefined;
+  members_url?: string | undefined;
+  repositories_url?: string | undefined;
+  organization_id?: number | undefined;
+  parent?: unknown | null | undefined;
 }
 /** A collaborator (user or team) of a Copilot Space */
 export type CopilotSpaceCollaborator =
@@ -137,21 +137,24 @@ export type CreateForOrgRequestResourcesAttributesItemResourceType =
 /** Metadata specific to the resource type. */
 export interface CreateForOrgRequestResourcesAttributesItemMetadata {
   /** Repository ID for repository or file resources. */
-  repository_id?: number;
+  repository_id?: number | undefined;
   /** File path for file resources. */
-  file_path?: string;
+  file_path?: string | undefined;
   /** Text content for free text resources. */
-  text?: string;
+  text?: string | undefined;
   /** Name for the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Issue or PR number. */
-  number?: number;
+  number?: number | undefined;
 }
 export interface CreateForOrgRequestResourcesAttributesItem {
   /** The type of resource. */
-  resource_type?: CreateForOrgRequestResourcesAttributesItemResourceType | (string & {});
+  resource_type?:
+    | CreateForOrgRequestResourcesAttributesItemResourceType
+    | (string & {})
+    | undefined;
   /** Metadata specific to the resource type. */
-  metadata?: CreateForOrgRequestResourcesAttributesItemMetadata;
+  metadata?: CreateForOrgRequestResourcesAttributesItemMetadata | undefined;
 }
 /** Resources to attach to the space. */
 export type CreateForOrgRequestResourcesAttributesList =
@@ -162,20 +165,20 @@ export interface CreateForOrgRequest {
   /** The name of the Copilot Space. */
   name: string;
   /** A description of the Copilot Space. */
-  description?: string;
+  description?: string | undefined;
   /** General instructions for the Copilot Space. */
-  general_instructions?: string;
+  general_instructions?: string | undefined;
   /** The base role that determines default permissions for organization members. - `no_access`: No default access (default) - `reader`: Organization members can read the space - `writer`: Organization members can read and edit the space - `admin`: Organization members have full admin access to the space */
-  base_role?: CreateForOrgRequestBaseRole | (string & {});
+  base_role?: CreateForOrgRequestBaseRole | (string & {}) | undefined;
   /** Resources to attach to the space. */
-  resources_attributes?: CreateForOrgRequestResourcesAttributesList;
+  resources_attributes?: CreateForOrgRequestResourcesAttributesList | undefined;
 }
 /** The base role that determines default permissions. - `no_access`: No default access - `reader`: Default read permissions - `writer`: Default write permissions (organization spaces only) - `admin`: Default admin permissions (organization spaces only) */
 export type CopilotSpaceBaseRole = "reader" | "writer" | "admin" | "no_access";
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -194,8 +197,8 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** A GitHub organization. */
 export interface OrganizationSimple {
@@ -226,39 +229,39 @@ export type CopilotSpaceResourcesAttributesItemResourceType =
 /** Metadata specific to the resource type. */
 export interface CopilotSpaceResourcesAttributesItemMetadata {
   /** Repository ID for repository or file resources. */
-  repository_id?: number;
+  repository_id?: number | undefined;
   /** File path for file resources. */
-  file_path?: string;
+  file_path?: string | undefined;
   /** Text content for free text resources. */
-  text?: string;
+  text?: string | undefined;
   /** Name for the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Issue or PR number. */
-  number?: number;
+  number?: number | undefined;
   /** Chat attachment ID for uploaded files or media. */
-  copilot_chat_attachment_id?: number;
+  copilot_chat_attachment_id?: number | undefined;
   /** Media type for media content resources. */
-  media_type?: string;
+  media_type?: string | undefined;
   /** URL for media content resources. */
-  url?: string;
+  url?: string | undefined;
   /** Height for media content resources. */
-  height?: number;
+  height?: number | undefined;
   /** Width for media content resources. */
-  width?: number;
+  width?: number | undefined;
 }
 export interface CopilotSpaceResourcesAttributesItem {
   /** The unique identifier of the resource. */
-  id?: number;
+  id?: number | undefined;
   /** The type of resource. */
-  resource_type?: CopilotSpaceResourcesAttributesItemResourceType;
+  resource_type?: CopilotSpaceResourcesAttributesItemResourceType | undefined;
   /** The unique identifier of the chat attachment for uploaded files or media content. */
-  copilot_chat_attachment_id?: number | null;
+  copilot_chat_attachment_id?: number | null | undefined;
   /** The date and time the resource was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the resource was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Metadata specific to the resource type. */
-  metadata?: CopilotSpaceResourcesAttributesItemMetadata;
+  metadata?: CopilotSpaceResourcesAttributesItemMetadata | undefined;
 }
 /** Resources attached to the space. */
 export type CopilotSpaceResourcesAttributesList = Array<CopilotSpaceResourcesAttributesItem>;
@@ -271,9 +274,9 @@ export interface CopilotSpace {
   /** The display name of the space. */
   name: string;
   /** A description of the space. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** General instructions for the Copilot Space. */
-  general_instructions?: string | null;
+  general_instructions?: string | null | undefined;
   /** The base role that determines default permissions. - `no_access`: No default access - `reader`: Default read permissions - `writer`: Default write permissions (organization spaces only) - `admin`: Default admin permissions (organization spaces only) */
   base_role: CopilotSpaceBaseRole;
   /** The user or organization that owns this space. */
@@ -288,7 +291,7 @@ export interface CopilotSpace {
   /** The API URL of the space. */
   api_url: string;
   /** Resources attached to the space. */
-  resources_attributes?: CopilotSpaceResourcesAttributesList;
+  resources_attributes?: CopilotSpaceResourcesAttributesList | undefined;
 }
 /** The base role that determines default permissions for the space. - `no_access`: No default access (default) - `reader`: Makes the space publicly readable Note: User spaces do not support writer or admin base roles. */
 export type CreateForUserRequestBaseRole = "reader" | "no_access";
@@ -306,9 +309,12 @@ export type CreateForUserRequestResourcesAttributesItemMetadata =
   CreateForOrgRequestResourcesAttributesItemMetadata;
 export interface CreateForUserRequestResourcesAttributesItem {
   /** The type of resource. */
-  resource_type?: CreateForUserRequestResourcesAttributesItemResourceType | (string & {});
+  resource_type?:
+    | CreateForUserRequestResourcesAttributesItemResourceType
+    | (string & {})
+    | undefined;
   /** Metadata specific to the resource type. */
-  metadata?: CreateForOrgRequestResourcesAttributesItemMetadata;
+  metadata?: CreateForOrgRequestResourcesAttributesItemMetadata | undefined;
 }
 /** Resources to attach to the space. */
 export type CreateForUserRequestResourcesAttributesList =
@@ -319,13 +325,13 @@ export interface CreateForUserRequest {
   /** The name of the Copilot Space. */
   name: string;
   /** A description of the Copilot Space. */
-  description?: string;
+  description?: string | undefined;
   /** General instructions for the Copilot Space. */
-  general_instructions?: string;
+  general_instructions?: string | undefined;
   /** The base role that determines default permissions for the space. - `no_access`: No default access (default) - `reader`: Makes the space publicly readable Note: User spaces do not support writer or admin base roles. */
-  base_role?: CreateForUserRequestBaseRole | (string & {});
+  base_role?: CreateForUserRequestBaseRole | (string & {}) | undefined;
   /** Resources to attach to the space. */
-  resources_attributes?: CreateForUserRequestResourcesAttributesList;
+  resources_attributes?: CreateForUserRequestResourcesAttributesList | undefined;
 }
 /** The type of resource to create. */
 export type CreateResourceForOrgRequestResourceType =
@@ -364,7 +370,7 @@ export interface CopilotSpaceResource {
   /** The type of the resource. */
   resource_type: CopilotSpaceResourceResourceType;
   /** The ID of the associated chat attachment, if any. */
-  copilot_chat_attachment_id?: number | null;
+  copilot_chat_attachment_id?: number | null | undefined;
   /** Resource-specific metadata. The keys and values depend on the resource type. */
   metadata: CopilotSpaceResourceMetadataMap;
   /** The date and time the resource was created. */
@@ -479,11 +485,11 @@ export interface ListForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. */
-  after?: string;
+  after?: string | undefined;
 }
 /** The list of Copilot Spaces on this page of results. */
 export type ListForOrgResponseSpacesList = Array<CopilotSpace>;
@@ -495,11 +501,11 @@ export interface ListForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. */
-  after?: string;
+  after?: string | undefined;
 }
 /** The list of Copilot Spaces on this page of results. */
 export type ListForUserResponseSpacesList = Array<CopilotSpace>;
@@ -603,9 +609,12 @@ export type UpdateForOrgRequestResourcesAttributesItemMetadata =
   CreateForOrgRequestResourcesAttributesItemMetadata;
 export interface UpdateForOrgRequestResourcesAttributesItem {
   /** The type of resource. */
-  resource_type?: UpdateForOrgRequestResourcesAttributesItemResourceType | (string & {});
+  resource_type?:
+    | UpdateForOrgRequestResourcesAttributesItemResourceType
+    | (string & {})
+    | undefined;
   /** Metadata specific to the resource type. */
-  metadata?: CreateForOrgRequestResourcesAttributesItemMetadata;
+  metadata?: CreateForOrgRequestResourcesAttributesItemMetadata | undefined;
 }
 /** Resources to attach to the space. */
 export type UpdateForOrgRequestResourcesAttributesList =
@@ -616,15 +625,15 @@ export interface UpdateForOrgRequest {
   /** The unique identifier of the Copilot Space. */
   space_number: number;
   /** The name of the Copilot Space. */
-  name?: string;
+  name?: string | undefined;
   /** A description of the Copilot Space. */
-  description?: string;
+  description?: string | undefined;
   /** General instructions for the Copilot Space. */
-  general_instructions?: string;
+  general_instructions?: string | undefined;
   /** The base role that determines default permissions for organization members. Changing this field requires admin permissions. - `no_access`: No default access (default) - `reader`: Organization members can read the space - `writer`: Organization members can read and edit the space - `admin`: Organization members have full admin access to the space */
-  base_role?: UpdateForOrgRequestBaseRole | (string & {});
+  base_role?: UpdateForOrgRequestBaseRole | (string & {}) | undefined;
   /** Resources to attach to the space. */
-  resources_attributes?: UpdateForOrgRequestResourcesAttributesList;
+  resources_attributes?: UpdateForOrgRequestResourcesAttributesList | undefined;
 }
 /** The base role that determines default permissions for the space. Changing this field requires admin permissions. - `no_access`: No default access (default) - `reader`: Makes the space publicly readable Note: User spaces do not support writer or admin base roles. */
 export type UpdateForUserRequestBaseRole = "reader" | "no_access";
@@ -642,9 +651,12 @@ export type UpdateForUserRequestResourcesAttributesItemMetadata =
   CreateForOrgRequestResourcesAttributesItemMetadata;
 export interface UpdateForUserRequestResourcesAttributesItem {
   /** The type of resource. */
-  resource_type?: UpdateForUserRequestResourcesAttributesItemResourceType | (string & {});
+  resource_type?:
+    | UpdateForUserRequestResourcesAttributesItemResourceType
+    | (string & {})
+    | undefined;
   /** Metadata specific to the resource type. */
-  metadata?: CreateForOrgRequestResourcesAttributesItemMetadata;
+  metadata?: CreateForOrgRequestResourcesAttributesItemMetadata | undefined;
 }
 /** Resources to attach to the space. */
 export type UpdateForUserRequestResourcesAttributesList =
@@ -655,15 +667,15 @@ export interface UpdateForUserRequest {
   /** The unique identifier of the Copilot Space. */
   space_number: number;
   /** The name of the Copilot Space. */
-  name?: string;
+  name?: string | undefined;
   /** A description of the Copilot Space. */
-  description?: string;
+  description?: string | undefined;
   /** General instructions for the Copilot Space. */
-  general_instructions?: string;
+  general_instructions?: string | undefined;
   /** The base role that determines default permissions for the space. Changing this field requires admin permissions. - `no_access`: No default access (default) - `reader`: Makes the space publicly readable Note: User spaces do not support writer or admin base roles. */
-  base_role?: UpdateForUserRequestBaseRole | (string & {});
+  base_role?: UpdateForUserRequestBaseRole | (string & {}) | undefined;
   /** Resources to attach to the space. */
-  resources_attributes?: UpdateForUserRequestResourcesAttributesList;
+  resources_attributes?: UpdateForUserRequestResourcesAttributesList | undefined;
 }
 /** Updated resource-specific metadata. */
 export type UpdateResourceForOrgRequestMetadataMap = { [key: string]: unknown | undefined };
@@ -675,7 +687,7 @@ export interface UpdateResourceForOrgRequest {
   /** The unique identifier of the resource. */
   space_resource_id: number;
   /** Updated resource-specific metadata. */
-  metadata?: UpdateResourceForOrgRequestMetadataMap;
+  metadata?: UpdateResourceForOrgRequestMetadataMap | undefined;
 }
 /** Updated resource-specific metadata. */
 export type UpdateResourceForUserRequestMetadataMap = { [key: string]: unknown | undefined };
@@ -687,7 +699,7 @@ export interface UpdateResourceForUserRequest {
   /** The unique identifier of the resource. */
   space_resource_id: number;
   /** Updated resource-specific metadata. */
-  metadata?: UpdateResourceForUserRequestMetadataMap;
+  metadata?: UpdateResourceForUserRequestMetadataMap | undefined;
 }
 export type AddCollaboratorForOrgError = GithubOpError;
 /** Add a collaborator to an organization Copilot Space Adds a collaborator (user or team) to a specific Copilot Space owned by an organization. The authenticated user must have appropriate permissions to manage collaborators. **Note:** When adding users as collaborators, they must already be members of the organization. When adding teams as collaborators, they must be defined in the organization. OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint. Fine-grained tokens and GitHub App user access tokens must have been granted access to the organization that owns the space. They must also have been granted access to every repository referenced by resources in the space. */

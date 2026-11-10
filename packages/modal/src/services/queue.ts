@@ -54,34 +54,34 @@ export class QueueNotFound
   ) {}
 
 export interface ClearQueueRequest {
-  queueId?: string;
-  partitionKey?: string;
-  allPartitions?: boolean;
+  queueId?: string | undefined;
+  partitionKey?: string | undefined;
+  allPartitions?: boolean | undefined;
 }
 export interface ClearQueueResponse {}
 export interface DeleteQueueRequest {
-  queueId?: string;
+  queueId?: string | undefined;
 }
 export interface DeleteQueueResponse {}
 export interface GetQueueRequest {
-  queueId?: string;
-  timeout?: number;
-  nValues?: number;
-  partitionKey?: string;
+  queueId?: string | undefined;
+  timeout?: number | undefined;
+  nValues?: number | undefined;
+  partitionKey?: string | undefined;
 }
 export type BlobList = Array<string>;
 export interface GetQueueResponse {
   values: BlobList;
 }
 export interface ListPagination {
-  maxObjects?: number;
-  createdBefore?: number;
+  maxObjects?: number | undefined;
+  createdBefore?: number | undefined;
 }
 export interface ListQueueRequest {
-  environmentName?: string;
-  totalSizeLimit?: number;
+  environmentName?: string | undefined;
+  totalSizeLimit?: number | undefined;
   /** Limit on "number of partitions" reported, since checking them is costly */
-  pagination?: ListPagination;
+  pagination?: ListPagination | undefined;
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
@@ -91,7 +91,7 @@ export interface CreationInfo {
 }
 export interface QueueMetadata {
   name: string;
-  creationInfo?: CreationInfo;
+  creationInfo?: CreationInfo | undefined;
 }
 export interface ListQueueResponseQueueInfo {
   name: string;
@@ -100,7 +100,7 @@ export interface ListQueueResponseQueueInfo {
   numPartitions: number;
   totalSize: number;
   queueId: string;
-  metadata?: QueueMetadata;
+  metadata?: QueueMetadata | undefined;
 }
 export type ListQueueResponseQueueInfoList = Array<ListQueueResponseQueueInfo>;
 export interface ListQueueResponse {
@@ -108,18 +108,18 @@ export interface ListQueueResponse {
   environmentName: string;
 }
 export interface PutQueueRequest {
-  queueId?: string;
-  values?: BlobList;
-  partitionKey?: string;
-  partitionTtlSeconds?: number;
+  queueId?: string | undefined;
+  values?: BlobList | undefined;
+  partitionKey?: string | undefined;
+  partitionTtlSeconds?: number | undefined;
 }
 export interface PutQueueResponse {}
 export interface QueueGetByIdRequest {
-  queueId?: string;
+  queueId?: string | undefined;
 }
 export interface QueueGetByIdResponse {
   queueId: string;
-  metadata?: QueueMetadata;
+  metadata?: QueueMetadata | undefined;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -129,32 +129,32 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface QueueGetOrCreateRequest {
-  deploymentName?: string;
+  deploymentName?: string | undefined;
   /** removed namespace */
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
+  environmentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
 }
 export interface QueueGetOrCreateResponse {
   queueId: string;
-  metadata?: QueueMetadata;
+  metadata?: QueueMetadata | undefined;
 }
 export interface QueueHeartbeatRequest {
-  queueId?: string;
+  queueId?: string | undefined;
 }
 export interface QueueHeartbeatResponse {}
 export interface QueueLenRequest {
-  queueId?: string;
-  partitionKey?: string;
-  total?: boolean;
+  queueId?: string | undefined;
+  partitionKey?: string | undefined;
+  total?: boolean | undefined;
 }
 export interface QueueLenResponse {
   len: number;
 }
 export interface QueueNextItemsRequest {
-  queueId?: string;
-  partitionKey?: string;
-  lastEntryId?: string;
-  itemPollTimeout?: number;
+  queueId?: string | undefined;
+  partitionKey?: string | undefined;
+  lastEntryId?: string | undefined;
+  itemPollTimeout?: number | undefined;
 }
 export interface QueueItem {
   value: string;

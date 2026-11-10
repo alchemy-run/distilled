@@ -68,7 +68,7 @@ export interface CompleteFileRequest {
   /** The ID of the multipart upload, returned by Create File. */
   multipart_upload_id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface FileMultipartUrl {
   /** The 1-based index of this part within the multipart upload. */
@@ -91,20 +91,20 @@ export interface File {
   /** The file's ID, prefixed `file_`. */
   id: string;
   /** The byte size each part (except the last) must be. Present only on create, and only for multipart uploads. */
-  multipart_chunk_size?: number | null;
+  multipart_chunk_size?: number | null | undefined;
   /** The ID of the multipart upload, passed back to `complete`. Present only on create, and only for multipart uploads. */
-  multipart_upload_id?: string | null;
-  multipart_upload_urls?: FileMultipartUploadUrlsList | null;
+  multipart_upload_id?: string | null | undefined;
+  multipart_upload_urls?: FileMultipartUploadUrlsList | null | undefined;
   /** The type of this object, always `file`. */
   object: string;
   /** The file size in bytes. `null` until the upload has finished. */
   size: number | null;
   /** Headers to send with the upload PUT. Present only on create. */
-  upload_headers?: unknown;
+  upload_headers?: unknown | undefined;
   /** Where the file is in its upload lifecycle. */
   upload_status: FileUploadStatus;
   /** Presigned URL to PUT the file's bytes to. Present only on create, and only for single-part uploads. */
-  upload_url?: string | null;
+  upload_url?: string | null | undefined;
   /** A URL to download the file: a permanent CDN URL for public files, a signed expiring URL for private ones. `null` until the upload has finished. */
   url: string | null;
   /** `public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL. */
@@ -114,15 +114,15 @@ export interface File {
 export type CreateFileRequestVisibility = "public" | "private";
 export interface CreateFileRequest {
   /** The file's size in bytes. Required when `multipart` is `true`. Multipart uploads support at most 10,000 parts of 5MB each (about 50 GB). */
-  byte_size?: number;
+  byte_size?: number | undefined;
   /** The name of the file including its extension, e.g. `terms.pdf`. */
   filename: string;
   /** Upload the file in 5MB parts. Required for files larger than 5GB; useful above ~100MB. The file must be larger than 5MB. */
-  multipart?: boolean;
+  multipart?: boolean | undefined;
   /** `public` files are served via an unsigned CDN URL -- use for assets anyone may see. `private` files are served via a signed, expiring URL -- use for sensitive documents. Defaults to `private`. */
-  visibility?: CreateFileRequestVisibility | (string & {});
+  visibility?: CreateFileRequestVisibility | (string & {}) | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface GetFileRequest {
   /** The unique identifier of the file, prefixed `file_`. */
@@ -135,17 +135,17 @@ export interface ListFilesRequest {
   /** The files to return, each prefixed `file_`. Repeat the parameter to pass several, up to 250 per request. Batches of up to 100 answer in one page by default; larger batches page at up to 100 per response. */
   file_ids: ListFilesRequestFileIdsList;
   /** The field to sort by. */
-  order?: ListFilesRequestOrder | (string & {});
+  order?: ListFilesRequestOrder | (string & {}) | undefined;
   /** The sort direction. */
-  direction?: ListFilesRequestDirection | (string & {});
+  direction?: ListFilesRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListFilesResponseDataList = Array<File>;
 export interface ListFilesResponsePageInfo {

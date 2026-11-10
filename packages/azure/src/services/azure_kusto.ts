@@ -50,11 +50,11 @@ export type OutboundAccess = "Allow" | "Deny";
 /** Configuration for external callout policies, including URI patterns, access types, and service types. */
 export interface CalloutPolicyInput {
   /** Regular expression or FQDN pattern for the callout URI. */
-  calloutUriRegex?: string;
+  calloutUriRegex?: string | undefined;
   /** Type of the callout service, specifying the kind of external resource or service being accessed. */
-  calloutType?: CalloutType | (string & {});
+  calloutType?: CalloutType | (string & {}) | undefined;
   /** Indicates whether outbound access is permitted for the specified URI pattern. */
-  outboundAccess?: OutboundAccess | (string & {});
+  outboundAccess?: OutboundAccess | (string & {}) | undefined;
 }
 /** The CalloutPolicy items on this page */
 export type AddClusterCalloutPoliciesRequestValueList = Array<CalloutPolicyInput>;
@@ -68,15 +68,15 @@ export interface AddClusterCalloutPoliciesRequest {
   /** The CalloutPolicy items on this page */
   value: AddClusterCalloutPoliciesRequestValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface AddClusterCalloutPoliciesResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Language extension that can run within KQL query. */
 export type LanguageExtensionName = "PYTHON" | "R";
@@ -92,11 +92,11 @@ export type LanguageExtensionImageName =
 /** The language extension object. */
 export interface LanguageExtension {
   /** The language extension name. */
-  languageExtensionName?: LanguageExtensionName | (string & {});
+  languageExtensionName?: LanguageExtensionName | (string & {}) | undefined;
   /** The language extension image name. */
-  languageExtensionImageName?: LanguageExtensionImageName | (string & {});
+  languageExtensionImageName?: LanguageExtensionImageName | (string & {}) | undefined;
   /** The sandbox custom image name that should be enabled as the active language extension. Sandbox custom image is a cluster sub resource. When this property is set, LanguageExtensionImageName should be set to 'PythonCustomImage'. */
-  languageExtensionCustomImageName?: string;
+  languageExtensionCustomImageName?: string | undefined;
 }
 /** The list of language extensions. */
 export type AddClusterLanguageExtensionsRequestValueList = Array<LanguageExtension>;
@@ -108,17 +108,17 @@ export interface AddClusterLanguageExtensionsRequest {
   /** The name of the Kusto cluster. */
   clusterName: string;
   /** The list of language extensions. */
-  value?: AddClusterLanguageExtensionsRequestValueList;
+  value?: AddClusterLanguageExtensionsRequestValueList | undefined;
   /** The link to the next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface AddClusterLanguageExtensionsResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Database principal role. */
 export type DatabasePrincipalRole =
@@ -139,11 +139,11 @@ export interface DatabasePrincipalInput {
   /** Database principal type. */
   type: DatabasePrincipalType | (string & {});
   /** Database principal fully qualified name. */
-  fqn?: string;
+  fqn?: string | undefined;
   /** Database principal email if exists. */
-  email?: string;
+  email?: string | undefined;
   /** Application id - relevant only for application principal type. */
-  appId?: string;
+  appId?: string | undefined;
 }
 /** The list of Kusto database principals. */
 export type AddDatabasePrincipalsRequestValueList = Array<DatabasePrincipalInput>;
@@ -157,7 +157,7 @@ export interface AddDatabasePrincipalsRequest {
   /** The name of the database in the Kusto cluster. */
   databaseName: string;
   /** The list of Kusto database principals. */
-  value?: AddDatabasePrincipalsRequestValueList;
+  value?: AddDatabasePrincipalsRequestValueList | undefined;
 }
 /** A class representing database principal entity. */
 export interface DatabasePrincipal {
@@ -168,22 +168,22 @@ export interface DatabasePrincipal {
   /** Database principal type. */
   type: DatabasePrincipalType;
   /** Database principal fully qualified name. */
-  fqn?: string;
+  fqn?: string | undefined;
   /** Database principal email if exists. */
-  email?: string;
+  email?: string | undefined;
   /** Application id - relevant only for application principal type. */
-  appId?: string;
+  appId?: string | undefined;
   /** The tenant name of the principal */
-  tenantName?: string;
+  tenantName?: string | undefined;
 }
 /** The list of Kusto database principals. */
 export type DatabasePrincipalListResultValueList = Array<DatabasePrincipal>;
 /** The list Kusto database principals operation response. */
 export interface DatabasePrincipalListResult {
   /** The list of Kusto database principals. */
-  value?: DatabasePrincipalListResultValueList;
+  value?: DatabasePrincipalListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The default principals modification kind */
 export type DefaultPrincipalsModificationKind = "Union" | "Replace" | "None";
@@ -206,21 +206,25 @@ export type TableLevelSharingPropertiesFunctionsToExcludeList = Array<string>;
 /** Tables that will be included and excluded in the follower database */
 export interface TableLevelSharingProperties {
   /** List of tables to include in the follower database */
-  tablesToInclude?: TableLevelSharingPropertiesTablesToIncludeList;
+  tablesToInclude?: TableLevelSharingPropertiesTablesToIncludeList | undefined;
   /** List of tables to exclude from the follower database */
-  tablesToExclude?: TableLevelSharingPropertiesTablesToExcludeList;
+  tablesToExclude?: TableLevelSharingPropertiesTablesToExcludeList | undefined;
   /** List of external tables to include in the follower database */
-  externalTablesToInclude?: TableLevelSharingPropertiesExternalTablesToIncludeList;
+  externalTablesToInclude?: TableLevelSharingPropertiesExternalTablesToIncludeList | undefined;
   /** List of external tables to exclude from the follower database */
-  externalTablesToExclude?: TableLevelSharingPropertiesExternalTablesToExcludeList;
+  externalTablesToExclude?: TableLevelSharingPropertiesExternalTablesToExcludeList | undefined;
   /** List of materialized views to include in the follower database */
-  materializedViewsToInclude?: TableLevelSharingPropertiesMaterializedViewsToIncludeList;
+  materializedViewsToInclude?:
+    | TableLevelSharingPropertiesMaterializedViewsToIncludeList
+    | undefined;
   /** List of materialized views to exclude from the follower database */
-  materializedViewsToExclude?: TableLevelSharingPropertiesMaterializedViewsToExcludeList;
+  materializedViewsToExclude?:
+    | TableLevelSharingPropertiesMaterializedViewsToExcludeList
+    | undefined;
   /** List of functions to include in the follower database */
-  functionsToInclude?: TableLevelSharingPropertiesFunctionsToIncludeList;
+  functionsToInclude?: TableLevelSharingPropertiesFunctionsToIncludeList | undefined;
   /** List of functions to exclude from the follower database */
-  functionsToExclude?: TableLevelSharingPropertiesFunctionsToExcludeList;
+  functionsToExclude?: TableLevelSharingPropertiesFunctionsToExcludeList | undefined;
 }
 /** Class representing the an attached database configuration properties of kind specific. */
 export interface AttachedDatabaseConfigurationPropertiesInput {
@@ -231,11 +235,11 @@ export interface AttachedDatabaseConfigurationPropertiesInput {
   /** The default principals modification kind */
   defaultPrincipalsModificationKind: DefaultPrincipalsModificationKind | (string & {});
   /** Table level sharing specifications */
-  tableLevelSharingProperties?: TableLevelSharingProperties;
+  tableLevelSharingProperties?: TableLevelSharingProperties | undefined;
   /** Overrides the original database name. Relevant only when attaching to a specific database. */
-  databaseNameOverride?: string;
+  databaseNameOverride?: string | undefined;
   /** Adds a prefix to the attached databases name. When following an entire cluster, that prefix would be added to all of the databases original names from leader cluster. */
-  databaseNamePrefix?: string;
+  databaseNamePrefix?: string | undefined;
 }
 export interface AttachedDatabaseConfigurationsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -247,9 +251,9 @@ export interface AttachedDatabaseConfigurationsCreateOrUpdateRequest {
   /** The name of the attached database configuration. */
   attachedDatabaseConfigurationName: string;
   /** The properties of the attached database configuration. */
-  properties?: AttachedDatabaseConfigurationPropertiesInput;
+  properties?: AttachedDatabaseConfigurationPropertiesInput | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -258,17 +262,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The provisioned state of the resource. */
 export type ProvisioningState =
@@ -284,41 +288,43 @@ export type AttachedDatabaseConfigurationPropertiesAttachedDatabaseNamesList = A
 /** Class representing the an attached database configuration properties of kind specific. */
 export interface AttachedDatabaseConfigurationProperties {
   /** The provisioned state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The name of the database which you would like to attach, use * if you want to follow all current and future databases. */
   databaseName: string;
   /** The resource id of the cluster where the databases you would like to attach reside. */
   clusterResourceId: string;
   /** The list of databases from the clusterResourceId which are currently attached to the cluster. */
-  attachedDatabaseNames?: AttachedDatabaseConfigurationPropertiesAttachedDatabaseNamesList;
+  attachedDatabaseNames?:
+    | AttachedDatabaseConfigurationPropertiesAttachedDatabaseNamesList
+    | undefined;
   /** The default principals modification kind */
   defaultPrincipalsModificationKind: DefaultPrincipalsModificationKind;
   /** Table level sharing specifications */
-  tableLevelSharingProperties?: TableLevelSharingProperties;
+  tableLevelSharingProperties?: TableLevelSharingProperties | undefined;
   /** Overrides the original database name. Relevant only when attaching to a specific database. */
-  databaseNameOverride?: string;
+  databaseNameOverride?: string | undefined;
   /** Adds a prefix to the attached databases name. When following an entire cluster, that prefix would be added to all of the databases original names from leader cluster. */
-  databaseNamePrefix?: string;
+  databaseNamePrefix?: string | undefined;
 }
 export interface AttachedDatabaseConfigurationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the attached database configuration. */
-  properties?: AttachedDatabaseConfigurationProperties;
+  properties?: AttachedDatabaseConfigurationProperties | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The type of resource, for instance Microsoft.Kusto/clusters/attachedDatabaseConfigurations. */
 export type CheckAttachedDatabaseConfigurationNameAvailabilityRequestType =
@@ -340,13 +346,13 @@ export type Reason = "Invalid" | "AlreadyExists";
 /** The result returned from a check name availability request. */
 export interface CheckNameResult {
   /** Specifies a Boolean value that indicates if the name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The name that was checked. */
-  name?: string;
+  name?: string | undefined;
   /** Message indicating an unavailable name due to a conflict, or a description of the naming rules that are violated. */
-  message?: string;
+  message?: string | undefined;
   /** Message providing the reason why the given name is invalid. */
-  reason?: Reason;
+  reason?: Reason | undefined;
 }
 /** The type of resource, Microsoft.Kusto/clusters. */
 export type CheckClusterNameAvailabilityRequestType = "Microsoft.Kusto/clusters";
@@ -485,7 +491,7 @@ export interface ClusterPrincipalPropertiesInput {
   /** Cluster principal role. */
   role: ClusterPrincipalRole | (string & {});
   /** The tenant id of the principal */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Principal type. */
   principalType: PrincipalType | (string & {});
 }
@@ -499,7 +505,7 @@ export interface ClusterPrincipalAssignmentsCreateOrUpdateRequest {
   /** The name of the Kusto principalAssignment. */
   principalAssignmentName: string;
   /** The cluster principal. */
-  properties?: ClusterPrincipalPropertiesInput;
+  properties?: ClusterPrincipalPropertiesInput | undefined;
 }
 /** A class representing cluster principal property. */
 export interface ClusterPrincipalProperties {
@@ -508,40 +514,40 @@ export interface ClusterPrincipalProperties {
   /** Cluster principal role. */
   role: ClusterPrincipalRole;
   /** The tenant id of the principal */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Principal type. */
   principalType: PrincipalType;
   /** The tenant name of the principal */
-  tenantName?: string;
+  tenantName?: string | undefined;
   /** The principal name */
-  principalName?: string;
+  principalName?: string | undefined;
   /** The provisioned state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The service principal object id in AAD (Azure active directory) */
-  aadObjectId?: string;
+  aadObjectId?: string | undefined;
 }
 export interface ClusterPrincipalAssignmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The cluster principal. */
-  properties?: ClusterPrincipalProperties;
+  properties?: ClusterPrincipalProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Represents a tenant ID that is trusted by the cluster. */
 export interface TrustedExternalTenant {
   /** GUID representing an external tenant. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The cluster's external tenants. */
 export type ClusterPropertiesInputTrustedExternalTenantsList = Array<TrustedExternalTenant>;
@@ -567,29 +573,29 @@ export interface VirtualNetworkConfiguration {
   /** Data management's service public IP address resource id. */
   dataManagementPublicIpId: string;
   /** When enabled, the cluster is deployed into the configured subnet, when disabled it will be removed from the subnet. */
-  state?: VirtualNetworkConfigurationState | (string & {});
+  state?: VirtualNetworkConfigurationState | (string & {}) | undefined;
 }
 /** Properties of the key vault. */
 export interface KeyVaultProperties {
   /** The name of the key vault key. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** The version of the key vault key. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
   /** The Uri of the key vault. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** The user assigned identity (ARM resource id) that has access to the key. The identity must have 'Get', 'Wrap Key', and 'Unwrap Key' permissions on the Key Vault key, or be assigned the 'Key Vault Crypto Service Encryption User' role. */
-  userIdentity?: string;
+  userIdentity?: string | undefined;
   /** The application (client) ID of the multi-tenant Microsoft Entra application. Used for cross-tenant customer-managed key scenarios where the encryption key is stored in a different tenant than the cluster. The application must be configured with the user-assigned managed identity as a federated identity credential. */
-  federatedIdentityClientId?: string;
+  federatedIdentityClientId?: string | undefined;
 }
 /** The list of language extensions. */
 export type LanguageExtensionsListValueList = Array<LanguageExtension>;
 /** The list of language extension objects. */
 export interface LanguageExtensionsList {
   /** The list of language extensions. */
-  value?: LanguageExtensionsListValueList;
+  value?: LanguageExtensionsListValueList | undefined;
   /** The link to the next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed */
 export type ClusterPropertiesInputPublicNetworkAccess =
@@ -603,7 +609,7 @@ export type ClusterPropertiesInputEngineType = "V2" | "V3";
 /** Represents an accepted audience trusted by the cluster. */
 export interface AcceptedAudiences {
   /** GUID or valid URL representing an accepted audience. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The cluster's accepted audiences. */
 export type ClusterPropertiesInputAcceptedAudiencesList = Array<AcceptedAudiences>;
@@ -618,45 +624,46 @@ export type ClusterPropertiesInputPublicIPType = "IPv4" | "DualStack";
 /** Class representing the Kusto cluster properties. */
 export interface ClusterPropertiesInput {
   /** The cluster's external tenants. */
-  trustedExternalTenants?: ClusterPropertiesInputTrustedExternalTenantsList;
+  trustedExternalTenants?: ClusterPropertiesInputTrustedExternalTenantsList | undefined;
   /** Optimized auto scale definition. */
-  optimizedAutoscale?: OptimizedAutoscale;
+  optimizedAutoscale?: OptimizedAutoscale | undefined;
   /** A boolean value that indicates if the cluster's disks are encrypted. */
-  enableDiskEncryption?: boolean;
+  enableDiskEncryption?: boolean | undefined;
   /** A boolean value that indicates if the streaming ingest is enabled. */
-  enableStreamingIngest?: boolean;
+  enableStreamingIngest?: boolean | undefined;
   /** Virtual network definition. */
-  virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+  virtualNetworkConfiguration?: VirtualNetworkConfiguration | undefined;
   /** KeyVault properties for the cluster encryption. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** A boolean value that indicates if the purge operations are enabled. */
-  enablePurge?: boolean;
+  enablePurge?: boolean | undefined;
   /** List of the cluster's language extensions. */
-  languageExtensions?: LanguageExtensionsList;
+  languageExtensions?: LanguageExtensionsList | undefined;
   /** A boolean value that indicates if double encryption is enabled. */
-  enableDoubleEncryption?: boolean;
+  enableDoubleEncryption?: boolean | undefined;
   /** Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed */
-  publicNetworkAccess?: ClusterPropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: ClusterPropertiesInputPublicNetworkAccess | (string & {}) | undefined;
   /** The list of ips in the format of CIDR allowed to connect to the cluster. */
-  allowedIpRangeList?: ClusterPropertiesInputAllowedIpRangeListList;
+  allowedIpRangeList?: ClusterPropertiesInputAllowedIpRangeListList | undefined;
   /** The engine type */
-  engineType?: ClusterPropertiesInputEngineType | (string & {});
+  engineType?: ClusterPropertiesInputEngineType | (string & {}) | undefined;
   /** The cluster's accepted audiences. */
-  acceptedAudiences?: ClusterPropertiesInputAcceptedAudiencesList;
+  acceptedAudiences?: ClusterPropertiesInputAcceptedAudiencesList | undefined;
   /** A boolean value that indicates if the cluster could be automatically stopped (due to lack of data or no activity for many days). */
-  enableAutoStop?: boolean;
+  enableAutoStop?: boolean | undefined;
   /** Whether or not to restrict outbound network access. Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
   restrictOutboundNetworkAccess?:
     | ClusterPropertiesInputRestrictOutboundNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster. */
-  allowedFqdnList?: ClusterPropertiesInputAllowedFqdnListList;
+  allowedFqdnList?: ClusterPropertiesInputAllowedFqdnListList | undefined;
   /** List of callout policies for egress from Cluster. */
-  calloutPolicies?: ClusterPropertiesInputCalloutPoliciesList;
+  calloutPolicies?: ClusterPropertiesInputCalloutPoliciesList | undefined;
   /** Indicates what public IP type to create - IPv4 (default), or DualStack (both IPv4 and IPv6) */
-  publicIPType?: ClusterPropertiesInputPublicIPType | (string & {});
+  publicIPType?: ClusterPropertiesInputPublicIPType | (string & {}) | undefined;
   /** Virtual Cluster graduation properties */
-  virtualClusterGraduationProperties?: string;
+  virtualClusterGraduationProperties?: string | undefined;
 }
 /** SKU name. */
 export type AzureSkuName =
@@ -731,7 +738,7 @@ export interface AzureSku {
   /** SKU name. */
   name: AzureSkuName | (string & {});
   /** The number of instances of the cluster. */
-  capacity?: number;
+  capacity?: number | undefined;
   /** SKU tier. */
   tier: AzureSkuTier | (string & {});
 }
@@ -755,7 +762,7 @@ export interface IdentityInput {
   /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove all identities. */
   type: IdentityType | (string & {});
   /** The list of user identities associated with the Kusto cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface ClustersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -765,17 +772,17 @@ export interface ClustersCreateOrUpdateRequest {
   /** The name of the Kusto cluster. */
   clusterName: string;
   /** Resource tags. */
-  tags?: ClustersCreateOrUpdateRequestTagsMap;
+  tags?: ClustersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The cluster properties. */
-  properties?: ClusterPropertiesInput;
+  properties?: ClusterPropertiesInput | undefined;
   /** The SKU of the cluster. */
   sku: AzureSku;
   /** The availability zones. */
-  zones?: ClustersCreateOrUpdateRequestZonesList;
+  zones?: ClustersCreateOrUpdateRequestZonesList | undefined;
   /** The identity of the cluster, if configured. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags. */
 export type ClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -808,13 +815,13 @@ export type ClusterPropertiesAllowedFqdnListList = Array<string>;
 /** Configuration for external callout policies, including URI patterns, access types, and service types. */
 export interface CalloutPolicy {
   /** Regular expression or FQDN pattern for the callout URI. */
-  calloutUriRegex?: string;
+  calloutUriRegex?: string | undefined;
   /** Type of the callout service, specifying the kind of external resource or service being accessed. */
-  calloutType?: CalloutType;
+  calloutType?: CalloutType | undefined;
   /** Indicates whether outbound access is permitted for the specified URI pattern. */
-  outboundAccess?: OutboundAccess;
+  outboundAccess?: OutboundAccess | undefined;
   /** Unique identifier for the callout configuration. */
-  calloutId?: string;
+  calloutId?: string | undefined;
 }
 /** List of callout policies for egress from Cluster. */
 export type ClusterPropertiesCalloutPoliciesList = Array<CalloutPolicy>;
@@ -823,40 +830,40 @@ export type ClusterPropertiesPublicIPType = "IPv4" | "DualStack";
 /** Private endpoint which the connection belongs to. */
 export interface PrivateEndpointProperty {
   /** Resource id of the private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Connection State of the Private Endpoint Connection. */
 export interface PrivateLinkServiceConnectionStateProperty {
   /** The private link service connection status. */
-  status?: string;
+  status?: string | undefined;
   /** The private link service connection description. */
-  description?: string;
+  description?: string | undefined;
   /** Any action that is required beyond basic workflow (approve/ reject/ disconnect) */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** Private endpoint which the connection belongs to. */
-  privateEndpoint?: PrivateEndpointProperty;
+  privateEndpoint?: PrivateEndpointProperty | undefined;
   /** Connection State of the Private Endpoint Connection. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionStateProperty;
   /** Group id of the private endpoint. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Provisioning state of the private endpoint. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** A private endpoint connection */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** A list of private endpoint connections. */
 export type ClusterPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
@@ -865,80 +872,80 @@ export type MigrationClusterRole = "Source" | "Destination";
 /** Represents a properties of a cluster that is part of a migration. */
 export interface MigrationClusterProperties {
   /** The resource ID of the cluster. */
-  id?: string;
+  id?: string | undefined;
   /** The public URL of the cluster. */
-  uri?: string;
+  uri?: string | undefined;
   /** The public data ingestion URL of the cluster. */
-  dataIngestionUri?: string;
+  dataIngestionUri?: string | undefined;
   /** The role of the cluster in the migration process. */
-  role?: MigrationClusterRole;
+  role?: MigrationClusterRole | undefined;
 }
 /** Indicates whether the cluster is zonal or non-zonal. */
 export type ZoneStatus = "NonZonal" | "ZonalInconsistency" | "Zonal";
 /** Class representing the Kusto cluster properties. */
 export interface ClusterProperties {
   /** The state of the resource. */
-  state?: State;
+  state?: State | undefined;
   /** The provisioned state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The cluster URI. */
-  uri?: string;
+  uri?: string | undefined;
   /** The cluster data ingestion URI. */
-  dataIngestionUri?: string;
+  dataIngestionUri?: string | undefined;
   /** The reason for the cluster's current state. */
-  stateReason?: string;
+  stateReason?: string | undefined;
   /** The cluster's external tenants. */
-  trustedExternalTenants?: ClusterPropertiesTrustedExternalTenantsList;
+  trustedExternalTenants?: ClusterPropertiesTrustedExternalTenantsList | undefined;
   /** Optimized auto scale definition. */
-  optimizedAutoscale?: OptimizedAutoscale;
+  optimizedAutoscale?: OptimizedAutoscale | undefined;
   /** A boolean value that indicates if the cluster's disks are encrypted. */
-  enableDiskEncryption?: boolean;
+  enableDiskEncryption?: boolean | undefined;
   /** A boolean value that indicates if the streaming ingest is enabled. */
-  enableStreamingIngest?: boolean;
+  enableStreamingIngest?: boolean | undefined;
   /** Virtual network definition. */
-  virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+  virtualNetworkConfiguration?: VirtualNetworkConfiguration | undefined;
   /** KeyVault properties for the cluster encryption. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** A boolean value that indicates if the purge operations are enabled. */
-  enablePurge?: boolean;
+  enablePurge?: boolean | undefined;
   /** List of the cluster's language extensions. */
-  languageExtensions?: LanguageExtensionsList;
+  languageExtensions?: LanguageExtensionsList | undefined;
   /** A boolean value that indicates if double encryption is enabled. */
-  enableDoubleEncryption?: boolean;
+  enableDoubleEncryption?: boolean | undefined;
   /** Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed */
-  publicNetworkAccess?: ClusterPropertiesPublicNetworkAccess;
+  publicNetworkAccess?: ClusterPropertiesPublicNetworkAccess | undefined;
   /** The list of ips in the format of CIDR allowed to connect to the cluster. */
-  allowedIpRangeList?: ClusterPropertiesAllowedIpRangeListList;
+  allowedIpRangeList?: ClusterPropertiesAllowedIpRangeListList | undefined;
   /** The engine type */
-  engineType?: ClusterPropertiesEngineType;
+  engineType?: ClusterPropertiesEngineType | undefined;
   /** The cluster's accepted audiences. */
-  acceptedAudiences?: ClusterPropertiesAcceptedAudiencesList;
+  acceptedAudiences?: ClusterPropertiesAcceptedAudiencesList | undefined;
   /** A boolean value that indicates if the cluster could be automatically stopped (due to lack of data or no activity for many days). */
-  enableAutoStop?: boolean;
+  enableAutoStop?: boolean | undefined;
   /** Whether or not to restrict outbound network access. Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
-  restrictOutboundNetworkAccess?: ClusterPropertiesRestrictOutboundNetworkAccess;
+  restrictOutboundNetworkAccess?: ClusterPropertiesRestrictOutboundNetworkAccess | undefined;
   /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster. */
-  allowedFqdnList?: ClusterPropertiesAllowedFqdnListList;
+  allowedFqdnList?: ClusterPropertiesAllowedFqdnListList | undefined;
   /** List of callout policies for egress from Cluster. */
-  calloutPolicies?: ClusterPropertiesCalloutPoliciesList;
+  calloutPolicies?: ClusterPropertiesCalloutPoliciesList | undefined;
   /** Indicates what public IP type to create - IPv4 (default), or DualStack (both IPv4 and IPv6) */
-  publicIPType?: ClusterPropertiesPublicIPType;
+  publicIPType?: ClusterPropertiesPublicIPType | undefined;
   /** Virtual Cluster graduation properties */
-  virtualClusterGraduationProperties?: string;
+  virtualClusterGraduationProperties?: string | undefined;
   /** A list of private endpoint connections. */
-  privateEndpointConnections?: ClusterPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: ClusterPropertiesPrivateEndpointConnectionsList | undefined;
   /** Properties of the peer cluster involved in a migration to/from this cluster. */
-  migrationCluster?: MigrationClusterProperties;
+  migrationCluster?: MigrationClusterProperties | undefined;
   /** Indicates whether the cluster is zonal or non-zonal. */
-  zoneStatus?: ZoneStatus;
+  zoneStatus?: ZoneStatus | undefined;
 }
 /** The availability zones. */
 export type ClustersCreateOrUpdateResponseZonesList = Array<string>;
 export interface ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the Kusto cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type IdentityUserAssignedIdentitiesMap = {
@@ -949,41 +956,41 @@ export type IdentityUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface Identity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove all identities. */
   type: IdentityType;
   /** The list of user identities associated with the Kusto cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface ClustersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ClustersCreateOrUpdateResponseTagsMap;
+  tags?: ClustersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The cluster properties. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** The SKU of the cluster. */
-  sku?: AzureSku;
+  sku?: AzureSku | undefined;
   /** The availability zones. */
-  zones?: ClustersCreateOrUpdateResponseZonesList;
+  zones?: ClustersCreateOrUpdateResponseZonesList | undefined;
   /** The identity of the cluster, if configured. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ClustersDiagnoseVirtualNetworkRequest {
   /** The ID of the target subscription. */
@@ -997,13 +1004,13 @@ export interface ClustersDiagnoseVirtualNetworkRequest {
 export type DiagnoseVirtualNetworkResultFindingsList = Array<string>;
 export interface DiagnoseVirtualNetworkResult {
   /** The list of network connectivity diagnostic finding */
-  findings?: DiagnoseVirtualNetworkResultFindingsList;
+  findings?: DiagnoseVirtualNetworkResultFindingsList | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ClustersListFollowerDatabasesGetRequest {
   /** The ID of the target subscription. */
@@ -1022,16 +1029,16 @@ export interface FollowerDatabaseProperties {
   /** Resource name of the attached database configuration in the follower cluster. */
   attachedDatabaseConfigurationName: string;
   /** The database name owned by this cluster that was followed. * in case following all databases. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Table level sharing specifications */
-  tableLevelSharingProperties?: TableLevelSharingProperties;
+  tableLevelSharingProperties?: TableLevelSharingProperties | undefined;
   /** The origin of the following setup. */
-  databaseShareOrigin?: DatabaseShareOrigin;
+  databaseShareOrigin?: DatabaseShareOrigin | undefined;
 }
 /** A class representing follower database object. */
 export interface FollowerDatabaseDefinitionGet {
   /** Follower database definition. */
-  properties?: FollowerDatabaseProperties;
+  properties?: FollowerDatabaseProperties | undefined;
 }
 /** The FollowerDatabaseDefinitionGet items on this page */
 export type FollowerDatabaseListResultGetValueList = Array<FollowerDatabaseDefinitionGet>;
@@ -1040,7 +1047,7 @@ export interface FollowerDatabaseListResultGet {
   /** The FollowerDatabaseDefinitionGet items on this page */
   value: FollowerDatabaseListResultGetValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** A class representing database principal property. */
 export interface DatabasePrincipalPropertiesInput {
@@ -1049,7 +1056,7 @@ export interface DatabasePrincipalPropertiesInput {
   /** Database principal role. */
   role: DatabasePrincipalRole | (string & {});
   /** The tenant id of the principal */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Principal type. */
   principalType: PrincipalType | (string & {});
 }
@@ -1065,7 +1072,7 @@ export interface DatabasePrincipalAssignmentsCreateOrUpdateRequest {
   /** The name of the Kusto principalAssignment. */
   principalAssignmentName: string;
   /** The database principal. */
-  properties?: DatabasePrincipalPropertiesInput;
+  properties?: DatabasePrincipalPropertiesInput | undefined;
 }
 /** A class representing database principal property. */
 export interface DatabasePrincipalProperties {
@@ -1074,33 +1081,33 @@ export interface DatabasePrincipalProperties {
   /** Database principal role. */
   role: DatabasePrincipalRole;
   /** The tenant id of the principal */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Principal type. */
   principalType: PrincipalType;
   /** The tenant name of the principal */
-  tenantName?: string;
+  tenantName?: string | undefined;
   /** The principal name */
-  principalName?: string;
+  principalName?: string | undefined;
   /** The provisioned state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The service principal object id in AAD (Azure active directory) */
-  aadObjectId?: string;
+  aadObjectId?: string | undefined;
 }
 export interface DatabasePrincipalAssignmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The database principal. */
-  properties?: DatabasePrincipalProperties;
+  properties?: DatabasePrincipalProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DatabasesCreateOrUpdateRequestCallerRole = "Admin" | "None";
 /** Kind of the database */
@@ -1108,19 +1115,19 @@ export type Kind = "ReadWrite" | "ReadOnlyFollowing";
 /** Properties of a ReadWrite database (the `kind: ReadWrite` variant of the polymorphic Database; ReadOnlyFollowing databases return a superset). */
 export interface ReadWriteDatabaseProperties {
   /** The provisioned state of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The time the data should be kept before it stops being accessible to queries (ISO-8601 duration). */
-  softDeletePeriod?: string;
+  softDeletePeriod?: string | undefined;
   /** The time the data should be kept in cache for fast queries (ISO-8601 duration). */
-  hotCachePeriod?: string;
+  hotCachePeriod?: string | undefined;
   /** The statistics of the database. */
-  statistics?: unknown;
+  statistics?: unknown | undefined;
   /** Indicates whether the database is followed. */
-  isFollowed?: boolean;
+  isFollowed?: boolean | undefined;
   /** KeyVault properties for the database encryption. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** The database suspension details. */
-  suspensionDetails?: unknown;
+  suspensionDetails?: unknown | undefined;
 }
 export interface DatabasesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1132,35 +1139,35 @@ export interface DatabasesCreateOrUpdateRequest {
   /** The name of the database in the Kusto cluster. */
   databaseName: string;
   /** By default, any user who run operation on a database become an Admin on it. This property allows the caller to exclude the caller from Admins list. */
-  callerRole?: DatabasesCreateOrUpdateRequestCallerRole | (string & {});
+  callerRole?: DatabasesCreateOrUpdateRequestCallerRole | (string & {}) | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the database */
   kind: Kind | (string & {});
   /** The database properties. */
-  properties?: ReadWriteDatabaseProperties;
+  properties?: ReadWriteDatabaseProperties | undefined;
 }
 export interface DatabasesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the database */
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The database properties. */
-  properties?: ReadWriteDatabaseProperties;
+  properties?: ReadWriteDatabaseProperties | undefined;
 }
 /** Kind of the endpoint for the data connection */
 export type DataConnectionKind =
@@ -1174,47 +1181,47 @@ export type DataConnectionPropertiesEventSystemPropertiesList = Array<string>;
 /** Union of the data connection `properties` across kinds (EventHub, EventGrid, IotHub, CosmosDb). */
 export interface DataConnectionProperties {
   /** The resource ID of the event hub (EventHub, EventGrid kinds). */
-  eventHubResourceId?: string;
+  eventHubResourceId?: string | undefined;
   /** The event hub / IoT hub consumer group. */
-  consumerGroup?: string;
+  consumerGroup?: string | undefined;
   /** The table where the data should be ingested. */
-  tableName?: string;
+  tableName?: string | undefined;
   /** The mapping rule to be used to ingest the data. */
-  mappingRuleName?: string;
+  mappingRuleName?: string | undefined;
   /** The data format of the message. */
-  dataFormat?: string;
+  dataFormat?: string | undefined;
   /** System properties of the event hub / IoT hub. */
-  eventSystemProperties?: DataConnectionPropertiesEventSystemPropertiesList;
+  eventSystemProperties?: DataConnectionPropertiesEventSystemPropertiesList | undefined;
   /** The event hub messages compression type (`None` | `GZip`). */
-  compression?: string;
+  compression?: string | undefined;
   /** The provisioned state of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The resource ID of a managed identity used to access the source. */
-  managedIdentityResourceId?: string;
+  managedIdentityResourceId?: string | undefined;
   /** The object ID of the managed identity. */
-  managedIdentityObjectId?: string;
+  managedIdentityObjectId?: string | undefined;
   /** Single or multi database routing (`Single` | `Multi`). */
-  databaseRouting?: string;
+  databaseRouting?: string | undefined;
   /** Retrieve events created after this date (ISO-8601). */
-  retrievalStartDate?: string;
+  retrievalStartDate?: string | undefined;
   /** The storage account resource ID (EventGrid kind). */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** The Event Grid subscription resource ID (EventGrid kind). */
-  eventGridResourceId?: string;
+  eventGridResourceId?: string | undefined;
   /** Ignore the first record of every file (EventGrid kind). */
-  ignoreFirstRecord?: boolean;
+  ignoreFirstRecord?: boolean | undefined;
   /** The blob storage event type to process (EventGrid kind). */
-  blobStorageEventType?: string;
+  blobStorageEventType?: string | undefined;
   /** The IoT hub resource ID (IotHub kind). */
-  iotHubResourceId?: string;
+  iotHubResourceId?: string | undefined;
   /** The IoT hub shared access policy name (IotHub kind). */
-  sharedAccessPolicyName?: string;
+  sharedAccessPolicyName?: string | undefined;
   /** The Cosmos DB account resource ID (CosmosDb kind). */
-  cosmosDbAccountResourceId?: string;
+  cosmosDbAccountResourceId?: string | undefined;
   /** The Cosmos DB database name (CosmosDb kind). */
-  cosmosDbDatabase?: string;
+  cosmosDbDatabase?: string | undefined;
   /** The Cosmos DB container name (CosmosDb kind). */
-  cosmosDbContainer?: string;
+  cosmosDbContainer?: string | undefined;
 }
 export interface DataConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1228,36 +1235,36 @@ export interface DataConnectionsCreateOrUpdateRequest {
   /** The name of the data connection. */
   dataConnectionName: string;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the endpoint for the data connection */
   kind: DataConnectionKind | (string & {});
   /** The data connection properties. */
-  properties?: DataConnectionProperties;
+  properties?: DataConnectionProperties | undefined;
 }
 export interface DataConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the endpoint for the data connection */
-  kind?: DataConnectionKind;
+  kind?: DataConnectionKind | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The data connection properties. */
-  properties?: DataConnectionProperties;
+  properties?: DataConnectionProperties | undefined;
 }
 /** Class representing an data connection. */
 export interface DataConnectionInput {
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the endpoint for the data connection */
   kind: DataConnectionKind | (string & {});
 }
@@ -1271,27 +1278,27 @@ export interface DataConnectionsDataConnectionValidationRequest {
   /** The name of the database in the Kusto cluster. */
   databaseName: string;
   /** The name of the data connection. */
-  dataConnectionName?: string;
+  dataConnectionName?: string | undefined;
   /** The data connection properties to validate. */
-  properties?: DataConnectionInput;
+  properties?: DataConnectionInput | undefined;
 }
 /** The result returned from a data connection validation request. */
 export interface DataConnectionValidationResult {
   /** A message which indicates a problem in data connection validation. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 /** The list of Kusto data connection validation errors. */
 export type DataConnectionValidationListResultValueList = Array<DataConnectionValidationResult>;
 /** The list Kusto data connection validation result. */
 export interface DataConnectionValidationListResult {
   /** The list of Kusto data connection validation errors. */
-  value?: DataConnectionValidationListResultValueList;
+  value?: DataConnectionValidationListResultValueList | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAttachedDatabaseConfigurationRequest {
   /** The ID of the target subscription. */
@@ -1305,11 +1312,11 @@ export interface DeleteAttachedDatabaseConfigurationRequest {
 }
 export interface DeleteAttachedDatabaseConfigurationResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteClusterRequest {
   /** The ID of the target subscription. */
@@ -1321,11 +1328,11 @@ export interface DeleteClusterRequest {
 }
 export interface DeleteClusterResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteClusterPrincipalAssignmentRequest {
   /** The ID of the target subscription. */
@@ -1339,11 +1346,11 @@ export interface DeleteClusterPrincipalAssignmentRequest {
 }
 export interface DeleteClusterPrincipalAssignmentResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDatabaseRequest {
   /** The ID of the target subscription. */
@@ -1357,11 +1364,11 @@ export interface DeleteDatabaseRequest {
 }
 export interface DeleteDatabaseResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDatabasePrincipalAssignmentRequest {
   /** The ID of the target subscription. */
@@ -1377,11 +1384,11 @@ export interface DeleteDatabasePrincipalAssignmentRequest {
 }
 export interface DeleteDatabasePrincipalAssignmentResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDataConnectionRequest {
   /** The ID of the target subscription. */
@@ -1397,11 +1404,11 @@ export interface DeleteDataConnectionRequest {
 }
 export interface DeleteDataConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteManagedPrivateEndpointRequest {
   /** The ID of the target subscription. */
@@ -1415,11 +1422,11 @@ export interface DeleteManagedPrivateEndpointRequest {
 }
 export interface DeleteManagedPrivateEndpointResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -1433,11 +1440,11 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSandboxCustomImageRequest {
   /** The ID of the target subscription. */
@@ -1451,11 +1458,11 @@ export interface DeleteSandboxCustomImageRequest {
 }
 export interface DeleteSandboxCustomImageResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteScriptRequest {
   /** The ID of the target subscription. */
@@ -1471,11 +1478,11 @@ export interface DeleteScriptRequest {
 }
 export interface DeleteScriptResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DetachClusterFollowerDatabasesRequest {
   /** The ID of the target subscription. */
@@ -1491,11 +1498,11 @@ export interface DetachClusterFollowerDatabasesRequest {
 }
 export interface DetachClusterFollowerDatabasesResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAttachedDatabaseConfigurationRequest {
   /** The ID of the target subscription. */
@@ -1509,17 +1516,17 @@ export interface GetAttachedDatabaseConfigurationRequest {
 }
 export interface GetAttachedDatabaseConfigurationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the attached database configuration. */
-  properties?: AttachedDatabaseConfigurationProperties;
+  properties?: AttachedDatabaseConfigurationProperties | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetClusterRequest {
   /** The ID of the target subscription. */
@@ -1535,27 +1542,27 @@ export type GetClusterResponseTagsMap = { [key: string]: string | undefined };
 export type GetClusterResponseZonesList = Array<string>;
 export interface GetClusterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetClusterResponseTagsMap;
+  tags?: GetClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The cluster properties. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** The SKU of the cluster. */
   sku: AzureSku;
   /** The availability zones. */
-  zones?: GetClusterResponseZonesList;
+  zones?: GetClusterResponseZonesList | undefined;
   /** The identity of the cluster, if configured. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetClusterPrincipalAssignmentRequest {
   /** The ID of the target subscription. */
@@ -1569,15 +1576,15 @@ export interface GetClusterPrincipalAssignmentRequest {
 }
 export interface GetClusterPrincipalAssignmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The cluster principal. */
-  properties?: ClusterPrincipalProperties;
+  properties?: ClusterPrincipalProperties | undefined;
 }
 export interface GetDatabaseRequest {
   /** The ID of the target subscription. */
@@ -1591,19 +1598,19 @@ export interface GetDatabaseRequest {
 }
 export interface GetDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the database */
   kind: Kind;
   /** The database properties. */
-  properties?: ReadWriteDatabaseProperties;
+  properties?: ReadWriteDatabaseProperties | undefined;
 }
 export interface GetDatabasePrincipalAssignmentRequest {
   /** The ID of the target subscription. */
@@ -1619,15 +1626,15 @@ export interface GetDatabasePrincipalAssignmentRequest {
 }
 export interface GetDatabasePrincipalAssignmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The database principal. */
-  properties?: DatabasePrincipalProperties;
+  properties?: DatabasePrincipalProperties | undefined;
 }
 export interface GetDataConnectionRequest {
   /** The ID of the target subscription. */
@@ -1643,19 +1650,19 @@ export interface GetDataConnectionRequest {
 }
 export interface GetDataConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the endpoint for the data connection */
   kind: DataConnectionKind;
   /** The data connection properties. */
-  properties?: DataConnectionProperties;
+  properties?: DataConnectionProperties | undefined;
 }
 export interface GetManagedPrivateEndpointRequest {
   /** The ID of the target subscription. */
@@ -1672,25 +1679,25 @@ export interface ManagedPrivateEndpointProperties {
   /** The ARM resource ID of the resource for which the managed private endpoint is created. */
   privateLinkResourceId: string;
   /** The region of the resource to which the managed private endpoint is created. */
-  privateLinkResourceRegion?: string;
+  privateLinkResourceRegion?: string | undefined;
   /** The groupId in which the managed private endpoint is created. */
   groupId: string;
   /** The user request message. */
-  requestMessage?: string;
+  requestMessage?: string | undefined;
   /** The provisioned state of the resource. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface GetManagedPrivateEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A managed private endpoint. */
-  properties?: ManagedPrivateEndpointProperties;
+  properties?: ManagedPrivateEndpointProperties | undefined;
 }
 export interface GetOperationsResultRequest {
   /** The ID of the target subscription. */
@@ -1705,37 +1712,37 @@ export type Status = "Succeeded" | "Canceled" | "Failed" | "Running";
 /** Operation result properties */
 export interface OperationResultProperties {
   /** The kind of the operation. */
-  operationKind?: string;
+  operationKind?: string | undefined;
   /** The provisioned state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The state of the operation. */
-  operationState?: string;
+  operationState?: string | undefined;
 }
 /** Operation result error properties */
 export interface OperationResultErrorProperties {
   /** The code of the error. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Operation Result Entity. */
 export interface OperationResult {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** status of the Operation result. */
-  status?: Status;
+  status?: Status | undefined;
   /** The operation start time */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The operation end time */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Percentage completed. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** Properties of the operation results */
-  properties?: OperationResultProperties;
+  properties?: OperationResultProperties | undefined;
   /** Object that contains the error code and message if the operation failed. */
-  error?: OperationResultErrorProperties;
+  error?: OperationResultErrorProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -1749,15 +1756,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. */
@@ -1776,23 +1783,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource required zone names. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetSandboxCustomImageRequest {
   /** The ID of the target subscription. */
@@ -1811,25 +1818,25 @@ export interface SandboxCustomImageProperties {
   /** The language name, for example Python. */
   language: Language | (string & {});
   /** The version of the language. Either this property or baseImageName should be specified. */
-  languageVersion?: string;
+  languageVersion?: string | undefined;
   /** The base image name on which the custom image is built on top of. It can be one of the LanguageExtensionImageName (e.g.: 'Python3_10_8', 'Python3_10_8_DL') or the name of an existing custom image. Either this property or languageVersion should be specified. */
-  baseImageName?: string;
+  baseImageName?: string | undefined;
   /** The requirements file content. */
-  requirementsFileContent?: string;
+  requirementsFileContent?: string | undefined;
   /** The provisioned state of the resource. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface GetSandboxCustomImageResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A sandbox custom image. */
-  properties?: SandboxCustomImageProperties;
+  properties?: SandboxCustomImageProperties | undefined;
 }
 export interface GetScriptRequest {
   /** The ID of the target subscription. */
@@ -1852,35 +1859,35 @@ export type PrincipalPermissionsAction =
 /** A class representing database script property. */
 export interface ScriptProperties {
   /** The url to the KQL script blob file. Must not be used together with scriptContent property */
-  scriptUrl?: string;
+  scriptUrl?: string | undefined;
   /** The SaS token that provide read access to the file which contain the script. Must be provided when using scriptUrl property. */
-  scriptUrlSasToken?: string;
+  scriptUrlSasToken?: string | undefined;
   /** The script content. This property should be used when the script is provide inline and not through file in a SA. Must not be used together with scriptUrl and scriptUrlSasToken properties. */
-  scriptContent?: string;
+  scriptContent?: string | undefined;
   /** A unique string. If changed the script will be applied again. */
-  forceUpdateTag?: string;
+  forceUpdateTag?: string | undefined;
   /** Flag that indicates whether to continue if one of the command fails. */
-  continueOnErrors?: boolean;
+  continueOnErrors?: boolean | undefined;
   /** The provisioned state of the resource. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** Differentiates between the type of script commands included - Database or Cluster. The default is Database. */
-  scriptLevel?: ScriptLevel | (string & {});
+  scriptLevel?: ScriptLevel | (string & {}) | undefined;
   /** Indicates if the permissions for the script caller are kept following completion of the script. */
-  principalPermissionsAction?: PrincipalPermissionsAction | (string & {});
+  principalPermissionsAction?: PrincipalPermissionsAction | (string & {}) | undefined;
   /** The resource identifier of the managed identity to be used. When provided, the managed identity will be used to read the script content from the scriptUrl. */
-  managedIdentityResourceId?: string;
+  managedIdentityResourceId?: string | undefined;
 }
 export interface GetScriptResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The database script. */
-  properties?: ScriptProperties;
+  properties?: ScriptProperties | undefined;
 }
 export interface InviteDatabaseFollowerRequest {
   /** The ID of the target subscription. */
@@ -1894,12 +1901,12 @@ export interface InviteDatabaseFollowerRequest {
   /** The email of the invited user for which the follower invitation is generated. */
   inviteeEmail: string;
   /** Table level sharing specifications */
-  tableLevelSharingProperties?: TableLevelSharingProperties;
+  tableLevelSharingProperties?: TableLevelSharingProperties | undefined;
 }
 /** The result returned from a follower invitation generation request. */
 export interface DatabaseInviteFollowerResult {
   /** The generated invitation token. */
-  generatedInvitation?: string;
+  generatedInvitation?: string | undefined;
 }
 export interface ListAttachedDatabaseConfigurationByClusterRequest {
   /** The ID of the target subscription. */
@@ -1912,26 +1919,26 @@ export interface ListAttachedDatabaseConfigurationByClusterRequest {
 /** Class representing an attached database configuration. */
 export interface AttachedDatabaseConfiguration {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the attached database configuration. */
-  properties?: AttachedDatabaseConfigurationProperties;
+  properties?: AttachedDatabaseConfigurationProperties | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The list of attached database configurations. */
 export type AttachedDatabaseConfigurationListResultValueList = Array<AttachedDatabaseConfiguration>;
 /** The list attached database configurations operation response. */
 export interface AttachedDatabaseConfigurationListResult {
   /** The list of attached database configurations. */
-  value?: AttachedDatabaseConfigurationListResultValueList;
+  value?: AttachedDatabaseConfigurationListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1946,36 +1953,36 @@ export type ClusterZonesList = Array<string>;
 /** Class representing a Kusto cluster. */
 export interface Cluster {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ClusterTagsMap;
+  tags?: ClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The cluster properties. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** The SKU of the cluster. */
   sku: AzureSku;
   /** The availability zones. */
-  zones?: ClusterZonesList;
+  zones?: ClusterZonesList | undefined;
   /** The identity of the cluster, if configured. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The list of Kusto clusters. */
 export type ClusterListResultValueList = Array<Cluster>;
 /** The list Kusto clusters operation response. */
 export interface ClusterListResult {
   /** The list of Kusto clusters. */
-  value?: ClusterListResultValueList;
+  value?: ClusterListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterCalloutPoliciesRequest {
   /** The ID of the target subscription. */
@@ -1992,7 +1999,7 @@ export interface CalloutPoliciesList {
   /** The CalloutPolicy items on this page */
   value: CalloutPoliciesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterFollowerDatabasesRequest {
   /** The ID of the target subscription. */
@@ -2009,9 +2016,9 @@ export type FollowerDatabaseListResultValueList = Array<FollowerDatabaseProperti
 /** The list Kusto database principals operation response. */
 export interface FollowerDatabaseListResult {
   /** The list of follower database result. */
-  value?: FollowerDatabaseListResultValueList;
+  value?: FollowerDatabaseListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterLanguageExtensionsRequest {
   /** The ID of the target subscription. */
@@ -2032,44 +2039,44 @@ export interface ListClusterOutboundNetworkDependenciesEndpointsRequest {
 /** Current TCP connectivity information from the Kusto cluster to a single endpoint. */
 export interface EndpointDetail {
   /** The port an endpoint is connected to. */
-  port?: number;
+  port?: number | undefined;
   /** The ip address of the endpoint. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 /** The ports used when connecting to DomainName. */
 export type EndpointDependencyEndpointDetailsList = Array<EndpointDetail>;
 /** A domain name that a service is reached at, including details of the current connection status. */
 export interface EndpointDependency {
   /** The domain name of the dependency. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** The ports used when connecting to DomainName. */
-  endpointDetails?: EndpointDependencyEndpointDetailsList;
+  endpointDetails?: EndpointDependencyEndpointDetailsList | undefined;
 }
 /** The endpoints that the Kusto Service Environment reaches the service at. */
 export type OutboundNetworkDependenciesEndpointPropertiesEndpointsList = Array<EndpointDependency>;
 /** Endpoints accessed for a common purpose that the Kusto Service Environment requires outbound network access to. */
 export interface OutboundNetworkDependenciesEndpointProperties {
   /** The type of service accessed by the Kusto Service Environment, e.g., Azure Storage, Azure SQL Database, and Azure Active Directory. */
-  category?: string;
+  category?: string | undefined;
   /** The endpoints that the Kusto Service Environment reaches the service at. */
-  endpoints?: OutboundNetworkDependenciesEndpointPropertiesEndpointsList;
+  endpoints?: OutboundNetworkDependenciesEndpointPropertiesEndpointsList | undefined;
   /** The provisioned state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** Endpoints accessed for a common purpose that the Kusto Service Environment requires outbound network access to. */
 export interface OutboundNetworkDependenciesEndpoint {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The outbound environment endpoint properties. */
-  properties?: OutboundNetworkDependenciesEndpointProperties;
+  properties?: OutboundNetworkDependenciesEndpointProperties | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The OutboundNetworkDependenciesEndpoint items on this page */
 export type OutboundNetworkDependenciesEndpointListResultValueList =
@@ -2079,7 +2086,7 @@ export interface OutboundNetworkDependenciesEndpointListResult {
   /** The OutboundNetworkDependenciesEndpoint items on this page */
   value: OutboundNetworkDependenciesEndpointListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterPrincipalAssignmentsRequest {
   /** The ID of the target subscription. */
@@ -2092,24 +2099,24 @@ export interface ListClusterPrincipalAssignmentsRequest {
 /** Class representing a cluster principal assignment. */
 export interface ClusterPrincipalAssignment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The cluster principal. */
-  properties?: ClusterPrincipalProperties;
+  properties?: ClusterPrincipalProperties | undefined;
 }
 /** The list of Kusto cluster principal assignments. */
 export type ClusterPrincipalAssignmentListResultValueList = Array<ClusterPrincipalAssignment>;
 /** The list Kusto cluster principal assignments operation response. */
 export interface ClusterPrincipalAssignmentListResult {
   /** The list of Kusto cluster principal assignments. */
-  value?: ClusterPrincipalAssignmentListResultValueList;
+  value?: ClusterPrincipalAssignmentListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClustersRequest {
   /** The ID of the target subscription. */
@@ -2128,18 +2135,18 @@ export type ResourceSkuZoneDetailsNameList = Array<string>;
 /** Describes The SKU capabilities object. */
 export interface ResourceSkuCapabilities {
   /** An invariant to describe the feature. */
-  name?: string;
+  name?: string | undefined;
   /** An invariant if the feature is measured by quantity. */
-  value?: string;
+  value?: string | undefined;
 }
 /** A list of capabilities that are available for the SKU in the specified list of zones. */
 export type ResourceSkuZoneDetailsCapabilitiesList = Array<ResourceSkuCapabilities>;
 /** Describes The zonal capabilities of a SKU. */
 export interface ResourceSkuZoneDetails {
   /** The set of zones that the SKU is available in with the specified capabilities. */
-  name?: ResourceSkuZoneDetailsNameList;
+  name?: ResourceSkuZoneDetailsNameList | undefined;
   /** A list of capabilities that are available for the SKU in the specified list of zones. */
-  capabilities?: ResourceSkuZoneDetailsCapabilitiesList;
+  capabilities?: ResourceSkuZoneDetailsCapabilitiesList | undefined;
 }
 /** Gets details of capabilities available to a SKU in specific zones. */
 export type SkuLocationInfoItemZoneDetailsList = Array<ResourceSkuZoneDetails>;
@@ -2148,9 +2155,9 @@ export interface SkuLocationInfoItem {
   /** The available location of the SKU. */
   location: string;
   /** The available zone of the SKU. */
-  zones?: SkuLocationInfoItemZonesList;
+  zones?: SkuLocationInfoItemZonesList | undefined;
   /** Gets details of capabilities available to a SKU in specific zones. */
-  zoneDetails?: SkuLocationInfoItemZoneDetailsList;
+  zoneDetails?: SkuLocationInfoItemZoneDetailsList | undefined;
 }
 /** Locations and zones */
 export type SkuDescriptionLocationInfoList = Array<SkuLocationInfoItem>;
@@ -2159,26 +2166,26 @@ export type SkuDescriptionRestrictionsList = Array<unknown>;
 /** The Kusto SKU description of given resource type */
 export interface SkuDescription {
   /** The resource type */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The name of the SKU */
-  name?: string;
+  name?: string | undefined;
   /** The tier of the SKU */
-  tier?: string;
+  tier?: string | undefined;
   /** The set of locations that the SKU is available */
-  locations?: SkuDescriptionLocationsList;
+  locations?: SkuDescriptionLocationsList | undefined;
   /** Locations and zones */
-  locationInfo?: SkuDescriptionLocationInfoList;
+  locationInfo?: SkuDescriptionLocationInfoList | undefined;
   /** The restrictions because of which SKU cannot be used */
-  restrictions?: SkuDescriptionRestrictionsList;
+  restrictions?: SkuDescriptionRestrictionsList | undefined;
 }
 /** SKU descriptions */
 export type SkuDescriptionListValueList = Array<SkuDescription>;
 /** The list of the EngagementFabric SKU descriptions */
 export interface SkuDescriptionList {
   /** SKU descriptions */
-  value?: SkuDescriptionListValueList;
+  value?: SkuDescriptionListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterSkusByResourceRequest {
   /** The ID of the target subscription. */
@@ -2204,20 +2211,20 @@ export interface AzureCapacity {
 /** Azure resource SKU definition. */
 export interface AzureResourceSku {
   /** Resource Namespace and Type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The SKU details. */
-  sku?: AzureSku;
+  sku?: AzureSku | undefined;
   /** The number of instances of the cluster. */
-  capacity?: AzureCapacity;
+  capacity?: AzureCapacity | undefined;
 }
 /** The collection of available SKUs for an existing resource. */
 export type ListResourceSkusResultValueList = Array<AzureResourceSku>;
 /** List of available SKUs for a Kusto Cluster. */
 export interface ListResourceSkusResult {
   /** The collection of available SKUs for an existing resource. */
-  value?: ListResourceSkusResultValueList;
+  value?: ListResourceSkusResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDatabaseByClusterRequest {
   /** The ID of the target subscription. */
@@ -2227,22 +2234,22 @@ export interface ListDatabaseByClusterRequest {
   /** The name of the Kusto cluster. */
   clusterName: string;
   /** limit the number of results */
-  _top?: number;
+  _top?: number | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** Class representing a Kusto database. */
 export interface Database {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the database */
   kind: Kind;
 }
@@ -2253,7 +2260,7 @@ export interface DatabaseListResult {
   /** The Database items on this page */
   value: DatabaseListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDatabasePrincipalAssignmentsRequest {
   /** The ID of the target subscription. */
@@ -2268,24 +2275,24 @@ export interface ListDatabasePrincipalAssignmentsRequest {
 /** Class representing a database principal assignment. */
 export interface DatabasePrincipalAssignment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The database principal. */
-  properties?: DatabasePrincipalProperties;
+  properties?: DatabasePrincipalProperties | undefined;
 }
 /** The list of Kusto database principal assignments. */
 export type DatabasePrincipalAssignmentListResultValueList = Array<DatabasePrincipalAssignment>;
 /** The list Kusto database principal assignments operation response. */
 export interface DatabasePrincipalAssignmentListResult {
   /** The list of Kusto database principal assignments. */
-  value?: DatabasePrincipalAssignmentListResultValueList;
+  value?: DatabasePrincipalAssignmentListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDatabasePrincipalsRequest {
   /** The ID of the target subscription. */
@@ -2310,15 +2317,15 @@ export interface ListDataConnectionByDatabaseRequest {
 /** Class representing an data connection. */
 export interface DataConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the endpoint for the data connection */
   kind: DataConnectionKind;
 }
@@ -2327,9 +2334,9 @@ export type DataConnectionListResultValueList = Array<DataConnection>;
 /** The list Kusto data connections operation response. */
 export interface DataConnectionListResult {
   /** The list of Kusto data connections. */
-  value?: DataConnectionListResultValueList;
+  value?: DataConnectionListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedPrivateEndpointsRequest {
   /** The ID of the target subscription. */
@@ -2342,56 +2349,56 @@ export interface ListManagedPrivateEndpointsRequest {
 /** Class representing a managed private endpoint. */
 export interface ManagedPrivateEndpoint {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A managed private endpoint. */
-  properties?: ManagedPrivateEndpointProperties;
+  properties?: ManagedPrivateEndpointProperties | undefined;
 }
 /** The list of managed private endpoints. */
 export type ManagedPrivateEndpointListResultValueList = Array<ManagedPrivateEndpoint>;
 /** The list managed private endpoints operation response. */
 export interface ManagedPrivateEndpointListResult {
   /** The list of managed private endpoints. */
-  value?: ManagedPrivateEndpointListResultValueList;
+  value?: ManagedPrivateEndpointListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that describes the operation. */
 export interface OperationDisplay {
   /** Friendly name of the resource provider. */
-  provider?: string;
+  provider?: string | undefined;
   /** For example: read, write, delete. */
-  operation?: string;
+  operation?: string | undefined;
   /** The resource type on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** The friendly name of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** A REST API operation */
 export interface Operation {
   /** This is of the format {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The object that describes the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of the operation. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** The list of operations supported by the resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list REST API operations. It contains a list of operations and a URL nextLink to get the next set of results. */
 export interface OperationListResult {
   /** The list of operations supported by the resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -2406,9 +2413,9 @@ export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpoint
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionListResultValueList;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
   /** The ID of the target subscription. */
@@ -2421,24 +2428,24 @@ export interface ListPrivateLinkResourcesRequest {
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList;
+  value?: PrivateLinkResourceListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSandboxCustomImageByClusterRequest {
   /** The ID of the target subscription. */
@@ -2451,15 +2458,15 @@ export interface ListSandboxCustomImageByClusterRequest {
 /** Class representing a Kusto sandbox custom image. */
 export interface SandboxCustomImage {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A sandbox custom image. */
-  properties?: SandboxCustomImageProperties;
+  properties?: SandboxCustomImageProperties | undefined;
 }
 /** The SandboxCustomImage items on this page */
 export type SandboxCustomImagesListResultValueList = Array<SandboxCustomImage>;
@@ -2468,7 +2475,7 @@ export interface SandboxCustomImagesListResult {
   /** The SandboxCustomImage items on this page */
   value: SandboxCustomImagesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScriptByDatabaseRequest {
   /** The ID of the target subscription. */
@@ -2483,24 +2490,24 @@ export interface ListScriptByDatabaseRequest {
 /** Class representing a database script. */
 export interface Script {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The database script. */
-  properties?: ScriptProperties;
+  properties?: ScriptProperties | undefined;
 }
 /** The list of Kusto scripts. */
 export type ScriptListResultValueList = Array<Script>;
 /** The list Kusto database script operation response. */
 export interface ScriptListResult {
   /** The list of Kusto scripts. */
-  value?: ScriptListResultValueList;
+  value?: ScriptListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSkusRequest {
   /** The ID of the target subscription. */
@@ -2518,25 +2525,25 @@ export interface ManagedPrivateEndpointsCreateOrUpdateRequest {
   /** The name of the managed private endpoint. */
   managedPrivateEndpointName: string;
   /** A managed private endpoint. */
-  properties?: ManagedPrivateEndpointProperties;
+  properties?: ManagedPrivateEndpointProperties | undefined;
 }
 export interface ManagedPrivateEndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A managed private endpoint. */
-  properties?: ManagedPrivateEndpointProperties;
+  properties?: ManagedPrivateEndpointProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface MigrateClusterRequest {
   /** The ID of the target subscription. */
@@ -2550,18 +2557,18 @@ export interface MigrateClusterRequest {
 }
 export interface MigrateClusterResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Connection State of the Private Endpoint Connection. */
 export interface PrivateLinkServiceConnectionStatePropertyInput {
   /** The private link service connection status. */
-  status?: string;
+  status?: string | undefined;
   /** The private link service connection description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
@@ -2578,23 +2585,23 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RemoveClusterCalloutPolicyRequest {
   /** The ID of the target subscription. */
@@ -2604,15 +2611,15 @@ export interface RemoveClusterCalloutPolicyRequest {
   /** The name of the Kusto cluster. */
   clusterName: string;
   /** Unique identifier for the callout configuration. */
-  calloutId?: string;
+  calloutId?: string | undefined;
 }
 export interface RemoveClusterCalloutPolicyResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The list of language extensions. */
 export type RemoveClusterLanguageExtensionsRequestValueList = Array<LanguageExtension>;
@@ -2624,17 +2631,17 @@ export interface RemoveClusterLanguageExtensionsRequest {
   /** The name of the Kusto cluster. */
   clusterName: string;
   /** The list of language extensions. */
-  value?: RemoveClusterLanguageExtensionsRequestValueList;
+  value?: RemoveClusterLanguageExtensionsRequestValueList | undefined;
   /** The link to the next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface RemoveClusterLanguageExtensionsResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The list of Kusto database principals. */
 export type RemoveDatabasePrincipalsRequestValueList = Array<DatabasePrincipalInput>;
@@ -2648,7 +2655,7 @@ export interface RemoveDatabasePrincipalsRequest {
   /** The name of the database in the Kusto cluster. */
   databaseName: string;
   /** The list of Kusto database principals. */
-  value?: RemoveDatabasePrincipalsRequestValueList;
+  value?: RemoveDatabasePrincipalsRequestValueList | undefined;
 }
 export interface SandboxCustomImagesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2660,23 +2667,23 @@ export interface SandboxCustomImagesCreateOrUpdateRequest {
   /** The name of the sandbox custom image. */
   sandboxCustomImageName: string;
   /** A sandbox custom image. */
-  properties?: SandboxCustomImageProperties;
+  properties?: SandboxCustomImageProperties | undefined;
 }
 export interface SandboxCustomImagesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A sandbox custom image. */
-  properties?: SandboxCustomImageProperties;
+  properties?: SandboxCustomImageProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ScriptsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2690,25 +2697,25 @@ export interface ScriptsCreateOrUpdateRequest {
   /** The name of the Kusto database script. */
   scriptName: string;
   /** The database script. */
-  properties?: ScriptProperties;
+  properties?: ScriptProperties | undefined;
 }
 export interface ScriptsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The database script. */
-  properties?: ScriptProperties;
+  properties?: ScriptProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface StartClusterRequest {
   /** The ID of the target subscription. */
@@ -2720,11 +2727,11 @@ export interface StartClusterRequest {
 }
 export interface StartClusterResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopClusterRequest {
   /** The ID of the target subscription. */
@@ -2736,11 +2743,11 @@ export interface StopClusterRequest {
 }
 export interface StopClusterResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -2754,17 +2761,17 @@ export interface UpdateClusterRequest {
   /** The name of the Kusto cluster. */
   clusterName: string;
   /** Resource tags. */
-  tags?: UpdateClusterRequestTagsMap;
+  tags?: UpdateClusterRequestTagsMap | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The SKU of the cluster. */
-  sku?: AzureSku;
+  sku?: AzureSku | undefined;
   /** The availability zones of the cluster. */
-  zones?: UpdateClusterRequestZonesList;
+  zones?: UpdateClusterRequestZonesList | undefined;
   /** The identity of the cluster, if configured. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** The cluster properties. */
-  properties?: ClusterPropertiesInput;
+  properties?: ClusterPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -2772,33 +2779,33 @@ export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined }
 export type UpdateClusterResponseZonesList = Array<string>;
 export interface UpdateClusterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateClusterResponseTagsMap;
+  tags?: UpdateClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The cluster properties. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** The SKU of the cluster. */
-  sku?: AzureSku;
+  sku?: AzureSku | undefined;
   /** The availability zones. */
-  zones?: UpdateClusterResponseZonesList;
+  zones?: UpdateClusterResponseZonesList | undefined;
   /** The identity of the cluster, if configured. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type UpdateDatabaseRequestCallerRole = "Admin" | "None";
 export interface UpdateDatabaseRequest {
@@ -2811,33 +2818,33 @@ export interface UpdateDatabaseRequest {
   /** The name of the database in the Kusto cluster. */
   databaseName: string;
   /** By default, any user who run operation on a database become an Admin on it. This property allows the caller to exclude the caller from Admins list. */
-  callerRole?: UpdateDatabaseRequestCallerRole | (string & {});
+  callerRole?: UpdateDatabaseRequestCallerRole | (string & {}) | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the database */
   kind: Kind | (string & {});
   /** The database properties. */
-  properties?: ReadWriteDatabaseProperties;
+  properties?: ReadWriteDatabaseProperties | undefined;
 }
 export interface UpdateDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the database */
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The database properties. */
-  properties?: ReadWriteDatabaseProperties;
+  properties?: ReadWriteDatabaseProperties | undefined;
 }
 export interface UpdateDataConnectionRequest {
   /** The ID of the target subscription. */
@@ -2851,33 +2858,33 @@ export interface UpdateDataConnectionRequest {
   /** The name of the data connection. */
   dataConnectionName: string;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the endpoint for the data connection */
   kind: DataConnectionKind | (string & {});
   /** The data connection properties. */
-  properties?: DataConnectionProperties;
+  properties?: DataConnectionProperties | undefined;
 }
 export interface UpdateDataConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Kind of the endpoint for the data connection */
-  kind?: DataConnectionKind;
+  kind?: DataConnectionKind | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The data connection properties. */
-  properties?: DataConnectionProperties;
+  properties?: DataConnectionProperties | undefined;
 }
 export interface UpdateManagedPrivateEndpointRequest {
   /** The ID of the target subscription. */
@@ -2889,25 +2896,25 @@ export interface UpdateManagedPrivateEndpointRequest {
   /** The name of the managed private endpoint. */
   managedPrivateEndpointName: string;
   /** A managed private endpoint. */
-  properties?: ManagedPrivateEndpointProperties;
+  properties?: ManagedPrivateEndpointProperties | undefined;
 }
 export interface UpdateManagedPrivateEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A managed private endpoint. */
-  properties?: ManagedPrivateEndpointProperties;
+  properties?: ManagedPrivateEndpointProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateSandboxCustomImageRequest {
   /** The ID of the target subscription. */
@@ -2919,25 +2926,25 @@ export interface UpdateSandboxCustomImageRequest {
   /** The name of the sandbox custom image. */
   sandboxCustomImageName: string;
   /** A sandbox custom image. */
-  properties?: SandboxCustomImageProperties;
+  properties?: SandboxCustomImageProperties | undefined;
 }
 export interface UpdateSandboxCustomImageResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A sandbox custom image. */
-  properties?: SandboxCustomImageProperties;
+  properties?: SandboxCustomImageProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface UpdateScriptRequest {
   /** The ID of the target subscription. */
@@ -2951,25 +2958,25 @@ export interface UpdateScriptRequest {
   /** The name of the Kusto database script. */
   scriptName: string;
   /** The database script. */
-  properties?: ScriptProperties;
+  properties?: ScriptProperties | undefined;
 }
 export interface UpdateScriptResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The database script. */
-  properties?: ScriptProperties;
+  properties?: ScriptProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AddClusterCalloutPoliciesError = AzureOpError;
 /** Adds a list of callout policies for engine services. */

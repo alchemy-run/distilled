@@ -37,15 +37,15 @@ export interface CommitAutofixRequest {
   /** The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation. */
   alert_number: number;
   /** The Git reference of target branch for the commit. Branch needs to already exist. For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation. */
-  target_ref?: string;
+  target_ref?: string | undefined;
   /** Commit message to be used. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CodeScanningAutofixCommitsResponse {
   /** The Git reference of target branch for the commit. For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation. */
-  target_ref?: string;
+  target_ref?: string | undefined;
   /** SHA of commit with autofix. */
-  sha?: string;
+  sha?: string | undefined;
 }
 export interface CreateAutofixRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -89,16 +89,16 @@ export interface CreateVariantAnalysisRequest {
   /** A Base64-encoded tarball containing a CodeQL query and all its dependencies */
   query_pack: string;
   /** List of repository names (in the form `owner/repo-name`) to run the query against. Precisely one property from `repositories`, `repository_lists` and `repository_owners` is required. */
-  repositories?: CreateVariantAnalysisRequestRepositoriesList;
+  repositories?: CreateVariantAnalysisRequestRepositoriesList | undefined;
   /** List of repository lists to run the query against. Precisely one property from `repositories`, `repository_lists` and `repository_owners` is required. */
-  repository_lists?: CreateVariantAnalysisRequestRepositoryListsList;
+  repository_lists?: CreateVariantAnalysisRequestRepositoryListsList | undefined;
   /** List of organization or user names whose repositories the query should be run against. Precisely one property from `repositories`, `repository_lists` and `repository_owners` is required. */
-  repository_owners?: CreateVariantAnalysisRequestRepositoryOwnersList;
+  repository_owners?: CreateVariantAnalysisRequestRepositoryOwnersList | undefined;
 }
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -117,8 +117,8 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** A GitHub repository. */
 export interface SimpleRepository {
@@ -249,11 +249,11 @@ export interface CodeScanningVariantAnalysisScannedRepositoriesItem {
   repository: CodeScanningVariantAnalysisRepository;
   analysis_status: CodeScanningVariantAnalysisStatus2;
   /** The number of results in the case of a successful analysis. This is only available for successful analyses. */
-  result_count?: number;
+  result_count?: number | undefined;
   /** The size of the artifact. This is only available for successful analyses. */
-  artifact_size_in_bytes?: number;
+  artifact_size_in_bytes?: number | undefined;
   /** The reason of the failure of this repo task. This is only available if the repository task has failed. */
-  failure_message?: string;
+  failure_message?: string | undefined;
 }
 export type CodeScanningVariantAnalysisScannedRepositoriesList =
   Array<CodeScanningVariantAnalysisScannedRepositoriesItem>;
@@ -292,19 +292,19 @@ export interface CodeScanningVariantAnalysis {
   /** The download url for the query pack. */
   query_pack_url: string;
   /** The date and time at which the variant analysis was created, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time at which the variant analysis was last updated, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The date and time at which the variant analysis was completed, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ. Will be null if the variant analysis has not yet completed or this information is not available. */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   status: CodeScanningVariantAnalysisStatus;
   /** The GitHub Actions workflow run used to execute this variant analysis. This is only available if the workflow run has started. */
-  actions_workflow_run_id?: number;
+  actions_workflow_run_id?: number | undefined;
   /** The reason for a failure of the variant analysis. This is only available if the variant analysis has failed. */
-  failure_reason?: CodeScanningVariantAnalysisFailureReason;
-  scanned_repositories?: CodeScanningVariantAnalysisScannedRepositoriesList;
+  failure_reason?: CodeScanningVariantAnalysisFailureReason | undefined;
+  scanned_repositories?: CodeScanningVariantAnalysisScannedRepositoriesList | undefined;
   /** Information about repositories that were skipped from processing. This information is only available to the user that initiated the variant analysis. */
-  skipped_repositories?: CodeScanningVariantAnalysisSkippedRepositories;
+  skipped_repositories?: CodeScanningVariantAnalysisSkippedRepositories | undefined;
 }
 export interface DeleteAnalysisRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -314,7 +314,7 @@ export interface DeleteAnalysisRequest {
   /** The ID of the analysis, as returned from the `GET /repos/{owner}/{repo}/code-scanning/analyses` operation. */
   analysis_id: number;
   /** Allow deletion if the specified analysis is the last in a set. If you attempt to delete the final analysis in a set without setting this parameter to `true`, you'll get a 400 response with the message: `Analysis is last of its type and deletion may result in the loss of historical alert data. Please specify confirm_delete.` */
-  confirm_delete?: string;
+  confirm_delete?: string | undefined;
 }
 /** Successful deletion of a code scanning analysis */
 export interface CodeScanningAnalysisDeletion {
@@ -382,41 +382,41 @@ export type CodeScanningAlertRuleSecuritySeverityLevel = "low" | "medium" | "hig
 export type CodeScanningAlertRuleTagsList = Array<string>;
 export interface CodeScanningAlertRule {
   /** A unique identifier for the rule used to detect the alert. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The name of the rule used to detect the alert. */
-  name?: string;
+  name?: string | undefined;
   /** The severity of the alert. */
-  severity?: CodeScanningAlertRuleSeverity | null;
+  severity?: CodeScanningAlertRuleSeverity | null | undefined;
   /** The security severity of the alert. */
-  security_severity_level?: CodeScanningAlertRuleSecuritySeverityLevel | null;
+  security_severity_level?: CodeScanningAlertRuleSecuritySeverityLevel | null | undefined;
   /** A short description of the rule used to detect the alert. */
-  description?: string;
+  description?: string | undefined;
   /** A description of the rule used to detect the alert. */
-  full_description?: string;
+  full_description?: string | undefined;
   /** A set of tags applicable for the rule. */
-  tags?: CodeScanningAlertRuleTagsList | null;
+  tags?: CodeScanningAlertRuleTagsList | null | undefined;
   /** Detailed documentation for the rule as GitHub Flavored Markdown. */
-  help?: string | null;
+  help?: string | null | undefined;
   /** A link to the documentation for the rule used to detect the alert. */
-  help_uri?: string | null;
+  help_uri?: string | null | undefined;
 }
 export interface CodeScanningAnalysisTool {
-  name?: string;
-  version?: string | null;
-  guid?: string | null;
+  name?: string | undefined;
+  version?: string | null | undefined;
+  guid?: string | null | undefined;
 }
 export interface CodeScanningAlertInstanceMessage {
-  text?: string;
+  text?: string | undefined;
   /** The message text as GitHub-flavored Markdown, with placeholder links for related locations replaced by links to the relevant code. Only populated when related locations are available for the alert instance. */
-  markdown?: string;
+  markdown?: string | undefined;
 }
 /** Describe a region within a file for the alert. */
 export interface CodeScanningAlertLocation {
-  path?: string;
-  start_line?: number;
-  end_line?: number;
-  start_column?: number;
-  end_column?: number;
+  path?: string | undefined;
+  start_line?: number | undefined;
+  end_line?: number | undefined;
+  start_column?: number | undefined;
+  end_column?: number | undefined;
 }
 /** A classification of the file. For example to identify it as generated. */
 export type CodeScanningAlertClassification = "source" | "generated" | "test" | "library";
@@ -424,17 +424,17 @@ export type CodeScanningAlertClassification = "source" | "generated" | "test" | 
 export type CodeScanningAlertInstanceClassificationsList =
   Array<CodeScanningAlertClassification | null>;
 export interface CodeScanningAlertInstance {
-  ref?: string;
-  analysis_key?: string;
-  environment?: string;
-  category?: string;
-  state?: CodeScanningAlertState | null;
-  commit_sha?: string;
-  message?: CodeScanningAlertInstanceMessage;
-  location?: CodeScanningAlertLocation;
-  html_url?: string;
+  ref?: string | undefined;
+  analysis_key?: string | undefined;
+  environment?: string | undefined;
+  category?: string | undefined;
+  state?: CodeScanningAlertState | null | undefined;
+  commit_sha?: string | undefined;
+  message?: CodeScanningAlertInstanceMessage | undefined;
+  location?: CodeScanningAlertLocation | undefined;
+  html_url?: string | undefined;
   /** Classifications that have been applied to the file that triggered the alert. For example identifying it as documentation, or a generated file. */
-  classifications?: CodeScanningAlertInstanceClassificationsList;
+  classifications?: CodeScanningAlertInstanceClassificationsList | undefined;
 }
 export type CodeScanningAlertAssigneesList = Array<SimpleUser>;
 export interface PullRequestSimpleLabelsItem {
@@ -503,20 +503,20 @@ export interface NullableTeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: NullableTeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -525,10 +525,10 @@ export interface Team {
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -536,11 +536,11 @@ export interface Team {
   /** The ownership type of the team */
   type: TeamType;
   /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
-  access_source?: TeamAccessSource;
+  access_source?: TeamAccessSource | undefined;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
   parent: NullableTeamSimple | null;
 }
 export type PullRequestSimpleRequestedTeamsList = Array<Team>;
@@ -551,14 +551,14 @@ export interface NullableLicenseSimple {
   url: string | null;
   spdx_id: string | null;
   node_id: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export interface RepositoryPermissions {
   admin: boolean;
   pull: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   push: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
@@ -573,8 +573,8 @@ export type RepositoryMergeCommitTitle = "PR_TITLE" | "MERGE_MESSAGE";
 export type RepositoryMergeCommitMessage = "PR_BODY" | "PR_TITLE" | "BLANK";
 /** The status of the code search index for this repository */
 export interface RepositoryCodeSearchIndexStatus {
-  lexical_search_ok?: boolean;
-  lexical_commit_sha?: string;
+  lexical_search_ok?: boolean | undefined;
+  lexical_commit_sha?: string | undefined;
 }
 /** A repository on GitHub. */
 export interface Repository {
@@ -586,7 +586,7 @@ export interface Repository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: RepositoryPermissions;
+  permissions?: RepositoryPermissions | undefined;
   owner: SimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -646,8 +646,8 @@ export interface Repository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: RepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -658,55 +658,56 @@ export interface Repository {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
-  temp_clone_token?: string;
+  allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: RepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: RepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: RepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: RepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: RepositoryMergeCommitTitle;
+  merge_commit_title?: RepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: RepositoryMergeCommitMessage;
+  merge_commit_message?: RepositoryMergeCommitMessage | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: RepositoryCodeSearchIndexStatus;
+  code_search_index_status?: RepositoryCodeSearchIndexStatus | undefined;
 }
 export interface PullRequestSimpleHead {
   label: string;
@@ -762,13 +763,13 @@ export interface PullRequestStackBase {
 export interface PullRequestStack {
   base: PullRequestStackBase;
   /** The total number of pull requests in the stack. */
-  size?: number;
+  size?: number | undefined;
   /** The one-based position of this pull request within the stack, where 1 is the bottom of the stack. */
-  position?: number;
+  position?: number | undefined;
   /** The ID of the stack that this pull request belongs to. */
-  id?: number;
+  id?: number | undefined;
   /** The number of the stack that this pull request belongs to. */
-  number?: number;
+  number?: number | undefined;
 }
 /** Pull Request Simple */
 export interface PullRequestSimple {
@@ -792,47 +793,47 @@ export interface PullRequestSimple {
   body: string | null;
   labels: PullRequestSimpleLabelsList;
   milestone: NullableMilestone | null;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   created_at: string;
   updated_at: string;
   closed_at: string | null;
   merged_at: string | null;
   merge_commit_sha: string | null;
   assignee: SimpleUser | null;
-  assignees?: PullRequestSimpleAssigneesList;
-  requested_reviewers?: PullRequestSimpleRequestedReviewersList;
-  requested_teams?: PullRequestSimpleRequestedTeamsList;
+  assignees?: PullRequestSimpleAssigneesList | undefined;
+  requested_reviewers?: PullRequestSimpleRequestedReviewersList | undefined;
+  requested_teams?: PullRequestSimpleRequestedTeamsList | undefined;
   head: PullRequestSimpleHead;
   base: PullRequestSimpleHead;
   _links: PullRequestSimpleLinks;
   author_association: AuthorAssociation;
   auto_merge: AutoMerge | null;
-  stack?: PullRequestStack | null;
+  stack?: PullRequestStack | null | undefined;
   /** Indicates whether or not the pull request is a draft. */
-  draft?: boolean;
+  draft?: boolean | undefined;
 }
 /** Pull requests linked to this alert. */
 export type CodeScanningAlertLinkedPullRequestsList = Array<PullRequestSimple>;
 export interface CodeScanningAlert {
   number: number;
   created_at: string;
-  updated_at?: string;
+  updated_at?: string | undefined;
   url: string;
   html_url: string;
   instances_url: string;
   state: CodeScanningAlertState | null;
-  fixed_at?: string | null;
+  fixed_at?: string | null | undefined;
   dismissed_by: SimpleUser | null;
   dismissed_at: string | null;
   dismissed_reason: CodeScanningAlertDismissedReason | null;
-  dismissed_comment?: string | null;
+  dismissed_comment?: string | null | undefined;
   rule: CodeScanningAlertRule;
   tool: CodeScanningAnalysisTool;
   most_recent_instance: CodeScanningAlertInstance;
-  dismissal_approved_by?: SimpleUser | null;
-  assignees?: CodeScanningAlertAssigneesList;
+  dismissal_approved_by?: SimpleUser | null | undefined;
+  assignees?: CodeScanningAlertAssigneesList | undefined;
   /** Pull requests linked to this alert. */
-  linked_pull_requests?: CodeScanningAlertLinkedPullRequestsList;
+  linked_pull_requests?: CodeScanningAlertLinkedPullRequestsList | undefined;
 }
 export interface GetAnalysisRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -847,7 +848,7 @@ export interface CodeScanningAnalysis {
   commit_sha: string;
   analysis_key: string;
   environment: string;
-  category?: string;
+  category?: string | undefined;
   error: string;
   created_at: string;
   /** The total number of results in the analysis. */
@@ -899,7 +900,7 @@ export interface CodeScanningCodeqlDatabase {
   /** The URL at which to download the CodeQL database. The `Accept` header must be set to the value of the `content_type` property. */
   url: string;
   /** The commit SHA of the repository at the time the CodeQL database was created. */
-  commit_oid?: string | null;
+  commit_oid?: string | null | undefined;
 }
 export interface GetDefaultSetupRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -934,21 +935,21 @@ export type CodeScanningDefaultSetupSchedule = "weekly";
 /** Configuration for code scanning default setup. */
 export interface CodeScanningDefaultSetup {
   /** Code scanning default setup has been configured or not. */
-  state?: CodeScanningDefaultSetupState;
+  state?: CodeScanningDefaultSetupState | undefined;
   /** Languages to be analyzed. */
-  languages?: CodeScanningDefaultSetupLanguagesList;
+  languages?: CodeScanningDefaultSetupLanguagesList | undefined;
   /** Runner type to be used. */
-  runner_type?: CodeScanningDefaultSetupRunnerType | null;
+  runner_type?: CodeScanningDefaultSetupRunnerType | null | undefined;
   /** Runner label to be used if the runner type is labeled. */
-  runner_label?: string | null;
+  runner_label?: string | null | undefined;
   /** CodeQL query suite to be used. */
-  query_suite?: CodeScanningDefaultSetupQuerySuite;
+  query_suite?: CodeScanningDefaultSetupQuerySuite | undefined;
   /** Threat model to be used for code scanning analysis. Use `remote` to analyze only network sources and `remote_and_local` to include local sources like filesystem access, command-line arguments, database reads, environment variable and standard input. */
-  threat_model?: CodeScanningDefaultSetupThreatModel;
+  threat_model?: CodeScanningDefaultSetupThreatModel | undefined;
   /** Timestamp of latest configuration update. */
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
   /** The frequency of the periodic analysis. */
-  schedule?: CodeScanningDefaultSetupSchedule | null;
+  schedule?: CodeScanningDefaultSetupSchedule | null | undefined;
 }
 export interface GetSarifRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -964,11 +965,11 @@ export type CodeScanningSarifsStatusProcessingStatus = "pending" | "complete" | 
 export type CodeScanningSarifsStatusErrorsList = Array<string>;
 export interface CodeScanningSarifsStatus {
   /** `pending` files have not yet been processed, while `complete` means results from the SARIF have been stored. `failed` files have either not been processed at all, or could only be partially processed. */
-  processing_status?: CodeScanningSarifsStatusProcessingStatus;
+  processing_status?: CodeScanningSarifsStatusProcessingStatus | undefined;
   /** The REST API URL for getting the analyses associated with the upload. */
-  analyses_url?: string | null;
+  analyses_url?: string | null | undefined;
   /** Any errors that ocurred during processing of the delivery. */
-  errors?: CodeScanningSarifsStatusErrorsList | null;
+  errors?: CodeScanningSarifsStatusErrorsList | null | undefined;
 }
 export interface GetVariantAnalysisRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -994,17 +995,17 @@ export interface CodeScanningVariantAnalysisRepoTask {
   repository: SimpleRepository;
   analysis_status: CodeScanningVariantAnalysisStatus2;
   /** The size of the artifact. This is only available for successful analyses. */
-  artifact_size_in_bytes?: number;
+  artifact_size_in_bytes?: number | undefined;
   /** The number of results in the case of a successful analysis. This is only available for successful analyses. */
-  result_count?: number;
+  result_count?: number | undefined;
   /** The reason of the failure of this repo task. This is only available if the repository task has failed. */
-  failure_message?: string;
+  failure_message?: string | undefined;
   /** The SHA of the commit the CodeQL database was built against. This is only available for successful analyses. */
-  database_commit_sha?: string;
+  database_commit_sha?: string | undefined;
   /** The source location prefix to use. This is only available for successful analyses. */
-  source_location_prefix?: string;
+  source_location_prefix?: string | undefined;
   /** The URL of the artifact. This is only available for successful analyses. */
-  artifact_url?: string;
+  artifact_url?: string | undefined;
 }
 export interface ListAlertInstancesRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1014,34 +1015,34 @@ export interface ListAlertInstancesRequest {
   /** The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation. */
   alert_number: number;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
-  ref?: string;
+  ref?: string | undefined;
   /** The number of the pull request for the results you want to list. */
-  pr?: number;
+  pr?: number | undefined;
 }
 /** State of a code scanning alert instance. */
 export type CodeScanningAlertInstanceState = "open" | "fixed";
 export interface CodeScanningAlertInstanceListMessage {
-  text?: string;
+  text?: string | undefined;
 }
 /** Classifications that have been applied to the file that triggered the alert. For example identifying it as documentation, or a generated file. */
 export type CodeScanningAlertInstanceListClassificationsList =
   Array<CodeScanningAlertClassification | null>;
 export interface CodeScanningAlertInstanceList {
-  ref?: string;
-  analysis_key?: string;
-  environment?: string;
-  category?: string;
-  state?: CodeScanningAlertInstanceState | null;
-  commit_sha?: string;
-  message?: CodeScanningAlertInstanceListMessage;
-  location?: CodeScanningAlertLocation;
-  html_url?: string;
+  ref?: string | undefined;
+  analysis_key?: string | undefined;
+  environment?: string | undefined;
+  category?: string | undefined;
+  state?: CodeScanningAlertInstanceState | null | undefined;
+  commit_sha?: string | undefined;
+  message?: CodeScanningAlertInstanceListMessage | undefined;
+  location?: CodeScanningAlertLocation | undefined;
+  html_url?: string | undefined;
   /** Classifications that have been applied to the file that triggered the alert. For example identifying it as documentation, or a generated file. */
-  classifications?: CodeScanningAlertInstanceListClassificationsList;
+  classifications?: CodeScanningAlertInstanceListClassificationsList | undefined;
 }
 export type ListAlertInstancesResponseBodyList = Array<CodeScanningAlertInstanceList>;
 export type ListAlertInstancesResponse = ListAlertInstancesResponseBodyList;
@@ -1062,27 +1063,27 @@ export interface ListAlertsForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both. */
-  tool_name?: string;
+  tool_name?: string | undefined;
   /** The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both. */
-  tool_guid?: string;
+  tool_guid?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The direction to sort the results by. */
-  direction?: ListAlertsForOrgRequestDirection | (string & {});
+  direction?: ListAlertsForOrgRequestDirection | (string & {}) | undefined;
   /** If specified, only code scanning alerts with this state will be returned. */
-  state?: CodeScanningAlertStateQuery | (string & {});
+  state?: CodeScanningAlertStateQuery | (string & {}) | undefined;
   /** The property by which to sort the results. */
-  sort?: ListAlertsForOrgRequestSort | (string & {});
+  sort?: ListAlertsForOrgRequestSort | (string & {}) | undefined;
   /** If specified, only code scanning alerts with this severity will be returned. */
-  severity?: CodeScanningAlertSeverity | (string & {});
+  severity?: CodeScanningAlertSeverity | (string & {}) | undefined;
   /** Filter alerts by assignees. Provide a comma-separated list of user handles (e.g., `octocat` or `octocat,hubot`). Use `*` to list alerts with at least one assignee or `none` to list alerts with no assignees. */
-  assignees?: string;
+  assignees?: string | undefined;
 }
 /** The severity of the alert. */
 export type CodeScanningAlertRuleSummarySeverity = "none" | "note" | "warning" | "error";
@@ -1096,44 +1097,44 @@ export type CodeScanningAlertRuleSummarySecuritySeverityLevel =
 export type CodeScanningAlertRuleSummaryTagsList = Array<string>;
 export interface CodeScanningAlertRuleSummary {
   /** A unique identifier for the rule used to detect the alert. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The name of the rule used to detect the alert. */
-  name?: string;
+  name?: string | undefined;
   /** The severity of the alert. */
-  severity?: CodeScanningAlertRuleSummarySeverity | null;
+  severity?: CodeScanningAlertRuleSummarySeverity | null | undefined;
   /** The security severity of the alert. */
-  security_severity_level?: CodeScanningAlertRuleSummarySecuritySeverityLevel | null;
+  security_severity_level?: CodeScanningAlertRuleSummarySecuritySeverityLevel | null | undefined;
   /** A short description of the rule used to detect the alert. */
-  description?: string;
+  description?: string | undefined;
   /** A description of the rule used to detect the alert. */
-  full_description?: string;
+  full_description?: string | undefined;
   /** A set of tags applicable for the rule. */
-  tags?: CodeScanningAlertRuleSummaryTagsList | null;
+  tags?: CodeScanningAlertRuleSummaryTagsList | null | undefined;
   /** Detailed documentation for the rule as GitHub Flavored Markdown. */
-  help?: string | null;
+  help?: string | null | undefined;
   /** A link to the documentation for the rule used to detect the alert. */
-  help_uri?: string | null;
+  help_uri?: string | null | undefined;
 }
 export type CodeScanningOrganizationAlertItemsAssigneesList = Array<SimpleUser>;
 export interface CodeScanningOrganizationAlertItems {
   number: number;
   created_at: string;
-  updated_at?: string;
+  updated_at?: string | undefined;
   url: string;
   html_url: string;
   instances_url: string;
   state: CodeScanningAlertState | null;
-  fixed_at?: string | null;
+  fixed_at?: string | null | undefined;
   dismissed_by: SimpleUser | null;
   dismissed_at: string | null;
   dismissed_reason: CodeScanningAlertDismissedReason | null;
-  dismissed_comment?: string | null;
+  dismissed_comment?: string | null | undefined;
   rule: CodeScanningAlertRuleSummary;
   tool: CodeScanningAnalysisTool;
   most_recent_instance: CodeScanningAlertInstance;
   repository: SimpleRepository;
-  dismissal_approved_by?: SimpleUser | null;
-  assignees?: CodeScanningOrganizationAlertItemsAssigneesList;
+  dismissal_approved_by?: SimpleUser | null | undefined;
+  assignees?: CodeScanningOrganizationAlertItemsAssigneesList | undefined;
 }
 export type ListAlertsForOrgResponseBodyList = Array<CodeScanningOrganizationAlertItems>;
 export type ListAlertsForOrgResponse = ListAlertsForOrgResponseBodyList;
@@ -1145,51 +1146,51 @@ export interface ListAlertsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both. */
-  tool_name?: string;
+  tool_name?: string | undefined;
   /** The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both. */
-  tool_guid?: string;
+  tool_guid?: string | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
-  ref?: string;
+  ref?: string | undefined;
   /** The number of the pull request for the results you want to list. */
-  pr?: number;
+  pr?: number | undefined;
   /** The direction to sort the results by. */
-  direction?: ListAlertsForRepoRequestDirection | (string & {});
+  direction?: ListAlertsForRepoRequestDirection | (string & {}) | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** The property by which to sort the results. */
-  sort?: ListAlertsForRepoRequestSort | (string & {});
+  sort?: ListAlertsForRepoRequestSort | (string & {}) | undefined;
   /** If specified, only code scanning alerts with this state will be returned. */
-  state?: CodeScanningAlertStateQuery | (string & {});
+  state?: CodeScanningAlertStateQuery | (string & {}) | undefined;
   /** If specified, only code scanning alerts with this severity will be returned. */
-  severity?: CodeScanningAlertSeverity | (string & {});
+  severity?: CodeScanningAlertSeverity | (string & {}) | undefined;
   /** Filter alerts by assignees. Provide a comma-separated list of user handles (e.g., `octocat` or `octocat,hubot`). Use `*` to list alerts with at least one assignee or `none` to list alerts with no assignees. */
-  assignees?: string;
+  assignees?: string | undefined;
 }
 export type CodeScanningAlertItemsAssigneesList = Array<SimpleUser>;
 export interface CodeScanningAlertItems {
   number: number;
   created_at: string;
-  updated_at?: string;
+  updated_at?: string | undefined;
   url: string;
   html_url: string;
   instances_url: string;
   state: CodeScanningAlertState | null;
-  fixed_at?: string | null;
+  fixed_at?: string | null | undefined;
   dismissed_by: SimpleUser | null;
   dismissed_at: string | null;
   dismissed_reason: CodeScanningAlertDismissedReason | null;
-  dismissed_comment?: string | null;
+  dismissed_comment?: string | null | undefined;
   rule: CodeScanningAlertRuleSummary;
   tool: CodeScanningAnalysisTool;
   most_recent_instance: CodeScanningAlertInstance;
-  dismissal_approved_by?: SimpleUser | null;
-  assignees?: CodeScanningAlertItemsAssigneesList;
+  dismissal_approved_by?: SimpleUser | null | undefined;
+  assignees?: CodeScanningAlertItemsAssigneesList | undefined;
 }
 export type ListAlertsForRepoResponseBodyList = Array<CodeScanningAlertItems>;
 export type ListAlertsForRepoResponse = ListAlertsForRepoResponseBodyList;
@@ -1209,23 +1210,23 @@ export interface ListRecentAnalysesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both. */
-  tool_name?: string;
+  tool_name?: string | undefined;
   /** The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both. */
-  tool_guid?: string;
+  tool_guid?: string | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The number of the pull request for the results you want to list. */
-  pr?: number;
+  pr?: number | undefined;
   /** The Git reference for the analyses you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
-  ref?: string;
+  ref?: string | undefined;
   /** Filter analyses belonging to the same SARIF upload. */
-  sarif_id?: string;
+  sarif_id?: string | undefined;
   /** The direction to sort the results by. */
-  direction?: ListRecentAnalysesRequestDirection | (string & {});
+  direction?: ListRecentAnalysesRequestDirection | (string & {}) | undefined;
   /** The property by which to sort the results. */
-  sort?: ListRecentAnalysesRequestSort | (string & {});
+  sort?: ListRecentAnalysesRequestSort | (string & {}) | undefined;
 }
 export type ListRecentAnalysesResponseBodyList = Array<CodeScanningAnalysis>;
 export type ListRecentAnalysesResponse = ListRecentAnalysesResponseBodyList;
@@ -1237,7 +1238,7 @@ export interface UpdateAiScanEnablementRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Whether to enable or disable AI Scan for the repository. */
-  pr_scan?: UpdateAiScanEnablementRequestPrScan | (string & {});
+  pr_scan?: UpdateAiScanEnablementRequestPrScan | (string & {}) | undefined;
 }
 /** Whether AI Scan is enabled for the organization. Organization respects enterprise policy. Disabled organizations prevent repositories from enabling AI Scan. Enabled organizations enable AI Scan for their repositories, but individual repositories can opt out. */
 export type UpdateAiScanEnablementForOrgRequestPrScan = "enabled" | "disabled";
@@ -1245,7 +1246,7 @@ export interface UpdateAiScanEnablementForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Whether AI Scan is enabled for the organization. Organization respects enterprise policy. Disabled organizations prevent repositories from enabling AI Scan. Enabled organizations enable AI Scan for their repositories, but individual repositories can opt out. */
-  pr_scan?: UpdateAiScanEnablementForOrgRequestPrScan | (string & {});
+  pr_scan?: UpdateAiScanEnablementForOrgRequestPrScan | (string & {}) | undefined;
 }
 /** Sets the state of the code scanning alert. You must provide `dismissed_reason` when you set the state to `dismissed`. */
 export type CodeScanningAlertSetState = "open" | "dismissed";
@@ -1258,11 +1259,11 @@ export interface UpdateAlertRequest {
   repo: string;
   /** The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation. */
   alert_number: number;
-  state?: CodeScanningAlertSetState | (string & {});
-  dismissed_reason?: CodeScanningAlertDismissedReason | (string & {}) | null;
-  dismissed_comment?: string | null;
-  create_request?: boolean;
-  assignees?: CodeScanningAlertAssignees;
+  state?: CodeScanningAlertSetState | (string & {}) | undefined;
+  dismissed_reason?: CodeScanningAlertDismissedReason | (string & {}) | null | undefined;
+  dismissed_comment?: string | null | undefined;
+  create_request?: boolean | undefined;
+  assignees?: CodeScanningAlertAssignees | undefined;
 }
 /** The desired state of code scanning default setup. */
 export type UpdateDefaultSetupRequestState = "configured" | "not-configured";
@@ -1292,17 +1293,17 @@ export interface UpdateDefaultSetupRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The desired state of code scanning default setup. */
-  state?: UpdateDefaultSetupRequestState | (string & {});
+  state?: UpdateDefaultSetupRequestState | (string & {}) | undefined;
   /** Runner type to be used. */
-  runner_type?: UpdateDefaultSetupRequestRunnerType | (string & {});
+  runner_type?: UpdateDefaultSetupRequestRunnerType | (string & {}) | undefined;
   /** Runner label to be used if the runner type is labeled. */
-  runner_label?: string | null;
+  runner_label?: string | null | undefined;
   /** CodeQL query suite to be used. */
-  query_suite?: UpdateDefaultSetupRequestQuerySuite | (string & {});
+  query_suite?: UpdateDefaultSetupRequestQuerySuite | (string & {}) | undefined;
   /** Threat model to be used for code scanning analysis. Use `remote` to analyze only network sources and `remote_and_local` to include local sources like filesystem access, command-line arguments, database reads, environment variable and standard input. */
-  threat_model?: UpdateDefaultSetupRequestThreatModel | (string & {});
+  threat_model?: UpdateDefaultSetupRequestThreatModel | (string & {}) | undefined;
   /** CodeQL languages to be analyzed. */
-  languages?: UpdateDefaultSetupRequestLanguagesList;
+  languages?: UpdateDefaultSetupRequestLanguagesList | undefined;
 }
 export type UpdateDefaultSetupResponse = unknown;
 export interface UploadSarifRequest {
@@ -1314,13 +1315,13 @@ export interface UploadSarifRequest {
   ref: string;
   sarif: string;
   /** The base directory used in the analysis, as it appears in the SARIF file. This property is used to convert file paths from absolute to relative, so that alerts can be mapped to their correct location in the repository. */
-  checkout_uri?: string;
+  checkout_uri?: string | undefined;
   /** The time that the analysis run began. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  started_at?: string;
+  started_at?: string | undefined;
   /** The name of the tool used to generate the code scanning analysis. If this parameter is not used, the tool name defaults to "API". If the uploaded SARIF contains a tool GUID, this will be available for filtering using the `tool_guid` parameter of operations such as `GET /repos/{owner}/{repo}/code-scanning/alerts`. */
-  tool_name?: string;
+  tool_name?: string | undefined;
   /** Whether the SARIF file will be validated according to the code scanning specifications. This parameter is intended to help integrators ensure that the uploaded SARIF files are correctly rendered by code scanning. */
-  validate?: boolean;
+  validate?: boolean | undefined;
 }
 export interface UploadSarifResponse {}
 export type CommitAutofixError = GithubOpError;

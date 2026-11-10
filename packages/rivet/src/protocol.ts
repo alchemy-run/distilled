@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * RivetProtocol -- the shared bearer-REST protocol instantiated for the
  * Rivet engine API.
@@ -34,7 +35,8 @@ export type RivetOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Rivet operation. */
 export type RivetOpContext = Credentials | HttpClient.HttpClient;

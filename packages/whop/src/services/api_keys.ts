@@ -126,7 +126,7 @@ export interface CreateApiKeyRequestPermissionsStatementsItem {
   /** Whether the actions are granted (`true`) or denied (`false`). */
   grant: boolean;
   /** Resource identifiers the statement applies to, for example `biz_xxx` or `biz_xxx|pass_*`. Defaults to the key's owning resource when omitted. */
-  resources?: CreateApiKeyRequestPermissionsStatementsItemResourcesList;
+  resources?: CreateApiKeyRequestPermissionsStatementsItemResourcesList | undefined;
 }
 /** Explicit permission statements. Required unless `system_role` is set. */
 export type CreateApiKeyRequestPermissionsStatementsList =
@@ -141,19 +141,19 @@ export type CreateApiKeyRequestPermissionsSystemRole =
 /** The permissions policy for the API key: explicit permission statements, or a system role to inherit from. Statements without a `resources` array default to the owning account (Account API keys) or every key-addressable resource (App API keys). */
 export interface CreateApiKeyRequestPermissions {
   /** Explicit permission statements. Required unless `system_role` is set. */
-  statements?: CreateApiKeyRequestPermissionsStatementsList;
+  statements?: CreateApiKeyRequestPermissionsStatementsList | undefined;
   /** A system role to inherit permissions from. Only Account API keys can use a system role. */
-  system_role?: CreateApiKeyRequestPermissionsSystemRole | (string & {}) | null;
+  system_role?: CreateApiKeyRequestPermissionsSystemRole | (string & {}) | null | undefined;
 }
 /** The type of resource that will own this API key. */
 export type CreateApiKeyRequestResourceType = "account" | "app";
 export interface CreateApiKeyRequest {
   /** Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header. New keys default to the latest version. */
-  api_version_date?: CreateApiKeyRequestApiVersionDate | (string & {});
+  api_version_date?: CreateApiKeyRequestApiVersionDate | (string & {}) | undefined;
   /** When the API key should stop working, as an ISO 8601 timestamp. Omit (or pass `null` on update) for a key that never expires. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** IPv4/IPv6 CIDR ranges allowed to use this key, for example `["203.0.113.0/24"]`. Empty or `null` allows any IP. */
-  ip_allowlist?: CreateApiKeyRequestIpAllowlistList | null;
+  ip_allowlist?: CreateApiKeyRequestIpAllowlistList | null | undefined;
   /** A human-readable name for the API key, such as 'Production API Key'. */
   name: string;
   /** The permissions policy for the API key: explicit permission statements, or a system role to inherit from. Statements without a `resources` array default to the owning account (Account API keys) or every key-addressable resource (App API keys). */
@@ -163,7 +163,7 @@ export interface CreateApiKeyRequest {
   /** The type of resource that will own this API key. */
   resource_type: CreateApiKeyRequestResourceType | (string & {});
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header. */
 export type ApiKeyApiVersionDate =
@@ -242,7 +242,7 @@ export interface ApiKey {
   created_at: string;
   /** When the API key stops working, as an ISO 8601 timestamp. `null` means it never expires. */
   expires_at: string | null;
-  grants?: ApiKeyGrantsList;
+  grants?: ApiKeyGrantsList | undefined;
   /** API key ID, prefixed `apik_`. */
   id: string;
   ip_allowlist: ApiKeyIpAllowlistList | null;
@@ -253,7 +253,7 @@ export interface ApiKey {
   /** Masked version of the secret key, so the key can be recognized without revealing the full secret. */
   obfuscated_secret_key: string | Redacted.Redacted<string>;
   /** The full secret used to authenticate requests. Returned only once, on create and rotate responses -- store it immediately. */
-  secret_key?: string | Redacted.Redacted<string>;
+  secret_key?: string | Redacted.Redacted<string> | undefined;
   /** System role the key inherits its permissions from, or `null` when it uses an explicit permissions policy. Only account API keys can use a system role. */
   system_role: ApiKeySystemRole | null;
   /** When the API key was last updated, as an ISO 8601 timestamp. */
@@ -320,21 +320,21 @@ export interface ListApiKeysRequest {
   /** The type of resource that owns the API keys. */
   resource_type: ListApiKeysRequestResourceType | (string & {});
   /** Only return API keys created before this ISO 8601 timestamp. */
-  created_before?: unknown;
+  created_before?: unknown | undefined;
   /** Only return API keys created after this ISO 8601 timestamp. */
-  created_after?: unknown;
+  created_after?: unknown | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The field to sort API keys by. */
-  order?: ListApiKeysRequestOrder | (string & {});
+  order?: ListApiKeysRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListApiKeysRequestDirection | (string & {});
+  direction?: ListApiKeysRequestDirection | (string & {}) | undefined;
 }
 export type ListApiKeysResponseDataList = Array<ApiKey>;
 export type ListApiKeysResponsePageInfo = ListApiKeyPermissionsResponsePageInfo;
@@ -346,7 +346,7 @@ export interface RotateApiKeyRequest {
   /** API key ID, prefixed `apik_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header. New keys default to the latest version. */
 export type UpdateApiKeyRequestApiVersionDate =
@@ -412,7 +412,7 @@ export interface UpdateApiKeyRequestPermissionsStatementsItem {
   /** Whether the actions are granted (`true`) or denied (`false`). */
   grant: boolean;
   /** Resource identifiers the statement applies to, for example `biz_xxx` or `biz_xxx|pass_*`. Defaults to the key's owning resource when omitted. */
-  resources?: UpdateApiKeyRequestPermissionsStatementsItemResourcesList;
+  resources?: UpdateApiKeyRequestPermissionsStatementsItemResourcesList | undefined;
 }
 /** Explicit permission statements. Required unless `system_role` is set. */
 export type UpdateApiKeyRequestPermissionsStatementsList =
@@ -427,23 +427,23 @@ export type UpdateApiKeyRequestPermissionsSystemRole =
 /** The permissions policy for the API key: explicit permission statements, or a system role to inherit from. Statements without a `resources` array default to the owning account (Account API keys) or every key-addressable resource (App API keys). */
 export interface UpdateApiKeyRequestPermissions {
   /** Explicit permission statements. Required unless `system_role` is set. */
-  statements?: UpdateApiKeyRequestPermissionsStatementsList;
+  statements?: UpdateApiKeyRequestPermissionsStatementsList | undefined;
   /** A system role to inherit permissions from. Only Account API keys can use a system role. */
-  system_role?: UpdateApiKeyRequestPermissionsSystemRole | (string & {}) | null;
+  system_role?: UpdateApiKeyRequestPermissionsSystemRole | (string & {}) | null | undefined;
 }
 export interface UpdateApiKeyRequest {
   /** API key ID, prefixed `apik_`. */
   id: string;
   /** Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header. New keys default to the latest version. */
-  api_version_date?: UpdateApiKeyRequestApiVersionDate | (string & {});
+  api_version_date?: UpdateApiKeyRequestApiVersionDate | (string & {}) | undefined;
   /** When the API key should stop working, as an ISO 8601 timestamp. Omit (or pass `null` on update) for a key that never expires. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** IPv4/IPv6 CIDR ranges allowed to use this key, for example `["203.0.113.0/24"]`. Empty or `null` allows any IP. */
-  ip_allowlist?: UpdateApiKeyRequestIpAllowlistList | null;
+  ip_allowlist?: UpdateApiKeyRequestIpAllowlistList | null | undefined;
   /** A new human-readable name for the API key. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The permissions policy for the API key: explicit permission statements, or a system role to inherit from. Statements without a `resources` array default to the owning account (Account API keys) or every key-addressable resource (App API keys). */
-  permissions?: UpdateApiKeyRequestPermissions;
+  permissions?: UpdateApiKeyRequestPermissions | undefined;
 }
 export type CreateApiKeyError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create API Key Creates an API key for an account or app. The response is the only place the full `secret_key` is returned -- store it immediately. Requires a user session; API keys cannot manage API keys. */

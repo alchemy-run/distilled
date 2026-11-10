@@ -200,7 +200,7 @@ export interface AssociateAssetsRequest {
   assetId: string;
   hierarchyId: string;
   childAssetId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface AssociateAssetsResponse {}
 export type PropertyAlias = string;
@@ -208,7 +208,7 @@ export interface AssociateTimeSeriesToAssetPropertyRequest {
   alias: string;
   assetId: string;
   propertyId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface AssociateTimeSeriesToAssetPropertyResponse {}
 export type ID = string;
@@ -218,7 +218,7 @@ export type TimeInSeconds = number;
 export type OffsetInNanos = number;
 export interface TimeInNanos {
   timeInSeconds: number;
-  offsetInNanos?: number;
+  offsetInNanos?: number | undefined;
 }
 export interface AssociateDataSegmentEntry {
   sourceDatasetId: string;
@@ -231,7 +231,7 @@ export interface BatchAssociateDataSegmentsToDatasetRequest {
   datasetId: string;
   workspaceName: string;
   associateDataSegmentEntries: AssociateDataSegmentEntry[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type Version = string;
 export type DataSegmentErrorCode =
@@ -260,7 +260,7 @@ export type IDs = string[];
 export interface BatchAssociateProjectAssetsRequest {
   projectId: string;
   assetIds: string[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type AssetErrorCode = "INTERNAL_FAILURE" | (string & {});
 export type AssetErrorMessage = string;
@@ -271,7 +271,7 @@ export interface AssetErrorDetails {
 }
 export type BatchAssociateProjectAssetsErrors = AssetErrorDetails[];
 export interface BatchAssociateProjectAssetsResponse {
-  errors?: AssetErrorDetails[];
+  errors?: AssetErrorDetails[] | undefined;
 }
 export interface DeleteDataSegmentEntry {
   timeSeriesId: string;
@@ -283,7 +283,7 @@ export interface BatchDeleteDatasetDataSegmentsRequest {
   datasetId: string;
   workspaceName: string;
   deleteDataSegmentEntries: DeleteDataSegmentEntry[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface FailedDataSegmentDeletion {
   timeSeriesId: string;
@@ -309,7 +309,7 @@ export interface BatchDisassociateDataSegmentsFromDatasetRequest {
   datasetId: string;
   workspaceName: string;
   disassociateDataSegmentEntries: DisassociateDataSegmentEntry[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface FailedDataSegmentDisassociation {
   sourceDatasetId: string;
@@ -328,11 +328,11 @@ export interface BatchDisassociateDataSegmentsFromDatasetResponse {
 export interface BatchDisassociateProjectAssetsRequest {
   projectId: string;
   assetIds: string[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type BatchDisassociateProjectAssetsErrors = AssetErrorDetails[];
 export interface BatchDisassociateProjectAssetsResponse {
-  errors?: AssetErrorDetails[];
+  errors?: AssetErrorDetails[] | undefined;
 }
 export type EntryId = string;
 export type AssetPropertyAlias = string;
@@ -351,23 +351,23 @@ export type Qualities = Quality[];
 export type TimeOrdering = "ASCENDING" | "DESCENDING" | (string & {});
 export interface BatchGetAssetPropertyAggregatesEntry {
   entryId: string;
-  assetId?: string;
-  propertyId?: string;
-  propertyAlias?: string;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  propertyAlias?: string | undefined;
   aggregateTypes: AggregateType[];
   resolution: string;
   startDate: Date;
   endDate: Date;
-  qualities?: Quality[];
-  timeOrdering?: TimeOrdering;
+  qualities?: Quality[] | undefined;
+  timeOrdering?: TimeOrdering | undefined;
 }
 export type BatchGetAssetPropertyAggregatesEntries = BatchGetAssetPropertyAggregatesEntry[];
 export type NextToken = string;
 export type BatchGetAssetPropertyAggregatesMaxResults = number;
 export interface BatchGetAssetPropertyAggregatesRequest {
   entries: BatchGetAssetPropertyAggregatesEntry[];
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type BatchGetAssetPropertyAggregatesErrorCode =
   | "ResourceNotFoundException"
@@ -384,16 +384,16 @@ export type BatchGetAssetPropertyAggregatesErrorEntries =
   BatchGetAssetPropertyAggregatesErrorEntry[];
 export type AggregatedDoubleValue = number;
 export interface Aggregates {
-  average?: number;
-  count?: number;
-  maximum?: number;
-  minimum?: number;
-  sum?: number;
-  standardDeviation?: number;
+  average?: number | undefined;
+  count?: number | undefined;
+  maximum?: number | undefined;
+  minimum?: number | undefined;
+  sum?: number | undefined;
+  standardDeviation?: number | undefined;
 }
 export interface AggregatedValue {
   timestamp: Date;
-  quality?: Quality;
+  quality?: Quality | undefined;
   value: Aggregates;
 }
 export type AggregatedValues = AggregatedValue[];
@@ -411,7 +411,7 @@ export interface BatchGetAssetPropertyAggregatesErrorInfo {
 export interface BatchGetAssetPropertyAggregatesSkippedEntry {
   entryId: string;
   completionStatus: BatchEntryCompletionStatus;
-  errorInfo?: BatchGetAssetPropertyAggregatesErrorInfo;
+  errorInfo?: BatchGetAssetPropertyAggregatesErrorInfo | undefined;
 }
 export type BatchGetAssetPropertyAggregatesSkippedEntries =
   BatchGetAssetPropertyAggregatesSkippedEntry[];
@@ -419,18 +419,18 @@ export interface BatchGetAssetPropertyAggregatesResponse {
   errorEntries: BatchGetAssetPropertyAggregatesErrorEntry[];
   successEntries: BatchGetAssetPropertyAggregatesSuccessEntry[];
   skippedEntries: BatchGetAssetPropertyAggregatesSkippedEntry[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface BatchGetAssetPropertyValueEntry {
   entryId: string;
-  assetId?: string;
-  propertyId?: string;
-  propertyAlias?: string;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  propertyAlias?: string | undefined;
 }
 export type BatchGetAssetPropertyValueEntries = BatchGetAssetPropertyValueEntry[];
 export interface BatchGetAssetPropertyValueRequest {
   entries: BatchGetAssetPropertyValueEntry[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type BatchGetAssetPropertyValueErrorCode =
   | "ResourceNotFoundException"
@@ -452,20 +452,20 @@ export interface PropertyValueNullValue {
   valueType: RawValueType;
 }
 export interface Variant {
-  stringValue?: string;
-  integerValue?: number;
-  doubleValue?: number;
-  booleanValue?: boolean;
-  nullValue?: PropertyValueNullValue;
+  stringValue?: string | undefined;
+  integerValue?: number | undefined;
+  doubleValue?: number | undefined;
+  booleanValue?: boolean | undefined;
+  nullValue?: PropertyValueNullValue | undefined;
 }
 export interface AssetPropertyValue {
   value: Variant;
   timestamp: TimeInNanos;
-  quality?: Quality;
+  quality?: Quality | undefined;
 }
 export interface BatchGetAssetPropertyValueSuccessEntry {
   entryId: string;
-  assetPropertyValue?: AssetPropertyValue;
+  assetPropertyValue?: AssetPropertyValue | undefined;
 }
 export type BatchGetAssetPropertyValueSuccessEntries = BatchGetAssetPropertyValueSuccessEntry[];
 export interface BatchGetAssetPropertyValueErrorInfo {
@@ -475,31 +475,31 @@ export interface BatchGetAssetPropertyValueErrorInfo {
 export interface BatchGetAssetPropertyValueSkippedEntry {
   entryId: string;
   completionStatus: BatchEntryCompletionStatus;
-  errorInfo?: BatchGetAssetPropertyValueErrorInfo;
+  errorInfo?: BatchGetAssetPropertyValueErrorInfo | undefined;
 }
 export type BatchGetAssetPropertyValueSkippedEntries = BatchGetAssetPropertyValueSkippedEntry[];
 export interface BatchGetAssetPropertyValueResponse {
   errorEntries: BatchGetAssetPropertyValueErrorEntry[];
   successEntries: BatchGetAssetPropertyValueSuccessEntry[];
   skippedEntries: BatchGetAssetPropertyValueSkippedEntry[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface BatchGetAssetPropertyValueHistoryEntry {
   entryId: string;
-  assetId?: string;
-  propertyId?: string;
-  propertyAlias?: string;
-  startDate?: Date;
-  endDate?: Date;
-  qualities?: Quality[];
-  timeOrdering?: TimeOrdering;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  propertyAlias?: string | undefined;
+  startDate?: Date | undefined;
+  endDate?: Date | undefined;
+  qualities?: Quality[] | undefined;
+  timeOrdering?: TimeOrdering | undefined;
 }
 export type BatchGetAssetPropertyValueHistoryEntries = BatchGetAssetPropertyValueHistoryEntry[];
 export type BatchGetAssetPropertyValueHistoryMaxResults = number;
 export interface BatchGetAssetPropertyValueHistoryRequest {
   entries: BatchGetAssetPropertyValueHistoryEntry[];
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type BatchGetAssetPropertyValueHistoryErrorCode =
   | "ResourceNotFoundException"
@@ -527,7 +527,7 @@ export interface BatchGetAssetPropertyValueHistoryErrorInfo {
 export interface BatchGetAssetPropertyValueHistorySkippedEntry {
   entryId: string;
   completionStatus: BatchEntryCompletionStatus;
-  errorInfo?: BatchGetAssetPropertyValueHistoryErrorInfo;
+  errorInfo?: BatchGetAssetPropertyValueHistoryErrorInfo | undefined;
 }
 export type BatchGetAssetPropertyValueHistorySkippedEntries =
   BatchGetAssetPropertyValueHistorySkippedEntry[];
@@ -535,19 +535,19 @@ export interface BatchGetAssetPropertyValueHistoryResponse {
   errorEntries: BatchGetAssetPropertyValueHistoryErrorEntry[];
   successEntries: BatchGetAssetPropertyValueHistorySuccessEntry[];
   skippedEntries: BatchGetAssetPropertyValueHistorySkippedEntry[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type AssetPropertyValues = AssetPropertyValue[];
 export interface PutAssetPropertyValueEntry {
   entryId: string;
-  assetId?: string;
-  propertyId?: string;
-  propertyAlias?: string;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  propertyAlias?: string | undefined;
   propertyValues: AssetPropertyValue[];
 }
 export type PutAssetPropertyValueEntries = PutAssetPropertyValueEntry[];
 export interface BatchPutAssetPropertyValueRequest {
-  enablePartialEntryProcessing?: boolean;
+  enablePartialEntryProcessing?: boolean | undefined;
   entries: PutAssetPropertyValueEntry[];
 }
 export type BatchPutAssetPropertyValueErrorCode =
@@ -598,7 +598,7 @@ export interface CancelPipelineExecutionRequest {
   workspaceName: string;
   pipelineName: string;
   pipelineExecutionId: string;
-  reason?: string;
+  reason?: string | undefined;
 }
 export type PipelineExecutionState =
   | "NOT_STARTED"
@@ -643,10 +643,10 @@ export interface IAMRoleIdentity {
   arn: string;
 }
 export interface Identity {
-  user?: UserIdentity;
-  group?: GroupIdentity;
-  iamUser?: IAMUserIdentity;
-  iamRole?: IAMRoleIdentity;
+  user?: UserIdentity | undefined;
+  group?: GroupIdentity | undefined;
+  iamUser?: IAMUserIdentity | undefined;
+  iamRole?: IAMRoleIdentity | undefined;
 }
 export interface PortalResource {
   id: string;
@@ -655,8 +655,8 @@ export interface ProjectResource {
   id: string;
 }
 export interface Resource {
-  portal?: PortalResource;
-  project?: ProjectResource;
+  portal?: PortalResource | undefined;
+  project?: ProjectResource | undefined;
 }
 export type Permission = "ADMINISTRATOR" | "VIEWER" | (string & {});
 export type TagKey = string;
@@ -666,8 +666,8 @@ export interface CreateAccessPolicyRequest {
   accessPolicyIdentity: Identity;
   accessPolicyResource: Resource;
   accessPolicyPermission: Permission;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ARN = string;
 export interface CreateAccessPolicyResponse {
@@ -677,12 +677,12 @@ export interface CreateAccessPolicyResponse {
 export type ApplicationName = string;
 export type Description = string;
 export interface CreateApplicationRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   idcInstanceArn: string;
   workspaceName: string;
   name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ApplicationId = string;
 export type DnsSubdomain = string;
@@ -699,11 +699,11 @@ export type ExternalId = string;
 export interface CreateAssetRequest {
   assetName: string;
   assetModelId: string;
-  assetId?: string;
-  assetExternalId?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
-  assetDescription?: string;
+  assetId?: string | undefined;
+  assetExternalId?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  assetDescription?: string | undefined;
 }
 export type AssetState = "CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "FAILED" | (string & {});
 export type ErrorCode = "VALIDATION_ERROR" | "INTERNAL_FAILURE" | (string & {});
@@ -720,11 +720,11 @@ export type DetailedErrors = DetailedError[];
 export interface ErrorDetails {
   code: ErrorCode;
   message: string;
-  details?: DetailedError[];
+  details?: DetailedError[] | undefined;
 }
 export interface AssetStatus {
   state: AssetState;
-  error?: ErrorDetails;
+  error?: ErrorDetails | undefined;
 }
 export interface CreateAssetResponse {
   assetId: string;
@@ -745,7 +745,7 @@ export type PropertyDataType =
 export type PropertyUnit = string;
 export type DefaultValue = string;
 export interface Attribute {
-  defaultValue?: string;
+  defaultValue?: string | undefined;
 }
 export type ForwardingConfigState = "DISABLED" | "ENABLED" | (string & {});
 export interface ForwardingConfig {
@@ -755,20 +755,20 @@ export interface MeasurementProcessingConfig {
   forwardingConfig: ForwardingConfig;
 }
 export interface Measurement {
-  processingConfig?: MeasurementProcessingConfig;
+  processingConfig?: MeasurementProcessingConfig | undefined;
 }
 export type Expression = string;
 export type VariableName = string;
 export type Macro = string;
 export interface AssetModelPropertyPathSegment {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type AssetModelPropertyPath = AssetModelPropertyPathSegment[];
 export interface VariableValue {
-  propertyId?: string;
-  hierarchyId?: string;
-  propertyPath?: AssetModelPropertyPathSegment[];
+  propertyId?: string | undefined;
+  hierarchyId?: string | undefined;
+  propertyPath?: AssetModelPropertyPathSegment[] | undefined;
 }
 export interface ExpressionVariable {
   name: string;
@@ -778,74 +778,74 @@ export type ExpressionVariables = ExpressionVariable[];
 export type ComputeLocation = "EDGE" | "CLOUD" | (string & {});
 export interface TransformProcessingConfig {
   computeLocation: ComputeLocation;
-  forwardingConfig?: ForwardingConfig;
+  forwardingConfig?: ForwardingConfig | undefined;
 }
 export interface Transform {
   expression: string;
   variables: ExpressionVariable[];
-  processingConfig?: TransformProcessingConfig;
+  processingConfig?: TransformProcessingConfig | undefined;
 }
 export type Interval = string;
 export type Offset = string;
 export interface TumblingWindow {
   interval: string;
-  offset?: string;
+  offset?: string | undefined;
 }
 export interface MetricWindow {
-  tumbling?: TumblingWindow;
+  tumbling?: TumblingWindow | undefined;
 }
 export interface MetricProcessingConfig {
   computeLocation: ComputeLocation;
 }
 export interface Metric {
-  expression?: string;
-  variables?: ExpressionVariable[];
+  expression?: string | undefined;
+  variables?: ExpressionVariable[] | undefined;
   window: MetricWindow;
-  processingConfig?: MetricProcessingConfig;
+  processingConfig?: MetricProcessingConfig | undefined;
 }
 export interface PropertyType {
-  attribute?: Attribute;
-  measurement?: Measurement;
-  transform?: Transform;
-  metric?: Metric;
+  attribute?: Attribute | undefined;
+  measurement?: Measurement | undefined;
+  transform?: Transform | undefined;
+  metric?: Metric | undefined;
 }
 export interface AssetModelPropertyDefinition {
-  id?: string;
-  externalId?: string;
+  id?: string | undefined;
+  externalId?: string | undefined;
   name: string;
   dataType: PropertyDataType;
-  dataTypeSpec?: string;
-  unit?: string;
+  dataTypeSpec?: string | undefined;
+  unit?: string | undefined;
   type: PropertyType;
 }
 export type AssetModelPropertyDefinitions = AssetModelPropertyDefinition[];
 export interface AssetModelHierarchyDefinition {
-  id?: string;
-  externalId?: string;
+  id?: string | undefined;
+  externalId?: string | undefined;
   name: string;
   childAssetModelId: string;
 }
 export type AssetModelHierarchyDefinitions = AssetModelHierarchyDefinition[];
 export interface AssetModelCompositeModelDefinition {
-  id?: string;
-  externalId?: string;
+  id?: string | undefined;
+  externalId?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: string;
-  properties?: AssetModelPropertyDefinition[];
+  properties?: AssetModelPropertyDefinition[] | undefined;
 }
 export type AssetModelCompositeModelDefinitions = AssetModelCompositeModelDefinition[];
 export interface CreateAssetModelRequest {
   assetModelName: string;
-  assetModelType?: AssetModelType;
-  assetModelId?: string;
-  assetModelExternalId?: string;
-  assetModelDescription?: string;
-  assetModelProperties?: AssetModelPropertyDefinition[];
-  assetModelHierarchies?: AssetModelHierarchyDefinition[];
-  assetModelCompositeModels?: AssetModelCompositeModelDefinition[];
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  assetModelType?: AssetModelType | undefined;
+  assetModelId?: string | undefined;
+  assetModelExternalId?: string | undefined;
+  assetModelDescription?: string | undefined;
+  assetModelProperties?: AssetModelPropertyDefinition[] | undefined;
+  assetModelHierarchies?: AssetModelHierarchyDefinition[] | undefined;
+  assetModelCompositeModels?: AssetModelCompositeModelDefinition[] | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AssetModelState =
   | "CREATING"
@@ -857,7 +857,7 @@ export type AssetModelState =
   | (string & {});
 export interface AssetModelStatus {
   state: AssetModelState;
-  error?: ErrorDetails;
+  error?: ErrorDetails | undefined;
 }
 export interface CreateAssetModelResponse {
   assetModelId: string;
@@ -869,29 +869,29 @@ export type SelectAll = string;
 export type AssetModelVersionType = "LATEST" | "ACTIVE" | (string & {});
 export interface CreateAssetModelCompositeModelRequest {
   assetModelId: string;
-  assetModelCompositeModelExternalId?: string;
-  parentAssetModelCompositeModelId?: string;
-  assetModelCompositeModelId?: string;
-  assetModelCompositeModelDescription?: string;
+  assetModelCompositeModelExternalId?: string | undefined;
+  parentAssetModelCompositeModelId?: string | undefined;
+  assetModelCompositeModelId?: string | undefined;
+  assetModelCompositeModelDescription?: string | undefined;
   assetModelCompositeModelName: string;
   assetModelCompositeModelType: string;
-  clientToken?: string;
-  composedAssetModelId?: string;
-  assetModelCompositeModelProperties?: AssetModelPropertyDefinition[];
-  ifMatch?: string;
-  ifNoneMatch?: string;
-  matchForVersionType?: AssetModelVersionType;
+  clientToken?: string | undefined;
+  composedAssetModelId?: string | undefined;
+  assetModelCompositeModelProperties?: AssetModelPropertyDefinition[] | undefined;
+  ifMatch?: string | undefined;
+  ifNoneMatch?: string | undefined;
+  matchForVersionType?: AssetModelVersionType | undefined;
 }
 export interface AssetModelCompositeModelPathSegment {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type AssetModelCompositeModelPath = AssetModelCompositeModelPathSegment[];
 export interface CreateAssetModelCompositeModelResponse {
   assetModelCompositeModelId: string;
   assetModelCompositeModelPath: AssetModelCompositeModelPathSegment[];
   assetModelStatus: AssetModelStatus;
-  assetModelId?: string;
+  assetModelId?: string | undefined;
 }
 export type BulkImportJobName = string;
 export type Bucket = string;
@@ -913,18 +913,18 @@ export interface Parquet {}
 export interface Mp4 {}
 export interface Annotation {}
 export interface FileFormat {
-  csv?: Csv;
-  parquet?: Parquet;
-  mp4?: Mp4;
-  annotation?: Annotation;
+  csv?: Csv | undefined;
+  parquet?: Parquet | undefined;
+  mp4?: Mp4 | undefined;
+  annotation?: Annotation | undefined;
 }
 export interface File {
   bucket: string;
   key: string;
-  versionId?: string;
-  alias?: string;
-  startTime?: TimeInNanos;
-  fileFormat?: FileFormat;
+  versionId?: string | undefined;
+  alias?: string | undefined;
+  startTime?: TimeInNanos | undefined;
+  fileFormat?: FileFormat | undefined;
 }
 export type Files = File[];
 export interface ErrorReportLocation {
@@ -932,7 +932,7 @@ export interface ErrorReportLocation {
   prefix: string;
 }
 export interface JobConfiguration {
-  fileFormat?: FileFormat;
+  fileFormat?: FileFormat | undefined;
 }
 export type AdaptiveIngestion = boolean;
 export type DeleteFilesAfterImport = boolean;
@@ -941,11 +941,11 @@ export interface CreateBulkImportJobRequest {
   jobRoleArn: string;
   files: File[];
   errorReportLocation: ErrorReportLocation;
-  jobConfiguration?: JobConfiguration;
-  adaptiveIngestion?: boolean;
-  deleteFilesAfterImport?: boolean;
-  datasetId?: string;
-  workspaceName?: string;
+  jobConfiguration?: JobConfiguration | undefined;
+  adaptiveIngestion?: boolean | undefined;
+  deleteFilesAfterImport?: boolean | undefined;
+  datasetId?: string | undefined;
+  workspaceName?: string | undefined;
 }
 export type JobStatus =
   | "PENDING"
@@ -969,7 +969,7 @@ export interface ComputationModelAnomalyDetectionConfiguration {
   resultProperty: string;
 }
 export interface ComputationModelConfiguration {
-  anomalyDetection?: ComputationModelAnomalyDetectionConfiguration;
+  anomalyDetection?: ComputationModelAnomalyDetectionConfiguration | undefined;
 }
 export type ComputationModelDataBindingVariable = string;
 export interface AssetModelPropertyBindingValue {
@@ -982,20 +982,20 @@ export interface AssetPropertyBindingValue {
 }
 export type BindingValueList = ComputationModelDataBindingValue[];
 export interface ComputationModelDataBindingValue {
-  assetModelProperty?: AssetModelPropertyBindingValue;
-  assetProperty?: AssetPropertyBindingValue;
-  list?: ComputationModelDataBindingValue[];
+  assetModelProperty?: AssetModelPropertyBindingValue | undefined;
+  assetProperty?: AssetPropertyBindingValue | undefined;
+  list?: ComputationModelDataBindingValue[] | undefined;
 }
 export type ComputationModelDataBinding = {
   [key: string]: ComputationModelDataBindingValue | undefined;
 };
 export interface CreateComputationModelRequest {
   computationModelName: string;
-  computationModelDescription?: string;
+  computationModelDescription?: string | undefined;
   computationModelConfiguration: ComputationModelConfiguration;
   computationModelDataBinding: { [key: string]: ComputationModelDataBindingValue | undefined };
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ComputationModelState =
   | "CREATING"
@@ -1006,7 +1006,7 @@ export type ComputationModelState =
   | (string & {});
 export interface ComputationModelStatus {
   state: ComputationModelState;
-  error?: ErrorDetails;
+  error?: ErrorDetails | undefined;
 }
 export interface CreateComputationModelResponse {
   computationModelId: string;
@@ -1017,10 +1017,10 @@ export type DashboardDefinition = string;
 export interface CreateDashboardRequest {
   projectId: string;
   dashboardName: string;
-  dashboardDescription?: string;
+  dashboardDescription?: string | undefined;
   dashboardDefinition: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDashboardResponse {
   dashboardId: string;
@@ -1032,7 +1032,7 @@ export interface SessionConfig {
   sessionEndTimestamp: TimeInNanos;
 }
 export interface DatasetConfig {
-  session?: SessionConfig;
+  session?: SessionConfig | undefined;
 }
 export type MetadataKey = string;
 export type MetadataValue = string;
@@ -1044,24 +1044,24 @@ export interface KendraSourceDetail {
   roleArn: string;
 }
 export interface SourceDetail {
-  kendra?: KendraSourceDetail;
+  kendra?: KendraSourceDetail | undefined;
 }
 export interface DatasetSource {
   sourceType: DatasetSourceType;
   sourceFormat: DatasetSourceFormat;
-  sourceDetail?: SourceDetail;
+  sourceDetail?: SourceDetail | undefined;
 }
 export interface CreateDatasetRequest {
-  datasetId?: string;
+  datasetId?: string | undefined;
   datasetName: string;
-  datasetDescription?: string;
-  datasetType?: DatasetTypeEnum;
-  datasetConfig?: DatasetConfig;
-  workspaceName?: string;
-  metadata?: { [key: string]: string | undefined };
+  datasetDescription?: string | undefined;
+  datasetType?: DatasetTypeEnum | undefined;
+  datasetConfig?: DatasetConfig | undefined;
+  workspaceName?: string | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
   datasetSource: DatasetSource;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DatasetState =
   | "CREATING"
@@ -1072,7 +1072,7 @@ export type DatasetState =
   | (string & {});
 export interface DatasetStatus {
   state: DatasetState;
-  error?: ErrorDetails;
+  error?: ErrorDetails | undefined;
 }
 export interface CreateDatasetResponse {
   datasetId: string;
@@ -1086,15 +1086,15 @@ export interface TrimSettings {
 }
 export type PositiveInteger = number;
 export interface FormatSettings {
-  framesPerSecond?: number;
-  widthInPixels?: number;
-  heightInPixels?: number;
+  framesPerSecond?: number | undefined;
+  widthInPixels?: number | undefined;
+  heightInPixels?: number | undefined;
 }
 export interface TimeseriesItem {
-  timeSeriesId?: string;
-  propertyAlias?: string;
-  trimSettings?: TrimSettings;
-  formatSettings?: FormatSettings;
+  timeSeriesId?: string | undefined;
+  propertyAlias?: string | undefined;
+  trimSettings?: TrimSettings | undefined;
+  formatSettings?: FormatSettings | undefined;
 }
 export type TimeseriesList = TimeseriesItem[];
 export type DatasetId = string;
@@ -1102,20 +1102,22 @@ export type ExportDataType = "VIDEO" | "TELEMETRY" | "ANNOTATION" | (string & {}
 export type ExportDataTypeList = ExportDataType[];
 export interface DatasetItem {
   datasetId: string;
-  trimSettings?: TrimSettings;
-  exportDataTypes?: ExportDataType[];
+  trimSettings?: TrimSettings | undefined;
+  exportDataTypes?: ExportDataType[] | undefined;
 }
 export type ProcessingInput =
-  | { timeseries: TimeseriesItem[]; dataset?: never }
-  | { timeseries?: never; dataset: DatasetItem };
+  | { timeseries: TimeseriesItem[]; dataset?: undefined }
+  | { timeseries?: undefined; dataset: DatasetItem };
+export type DatasetExportJobNameInput = string;
 export interface ExportErrorReportLocation {
   s3Uri: string;
 }
 export interface CreateDatasetExportJobRequest {
   workspaceName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   destinationS3Uri: string;
   input: ProcessingInput;
+  jobName?: string | undefined;
   errorReportLocation: ExportErrorReportLocation;
 }
 export type DatasetExportJobId = string;
@@ -1129,15 +1131,15 @@ export interface EnrichmentTrimSettings {
 }
 export interface EventDetection {
   datasetId: string;
-  timeSeriesId?: string;
-  propertyAlias?: string;
+  timeSeriesId?: string | undefined;
+  propertyAlias?: string | undefined;
   trimSettings: EnrichmentTrimSettings;
 }
 export type EnrichmentJobConfiguration = { eventDetection: EventDetection };
 export interface CreateEnrichmentJobRequest {
   workspaceName: string;
   jobConfiguration: EnrichmentJobConfiguration;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateEnrichmentJobResponse {
   jobId: string;
@@ -1156,23 +1158,23 @@ export type CoreDeviceOperatingSystem =
   | (string & {});
 export interface GreengrassV2 {
   coreDeviceThingName: string;
-  coreDeviceOperatingSystem?: CoreDeviceOperatingSystem;
+  coreDeviceOperatingSystem?: CoreDeviceOperatingSystem | undefined;
 }
 export type IotCoreThingName = string;
 export interface SiemensIE {
   iotCoreThingName: string;
 }
 export interface GatewayPlatform {
-  greengrass?: Greengrass;
-  greengrassV2?: GreengrassV2;
-  siemensIE?: SiemensIE;
+  greengrass?: Greengrass | undefined;
+  greengrassV2?: GreengrassV2 | undefined;
+  siemensIE?: SiemensIE | undefined;
 }
 export type GatewayVersion = string;
 export interface CreateGatewayRequest {
   gatewayName: string;
   gatewayPlatform: GatewayPlatform;
-  gatewayVersion?: string;
-  tags?: { [key: string]: string | undefined };
+  gatewayVersion?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateGatewayResponse {
   gatewayId: string;
@@ -1185,23 +1187,23 @@ export type ComputeNodeNameList = string[];
 export interface ComputeNode {
   computeNodeName: string;
   taskName: string;
-  environmentVariables?: { [key: string]: string | undefined };
-  dependsOn?: string[];
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  dependsOn?: string[] | undefined;
 }
 export type ComputeNodeList = ComputeNode[];
 export interface CreatePipelineRequest {
   workspaceName: string;
   pipelineName: string;
-  description?: string;
-  environmentVariables?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
   computations: ComputeNode[];
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type ResourceErrorCode = "VALIDATION_ERROR" | "INTERNAL_FAILURE" | (string & {});
 export interface ResourceError {
-  code?: ResourceErrorCode;
-  message?: string;
+  code?: ResourceErrorCode | undefined;
+  message?: string | undefined;
 }
 export type ResourceState =
   | "CREATING"
@@ -1211,8 +1213,8 @@ export type ResourceState =
   | "FAILED"
   | (string & {});
 export interface ResourceStatus {
-  error?: ResourceError;
-  state?: ResourceState;
+  error?: ResourceError | undefined;
+  state?: ResourceState | undefined;
 }
 export interface CreatePipelineResponse {
   pipelineName: string;
@@ -1230,28 +1232,28 @@ export interface ImageFile {
 export type AuthMode = "IAM" | "SSO" | (string & {});
 export interface Alarms {
   alarmRoleArn: string;
-  notificationLambdaArn?: string;
+  notificationLambdaArn?: string | undefined;
 }
 export type PortalType = "SITEWISE_PORTAL_V1" | "SITEWISE_PORTAL_V2" | (string & {});
 export type PortalTypeKey = string;
 export type PortalTools = string[];
 export interface PortalTypeEntry {
-  portalTools?: string[];
+  portalTools?: string[] | undefined;
 }
 export type PortalTypeConfiguration = { [key: string]: PortalTypeEntry | undefined };
 export interface CreatePortalRequest {
   portalName: string;
-  portalDescription?: string;
+  portalDescription?: string | undefined;
   portalContactEmail: string | redacted.Redacted<string>;
-  clientToken?: string;
-  portalLogoImageFile?: ImageFile;
+  clientToken?: string | undefined;
+  portalLogoImageFile?: ImageFile | undefined;
   roleArn: string;
-  tags?: { [key: string]: string | undefined };
-  portalAuthMode?: AuthMode;
-  notificationSenderEmail?: string | redacted.Redacted<string>;
-  alarms?: Alarms;
-  portalType?: PortalType;
-  portalTypeConfiguration?: { [key: string]: PortalTypeEntry | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
+  portalAuthMode?: AuthMode | undefined;
+  notificationSenderEmail?: string | redacted.Redacted<string> | undefined;
+  alarms?: Alarms | undefined;
+  portalType?: PortalType | undefined;
+  portalTypeConfiguration?: { [key: string]: PortalTypeEntry | undefined } | undefined;
 }
 export type Url = string;
 export type PortalState =
@@ -1269,12 +1271,12 @@ export type MonitorErrorCode =
   | (string & {});
 export type MonitorErrorMessage = string;
 export interface MonitorErrorDetails {
-  code?: MonitorErrorCode;
-  message?: string;
+  code?: MonitorErrorCode | undefined;
+  message?: string | undefined;
 }
 export interface PortalStatus {
   state: PortalState;
-  error?: MonitorErrorDetails;
+  error?: MonitorErrorDetails | undefined;
 }
 export type SSOApplicationId = string;
 export interface CreatePortalResponse {
@@ -1287,9 +1289,9 @@ export interface CreatePortalResponse {
 export interface CreateProjectRequest {
   portalId: string;
   projectName: string;
-  projectDescription?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  projectDescription?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateProjectResponse {
   projectId: string;
@@ -1335,7 +1337,7 @@ export type MountS3AccessPointArn = string;
 export type MountS3KeyPrefix = string;
 export interface S3AccessPointSource {
   accessPointArn: string;
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export type MountSource = { s3AccessPoint: S3AccessPointSource };
 export type MountStorageType = "SHARED_STORAGE" | (string & {});
@@ -1351,20 +1353,20 @@ export interface ContainerTaskConfiguration {
   taskExecutionRole: string | redacted.Redacted<string>;
   processingType: ProcessingType;
   processingUnit: ProcessingUnit;
-  ephemeralStorageConfiguration?: EphemeralStorageConfiguration;
-  command?: string[];
-  timeoutSeconds?: number;
-  environmentVariables?: { [key: string]: string | undefined };
-  mounts?: Mount[];
+  ephemeralStorageConfiguration?: EphemeralStorageConfiguration | undefined;
+  command?: string[] | undefined;
+  timeoutSeconds?: number | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  mounts?: Mount[] | undefined;
 }
 export type TaskConfiguration = { containerTaskConfiguration: ContainerTaskConfiguration };
 export interface CreateTaskRequest {
   workspaceName: string;
   taskName: string;
-  description?: string;
+  description?: string | undefined;
   taskConfiguration: TaskConfiguration;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateTaskResponse {
   taskName: string;
@@ -1376,14 +1378,14 @@ export type EncryptionType = "SITEWISE_DEFAULT_ENCRYPTION" | "KMS_BASED_ENCRYPTI
 export type KmsKeyId = string;
 export interface WorkspaceEncryptionConfiguration {
   encryptionType: EncryptionType;
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
 }
 export interface CreateWorkspaceRequest {
   workspaceName: string;
-  workspaceDescription?: string;
+  workspaceDescription?: string | undefined;
   encryptionConfiguration: WorkspaceEncryptionConfiguration;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type WorkspaceState =
   | "CREATING"
@@ -1398,7 +1400,7 @@ export interface WorkspaceErrorDetails {
 }
 export interface WorkspaceStatus {
   state: WorkspaceState;
-  error?: WorkspaceErrorDetails;
+  error?: WorkspaceErrorDetails | undefined;
 }
 export interface CreateWorkspaceResponse {
   workspaceName: string;
@@ -1407,7 +1409,7 @@ export interface CreateWorkspaceResponse {
 }
 export interface DeleteAccessPolicyRequest {
   accessPolicyId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteAccessPolicyResponse {}
 export interface DeleteApplicationRequest {
@@ -1417,39 +1419,39 @@ export interface DeleteApplicationRequest {
 export interface DeleteApplicationResponse {}
 export interface DeleteAssetRequest {
   assetId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteAssetResponse {
-  assetId?: string;
+  assetId?: string | undefined;
   assetStatus: AssetStatus;
 }
 export interface DeleteAssetModelRequest {
   assetModelId: string;
-  clientToken?: string;
-  ifMatch?: string;
-  ifNoneMatch?: string;
-  matchForVersionType?: AssetModelVersionType;
+  clientToken?: string | undefined;
+  ifMatch?: string | undefined;
+  ifNoneMatch?: string | undefined;
+  matchForVersionType?: AssetModelVersionType | undefined;
 }
 export interface DeleteAssetModelResponse {
-  assetModelId?: string;
+  assetModelId?: string | undefined;
   assetModelStatus: AssetModelStatus;
 }
 export interface DeleteAssetModelCompositeModelRequest {
   assetModelId: string;
   assetModelCompositeModelId: string;
-  clientToken?: string;
-  ifMatch?: string;
-  ifNoneMatch?: string;
-  matchForVersionType?: AssetModelVersionType;
+  clientToken?: string | undefined;
+  ifMatch?: string | undefined;
+  ifNoneMatch?: string | undefined;
+  matchForVersionType?: AssetModelVersionType | undefined;
 }
 export interface DeleteAssetModelCompositeModelResponse {
   assetModelStatus: AssetModelStatus;
-  assetModelId?: string;
+  assetModelId?: string | undefined;
 }
 export interface DeleteAssetModelInterfaceRelationshipRequest {
   assetModelId: string;
   interfaceAssetModelId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteAssetModelInterfaceRelationshipResponse {
   assetModelId: string;
@@ -1459,20 +1461,20 @@ export interface DeleteAssetModelInterfaceRelationshipResponse {
 }
 export interface DeleteComputationModelRequest {
   computationModelId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteComputationModelResponse {
   computationModelStatus: ComputationModelStatus;
 }
 export interface DeleteDashboardRequest {
   dashboardId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteDashboardResponse {}
 export interface DeleteDatasetRequest {
   datasetId: string;
-  workspaceName?: string;
-  clientToken?: string;
+  workspaceName?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface DeleteDatasetResponse {
   datasetStatus: DatasetStatus;
@@ -1490,14 +1492,14 @@ export interface DeletePipelineResponse {
 }
 export interface DeletePortalRequest {
   portalId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeletePortalResponse {
   portalStatus: PortalStatus;
 }
 export interface DeleteProjectRequest {
   projectId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteProjectResponse {}
 export interface DeleteTaskRequest {
@@ -1508,16 +1510,16 @@ export interface DeleteTaskResponse {
   status: ResourceStatus;
 }
 export interface DeleteTimeSeriesRequest {
-  alias?: string;
-  assetId?: string;
-  propertyId?: string;
-  clientToken?: string;
-  workspaceName?: string;
+  alias?: string | undefined;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  clientToken?: string | undefined;
+  workspaceName?: string | undefined;
 }
 export interface DeleteTimeSeriesResponse {}
 export interface DeleteWorkspaceRequest {
   workspaceName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteWorkspaceResponse {
   workspaceStatus: WorkspaceStatus;
@@ -1538,8 +1540,8 @@ export interface DescribeActionRequest {
   actionId: string;
 }
 export interface TargetResource {
-  assetId?: string;
-  computationModelId?: string;
+  assetId?: string | undefined;
+  computationModelId?: string | undefined;
 }
 export type ActionPayloadString = string;
 export interface ActionPayload {
@@ -1554,7 +1556,7 @@ export interface DescribeActionResponse {
   actionDefinitionId: string;
   actionPayload: ActionPayload;
   executionTime: Date;
-  resolveTo?: ResolveTo;
+  resolveTo?: ResolveTo | undefined;
 }
 export interface DescribeApplicationRequest {
   workspaceName: string;
@@ -1565,7 +1567,7 @@ export interface DescribeApplicationResponse {
   arn: string;
   createdAt: Date;
   dnsSubdomain: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
   idcApplicationArn: string;
   name: string;
@@ -1576,7 +1578,7 @@ export interface DescribeApplicationResponse {
 export type ExcludeProperties = boolean;
 export interface DescribeAssetRequest {
   assetId: string;
-  excludeProperties?: boolean;
+  excludeProperties?: boolean | undefined;
 }
 export type PropertyNotificationTopic = string;
 export type PropertyNotificationState = "ENABLED" | "DISABLED" | (string & {});
@@ -1585,45 +1587,45 @@ export interface PropertyNotification {
   state: PropertyNotificationState;
 }
 export interface AssetPropertyPathSegment {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type AssetPropertyPath = AssetPropertyPathSegment[];
 export interface AssetProperty {
   id: string;
-  externalId?: string;
+  externalId?: string | undefined;
   name: string;
-  alias?: string;
-  notification?: PropertyNotification;
+  alias?: string | undefined;
+  notification?: PropertyNotification | undefined;
   dataType: PropertyDataType;
-  dataTypeSpec?: string;
-  unit?: string;
-  path?: AssetPropertyPathSegment[];
+  dataTypeSpec?: string | undefined;
+  unit?: string | undefined;
+  path?: AssetPropertyPathSegment[] | undefined;
 }
 export type AssetProperties = AssetProperty[];
 export interface AssetHierarchy {
-  id?: string;
-  externalId?: string;
+  id?: string | undefined;
+  externalId?: string | undefined;
   name: string;
 }
 export type AssetHierarchies = AssetHierarchy[];
 export interface AssetCompositeModel {
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: string;
   properties: AssetProperty[];
-  id?: string;
-  externalId?: string;
+  id?: string | undefined;
+  externalId?: string | undefined;
 }
 export type AssetCompositeModels = AssetCompositeModel[];
 export interface AssetCompositeModelPathSegment {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type AssetCompositeModelPath = AssetCompositeModelPathSegment[];
 export interface AssetCompositeModelSummary {
   id: string;
-  externalId?: string;
+  externalId?: string | undefined;
   name: string;
   type: string;
   description: string;
@@ -1632,18 +1634,18 @@ export interface AssetCompositeModelSummary {
 export type AssetCompositeModelSummaries = AssetCompositeModelSummary[];
 export interface DescribeAssetResponse {
   assetId: string;
-  assetExternalId?: string;
+  assetExternalId?: string | undefined;
   assetArn: string;
   assetName: string;
   assetModelId: string;
   assetProperties: AssetProperty[];
   assetHierarchies: AssetHierarchy[];
-  assetCompositeModels?: AssetCompositeModel[];
+  assetCompositeModels?: AssetCompositeModel[] | undefined;
   assetCreationDate: Date;
   assetLastUpdateDate: Date;
   assetStatus: AssetStatus;
-  assetDescription?: string;
-  assetCompositeModelSummaries?: AssetCompositeModelSummary[];
+  assetDescription?: string | undefined;
+  assetCompositeModelSummaries?: AssetCompositeModelSummary[] | undefined;
 }
 export interface DescribeAssetCompositeModelRequest {
   assetId: string;
@@ -1658,55 +1660,55 @@ export type ActionDefinitions = ActionDefinition[];
 export interface DescribeAssetCompositeModelResponse {
   assetId: string;
   assetCompositeModelId: string;
-  assetCompositeModelExternalId?: string;
+  assetCompositeModelExternalId?: string | undefined;
   assetCompositeModelPath: AssetCompositeModelPathSegment[];
   assetCompositeModelName: string;
   assetCompositeModelDescription: string;
   assetCompositeModelType: string;
   assetCompositeModelProperties: AssetProperty[];
   assetCompositeModelSummaries: AssetCompositeModelSummary[];
-  actionDefinitions?: ActionDefinition[];
+  actionDefinitions?: ActionDefinition[] | undefined;
 }
 export type AssetModelVersionFilter = string;
 export interface DescribeAssetModelRequest {
   assetModelId: string;
-  excludeProperties?: boolean;
-  assetModelVersion?: string;
+  excludeProperties?: boolean | undefined;
+  assetModelVersion?: string | undefined;
 }
 export interface AssetModelProperty {
-  id?: string;
-  externalId?: string;
+  id?: string | undefined;
+  externalId?: string | undefined;
   name: string;
   dataType: PropertyDataType;
-  dataTypeSpec?: string;
-  unit?: string;
+  dataTypeSpec?: string | undefined;
+  unit?: string | undefined;
   type: PropertyType;
-  path?: AssetModelPropertyPathSegment[];
+  path?: AssetModelPropertyPathSegment[] | undefined;
 }
 export type AssetModelProperties = AssetModelProperty[];
 export interface AssetModelHierarchy {
-  id?: string;
-  externalId?: string;
+  id?: string | undefined;
+  externalId?: string | undefined;
   name: string;
   childAssetModelId: string;
 }
 export type AssetModelHierarchies = AssetModelHierarchy[];
 export interface AssetModelCompositeModel {
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: string;
-  properties?: AssetModelProperty[];
-  id?: string;
-  externalId?: string;
+  properties?: AssetModelProperty[] | undefined;
+  id?: string | undefined;
+  externalId?: string | undefined;
 }
 export type AssetModelCompositeModels = AssetModelCompositeModel[];
 export interface AssetModelCompositeModelSummary {
   id: string;
-  externalId?: string;
+  externalId?: string | undefined;
   name: string;
   type: string;
-  description?: string;
-  path?: AssetModelCompositeModelPathSegment[];
+  description?: string | undefined;
+  path?: AssetModelCompositeModelPathSegment[] | undefined;
 }
 export type AssetModelCompositeModelSummaries = AssetModelCompositeModelSummary[];
 export interface InterfaceRelationship {
@@ -1715,46 +1717,46 @@ export interface InterfaceRelationship {
 export type InterfaceDetails = InterfaceRelationship[];
 export interface DescribeAssetModelResponse {
   assetModelId: string;
-  assetModelExternalId?: string;
+  assetModelExternalId?: string | undefined;
   assetModelArn: string;
   assetModelName: string;
-  assetModelType?: AssetModelType;
+  assetModelType?: AssetModelType | undefined;
   assetModelDescription: string;
   assetModelProperties: AssetModelProperty[];
   assetModelHierarchies: AssetModelHierarchy[];
-  assetModelCompositeModels?: AssetModelCompositeModel[];
-  assetModelCompositeModelSummaries?: AssetModelCompositeModelSummary[];
+  assetModelCompositeModels?: AssetModelCompositeModel[] | undefined;
+  assetModelCompositeModelSummaries?: AssetModelCompositeModelSummary[] | undefined;
   assetModelCreationDate: Date;
   assetModelLastUpdateDate: Date;
   assetModelStatus: AssetModelStatus;
-  assetModelVersion?: string;
-  interfaceDetails?: InterfaceRelationship[];
-  eTag?: string;
+  assetModelVersion?: string | undefined;
+  interfaceDetails?: InterfaceRelationship[] | undefined;
+  eTag?: string | undefined;
 }
 export interface DescribeAssetModelCompositeModelRequest {
   assetModelId: string;
   assetModelCompositeModelId: string;
-  assetModelVersion?: string;
+  assetModelVersion?: string | undefined;
 }
 export interface CompositionRelationshipItem {
-  id?: string;
+  id?: string | undefined;
 }
 export type CompositionRelationship = CompositionRelationshipItem[];
 export interface CompositionDetails {
-  compositionRelationship?: CompositionRelationshipItem[];
+  compositionRelationship?: CompositionRelationshipItem[] | undefined;
 }
 export interface DescribeAssetModelCompositeModelResponse {
   assetModelId: string;
   assetModelCompositeModelId: string;
-  assetModelCompositeModelExternalId?: string;
+  assetModelCompositeModelExternalId?: string | undefined;
   assetModelCompositeModelPath: AssetModelCompositeModelPathSegment[];
   assetModelCompositeModelName: string;
   assetModelCompositeModelDescription: string;
   assetModelCompositeModelType: string;
   assetModelCompositeModelProperties: AssetModelProperty[];
-  compositionDetails?: CompositionDetails;
+  compositionDetails?: CompositionDetails | undefined;
   assetModelCompositeModelSummaries: AssetModelCompositeModelSummary[];
-  actionDefinitions?: ActionDefinition[];
+  actionDefinitions?: ActionDefinition[] | undefined;
 }
 export interface DescribeAssetModelInterfaceRelationshipRequest {
   assetModelId: string;
@@ -1782,33 +1784,33 @@ export interface DescribeAssetPropertyRequest {
 }
 export interface Property {
   id: string;
-  externalId?: string;
+  externalId?: string | undefined;
   name: string;
-  alias?: string;
-  notification?: PropertyNotification;
+  alias?: string | undefined;
+  notification?: PropertyNotification | undefined;
   dataType: PropertyDataType;
-  unit?: string;
-  type?: PropertyType;
-  path?: AssetPropertyPathSegment[];
+  unit?: string | undefined;
+  type?: PropertyType | undefined;
+  path?: AssetPropertyPathSegment[] | undefined;
 }
 export interface CompositeModelProperty {
   name: string;
   type: string;
   assetProperty: Property;
-  id?: string;
-  externalId?: string;
+  id?: string | undefined;
+  externalId?: string | undefined;
 }
 export interface DescribeAssetPropertyResponse {
   assetId: string;
-  assetExternalId?: string;
+  assetExternalId?: string | undefined;
   assetName: string;
   assetModelId: string;
-  assetProperty?: Property;
-  compositeModel?: CompositeModelProperty;
+  assetProperty?: Property | undefined;
+  compositeModel?: CompositeModelProperty | undefined;
 }
 export interface DescribeBulkImportJobRequest {
   jobId: string;
-  workspaceName?: string;
+  workspaceName?: string | undefined;
 }
 export interface DescribeBulkImportJobResponse {
   jobId: string;
@@ -1817,24 +1819,24 @@ export interface DescribeBulkImportJobResponse {
   jobRoleArn: string;
   files: File[];
   errorReportLocation: ErrorReportLocation;
-  jobConfiguration?: JobConfiguration;
+  jobConfiguration?: JobConfiguration | undefined;
   jobCreationDate: Date;
   jobLastUpdateDate: Date;
-  adaptiveIngestion?: boolean;
-  deleteFilesAfterImport?: boolean;
-  datasetId?: string;
-  workspaceName?: string;
+  adaptiveIngestion?: boolean | undefined;
+  deleteFilesAfterImport?: boolean | undefined;
+  datasetId?: string | undefined;
+  workspaceName?: string | undefined;
 }
 export type ComputationModelVersionFilter = string;
 export interface DescribeComputationModelRequest {
   computationModelId: string;
-  computationModelVersion?: string;
+  computationModelVersion?: string | undefined;
 }
 export interface DescribeComputationModelResponse {
   computationModelId: string;
   computationModelArn: string;
   computationModelName: string;
-  computationModelDescription?: string;
+  computationModelDescription?: string | undefined;
   computationModelConfiguration: ComputationModelConfiguration;
   computationModelDataBinding: { [key: string]: ComputationModelDataBindingValue | undefined };
   computationModelCreationDate: Date;
@@ -1846,15 +1848,15 @@ export interface DescribeComputationModelResponse {
 export type ResolveToResourceType = "ASSET" | (string & {});
 export interface DescribeComputationModelExecutionSummaryRequest {
   computationModelId: string;
-  resolveToResourceType?: ResolveToResourceType;
-  resolveToResourceId?: string;
+  resolveToResourceType?: ResolveToResourceType | undefined;
+  resolveToResourceId?: string | undefined;
 }
 export type ComputationModelExecutionSummaryKey = string;
 export type ComputationModelExecutionSummaryValue = string;
 export type ComputationModelExecutionSummary = { [key: string]: string | undefined };
 export interface DescribeComputationModelExecutionSummaryResponse {
   computationModelId: string;
-  resolveTo?: ResolveTo;
+  resolveTo?: ResolveTo | undefined;
   computationModelExecutionSummary: { [key: string]: string | undefined };
 }
 export interface DescribeDashboardRequest {
@@ -1865,15 +1867,15 @@ export interface DescribeDashboardResponse {
   dashboardArn: string;
   dashboardName: string;
   projectId: string;
-  dashboardDescription?: string;
+  dashboardDescription?: string | undefined;
   dashboardDefinition: string;
   dashboardCreationDate: Date;
   dashboardLastUpdateDate: Date;
 }
 export interface DescribeDatasetRequest {
   datasetId: string;
-  workspaceName?: string;
-  datasetVersion?: string;
+  workspaceName?: string | undefined;
+  datasetVersion?: string | undefined;
 }
 export type DatasetEnrichmentStatus =
   | "FULLY_ENRICHED"
@@ -1882,31 +1884,32 @@ export type DatasetEnrichmentStatus =
   | (string & {});
 export interface DatasetEnrichmentEntry {
   status: DatasetEnrichmentStatus;
-  lastEnrichedAt?: Date;
+  lastEnrichedAt?: Date | undefined;
 }
 export interface DatasetEnrichment {
-  video?: DatasetEnrichmentEntry;
+  video?: DatasetEnrichmentEntry | undefined;
 }
 export interface DescribeDatasetResponse {
   datasetId: string;
   datasetArn: string;
   datasetName: string;
   datasetDescription: string;
-  datasetType?: DatasetTypeEnum;
-  datasetConfig?: DatasetConfig;
-  workspaceName?: string;
-  metadata?: { [key: string]: string | undefined };
+  datasetType?: DatasetTypeEnum | undefined;
+  datasetConfig?: DatasetConfig | undefined;
+  workspaceName?: string | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
   datasetSource: DatasetSource;
   datasetStatus: DatasetStatus;
   datasetCreationDate: Date;
   datasetLastUpdateDate: Date;
-  datasetVersion?: string;
-  enrichmentStatus?: DatasetEnrichment;
+  datasetVersion?: string | undefined;
+  enrichmentStatus?: DatasetEnrichment | undefined;
 }
 export interface DescribeDatasetExportJobRequest {
   workspaceName: string;
   jobId: string;
 }
+export type DatasetExportJobName = string;
 export type DatasetExportJobStatus =
   | "SUBMITTED"
   | "RUNNING"
@@ -1917,9 +1920,10 @@ export type DatasetExportJobStatus =
 export interface DescribeDatasetExportJobResponse {
   jobId: string;
   workspaceName: string;
+  jobName?: string | undefined;
   status: DatasetExportJobStatus;
   startedAt: Date;
-  completedAt?: Date;
+  completedAt?: Date | undefined;
   destinationS3Uri: string;
   errorReportLocation: ExportErrorReportLocation;
   input: ProcessingInput;
@@ -1932,11 +1936,11 @@ export interface ConfigurationErrorDetails {
 }
 export interface ConfigurationStatus {
   state: ConfigurationState;
-  error?: ConfigurationErrorDetails;
+  error?: ConfigurationErrorDetails | undefined;
 }
 export interface DescribeDefaultEncryptionConfigurationResponse {
   encryptionType: EncryptionType;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
   configurationStatus: ConfigurationStatus;
 }
 export interface DescribeEnrichmentJobRequest {
@@ -1951,10 +1955,10 @@ export interface DescribeEnrichmentJobResponse {
   jobType: JobType;
   jobConfiguration: EnrichmentJobConfiguration;
   createdAt: Date;
-  updatedAt?: Date;
-  completedAt?: Date;
-  cancelledAt?: Date;
-  failureMessage?: string;
+  updatedAt?: Date | undefined;
+  completedAt?: Date | undefined;
+  cancelledAt?: Date | undefined;
+  failureMessage?: string | undefined;
 }
 export interface DescribeExecutionRequest {
   executionId: string;
@@ -1971,16 +1975,16 @@ export type ExecutionDetailsValue = string;
 export type ExecutionDetails = { [key: string]: string | undefined };
 export interface DescribeExecutionResponse {
   executionId: string;
-  actionType?: string;
+  actionType?: string | undefined;
   targetResource: TargetResource;
   targetResourceVersion: string;
-  resolveTo?: ResolveTo;
+  resolveTo?: ResolveTo | undefined;
   executionStartTime: Date;
-  executionEndTime?: Date;
+  executionEndTime?: Date | undefined;
   executionStatus: ExecutionStatus;
-  executionResult?: { [key: string]: string | undefined };
-  executionDetails?: { [key: string]: string | undefined };
-  executionEntityVersion?: string;
+  executionResult?: { [key: string]: string | undefined } | undefined;
+  executionDetails?: { [key: string]: string | undefined } | undefined;
+  executionEntityVersion?: string | undefined;
 }
 export interface DescribeGatewayRequest {
   gatewayId: string;
@@ -2002,8 +2006,8 @@ export interface DescribeGatewayResponse {
   gatewayId: string;
   gatewayName: string;
   gatewayArn: string;
-  gatewayPlatform?: GatewayPlatform;
-  gatewayVersion?: string;
+  gatewayPlatform?: GatewayPlatform | undefined;
+  gatewayVersion?: string | undefined;
   gatewayCapabilitySummaries: GatewayCapabilitySummary[];
   creationDate: Date;
   lastUpdateDate: Date;
@@ -2020,7 +2024,7 @@ export interface DescribeGatewayCapabilityConfigurationResponse {
   capabilitySyncStatus: CapabilitySyncStatus;
 }
 export interface DescribeLoggingOptionsRequest {
-  workspaceName?: string;
+  workspaceName?: string | undefined;
 }
 export type LoggingLevel = "ERROR" | "INFO" | "OFF" | (string & {});
 export interface LoggingOptions {
@@ -2032,15 +2036,15 @@ export interface DescribeLoggingOptionsResponse {
 export interface DescribePipelineRequest {
   workspaceName: string;
   pipelineName: string;
-  pipelineVersion?: string;
+  pipelineVersion?: string | undefined;
 }
 export interface DescribePipelineResponse {
   pipelineName: string;
   workspaceName: string;
-  description?: string;
+  description?: string | undefined;
   pipelineArn: string;
   version: string;
-  environmentVariables?: { [key: string]: string | undefined };
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
   computations: ComputeNode[];
   status: ResourceStatus;
   createdAt: Date;
@@ -2052,8 +2056,8 @@ export interface DescribePipelineExecutionRequest {
   workspaceName: string;
   pipelineName: string;
   pipelineExecutionId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type PipelineErrorCode =
   | "VALIDATION_ERROR"
@@ -2073,20 +2077,20 @@ export interface DetailedPipelineError {
 }
 export type DetailedErrorList = DetailedPipelineError[];
 export interface PipelineExecutionStateDetails {
-  code?: PipelineErrorCode;
+  code?: PipelineErrorCode | undefined;
   message: string;
-  details?: DetailedPipelineError[];
+  details?: DetailedPipelineError[] | undefined;
 }
 export interface PipelineExecutionStatus {
   state: PipelineExecutionState;
-  stateDetails?: PipelineExecutionStateDetails;
+  stateDetails?: PipelineExecutionStateDetails | undefined;
 }
 export type ComputeNodeEnvironmentVariablesMap = {
   [key: string]: { [key: string]: string | undefined } | undefined;
 };
 export interface ExecutionEnvironmentVariables {
-  global?: { [key: string]: string | undefined };
-  computeNodes?: { [key: string]: { [key: string]: string | undefined } | undefined };
+  global?: { [key: string]: string | undefined } | undefined;
+  computeNodes?: { [key: string]: { [key: string]: string | undefined } | undefined } | undefined;
 }
 export type ComputeNodeMountsMap = { [key: string]: Mount[] | undefined };
 export interface MountOverrides {
@@ -2109,11 +2113,11 @@ export type ComputeNodeErrorCode =
 export interface ComputeNodeExecutionStateDetails {
   code: ComputeNodeErrorCode;
   message: string;
-  details?: DetailedPipelineError[];
+  details?: DetailedPipelineError[] | undefined;
 }
 export interface ComputeNodeExecutionStatus {
   state: ComputeNodeExecutionState;
-  stateDetails?: ComputeNodeExecutionStateDetails;
+  stateDetails?: ComputeNodeExecutionStateDetails | undefined;
 }
 export type ExecutionEnvironmentVariablesMapKeyString = string;
 export type ExecutionEnvironmentVariablesMapValueString = string;
@@ -2125,10 +2129,10 @@ export interface ComputeNodeExecutionDetails {
   taskVersion: string;
   dependsOn: string[];
   status: ComputeNodeExecutionStatus;
-  startTime?: Date;
-  endTime?: Date;
-  executionEnvironmentVariables?: { [key: string]: string | undefined };
-  executionMounts?: Mount[];
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  executionEnvironmentVariables?: { [key: string]: string | undefined } | undefined;
+  executionMounts?: Mount[] | undefined;
 }
 export type ComputeNodeExecutionDetailsList = ComputeNodeExecutionDetails[];
 export interface DescribePipelineExecutionResponse {
@@ -2137,13 +2141,13 @@ export interface DescribePipelineExecutionResponse {
   workspaceName: string;
   pipelineVersion: string;
   status: PipelineExecutionStatus;
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
   requestEnvironmentVariables: ExecutionEnvironmentVariables;
-  requestMountOverrides?: MountOverrides;
-  executionPriority?: number;
+  requestMountOverrides?: MountOverrides | undefined;
+  executionPriority?: number | undefined;
   computeNodeExecutionDetails: ComputeNodeExecutionDetails[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface DescribePortalRequest {
   portalId: string;
@@ -2157,20 +2161,20 @@ export interface DescribePortalResponse {
   portalId: string;
   portalArn: string;
   portalName: string;
-  portalDescription?: string;
+  portalDescription?: string | undefined;
   portalClientId: string;
   portalStartUrl: string;
   portalContactEmail: string | redacted.Redacted<string>;
   portalStatus: PortalStatus;
   portalCreationDate: Date;
   portalLastUpdateDate: Date;
-  portalLogoImageLocation?: ImageLocation;
-  roleArn?: string;
-  portalAuthMode?: AuthMode;
-  notificationSenderEmail?: string | redacted.Redacted<string>;
-  alarms?: Alarms;
-  portalType?: PortalType;
-  portalTypeConfiguration?: { [key: string]: PortalTypeEntry | undefined };
+  portalLogoImageLocation?: ImageLocation | undefined;
+  roleArn?: string | undefined;
+  portalAuthMode?: AuthMode | undefined;
+  notificationSenderEmail?: string | redacted.Redacted<string> | undefined;
+  alarms?: Alarms | undefined;
+  portalType?: PortalType | undefined;
+  portalTypeConfiguration?: { [key: string]: PortalTypeEntry | undefined } | undefined;
 }
 export interface DescribeProjectRequest {
   projectId: string;
@@ -2180,7 +2184,7 @@ export interface DescribeProjectResponse {
   projectArn: string;
   projectName: string;
   portalId: string;
-  projectDescription?: string;
+  projectDescription?: string | undefined;
   projectCreationDate: Date;
   projectLastUpdateDate: Date;
 }
@@ -2198,9 +2202,9 @@ export interface DescribeQueryResponse {
   queryId: string;
   status: QueryStatus;
   submittedAt: Date;
-  completedAt?: Date;
-  statistics?: QueryStatistics;
-  errorMessage?: string;
+  completedAt?: Date | undefined;
+  statistics?: QueryStatistics | undefined;
+  errorMessage?: string | undefined;
 }
 export type SearchId = string;
 export interface DescribeSearchRequest {
@@ -2217,9 +2221,9 @@ export interface DescribeSearchResponse {
   status: SearchStatus;
   queryStatement: string | redacted.Redacted<string>;
   searchType: SearchType;
-  statusReason?: string;
-  startedAt?: Date;
-  groupId?: string;
+  statusReason?: string | undefined;
+  startedAt?: Date | undefined;
+  groupId?: string | undefined;
 }
 export interface DescribeStorageConfigurationRequest {}
 export type StorageType = "SITEWISE_DEFAULT_STORAGE" | "MULTI_LAYER_STORAGE" | (string & {});
@@ -2234,35 +2238,35 @@ export type DisassociatedDataStorageState = "ENABLED" | "DISABLED" | (string & {
 export type NumberOfDays = number;
 export type Unlimited = boolean;
 export interface RetentionPeriod {
-  numberOfDays?: number;
-  unlimited?: boolean;
+  numberOfDays?: number | undefined;
+  unlimited?: boolean | undefined;
 }
 export type WarmTierState = "ENABLED" | "DISABLED" | (string & {});
 export interface WarmTierRetentionPeriod {
-  numberOfDays?: number;
-  unlimited?: boolean;
+  numberOfDays?: number | undefined;
+  unlimited?: boolean | undefined;
 }
 export type DisallowIngestNullNaN = boolean;
 export interface DescribeStorageConfigurationResponse {
   storageType: StorageType;
-  multiLayerStorage?: MultiLayerStorage;
-  disassociatedDataStorage?: DisassociatedDataStorageState;
-  retentionPeriod?: RetentionPeriod;
+  multiLayerStorage?: MultiLayerStorage | undefined;
+  disassociatedDataStorage?: DisassociatedDataStorageState | undefined;
+  retentionPeriod?: RetentionPeriod | undefined;
   configurationStatus: ConfigurationStatus;
-  lastUpdateDate?: Date;
-  warmTier?: WarmTierState;
-  warmTierRetentionPeriod?: WarmTierRetentionPeriod;
-  disallowIngestNullNaN?: boolean;
+  lastUpdateDate?: Date | undefined;
+  warmTier?: WarmTierState | undefined;
+  warmTierRetentionPeriod?: WarmTierRetentionPeriod | undefined;
+  disallowIngestNullNaN?: boolean | undefined;
 }
 export interface DescribeTaskRequest {
   workspaceName: string;
   taskName: string;
-  taskVersion?: string;
+  taskVersion?: string | undefined;
 }
 export interface DescribeTaskResponse {
   workspaceName: string;
   taskName: string;
-  description?: string;
+  description?: string | undefined;
   taskArn: string;
   version: string;
   taskConfiguration: TaskConfiguration;
@@ -2271,36 +2275,36 @@ export interface DescribeTaskResponse {
   updatedAt: Date;
 }
 export interface DescribeTimeSeriesRequest {
-  alias?: string;
-  assetId?: string;
-  propertyId?: string;
-  workspaceName?: string;
+  alias?: string | undefined;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  workspaceName?: string | undefined;
 }
 export interface DescribeTimeSeriesResponse {
-  assetId?: string;
-  propertyId?: string;
-  alias?: string;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  alias?: string | undefined;
   timeSeriesId: string;
   dataType: PropertyDataType;
-  dataTypeSpec?: string;
+  dataTypeSpec?: string | undefined;
   timeSeriesCreationDate: Date;
   timeSeriesLastUpdateDate: Date;
   timeSeriesArn: string;
-  workspaceName?: string;
+  workspaceName?: string | undefined;
 }
 export interface DescribeWorkspaceRequest {
   workspaceName: string;
 }
 export interface WorkspaceEncryptionConfigurationInfo {
   encryptionType: EncryptionType;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export interface DescribeWorkspaceResponse {
   workspaceArn: string;
   workspaceName: string;
-  workspaceDescription?: string;
+  workspaceDescription?: string | undefined;
   workspaceStatus: WorkspaceStatus;
-  encryptionConfiguration?: WorkspaceEncryptionConfigurationInfo;
+  encryptionConfiguration?: WorkspaceEncryptionConfigurationInfo | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -2308,22 +2312,22 @@ export interface DisassociateAssetsRequest {
   assetId: string;
   hierarchyId: string;
   childAssetId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DisassociateAssetsResponse {}
 export interface DisassociateTimeSeriesFromAssetPropertyRequest {
   alias: string;
   assetId: string;
   propertyId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DisassociateTimeSeriesFromAssetPropertyResponse {}
 export interface ExecuteActionRequest {
   targetResource: TargetResource;
   actionDefinitionId: string;
   actionPayload: ActionPayload;
-  clientToken?: string;
-  resolveTo?: ResolveTo;
+  clientToken?: string | undefined;
+  resolveTo?: ResolveTo | undefined;
 }
 export interface ExecuteActionResponse {
   actionId: string;
@@ -2333,25 +2337,25 @@ export type ExecuteQueryNextToken = string;
 export type ExecuteQueryMaxResults = number;
 export interface ExecuteQueryRequest {
   queryStatement: string | redacted.Redacted<string>;
-  nextToken?: string;
-  maxResults?: number;
-  clientToken?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  clientToken?: string | undefined;
 }
 export type ScalarType = "BOOLEAN" | "INT" | "DOUBLE" | "TIMESTAMP" | "STRING" | (string & {});
 export interface ColumnType {
-  scalarType?: ScalarType;
+  scalarType?: ScalarType | undefined;
 }
 export interface ColumnInfo {
-  name?: string;
-  type?: ColumnType;
+  name?: string | undefined;
+  type?: ColumnType | undefined;
 }
 export type ColumnsList = ColumnInfo[];
 export type ScalarValue = string;
 export interface Datum {
-  scalarValue?: string;
-  arrayValue?: Datum[];
-  rowValue?: Row;
-  nullValue?: boolean;
+  scalarValue?: string | undefined;
+  arrayValue?: Datum[] | undefined;
+  rowValue?: Row | undefined;
+  nullValue?: boolean | undefined;
 }
 export type DatumList = Datum[];
 export interface Row {
@@ -2359,61 +2363,61 @@ export interface Row {
 }
 export type Rows = Row[];
 export interface ExecuteQueryResponse {
-  columns?: ColumnInfo[];
-  rows?: Row[];
-  nextToken?: string;
+  columns?: ColumnInfo[] | undefined;
+  rows?: Row[] | undefined;
+  nextToken?: string | undefined;
 }
 export type GetAssetPropertyValueAggregatesMaxResults = number;
 export interface GetAssetPropertyAggregatesRequest {
-  assetId?: string;
-  propertyId?: string;
-  propertyAlias?: string;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  propertyAlias?: string | undefined;
   aggregateTypes: AggregateType[];
   resolution: string;
-  qualities?: Quality[];
+  qualities?: Quality[] | undefined;
   startDate: Date;
   endDate: Date;
-  timeOrdering?: TimeOrdering;
-  nextToken?: string;
-  maxResults?: number;
+  timeOrdering?: TimeOrdering | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface GetAssetPropertyAggregatesResponse {
   aggregatedValues: AggregatedValue[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetAssetPropertyValueRequest {
-  assetId?: string;
-  propertyId?: string;
-  propertyAlias?: string;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  propertyAlias?: string | undefined;
 }
 export interface GetAssetPropertyValueResponse {
-  propertyValue?: AssetPropertyValue;
+  propertyValue?: AssetPropertyValue | undefined;
 }
 export type GetAssetPropertyValueHistoryMaxResults = number;
 export interface GetAssetPropertyValueHistoryRequest {
-  assetId?: string;
-  propertyId?: string;
-  propertyAlias?: string;
-  startDate?: Date;
-  endDate?: Date;
-  qualities?: Quality[];
-  timeOrdering?: TimeOrdering;
-  nextToken?: string;
-  maxResults?: number;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  propertyAlias?: string | undefined;
+  startDate?: Date | undefined;
+  endDate?: Date | undefined;
+  qualities?: Quality[] | undefined;
+  timeOrdering?: TimeOrdering | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface GetAssetPropertyValueHistoryResponse {
   assetPropertyValueHistory: AssetPropertyValue[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type GetCaptureDataNextToken = string;
 export interface GetCaptureDataRequest {
   workspaceName: string;
   startTime: TimeInNanos;
   endTime: TimeInNanos;
-  timeSeriesId?: string;
-  propertyAlias?: string;
-  formatSettings?: FormatSettings;
-  nextToken?: string;
+  timeSeriesId?: string | undefined;
+  propertyAlias?: string | undefined;
+  formatSettings?: FormatSettings | undefined;
+  nextToken?: string | undefined;
 }
 export type CaptureBlob = Uint8Array;
 export type VideoDataType = "VIDEO-MP4" | (string & {});
@@ -2422,26 +2426,26 @@ export interface GetCaptureDataResponse {
   startTime: TimeInNanos;
   endTime: TimeInNanos;
   dataType: VideoDataType;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type IntervalInSeconds = number;
 export type MaxInterpolatedResults = number;
 export type InterpolationType = string;
 export type IntervalWindowInSeconds = number;
 export interface GetInterpolatedAssetPropertyValuesRequest {
-  assetId?: string;
-  propertyId?: string;
-  propertyAlias?: string;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  propertyAlias?: string | undefined;
   startTimeInSeconds: number;
-  startTimeOffsetInNanos?: number;
+  startTimeOffsetInNanos?: number | undefined;
   endTimeInSeconds: number;
-  endTimeOffsetInNanos?: number;
+  endTimeOffsetInNanos?: number | undefined;
   quality: Quality;
   intervalInSeconds: number;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   type: string;
-  intervalWindowInSeconds?: number;
+  intervalWindowInSeconds?: number | undefined;
 }
 export interface InterpolatedAssetPropertyValue {
   timestamp: TimeInNanos;
@@ -2450,15 +2454,15 @@ export interface InterpolatedAssetPropertyValue {
 export type InterpolatedAssetPropertyValues = InterpolatedAssetPropertyValue[];
 export interface GetInterpolatedAssetPropertyValuesResponse {
   interpolatedAssetPropertyValues: InterpolatedAssetPropertyValue[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type QueryMaxResults = number;
 export type QueryNextToken = string;
 export interface GetQueryResultsRequest {
   workspaceName: string;
   queryId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ColumnLabel = string;
 export type ColumnDataType = string;
@@ -2471,16 +2475,16 @@ export type ColumnValue = string;
 export type Result = string[];
 export type RowList = string[][];
 export interface GetQueryResultsResponse {
-  columnInfo?: ColumnInformation[];
-  rows?: string[][];
-  nextToken?: string;
+  columnInfo?: ColumnInformation[] | undefined;
+  rows?: string[][] | undefined;
+  nextToken?: string | undefined;
 }
 export type GetSearchResultsRequestMaxResultsInteger = number;
 export interface GetSearchResultsRequest {
   searchId: string;
   workspaceName: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SearchResult {
   searchId: string;
@@ -2495,144 +2499,144 @@ export interface SearchResult {
 export type SearchResultList = SearchResult[];
 export interface GetSearchResultsResponse {
   searchResults: SearchResult[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ConversationId = string;
 export type MessageInput = string | redacted.Redacted<string>;
 export interface InvokeAssistantRequest {
-  conversationId?: string;
+  conversationId?: string | undefined;
   message: string | redacted.Redacted<string>;
-  enableTrace?: boolean;
+  enableTrace?: boolean | undefined;
 }
 export interface Trace {
-  text?: string;
+  text?: string | undefined;
 }
 export interface Location {
-  uri?: string;
+  uri?: string | undefined;
 }
 export interface Source {
-  arn?: string;
-  location?: Location;
+  arn?: string | undefined;
+  location?: Location | undefined;
 }
 export interface DataSetReference {
-  datasetArn?: string;
-  source?: Source;
+  datasetArn?: string | undefined;
+  source?: Source | undefined;
 }
 export interface Reference {
-  dataset?: DataSetReference;
+  dataset?: DataSetReference | undefined;
 }
 export interface Content {
-  text?: string;
+  text?: string | undefined;
 }
 export interface Citation {
-  reference?: Reference;
-  content?: Content;
+  reference?: Reference | undefined;
+  content?: Content | undefined;
 }
 export type Citations = Citation[];
 export interface InvocationOutput {
-  message?: string;
-  citations?: Citation[];
+  message?: string | undefined;
+  citations?: Citation[] | undefined;
 }
 export type ResourceId = string;
 export type ResourceArn = string;
 export type ResponseStream =
   | {
       trace: Trace;
-      output?: never;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
-      invalidRequestException?: never;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      output?: undefined;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
+      trace?: undefined;
       output: InvocationOutput;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
-      invalidRequestException?: never;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
+      trace?: undefined;
+      output?: undefined;
       accessDeniedException: AccessDeniedException;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
-      invalidRequestException?: never;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
-      accessDeniedException?: never;
+      trace?: undefined;
+      output?: undefined;
+      accessDeniedException?: undefined;
       conflictingOperationException: ConflictingOperationException;
-      internalFailureException?: never;
-      invalidRequestException?: never;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
+      trace?: undefined;
+      output?: undefined;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
       internalFailureException: InternalFailureException;
-      invalidRequestException?: never;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
+      trace?: undefined;
+      output?: undefined;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
       invalidRequestException: InvalidRequestException;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
-      invalidRequestException?: never;
+      trace?: undefined;
+      output?: undefined;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
       limitExceededException: LimitExceededException;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
-      invalidRequestException?: never;
-      limitExceededException?: never;
+      trace?: undefined;
+      output?: undefined;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
       resourceNotFoundException: ResourceNotFoundException;
-      throttlingException?: never;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
-      invalidRequestException?: never;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
+      trace?: undefined;
+      output?: undefined;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
       throttlingException: ThrottlingException;
     };
 export interface InvokeAssistantResponse {
@@ -2643,41 +2647,41 @@ export type IdentityType = "USER" | "GROUP" | "IAM" | (string & {});
 export type ResourceType = "PORTAL" | "PROJECT" | (string & {});
 export type MaxResults = number;
 export interface ListAccessPoliciesRequest {
-  identityType?: IdentityType;
-  identityId?: string;
-  resourceType?: ResourceType;
-  resourceId?: string;
-  iamArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  identityType?: IdentityType | undefined;
+  identityId?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  resourceId?: string | undefined;
+  iamArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AccessPolicySummary {
   id: string;
   identity: Identity;
   resource: Resource;
   permission: Permission;
-  creationDate?: Date;
-  lastUpdateDate?: Date;
+  creationDate?: Date | undefined;
+  lastUpdateDate?: Date | undefined;
 }
 export type AccessPolicySummaries = AccessPolicySummary[];
 export interface ListAccessPoliciesResponse {
   accessPolicySummaries: AccessPolicySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TargetResourceType = "ASSET" | "COMPUTATION_MODEL" | (string & {});
 export interface ListActionsRequest {
   targetResourceType: TargetResourceType;
   targetResourceId: string;
-  nextToken?: string;
-  maxResults?: number;
-  resolveToResourceType?: ResolveToResourceType;
-  resolveToResourceId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  resolveToResourceType?: ResolveToResourceType | undefined;
+  resolveToResourceId?: string | undefined;
 }
 export interface ActionSummary {
-  actionId?: string;
-  actionDefinitionId?: string;
-  targetResource?: TargetResource;
-  resolveTo?: ResolveTo;
+  actionId?: string | undefined;
+  actionDefinitionId?: string | undefined;
+  targetResource?: TargetResource | undefined;
+  resolveTo?: ResolveTo | undefined;
 }
 export type ActionSummaries = ActionSummary[];
 export interface ListActionsResponse {
@@ -2685,8 +2689,8 @@ export interface ListActionsResponse {
   nextToken: string;
 }
 export interface ListApplicationsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ApplicationSummary {
   arn: string;
@@ -2698,26 +2702,26 @@ export interface ApplicationSummary {
 }
 export type ApplicationList = ApplicationSummary[];
 export interface ListApplicationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   applications: ApplicationSummary[];
 }
 export interface ListAssetModelCompositeModelsRequest {
   assetModelId: string;
-  nextToken?: string;
-  maxResults?: number;
-  assetModelVersion?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  assetModelVersion?: string | undefined;
 }
 export interface ListAssetModelCompositeModelsResponse {
   assetModelCompositeModelSummaries: AssetModelCompositeModelSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListAssetModelPropertiesFilter = "ALL" | "BASE" | (string & {});
 export interface ListAssetModelPropertiesRequest {
   assetModelId: string;
-  nextToken?: string;
-  maxResults?: number;
-  filter?: ListAssetModelPropertiesFilter;
-  assetModelVersion?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: ListAssetModelPropertiesFilter | undefined;
+  assetModelVersion?: string | undefined;
 }
 export interface InterfaceSummary {
   interfaceAssetModelId: string;
@@ -2725,98 +2729,98 @@ export interface InterfaceSummary {
 }
 export type InterfaceSummaries = InterfaceSummary[];
 export interface AssetModelPropertySummary {
-  id?: string;
-  externalId?: string;
+  id?: string | undefined;
+  externalId?: string | undefined;
   name: string;
   dataType: PropertyDataType;
-  dataTypeSpec?: string;
-  unit?: string;
+  dataTypeSpec?: string | undefined;
+  unit?: string | undefined;
   type: PropertyType;
-  assetModelCompositeModelId?: string;
-  path?: AssetModelPropertyPathSegment[];
-  interfaceSummaries?: InterfaceSummary[];
+  assetModelCompositeModelId?: string | undefined;
+  path?: AssetModelPropertyPathSegment[] | undefined;
+  interfaceSummaries?: InterfaceSummary[] | undefined;
 }
 export type AssetModelPropertySummaries = AssetModelPropertySummary[];
 export interface ListAssetModelPropertiesResponse {
   assetModelPropertySummaries: AssetModelPropertySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListAssetModelsTypeFilter = AssetModelType[];
 export interface ListAssetModelsRequest {
-  assetModelTypes?: AssetModelType[];
-  nextToken?: string;
-  maxResults?: number;
-  assetModelVersion?: string;
+  assetModelTypes?: AssetModelType[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  assetModelVersion?: string | undefined;
 }
 export interface AssetModelSummary {
   id: string;
-  externalId?: string;
+  externalId?: string | undefined;
   arn: string;
   name: string;
-  assetModelType?: AssetModelType;
-  description?: string;
+  assetModelType?: AssetModelType | undefined;
+  description?: string | undefined;
   creationDate: Date;
   lastUpdateDate: Date;
   status: AssetModelStatus;
-  version?: string;
+  version?: string | undefined;
 }
 export type AssetModelSummaries = AssetModelSummary[];
 export interface ListAssetModelsResponse {
   assetModelSummaries: AssetModelSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListAssetPropertiesFilter = "ALL" | "BASE" | (string & {});
 export interface ListAssetPropertiesRequest {
   assetId: string;
-  nextToken?: string;
-  maxResults?: number;
-  filter?: ListAssetPropertiesFilter;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: ListAssetPropertiesFilter | undefined;
 }
 export interface AssetPropertySummary {
   id: string;
-  externalId?: string;
-  alias?: string;
-  unit?: string;
-  notification?: PropertyNotification;
-  assetCompositeModelId?: string;
-  path?: AssetPropertyPathSegment[];
+  externalId?: string | undefined;
+  alias?: string | undefined;
+  unit?: string | undefined;
+  notification?: PropertyNotification | undefined;
+  assetCompositeModelId?: string | undefined;
+  path?: AssetPropertyPathSegment[] | undefined;
 }
 export type AssetPropertySummaries = AssetPropertySummary[];
 export interface ListAssetPropertiesResponse {
   assetPropertySummaries: AssetPropertySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TraversalType = "PATH_TO_ROOT" | (string & {});
 export interface ListAssetRelationshipsRequest {
   assetId: string;
   traversalType: TraversalType;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssetHierarchyInfo {
-  parentAssetId?: string;
-  childAssetId?: string;
+  parentAssetId?: string | undefined;
+  childAssetId?: string | undefined;
 }
 export type AssetRelationshipType = "HIERARCHY" | (string & {});
 export interface AssetRelationshipSummary {
-  hierarchyInfo?: AssetHierarchyInfo;
+  hierarchyInfo?: AssetHierarchyInfo | undefined;
   relationshipType: AssetRelationshipType;
 }
 export type AssetRelationshipSummaries = AssetRelationshipSummary[];
 export interface ListAssetRelationshipsResponse {
   assetRelationshipSummaries: AssetRelationshipSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListAssetsFilter = "ALL" | "TOP_LEVEL" | (string & {});
 export interface ListAssetsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  assetModelId?: string;
-  filter?: ListAssetsFilter;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  assetModelId?: string | undefined;
+  filter?: ListAssetsFilter | undefined;
 }
 export interface AssetSummary {
   id: string;
-  externalId?: string;
+  externalId?: string | undefined;
   arn: string;
   name: string;
   assetModelId: string;
@@ -2824,24 +2828,24 @@ export interface AssetSummary {
   lastUpdateDate: Date;
   status: AssetStatus;
   hierarchies: AssetHierarchy[];
-  description?: string;
+  description?: string | undefined;
 }
 export type AssetSummaries = AssetSummary[];
 export interface ListAssetsResponse {
   assetSummaries: AssetSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TraversalDirection = "PARENT" | "CHILD" | (string & {});
 export interface ListAssociatedAssetsRequest {
   assetId: string;
-  hierarchyId?: string;
-  traversalDirection?: TraversalDirection;
-  nextToken?: string;
-  maxResults?: number;
+  hierarchyId?: string | undefined;
+  traversalDirection?: TraversalDirection | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssociatedAssetsSummary {
   id: string;
-  externalId?: string;
+  externalId?: string | undefined;
   arn: string;
   name: string;
   assetModelId: string;
@@ -2849,12 +2853,12 @@ export interface AssociatedAssetsSummary {
   lastUpdateDate: Date;
   status: AssetStatus;
   hierarchies: AssetHierarchy[];
-  description?: string;
+  description?: string | undefined;
 }
 export type AssociatedAssetsSummaries = AssociatedAssetsSummary[];
 export interface ListAssociatedAssetsResponse {
   assetSummaries: AssociatedAssetsSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListBulkImportJobsFilter =
   | "ALL"
@@ -2866,10 +2870,10 @@ export type ListBulkImportJobsFilter =
   | "COMPLETED"
   | (string & {});
 export interface ListBulkImportJobsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  filter?: ListBulkImportJobsFilter;
-  workspaceName?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: ListBulkImportJobsFilter | undefined;
+  workspaceName?: string | undefined;
 }
 export interface JobSummary {
   id: string;
@@ -2879,12 +2883,12 @@ export interface JobSummary {
 export type JobSummaries = JobSummary[];
 export interface ListBulkImportJobsResponse {
   jobSummaries: JobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCompositionRelationshipsRequest {
   assetModelId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CompositionRelationshipSummary {
   assetModelId: string;
@@ -2894,7 +2898,7 @@ export interface CompositionRelationshipSummary {
 export type CompositionRelationshipSummaries = CompositionRelationshipSummary[];
 export interface ListCompositionRelationshipsResponse {
   compositionRelationshipSummaries: CompositionRelationshipSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface AssetBindingValueFilter {
   assetId: string;
@@ -2911,20 +2915,20 @@ export interface AssetModelPropertyBindingValueFilter {
   propertyId: string;
 }
 export interface DataBindingValueFilter {
-  asset?: AssetBindingValueFilter;
-  assetModel?: AssetModelBindingValueFilter;
-  assetProperty?: AssetPropertyBindingValueFilter;
-  assetModelProperty?: AssetModelPropertyBindingValueFilter;
+  asset?: AssetBindingValueFilter | undefined;
+  assetModel?: AssetModelBindingValueFilter | undefined;
+  assetProperty?: AssetPropertyBindingValueFilter | undefined;
+  assetModelProperty?: AssetModelPropertyBindingValueFilter | undefined;
 }
 export interface ListComputationModelDataBindingUsagesRequest {
   dataBindingValueFilter: DataBindingValueFilter;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ComputationModelIdList = string[];
 export interface DataBindingValue {
-  assetModelProperty?: AssetModelPropertyBindingValue;
-  assetProperty?: AssetPropertyBindingValue;
+  assetModelProperty?: AssetModelPropertyBindingValue | undefined;
+  assetProperty?: AssetPropertyBindingValue | undefined;
 }
 export interface MatchedDataBinding {
   value: DataBindingValue;
@@ -2936,32 +2940,32 @@ export interface ComputationModelDataBindingUsageSummary {
 export type ComputationModelDataBindingUsageSummaries = ComputationModelDataBindingUsageSummary[];
 export interface ListComputationModelDataBindingUsagesResponse {
   dataBindingUsageSummaries: ComputationModelDataBindingUsageSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListComputationModelResolveToResourcesRequest {
   computationModelId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ComputationModelResolveToResourceSummary {
-  resolveTo?: ResolveTo;
+  resolveTo?: ResolveTo | undefined;
 }
 export type ComputationModelResolveToResourceSummaries = ComputationModelResolveToResourceSummary[];
 export interface ListComputationModelResolveToResourcesResponse {
   computationModelResolveToResourceSummaries: ComputationModelResolveToResourceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ComputationModelType = "ANOMALY_DETECTION" | (string & {});
 export interface ListComputationModelsRequest {
-  computationModelType?: ComputationModelType;
-  nextToken?: string;
-  maxResults?: number;
+  computationModelType?: ComputationModelType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ComputationModelSummary {
   id: string;
   arn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: ComputationModelType;
   creationDate: Date;
   lastUpdateDate: Date;
@@ -2971,30 +2975,30 @@ export interface ComputationModelSummary {
 export type ComputationModelSummaries = ComputationModelSummary[];
 export interface ListComputationModelsResponse {
   computationModelSummaries: ComputationModelSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDashboardsRequest {
   projectId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DashboardSummary {
   id: string;
   name: string;
-  description?: string;
-  creationDate?: Date;
-  lastUpdateDate?: Date;
+  description?: string | undefined;
+  creationDate?: Date | undefined;
+  lastUpdateDate?: Date | undefined;
 }
 export type DashboardSummaries = DashboardSummary[];
 export interface ListDashboardsResponse {
   dashboardSummaries: DashboardSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDatasetDataSegmentRelationshipsRequest {
   datasetId: string;
   workspaceName: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DataSegmentRelationshipSummary {
   targetDatasetId: string;
@@ -3006,19 +3010,19 @@ export interface DataSegmentRelationshipSummary {
 export type DataSegmentRelationshipSummaries = DataSegmentRelationshipSummary[];
 export interface ListDatasetDataSegmentRelationshipsResponse {
   dataSegmentRelationshipSummaries: DataSegmentRelationshipSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDatasetDataSegmentsRequest {
   datasetId: string;
   workspaceName: string;
-  datasetVersion?: string;
-  maxResults?: number;
-  nextToken?: string;
+  datasetVersion?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type EnrichmentStatus = "ENRICHED" | "NOT_ENRICHED" | (string & {});
 export interface DataSegmentEnrichment {
   status: EnrichmentStatus;
-  lastEnrichedAt?: Date;
+  lastEnrichedAt?: Date | undefined;
 }
 export interface DataSegmentSummary {
   sourceDatasetId: string;
@@ -3027,12 +3031,12 @@ export interface DataSegmentSummary {
   endTimestamp: TimeInNanos;
   alias: string;
   dataType: PropertyDataType;
-  enrichment?: DataSegmentEnrichment;
+  enrichment?: DataSegmentEnrichment | undefined;
 }
 export type DataSegmentSummaries = DataSegmentSummary[];
 export interface ListDatasetDataSegmentsResponse {
   dataSegments: DataSegmentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type DatasetExportJobFilter =
   | "ALL"
@@ -3046,58 +3050,59 @@ export type ListExportJobsMaxResults = number;
 export type ListExportJobsNextToken = string;
 export interface ListDatasetExportJobsRequest {
   workspaceName: string;
-  filter?: DatasetExportJobFilter;
-  maxResults?: number;
-  nextToken?: string;
+  filter?: DatasetExportJobFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ExportJobSummary {
   jobId: string;
+  jobName?: string | undefined;
   status: DatasetExportJobStatus;
   startedAt: Date;
-  completedAt?: Date;
+  completedAt?: Date | undefined;
   destinationS3Uri: string;
 }
 export type ExportJobSummaryList = ExportJobSummary[];
 export interface ListDatasetExportJobsResponse {
   jobs: ExportJobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDatasetsRequest {
   sourceType: DatasetSourceType;
-  workspaceName?: string;
-  datasetType?: DatasetTypeEnum;
-  nextToken?: string;
-  maxResults?: number;
+  workspaceName?: string | undefined;
+  datasetType?: DatasetTypeEnum | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DatasetSummary {
   id: string;
   arn: string;
   name: string;
   description: string;
-  sourceType?: DatasetSourceType;
-  datasetType?: DatasetTypeEnum;
+  sourceType?: DatasetSourceType | undefined;
+  datasetType?: DatasetTypeEnum | undefined;
   creationDate: Date;
   lastUpdateDate: Date;
   status: DatasetStatus;
-  enrichmentStatus?: DatasetEnrichment;
+  enrichmentStatus?: DatasetEnrichment | undefined;
 }
 export type DatasetSummaries = DatasetSummary[];
 export interface ListDatasetsResponse {
   datasetSummaries: DatasetSummary[];
-  nextToken?: string;
-  workspaceName?: string;
+  nextToken?: string | undefined;
+  workspaceName?: string | undefined;
 }
 export interface ListEnrichmentJobsRequest {
   workspaceName: string;
-  datasetId?: string;
-  propertyAlias?: string;
-  timeSeriesId?: string;
-  status?: EnrichmentJobStatus;
-  jobType?: JobType;
-  startDate?: Date;
-  endDate?: Date;
-  maxResults?: number;
-  nextToken?: string;
+  datasetId?: string | undefined;
+  propertyAlias?: string | undefined;
+  timeSeriesId?: string | undefined;
+  status?: EnrichmentJobStatus | undefined;
+  jobType?: JobType | undefined;
+  startDate?: Date | undefined;
+  endDate?: Date | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EnrichmentJobSummary {
   jobId: string;
@@ -3105,63 +3110,63 @@ export interface EnrichmentJobSummary {
   workspaceName: string;
   jobType: JobType;
   datasetId: string;
-  propertyAlias?: string;
-  timeSeriesId?: string;
+  propertyAlias?: string | undefined;
+  timeSeriesId?: string | undefined;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export type EnrichmentJobSummaries = EnrichmentJobSummary[];
 export interface ListEnrichmentJobsResponse {
   jobs: EnrichmentJobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListExecutionsRequest {
   targetResourceType: TargetResourceType;
   targetResourceId: string;
-  resolveToResourceType?: ResolveToResourceType;
-  resolveToResourceId?: string;
-  nextToken?: string;
-  maxResults?: number;
-  actionType?: string;
+  resolveToResourceType?: ResolveToResourceType | undefined;
+  resolveToResourceId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  actionType?: string | undefined;
 }
 export interface ExecutionSummary {
   executionId: string;
-  actionType?: string;
+  actionType?: string | undefined;
   targetResource: TargetResource;
   targetResourceVersion: string;
-  resolveTo?: ResolveTo;
+  resolveTo?: ResolveTo | undefined;
   executionStartTime: Date;
-  executionEndTime?: Date;
+  executionEndTime?: Date | undefined;
   executionStatus: ExecutionStatus;
-  executionEntityVersion?: string;
+  executionEntityVersion?: string | undefined;
 }
 export type ExecutionSummaries = ExecutionSummary[];
 export interface ListExecutionsResponse {
   executionSummaries: ExecutionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListGatewaysRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface GatewaySummary {
   gatewayId: string;
   gatewayName: string;
-  gatewayPlatform?: GatewayPlatform;
-  gatewayVersion?: string;
-  gatewayCapabilitySummaries?: GatewayCapabilitySummary[];
+  gatewayPlatform?: GatewayPlatform | undefined;
+  gatewayVersion?: string | undefined;
+  gatewayCapabilitySummaries?: GatewayCapabilitySummary[] | undefined;
   creationDate: Date;
   lastUpdateDate: Date;
 }
 export type GatewaySummaries = GatewaySummary[];
 export interface ListGatewaysResponse {
   gatewaySummaries: GatewaySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListInterfaceRelationshipsRequest {
   interfaceAssetModelId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface InterfaceRelationshipSummary {
   id: string;
@@ -3169,42 +3174,42 @@ export interface InterfaceRelationshipSummary {
 export type InterfaceRelationshipSummaries = InterfaceRelationshipSummary[];
 export interface ListInterfaceRelationshipsResponse {
   interfaceRelationshipSummaries: InterfaceRelationshipSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListPipelineExecutionsRequestMaxResultsInteger = number;
 export interface ListPipelineExecutionsRequest {
   workspaceName: string;
   pipelineName: string;
-  nextToken?: string;
-  maxResults?: number;
-  state?: PipelineExecutionState;
-  startTimeAfter?: Date;
-  startTimeBefore?: Date;
-  endTimeAfter?: Date;
-  endTimeBefore?: Date;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  state?: PipelineExecutionState | undefined;
+  startTimeAfter?: Date | undefined;
+  startTimeBefore?: Date | undefined;
+  endTimeAfter?: Date | undefined;
+  endTimeBefore?: Date | undefined;
 }
 export interface PipelineExecutionSummary {
   pipelineExecutionId: string;
   pipelineVersion: string;
   status: PipelineExecutionStatus;
-  executionPriority?: number;
-  startTime?: Date;
-  endTime?: Date;
+  executionPriority?: number | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type PipelineExecutionSummaryList = PipelineExecutionSummary[];
 export interface ListPipelineExecutionsResponse {
   pipelineExecutionSummaries: PipelineExecutionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListPipelinesRequestMaxResultsInteger = number;
 export interface ListPipelinesRequest {
   workspaceName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PipelineSummary {
   pipelineName: string;
-  description?: string;
+  description?: string | undefined;
   pipelineArn: string;
   version: string;
   status: ResourceStatus;
@@ -3214,90 +3219,90 @@ export interface PipelineSummary {
 export type PipelineSummaries = PipelineSummary[];
 export interface ListPipelinesResponse {
   pipelineSummaries: PipelineSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPortalsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PortalSummary {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   startUrl: string;
-  creationDate?: Date;
-  lastUpdateDate?: Date;
-  roleArn?: string;
+  creationDate?: Date | undefined;
+  lastUpdateDate?: Date | undefined;
+  roleArn?: string | undefined;
   status: PortalStatus;
-  portalType?: PortalType;
+  portalType?: PortalType | undefined;
 }
 export type PortalSummaries = PortalSummary[];
 export interface ListPortalsResponse {
-  portalSummaries?: PortalSummary[];
-  nextToken?: string;
+  portalSummaries?: PortalSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListProjectAssetsRequest {
   projectId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AssetIDs = string[];
 export interface ListProjectAssetsResponse {
   assetIds: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListProjectsRequest {
   portalId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ProjectSummary {
   id: string;
   name: string;
-  description?: string;
-  creationDate?: Date;
-  lastUpdateDate?: Date;
+  description?: string | undefined;
+  creationDate?: Date | undefined;
+  lastUpdateDate?: Date | undefined;
 }
 export type ProjectSummaries = ProjectSummary[];
 export interface ListProjectsResponse {
   projectSummaries: ProjectSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type QueryFilter = string;
 export type QueryListNextToken = string;
 export interface ListQueriesRequest {
   workspaceName: string;
-  filter?: string;
-  maxResults?: number;
-  nextToken?: string;
+  filter?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface QuerySummary {
   queryId: string;
   status: QueryStatus;
   submittedAt: Date;
-  completedAt?: Date;
+  completedAt?: Date | undefined;
 }
 export type QuerySummaryList = QuerySummary[];
 export interface ListQueriesResponse {
   queries: QuerySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListSearchesRequestMaxResultsInteger = number;
 export type SearchStatusFilterList = SearchStatus[];
 export type GroupIdFilterList = string[];
 export type SearchTypeFilterList = SearchType[];
 export interface ListSearchesFilters {
-  statusFilter?: SearchStatus[];
-  startedAfter?: Date;
-  startedBefore?: Date;
-  groupIdFilter?: string[];
-  searchTypeFilter?: SearchType[];
+  statusFilter?: SearchStatus[] | undefined;
+  startedAfter?: Date | undefined;
+  startedBefore?: Date | undefined;
+  groupIdFilter?: string[] | undefined;
+  searchTypeFilter?: SearchType[] | undefined;
 }
 export interface ListSearchesRequest {
   workspaceName: string;
-  maxResults?: number;
-  nextToken?: string;
-  listSearchesFilters?: ListSearchesFilters;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  listSearchesFilters?: ListSearchesFilters | undefined;
 }
 export interface SearchSummary {
   searchId: string;
@@ -3305,31 +3310,31 @@ export interface SearchSummary {
   status: SearchStatus;
   queryStatement: string | redacted.Redacted<string>;
   searchType: SearchType;
-  statusReason?: string;
-  startedAt?: Date;
-  groupId?: string;
+  statusReason?: string | undefined;
+  startedAt?: Date | undefined;
+  groupId?: string | undefined;
 }
 export type SearchSummaries = SearchSummary[];
 export interface ListSearchesResponse {
   searchSummaries: SearchSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListTasksRequestMaxResultsInteger = number;
 export interface ListTasksRequest {
   workspaceName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface TaskSummary {
   taskName: string;
-  description?: string;
+  description?: string | undefined;
   taskArn: string;
   version: string;
   status: ResourceStatus;
@@ -3339,24 +3344,24 @@ export interface TaskSummary {
 export type TaskSummaries = TaskSummary[];
 export interface ListTasksResponse {
   taskSummaries: TaskSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListTimeSeriesType = "ASSOCIATED" | "DISASSOCIATED" | (string & {});
 export interface ListTimeSeriesRequest {
-  nextToken?: string;
-  maxResults?: number;
-  assetId?: string;
-  aliasPrefix?: string;
-  timeSeriesType?: ListTimeSeriesType;
-  workspaceName?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  assetId?: string | undefined;
+  aliasPrefix?: string | undefined;
+  timeSeriesType?: ListTimeSeriesType | undefined;
+  workspaceName?: string | undefined;
 }
 export interface TimeSeriesSummary {
-  assetId?: string;
-  propertyId?: string;
-  alias?: string;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  alias?: string | undefined;
   timeSeriesId: string;
   dataType: PropertyDataType;
-  dataTypeSpec?: string;
+  dataTypeSpec?: string | undefined;
   timeSeriesCreationDate: Date;
   timeSeriesLastUpdateDate: Date;
   timeSeriesArn: string;
@@ -3364,12 +3369,12 @@ export interface TimeSeriesSummary {
 export type TimeSeriesSummaries = TimeSeriesSummary[];
 export interface ListTimeSeriesResponse {
   TimeSeriesSummaries: TimeSeriesSummary[];
-  nextToken?: string;
-  workspaceName?: string;
+  nextToken?: string | undefined;
+  workspaceName?: string | undefined;
 }
 export interface ListWorkspacesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WorkspaceSummary {
   name: string;
@@ -3381,20 +3386,20 @@ export interface WorkspaceSummary {
 export type WorkspaceSummaries = WorkspaceSummary[];
 export interface ListWorkspacesResponse {
   workspaceSummaries: WorkspaceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MatchByPropertyName = boolean;
 export type CreateMissingProperty = boolean;
 export interface PropertyMappingConfiguration {
-  matchByPropertyName?: boolean;
-  createMissingProperty?: boolean;
-  overrides?: PropertyMapping[];
+  matchByPropertyName?: boolean | undefined;
+  createMissingProperty?: boolean | undefined;
+  overrides?: PropertyMapping[] | undefined;
 }
 export interface PutAssetModelInterfaceRelationshipRequest {
   assetModelId: string;
   interfaceAssetModelId: string;
   propertyMappingConfiguration: PropertyMappingConfiguration;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface PutAssetModelInterfaceRelationshipResponse {
   assetModelId: string;
@@ -3404,51 +3409,51 @@ export interface PutAssetModelInterfaceRelationshipResponse {
 }
 export interface PutDefaultEncryptionConfigurationRequest {
   encryptionType: EncryptionType;
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
 }
 export interface PutDefaultEncryptionConfigurationResponse {
   encryptionType: EncryptionType;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
   configurationStatus: ConfigurationStatus;
 }
 export interface PutLoggingOptionsRequest {
   loggingOptions: LoggingOptions;
-  workspaceName?: string;
+  workspaceName?: string | undefined;
 }
 export interface PutLoggingOptionsResponse {}
 export interface PutStorageConfigurationRequest {
   storageType: StorageType;
-  multiLayerStorage?: MultiLayerStorage;
-  disassociatedDataStorage?: DisassociatedDataStorageState;
-  retentionPeriod?: RetentionPeriod;
-  warmTier?: WarmTierState;
-  warmTierRetentionPeriod?: WarmTierRetentionPeriod;
-  disallowIngestNullNaN?: boolean;
+  multiLayerStorage?: MultiLayerStorage | undefined;
+  disassociatedDataStorage?: DisassociatedDataStorageState | undefined;
+  retentionPeriod?: RetentionPeriod | undefined;
+  warmTier?: WarmTierState | undefined;
+  warmTierRetentionPeriod?: WarmTierRetentionPeriod | undefined;
+  disallowIngestNullNaN?: boolean | undefined;
 }
 export interface PutStorageConfigurationResponse {
   storageType: StorageType;
-  multiLayerStorage?: MultiLayerStorage;
-  disassociatedDataStorage?: DisassociatedDataStorageState;
-  retentionPeriod?: RetentionPeriod;
+  multiLayerStorage?: MultiLayerStorage | undefined;
+  disassociatedDataStorage?: DisassociatedDataStorageState | undefined;
+  retentionPeriod?: RetentionPeriod | undefined;
   configurationStatus: ConfigurationStatus;
-  warmTier?: WarmTierState;
-  warmTierRetentionPeriod?: WarmTierRetentionPeriod;
-  disallowIngestNullNaN?: boolean;
+  warmTier?: WarmTierState | undefined;
+  warmTierRetentionPeriod?: WarmTierRetentionPeriod | undefined;
+  disallowIngestNullNaN?: boolean | undefined;
 }
 export interface StartPipelineExecutionRequest {
   workspaceName: string;
   pipelineName: string;
-  executionEnvironmentVariableOverrides?: ExecutionEnvironmentVariables;
-  executionMountOverrides?: MountOverrides;
-  executionPriority?: number;
-  clientToken?: string;
+  executionEnvironmentVariableOverrides?: ExecutionEnvironmentVariables | undefined;
+  executionMountOverrides?: MountOverrides | undefined;
+  executionPriority?: number | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartPipelineExecutionResponse {
   pipelineExecutionId: string;
 }
 export type QueryString = string | redacted.Redacted<string>;
 export interface StartQueryRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   workspaceName: string;
   queryStatement: string | redacted.Redacted<string>;
 }
@@ -3464,23 +3469,23 @@ export interface TimeInterval {
 }
 export type TimeIntervalList = TimeInterval[];
 export interface SearchFilters {
-  timeSeriesIds?: string[];
-  datasetIds?: string[];
-  timeIntervals?: TimeInterval[];
+  timeSeriesIds?: string[] | undefined;
+  datasetIds?: string[] | undefined;
+  timeIntervals?: TimeInterval[] | undefined;
 }
 export interface StartSearchRequest {
   workspaceName: string;
   queryStatement: string | redacted.Redacted<string>;
-  clientToken?: string;
-  searchType?: SearchType;
-  searchFilters?: SearchFilters;
-  groupId?: string;
+  clientToken?: string | undefined;
+  searchType?: SearchType | undefined;
+  searchFilters?: SearchFilters | undefined;
+  groupId?: string | undefined;
 }
 export interface StartSearchResponse {
   searchId: string;
   workspaceName: string;
   status: SearchStatus;
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -3498,70 +3503,70 @@ export interface UpdateAccessPolicyRequest {
   accessPolicyIdentity: Identity;
   accessPolicyResource: Resource;
   accessPolicyPermission: Permission;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateAccessPolicyResponse {}
 export interface UpdateAssetRequest {
   assetId: string;
-  assetExternalId?: string;
+  assetExternalId?: string | undefined;
   assetName: string;
-  clientToken?: string;
-  assetDescription?: string;
+  clientToken?: string | undefined;
+  assetDescription?: string | undefined;
 }
 export interface UpdateAssetResponse {
-  assetId?: string;
+  assetId?: string | undefined;
   assetStatus: AssetStatus;
 }
 export interface UpdateAssetModelRequest {
   assetModelId: string;
-  assetModelExternalId?: string;
+  assetModelExternalId?: string | undefined;
   assetModelName: string;
-  assetModelDescription?: string;
-  assetModelProperties?: AssetModelProperty[];
-  assetModelHierarchies?: AssetModelHierarchy[];
-  assetModelCompositeModels?: AssetModelCompositeModel[];
-  clientToken?: string;
-  ifMatch?: string;
-  ifNoneMatch?: string;
-  matchForVersionType?: AssetModelVersionType;
+  assetModelDescription?: string | undefined;
+  assetModelProperties?: AssetModelProperty[] | undefined;
+  assetModelHierarchies?: AssetModelHierarchy[] | undefined;
+  assetModelCompositeModels?: AssetModelCompositeModel[] | undefined;
+  clientToken?: string | undefined;
+  ifMatch?: string | undefined;
+  ifNoneMatch?: string | undefined;
+  matchForVersionType?: AssetModelVersionType | undefined;
 }
 export interface UpdateAssetModelResponse {
-  assetModelId?: string;
+  assetModelId?: string | undefined;
   assetModelStatus: AssetModelStatus;
 }
 export interface UpdateAssetModelCompositeModelRequest {
   assetModelId: string;
   assetModelCompositeModelId: string;
-  assetModelCompositeModelExternalId?: string;
-  assetModelCompositeModelDescription?: string;
+  assetModelCompositeModelExternalId?: string | undefined;
+  assetModelCompositeModelDescription?: string | undefined;
   assetModelCompositeModelName: string;
-  clientToken?: string;
-  assetModelCompositeModelProperties?: AssetModelProperty[];
-  ifMatch?: string;
-  ifNoneMatch?: string;
-  matchForVersionType?: AssetModelVersionType;
+  clientToken?: string | undefined;
+  assetModelCompositeModelProperties?: AssetModelProperty[] | undefined;
+  ifMatch?: string | undefined;
+  ifNoneMatch?: string | undefined;
+  matchForVersionType?: AssetModelVersionType | undefined;
 }
 export interface UpdateAssetModelCompositeModelResponse {
   assetModelCompositeModelPath: AssetModelCompositeModelPathSegment[];
   assetModelStatus: AssetModelStatus;
-  assetModelId?: string;
+  assetModelId?: string | undefined;
 }
 export interface UpdateAssetPropertyRequest {
   assetId: string;
   propertyId: string;
-  propertyAlias?: string;
-  propertyNotificationState?: PropertyNotificationState;
-  clientToken?: string;
-  propertyUnit?: string;
+  propertyAlias?: string | undefined;
+  propertyNotificationState?: PropertyNotificationState | undefined;
+  clientToken?: string | undefined;
+  propertyUnit?: string | undefined;
 }
 export interface UpdateAssetPropertyResponse {}
 export interface UpdateComputationModelRequest {
   computationModelId: string;
   computationModelName: string;
-  computationModelDescription?: string;
+  computationModelDescription?: string | undefined;
   computationModelConfiguration: ComputationModelConfiguration;
   computationModelDataBinding: { [key: string]: ComputationModelDataBindingValue | undefined };
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateComputationModelResponse {
   computationModelStatus: ComputationModelStatus;
@@ -3569,25 +3574,25 @@ export interface UpdateComputationModelResponse {
 export interface UpdateDashboardRequest {
   dashboardId: string;
   dashboardName: string;
-  dashboardDescription?: string;
+  dashboardDescription?: string | undefined;
   dashboardDefinition: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateDashboardResponse {}
 export interface UpdateDatasetRequest {
   datasetId: string;
-  workspaceName?: string;
+  workspaceName?: string | undefined;
   datasetName: string;
-  datasetDescription?: string;
-  datasetConfig?: DatasetConfig;
-  metadata?: { [key: string]: string | undefined };
+  datasetDescription?: string | undefined;
+  datasetConfig?: DatasetConfig | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
   datasetSource: DatasetSource;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateDatasetResponse {
-  datasetId?: string;
-  datasetArn?: string;
-  datasetStatus?: DatasetStatus;
+  datasetId?: string | undefined;
+  datasetArn?: string | undefined;
+  datasetStatus?: DatasetStatus | undefined;
 }
 export interface UpdateGatewayRequest {
   gatewayId: string;
@@ -3606,30 +3611,30 @@ export interface UpdateGatewayCapabilityConfigurationResponse {
 export interface UpdatePipelineRequest {
   workspaceName: string;
   pipelineName: string;
-  description?: string;
-  environmentVariables?: { [key: string]: string | undefined };
-  computations?: ComputeNode[];
+  description?: string | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  computations?: ComputeNode[] | undefined;
 }
 export interface UpdatePipelineResponse {
   version: string;
   status: ResourceStatus;
 }
 export interface Image {
-  id?: string;
-  file?: ImageFile;
+  id?: string | undefined;
+  file?: ImageFile | undefined;
 }
 export interface UpdatePortalRequest {
   portalId: string;
   portalName: string;
-  portalDescription?: string;
+  portalDescription?: string | undefined;
   portalContactEmail: string | redacted.Redacted<string>;
-  portalLogoImage?: Image;
+  portalLogoImage?: Image | undefined;
   roleArn: string;
-  clientToken?: string;
-  notificationSenderEmail?: string | redacted.Redacted<string>;
-  alarms?: Alarms;
-  portalType?: PortalType;
-  portalTypeConfiguration?: { [key: string]: PortalTypeEntry | undefined };
+  clientToken?: string | undefined;
+  notificationSenderEmail?: string | redacted.Redacted<string> | undefined;
+  alarms?: Alarms | undefined;
+  portalType?: PortalType | undefined;
+  portalTypeConfiguration?: { [key: string]: PortalTypeEntry | undefined } | undefined;
 }
 export interface UpdatePortalResponse {
   portalStatus: PortalStatus;
@@ -3637,15 +3642,15 @@ export interface UpdatePortalResponse {
 export interface UpdateProjectRequest {
   projectId: string;
   projectName: string;
-  projectDescription?: string;
-  clientToken?: string;
+  projectDescription?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateProjectResponse {}
 export interface UpdateTaskRequest {
   workspaceName: string;
   taskName: string;
-  description?: string;
-  taskConfiguration?: TaskConfiguration;
+  description?: string | undefined;
+  taskConfiguration?: TaskConfiguration | undefined;
 }
 export interface UpdateTaskResponse {
   version: string;
@@ -3653,9 +3658,9 @@ export interface UpdateTaskResponse {
 }
 export interface UpdateWorkspaceRequest {
   workspaceName: string;
-  workspaceDescription?: string;
-  encryptionConfiguration?: WorkspaceEncryptionConfiguration;
-  clientToken?: string;
+  workspaceDescription?: string | undefined;
+  encryptionConfiguration?: WorkspaceEncryptionConfiguration | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateWorkspaceResponse {
   workspaceStatus: WorkspaceStatus;
@@ -10378,6 +10383,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           jobId: S.String,
+          jobName: S.optional(S.String),
           status: S.String,
           startedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -12730,6 +12736,7 @@ function __c117(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           destinationS3Uri: S.String,
           input: __S(1907, __c119, 3),
+          jobName: S.optional(S.String),
           errorReportLocation: __S(1908, __c119, 4),
         }).pipe(
           T.all(
@@ -14295,6 +14302,7 @@ function __c191(j: number): any {
         S.Struct({
           jobId: S.String,
           workspaceName: S.String,
+          jobName: S.optional(S.String),
           status: S.String,
           startedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

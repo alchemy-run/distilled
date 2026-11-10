@@ -127,7 +127,7 @@ describe("request encoding", () => {
       gmail.layer,
     );
     expect(gmail.calls[0].url.search).toBe(
-      "?labelIds=INBOX&labelIds=UNREAD&includeSpamTrash=false&maxResults=5",
+      "?includeSpamTrash=false&labelIds=INBOX&labelIds=UNREAD&maxResults=5",
     );
 
     const people = fakeGoogle();

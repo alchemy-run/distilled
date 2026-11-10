@@ -44,9 +44,9 @@ export class ProxyNotFound
   ) {}
 
 export interface CreateProxyRequest {
-  name?: string;
-  environmentName?: string;
-  region?: string;
+  name?: string | undefined;
+  environmentName?: string | undefined;
+  region?: string | undefined;
 }
 /** TODO(erikbern): needs_prefix */
 export type ProxyIpStatus =
@@ -71,18 +71,18 @@ export interface Proxy {
   region: string;
 }
 export interface CreateProxyResponse {
-  proxy?: Proxy;
+  proxy?: Proxy | undefined;
 }
 export interface DeleteProxyRequest {
-  proxyId?: string;
+  proxyId?: string | undefined;
 }
 export interface DeleteProxyResponse {}
 export interface GetProxyRequest {
-  name?: string;
-  environmentName?: string;
+  name?: string | undefined;
+  environmentName?: string | undefined;
 }
 export interface GetProxyResponse {
-  proxy?: Proxy;
+  proxy?: Proxy | undefined;
 }
 export interface ListProxyRequest {}
 export type ProxyList2 = Array<Proxy>;
@@ -90,10 +90,10 @@ export interface ListProxyResponse {
   proxies: ProxyList2;
 }
 export interface ProxyAddIpRequest {
-  proxyId?: string;
+  proxyId?: string | undefined;
 }
 export interface ProxyAddIpResponse {
-  proxyIp?: ProxyIp;
+  proxyIp?: ProxyIp | undefined;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -103,16 +103,16 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface ProxyGetOrCreateRequest {
-  deploymentName?: string;
+  deploymentName?: string | undefined;
   /** namespace */
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
+  environmentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
 }
 export interface ProxyGetOrCreateResponse {
   proxyId: string;
 }
 export interface ProxyRemoveIpRequest {
-  proxyIp?: string;
+  proxyIp?: string | undefined;
 }
 export interface ProxyRemoveIpResponse {}
 export type CreateProxyError = ProxyAlreadyExists | ModalOpError;

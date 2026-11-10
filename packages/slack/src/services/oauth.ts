@@ -53,19 +53,19 @@ export interface CompleteShortTokenRotationResponse {
 }
 export interface OauthAccessRequest {
   /** Issued when you created your application. If possible, avoid sending `client_id` and `client_secret` as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Issued when you created your application. If possible, avoid sending `client_id` and `client_secret` as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The `code` param returned via the OAuth callback. */
-  code?: string;
+  code?: string | undefined;
   /** This must match the originally submitted URI (if one was sent). */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** Request the user to add your app only to a single channel. Only valid with a [legacy workspace app](https://docs.slack.dev/changelog/2021-03-workspace-apps-to-retire-in-august-2021). */
-  single_channel?: boolean;
+  single_channel?: boolean | undefined;
 }
 export interface OauthAccessResponseAuthorizingUser {
-  user_id?: string;
-  app_home?: string | null;
+  user_id?: string | undefined;
+  app_home?: string | null | undefined;
 }
 export type OauthAccessResponseInstallerUser = OauthAccessResponseAuthorizingUser;
 export type OauthAccessResponseScopesAppHomeList = Array<string>;
@@ -75,92 +75,92 @@ export type OauthAccessResponseScopesGroupList = Array<string>;
 export type OauthAccessResponseScopesMpimList = Array<string>;
 export type OauthAccessResponseScopesImList = Array<string>;
 export interface OauthAccessResponseScopes {
-  app_home?: OauthAccessResponseScopesAppHomeList;
-  team?: OauthAccessResponseScopesTeamList;
-  channel?: OauthAccessResponseScopesChannelList;
-  group?: OauthAccessResponseScopesGroupList;
-  mpim?: OauthAccessResponseScopesMpimList;
-  im?: OauthAccessResponseScopesImList;
+  app_home?: OauthAccessResponseScopesAppHomeList | undefined;
+  team?: OauthAccessResponseScopesTeamList | undefined;
+  channel?: OauthAccessResponseScopesChannelList | undefined;
+  group?: OauthAccessResponseScopesGroupList | undefined;
+  mpim?: OauthAccessResponseScopesMpimList | undefined;
+  im?: OauthAccessResponseScopesImList | undefined;
 }
 export interface OauthAccessResponseBot {
-  bot_user_id?: string;
-  bot_access_token?: string;
-  scope?: string;
+  bot_user_id?: string | undefined;
+  bot_access_token?: string | undefined;
+  scope?: string | undefined;
 }
 export interface OauthAccessResponseUser {
-  name?: string;
-  id?: string;
-  email?: string;
-  image_24?: string;
-  image_32?: string;
-  image_48?: string;
-  image_72?: string;
-  image_192?: string;
-  image_512?: string;
-  scope?: string;
-  access_token?: string | Redacted.Redacted<string>;
-  token_type?: string;
+  name?: string | undefined;
+  id?: string | undefined;
+  email?: string | undefined;
+  image_24?: string | undefined;
+  image_32?: string | undefined;
+  image_48?: string | undefined;
+  image_72?: string | undefined;
+  image_192?: string | undefined;
+  image_512?: string | undefined;
+  scope?: string | undefined;
+  access_token?: string | Redacted.Redacted<string> | undefined;
+  token_type?: string | undefined;
 }
 export interface OauthAccessResponseTeam {
-  id?: string;
-  name?: string;
-  domain?: string;
-  image_34?: string;
-  image_44?: string;
-  image_68?: string;
-  image_88?: string;
-  image_102?: string;
-  image_132?: string;
-  image_230?: string;
-  image_default?: boolean;
-  image_original?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  domain?: string | undefined;
+  image_34?: string | undefined;
+  image_44?: string | undefined;
+  image_68?: string | undefined;
+  image_88?: string | undefined;
+  image_102?: string | undefined;
+  image_132?: string | undefined;
+  image_230?: string | undefined;
+  image_default?: boolean | undefined;
+  image_original?: string | undefined;
 }
 export interface OauthAccessResponseIncomingWebhook {
-  channel?: string;
-  channel_id?: string;
-  configuration_url?: string;
-  url?: string;
+  channel?: string | undefined;
+  channel_id?: string | undefined;
+  configuration_url?: string | undefined;
+  url?: string | undefined;
 }
 export interface OauthAccessResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  token_type?: string;
-  app_id?: string;
-  app_user_id?: string;
-  team_name?: string;
+  token_type?: string | undefined;
+  app_id?: string | undefined;
+  app_user_id?: string | undefined;
+  team_name?: string | undefined;
   team_id: string;
   access_token: string | Redacted.Redacted<string>;
-  authorizing_user?: OauthAccessResponseAuthorizingUser;
-  installer_user?: OauthAccessResponseAuthorizingUser;
-  scopes?: OauthAccessResponseScopes;
-  scope?: string;
-  user_id?: string;
-  bot?: OauthAccessResponseBot;
-  refresh_token?: string | Redacted.Redacted<string>;
-  expires_in?: number;
-  user?: OauthAccessResponseUser;
-  team?: OauthAccessResponseTeam;
-  enterprise_id?: string | null;
-  incoming_webhook?: OauthAccessResponseIncomingWebhook;
-  single_channel_id?: string;
+  authorizing_user?: OauthAccessResponseAuthorizingUser | undefined;
+  installer_user?: OauthAccessResponseAuthorizingUser | undefined;
+  scopes?: OauthAccessResponseScopes | undefined;
+  scope?: string | undefined;
+  user_id?: string | undefined;
+  bot?: OauthAccessResponseBot | undefined;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
+  expires_in?: number | undefined;
+  user?: OauthAccessResponseUser | undefined;
+  team?: OauthAccessResponseTeam | undefined;
+  enterprise_id?: string | null | undefined;
+  incoming_webhook?: OauthAccessResponseIncomingWebhook | undefined;
+  single_channel_id?: string | undefined;
 }
 export interface V2AccessRequest {
   /** Issued when you created your application. If possible, avoid sending `client_id` and `client_secret` as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Issued when you created your application. If possible, avoid sending `client_id` and `client_secret` as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The `code` param returned via the OAuth callback. */
-  code?: string;
+  code?: string | undefined;
   /** The code_verifier param used to generate the code_challenge originally. Used for PKCE. */
-  code_verifier?: string;
+  code_verifier?: string | undefined;
   /** This must match the originally submitted URI (if one was sent). */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** The `grant_type` param as described in the OAuth spec. */
-  grant_type?: string;
+  grant_type?: string | undefined;
   /** The `refresh_token` param as described in the OAuth spec. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** Identity assertion JWT authorization grant */
-  assertion?: string;
+  assertion?: string | undefined;
 }
 /** The type of access token. Only present if a bot token was requested at the start of the auth flow. */
 export type V2AccessResponseTokenType = "granular_bot";
@@ -169,14 +169,14 @@ export interface V2AccessResponseTeam {
   /** ID of the team into which the app is being installed or re-installed. */
   id: string;
   /** Name of the team into which the app is being installed or re-installed. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Details about the installing team, and the user token if one was requested at the start of the auth flow. */
 export interface V2AccessResponseEnterprise {
   /** ID of the enterprise into which the app is being installed or re-installed. */
   id: string;
   /** Name of the enterprise into which the app is being installed or re-installed. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The type of the access token. Only present if a user token was requested at the start of the auth flow. */
 export type V2AccessResponseAuthedUserTokenType = "user";
@@ -185,15 +185,15 @@ export interface V2AccessResponseAuthedUser {
   /** ID of the installing user. If a user token was requested, this is also the ID of the user to which the user token authenticates. */
   id: string;
   /** A user token. Only presented if requested at the start of the auth flow. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** The type of the access token. Only present if a user token was requested at the start of the auth flow. */
-  token_type?: V2AccessResponseAuthedUserTokenType;
+  token_type?: V2AccessResponseAuthedUserTokenType | undefined;
   /** Comma-separated list of scopes granted to the user token. Only present if a user token was requested at the start of the auth flow. */
-  scope?: string;
+  scope?: string | undefined;
   /** Time until this credential expires, if it expires at all. */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** Refresh token for this credential. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Details about a newly-created incoming webhook. Only present if an incoming webhook was requested at the start of the auth flow. */
 export interface V2AccessResponseIncomingWebhook {
@@ -210,29 +210,29 @@ export interface V2AccessResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** A bot access token. Only present if requested at the start of the auth flow. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** The type of access token. Only present if a bot token was requested at the start of the auth flow. */
-  token_type?: V2AccessResponseTokenType;
+  token_type?: V2AccessResponseTokenType | undefined;
   /** Comma-separated list of scopes granted to the token. Only present if a bot token was requested at the start of the auth flow. */
-  scope?: string;
+  scope?: string | undefined;
   /** The user ID of the bot user corresponding to the token. Only present if a bot token was requested at the start of the auth flow. */
-  bot_user_id?: string;
+  bot_user_id?: string | undefined;
   /** The user ID of the bot user corresponding to the token. Only present during a refresh_token grant_type for a user access token. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** ID of the app being installed or re-installed. */
   app_id: string;
   /** Boolean flag indicating whether the generated token is Enterprise-level token or not. */
-  is_enterprise_install?: boolean;
+  is_enterprise_install?: boolean | undefined;
   /** Time until this credential expires, if it expires at all. */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** Refresh token for this credential. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   team: V2AccessResponseTeam | null;
   enterprise: V2AccessResponseEnterprise | null;
   /** Details about the installing user, and the user token if one was requested at the start of the auth flow. */
-  authed_user?: V2AccessResponseAuthedUser;
+  authed_user?: V2AccessResponseAuthedUser | undefined;
   /** Details about a newly-created incoming webhook. Only present if an incoming webhook was requested at the start of the auth flow. */
-  incoming_webhook?: V2AccessResponseIncomingWebhook;
+  incoming_webhook?: V2AccessResponseIncomingWebhook | undefined;
 }
 export interface V2ExchangeRequest {
   /** Issued when you created your application. */
@@ -251,35 +251,35 @@ export interface V2ExchangeResponse {
   /** Comma-separated list of scopes granted to the token. */
   scope: string;
   /** The user ID of the bot user corresponding to the token. Only present if a legacy bot access token is being exchanged. */
-  bot_user_id?: string;
+  bot_user_id?: string | undefined;
   /** The user ID of the user corresponding to the token. Only present if a legacy user access token is being exchanged. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A new xoxe.xox(b|p) expiring access token to replace the legacy token. */
   access_token: string | Redacted.Redacted<string>;
   /** Duration (in seconds) until the new access token expires. */
   expires_in: number;
   /** The xoxe refresh token to obtain a new access token after the one returned expires. */
   refresh_token: string | Redacted.Redacted<string>;
-  team?: unknown | null;
-  enterprise?: unknown | null;
+  team?: unknown | null | undefined;
+  enterprise?: unknown | null | undefined;
 }
 export interface V2UserAccessRequest {
   /** Issued when you created your application. If possible, avoid sending `client_id` and `client_secret` as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Issued when you created your application. If possible, avoid sending `client_id` and `client_secret` as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The `code` param returned via the OAuth callback. */
-  code?: string;
+  code?: string | undefined;
   /** The code_verifier param used to generate the code_challenge originally. Used for PKCE. */
-  code_verifier?: string;
+  code_verifier?: string | undefined;
   /** This must match the originally submitted URI (if one was sent). */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** The `grant_type` param as described in the OAuth spec. */
-  grant_type?: string;
+  grant_type?: string | undefined;
   /** The `refresh_token` param as described in the OAuth spec. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** Identity assertion JWT authorization grant. */
-  assertion?: string;
+  assertion?: string | undefined;
 }
 /** The type of access token. */
 export type V2UserAccessResponseTokenType = "user";
@@ -295,7 +295,7 @@ export interface V2UserAccessResponse {
   /** The type of access token. */
   token_type: V2UserAccessResponseTokenType;
   /** Comma-separated list of scopes granted to the token. */
-  scope?: string;
+  scope?: string | undefined;
   /** The user ID of the user corresponding to the token. */
   user_id: string;
   /** ID of the app being installed or re-installed. */
@@ -303,9 +303,9 @@ export interface V2UserAccessResponse {
   /** Boolean flag indicating whether the generated token is enterprise level token or not */
   is_enterprise_install: boolean;
   /** Time until this credential expires, if it expires at all */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** Refresh token for this credential */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   team: V2AccessResponseTeam | null;
   enterprise: V2AccessResponseEnterprise | null;
 }
@@ -395,7 +395,7 @@ export const v2Exchange: API.OperationMethod<
 }));
 
 export type V2UserAccessError = SlackOpError;
-/** Exchanges a temporary OAuth verifier code for a user access token. Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` -- Value passed for `client_secret` was invalid. - `bad_redirect_uri` -- Value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` -- Returned when the the org-installed app cannot be installed on a workspace. - `invalid_client_id` -- Value passed for `client_id` was invalid. - `invalid_code` -- Value passed for `code` was invalid. - `invalid_grant_type` -- Value passed for `grant_type` was invalid. - `invalid_refresh_token` -- The given refresh token is invalid. - `invalid_resource` -- The `resource` in the assertion is malformed, or is not a resource tokens can be issued for. - `no_scopes` -- Missing `scope` in the request. - `no_user_scopes` -- Missing user `scope` in the auth request. - `not_implemented` -- Method not yet supported - `oauth_authorization_url_mismatch` -- The OAuth flow was initiated on an incorrect version of the authorization url. The flow must be initiated via /oauth/v2/authorize . - `preview_feature_not_available` -- Returned when the API method is not yet available on the team in context. - `user_email_unverified` -- The users email is unverified - `app_not_admin_approved` -- The app has not been approved by an org admin, so no tokens can be issued for this user. Ask an org admin to approve the app before requesting a token with the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. - `app_not_org_installed` -- The app is not installed at the organization level. Using the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant type requires org level app installs. - `client_id_mismatch` -- Value passed for `client_id` did not match the `client_id` in the assertion. - `ema_disabled` -- Enterprise-managed auth is disabled. - `ema_issuer_mismatch` -- The issuer in the assertion did not match the issuer configured for enterprise-managed auth. - `invalid_audience` -- The audience in the assertion is not one this token endpoint supports. - `missing_scope` -- Missing `scope` in the assertion. The identity assertion JWT must carry a space-delimited `scope` claim. - `no_app_scopes_requested` -- None of the scopes requested in the identity assertion are configured on the app. Request only scopes the app already declares. - `no_approved_scopes_requested` -- The app is approved by org admins, but none of the requested scopes are approved ones. Ask an org admin to approve the requested scopes. - `no_assertion` -- Missing `assertion` in the request. - `user_not_authenticated` -- The user has never authenticated via single sign-on. See https://docs.slack.dev/reference/methods/oauth.v2.user.access */
+/** Exchanges a temporary OAuth verifier code for a user access token. Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` -- Value passed for `client_secret` was invalid. - `bad_redirect_uri` -- Value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` -- Returned when the the org-installed app cannot be installed on a workspace. - `invalid_client_id` -- Value passed for `client_id` was invalid, or the `client_id` in the assertion is not a string. - `invalid_code` -- Value passed for `code` was invalid. - `invalid_grant_type` -- Value passed for `grant_type` was invalid. - `invalid_refresh_token` -- The given refresh token is invalid. - `invalid_resource` -- The `resource` in the assertion is malformed, or is not a resource tokens can be issued for. - `no_scopes` -- Missing `scope` in the request. - `no_user_scopes` -- Missing user `scope` in the auth request. - `not_implemented` -- Method not yet supported - `oauth_authorization_url_mismatch` -- The OAuth flow was initiated on an incorrect version of the authorization url. The flow must be initiated via /oauth/v2/authorize . - `preview_feature_not_available` -- Returned when the API method is not yet available on the team in context. - `user_email_unverified` -- The users email is unverified - `app_not_admin_approved` -- The app has not been approved by an org admin, so no tokens can be issued for this user. Ask an org admin to approve the app before requesting a token with the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. - `app_not_org_installed` -- The app is not installed at the organization level. Using the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant type requires org level app installs. - `client_id_mismatch` -- Value passed for `client_id` did not match the `client_id` in the assertion. - `ema_disabled` -- Enterprise-managed auth is disabled. - `ema_issuer_mismatch` -- The issuer in the assertion did not match the issuer configured for enterprise-managed auth. - `invalid_audience` -- The audience in the assertion is not one this token endpoint supports. - `missing_scope` -- Missing `scope` in the assertion. The identity assertion JWT must carry a space-delimited `scope` claim. - `no_app_scopes_requested` -- None of the scopes requested in the identity assertion are configured on the app. Request only scopes the app already declares. - `no_approved_scopes_requested` -- The app is approved by org admins, but none of the requested scopes are approved ones. Ask an org admin to approve the requested scopes. - `no_assertion` -- Missing `assertion` in the request. - `user_not_authenticated` -- The user has never authenticated via single sign-on. - `no_idp_config_for_entity_id` -- No Enterprise-Managed Authorization (cross-app access) configuration is bound to the identity provider's SAML EntityID carried in the assertion's `sub_id`. An org admin must configure External Identity / cross-app access for that identity provider before requesting a token with the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. - `ema_tenant_mismatch` -- The `aud_tenant` in an assertion without a `sub_id` is missing, or is not the ID of the organization or workspace whose identity provider issued it. - `invalid_aud_tenant` -- The `aud_tenant` in the assertion is not a string. It must be the ID of the organization or workspace whose identity provider issued the assertion. - `invalid_email` -- The `email` in the assertion is not a string. - `invalid_issuer` -- The `iss` in the assertion is not a string. It must be the issuer URL of the identity provider that issued the assertion. - `invalid_jti` -- The `jti` in the assertion is not a string. It must be a unique identifier for the assertion. - `invalid_scope` -- The `scope` in the assertion is not a string. It must be a space-delimited list of scopes. - `invalid_sub` -- The `sub` in the assertion is not a string. - `invalid_sub_id_format` -- The `format` of the `sub_id` in the assertion is not a string. The only supported format is `saml-nameid`. - `missing_audience` -- Missing `aud` in the assertion. It must name this token endpoint as an audience. - `missing_client_id` -- Missing `client_id` in the assertion. It must match the `client_id` of the app requesting the token. See https://docs.slack.dev/reference/methods/oauth.v2.user.access */
 export const v2UserAccess: API.OperationMethod<
   V2UserAccessRequest,
   V2UserAccessResponse,

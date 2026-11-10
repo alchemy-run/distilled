@@ -284,26 +284,26 @@ export class ValidationException
 export type DatasetIdentifier = string;
 export type KmsKeyArn = string;
 export interface AssociateDatasetKmsKeyInput {
-  DatasetIdentifier?: string;
-  KmsKeyArn?: string;
+  DatasetIdentifier?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export interface AssociateDatasetKmsKeyOutput {}
 export type ResourceArn = string;
 export type MetricName = string;
 export type MetricNameList = string[];
 export interface ResourceMetricSelection {
-  IncludeMetrics?: string[];
+  IncludeMetrics?: string[] | undefined;
 }
 export type ResourceMetricSelectionList = ResourceMetricSelection[];
 export interface CreateResourceMetricsConfigurationInput {
-  ResourceArn?: string;
-  MetricSelections?: ResourceMetricSelection[];
+  ResourceArn?: string | undefined;
+  MetricSelections?: ResourceMetricSelection[] | undefined;
 }
 export interface ResourceMetricsConfiguration {
-  ResourceArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  MetricSelections?: ResourceMetricSelection[];
+  ResourceArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  MetricSelections?: ResourceMetricSelection[] | undefined;
 }
 export interface CreateResourceMetricsConfigurationOutput {
   ResourceMetricsConfiguration: ResourceMetricsConfiguration & {
@@ -315,13 +315,13 @@ export interface CreateResourceMetricsConfigurationOutput {
 }
 export type Name = string;
 export interface DeleteAlarmMuteRuleInput {
-  AlarmMuteRuleName?: string;
+  AlarmMuteRuleName?: string | undefined;
 }
 export interface DeleteAlarmMuteRuleResponse {}
 export type AlarmName = string;
 export type AlarmNames = string[];
 export interface DeleteAlarmsInput {
-  AlarmNames?: string[];
+  AlarmNames?: string[] | undefined;
 }
 export interface DeleteAlarmsResponse {}
 export type AnomalyDetectorId = string;
@@ -329,24 +329,24 @@ export type Namespace = string;
 export type DimensionName = string;
 export type DimensionValue = string;
 export interface Dimension {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type Dimensions = Dimension[];
 export type AnomalyDetectorMetricStat = string;
 export type AccountId = string;
 export interface SingleMetricAnomalyDetector {
-  AccountId?: string;
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  Stat?: string;
+  AccountId?: string | undefined;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Stat?: string | undefined;
 }
 export type MetricId = string;
 export interface Metric {
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
 }
 export type Period = number;
 export type Stat = string;
@@ -380,75 +380,75 @@ export type StandardUnit =
   | "None"
   | (string & {});
 export interface MetricStat {
-  Metric?: Metric;
-  Period?: number;
-  Stat?: string;
-  Unit?: StandardUnit;
+  Metric?: Metric | undefined;
+  Period?: number | undefined;
+  Stat?: string | undefined;
+  Unit?: StandardUnit | undefined;
 }
 export type MetricExpression = string;
 export type MetricLabel = string;
 export type ReturnData = boolean;
 export interface MetricDataQuery {
-  Id?: string;
-  MetricStat?: MetricStat;
-  Expression?: string;
-  Label?: string;
-  ReturnData?: boolean;
-  Period?: number;
-  AccountId?: string;
+  Id?: string | undefined;
+  MetricStat?: MetricStat | undefined;
+  Expression?: string | undefined;
+  Label?: string | undefined;
+  ReturnData?: boolean | undefined;
+  Period?: number | undefined;
+  AccountId?: string | undefined;
 }
 export type MetricDataQueries = MetricDataQuery[];
 export interface MetricMathAnomalyDetector {
-  MetricDataQueries?: MetricDataQuery[];
+  MetricDataQueries?: MetricDataQuery[] | undefined;
 }
 export interface DeleteAnomalyDetectorInput {
-  AnomalyDetectorId?: string;
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  Stat?: string;
-  SingleMetricAnomalyDetector?: SingleMetricAnomalyDetector;
-  MetricMathAnomalyDetector?: MetricMathAnomalyDetector;
+  AnomalyDetectorId?: string | undefined;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Stat?: string | undefined;
+  SingleMetricAnomalyDetector?: SingleMetricAnomalyDetector | undefined;
+  MetricMathAnomalyDetector?: MetricMathAnomalyDetector | undefined;
 }
 export interface DeleteAnomalyDetectorOutput {}
 export type DashboardName = string;
 export type DashboardNames = string[];
 export interface DeleteDashboardsInput {
-  DashboardNames?: string[];
+  DashboardNames?: string[] | undefined;
 }
 export interface DeleteDashboardsOutput {}
 export type InsightRuleName = string;
 export type InsightRuleNames = string[];
 export interface DeleteInsightRulesInput {
-  RuleNames?: string[];
+  RuleNames?: string[] | undefined;
 }
 export type FailureResource = string;
 export type ExceptionType = string;
 export type FailureCode = string;
 export type FailureDescription = string;
 export interface PartialFailure {
-  FailureResource?: string;
-  ExceptionType?: string;
-  FailureCode?: string;
-  FailureDescription?: string;
+  FailureResource?: string | undefined;
+  ExceptionType?: string | undefined;
+  FailureCode?: string | undefined;
+  FailureDescription?: string | undefined;
 }
 export type BatchFailures = PartialFailure[];
 export interface DeleteInsightRulesOutput {
-  Failures?: PartialFailure[];
+  Failures?: PartialFailure[] | undefined;
 }
 export type MetricStreamName = string;
 export interface DeleteMetricStreamInput {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteMetricStreamOutput {}
 export interface DeleteResourceMetricsConfigurationInput {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export interface DeleteResourceMetricsConfigurationOutput {}
 export type NextToken = string;
 export interface DescribeAlarmContributorsInput {
-  AlarmName?: string;
-  NextToken?: string;
+  AlarmName?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type ContributorId = string;
 export type AttributeName = string;
@@ -456,10 +456,10 @@ export type AttributeValue = string;
 export type ContributorAttributes = { [key: string]: string | undefined };
 export type StateReason = string;
 export interface AlarmContributor {
-  ContributorId?: string;
-  ContributorAttributes?: { [key: string]: string | undefined };
-  StateReason?: string;
-  StateTransitionedTimestamp?: Date;
+  ContributorId?: string | undefined;
+  ContributorAttributes?: { [key: string]: string | undefined } | undefined;
+  StateReason?: string | undefined;
+  StateTransitionedTimestamp?: Date | undefined;
 }
 export type AlarmContributors = AlarmContributor[];
 export interface DescribeAlarmContributorsOutput {
@@ -468,7 +468,7 @@ export interface DescribeAlarmContributorsOutput {
     ContributorAttributes: ContributorAttributes;
     StateReason: StateReason;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type AlarmType = "CompositeAlarm" | "MetricAlarm" | "LogAlarm" | (string & {});
 export type AlarmTypes = AlarmType[];
@@ -482,46 +482,46 @@ export type HistoryItemType =
 export type MaxRecords = number;
 export type ScanBy = "TimestampDescending" | "TimestampAscending" | (string & {});
 export interface DescribeAlarmHistoryInput {
-  AlarmName?: string;
-  AlarmContributorId?: string;
-  AlarmTypes?: AlarmType[];
-  HistoryItemType?: HistoryItemType;
-  StartDate?: Date;
-  EndDate?: Date;
-  MaxRecords?: number;
-  NextToken?: string;
-  ScanBy?: ScanBy;
+  AlarmName?: string | undefined;
+  AlarmContributorId?: string | undefined;
+  AlarmTypes?: AlarmType[] | undefined;
+  HistoryItemType?: HistoryItemType | undefined;
+  StartDate?: Date | undefined;
+  EndDate?: Date | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
+  ScanBy?: ScanBy | undefined;
 }
 export type HistorySummary = string;
 export type HistoryData = string;
 export interface AlarmHistoryItem {
-  AlarmName?: string;
-  AlarmContributorId?: string;
-  AlarmType?: AlarmType;
-  Timestamp?: Date;
-  HistoryItemType?: HistoryItemType;
-  HistorySummary?: string;
-  HistoryData?: string;
-  AlarmContributorAttributes?: { [key: string]: string | undefined };
+  AlarmName?: string | undefined;
+  AlarmContributorId?: string | undefined;
+  AlarmType?: AlarmType | undefined;
+  Timestamp?: Date | undefined;
+  HistoryItemType?: HistoryItemType | undefined;
+  HistorySummary?: string | undefined;
+  HistoryData?: string | undefined;
+  AlarmContributorAttributes?: { [key: string]: string | undefined } | undefined;
 }
 export type AlarmHistoryItems = AlarmHistoryItem[];
 export interface DescribeAlarmHistoryOutput {
-  AlarmHistoryItems?: AlarmHistoryItem[];
-  NextToken?: string;
+  AlarmHistoryItems?: AlarmHistoryItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AlarmNamePrefix = string;
 export type StateValue = "OK" | "ALARM" | "INSUFFICIENT_DATA" | (string & {});
 export type ActionPrefix = string;
 export interface DescribeAlarmsInput {
-  AlarmNames?: string[];
-  AlarmNamePrefix?: string;
-  AlarmTypes?: AlarmType[];
-  ChildrenOfAlarmName?: string;
-  ParentsOfAlarmName?: string;
-  StateValue?: StateValue;
-  ActionPrefix?: string;
-  MaxRecords?: number;
-  NextToken?: string;
+  AlarmNames?: string[] | undefined;
+  AlarmNamePrefix?: string | undefined;
+  AlarmTypes?: AlarmType[] | undefined;
+  ChildrenOfAlarmName?: string | undefined;
+  ParentsOfAlarmName?: string | undefined;
+  StateValue?: StateValue | undefined;
+  ActionPrefix?: string | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ActionsEnabled = boolean;
 export type ResourceName = string;
@@ -533,26 +533,38 @@ export type StateReasonData = string;
 export type ActionsSuppressedBy = "WaitPeriod" | "ExtensionPeriod" | "Alarm" | (string & {});
 export type ActionsSuppressedReason = string;
 export type SuppressorPeriod = number;
+export type AlarmTagsPropagationEnabled = boolean;
+export type AlarmTagsPropagationTagKey = string;
+export type AlarmTagsPropagationTagKeys = string[];
+export interface AlarmTagsPropagation {
+  Enabled?: boolean | undefined;
+  IncludedTagKeys?: string[] | undefined;
+  ExcludedTagKeys?: string[] | undefined;
+}
+export interface ActionConfiguration {
+  AlarmTagsPropagation?: AlarmTagsPropagation | undefined;
+}
 export interface CompositeAlarm {
-  ActionsEnabled?: boolean;
-  AlarmActions?: string[];
-  AlarmArn?: string;
-  AlarmConfigurationUpdatedTimestamp?: Date;
-  AlarmDescription?: string;
-  AlarmName?: string;
-  AlarmRule?: string;
-  InsufficientDataActions?: string[];
-  OKActions?: string[];
-  StateReason?: string;
-  StateReasonData?: string;
-  StateUpdatedTimestamp?: Date;
-  StateValue?: StateValue;
-  StateTransitionedTimestamp?: Date;
-  ActionsSuppressedBy?: ActionsSuppressedBy;
-  ActionsSuppressedReason?: string;
-  ActionsSuppressor?: string;
-  ActionsSuppressorWaitPeriod?: number;
-  ActionsSuppressorExtensionPeriod?: number;
+  ActionsEnabled?: boolean | undefined;
+  AlarmActions?: string[] | undefined;
+  AlarmArn?: string | undefined;
+  AlarmConfigurationUpdatedTimestamp?: Date | undefined;
+  AlarmDescription?: string | undefined;
+  AlarmName?: string | undefined;
+  AlarmRule?: string | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  OKActions?: string[] | undefined;
+  StateReason?: string | undefined;
+  StateReasonData?: string | undefined;
+  StateUpdatedTimestamp?: Date | undefined;
+  StateValue?: StateValue | undefined;
+  StateTransitionedTimestamp?: Date | undefined;
+  ActionsSuppressedBy?: ActionsSuppressedBy | undefined;
+  ActionsSuppressedReason?: string | undefined;
+  ActionsSuppressor?: string | undefined;
+  ActionsSuppressorWaitPeriod?: number | undefined;
+  ActionsSuppressorExtensionPeriod?: number | undefined;
+  ActionConfiguration?: ActionConfiguration | undefined;
 }
 export type CompositeAlarms = CompositeAlarm[];
 export type Statistic = "SampleCount" | "Average" | "Sum" | "Minimum" | "Maximum" | (string & {});
@@ -578,62 +590,63 @@ export type EvaluationState =
   | (string & {});
 export type Timezone = string;
 export interface WallClockWindow {
-  Timezone?: string;
+  Timezone?: string | undefined;
 }
 export interface SlidingWindow {}
 export type EvaluationWindow =
-  | { WallClockWindow: WallClockWindow; SlidingWindow?: never }
-  | { WallClockWindow?: never; SlidingWindow: SlidingWindow };
+  | { WallClockWindow: WallClockWindow; SlidingWindow?: undefined }
+  | { WallClockWindow?: undefined; SlidingWindow: SlidingWindow };
 export type WarmUpPeriodDurationInMinutes = number;
 export type OnlyStartEvaluatingAfterWarmUpPeriodEnds = boolean;
 export interface WarmUpConfiguration {
-  WarmUpPeriodDurationInMinutes?: number;
-  OnlyStartEvaluatingAfterWarmUpPeriodEnds?: boolean;
+  WarmUpPeriodDurationInMinutes?: number | undefined;
+  OnlyStartEvaluatingAfterWarmUpPeriodEnds?: boolean | undefined;
 }
 export type Query = string;
 export type PendingPeriod = number;
 export type RecoveryPeriod = number;
 export interface AlarmPromQLCriteria {
-  Query?: string;
-  PendingPeriod?: number;
-  RecoveryPeriod?: number;
+  Query?: string | undefined;
+  PendingPeriod?: number | undefined;
+  RecoveryPeriod?: number | undefined;
 }
 export type EvaluationCriteria = { PromQLCriteria: AlarmPromQLCriteria };
 export type EvaluationInterval = number;
 export interface MetricAlarm {
-  AlarmName?: string;
-  AlarmArn?: string;
-  AlarmDescription?: string;
-  AlarmConfigurationUpdatedTimestamp?: Date;
-  ActionsEnabled?: boolean;
-  OKActions?: string[];
-  AlarmActions?: string[];
-  InsufficientDataActions?: string[];
-  StateValue?: StateValue;
-  StateReason?: string;
-  StateReasonData?: string;
-  StateUpdatedTimestamp?: Date;
-  MetricName?: string;
-  Namespace?: string;
-  Statistic?: Statistic;
-  ExtendedStatistic?: string;
-  Dimensions?: Dimension[];
-  Period?: number;
-  Unit?: StandardUnit;
-  EvaluationPeriods?: number;
-  DatapointsToAlarm?: number;
-  Threshold?: number;
-  ComparisonOperator?: ComparisonOperator;
-  TreatMissingData?: string;
-  EvaluateLowSampleCountPercentile?: string;
-  Metrics?: MetricDataQuery[];
-  ThresholdMetricId?: string;
-  EvaluationState?: EvaluationState;
-  StateTransitionedTimestamp?: Date;
-  EvaluationWindow?: EvaluationWindow;
-  WarmUpConfiguration?: WarmUpConfiguration;
-  EvaluationCriteria?: EvaluationCriteria;
-  EvaluationInterval?: number;
+  AlarmName?: string | undefined;
+  AlarmArn?: string | undefined;
+  AlarmDescription?: string | undefined;
+  AlarmConfigurationUpdatedTimestamp?: Date | undefined;
+  ActionsEnabled?: boolean | undefined;
+  OKActions?: string[] | undefined;
+  AlarmActions?: string[] | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  StateValue?: StateValue | undefined;
+  StateReason?: string | undefined;
+  StateReasonData?: string | undefined;
+  StateUpdatedTimestamp?: Date | undefined;
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
+  Statistic?: Statistic | undefined;
+  ExtendedStatistic?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Period?: number | undefined;
+  Unit?: StandardUnit | undefined;
+  EvaluationPeriods?: number | undefined;
+  DatapointsToAlarm?: number | undefined;
+  Threshold?: number | undefined;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  TreatMissingData?: string | undefined;
+  EvaluateLowSampleCountPercentile?: string | undefined;
+  Metrics?: MetricDataQuery[] | undefined;
+  ThresholdMetricId?: string | undefined;
+  EvaluationState?: EvaluationState | undefined;
+  StateTransitionedTimestamp?: Date | undefined;
+  EvaluationWindow?: EvaluationWindow | undefined;
+  WarmUpConfiguration?: WarmUpConfiguration | undefined;
+  EvaluationCriteria?: EvaluationCriteria | undefined;
+  EvaluationInterval?: number | undefined;
+  ActionConfiguration?: ActionConfiguration | undefined;
 }
 export type MetricAlarms = MetricAlarm[];
 export type QueryString = string;
@@ -643,141 +656,171 @@ export type ScheduleExpression = string;
 export type StartTimeOffset = number;
 export type EndTimeOffset = number;
 export interface ScheduleConfiguration {
-  ScheduleExpression?: string;
-  StartTimeOffset?: number;
-  EndTimeOffset?: number;
+  ScheduleExpression?: string | undefined;
+  StartTimeOffset?: number | undefined;
+  EndTimeOffset?: number | undefined;
 }
 export type AggregationExpression = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface ScheduledQueryConfiguration {
-  QueryString?: string;
-  LogGroupIdentifiers?: string[];
-  QueryARN?: string;
-  ScheduledQueryRoleARN?: string;
-  ScheduleConfiguration?: ScheduleConfiguration;
-  AggregationExpression?: string;
-  Tags?: Tag[];
+  QueryString?: string | undefined;
+  LogGroupIdentifiers?: string[] | undefined;
+  QueryARN?: string | undefined;
+  ScheduledQueryRoleARN?: string | undefined;
+  ScheduleConfiguration?: ScheduleConfiguration | undefined;
+  AggregationExpression?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type QueryResultsToEvaluate = number;
 export type QueryResultsToAlarm = number;
 export type ActionLogLineCount = number;
 export type ActionLogLineRoleArn = string;
 export interface LogAlarm {
-  AlarmName?: string;
-  AlarmArn?: string;
-  AlarmDescription?: string;
-  AlarmConfigurationUpdatedTimestamp?: Date;
-  ActionsEnabled?: boolean;
-  OKActions?: string[];
-  AlarmActions?: string[];
-  InsufficientDataActions?: string[];
-  StateValue?: StateValue;
-  StateReason?: string;
-  StateReasonData?: string;
-  StateUpdatedTimestamp?: Date;
-  ScheduledQueryConfiguration?: ScheduledQueryConfiguration;
-  QueryResultsToEvaluate?: number;
-  QueryResultsToAlarm?: number;
-  Threshold?: number;
-  ComparisonOperator?: ComparisonOperator;
-  TreatMissingData?: string;
-  StateTransitionedTimestamp?: Date;
-  EvaluationState?: EvaluationState;
-  ActionLogLineCount?: number;
-  ActionLogLineRoleArn?: string;
-  WarmUpConfiguration?: WarmUpConfiguration;
+  AlarmName?: string | undefined;
+  AlarmArn?: string | undefined;
+  AlarmDescription?: string | undefined;
+  AlarmConfigurationUpdatedTimestamp?: Date | undefined;
+  ActionsEnabled?: boolean | undefined;
+  OKActions?: string[] | undefined;
+  AlarmActions?: string[] | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  StateValue?: StateValue | undefined;
+  StateReason?: string | undefined;
+  StateReasonData?: string | undefined;
+  StateUpdatedTimestamp?: Date | undefined;
+  ScheduledQueryConfiguration?: ScheduledQueryConfiguration | undefined;
+  QueryResultsToEvaluate?: number | undefined;
+  QueryResultsToAlarm?: number | undefined;
+  Threshold?: number | undefined;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  TreatMissingData?: string | undefined;
+  StateTransitionedTimestamp?: Date | undefined;
+  EvaluationState?: EvaluationState | undefined;
+  ActionLogLineCount?: number | undefined;
+  ActionLogLineRoleArn?: string | undefined;
+  WarmUpConfiguration?: WarmUpConfiguration | undefined;
+  ActionConfiguration?: ActionConfiguration | undefined;
 }
 export type LogAlarms = LogAlarm[];
 export interface DescribeAlarmsOutput {
-  CompositeAlarms?: CompositeAlarm[];
-  MetricAlarms?: (MetricAlarm & {
-    Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
-    Metrics: (MetricDataQuery & {
-      Id: MetricId;
-      MetricStat: MetricStat & {
-        Metric: Metric & {
-          Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+  CompositeAlarms?:
+    | (CompositeAlarm & {
+        ActionConfiguration: ActionConfiguration & {
+          AlarmTagsPropagation: AlarmTagsPropagation & { Enabled: AlarmTagsPropagationEnabled };
         };
-        Period: Period;
-        Stat: Stat;
-      };
-    })[];
-    WarmUpConfiguration: WarmUpConfiguration & {
-      WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
-    };
-  })[];
-  LogAlarms?: (LogAlarm & {
-    ScheduledQueryConfiguration: ScheduledQueryConfiguration & {
-      QueryString: QueryString;
-      ScheduledQueryRoleARN: AmazonResourceName;
-      ScheduleConfiguration: ScheduleConfiguration & {
-        ScheduleExpression: ScheduleExpression;
-        StartTimeOffset: StartTimeOffset;
-      };
-      AggregationExpression: AggregationExpression;
-      Tags: (Tag & { Key: TagKey; Value: TagValue })[];
-    };
-    WarmUpConfiguration: WarmUpConfiguration & {
-      WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
-    };
-  })[];
-  NextToken?: string;
+      })[]
+    | undefined;
+  MetricAlarms?:
+    | (MetricAlarm & {
+        Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+        Metrics: (MetricDataQuery & {
+          Id: MetricId;
+          MetricStat: MetricStat & {
+            Metric: Metric & {
+              Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+            };
+            Period: Period;
+            Stat: Stat;
+          };
+        })[];
+        WarmUpConfiguration: WarmUpConfiguration & {
+          WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
+        };
+        ActionConfiguration: ActionConfiguration & {
+          AlarmTagsPropagation: AlarmTagsPropagation & { Enabled: AlarmTagsPropagationEnabled };
+        };
+      })[]
+    | undefined;
+  LogAlarms?:
+    | (LogAlarm & {
+        ScheduledQueryConfiguration: ScheduledQueryConfiguration & {
+          QueryString: QueryString;
+          ScheduledQueryRoleARN: AmazonResourceName;
+          ScheduleConfiguration: ScheduleConfiguration & {
+            ScheduleExpression: ScheduleExpression;
+            StartTimeOffset: StartTimeOffset;
+          };
+          AggregationExpression: AggregationExpression;
+          Tags: (Tag & { Key: TagKey; Value: TagValue })[];
+        };
+        WarmUpConfiguration: WarmUpConfiguration & {
+          WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
+        };
+        ActionConfiguration: ActionConfiguration & {
+          AlarmTagsPropagation: AlarmTagsPropagation & { Enabled: AlarmTagsPropagationEnabled };
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeAlarmsForMetricInput {
-  MetricName?: string;
-  Namespace?: string;
-  Statistic?: Statistic;
-  ExtendedStatistic?: string;
-  Dimensions?: Dimension[];
-  Period?: number;
-  Unit?: StandardUnit;
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
+  Statistic?: Statistic | undefined;
+  ExtendedStatistic?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Period?: number | undefined;
+  Unit?: StandardUnit | undefined;
 }
 export interface DescribeAlarmsForMetricOutput {
-  MetricAlarms?: (MetricAlarm & {
-    Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
-    Metrics: (MetricDataQuery & {
-      Id: MetricId;
-      MetricStat: MetricStat & {
-        Metric: Metric & {
-          Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+  MetricAlarms?:
+    | (MetricAlarm & {
+        Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+        Metrics: (MetricDataQuery & {
+          Id: MetricId;
+          MetricStat: MetricStat & {
+            Metric: Metric & {
+              Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+            };
+            Period: Period;
+            Stat: Stat;
+          };
+        })[];
+        WarmUpConfiguration: WarmUpConfiguration & {
+          WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
         };
-        Period: Period;
-        Stat: Stat;
-      };
-    })[];
-    WarmUpConfiguration: WarmUpConfiguration & {
-      WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
-    };
-  })[];
+        ActionConfiguration: ActionConfiguration & {
+          AlarmTagsPropagation: AlarmTagsPropagation & { Enabled: AlarmTagsPropagationEnabled };
+        };
+      })[]
+    | undefined;
 }
 export type AnomalyDetectorIds = string[];
 export type MaxReturnedResultsCount = number;
 export type AnomalyDetectorType = "SINGLE_METRIC" | "METRIC_MATH" | (string & {});
 export type AnomalyDetectorTypes = AnomalyDetectorType[];
 export interface DescribeAnomalyDetectorsInput {
-  AnomalyDetectorIds?: string[];
-  NextToken?: string;
-  MaxResults?: number;
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  AnomalyDetectorTypes?: AnomalyDetectorType[];
+  AnomalyDetectorIds?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  AnomalyDetectorTypes?: AnomalyDetectorType[] | undefined;
 }
 export interface Range {
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type AnomalyDetectorExcludedTimeRanges = Range[];
 export type AnomalyDetectorMetricTimezone = string;
+export type AnomalyDetectorAdaptationSpeed = "FAST" | "NORMAL" | "SLOW" | (string & {});
+export type AnomalyDetectorOutlierFilteringStrength =
+  | "MINIMAL"
+  | "MODERATE"
+  | "STRICT"
+  | (string & {});
 export interface AnomalyDetectorConfiguration {
-  ExcludedTimeRanges?: Range[];
-  MetricTimezone?: string;
+  ExcludedTimeRanges?: Range[] | undefined;
+  MetricTimezone?: string | undefined;
+  AdaptationSpeed?: AnomalyDetectorAdaptationSpeed | undefined;
+  OutlierFilteringStrength?: AnomalyDetectorOutlierFilteringStrength | undefined;
 }
 export type AnomalyDetectorStateValue =
   | "PENDING_TRAINING"
@@ -786,49 +829,51 @@ export type AnomalyDetectorStateValue =
   | (string & {});
 export type PeriodicSpikes = boolean;
 export interface MetricCharacteristics {
-  PeriodicSpikes?: boolean;
+  PeriodicSpikes?: boolean | undefined;
 }
 export interface AnomalyDetector {
-  AnomalyDetectorId?: string;
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  Stat?: string;
-  Configuration?: AnomalyDetectorConfiguration;
-  StateValue?: AnomalyDetectorStateValue;
-  MetricCharacteristics?: MetricCharacteristics;
-  SingleMetricAnomalyDetector?: SingleMetricAnomalyDetector;
-  MetricMathAnomalyDetector?: MetricMathAnomalyDetector;
+  AnomalyDetectorId?: string | undefined;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Stat?: string | undefined;
+  Configuration?: AnomalyDetectorConfiguration | undefined;
+  StateValue?: AnomalyDetectorStateValue | undefined;
+  MetricCharacteristics?: MetricCharacteristics | undefined;
+  SingleMetricAnomalyDetector?: SingleMetricAnomalyDetector | undefined;
+  MetricMathAnomalyDetector?: MetricMathAnomalyDetector | undefined;
 }
 export type AnomalyDetectors = AnomalyDetector[];
 export interface DescribeAnomalyDetectorsOutput {
-  AnomalyDetectors?: (AnomalyDetector & {
-    Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
-    Configuration: AnomalyDetectorConfiguration & {
-      ExcludedTimeRanges: (Range & { StartTime: Date; EndTime: Date })[];
-    };
-    SingleMetricAnomalyDetector: SingleMetricAnomalyDetector & {
-      Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
-    };
-    MetricMathAnomalyDetector: MetricMathAnomalyDetector & {
-      MetricDataQueries: (MetricDataQuery & {
-        Id: MetricId;
-        MetricStat: MetricStat & {
-          Metric: Metric & {
-            Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
-          };
-          Period: Period;
-          Stat: Stat;
+  AnomalyDetectors?:
+    | (AnomalyDetector & {
+        Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+        Configuration: AnomalyDetectorConfiguration & {
+          ExcludedTimeRanges: (Range & { StartTime: Date; EndTime: Date })[];
         };
-      })[];
-    };
-  })[];
-  NextToken?: string;
+        SingleMetricAnomalyDetector: SingleMetricAnomalyDetector & {
+          Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+        };
+        MetricMathAnomalyDetector: MetricMathAnomalyDetector & {
+          MetricDataQueries: (MetricDataQuery & {
+            Id: MetricId;
+            MetricStat: MetricStat & {
+              Metric: Metric & {
+                Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+              };
+              Period: Period;
+              Stat: Stat;
+            };
+          })[];
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type InsightRuleMaxResults = number;
 export interface DescribeInsightRulesInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type InsightRuleState = string;
 export type InsightRuleSchema = string;
@@ -836,111 +881,115 @@ export type InsightRuleDefinition = string;
 export type InsightRuleIsManaged = boolean;
 export type InsightRuleOnTransformedLogs = boolean;
 export interface InsightRule {
-  Name?: string;
-  State?: string;
-  Schema?: string;
-  Definition?: string;
-  ManagedRule?: boolean;
-  ApplyOnTransformedLogs?: boolean;
+  Name?: string | undefined;
+  State?: string | undefined;
+  Schema?: string | undefined;
+  Definition?: string | undefined;
+  ManagedRule?: boolean | undefined;
+  ApplyOnTransformedLogs?: boolean | undefined;
 }
 export type InsightRules = InsightRule[];
 export interface DescribeInsightRulesOutput {
-  NextToken?: string;
-  InsightRules?: (InsightRule & {
-    Name: InsightRuleName;
-    State: InsightRuleState;
-    Schema: InsightRuleSchema;
-    Definition: InsightRuleDefinition;
-  })[];
+  NextToken?: string | undefined;
+  InsightRules?:
+    | (InsightRule & {
+        Name: InsightRuleName;
+        State: InsightRuleState;
+        Schema: InsightRuleSchema;
+        Definition: InsightRuleDefinition;
+      })[]
+    | undefined;
 }
 export interface DisableAlarmActionsInput {
-  AlarmNames?: string[];
+  AlarmNames?: string[] | undefined;
 }
 export interface DisableAlarmActionsResponse {}
 export interface DisableInsightRulesInput {
-  RuleNames?: string[];
+  RuleNames?: string[] | undefined;
 }
 export interface DisableInsightRulesOutput {
-  Failures?: PartialFailure[];
+  Failures?: PartialFailure[] | undefined;
 }
 export interface DisassociateDatasetKmsKeyInput {
-  DatasetIdentifier?: string;
+  DatasetIdentifier?: string | undefined;
 }
 export interface DisassociateDatasetKmsKeyOutput {}
 export interface EnableAlarmActionsInput {
-  AlarmNames?: string[];
+  AlarmNames?: string[] | undefined;
 }
 export interface EnableAlarmActionsResponse {}
 export interface EnableInsightRulesInput {
-  RuleNames?: string[];
+  RuleNames?: string[] | undefined;
 }
 export interface EnableInsightRulesOutput {
-  Failures?: PartialFailure[];
+  Failures?: PartialFailure[] | undefined;
 }
 export interface GetAlarmMuteRuleInput {
-  AlarmMuteRuleName?: string;
+  AlarmMuteRuleName?: string | undefined;
 }
 export type Arn = string;
 export type Expression = string;
 export type Duration = string;
 export interface Schedule {
-  Expression?: string;
-  Duration?: string;
-  Timezone?: string;
+  Expression?: string | undefined;
+  Duration?: string | undefined;
+  Timezone?: string | undefined;
 }
 export interface Rule {
-  Schedule?: Schedule;
+  Schedule?: Schedule | undefined;
 }
 export type MuteTargetAlarmNameList = string[];
 export interface MuteTargets {
-  AlarmNames?: string[];
+  AlarmNames?: string[] | undefined;
 }
 export type AlarmMuteRuleStatus = "SCHEDULED" | "ACTIVE" | "EXPIRED" | (string & {});
 export type MuteType = string;
 export interface GetAlarmMuteRuleOutput {
-  Name?: string;
-  AlarmMuteRuleArn?: string;
-  Description?: string;
-  Rule?: Rule & { Schedule: Schedule & { Expression: Expression; Duration: Duration } };
-  MuteTargets?: MuteTargets & { AlarmNames: MuteTargetAlarmNameList };
-  StartDate?: Date;
-  ExpireDate?: Date;
-  Status?: AlarmMuteRuleStatus;
-  LastUpdatedTimestamp?: Date;
-  MuteType?: string;
+  Name?: string | undefined;
+  AlarmMuteRuleArn?: string | undefined;
+  Description?: string | undefined;
+  Rule?:
+    | (Rule & { Schedule: Schedule & { Expression: Expression; Duration: Duration } })
+    | undefined;
+  MuteTargets?: (MuteTargets & { AlarmNames: MuteTargetAlarmNameList }) | undefined;
+  StartDate?: Date | undefined;
+  ExpireDate?: Date | undefined;
+  Status?: AlarmMuteRuleStatus | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  MuteType?: string | undefined;
 }
 export interface GetDashboardInput {
-  DashboardName?: string;
+  DashboardName?: string | undefined;
 }
 export type DashboardArn = string;
 export type DashboardBody = string;
 export interface GetDashboardOutput {
-  DashboardArn?: string;
-  DashboardBody?: string;
-  DashboardName?: string;
+  DashboardArn?: string | undefined;
+  DashboardBody?: string | undefined;
+  DashboardName?: string | undefined;
 }
 export interface GetDatasetInput {
-  DatasetIdentifier?: string;
+  DatasetIdentifier?: string | undefined;
 }
 export type DatasetId = string;
 export type DatasetArn = string;
 export interface GetDatasetOutput {
   DatasetId: string;
   Arn: string;
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | undefined;
 }
 export type InsightRuleUnboundInteger = number;
 export type InsightRuleMetricName = string;
 export type InsightRuleMetricList = string[];
 export type InsightRuleOrderBy = string;
 export interface GetInsightRuleReportInput {
-  RuleName?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Period?: number;
-  MaxContributorCount?: number;
-  Metrics?: string[];
-  OrderBy?: string;
+  RuleName?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Period?: number | undefined;
+  MaxContributorCount?: number | undefined;
+  Metrics?: string[] | undefined;
+  OrderBy?: string | undefined;
 }
 export type InsightRuleContributorKeyLabel = string;
 export type InsightRuleContributorKeyLabels = string[];
@@ -950,55 +999,57 @@ export type InsightRuleUnboundLong = number;
 export type InsightRuleContributorKey = string;
 export type InsightRuleContributorKeys = string[];
 export interface InsightRuleContributorDatapoint {
-  Timestamp?: Date;
-  ApproximateValue?: number;
+  Timestamp?: Date | undefined;
+  ApproximateValue?: number | undefined;
 }
 export type InsightRuleContributorDatapoints = InsightRuleContributorDatapoint[];
 export interface InsightRuleContributor {
-  Keys?: string[];
-  ApproximateAggregateValue?: number;
-  Datapoints?: InsightRuleContributorDatapoint[];
+  Keys?: string[] | undefined;
+  ApproximateAggregateValue?: number | undefined;
+  Datapoints?: InsightRuleContributorDatapoint[] | undefined;
 }
 export type InsightRuleContributors = InsightRuleContributor[];
 export interface InsightRuleMetricDatapoint {
-  Timestamp?: Date;
-  UniqueContributors?: number;
-  MaxContributorValue?: number;
-  SampleCount?: number;
-  Average?: number;
-  Sum?: number;
-  Minimum?: number;
-  Maximum?: number;
+  Timestamp?: Date | undefined;
+  UniqueContributors?: number | undefined;
+  MaxContributorValue?: number | undefined;
+  SampleCount?: number | undefined;
+  Average?: number | undefined;
+  Sum?: number | undefined;
+  Minimum?: number | undefined;
+  Maximum?: number | undefined;
 }
 export type InsightRuleMetricDatapoints = InsightRuleMetricDatapoint[];
 export interface GetInsightRuleReportOutput {
-  KeyLabels?: string[];
-  AggregationStatistic?: string;
-  AggregateValue?: number;
-  ApproximateUniqueCount?: number;
-  Contributors?: (InsightRuleContributor & {
-    Keys: InsightRuleContributorKeys;
-    ApproximateAggregateValue: InsightRuleUnboundDouble;
-    Datapoints: (InsightRuleContributorDatapoint & {
-      Timestamp: Date;
-      ApproximateValue: InsightRuleUnboundDouble;
-    })[];
-  })[];
-  MetricDatapoints?: (InsightRuleMetricDatapoint & { Timestamp: Date })[];
+  KeyLabels?: string[] | undefined;
+  AggregationStatistic?: string | undefined;
+  AggregateValue?: number | undefined;
+  ApproximateUniqueCount?: number | undefined;
+  Contributors?:
+    | (InsightRuleContributor & {
+        Keys: InsightRuleContributorKeys;
+        ApproximateAggregateValue: InsightRuleUnboundDouble;
+        Datapoints: (InsightRuleContributorDatapoint & {
+          Timestamp: Date;
+          ApproximateValue: InsightRuleUnboundDouble;
+        })[];
+      })[]
+    | undefined;
+  MetricDatapoints?: (InsightRuleMetricDatapoint & { Timestamp: Date })[] | undefined;
 }
 export type GetMetricDataMaxDatapoints = number;
 export type GetMetricDataLabelTimezone = string;
 export interface LabelOptions {
-  Timezone?: string;
+  Timezone?: string | undefined;
 }
 export interface GetMetricDataInput {
-  MetricDataQueries?: MetricDataQuery[];
-  StartTime?: Date;
-  EndTime?: Date;
-  NextToken?: string;
-  ScanBy?: ScanBy;
-  MaxDatapoints?: number;
-  LabelOptions?: LabelOptions;
+  MetricDataQueries?: MetricDataQuery[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  NextToken?: string | undefined;
+  ScanBy?: ScanBy | undefined;
+  MaxDatapoints?: number | undefined;
+  LabelOptions?: LabelOptions | undefined;
 }
 export type Timestamps = Date[];
 export type DatapointValue = number;
@@ -1007,60 +1058,60 @@ export type StatusCode = "Complete" | "InternalError" | "PartialData" | "Forbidd
 export type MessageDataCode = string;
 export type MessageDataValue = string;
 export interface MessageData {
-  Code?: string;
-  Value?: string;
+  Code?: string | undefined;
+  Value?: string | undefined;
 }
 export type MetricDataResultMessages = MessageData[];
 export interface MetricDataResult {
-  Id?: string;
-  Label?: string;
-  Timestamps?: Date[];
-  Values?: number[];
-  StatusCode?: StatusCode;
-  Messages?: MessageData[];
+  Id?: string | undefined;
+  Label?: string | undefined;
+  Timestamps?: Date[] | undefined;
+  Values?: number[] | undefined;
+  StatusCode?: StatusCode | undefined;
+  Messages?: MessageData[] | undefined;
 }
 export type MetricDataResults = MetricDataResult[];
 export interface GetMetricDataOutput {
-  MetricDataResults?: MetricDataResult[];
-  NextToken?: string;
-  Messages?: MessageData[];
+  MetricDataResults?: MetricDataResult[] | undefined;
+  NextToken?: string | undefined;
+  Messages?: MessageData[] | undefined;
 }
 export type Statistics = Statistic[];
 export type ExtendedStatistics = string[];
 export interface GetMetricStatisticsInput {
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  StartTime?: Date;
-  EndTime?: Date;
-  Period?: number;
-  Statistics?: Statistic[];
-  ExtendedStatistics?: string[];
-  Unit?: StandardUnit;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Period?: number | undefined;
+  Statistics?: Statistic[] | undefined;
+  ExtendedStatistics?: string[] | undefined;
+  Unit?: StandardUnit | undefined;
 }
 export type DatapointValueMap = { [key: string]: number | undefined };
 export interface Datapoint {
-  Timestamp?: Date;
-  SampleCount?: number;
-  Average?: number;
-  Sum?: number;
-  Minimum?: number;
-  Maximum?: number;
-  Unit?: StandardUnit;
-  ExtendedStatistics?: { [key: string]: number | undefined };
+  Timestamp?: Date | undefined;
+  SampleCount?: number | undefined;
+  Average?: number | undefined;
+  Sum?: number | undefined;
+  Minimum?: number | undefined;
+  Maximum?: number | undefined;
+  Unit?: StandardUnit | undefined;
+  ExtendedStatistics?: { [key: string]: number | undefined } | undefined;
 }
 export type Datapoints = Datapoint[];
 export interface GetMetricStatisticsOutput {
-  Label?: string;
-  Datapoints?: Datapoint[];
+  Label?: string | undefined;
+  Datapoints?: Datapoint[] | undefined;
 }
 export interface GetMetricStreamInput {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type MetricStreamFilterMetricNames = string[];
 export interface MetricStreamFilter {
-  Namespace?: string;
-  MetricNames?: string[];
+  Namespace?: string | undefined;
+  MetricNames?: string[] | undefined;
 }
 export type MetricStreamFilters = MetricStreamFilter[];
 export type MetricStreamState = string;
@@ -1070,65 +1121,67 @@ export type MetricStreamOutputFormat =
   | "opentelemetry1.0"
   | (string & {});
 export interface MetricStreamStatisticsMetric {
-  Namespace?: string;
-  MetricName?: string;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
 }
 export type MetricStreamStatisticsIncludeMetrics = MetricStreamStatisticsMetric[];
 export type MetricStreamStatistic = string;
 export type MetricStreamStatisticsAdditionalStatistics = string[];
 export interface MetricStreamStatisticsConfiguration {
-  IncludeMetrics?: MetricStreamStatisticsMetric[];
-  AdditionalStatistics?: string[];
+  IncludeMetrics?: MetricStreamStatisticsMetric[] | undefined;
+  AdditionalStatistics?: string[] | undefined;
 }
 export type MetricStreamStatisticsConfigurations = MetricStreamStatisticsConfiguration[];
 export type IncludeLinkedAccountsMetrics = boolean;
 export interface GetMetricStreamOutput {
-  Arn?: string;
-  Name?: string;
-  IncludeFilters?: MetricStreamFilter[];
-  ExcludeFilters?: MetricStreamFilter[];
-  FirehoseArn?: string;
-  RoleArn?: string;
-  State?: string;
-  CreationDate?: Date;
-  LastUpdateDate?: Date;
-  OutputFormat?: MetricStreamOutputFormat;
-  StatisticsConfigurations?: (MetricStreamStatisticsConfiguration & {
-    IncludeMetrics: (MetricStreamStatisticsMetric & {
-      Namespace: Namespace;
-      MetricName: MetricName;
-    })[];
-    AdditionalStatistics: MetricStreamStatisticsAdditionalStatistics;
-  })[];
-  IncludeLinkedAccountsMetrics?: boolean;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  IncludeFilters?: MetricStreamFilter[] | undefined;
+  ExcludeFilters?: MetricStreamFilter[] | undefined;
+  FirehoseArn?: string | undefined;
+  RoleArn?: string | undefined;
+  State?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastUpdateDate?: Date | undefined;
+  OutputFormat?: MetricStreamOutputFormat | undefined;
+  StatisticsConfigurations?:
+    | (MetricStreamStatisticsConfiguration & {
+        IncludeMetrics: (MetricStreamStatisticsMetric & {
+          Namespace: Namespace;
+          MetricName: MetricName;
+        })[];
+        AdditionalStatistics: MetricStreamStatisticsAdditionalStatistics;
+      })[]
+    | undefined;
+  IncludeLinkedAccountsMetrics?: boolean | undefined;
 }
 export type MetricWidget = string;
 export type OutputFormat = string;
 export interface GetMetricWidgetImageInput {
-  MetricWidget?: string;
-  OutputFormat?: string;
+  MetricWidget?: string | undefined;
+  OutputFormat?: string | undefined;
 }
 export type MetricWidgetImage = Uint8Array;
 export interface GetMetricWidgetImageOutput {
-  MetricWidgetImage?: Uint8Array;
+  MetricWidgetImage?: Uint8Array | undefined;
 }
 export interface GetOTelEnrichmentInput {}
 export type OTelEnrichmentStatus = "Running" | "Stopped" | (string & {});
 export type OTelEnrichmentMetricNameList = string[];
 export interface OTelEnrichmentMetricSelector {
-  Namespace?: string;
-  MetricNames?: string[];
+  Namespace?: string | undefined;
+  MetricNames?: string[] | undefined;
 }
 export type OTelEnrichmentMetricSelectorList = OTelEnrichmentMetricSelector[];
 export interface GetOTelEnrichmentOutput {
   Status: OTelEnrichmentStatus;
-  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
-  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
+  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetResourceMetricsConfigurationInput {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export interface GetResourceMetricsConfigurationOutput {
   ResourceMetricsConfiguration: ResourceMetricsConfiguration & {
@@ -1140,252 +1193,257 @@ export interface GetResourceMetricsConfigurationOutput {
 }
 export type AlarmMuteRuleStatuses = AlarmMuteRuleStatus[];
 export interface ListAlarmMuteRulesInput {
-  AlarmName?: string;
-  Statuses?: AlarmMuteRuleStatus[];
-  MaxRecords?: number;
-  NextToken?: string;
+  AlarmName?: string | undefined;
+  Statuses?: AlarmMuteRuleStatus[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AlarmMuteRuleSummary {
-  AlarmMuteRuleArn?: string;
-  ExpireDate?: Date;
-  Status?: AlarmMuteRuleStatus;
-  MuteType?: string;
-  LastUpdatedTimestamp?: Date;
+  AlarmMuteRuleArn?: string | undefined;
+  ExpireDate?: Date | undefined;
+  Status?: AlarmMuteRuleStatus | undefined;
+  MuteType?: string | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export type AlarmMuteRuleSummaries = AlarmMuteRuleSummary[];
 export interface ListAlarmMuteRulesOutput {
-  AlarmMuteRuleSummaries?: AlarmMuteRuleSummary[];
-  NextToken?: string;
+  AlarmMuteRuleSummaries?: AlarmMuteRuleSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DashboardNamePrefix = string;
 export interface ListDashboardsInput {
-  DashboardNamePrefix?: string;
-  NextToken?: string;
+  DashboardNamePrefix?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type LastModified = Date;
 export type Size = number;
 export interface DashboardEntry {
-  DashboardName?: string;
-  DashboardArn?: string;
-  LastModified?: Date;
-  Size?: number;
+  DashboardName?: string | undefined;
+  DashboardArn?: string | undefined;
+  LastModified?: Date | undefined;
+  Size?: number | undefined;
 }
 export type DashboardEntries = DashboardEntry[];
 export interface ListDashboardsOutput {
-  DashboardEntries?: DashboardEntry[];
-  NextToken?: string;
+  DashboardEntries?: DashboardEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListManagedInsightRulesInput {
-  ResourceARN?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ResourceARN?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TemplateName = string;
 export interface ManagedRuleState {
-  RuleName?: string;
-  State?: string;
+  RuleName?: string | undefined;
+  State?: string | undefined;
 }
 export interface ManagedRuleDescription {
-  TemplateName?: string;
-  ResourceARN?: string;
-  RuleState?: ManagedRuleState;
+  TemplateName?: string | undefined;
+  ResourceARN?: string | undefined;
+  RuleState?: ManagedRuleState | undefined;
 }
 export type ManagedRuleDescriptions = ManagedRuleDescription[];
 export interface ListManagedInsightRulesOutput {
-  ManagedRules?: (ManagedRuleDescription & {
-    RuleState: ManagedRuleState & { RuleName: InsightRuleName; State: InsightRuleState };
-  })[];
-  NextToken?: string;
+  ManagedRules?:
+    | (ManagedRuleDescription & {
+        RuleState: ManagedRuleState & { RuleName: InsightRuleName; State: InsightRuleState };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DimensionFilter {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type DimensionFilters = DimensionFilter[];
 export type RecentlyActive = "PT3H" | (string & {});
 export type IncludeLinkedAccounts = boolean;
 export interface ListMetricsInput {
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: DimensionFilter[];
-  NextToken?: string;
-  RecentlyActive?: RecentlyActive;
-  IncludeLinkedAccounts?: boolean;
-  OwningAccount?: string;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: DimensionFilter[] | undefined;
+  NextToken?: string | undefined;
+  RecentlyActive?: RecentlyActive | undefined;
+  IncludeLinkedAccounts?: boolean | undefined;
+  OwningAccount?: string | undefined;
 }
 export type Metrics = Metric[];
 export type OwningAccounts = string[];
 export interface ListMetricsOutput {
-  Metrics?: (Metric & {
-    Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
-  })[];
-  NextToken?: string;
-  OwningAccounts?: string[];
+  Metrics?:
+    | (Metric & { Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[] })[]
+    | undefined;
+  NextToken?: string | undefined;
+  OwningAccounts?: string[] | undefined;
 }
 export type ListMetricStreamsMaxResults = number;
 export interface ListMetricStreamsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MetricStreamEntry {
-  Arn?: string;
-  CreationDate?: Date;
-  LastUpdateDate?: Date;
-  Name?: string;
-  FirehoseArn?: string;
-  State?: string;
-  OutputFormat?: MetricStreamOutputFormat;
+  Arn?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastUpdateDate?: Date | undefined;
+  Name?: string | undefined;
+  FirehoseArn?: string | undefined;
+  State?: string | undefined;
+  OutputFormat?: MetricStreamOutputFormat | undefined;
 }
 export type MetricStreamEntries = MetricStreamEntry[];
 export interface ListMetricStreamsOutput {
-  NextToken?: string;
-  Entries?: MetricStreamEntry[];
+  NextToken?: string | undefined;
+  Entries?: MetricStreamEntry[] | undefined;
 }
 export interface ListTagsForResourceInput {
-  ResourceARN?: string;
+  ResourceARN?: string | undefined;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: (Tag & { Key: TagKey; Value: TagValue })[];
+  Tags?: (Tag & { Key: TagKey; Value: TagValue })[] | undefined;
 }
 export interface PutAlarmMuteRuleInput {
-  Name?: string;
-  Description?: string;
-  Rule?: Rule;
-  MuteTargets?: MuteTargets;
-  Tags?: Tag[];
-  StartDate?: Date;
-  ExpireDate?: Date;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Rule?: Rule | undefined;
+  MuteTargets?: MuteTargets | undefined;
+  Tags?: Tag[] | undefined;
+  StartDate?: Date | undefined;
+  ExpireDate?: Date | undefined;
 }
 export interface PutAlarmMuteRuleResponse {}
 export interface PutAnomalyDetectorInput {
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  Stat?: string;
-  Configuration?: AnomalyDetectorConfiguration;
-  MetricCharacteristics?: MetricCharacteristics;
-  SingleMetricAnomalyDetector?: SingleMetricAnomalyDetector;
-  MetricMathAnomalyDetector?: MetricMathAnomalyDetector;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Stat?: string | undefined;
+  Configuration?: AnomalyDetectorConfiguration | undefined;
+  MetricCharacteristics?: MetricCharacteristics | undefined;
+  SingleMetricAnomalyDetector?: SingleMetricAnomalyDetector | undefined;
+  MetricMathAnomalyDetector?: MetricMathAnomalyDetector | undefined;
 }
 export interface PutAnomalyDetectorOutput {
-  AnomalyDetectorId?: string;
+  AnomalyDetectorId?: string | undefined;
 }
 export interface PutCompositeAlarmInput {
-  ActionsEnabled?: boolean;
-  AlarmActions?: string[];
-  AlarmDescription?: string;
-  AlarmName?: string;
-  AlarmRule?: string;
-  InsufficientDataActions?: string[];
-  OKActions?: string[];
-  Tags?: Tag[];
-  ActionsSuppressor?: string;
-  ActionsSuppressorWaitPeriod?: number;
-  ActionsSuppressorExtensionPeriod?: number;
+  ActionsEnabled?: boolean | undefined;
+  AlarmActions?: string[] | undefined;
+  AlarmDescription?: string | undefined;
+  AlarmName?: string | undefined;
+  AlarmRule?: string | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  OKActions?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  ActionsSuppressor?: string | undefined;
+  ActionsSuppressorWaitPeriod?: number | undefined;
+  ActionsSuppressorExtensionPeriod?: number | undefined;
+  ActionConfiguration?: ActionConfiguration | undefined;
 }
 export interface PutCompositeAlarmResponse {}
 export interface PutDashboardInput {
-  DashboardName?: string;
-  DashboardBody?: string;
-  Tags?: Tag[];
+  DashboardName?: string | undefined;
+  DashboardBody?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type DataPath = string;
 export type Message = string;
 export interface DashboardValidationMessage {
-  DataPath?: string;
-  Message?: string;
+  DataPath?: string | undefined;
+  Message?: string | undefined;
 }
 export type DashboardValidationMessages = DashboardValidationMessage[];
 export interface PutDashboardOutput {
-  DashboardValidationMessages?: DashboardValidationMessage[];
+  DashboardValidationMessages?: DashboardValidationMessage[] | undefined;
 }
 export interface PutInsightRuleInput {
-  RuleName?: string;
-  RuleState?: string;
-  RuleDefinition?: string;
-  Tags?: Tag[];
-  ApplyOnTransformedLogs?: boolean;
+  RuleName?: string | undefined;
+  RuleState?: string | undefined;
+  RuleDefinition?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ApplyOnTransformedLogs?: boolean | undefined;
 }
 export interface PutInsightRuleOutput {}
 export interface PutLogAlarmInput {
-  AlarmName?: string;
-  AlarmDescription?: string;
-  ScheduledQueryConfiguration?: ScheduledQueryConfiguration;
-  ActionLogLineCount?: number;
-  ActionLogLineRoleArn?: string;
-  ActionsEnabled?: boolean;
-  OKActions?: string[];
-  AlarmActions?: string[];
-  InsufficientDataActions?: string[];
-  QueryResultsToEvaluate?: number;
-  QueryResultsToAlarm?: number;
-  Threshold?: number;
-  ComparisonOperator?: ComparisonOperator;
-  TreatMissingData?: string;
-  Tags?: Tag[];
-  WarmUpConfiguration?: WarmUpConfiguration;
+  AlarmName?: string | undefined;
+  AlarmDescription?: string | undefined;
+  ScheduledQueryConfiguration?: ScheduledQueryConfiguration | undefined;
+  ActionLogLineCount?: number | undefined;
+  ActionLogLineRoleArn?: string | undefined;
+  ActionsEnabled?: boolean | undefined;
+  OKActions?: string[] | undefined;
+  AlarmActions?: string[] | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  QueryResultsToEvaluate?: number | undefined;
+  QueryResultsToAlarm?: number | undefined;
+  Threshold?: number | undefined;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  TreatMissingData?: string | undefined;
+  Tags?: Tag[] | undefined;
+  WarmUpConfiguration?: WarmUpConfiguration | undefined;
+  ActionConfiguration?: ActionConfiguration | undefined;
 }
 export interface PutLogAlarmResponse {}
 export interface ManagedRule {
-  TemplateName?: string;
-  ResourceARN?: string;
-  Tags?: Tag[];
+  TemplateName?: string | undefined;
+  ResourceARN?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ManagedRules = ManagedRule[];
 export interface PutManagedInsightRulesInput {
-  ManagedRules?: ManagedRule[];
+  ManagedRules?: ManagedRule[] | undefined;
 }
 export interface PutManagedInsightRulesOutput {
-  Failures?: PartialFailure[];
+  Failures?: PartialFailure[] | undefined;
 }
 export interface PutMetricAlarmInput {
-  AlarmName?: string;
-  AlarmDescription?: string;
-  ActionsEnabled?: boolean;
-  OKActions?: string[];
-  AlarmActions?: string[];
-  InsufficientDataActions?: string[];
-  MetricName?: string;
-  Namespace?: string;
-  Statistic?: Statistic;
-  ExtendedStatistic?: string;
-  Dimensions?: Dimension[];
-  Period?: number;
-  Unit?: StandardUnit;
-  EvaluationPeriods?: number;
-  DatapointsToAlarm?: number;
-  Threshold?: number;
-  ComparisonOperator?: ComparisonOperator;
-  TreatMissingData?: string;
-  EvaluateLowSampleCountPercentile?: string;
-  Metrics?: MetricDataQuery[];
-  Tags?: Tag[];
-  ThresholdMetricId?: string;
-  EvaluationWindow?: EvaluationWindow;
-  WarmUpConfiguration?: WarmUpConfiguration;
-  EvaluationCriteria?: EvaluationCriteria;
-  EvaluationInterval?: number;
+  AlarmName?: string | undefined;
+  AlarmDescription?: string | undefined;
+  ActionsEnabled?: boolean | undefined;
+  OKActions?: string[] | undefined;
+  AlarmActions?: string[] | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
+  Statistic?: Statistic | undefined;
+  ExtendedStatistic?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Period?: number | undefined;
+  Unit?: StandardUnit | undefined;
+  EvaluationPeriods?: number | undefined;
+  DatapointsToAlarm?: number | undefined;
+  Threshold?: number | undefined;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  TreatMissingData?: string | undefined;
+  EvaluateLowSampleCountPercentile?: string | undefined;
+  Metrics?: MetricDataQuery[] | undefined;
+  Tags?: Tag[] | undefined;
+  ThresholdMetricId?: string | undefined;
+  EvaluationWindow?: EvaluationWindow | undefined;
+  WarmUpConfiguration?: WarmUpConfiguration | undefined;
+  EvaluationCriteria?: EvaluationCriteria | undefined;
+  EvaluationInterval?: number | undefined;
+  ActionConfiguration?: ActionConfiguration | undefined;
 }
 export interface PutMetricAlarmResponse {}
 export interface StatisticSet {
-  SampleCount?: number;
-  Sum?: number;
-  Minimum?: number;
-  Maximum?: number;
+  SampleCount?: number | undefined;
+  Sum?: number | undefined;
+  Minimum?: number | undefined;
+  Maximum?: number | undefined;
 }
 export type Values = number[];
 export type Counts = number[];
 export type StorageResolution = number;
 export interface MetricDatum {
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  Timestamp?: Date;
-  Value?: number;
-  StatisticValues?: StatisticSet;
-  Values?: number[];
-  Counts?: number[];
-  Unit?: StandardUnit;
-  StorageResolution?: number;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Timestamp?: Date | undefined;
+  Value?: number | undefined;
+  StatisticValues?: StatisticSet | undefined;
+  Values?: number[] | undefined;
+  Counts?: number[] | undefined;
+  Unit?: StandardUnit | undefined;
+  StorageResolution?: number | undefined;
 }
 export type MetricData = MetricDatum[];
 export type EntityKeyAttributesMapKeyString = string;
@@ -1395,88 +1453,88 @@ export type EntityAttributesMapKeyString = string;
 export type EntityAttributesMapValueString = string;
 export type EntityAttributesMap = { [key: string]: string | undefined };
 export interface Entity {
-  KeyAttributes?: { [key: string]: string | undefined };
-  Attributes?: { [key: string]: string | undefined };
+  KeyAttributes?: { [key: string]: string | undefined } | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface EntityMetricData {
-  Entity?: Entity;
-  MetricData?: MetricDatum[];
+  Entity?: Entity | undefined;
+  MetricData?: MetricDatum[] | undefined;
 }
 export type EntityMetricDataList = EntityMetricData[];
 export type StrictEntityValidation = boolean;
 export interface PutMetricDataInput {
-  Namespace?: string;
-  MetricData?: MetricDatum[];
-  EntityMetricData?: EntityMetricData[];
-  StrictEntityValidation?: boolean;
+  Namespace?: string | undefined;
+  MetricData?: MetricDatum[] | undefined;
+  EntityMetricData?: EntityMetricData[] | undefined;
+  StrictEntityValidation?: boolean | undefined;
 }
 export interface PutMetricDataResponse {}
 export interface PutMetricStreamInput {
-  Name?: string;
-  IncludeFilters?: MetricStreamFilter[];
-  ExcludeFilters?: MetricStreamFilter[];
-  FirehoseArn?: string;
-  RoleArn?: string;
-  OutputFormat?: MetricStreamOutputFormat;
-  Tags?: Tag[];
-  StatisticsConfigurations?: MetricStreamStatisticsConfiguration[];
-  IncludeLinkedAccountsMetrics?: boolean;
+  Name?: string | undefined;
+  IncludeFilters?: MetricStreamFilter[] | undefined;
+  ExcludeFilters?: MetricStreamFilter[] | undefined;
+  FirehoseArn?: string | undefined;
+  RoleArn?: string | undefined;
+  OutputFormat?: MetricStreamOutputFormat | undefined;
+  Tags?: Tag[] | undefined;
+  StatisticsConfigurations?: MetricStreamStatisticsConfiguration[] | undefined;
+  IncludeLinkedAccountsMetrics?: boolean | undefined;
 }
 export interface PutMetricStreamOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface SetAlarmStateInput {
-  AlarmName?: string;
-  StateValue?: StateValue;
-  StateReason?: string;
-  StateReasonData?: string;
+  AlarmName?: string | undefined;
+  StateValue?: StateValue | undefined;
+  StateReason?: string | undefined;
+  StateReasonData?: string | undefined;
 }
 export interface SetAlarmStateResponse {}
 export type MetricStreamNames = string[];
 export interface StartMetricStreamsInput {
-  Names?: string[];
+  Names?: string[] | undefined;
 }
 export interface StartMetricStreamsOutput {}
 export interface StartOTelEnrichmentInput {
-  IncludeFilters?: OTelEnrichmentMetricSelector[];
-  ExcludeFilters?: OTelEnrichmentMetricSelector[];
+  IncludeFilters?: OTelEnrichmentMetricSelector[] | undefined;
+  ExcludeFilters?: OTelEnrichmentMetricSelector[] | undefined;
 }
 export interface StartOTelEnrichmentOutput {
-  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
-  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
+  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface StopMetricStreamsInput {
-  Names?: string[];
+  Names?: string[] | undefined;
 }
 export interface StopMetricStreamsOutput {}
 export interface StopOTelEnrichmentInput {}
 export interface StopOTelEnrichmentOutput {}
 export interface TagResourceInput {
-  ResourceARN?: string;
-  Tags?: Tag[];
+  ResourceARN?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface TagResourceOutput {}
 export type TagKeyList = string[];
 export interface UntagResourceInput {
-  ResourceARN?: string;
-  TagKeys?: string[];
+  ResourceARN?: string | undefined;
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceOutput {}
 export interface UpdateOTelEnrichmentInput {
-  IncludeFilters?: OTelEnrichmentMetricSelector[];
-  ExcludeFilters?: OTelEnrichmentMetricSelector[];
+  IncludeFilters?: OTelEnrichmentMetricSelector[] | undefined;
+  ExcludeFilters?: OTelEnrichmentMetricSelector[] | undefined;
 }
 export interface UpdateOTelEnrichmentOutput {
-  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
-  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
+  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface UpdateResourceMetricsConfigurationInput {
-  ResourceArn?: string;
-  MetricSelections?: ResourceMetricSelection[];
+  ResourceArn?: string | undefined;
+  MetricSelections?: ResourceMetricSelection[] | undefined;
 }
 export interface UpdateResourceMetricsConfigurationOutput {
   ResourceMetricsConfiguration: ResourceMetricsConfiguration & {
@@ -1953,8 +2011,8 @@ export const describeAlarmsForMetric: API.OperationMethod<
   DescribeAlarmsForMetricError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<DescribeAlarmsForMetricInput>,
-  output: __S(233, __c29, 1) as any as S.Schema<DescribeAlarmsForMetricOutput>,
+  input: __S(240, __c30, 0) as any as S.Schema<DescribeAlarmsForMetricInput>,
+  output: __S(241, __c30, 1) as any as S.Schema<DescribeAlarmsForMetricOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1984,8 +2042,8 @@ export const describeAnomalyDetectors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AnomalyDetector
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<DescribeAnomalyDetectorsInput>,
-  output: __S(243, __c30, 3) as any as S.Schema<DescribeAnomalyDetectorsOutput>,
+  input: __S(248, __c31, 0) as any as S.Schema<DescribeAnomalyDetectorsInput>,
+  output: __S(251, __c31, 3) as any as S.Schema<DescribeAnomalyDetectorsOutput>,
   errors: [
     InternalServiceFault,
     InvalidNextToken,
@@ -2019,8 +2077,8 @@ export const describeInsightRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<DescribeInsightRulesInput>,
-  output: __S(259, __c32, 3) as any as S.Schema<DescribeInsightRulesOutput>,
+  input: __S(264, __c33, 0) as any as S.Schema<DescribeInsightRulesInput>,
+  output: __S(267, __c33, 3) as any as S.Schema<DescribeInsightRulesOutput>,
   errors: [InvalidNextToken, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2045,7 +2103,7 @@ export const disableAlarmActions: API.OperationMethod<
   DisableAlarmActionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<DisableAlarmActionsInput>,
+  input: __S(272, __c34, 0) as any as S.Schema<DisableAlarmActionsInput>,
   output: __S(16, __c2, 0) as any as S.Schema<DisableAlarmActionsResponse>,
   errors: [],
   protocol: AwsProtocol,
@@ -2069,7 +2127,7 @@ export const disableInsightRules: API.OperationMethod<
   DisableInsightRulesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<DisableInsightRulesInput>,
+  input: __S(280, __c35, 0) as any as S.Schema<DisableInsightRulesInput>,
   output: __S(122, __c15, 2) as any as S.Schema<DisableInsightRulesOutput>,
   errors: [InvalidParameterValueException, MissingRequiredParameterException],
   protocol: AwsProtocol,
@@ -2125,7 +2183,7 @@ export const disassociateDatasetKmsKey: API.OperationMethod<
   DisassociateDatasetKmsKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<DisassociateDatasetKmsKeyInput>,
+  input: __S(288, __c36, 0) as any as S.Schema<DisassociateDatasetKmsKeyInput>,
   output: __S(16, __c2, 0) as any as S.Schema<DisassociateDatasetKmsKeyOutput>,
   errors: [ConflictException, ResourceNotFoundException],
   protocol: AwsProtocol,
@@ -2145,7 +2203,7 @@ export const enableAlarmActions: API.OperationMethod<
   EnableAlarmActionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<EnableAlarmActionsInput>,
+  input: __S(296, __c37, 0) as any as S.Schema<EnableAlarmActionsInput>,
   output: __S(16, __c2, 0) as any as S.Schema<EnableAlarmActionsResponse>,
   errors: [],
   protocol: AwsProtocol,
@@ -2170,7 +2228,7 @@ export const enableInsightRules: API.OperationMethod<
   EnableInsightRulesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<EnableInsightRulesInput>,
+  input: __S(304, __c38, 0) as any as S.Schema<EnableInsightRulesInput>,
   output: __S(122, __c15, 2) as any as S.Schema<EnableInsightRulesOutput>,
   errors: [
     InvalidParameterValueException,
@@ -2214,8 +2272,8 @@ export const getAlarmMuteRule: API.OperationMethod<
   GetAlarmMuteRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<GetAlarmMuteRuleInput>,
-  output: __S(305, __c38, 1) as any as S.Schema<GetAlarmMuteRuleOutput>,
+  input: __S(312, __c39, 0) as any as S.Schema<GetAlarmMuteRuleInput>,
+  output: __S(313, __c39, 1) as any as S.Schema<GetAlarmMuteRuleOutput>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2250,8 +2308,8 @@ export const getDashboard: API.OperationMethod<
   GetDashboardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<GetDashboardInput>,
-  output: __S(321, __c40, 1) as any as S.Schema<GetDashboardOutput>,
+  input: __S(328, __c41, 0) as any as S.Schema<GetDashboardInput>,
+  output: __S(329, __c41, 1) as any as S.Schema<GetDashboardOutput>,
   errors: [DashboardNotFoundError, InternalServiceFault, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2282,8 +2340,8 @@ export const getDataset: API.OperationMethod<
   GetDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<GetDatasetInput>,
-  output: __S(329, __c41, 1) as any as S.Schema<GetDatasetOutput>,
+  input: __S(336, __c42, 0) as any as S.Schema<GetDatasetInput>,
+  output: __S(337, __c42, 1) as any as S.Schema<GetDatasetOutput>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2337,8 +2395,8 @@ export const getInsightRuleReport: API.OperationMethod<
   GetInsightRuleReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<GetInsightRuleReportInput>,
-  output: __S(343, __c42, 7) as any as S.Schema<GetInsightRuleReportOutput>,
+  input: __S(344, __c43, 0) as any as S.Schema<GetInsightRuleReportInput>,
+  output: __S(351, __c43, 7) as any as S.Schema<GetInsightRuleReportOutput>,
   errors: [
     InvalidParameterValueException,
     MissingRequiredParameterException,
@@ -2427,8 +2485,8 @@ export const getMetricData: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<GetMetricDataInput>,
-  output: __S(350, __c43, 6) as any as S.Schema<GetMetricDataOutput>,
+  input: __S(352, __c44, 0) as any as S.Schema<GetMetricDataInput>,
+  output: __S(358, __c44, 6) as any as S.Schema<GetMetricDataOutput>,
   errors: [InvalidNextToken],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2511,8 +2569,8 @@ export const getMetricStatistics: API.OperationMethod<
   GetMetricStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<GetMetricStatisticsInput>,
-  output: __S(364, __c45, 4) as any as S.Schema<GetMetricStatisticsOutput>,
+  input: __S(368, __c46, 0) as any as S.Schema<GetMetricStatisticsInput>,
+  output: __S(372, __c46, 4) as any as S.Schema<GetMetricStatisticsOutput>,
   errors: [
     InternalServiceFault,
     InvalidParameterCombinationException,
@@ -2542,8 +2600,8 @@ export const getMetricStream: API.OperationMethod<
   GetMetricStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<GetMetricStreamInput>,
-  output: __S(369, __c46, 1) as any as S.Schema<GetMetricStreamOutput>,
+  input: __S(376, __c47, 0) as any as S.Schema<GetMetricStreamInput>,
+  output: __S(377, __c47, 1) as any as S.Schema<GetMetricStreamOutput>,
   errors: [
     InternalServiceFault,
     InvalidParameterCombinationException,
@@ -2566,6 +2624,12 @@ export type GetMetricWidgetImageError = CommonErrors;
  * could also retrieve images regularly, such as every minute, and create your own custom
  * live dashboard.
  *
+ * `GetMetricWidgetImage` is not available in the Amazon Web Services
+ * GovCloud (US) Regions. In those Regions, calls to this operation fail. For the list
+ * of Amazon CloudWatch features that are not available in Amazon Web Services
+ * GovCloud (US), see Amazon CloudWatch in
+ * Amazon Web Services GovCloud (US).
+ *
  * The graph you retrieve can include all CloudWatch metric graph features, including
  * metric math and horizontal and vertical annotations.
  *
@@ -2582,8 +2646,8 @@ export const getMetricWidgetImage: API.OperationMethod<
   GetMetricWidgetImageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<GetMetricWidgetImageInput>,
-  output: __S(393, __c49, 1) as any as S.Schema<GetMetricWidgetImageOutput>,
+  input: __S(400, __c50, 0) as any as S.Schema<GetMetricWidgetImageInput>,
+  output: __S(401, __c50, 1) as any as S.Schema<GetMetricWidgetImageOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2604,8 +2668,8 @@ export const getOTelEnrichment: API.OperationMethod<
   GetOTelEnrichmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<GetOTelEnrichmentInput>,
-  output: __S(401, __c50, 1) as any as S.Schema<GetOTelEnrichmentOutput>,
+  input: __S(408, __c51, 0) as any as S.Schema<GetOTelEnrichmentInput>,
+  output: __S(409, __c51, 1) as any as S.Schema<GetOTelEnrichmentOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2634,7 +2698,7 @@ export const getResourceMetricsConfiguration: API.OperationMethod<
   GetResourceMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<GetResourceMetricsConfigurationInput>,
+  input: __S(416, __c52, 0) as any as S.Schema<GetResourceMetricsConfigurationInput>,
   output: __S(43, __c5, 3) as any as S.Schema<GetResourceMetricsConfigurationOutput>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
@@ -2667,8 +2731,8 @@ export const listAlarmMuteRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AlarmMuteRuleSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<ListAlarmMuteRulesInput>,
-  output: __S(419, __c52, 3) as any as S.Schema<ListAlarmMuteRulesOutput>,
+  input: __S(424, __c53, 0) as any as S.Schema<ListAlarmMuteRulesInput>,
+  output: __S(427, __c53, 3) as any as S.Schema<ListAlarmMuteRulesOutput>,
   errors: [InvalidNextToken, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2712,8 +2776,8 @@ export const listDashboards: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DashboardEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<ListDashboardsInput>,
-  output: __S(427, __c53, 3) as any as S.Schema<ListDashboardsOutput>,
+  input: __S(432, __c54, 0) as any as S.Schema<ListDashboardsInput>,
+  output: __S(435, __c54, 3) as any as S.Schema<ListDashboardsOutput>,
   errors: [InternalServiceFault, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2743,8 +2807,8 @@ export const listManagedInsightRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<ListManagedInsightRulesInput>,
-  output: __S(436, __c54, 4) as any as S.Schema<ListManagedInsightRulesOutput>,
+  input: __S(440, __c55, 0) as any as S.Schema<ListManagedInsightRulesInput>,
+  output: __S(444, __c55, 4) as any as S.Schema<ListManagedInsightRulesOutput>,
   errors: [InvalidNextToken, InvalidParameterValueException, MissingRequiredParameterException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2782,8 +2846,8 @@ export const listMetrics: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<ListMetricsInput>,
-  output: __S(442, __c55, 2) as any as S.Schema<ListMetricsOutput>,
+  input: __S(448, __c56, 0) as any as S.Schema<ListMetricsInput>,
+  output: __S(450, __c56, 2) as any as S.Schema<ListMetricsOutput>,
   errors: [InternalServiceFault, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2809,8 +2873,8 @@ export const listMetricStreams: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<ListMetricStreamsInput>,
-  output: __S(451, __c56, 3) as any as S.Schema<ListMetricStreamsOutput>,
+  input: __S(456, __c57, 0) as any as S.Schema<ListMetricStreamsInput>,
+  output: __S(459, __c57, 3) as any as S.Schema<ListMetricStreamsOutput>,
   errors: [
     InternalServiceFault,
     InvalidNextToken,
@@ -2844,8 +2908,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(457, __c57, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  input: __S(464, __c58, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(465, __c58, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [InternalServiceFault, InvalidParameterValueException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2896,7 +2960,7 @@ export const putAlarmMuteRule: API.OperationMethod<
   PutAlarmMuteRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<PutAlarmMuteRuleInput>,
+  input: __S(472, __c59, 0) as any as S.Schema<PutAlarmMuteRuleInput>,
   output: __S(16, __c2, 0) as any as S.Schema<PutAlarmMuteRuleResponse>,
   errors: [LimitExceededFault],
   protocol: AwsProtocol,
@@ -2930,8 +2994,8 @@ export const putAnomalyDetector: API.OperationMethod<
   PutAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<PutAnomalyDetectorInput>,
-  output: __S(473, __c59, 1) as any as S.Schema<PutAnomalyDetectorOutput>,
+  input: __S(480, __c60, 0) as any as S.Schema<PutAnomalyDetectorInput>,
+  output: __S(481, __c60, 1) as any as S.Schema<PutAnomalyDetectorOutput>,
   errors: [
     InternalServiceFault,
     InvalidParameterCombinationException,
@@ -3011,7 +3075,7 @@ export const putCompositeAlarm: API.OperationMethod<
   PutCompositeAlarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<PutCompositeAlarmInput>,
+  input: __S(488, __c61, 0) as any as S.Schema<PutCompositeAlarmInput>,
   output: __S(16, __c2, 0) as any as S.Schema<PutCompositeAlarmResponse>,
   errors: [LimitExceededFault],
   protocol: AwsProtocol,
@@ -3053,8 +3117,8 @@ export const putDashboard: API.OperationMethod<
   PutDashboardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<PutDashboardInput>,
-  output: __S(489, __c61, 1) as any as S.Schema<PutDashboardOutput>,
+  input: __S(496, __c62, 0) as any as S.Schema<PutDashboardInput>,
+  output: __S(497, __c62, 1) as any as S.Schema<PutDashboardOutput>,
   errors: [ConflictException, DashboardInvalidInputError, InternalServiceFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3083,7 +3147,7 @@ export const putInsightRule: API.OperationMethod<
   PutInsightRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<PutInsightRuleInput>,
+  input: __S(504, __c63, 0) as any as S.Schema<PutInsightRuleInput>,
   output: __S(16, __c2, 0) as any as S.Schema<PutInsightRuleOutput>,
   errors: [
     InvalidParameterValueException,
@@ -3117,7 +3181,7 @@ export const putLogAlarm: API.OperationMethod<
   PutLogAlarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<PutLogAlarmInput>,
+  input: __S(512, __c64, 0) as any as S.Schema<PutLogAlarmInput>,
   output: __S(16, __c2, 0) as any as S.Schema<PutLogAlarmResponse>,
   errors: [LimitExceededFault, ResourceConflict],
   protocol: AwsProtocol,
@@ -3147,7 +3211,7 @@ export const putManagedInsightRules: API.OperationMethod<
   PutManagedInsightRulesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(514, __c64, 2) as any as S.Schema<PutManagedInsightRulesInput>,
+  input: __S(522, __c65, 2) as any as S.Schema<PutManagedInsightRulesInput>,
   output: __S(122, __c15, 2) as any as S.Schema<PutManagedInsightRulesOutput>,
   errors: [InvalidParameterValueException, MissingRequiredParameterException],
   protocol: AwsProtocol,
@@ -3215,7 +3279,7 @@ export const putMetricAlarm: API.OperationMethod<
   PutMetricAlarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<PutMetricAlarmInput>,
+  input: __S(528, __c66, 0) as any as S.Schema<PutMetricAlarmInput>,
   output: __S(16, __c2, 0) as any as S.Schema<PutMetricAlarmResponse>,
   errors: [LimitExceededFault],
   protocol: AwsProtocol,
@@ -3292,7 +3356,7 @@ export const putMetricData: API.OperationMethod<
   PutMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(534, __c66, 6) as any as S.Schema<PutMetricDataInput>,
+  input: __S(542, __c67, 6) as any as S.Schema<PutMetricDataInput>,
   output: __S(16, __c2, 0) as any as S.Schema<PutMetricDataResponse>,
   errors: [
     InternalServiceFault,
@@ -3357,8 +3421,8 @@ export const putMetricStream: API.OperationMethod<
   PutMetricStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<PutMetricStreamInput>,
-  output: __S(537, __c67, 1) as any as S.Schema<PutMetricStreamOutput>,
+  input: __S(544, __c68, 0) as any as S.Schema<PutMetricStreamInput>,
+  output: __S(545, __c68, 1) as any as S.Schema<PutMetricStreamOutput>,
   errors: [
     ConcurrentModificationException,
     InternalServiceFault,
@@ -3401,7 +3465,7 @@ export const setAlarmState: API.OperationMethod<
   SetAlarmStateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<SetAlarmStateInput>,
+  input: __S(552, __c69, 0) as any as S.Schema<SetAlarmStateInput>,
   output: __S(16, __c2, 0) as any as S.Schema<SetAlarmStateResponse>,
   errors: [InvalidFormatFault, ResourceNotFound],
   protocol: AwsProtocol,
@@ -3425,7 +3489,7 @@ export const startMetricStreams: API.OperationMethod<
   StartMetricStreamsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<StartMetricStreamsInput>,
+  input: __S(560, __c70, 0) as any as S.Schema<StartMetricStreamsInput>,
   output: __S(16, __c2, 0) as any as S.Schema<StartMetricStreamsOutput>,
   errors: [InternalServiceFault, InvalidParameterValueException, MissingRequiredParameterException],
   protocol: AwsProtocol,
@@ -3458,8 +3522,8 @@ export const startOTelEnrichment: API.OperationMethod<
   StartOTelEnrichmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<StartOTelEnrichmentInput>,
-  output: __S(568, __c71, 0) as any as S.Schema<StartOTelEnrichmentOutput>,
+  input: __S(568, __c71, 0) as any as S.Schema<StartOTelEnrichmentInput>,
+  output: __S(576, __c72, 0) as any as S.Schema<StartOTelEnrichmentOutput>,
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3482,7 +3546,7 @@ export const stopMetricStreams: API.OperationMethod<
   StopMetricStreamsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<StopMetricStreamsInput>,
+  input: __S(584, __c73, 0) as any as S.Schema<StopMetricStreamsInput>,
   output: __S(16, __c2, 0) as any as S.Schema<StopMetricStreamsOutput>,
   errors: [InternalServiceFault, InvalidParameterValueException, MissingRequiredParameterException],
   protocol: AwsProtocol,
@@ -3504,7 +3568,7 @@ export const stopOTelEnrichment: API.OperationMethod<
   StopOTelEnrichmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<StopOTelEnrichmentInput>,
+  input: __S(592, __c74, 0) as any as S.Schema<StopOTelEnrichmentInput>,
   output: __S(16, __c2, 0) as any as S.Schema<StopOTelEnrichmentOutput>,
   errors: [],
   protocol: AwsProtocol,
@@ -3547,7 +3611,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<TagResourceInput>,
+  input: __S(600, __c75, 0) as any as S.Schema<TagResourceInput>,
   output: __S(16, __c2, 0) as any as S.Schema<TagResourceOutput>,
   errors: [
     ConcurrentModificationException,
@@ -3580,7 +3644,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<UntagResourceInput>,
+  input: __S(608, __c76, 0) as any as S.Schema<UntagResourceInput>,
   output: __S(16, __c2, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [
     ConcurrentModificationException,
@@ -3618,8 +3682,8 @@ export const updateOTelEnrichment: API.OperationMethod<
   UpdateOTelEnrichmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<UpdateOTelEnrichmentInput>,
-  output: __S(568, __c71, 0) as any as S.Schema<UpdateOTelEnrichmentOutput>,
+  input: __S(616, __c77, 0) as any as S.Schema<UpdateOTelEnrichmentInput>,
+  output: __S(576, __c72, 0) as any as S.Schema<UpdateOTelEnrichmentOutput>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3653,7 +3717,7 @@ export const updateResourceMetricsConfiguration: API.OperationMethod<
   UpdateResourceMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<UpdateResourceMetricsConfigurationInput>,
+  input: __S(624, __c78, 0) as any as S.Schema<UpdateResourceMetricsConfigurationInput>,
   output: __S(43, __c5, 3) as any as S.Schema<UpdateResourceMetricsConfigurationOutput>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
@@ -4014,6 +4078,7 @@ function __c22(j: number): any {
           ActionsSuppressor: S.optional(S.String),
           ActionsSuppressorWaitPeriod: S.optional(S.Number),
           ActionsSuppressorExtensionPeriod: S.optional(S.Number),
+          ActionConfiguration: S.optional(__S(201, __c25, 1)),
         }),
       ).annotate({ identifier: "CompositeAlarm" });
     case 2:
@@ -4035,7 +4100,7 @@ function __c22(j: number): any {
           StateReason: S.optional(S.String),
           StateReasonData: S.optional(S.String),
           StateUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          ScheduledQueryConfiguration: S.optional(__S(225, __c28, 1)),
+          ScheduledQueryConfiguration: S.optional(__S(233, __c29, 1)),
           QueryResultsToEvaluate: S.optional(S.Number),
           QueryResultsToAlarm: S.optional(S.Number),
           Threshold: S.optional(S.Number),
@@ -4045,7 +4110,8 @@ function __c22(j: number): any {
           EvaluationState: S.optional(S.String),
           ActionLogLineCount: S.optional(S.Number),
           ActionLogLineRoleArn: S.optional(S.String),
-          WarmUpConfiguration: S.optional(__S(200, __c25, 0)),
+          WarmUpConfiguration: S.optional(__S(208, __c26, 0)),
+          ActionConfiguration: S.optional(__S(201, __c25, 1)),
         }),
       ).annotate({ identifier: "LogAlarm" });
     case 4:
@@ -4097,10 +4163,11 @@ function __c23(j: number): any {
           ThresholdMetricId: S.optional(S.String),
           EvaluationState: S.optional(S.String),
           StateTransitionedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          EvaluationWindow: S.optional(__S(209, __c26, 1)),
-          WarmUpConfiguration: S.optional(__S(200, __c25, 0)),
-          EvaluationCriteria: S.optional(__S(211, __c26, 3)),
+          EvaluationWindow: S.optional(__S(217, __c27, 1)),
+          WarmUpConfiguration: S.optional(__S(208, __c26, 0)),
+          EvaluationCriteria: S.optional(__S(219, __c27, 3)),
           EvaluationInterval: S.optional(S.Number),
+          ActionConfiguration: S.optional(__S(201, __c25, 1)),
         }),
       ).annotate({ identifier: "MetricAlarm" });
     case 1:
@@ -4120,20 +4187,36 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          Enabled: S.optional(S.Boolean),
+          IncludedTagKeys: S.optional(__S(32, __c4, 0)),
+          ExcludedTagKeys: S.optional(__S(32, __c4, 0)),
+        }),
+      ).annotate({ identifier: "AlarmTagsPropagation" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ AlarmTagsPropagation: S.optional(__S(200, __c25, 0)) }),
+      ).annotate({ identifier: "ActionConfiguration" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           WarmUpPeriodDurationInMinutes: S.optional(S.Number),
           OnlyStartEvaluatingAfterWarmUpPeriodEnds: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "WarmUpConfiguration" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "SlidingWindow" });
     case 1:
       return S.Union([
         /*@__PURE__*/ S.Struct({ WallClockWindow: __S(192, __c24, 0) }),
-        /*@__PURE__*/ S.Struct({ SlidingWindow: __S(208, __c26, 0) }),
+        /*@__PURE__*/ S.Struct({ SlidingWindow: __S(216, __c27, 0) }),
       ]);
     case 2:
       return S.suspend(() =>
@@ -4144,20 +4227,20 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "AlarmPromQLCriteria" });
     case 3:
-      return S.Union([/*@__PURE__*/ S.Struct({ PromQLCriteria: __S(210, __c26, 2) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ PromQLCriteria: __S(218, __c27, 2) })]);
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
       ).annotate({ identifier: "Tag" });
     case 1:
-      return S.Array(__S(216, __c27, 0));
+      return S.Array(__S(224, __c28, 0));
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4174,14 +4257,14 @@ function __c28(j: number): any {
           LogGroupIdentifiers: S.optional(__S(32, __c4, 0)),
           QueryARN: S.optional(S.String),
           ScheduledQueryRoleARN: S.optional(S.String),
-          ScheduleConfiguration: S.optional(__S(224, __c28, 0)),
+          ScheduleConfiguration: S.optional(__S(232, __c29, 0)),
           AggregationExpression: S.optional(S.String),
-          Tags: S.optional(__S(217, __c27, 1)),
+          Tags: S.optional(__S(225, __c28, 1)),
         }),
       ).annotate({ identifier: "ScheduledQueryConfiguration" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4201,7 +4284,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DescribeAlarmsForMetricOutput" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4223,25 +4306,25 @@ function __c30(j: number): any {
           MetricName: S.optional(S.String),
           Dimensions: S.optional(__S(73, __c9, 1)),
           Stat: S.optional(S.String),
-          Configuration: S.optional(__S(250, __c31, 2)),
+          Configuration: S.optional(__S(258, __c32, 2)),
           StateValue: S.optional(S.String),
-          MetricCharacteristics: S.optional(__S(251, __c31, 3)),
+          MetricCharacteristics: S.optional(__S(259, __c32, 3)),
           SingleMetricAnomalyDetector: S.optional(__S(96, __c12, 0)),
           MetricMathAnomalyDetector: S.optional(__S(97, __c12, 1)),
         }),
       ).annotate({ identifier: "AnomalyDetector" });
     case 2:
-      return S.Array(__S(241, __c30, 1));
+      return S.Array(__S(249, __c31, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AnomalyDetectors: S.optional(__S(242, __c30, 2)),
+          AnomalyDetectors: S.optional(__S(250, __c31, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeAnomalyDetectorsOutput" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4251,12 +4334,14 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "Range" });
     case 1:
-      return S.Array(__S(248, __c31, 0));
+      return S.Array(__S(256, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ExcludedTimeRanges: S.optional(__S(249, __c31, 1)),
+          ExcludedTimeRanges: S.optional(__S(257, __c32, 1)),
           MetricTimezone: S.optional(S.String),
+          AdaptationSpeed: S.optional(S.String),
+          OutlierFilteringStrength: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnomalyDetectorConfiguration" });
     case 3:
@@ -4265,7 +4350,7 @@ function __c31(j: number): any {
       });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4285,17 +4370,17 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "InsightRule" });
     case 2:
-      return S.Array(__S(257, __c32, 1));
+      return S.Array(__S(265, __c33, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          InsightRules: S.optional(__S(258, __c32, 2)),
+          InsightRules: S.optional(__S(266, __c33, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeInsightRulesOutput" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4305,7 +4390,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DisableAlarmActionsInput" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4315,7 +4400,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DisableInsightRulesInput" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4325,7 +4410,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DisassociateDatasetKmsKeyInput" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4335,7 +4420,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "EnableAlarmActionsInput" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4345,7 +4430,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "EnableInsightRulesInput" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4359,8 +4444,8 @@ function __c38(j: number): any {
           Name: S.optional(S.String),
           AlarmMuteRuleArn: S.optional(S.String),
           Description: S.optional(S.String),
-          Rule: S.optional(__S(313, __c39, 1)),
-          MuteTargets: S.optional(__S(314, __c39, 2)),
+          Rule: S.optional(__S(321, __c40, 1)),
+          MuteTargets: S.optional(__S(322, __c40, 2)),
           StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ExpireDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Status: S.optional(S.String),
@@ -4370,7 +4455,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetAlarmMuteRuleOutput" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4381,7 +4466,7 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "Schedule" });
     case 1:
-      return S.suspend(() => S.Struct({ Schedule: S.optional(__S(312, __c39, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Schedule: S.optional(__S(320, __c40, 0)) })).annotate({
         identifier: "Rule",
       });
     case 2:
@@ -4390,7 +4475,7 @@ function __c39(j: number): any {
       });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4408,7 +4493,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetDashboardOutput" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4426,7 +4511,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetDatasetOutput" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4448,17 +4533,17 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "InsightRuleContributorDatapoint" });
     case 2:
-      return S.Array(__S(337, __c42, 1));
+      return S.Array(__S(345, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Keys: S.optional(__S(32, __c4, 0)),
           ApproximateAggregateValue: S.optional(S.Number),
-          Datapoints: S.optional(__S(338, __c42, 2)),
+          Datapoints: S.optional(__S(346, __c43, 2)),
         }),
       ).annotate({ identifier: "InsightRuleContributor" });
     case 4:
-      return S.Array(__S(339, __c42, 3));
+      return S.Array(__S(347, __c43, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4473,7 +4558,7 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "InsightRuleMetricDatapoint" });
     case 6:
-      return S.Array(__S(341, __c42, 5));
+      return S.Array(__S(349, __c43, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -4481,13 +4566,13 @@ function __c42(j: number): any {
           AggregationStatistic: S.optional(S.String),
           AggregateValue: S.optional(S.Number),
           ApproximateUniqueCount: S.optional(S.Number),
-          Contributors: S.optional(__S(340, __c42, 4)),
-          MetricDatapoints: S.optional(__S(342, __c42, 6)),
+          Contributors: S.optional(__S(348, __c43, 4)),
+          MetricDatapoints: S.optional(__S(350, __c43, 6)),
         }).pipe(ns),
       ).annotate({ identifier: "GetInsightRuleReportOutput" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4508,37 +4593,37 @@ function __c43(j: number): any {
         S.Struct({ Code: S.optional(S.String), Value: S.optional(S.String) }),
       ).annotate({ identifier: "MessageData" });
     case 3:
-      return S.Array(__S(346, __c43, 2));
+      return S.Array(__S(354, __c44, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           Id: S.optional(S.String),
           Label: S.optional(S.String),
-          Timestamps: S.optional(__S(345, __c43, 1)),
-          Values: S.optional(__S(352, __c44, 0)),
+          Timestamps: S.optional(__S(353, __c44, 1)),
+          Values: S.optional(__S(360, __c45, 0)),
           StatusCode: S.optional(S.String),
-          Messages: S.optional(__S(347, __c43, 3)),
+          Messages: S.optional(__S(355, __c44, 3)),
         }),
       ).annotate({ identifier: "MetricDataResult" });
     case 5:
-      return S.Array(__S(348, __c43, 4));
+      return S.Array(__S(356, __c44, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          MetricDataResults: S.optional(__S(349, __c43, 5)),
+          MetricDataResults: S.optional(__S(357, __c44, 5)),
           NextToken: S.optional(S.String),
-          Messages: S.optional(__S(347, __c43, 3)),
+          Messages: S.optional(__S(355, __c44, 3)),
         }).pipe(ns),
       ).annotate({ identifier: "GetMetricDataOutput" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4566,20 +4651,20 @@ function __c45(j: number): any {
           Minimum: S.optional(S.Number),
           Maximum: S.optional(S.Number),
           Unit: S.optional(S.String),
-          ExtendedStatistics: S.optional(__S(361, __c45, 1)),
+          ExtendedStatistics: S.optional(__S(369, __c46, 1)),
         }),
       ).annotate({ identifier: "Datapoint" });
     case 3:
-      return S.Array(__S(362, __c45, 2));
+      return S.Array(__S(370, __c46, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ Label: S.optional(S.String), Datapoints: S.optional(__S(363, __c45, 3)) }).pipe(
+        S.Struct({ Label: S.optional(S.String), Datapoints: S.optional(__S(371, __c46, 3)) }).pipe(
           ns,
         ),
       ).annotate({ identifier: "GetMetricStatisticsOutput" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4592,50 +4677,50 @@ function __c46(j: number): any {
         S.Struct({
           Arn: S.optional(S.String),
           Name: S.optional(S.String),
-          IncludeFilters: S.optional(__S(377, __c47, 1)),
-          ExcludeFilters: S.optional(__S(377, __c47, 1)),
+          IncludeFilters: S.optional(__S(385, __c48, 1)),
+          ExcludeFilters: S.optional(__S(385, __c48, 1)),
           FirehoseArn: S.optional(S.String),
           RoleArn: S.optional(S.String),
           State: S.optional(S.String),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           OutputFormat: S.optional(S.String),
-          StatisticsConfigurations: S.optional(__S(387, __c48, 3)),
+          StatisticsConfigurations: S.optional(__S(395, __c49, 3)),
           IncludeLinkedAccountsMetrics: S.optional(S.Boolean),
         }).pipe(ns),
       ).annotate({ identifier: "GetMetricStreamOutput" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ Namespace: S.optional(S.String), MetricNames: S.optional(__S(32, __c4, 0)) }),
-      ).annotate({ identifier: "MetricStreamFilter" });
-    case 1:
-      return S.Array(__S(376, __c47, 0));
   }
 }
 function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ Namespace: S.optional(S.String), MetricNames: S.optional(__S(32, __c4, 0)) }),
+      ).annotate({ identifier: "MetricStreamFilter" });
+    case 1:
+      return S.Array(__S(384, __c48, 0));
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({ Namespace: S.optional(S.String), MetricName: S.optional(S.String) }),
       ).annotate({ identifier: "MetricStreamStatisticsMetric" });
     case 1:
-      return S.Array(__S(384, __c48, 0));
+      return S.Array(__S(392, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          IncludeMetrics: S.optional(__S(385, __c48, 1)),
+          IncludeMetrics: S.optional(__S(393, __c49, 1)),
           AdditionalStatistics: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "MetricStreamStatisticsConfiguration" });
     case 3:
-      return S.Array(__S(386, __c48, 2));
+      return S.Array(__S(394, __c49, 2));
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4649,7 +4734,7 @@ function __c49(j: number): any {
       );
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4661,15 +4746,15 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Status: S.optional(S.String),
-          IncludeFilters: S.optional(__S(377, __c47, 1)),
-          ExcludeFilters: S.optional(__S(377, __c47, 1)),
+          IncludeFilters: S.optional(__S(385, __c48, 1)),
+          ExcludeFilters: S.optional(__S(385, __c48, 1)),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }).pipe(ns),
       ).annotate({ identifier: "GetOTelEnrichmentOutput" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4679,7 +4764,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetResourceMetricsConfigurationInput" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4701,17 +4786,17 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "AlarmMuteRuleSummary" });
     case 2:
-      return S.Array(__S(417, __c52, 1));
+      return S.Array(__S(425, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AlarmMuteRuleSummaries: S.optional(__S(418, __c52, 2)),
+          AlarmMuteRuleSummaries: S.optional(__S(426, __c53, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListAlarmMuteRulesOutput" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4730,17 +4815,17 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "DashboardEntry" });
     case 2:
-      return S.Array(__S(425, __c53, 1));
+      return S.Array(__S(433, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DashboardEntries: S.optional(__S(426, __c53, 2)),
+          DashboardEntries: S.optional(__S(434, __c54, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListDashboardsOutput" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4759,21 +4844,21 @@ function __c54(j: number): any {
         S.Struct({
           TemplateName: S.optional(S.String),
           ResourceARN: S.optional(S.String),
-          RuleState: S.optional(__S(433, __c54, 1)),
+          RuleState: S.optional(__S(441, __c55, 1)),
         }),
       ).annotate({ identifier: "ManagedRuleDescription" });
     case 3:
-      return S.Array(__S(434, __c54, 2));
+      return S.Array(__S(442, __c55, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ManagedRules: S.optional(__S(435, __c54, 3)),
+          ManagedRules: S.optional(__S(443, __c55, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListManagedInsightRulesOutput" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4792,14 +4877,14 @@ function __c55(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Metrics: S.optional(__S(441, __c55, 1)),
+          Metrics: S.optional(__S(449, __c56, 1)),
           NextToken: S.optional(S.String),
           OwningAccounts: S.optional(__S(32, __c4, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "ListMetricsOutput" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4820,16 +4905,16 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "MetricStreamEntry" });
     case 2:
-      return S.Array(__S(449, __c56, 1));
+      return S.Array(__S(457, __c57, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ NextToken: S.optional(S.String), Entries: S.optional(__S(450, __c56, 2)) }).pipe(
+        S.Struct({ NextToken: S.optional(S.String), Entries: S.optional(__S(458, __c57, 2)) }).pipe(
           ns,
         ),
       ).annotate({ identifier: "ListMetricStreamsOutput" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4838,28 +4923,28 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceInput" });
     case 1:
-      return S.suspend(() => S.Struct({ Tags: S.optional(__S(217, __c27, 1)) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(225, __c28, 1)) }).pipe(ns)).annotate({
         identifier: "ListTagsForResourceOutput",
       });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
           Description: S.optional(S.String),
-          Rule: S.optional(__S(313, __c39, 1)),
-          MuteTargets: S.optional(__S(314, __c39, 2)),
-          Tags: S.optional(__S(217, __c27, 1)),
+          Rule: S.optional(__S(321, __c40, 1)),
+          MuteTargets: S.optional(__S(322, __c40, 2)),
+          Tags: S.optional(__S(225, __c28, 1)),
           StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ExpireDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutAlarmMuteRuleInput" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4868,8 +4953,8 @@ function __c59(j: number): any {
           MetricName: S.optional(S.String),
           Dimensions: S.optional(__S(73, __c9, 1)),
           Stat: S.optional(S.String),
-          Configuration: S.optional(__S(250, __c31, 2)),
-          MetricCharacteristics: S.optional(__S(251, __c31, 3)),
+          Configuration: S.optional(__S(258, __c32, 2)),
+          MetricCharacteristics: S.optional(__S(259, __c32, 3)),
           SingleMetricAnomalyDetector: S.optional(__S(96, __c12, 0)),
           MetricMathAnomalyDetector: S.optional(__S(97, __c12, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -4880,7 +4965,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "PutAnomalyDetectorOutput" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4892,22 +4977,23 @@ function __c60(j: number): any {
           AlarmRule: S.optional(S.String),
           InsufficientDataActions: S.optional(__S(32, __c4, 0)),
           OKActions: S.optional(__S(32, __c4, 0)),
-          Tags: S.optional(__S(217, __c27, 1)),
+          Tags: S.optional(__S(225, __c28, 1)),
           ActionsSuppressor: S.optional(S.String),
           ActionsSuppressorWaitPeriod: S.optional(S.Number),
           ActionsSuppressorExtensionPeriod: S.optional(S.Number),
+          ActionConfiguration: S.optional(__S(201, __c25, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutCompositeAlarmInput" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DashboardName: S.optional(S.String),
           DashboardBody: S.optional(S.String),
-          Tags: S.optional(__S(217, __c27, 1)),
+          Tags: S.optional(__S(225, __c28, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutDashboardInput" });
     case 1:
@@ -4916,7 +5002,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "PutDashboardOutput" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4924,20 +5010,20 @@ function __c62(j: number): any {
           RuleName: S.optional(S.String),
           RuleState: S.optional(S.String),
           RuleDefinition: S.optional(S.String),
-          Tags: S.optional(__S(217, __c27, 1)),
+          Tags: S.optional(__S(225, __c28, 1)),
           ApplyOnTransformedLogs: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutInsightRuleInput" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AlarmName: S.optional(S.String),
           AlarmDescription: S.optional(S.String),
-          ScheduledQueryConfiguration: S.optional(__S(225, __c28, 1)),
+          ScheduledQueryConfiguration: S.optional(__S(233, __c29, 1)),
           ActionLogLineCount: S.optional(S.Number),
           ActionLogLineRoleArn: S.optional(S.String),
           ActionsEnabled: S.optional(S.Boolean),
@@ -4949,33 +5035,34 @@ function __c63(j: number): any {
           Threshold: S.optional(S.Number),
           ComparisonOperator: S.optional(S.String),
           TreatMissingData: S.optional(S.String),
-          Tags: S.optional(__S(217, __c27, 1)),
-          WarmUpConfiguration: S.optional(__S(200, __c25, 0)),
+          Tags: S.optional(__S(225, __c28, 1)),
+          WarmUpConfiguration: S.optional(__S(208, __c26, 0)),
+          ActionConfiguration: S.optional(__S(201, __c25, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutLogAlarmInput" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           TemplateName: S.optional(S.String),
           ResourceARN: S.optional(S.String),
-          Tags: S.optional(__S(217, __c27, 1)),
+          Tags: S.optional(__S(225, __c28, 1)),
         }),
       ).annotate({ identifier: "ManagedRule" });
     case 1:
-      return S.Array(__S(512, __c64, 0));
+      return S.Array(__S(520, __c65, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ ManagedRules: S.optional(__S(513, __c64, 1)) }).pipe(
+        S.Struct({ ManagedRules: S.optional(__S(521, __c65, 1)) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutManagedInsightRulesInput" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5000,17 +5087,18 @@ function __c65(j: number): any {
           TreatMissingData: S.optional(S.String),
           EvaluateLowSampleCountPercentile: S.optional(S.String),
           Metrics: S.optional(__S(90, __c11, 2)),
-          Tags: S.optional(__S(217, __c27, 1)),
+          Tags: S.optional(__S(225, __c28, 1)),
           ThresholdMetricId: S.optional(S.String),
-          EvaluationWindow: S.optional(__S(209, __c26, 1)),
-          WarmUpConfiguration: S.optional(__S(200, __c25, 0)),
-          EvaluationCriteria: S.optional(__S(211, __c26, 3)),
+          EvaluationWindow: S.optional(__S(217, __c27, 1)),
+          WarmUpConfiguration: S.optional(__S(208, __c26, 0)),
+          EvaluationCriteria: S.optional(__S(219, __c27, 3)),
           EvaluationInterval: S.optional(S.Number),
+          ActionConfiguration: S.optional(__S(201, __c25, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutMetricAlarmInput" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5028,15 +5116,15 @@ function __c66(j: number): any {
           Dimensions: S.optional(__S(73, __c9, 1)),
           Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Value: S.optional(S.Number),
-          StatisticValues: S.optional(__S(528, __c66, 0)),
-          Values: S.optional(__S(352, __c44, 0)),
-          Counts: S.optional(__S(352, __c44, 0)),
+          StatisticValues: S.optional(__S(536, __c67, 0)),
+          Values: S.optional(__S(360, __c45, 0)),
+          Counts: S.optional(__S(360, __c45, 0)),
           Unit: S.optional(S.String),
           StorageResolution: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MetricDatum" });
     case 2:
-      return S.Array(__S(529, __c66, 1));
+      return S.Array(__S(537, __c67, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5047,36 +5135,36 @@ function __c66(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Entity: S.optional(__S(531, __c66, 3)),
-          MetricData: S.optional(__S(530, __c66, 2)),
+          Entity: S.optional(__S(539, __c67, 3)),
+          MetricData: S.optional(__S(538, __c67, 2)),
         }),
       ).annotate({ identifier: "EntityMetricData" });
     case 5:
-      return S.Array(__S(532, __c66, 4));
+      return S.Array(__S(540, __c67, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           Namespace: S.optional(S.String),
-          MetricData: S.optional(__S(530, __c66, 2)),
-          EntityMetricData: S.optional(__S(533, __c66, 5)),
+          MetricData: S.optional(__S(538, __c67, 2)),
+          EntityMetricData: S.optional(__S(541, __c67, 5)),
           StrictEntityValidation: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutMetricDataInput" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          IncludeFilters: S.optional(__S(377, __c47, 1)),
-          ExcludeFilters: S.optional(__S(377, __c47, 1)),
+          IncludeFilters: S.optional(__S(385, __c48, 1)),
+          ExcludeFilters: S.optional(__S(385, __c48, 1)),
           FirehoseArn: S.optional(S.String),
           RoleArn: S.optional(S.String),
           OutputFormat: S.optional(S.String),
-          Tags: S.optional(__S(217, __c27, 1)),
-          StatisticsConfigurations: S.optional(__S(387, __c48, 3)),
+          Tags: S.optional(__S(225, __c28, 1)),
+          StatisticsConfigurations: S.optional(__S(395, __c49, 3)),
           IncludeLinkedAccountsMetrics: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutMetricStreamInput" });
@@ -5086,7 +5174,7 @@ function __c67(j: number): any {
       });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5099,7 +5187,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "SetAlarmStateInput" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5109,31 +5197,31 @@ function __c69(j: number): any {
       ).annotate({ identifier: "StartMetricStreamsInput" });
   }
 }
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          IncludeFilters: S.optional(__S(377, __c47, 1)),
-          ExcludeFilters: S.optional(__S(377, __c47, 1)),
-        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "StartOTelEnrichmentInput" });
-  }
-}
 function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          IncludeFilters: S.optional(__S(377, __c47, 1)),
-          ExcludeFilters: S.optional(__S(377, __c47, 1)),
+          IncludeFilters: S.optional(__S(385, __c48, 1)),
+          ExcludeFilters: S.optional(__S(385, __c48, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartOTelEnrichmentInput" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          IncludeFilters: S.optional(__S(385, __c48, 1)),
+          ExcludeFilters: S.optional(__S(385, __c48, 1)),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }).pipe(ns),
       ).annotate({ identifier: "StartOTelEnrichmentOutput" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5143,7 +5231,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "StopMetricStreamsInput" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5153,17 +5241,17 @@ function __c73(j: number): any {
       ).annotate({ identifier: "StopOTelEnrichmentInput" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceARN: S.optional(S.String), Tags: S.optional(__S(217, __c27, 1)) }).pipe(
+        S.Struct({ ResourceARN: S.optional(S.String), Tags: S.optional(__S(225, __c28, 1)) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5173,18 +5261,18 @@ function __c75(j: number): any {
       ).annotate({ identifier: "UntagResourceInput" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          IncludeFilters: S.optional(__S(377, __c47, 1)),
-          ExcludeFilters: S.optional(__S(377, __c47, 1)),
+          IncludeFilters: S.optional(__S(385, __c48, 1)),
+          ExcludeFilters: S.optional(__S(385, __c48, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateOTelEnrichmentInput" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

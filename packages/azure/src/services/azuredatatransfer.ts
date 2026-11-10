@@ -43,7 +43,7 @@ export interface ApprovePipelineConnectionRequest {
   /** ID of the resource. */
   id: string;
   /** Reason for resource operation. */
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -52,17 +52,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type ApprovePipelineConnectionResponseTagsMap = { [key: string]: string | undefined };
@@ -107,21 +107,21 @@ export type SchemaType = "Xsd" | "Zip";
 /** The schema object. Schemas has reached end of life support starting version 2025-05-30-preview. Please manage schemas with a FlowProfile resource instead. */
 export interface Schema {
   /** ID associated with this schema */
-  id?: string;
+  id?: string | undefined;
   /** Connection ID associated with this schema */
-  connectionId?: string;
+  connectionId?: string | undefined;
   /** Status of the schema */
-  status?: SchemaStatus | (string & {});
+  status?: SchemaStatus | (string & {}) | undefined;
   /** Name of the schema */
-  name?: string;
+  name?: string | undefined;
   /** Content of the schema */
-  content?: string;
+  content?: string | undefined;
   /** The direction of the schema. */
-  direction?: Direction | (string & {});
+  direction?: Direction | (string & {}) | undefined;
   /** Uri containing SAS token for the zipped schema */
-  schemaUri?: string;
+  schemaUri?: string | undefined;
   /** The Schema Type */
-  schemaType?: SchemaType | (string & {});
+  schemaType?: SchemaType | (string & {}) | undefined;
 }
 /** The schemas for this connection. The schemas property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
 export type ConnectionPropertiesSchemasList = Array<Schema>;
@@ -132,43 +132,43 @@ export interface ConnectionProperties {
   /** Pipeline to use to transfer data */
   pipeline: string;
   /** Direction of data movement */
-  direction?: Direction;
+  direction?: Direction | undefined;
   /** Justification for the connection request */
-  justification?: string;
+  justification?: string | undefined;
   /** Status of the connection */
-  status?: ConnectionStatus;
+  status?: ConnectionStatus | undefined;
   /** Force disablement status of the current connection */
-  forceDisabledStatus?: ConnectionPropertiesForceDisabledStatusList;
+  forceDisabledStatus?: ConnectionPropertiesForceDisabledStatusList | undefined;
   /** Reason for status */
-  statusReason?: string;
+  statusReason?: string | undefined;
   /** Link status of the current connection */
-  linkStatus?: LinkStatus;
+  linkStatus?: LinkStatus | undefined;
   /** Resource ID of the linked connection */
-  linkedConnectionId?: string;
+  linkedConnectionId?: string | undefined;
   /** The flow types being requested for this connection. This FlowType property has reached end of life support starting version 2025-05-30-preview. Please create a FlowProfile resource instead. */
-  flowTypes?: ConnectionPropertiesFlowTypesList;
+  flowTypes?: ConnectionPropertiesFlowTypesList | undefined;
   /** Requirement ID of the connection */
-  requirementId?: string;
+  requirementId?: string | undefined;
   /** Subscription ID to link cloud subscriptions together */
-  remoteSubscriptionId?: string;
+  remoteSubscriptionId?: string | undefined;
   /** Approver of this connection request */
-  approver?: string;
+  approver?: string | undefined;
   /** PIN to link requests together */
-  pin?: string;
+  pin?: string | undefined;
   /** The timestamp that this connection request was submitted at */
-  dateSubmitted?: string;
+  dateSubmitted?: string | undefined;
   /** The primary contact for this connection request */
-  primaryContact?: string;
+  primaryContact?: string | undefined;
   /** The secondary contacts for this connection request */
-  secondaryContacts?: ConnectionPropertiesSecondaryContactsList;
+  secondaryContacts?: ConnectionPropertiesSecondaryContactsList | undefined;
   /** Provisioning state of the connection */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The policies for this connection. The policies property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  policies?: ConnectionPropertiesPoliciesList;
+  policies?: ConnectionPropertiesPoliciesList | undefined;
   /** The schemas for this connection. The schemas property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  schemas?: ConnectionPropertiesSchemasList;
+  schemas?: ConnectionPropertiesSchemasList | undefined;
   /** The schema URIs for this connection. The schemaUris property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  schemaUris?: ConnectionPropertiesSchemaUrisList;
+  schemaUris?: ConnectionPropertiesSchemaUrisList | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -179,42 +179,42 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ApprovePipelineConnectionResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface ApprovePipelineConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ApprovePipelineConnectionResponseTagsMap;
+  tags?: ApprovePipelineConnectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of connection */
-  properties?: ConnectionProperties;
+  properties?: ConnectionProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ConnectionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -233,27 +233,27 @@ export interface ConnectionPropertiesInput {
   /** Pipeline to use to transfer data */
   pipeline: string;
   /** Direction of data movement */
-  direction?: Direction | (string & {});
+  direction?: Direction | (string & {}) | undefined;
   /** Justification for the connection request */
-  justification?: string;
+  justification?: string | undefined;
   /** The flow types being requested for this connection. This FlowType property has reached end of life support starting version 2025-05-30-preview. Please create a FlowProfile resource instead. */
-  flowTypes?: ConnectionPropertiesInputFlowTypesList;
+  flowTypes?: ConnectionPropertiesInputFlowTypesList | undefined;
   /** Requirement ID of the connection */
-  requirementId?: string;
+  requirementId?: string | undefined;
   /** Subscription ID to link cloud subscriptions together */
-  remoteSubscriptionId?: string;
+  remoteSubscriptionId?: string | undefined;
   /** PIN to link requests together */
-  pin?: string;
+  pin?: string | undefined;
   /** The primary contact for this connection request */
-  primaryContact?: string;
+  primaryContact?: string | undefined;
   /** The secondary contacts for this connection request */
-  secondaryContacts?: ConnectionPropertiesInputSecondaryContactsList;
+  secondaryContacts?: ConnectionPropertiesInputSecondaryContactsList | undefined;
   /** The policies for this connection. The policies property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  policies?: ConnectionPropertiesInputPoliciesList;
+  policies?: ConnectionPropertiesInputPoliciesList | undefined;
   /** The schemas for this connection. The schemas property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  schemas?: ConnectionPropertiesInputSchemasList;
+  schemas?: ConnectionPropertiesInputSchemasList | undefined;
   /** The schema URIs for this connection. The schemaUris property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  schemaUris?: ConnectionPropertiesInputSchemaUrisList;
+  schemaUris?: ConnectionPropertiesInputSchemaUrisList | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -264,7 +264,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ConnectionsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface ConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -274,13 +274,13 @@ export interface ConnectionsCreateOrUpdateRequest {
   /** The name for the connection to perform the operation on. */
   connectionName: string;
   /** Resource tags. */
-  tags?: ConnectionsCreateOrUpdateRequestTagsMap;
+  tags?: ConnectionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of connection */
-  properties?: ConnectionPropertiesInput;
+  properties?: ConnectionPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ConnectionsCreateOrUpdateRequestIdentity;
+  identity?: ConnectionsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type ConnectionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -288,25 +288,25 @@ export type ConnectionsCreateOrUpdateResponseTagsMap = { [key: string]: string |
 export type ConnectionsCreateOrUpdateResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface ConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConnectionsCreateOrUpdateResponseTagsMap;
+  tags?: ConnectionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of connection */
-  properties?: ConnectionProperties;
+  properties?: ConnectionProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ConnectionsLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -318,7 +318,7 @@ export interface ConnectionsLinkRequest {
   /** ID of the resource. */
   id: string;
   /** Reason for resource operation. */
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 /** Resource tags. */
 export type ConnectionsLinkResponseTagsMap = { [key: string]: string | undefined };
@@ -326,25 +326,25 @@ export type ConnectionsLinkResponseTagsMap = { [key: string]: string | undefined
 export type ConnectionsLinkResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface ConnectionsLinkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConnectionsLinkResponseTagsMap;
+  tags?: ConnectionsLinkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of connection */
-  properties?: ConnectionProperties;
+  properties?: ConnectionProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -356,9 +356,9 @@ export interface DeleteConnectionRequest {
 }
 export interface DeleteConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFlowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -372,9 +372,9 @@ export interface DeleteFlowRequest {
 }
 export interface DeleteFlowResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePipelineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -386,9 +386,9 @@ export interface DeletePipelineRequest {
 }
 export interface DeletePipelineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DisableFlowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -405,13 +405,13 @@ export type DisableFlowResponseTagsMap = { [key: string]: string | undefined };
 /** A resource selected from ARM */
 export interface SelectedResource {
   /** Name of the connection */
-  name?: string;
+  name?: string | undefined;
   /** Id of the connection */
   id: string;
   /** Location of the connection */
-  location?: string;
+  location?: string | undefined;
   /** Name of the subscription with the connection */
-  subscriptionName?: string;
+  subscriptionName?: string | undefined;
 }
 /** Status of the current flow. */
 export type FlowStatus = "Enabled" | "Disabled";
@@ -426,7 +426,7 @@ export type FlowBillingTier = "BlobTransport" | "Standard" | "Premium";
 /** The option associated with messaging flows. */
 export interface MessagingOptions {
   /** Billing tier for this messaging flow */
-  billingTier?: FlowBillingTier | (string & {});
+  billingTier?: FlowBillingTier | (string & {}) | undefined;
 }
 /** Remote Calling Mode in the Azure Data Transfer API Flow, which describes how the API Flow will be invoked */
 export type ApiMode = "SDK" | "Endpoint";
@@ -435,19 +435,19 @@ export type IdentityTranslation = "UserIdentity" | "ServiceIdentity";
 /** Properties specific to API Flow Type */
 export interface ApiFlowOptions {
   /** Remote host to which communication needs to be made. The property has reached end of life support starting version 2025-05-30-preview. Please create and use the remoteEndpointSettings.endpoint property instead. */
-  remoteEndpoint?: string;
+  remoteEndpoint?: string | undefined;
   /** Unique CNAME to represent the Azure Data Transfer API Flow instance */
-  cname?: string;
+  cname?: string | undefined;
   /** Remote Calling Mode in the Azure Data Transfer API Flow, which describes how the API Flow will be invoked */
-  apiMode?: ApiMode | (string & {});
+  apiMode?: ApiMode | (string & {}) | undefined;
   /** Determines which identity to use for extracting the user token for Azure Data Transfer API Flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use the authentication property instead. */
-  identityTranslation?: IdentityTranslation | (string & {});
+  identityTranslation?: IdentityTranslation | (string & {}) | undefined;
   /** Sender's app user assigned Manage Identity client ID. The property has reached end of life support starting version 2025-05-30-preview. Please create and use the authentication property instead. */
-  senderClientId?: string;
+  senderClientId?: string | undefined;
   /** Remote stub app registration Client ID. The property has reached end of life support starting version 2025-05-30-preview. Please create and use the authentication property instead. */
-  remoteCallingModeClientId?: string;
+  remoteCallingModeClientId?: string | undefined;
   /** Optional field to override the audience of the remote endpoint. The property has reached end of life support starting version 2025-05-30-preview. Please create and use the authentication property instead. */
-  audienceOverride?: string;
+  audienceOverride?: string | undefined;
 }
 /** The protocol of the stream */
 export type StreamProtocol = "UDP" | "SRT" | "RTP";
@@ -456,7 +456,7 @@ export type StreamSourceAddressesSourceAddressesList = Array<string>;
 /** The source IP address and CIDR ranges of the stream */
 export interface StreamSourceAddresses {
   /** A source IP address or CIDR range */
-  sourceAddresses?: StreamSourceAddressesSourceAddressesList;
+  sourceAddresses?: StreamSourceAddressesSourceAddressesList | undefined;
 }
 /** The destination endpoints of the stream */
 export type FlowPropertiesDestinationEndpointsList = Array<string>;
@@ -465,63 +465,63 @@ export type FlowPropertiesDestinationEndpointPortsList = Array<number>;
 /** Properties of flow */
 export interface FlowProperties {
   /** The connection associated with this flow */
-  connection?: SelectedResource;
+  connection?: SelectedResource | undefined;
   /** Dataflow GUID associated with this flow */
-  flowId?: string;
+  flowId?: string | undefined;
   /** URI to a Key Vault Secret containing a SAS token. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** Link status of the current flow */
-  linkStatus?: LinkStatus;
+  linkStatus?: LinkStatus | undefined;
   /** Resource ID of the linked flow */
-  linkedFlowId?: string;
+  linkedFlowId?: string | undefined;
   /** Status of the current flow */
-  status?: FlowStatus;
+  status?: FlowStatus | undefined;
   /** Force disablement status of the current flow */
-  forceDisabledStatus?: FlowPropertiesForceDisabledStatusList;
+  forceDisabledStatus?: FlowPropertiesForceDisabledStatusList | undefined;
   /** Storage Account */
-  storageAccountName?: string;
+  storageAccountName?: string | undefined;
   /** Storage Account ID */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
   /** Storage Container Name */
-  storageContainerName?: string;
+  storageContainerName?: string | undefined;
   /** Storage Table Name */
-  storageTableName?: string;
+  storageTableName?: string | undefined;
   /** Service Bus Queue ID */
-  serviceBusQueueId?: string;
+  serviceBusQueueId?: string | undefined;
   /** The flow type for this flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  flowType?: FlowType;
+  flowType?: FlowType | undefined;
   /** Type of data to transfer via the flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  dataType?: DataType;
+  dataType?: DataType | undefined;
   /** Provisioning state of the flow */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The policies for this flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  policies?: FlowPropertiesPoliciesList;
+  policies?: FlowPropertiesPoliciesList | undefined;
   /** The selected schema for this flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  schema?: Schema;
+  schema?: Schema | undefined;
   /** The messaging options for this flow */
-  messagingOptions?: MessagingOptions;
+  messagingOptions?: MessagingOptions | undefined;
   /** The API Flow configuration options for Azure Data Transfer API Flow type. */
-  apiFlowOptions?: ApiFlowOptions;
+  apiFlowOptions?: ApiFlowOptions | undefined;
   /** The URI to the customer managed key for this flow */
-  customerManagedKeyVaultUri?: string;
+  customerManagedKeyVaultUri?: string | undefined;
   /** The flow stream identifier */
-  streamId?: string;
+  streamId?: string | undefined;
   /** The protocol of the stream */
-  streamProtocol?: StreamProtocol;
+  streamProtocol?: StreamProtocol | undefined;
   /** The latency of the stream in milliseconds */
-  streamLatency?: number;
+  streamLatency?: number | undefined;
   /** The passphrase used for SRT streams (non-secret) */
-  passphrase?: string;
+  passphrase?: string | undefined;
   /** The source IP address and CIDR ranges of the stream */
-  sourceAddresses?: StreamSourceAddresses;
+  sourceAddresses?: StreamSourceAddresses | undefined;
   /** The destination endpoints of the stream */
-  destinationEndpoints?: FlowPropertiesDestinationEndpointsList;
+  destinationEndpoints?: FlowPropertiesDestinationEndpointsList | undefined;
   /** The destination endpoint ports of the stream */
-  destinationEndpointPorts?: FlowPropertiesDestinationEndpointPortsList;
+  destinationEndpointPorts?: FlowPropertiesDestinationEndpointPortsList | undefined;
   /** Event Hub ID */
-  eventHubId?: string;
+  eventHubId?: string | undefined;
   /** Event Hub Consumer Group */
-  consumerGroup?: string;
+  consumerGroup?: string | undefined;
 }
 /** Plan for the resource. */
 export interface DisableFlowResponsePlan {
@@ -532,35 +532,35 @@ export interface DisableFlowResponsePlan {
   /** The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. */
   product: string;
   /** A publisher provided promotion code as provisioned in Data Market for the said product/artifact. */
-  promotionCode?: string;
+  promotionCode?: string | undefined;
   /** The version of the desired product/artifact. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type DisableFlowResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface DisableFlowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DisableFlowResponseTagsMap;
+  tags?: DisableFlowResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowProperties;
+  properties?: FlowProperties | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface EnableFlowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -580,27 +580,27 @@ export type EnableFlowResponsePlan = DisableFlowResponsePlan;
 export type EnableFlowResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface EnableFlowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EnableFlowResponseTagsMap;
+  tags?: EnableFlowResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowProperties;
+  properties?: FlowProperties | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The type of action to be executed. */
 export type ActionType = "AllowUpdates" | "ForceDisable";
@@ -622,7 +622,7 @@ export interface ExecutePipelineActionRequest {
   /** Targets for the action */
   targets: ExecutePipelineActionRequestTargetsList;
   /** Business justification for the action */
-  justification?: string;
+  justification?: string | undefined;
 }
 /** Resource tags. */
 export type ExecutePipelineActionResponseTagsMap = { [key: string]: string | undefined };
@@ -641,41 +641,41 @@ export type ReadPipelineConnectionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ReadPipelineConnectionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ReadPipelineConnectionSystemDataCreatedByType;
+  createdByType?: ReadPipelineConnectionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ReadPipelineConnectionSystemDataLastModifiedByType;
+  lastModifiedByType?: ReadPipelineConnectionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Operation status for the last patch request for this connection. */
 export type OperationStatusEnum = "Failed" | "Succeeded";
 /** Operation status associated with the last patch request */
 export interface OperationStatusProperties {
   /** Operation status for the last patch request for this connection. */
-  status?: OperationStatusEnum;
+  status?: OperationStatusEnum | undefined;
   /** Operation status ID of the last patch request for this connection. */
-  id?: string;
+  id?: string | undefined;
   /** Message for the operation for the last patch request for this connection. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Internal metadata of the connection inside pipeline. */
 export interface InternalMetadataProperties {
   /** Operation status associated with the last patch request */
-  operationStatus?: OperationStatusProperties;
+  operationStatus?: OperationStatusProperties | undefined;
   /** User that last set the approved status for this connection */
-  statusSetBy?: string;
+  statusSetBy?: string | undefined;
   [key: string]: unknown;
 }
 /** Connection properties inside pipeline */
 export interface PipelineConnectionProperties {
   /** Internal metadata of the connection inside pipeline. */
-  internalMetadata?: InternalMetadataProperties;
+  internalMetadata?: InternalMetadataProperties | undefined;
   [key: string]: unknown;
 }
 /** The ReadPipelineconnection. */
@@ -683,17 +683,17 @@ export interface ReadPipelineConnection {
   /** Connection id inside pipeline */
   id: string;
   /** Connection name inside pipeline */
-  name?: string;
+  name?: string | undefined;
   /** Connection type inside pipeline */
-  type?: string;
+  type?: string | undefined;
   /** Connection location inside pipeline */
-  location?: string;
+  location?: string | undefined;
   /** Connection etag inside pipeline */
-  etag?: string;
+  etag?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ReadPipelineConnectionSystemData;
+  systemData?: ReadPipelineConnectionSystemData | undefined;
   /** Connection properties inside pipeline */
-  properties?: PipelineConnectionProperties;
+  properties?: PipelineConnectionProperties | undefined;
   [key: string]: unknown;
 }
 /** Connections associated with pipeline */
@@ -701,9 +701,9 @@ export type PipelinePropertiesConnectionsList = Array<ReadPipelineConnection>;
 /** An individual that would like to subscribe to events that occur on a pipeline. */
 export interface Subscriber {
   /** Email of the subscriber */
-  email?: string;
+  email?: string | undefined;
   /** Number specifying what notifications to receive */
-  notifications?: number;
+  notifications?: number | undefined;
 }
 /** Subscribers of this resource */
 export type PipelinePropertiesSubscribersList = Array<Subscriber>;
@@ -720,49 +720,49 @@ export interface PipelineProperties {
   /** Remote cloud of the data to be transferred or received */
   remoteCloud: string;
   /** Display name of this pipeline */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Connections associated with pipeline */
-  connections?: PipelinePropertiesConnectionsList;
+  connections?: PipelinePropertiesConnectionsList | undefined;
   /** Subscribers of this resource */
-  subscribers?: PipelinePropertiesSubscribersList;
+  subscribers?: PipelinePropertiesSubscribersList | undefined;
   /** Provisioning state of the pipeline */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The policies for this pipeline. The policies property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  policies?: PipelinePropertiesPoliciesList;
+  policies?: PipelinePropertiesPoliciesList | undefined;
   /** The flow type for this flow. The flowTypes property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  flowTypes?: PipelinePropertiesFlowTypesList;
+  flowTypes?: PipelinePropertiesFlowTypesList | undefined;
   /** The flow types that are disabled for this pipeline */
-  disabledFlowTypes?: PipelinePropertiesDisabledFlowTypesList;
+  disabledFlowTypes?: PipelinePropertiesDisabledFlowTypesList | undefined;
   /** Quarantine Download Storage Account */
-  quarantineDownloadStorageAccount?: string;
+  quarantineDownloadStorageAccount?: string | undefined;
   /** Quarantine Download Storage Container */
-  quarantineDownloadStorageContainer?: string;
+  quarantineDownloadStorageContainer?: string | undefined;
   /** Status of the current pipeline */
-  status?: PipelineStatus;
+  status?: PipelineStatus | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type ExecutePipelineActionResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface ExecutePipelineActionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ExecutePipelineActionResponseTagsMap;
+  tags?: ExecutePipelineActionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of configurable properties for the Pipeline resource. */
-  properties?: PipelineProperties;
+  properties?: PipelineProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type FlowsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -775,53 +775,53 @@ export type FlowPropertiesInputDestinationEndpointPortsList = Array<number>;
 /** Properties of flow */
 export interface FlowPropertiesInput {
   /** The connection associated with this flow */
-  connection?: SelectedResource;
+  connection?: SelectedResource | undefined;
   /** URI to a Key Vault Secret containing a SAS token. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** Status of the current flow */
-  status?: FlowStatus | (string & {});
+  status?: FlowStatus | (string & {}) | undefined;
   /** Storage Account */
-  storageAccountName?: string;
+  storageAccountName?: string | undefined;
   /** Storage Account ID */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
   /** Storage Container Name */
-  storageContainerName?: string;
+  storageContainerName?: string | undefined;
   /** Storage Table Name */
-  storageTableName?: string;
+  storageTableName?: string | undefined;
   /** Service Bus Queue ID */
-  serviceBusQueueId?: string;
+  serviceBusQueueId?: string | undefined;
   /** The flow type for this flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  flowType?: FlowType | (string & {});
+  flowType?: FlowType | (string & {}) | undefined;
   /** Type of data to transfer via the flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  dataType?: DataType | (string & {});
+  dataType?: DataType | (string & {}) | undefined;
   /** The policies for this flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  policies?: FlowPropertiesInputPoliciesList;
+  policies?: FlowPropertiesInputPoliciesList | undefined;
   /** The selected schema for this flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  schema?: Schema;
+  schema?: Schema | undefined;
   /** The messaging options for this flow */
-  messagingOptions?: MessagingOptions;
+  messagingOptions?: MessagingOptions | undefined;
   /** The API Flow configuration options for Azure Data Transfer API Flow type. */
-  apiFlowOptions?: ApiFlowOptions;
+  apiFlowOptions?: ApiFlowOptions | undefined;
   /** The URI to the customer managed key for this flow */
-  customerManagedKeyVaultUri?: string;
+  customerManagedKeyVaultUri?: string | undefined;
   /** The flow stream identifier */
-  streamId?: string;
+  streamId?: string | undefined;
   /** The protocol of the stream */
-  streamProtocol?: StreamProtocol | (string & {});
+  streamProtocol?: StreamProtocol | (string & {}) | undefined;
   /** The latency of the stream in milliseconds */
-  streamLatency?: number;
+  streamLatency?: number | undefined;
   /** The passphrase used for SRT streams (non-secret) */
-  passphrase?: string;
+  passphrase?: string | undefined;
   /** The source IP address and CIDR ranges of the stream */
-  sourceAddresses?: StreamSourceAddresses;
+  sourceAddresses?: StreamSourceAddresses | undefined;
   /** The destination endpoints of the stream */
-  destinationEndpoints?: FlowPropertiesInputDestinationEndpointsList;
+  destinationEndpoints?: FlowPropertiesInputDestinationEndpointsList | undefined;
   /** The destination endpoint ports of the stream */
-  destinationEndpointPorts?: FlowPropertiesInputDestinationEndpointPortsList;
+  destinationEndpointPorts?: FlowPropertiesInputDestinationEndpointPortsList | undefined;
   /** Event Hub ID */
-  eventHubId?: string;
+  eventHubId?: string | undefined;
   /** Event Hub Consumer Group */
-  consumerGroup?: string;
+  consumerGroup?: string | undefined;
 }
 /** Plan for the resource. */
 export type FlowsCreateOrUpdateRequestPlan = DisableFlowResponsePlan;
@@ -837,15 +837,15 @@ export interface FlowsCreateOrUpdateRequest {
   /** The name for the flow to perform the operation on. */
   flowName: string;
   /** Resource tags. */
-  tags?: FlowsCreateOrUpdateRequestTagsMap;
+  tags?: FlowsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowPropertiesInput;
+  properties?: FlowPropertiesInput | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ConnectionsCreateOrUpdateRequestIdentity;
+  identity?: ConnectionsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type FlowsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -855,27 +855,27 @@ export type FlowsCreateOrUpdateResponsePlan = DisableFlowResponsePlan;
 export type FlowsCreateOrUpdateResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface FlowsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FlowsCreateOrUpdateResponseTagsMap;
+  tags?: FlowsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowProperties;
+  properties?: FlowProperties | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface FlowsLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -889,7 +889,7 @@ export interface FlowsLinkRequest {
   /** ID of the resource. */
   id: string;
   /** Reason for resource operation. */
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 /** Resource tags. */
 export type FlowsLinkResponseTagsMap = { [key: string]: string | undefined };
@@ -899,27 +899,27 @@ export type FlowsLinkResponsePlan = DisableFlowResponsePlan;
 export type FlowsLinkResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface FlowsLinkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FlowsLinkResponseTagsMap;
+  tags?: FlowsLinkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowProperties;
+  properties?: FlowProperties | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GenerateFlowPassphraseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -939,27 +939,27 @@ export type GenerateFlowPassphraseResponsePlan = DisableFlowResponsePlan;
 export type GenerateFlowPassphraseResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface GenerateFlowPassphraseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GenerateFlowPassphraseResponseTagsMap;
+  tags?: GenerateFlowPassphraseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowProperties;
+  properties?: FlowProperties | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -975,21 +975,21 @@ export type GetConnectionResponseTagsMap = { [key: string]: string | undefined }
 export type GetConnectionResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface GetConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetConnectionResponseTagsMap;
+  tags?: GetConnectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of connection */
-  properties?: ConnectionProperties;
+  properties?: ConnectionProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
 }
 export interface GetFlowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1009,23 +1009,23 @@ export type GetFlowResponsePlan = DisableFlowResponsePlan;
 export type GetFlowResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface GetFlowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetFlowResponseTagsMap;
+  tags?: GetFlowResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowProperties;
+  properties?: FlowProperties | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
 }
 export interface GetFlowDestinationEndpointPortsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1042,7 +1042,7 @@ export type GetDestinationEndpointPortsResultPortsList = Array<number>;
 /** List of destination endpoint ports for the flow stream */
 export interface GetDestinationEndpointPortsResult {
   /** The destination endpoint port for the flow stream */
-  ports?: GetDestinationEndpointPortsResultPortsList;
+  ports?: GetDestinationEndpointPortsResultPortsList | undefined;
 }
 export interface GetFlowDestinationEndpointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1059,7 +1059,7 @@ export type GetDestinationEndpointsResultEndpointsList = Array<string>;
 /** List of destination endpoints for the flow stream */
 export interface GetDestinationEndpointsResult {
   /** The destination endpoints for the flow stream */
-  endpoints?: GetDestinationEndpointsResultEndpointsList;
+  endpoints?: GetDestinationEndpointsResultEndpointsList | undefined;
 }
 export interface GetFlowSourceAddressesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1084,7 +1084,7 @@ export interface GetFlowStreamConnectionStringRequest {
 /** The connection string for the specified streaming flow */
 export interface GetStreamConnectionStringResult {
   /** The connection string for the specified streaming flow */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetPipelineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1100,34 +1100,34 @@ export type GetPipelineResponseTagsMap = { [key: string]: string | undefined };
 export type GetPipelineResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface GetPipelineResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPipelineResponseTagsMap;
+  tags?: GetPipelineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of configurable properties for the Pipeline resource. */
-  properties?: PipelineProperties;
+  properties?: PipelineProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
 }
 export interface ListAzureDataTransferApprovedSchemasRequest {
   /** The name of the pipeline to filter approved schemas. */
-  pipeline?: string;
+  pipeline?: string | undefined;
   /** The direction pipeline to filter approved schemas. */
-  direction?: Direction | (string & {});
+  direction?: Direction | (string & {}) | undefined;
 }
 /** Schemas array. */
 export type SchemasListResultValueList = Array<Schema>;
 /** The schemas list result. SchemaListResults has reached end of life support starting version 2025-05-30-preview. Please manage schemas with a FlowProfile resource instead. */
 export interface SchemasListResult {
   /** Schemas array. */
-  value?: SchemasListResultValueList;
+  value?: SchemasListResultValueList | undefined;
 }
 export interface ListConnectionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1142,21 +1142,21 @@ export type ConnectionIdentity = ApprovePipelineConnectionResponseIdentity;
 /** The connection resource definition. */
 export interface Connection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConnectionTagsMap;
+  tags?: ConnectionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of connection */
-  properties?: ConnectionProperties;
+  properties?: ConnectionProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
 }
 /** The Connection items on this page */
 export type ConnectionListResultValueList = Array<Connection>;
@@ -1165,7 +1165,7 @@ export interface ConnectionListResult {
   /** The Connection items on this page */
   value: ConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1188,23 +1188,23 @@ export type FlowIdentity = ApprovePipelineConnectionResponseIdentity;
 /** The flow resource definition. */
 export interface Flow {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FlowTagsMap;
+  tags?: FlowTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowProperties;
+  properties?: FlowProperties | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
 }
 /** The Flow items on this page */
 export type FlowListResultValueList = Array<Flow>;
@@ -1213,7 +1213,7 @@ export interface FlowListResult {
   /** The Flow items on this page */
   value: FlowListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Connection ID to target */
 export type ListListFlowsByPipelineRequestValueList = Array<string>;
@@ -1225,23 +1225,23 @@ export interface ListListFlowsByPipelineRequest {
   /** The name of the pipeline on which to operate. */
   pipelineName: string;
   /** Connection ID to target */
-  value?: ListListFlowsByPipelineRequestValueList;
+  value?: ListListFlowsByPipelineRequestValueList | undefined;
 }
 /** List of flows associated with the connection. */
 export type ListFlowsByPipelineConnectionFlowsList = Array<Flow>;
 /** A connection resource id in addition to all child flow resources under this connection. */
 export interface ListFlowsByPipelineConnection {
   /** ID of the connection. */
-  id?: string;
+  id?: string | undefined;
   /** List of flows associated with the connection. */
-  flows?: ListFlowsByPipelineConnectionFlowsList;
+  flows?: ListFlowsByPipelineConnectionFlowsList | undefined;
 }
 /** List flows by pipeline result by connection */
 export type ListFlowsByPipelineResultValueList = Array<ListFlowsByPipelineConnection>;
 /** An array of flow resources. */
 export interface ListFlowsByPipelineResult {
   /** List flows by pipeline result by connection */
-  value?: ListFlowsByPipelineResultValueList;
+  value?: ListFlowsByPipelineResultValueList | undefined;
 }
 export interface ListListPendingConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1280,74 +1280,74 @@ export type PendingConnectionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PendingConnectionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PendingConnectionSystemDataCreatedByType;
+  createdByType?: PendingConnectionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PendingConnectionSystemDataLastModifiedByType;
+  lastModifiedByType?: PendingConnectionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Pending connection object */
 export interface PendingConnection {
   /** Subscription ID of the pending connection. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Pipeline to use to transfer data */
   pipeline: string;
   /** Direction of data movement */
-  direction?: Direction;
+  direction?: Direction | undefined;
   /** Justification for the connection request */
-  justification?: string;
+  justification?: string | undefined;
   /** Status of the connection */
-  status?: ConnectionStatus;
+  status?: ConnectionStatus | undefined;
   /** Force disablement status of the current connection */
-  forceDisabledStatus?: PendingConnectionForceDisabledStatusList;
+  forceDisabledStatus?: PendingConnectionForceDisabledStatusList | undefined;
   /** Reason for status */
-  statusReason?: string;
+  statusReason?: string | undefined;
   /** Link status of the current connection */
-  linkStatus?: LinkStatus;
+  linkStatus?: LinkStatus | undefined;
   /** Resource ID of the linked connection */
-  linkedConnectionId?: string;
+  linkedConnectionId?: string | undefined;
   /** The flow types being requested for this connection. This FlowType property has reached end of life support starting version 2025-05-30-preview. Please create a FlowProfile resource instead. */
-  flowTypes?: PendingConnectionFlowTypesList;
+  flowTypes?: PendingConnectionFlowTypesList | undefined;
   /** Requirement ID of the connection */
-  requirementId?: string;
+  requirementId?: string | undefined;
   /** Subscription ID to link cloud subscriptions together */
-  remoteSubscriptionId?: string;
+  remoteSubscriptionId?: string | undefined;
   /** Approver of this connection request */
-  approver?: string;
+  approver?: string | undefined;
   /** PIN to link requests together */
-  pin?: string;
+  pin?: string | undefined;
   /** The timestamp that this connection request was submitted at */
-  dateSubmitted?: string;
+  dateSubmitted?: string | undefined;
   /** The primary contact for this connection request */
-  primaryContact?: string;
+  primaryContact?: string | undefined;
   /** The secondary contacts for this connection request */
-  secondaryContacts?: PendingConnectionSecondaryContactsList;
+  secondaryContacts?: PendingConnectionSecondaryContactsList | undefined;
   /** Provisioning state of the connection */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The policies for this connection. The policies property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  policies?: PendingConnectionPoliciesList;
+  policies?: PendingConnectionPoliciesList | undefined;
   /** The schemas for this connection. The schemas property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  schemas?: PendingConnectionSchemasList;
+  schemas?: PendingConnectionSchemasList | undefined;
   /** The schema URIs for this connection. The schemaUris property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  schemaUris?: PendingConnectionSchemaUrisList;
+  schemaUris?: PendingConnectionSchemaUrisList | undefined;
   /** Resource tags. */
-  tags?: PendingConnectionTagsMap;
+  tags?: PendingConnectionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PendingConnectionSystemData;
+  systemData?: PendingConnectionSystemData | undefined;
 }
 /** The items on this page */
 export type PendingConnectionListResultValueList = Array<PendingConnection>;
@@ -1356,7 +1356,7 @@ export interface PendingConnectionListResult {
   /** The items on this page */
   value: PendingConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListListPendingFlowsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1387,94 +1387,94 @@ export type PendingFlowSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PendingFlowSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PendingFlowSystemDataCreatedByType;
+  createdByType?: PendingFlowSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PendingFlowSystemDataLastModifiedByType;
+  lastModifiedByType?: PendingFlowSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Pending flow object */
 export interface PendingFlow {
   /** Subscription ID of the pending flow. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Connection ID of the pending flow. */
-  connectionId?: string;
+  connectionId?: string | undefined;
   /** The connection associated with this flow */
-  connection?: SelectedResource;
+  connection?: SelectedResource | undefined;
   /** Dataflow GUID associated with this flow */
-  flowId?: string;
+  flowId?: string | undefined;
   /** URI to a Key Vault Secret containing a SAS token. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** Link status of the current flow */
-  linkStatus?: LinkStatus;
+  linkStatus?: LinkStatus | undefined;
   /** Resource ID of the linked flow */
-  linkedFlowId?: string;
+  linkedFlowId?: string | undefined;
   /** Status of the current flow */
-  status?: FlowStatus;
+  status?: FlowStatus | undefined;
   /** Force disablement status of the current flow */
-  forceDisabledStatus?: PendingFlowForceDisabledStatusList;
+  forceDisabledStatus?: PendingFlowForceDisabledStatusList | undefined;
   /** Storage Account */
-  storageAccountName?: string;
+  storageAccountName?: string | undefined;
   /** Storage Account ID */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
   /** Storage Container Name */
-  storageContainerName?: string;
+  storageContainerName?: string | undefined;
   /** Storage Table Name */
-  storageTableName?: string;
+  storageTableName?: string | undefined;
   /** Service Bus Queue ID */
-  serviceBusQueueId?: string;
+  serviceBusQueueId?: string | undefined;
   /** The flow type for this flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  flowType?: FlowType;
+  flowType?: FlowType | undefined;
   /** Type of data to transfer via the flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  dataType?: DataType;
+  dataType?: DataType | undefined;
   /** Provisioning state of the flow */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The policies for this flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  policies?: PendingFlowPoliciesList;
+  policies?: PendingFlowPoliciesList | undefined;
   /** The selected schema for this flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  schema?: Schema;
+  schema?: Schema | undefined;
   /** The messaging options for this flow */
-  messagingOptions?: MessagingOptions;
+  messagingOptions?: MessagingOptions | undefined;
   /** The API Flow configuration options for Azure Data Transfer API Flow type. */
-  apiFlowOptions?: ApiFlowOptions;
+  apiFlowOptions?: ApiFlowOptions | undefined;
   /** The URI to the customer managed key for this flow */
-  customerManagedKeyVaultUri?: string;
+  customerManagedKeyVaultUri?: string | undefined;
   /** The flow stream identifier */
-  streamId?: string;
+  streamId?: string | undefined;
   /** The protocol of the stream */
-  streamProtocol?: StreamProtocol;
+  streamProtocol?: StreamProtocol | undefined;
   /** The latency of the stream in milliseconds */
-  streamLatency?: number;
+  streamLatency?: number | undefined;
   /** The passphrase used for SRT streams (non-secret) */
-  passphrase?: string;
+  passphrase?: string | undefined;
   /** The source IP address and CIDR ranges of the stream */
-  sourceAddresses?: StreamSourceAddresses;
+  sourceAddresses?: StreamSourceAddresses | undefined;
   /** The destination endpoints of the stream */
-  destinationEndpoints?: PendingFlowDestinationEndpointsList;
+  destinationEndpoints?: PendingFlowDestinationEndpointsList | undefined;
   /** The destination endpoint ports of the stream */
-  destinationEndpointPorts?: PendingFlowDestinationEndpointPortsList;
+  destinationEndpointPorts?: PendingFlowDestinationEndpointPortsList | undefined;
   /** Event Hub ID */
-  eventHubId?: string;
+  eventHubId?: string | undefined;
   /** Event Hub Consumer Group */
-  consumerGroup?: string;
+  consumerGroup?: string | undefined;
   /** Resource tags. */
-  tags?: PendingFlowTagsMap;
+  tags?: PendingFlowTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PendingFlowSystemData;
+  systemData?: PendingFlowSystemData | undefined;
 }
 /** The items on this page */
 export type PendingFlowListResultValueList = Array<PendingFlow>;
@@ -1483,7 +1483,7 @@ export interface PendingFlowListResult {
   /** The items on this page */
   value: PendingFlowListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListListSchemasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1493,33 +1493,33 @@ export interface ListListSchemasRequest {
   /** The name of the pipeline on which to operate. */
   pipelineName: string;
   /** ID associated with this schema */
-  id?: string;
+  id?: string | undefined;
   /** Connection ID associated with this schema */
-  connectionId?: string;
+  connectionId?: string | undefined;
   /** Status of the schema */
-  status?: SchemaStatus | (string & {});
+  status?: SchemaStatus | (string & {}) | undefined;
   /** Name of the schema */
-  name?: string;
+  name?: string | undefined;
   /** Content of the schema */
-  content?: string;
+  content?: string | undefined;
   /** The direction of the schema. */
-  direction?: Direction | (string & {});
+  direction?: Direction | (string & {}) | undefined;
   /** Uri containing SAS token for the zipped schema */
-  schemaUri?: string;
+  schemaUri?: string | undefined;
   /** The Schema Type */
-  schemaType?: SchemaType | (string & {});
+  schemaType?: SchemaType | (string & {}) | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1528,23 +1528,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPipelineByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1559,21 +1559,21 @@ export type PipelineIdentity = ApprovePipelineConnectionResponseIdentity;
 /** The pipeline resource definition. A Pipeline defines the scope and identity under which data replication scenarios are managed. */
 export interface Pipeline {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PipelineTagsMap;
+  tags?: PipelineTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of configurable properties for the Pipeline resource. */
-  properties?: PipelineProperties;
+  properties?: PipelineProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
 }
 /** The Pipeline items on this page */
 export type PipelineListResultValueList = Array<Pipeline>;
@@ -1582,7 +1582,7 @@ export interface PipelineListResult {
   /** The Pipeline items on this page */
   value: PipelineListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPipelineBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1603,21 +1603,21 @@ export interface PipelinePropertiesInput {
   /** Remote cloud of the data to be transferred or received */
   remoteCloud: string;
   /** Display name of this pipeline */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Subscribers of this resource */
-  subscribers?: PipelinePropertiesInputSubscribersList;
+  subscribers?: PipelinePropertiesInputSubscribersList | undefined;
   /** The policies for this pipeline. The policies property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  policies?: PipelinePropertiesInputPoliciesList;
+  policies?: PipelinePropertiesInputPoliciesList | undefined;
   /** The flow type for this flow. The flowTypes property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead. */
-  flowTypes?: PipelinePropertiesInputFlowTypesList;
+  flowTypes?: PipelinePropertiesInputFlowTypesList | undefined;
   /** The flow types that are disabled for this pipeline */
-  disabledFlowTypes?: PipelinePropertiesInputDisabledFlowTypesList;
+  disabledFlowTypes?: PipelinePropertiesInputDisabledFlowTypesList | undefined;
   /** Quarantine Download Storage Account */
-  quarantineDownloadStorageAccount?: string;
+  quarantineDownloadStorageAccount?: string | undefined;
   /** Quarantine Download Storage Container */
-  quarantineDownloadStorageContainer?: string;
+  quarantineDownloadStorageContainer?: string | undefined;
   /** Status of the current pipeline */
-  status?: PipelineStatus | (string & {});
+  status?: PipelineStatus | (string & {}) | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type PipelinesCreateOrUpdateRequestIdentity = ConnectionsCreateOrUpdateRequestIdentity;
@@ -1629,13 +1629,13 @@ export interface PipelinesCreateOrUpdateRequest {
   /** The name of the pipeline on which to operate. */
   pipelineName: string;
   /** Resource tags. */
-  tags?: PipelinesCreateOrUpdateRequestTagsMap;
+  tags?: PipelinesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of configurable properties for the Pipeline resource. */
-  properties?: PipelinePropertiesInput;
+  properties?: PipelinePropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ConnectionsCreateOrUpdateRequestIdentity;
+  identity?: ConnectionsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type PipelinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1643,25 +1643,25 @@ export type PipelinesCreateOrUpdateResponseTagsMap = { [key: string]: string | u
 export type PipelinesCreateOrUpdateResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface PipelinesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PipelinesCreateOrUpdateResponseTagsMap;
+  tags?: PipelinesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of configurable properties for the Pipeline resource. */
-  properties?: PipelineProperties;
+  properties?: PipelineProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RejectPipelineConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1673,7 +1673,7 @@ export interface RejectPipelineConnectionRequest {
   /** ID of the resource. */
   id: string;
   /** Reason for resource operation. */
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 /** Resource tags. */
 export type RejectPipelineConnectionResponseTagsMap = { [key: string]: string | undefined };
@@ -1681,25 +1681,25 @@ export type RejectPipelineConnectionResponseTagsMap = { [key: string]: string | 
 export type RejectPipelineConnectionResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface RejectPipelineConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RejectPipelineConnectionResponseTagsMap;
+  tags?: RejectPipelineConnectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of connection */
-  properties?: ConnectionProperties;
+  properties?: ConnectionProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The specified flow destination endpoint ports */
 export type SetFlowDestinationEndpointPortsRequestPortsList = Array<number>;
@@ -1713,7 +1713,7 @@ export interface SetFlowDestinationEndpointPortsRequest {
   /** The name for the flow to perform the operation on. */
   flowName: string;
   /** The specified flow destination endpoint ports */
-  ports?: SetFlowDestinationEndpointPortsRequestPortsList;
+  ports?: SetFlowDestinationEndpointPortsRequestPortsList | undefined;
 }
 /** Resource tags. */
 export type SetFlowDestinationEndpointPortsResponseTagsMap = { [key: string]: string | undefined };
@@ -1724,27 +1724,27 @@ export type SetFlowDestinationEndpointPortsResponseIdentity =
   ApprovePipelineConnectionResponseIdentity;
 export interface SetFlowDestinationEndpointPortsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SetFlowDestinationEndpointPortsResponseTagsMap;
+  tags?: SetFlowDestinationEndpointPortsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowProperties;
+  properties?: FlowProperties | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The specified flow destination endpoints. */
 export type SetFlowDestinationEndpointsRequestEndpointsList = Array<string>;
@@ -1758,7 +1758,7 @@ export interface SetFlowDestinationEndpointsRequest {
   /** The name for the flow to perform the operation on. */
   flowName: string;
   /** The specified flow destination endpoints. */
-  endpoints?: SetFlowDestinationEndpointsRequestEndpointsList;
+  endpoints?: SetFlowDestinationEndpointsRequestEndpointsList | undefined;
 }
 /** Resource tags. */
 export type SetFlowDestinationEndpointsResponseTagsMap = { [key: string]: string | undefined };
@@ -1768,27 +1768,27 @@ export type SetFlowDestinationEndpointsResponsePlan = DisableFlowResponsePlan;
 export type SetFlowDestinationEndpointsResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface SetFlowDestinationEndpointsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SetFlowDestinationEndpointsResponseTagsMap;
+  tags?: SetFlowDestinationEndpointsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowProperties;
+  properties?: FlowProperties | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SetFlowPassphraseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1800,7 +1800,7 @@ export interface SetFlowPassphraseRequest {
   /** The name for the flow to perform the operation on. */
   flowName: string;
   /** The passphrase used for SRT streams (non-secret) */
-  value?: string;
+  value?: string | undefined;
 }
 /** Resource tags. */
 export type SetFlowPassphraseResponseTagsMap = { [key: string]: string | undefined };
@@ -1810,27 +1810,27 @@ export type SetFlowPassphraseResponsePlan = DisableFlowResponsePlan;
 export type SetFlowPassphraseResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface SetFlowPassphraseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SetFlowPassphraseResponseTagsMap;
+  tags?: SetFlowPassphraseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowProperties;
+  properties?: FlowProperties | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Source addresses */
 export type SetFlowSourceAddressesRequestValuesList = Array<string>;
@@ -1844,7 +1844,7 @@ export interface SetFlowSourceAddressesRequest {
   /** The name for the flow to perform the operation on. */
   flowName: string;
   /** Source addresses */
-  values?: SetFlowSourceAddressesRequestValuesList;
+  values?: SetFlowSourceAddressesRequestValuesList | undefined;
 }
 /** Resource tags. */
 export type SetFlowSourceAddressesResponseTagsMap = { [key: string]: string | undefined };
@@ -1854,27 +1854,27 @@ export type SetFlowSourceAddressesResponsePlan = DisableFlowResponsePlan;
 export type SetFlowSourceAddressesResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface SetFlowSourceAddressesResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SetFlowSourceAddressesResponseTagsMap;
+  tags?: SetFlowSourceAddressesResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowProperties;
+  properties?: FlowProperties | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateConnectionRequestIdentity = ConnectionsCreateOrUpdateRequestIdentity;
@@ -1888,9 +1888,9 @@ export interface UpdateConnectionRequest {
   /** The name for the connection to perform the operation on. */
   connectionName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ConnectionsCreateOrUpdateRequestIdentity;
+  identity?: ConnectionsCreateOrUpdateRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateConnectionRequestTagsMap;
+  tags?: UpdateConnectionRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateConnectionResponseTagsMap = { [key: string]: string | undefined };
@@ -1898,25 +1898,25 @@ export type UpdateConnectionResponseTagsMap = { [key: string]: string | undefine
 export type UpdateConnectionResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface UpdateConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateConnectionResponseTagsMap;
+  tags?: UpdateConnectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of connection */
-  properties?: ConnectionProperties;
+  properties?: ConnectionProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateFlowRequestIdentity = ConnectionsCreateOrUpdateRequestIdentity;
@@ -1932,9 +1932,9 @@ export interface UpdateFlowRequest {
   /** The name for the flow to perform the operation on. */
   flowName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ConnectionsCreateOrUpdateRequestIdentity;
+  identity?: ConnectionsCreateOrUpdateRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateFlowRequestTagsMap;
+  tags?: UpdateFlowRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateFlowResponseTagsMap = { [key: string]: string | undefined };
@@ -1944,34 +1944,34 @@ export type UpdateFlowResponsePlan = DisableFlowResponsePlan;
 export type UpdateFlowResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface UpdateFlowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateFlowResponseTagsMap;
+  tags?: UpdateFlowResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of flow */
-  properties?: FlowProperties;
+  properties?: FlowProperties | undefined;
   /** Plan for the resource. */
-  plan?: DisableFlowResponsePlan;
+  plan?: DisableFlowResponsePlan | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The flow types allowed for this pipeline. FlowTypes has reached end of life support starting version 2025-05-30-preview. Please create and use the FlowProfile property instead. */
 export type PipelinesPatchPropertiesFlowTypesList = Array<FlowType | (string & {})>;
 /** Properties of pipelines patch body. The property has reached end of life support starting version 2025-05-30-preview. Please create and use the FlowProfile resource instead. */
 export interface PipelinesPatchProperties {
   /** The flow types allowed for this pipeline. FlowTypes has reached end of life support starting version 2025-05-30-preview. Please create and use the FlowProfile property instead. */
-  flowTypes?: PipelinesPatchPropertiesFlowTypesList;
+  flowTypes?: PipelinesPatchPropertiesFlowTypesList | undefined;
 }
 /** Resource tags. */
 export type UpdatePipelineRequestTagsMap = { [key: string]: string | undefined };
@@ -1985,11 +1985,11 @@ export interface UpdatePipelineRequest {
   /** The name of the pipeline on which to operate. */
   pipelineName: string;
   /** Properties of pipelines patch body. */
-  properties?: PipelinesPatchProperties;
+  properties?: PipelinesPatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdatePipelineRequestTagsMap;
+  tags?: UpdatePipelineRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ConnectionsCreateOrUpdateRequestIdentity;
+  identity?: ConnectionsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdatePipelineResponseTagsMap = { [key: string]: string | undefined };
@@ -1997,52 +1997,52 @@ export type UpdatePipelineResponseTagsMap = { [key: string]: string | undefined 
 export type UpdatePipelineResponseIdentity = ApprovePipelineConnectionResponseIdentity;
 export interface UpdatePipelineResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePipelineResponseTagsMap;
+  tags?: UpdatePipelineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of configurable properties for the Pipeline resource. */
-  properties?: PipelineProperties;
+  properties?: PipelineProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ApprovePipelineConnectionResponseIdentity;
+  identity?: ApprovePipelineConnectionResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ValidateAzureDataTransferSchemaRequest {
   /** ID associated with this schema */
-  id?: string;
+  id?: string | undefined;
   /** Connection ID associated with this schema */
-  connectionId?: string;
+  connectionId?: string | undefined;
   /** Status of the schema */
-  status?: SchemaStatus | (string & {});
+  status?: SchemaStatus | (string & {}) | undefined;
   /** Name of the schema */
-  name?: string;
+  name?: string | undefined;
   /** Content of the schema */
-  content?: string;
+  content?: string | undefined;
   /** The direction of the schema. */
-  direction?: Direction | (string & {});
+  direction?: Direction | (string & {}) | undefined;
   /** Uri containing SAS token for the zipped schema */
-  schemaUri?: string;
+  schemaUri?: string | undefined;
   /** The Schema Type */
-  schemaType?: SchemaType | (string & {});
+  schemaType?: SchemaType | (string & {}) | undefined;
 }
 /** Validation status of the schema */
 export type ValidateSchemaStatus = "Succeeded" | "Failed";
 /** Result of the schema validation. ValidateSchemaResult has reached end of life support starting version 2025-05-30-preview. Please manage schemas with a FlowProfile resource instead. */
 export interface ValidateSchemaResult {
   /** Validation status of the schema */
-  status?: ValidateSchemaStatus;
+  status?: ValidateSchemaStatus | undefined;
   /** Message describing the schema validation */
-  message?: string;
+  message?: string | undefined;
 }
 export type ApprovePipelineConnectionError = AzureOpError;
 /** Approves a pending connection request associated with the specified Pipeline. */

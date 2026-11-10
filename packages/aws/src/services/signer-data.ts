@@ -118,7 +118,7 @@ export interface GetRevocationStatusRequest {
 export type RevokedEntity = string;
 export type RevokedEntities = string[];
 export interface GetRevocationStatusResponse {
-  revokedEntities?: string[];
+  revokedEntities?: string[] | undefined;
 }
 export type GetRevocationStatusError =
   | AccessDeniedException

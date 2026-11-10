@@ -25,18 +25,18 @@ const TELEMETRY = {
 
 export type TunnelType = "TUNNEL_TYPE_UNSPECIFIED" | "TUNNEL_TYPE_H2";
 export interface StartTunnelRequest {
-  port?: number;
-  unencrypted?: boolean;
-  tunnelType?: TunnelType | (string & {});
+  port?: number | undefined;
+  unencrypted?: boolean | undefined;
+  tunnelType?: TunnelType | (string & {}) | undefined;
 }
 export interface StartTunnelResponse {
   host: string;
   port: number;
-  unencryptedHost?: string;
-  unencryptedPort?: number;
+  unencryptedHost?: string | undefined;
+  unencryptedPort?: number | undefined;
 }
 export interface StopTunnelRequest {
-  port?: number;
+  port?: number | undefined;
 }
 export interface StopTunnelResponse {
   exists: boolean;

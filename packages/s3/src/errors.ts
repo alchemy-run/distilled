@@ -1,5 +1,6 @@
 import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as S from "@distilled.cloud/core/schema-lite-typed";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Category from "./category.ts";
 import type * as Credentials from "./credentials.ts";
@@ -248,6 +249,7 @@ export type CommonErrors =
   | UnknownAwsError
   | ParseError
   | InvalidInput
+  | SdkError
   | CommonAwsError
   | EndpointError
   | NoMatchingRuleError

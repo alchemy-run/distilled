@@ -181,52 +181,52 @@ export type __stringMin0Max256 = string;
 export type __stringMin20Max1600 = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateDiscovererRequest {
-  Description?: string;
-  SourceArn?: string;
-  CrossAccount?: boolean;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  SourceArn?: string | undefined;
+  CrossAccount?: boolean | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DiscovererState = "STARTED" | "STOPPED" | (string & {});
 export interface CreateDiscovererResponse {
-  Description?: string;
-  DiscovererArn?: string;
-  DiscovererId?: string;
-  SourceArn?: string;
-  State?: DiscovererState;
-  CrossAccount?: boolean;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  DiscovererArn?: string | undefined;
+  DiscovererId?: string | undefined;
+  SourceArn?: string | undefined;
+  State?: DiscovererState | undefined;
+  CrossAccount?: boolean | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRegistryRequest {
-  Description?: string;
+  Description?: string | undefined;
   RegistryName: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRegistryResponse {
-  Description?: string;
-  RegistryArn?: string;
-  RegistryName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  RegistryArn?: string | undefined;
+  RegistryName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __stringMin1Max100000 = string;
 export type Type = "OpenApi3" | "JSONSchemaDraft4" | (string & {});
 export interface CreateSchemaRequest {
-  Content?: string;
-  Description?: string;
+  Content?: string | undefined;
+  Description?: string | undefined;
   RegistryName: string;
   SchemaName: string;
-  Tags?: { [key: string]: string | undefined };
-  Type?: Type;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Type?: Type | undefined;
 }
 export type __timestampIso8601 = Date;
 export interface CreateSchemaResponse {
-  Description?: string;
-  LastModified?: Date;
-  SchemaArn?: string;
-  SchemaName?: string;
-  SchemaVersion?: string;
-  Tags?: { [key: string]: string | undefined };
-  Type?: string;
-  VersionCreatedDate?: Date;
+  Description?: string | undefined;
+  LastModified?: Date | undefined;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  SchemaVersion?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Type?: string | undefined;
+  VersionCreatedDate?: Date | undefined;
 }
 export interface DeleteDiscovererRequest {
   DiscovererId: string;
@@ -237,7 +237,7 @@ export interface DeleteRegistryRequest {
 }
 export interface DeleteRegistryResponse {}
 export interface DeleteResourcePolicyRequest {
-  RegistryName?: string;
+  RegistryName?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteSchemaRequest {
@@ -255,7 +255,7 @@ export interface DescribeCodeBindingRequest {
   Language: string;
   RegistryName: string;
   SchemaName: string;
-  SchemaVersion?: string;
+  SchemaVersion?: string | undefined;
 }
 export type CodeGenerationStatus =
   | "CREATE_IN_PROGRESS"
@@ -263,231 +263,231 @@ export type CodeGenerationStatus =
   | "CREATE_FAILED"
   | (string & {});
 export interface DescribeCodeBindingResponse {
-  CreationDate?: Date;
-  LastModified?: Date;
-  SchemaVersion?: string;
-  Status?: CodeGenerationStatus;
+  CreationDate?: Date | undefined;
+  LastModified?: Date | undefined;
+  SchemaVersion?: string | undefined;
+  Status?: CodeGenerationStatus | undefined;
 }
 export interface DescribeDiscovererRequest {
   DiscovererId: string;
 }
 export interface DescribeDiscovererResponse {
-  Description?: string;
-  DiscovererArn?: string;
-  DiscovererId?: string;
-  SourceArn?: string;
-  State?: DiscovererState;
-  CrossAccount?: boolean;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  DiscovererArn?: string | undefined;
+  DiscovererId?: string | undefined;
+  SourceArn?: string | undefined;
+  State?: DiscovererState | undefined;
+  CrossAccount?: boolean | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeRegistryRequest {
   RegistryName: string;
 }
 export interface DescribeRegistryResponse {
-  Description?: string;
-  RegistryArn?: string;
-  RegistryName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  RegistryArn?: string | undefined;
+  RegistryName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeSchemaRequest {
   RegistryName: string;
   SchemaName: string;
-  SchemaVersion?: string;
+  SchemaVersion?: string | undefined;
 }
 export interface DescribeSchemaResponse {
-  Content?: string;
-  Description?: string;
-  LastModified?: Date;
-  SchemaArn?: string;
-  SchemaName?: string;
-  SchemaVersion?: string;
-  Tags?: { [key: string]: string | undefined };
-  Type?: string;
-  VersionCreatedDate?: Date;
+  Content?: string | undefined;
+  Description?: string | undefined;
+  LastModified?: Date | undefined;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  SchemaVersion?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Type?: string | undefined;
+  VersionCreatedDate?: Date | undefined;
 }
 export interface ExportSchemaRequest {
   RegistryName: string;
   SchemaName: string;
-  SchemaVersion?: string;
-  Type?: string;
+  SchemaVersion?: string | undefined;
+  Type?: string | undefined;
 }
 export interface ExportSchemaResponse {
-  Content?: string;
-  SchemaArn?: string;
-  SchemaName?: string;
-  SchemaVersion?: string;
-  Type?: string;
+  Content?: string | undefined;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  SchemaVersion?: string | undefined;
+  Type?: string | undefined;
 }
 export interface GetCodeBindingSourceRequest {
   Language: string;
   RegistryName: string;
   SchemaName: string;
-  SchemaVersion?: string;
+  SchemaVersion?: string | undefined;
 }
 export interface GetCodeBindingSourceResponse {
-  Body?: T.StreamingOutputBody;
+  Body?: T.StreamingOutputBody | undefined;
 }
 export type GetDiscoveredSchemaVersionItemInput = string;
 export type __listOfGetDiscoveredSchemaVersionItemInput = string[];
 const __listOfGetDiscoveredSchemaVersionItemInput = /*@__PURE__*/ __L.at(__c21, 0);
 export interface GetDiscoveredSchemaRequest {
-  Events?: string[];
-  Type?: Type;
+  Events?: string[] | undefined;
+  Type?: Type | undefined;
 }
 export interface GetDiscoveredSchemaResponse {
-  Content?: string;
+  Content?: string | undefined;
 }
 export interface GetResourcePolicyRequest {
-  RegistryName?: string;
+  RegistryName?: string | undefined;
 }
 export type SynthesizedJson__string = string;
 export interface GetResourcePolicyResponse {
-  Policy?: string;
-  RevisionId?: string;
+  Policy?: string | undefined;
+  RevisionId?: string | undefined;
 }
 export interface ListDiscoverersRequest {
-  DiscovererIdPrefix?: string;
-  Limit?: number;
-  NextToken?: string;
-  SourceArnPrefix?: string;
+  DiscovererIdPrefix?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
+  SourceArnPrefix?: string | undefined;
 }
 export interface DiscovererSummary {
-  DiscovererArn?: string;
-  DiscovererId?: string;
-  SourceArn?: string;
-  State?: DiscovererState;
-  CrossAccount?: boolean;
-  Tags?: { [key: string]: string | undefined };
+  DiscovererArn?: string | undefined;
+  DiscovererId?: string | undefined;
+  SourceArn?: string | undefined;
+  State?: DiscovererState | undefined;
+  CrossAccount?: boolean | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfDiscovererSummary = DiscovererSummary[];
 const __listOfDiscovererSummary = /*@__PURE__*/ __L.at(__c24, 2);
 export interface ListDiscoverersResponse {
-  Discoverers?: DiscovererSummary[];
-  NextToken?: string;
+  Discoverers?: DiscovererSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRegistriesRequest {
-  Limit?: number;
-  NextToken?: string;
-  RegistryNamePrefix?: string;
-  Scope?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
+  RegistryNamePrefix?: string | undefined;
+  Scope?: string | undefined;
 }
 export interface RegistrySummary {
-  RegistryArn?: string;
-  RegistryName?: string;
-  Tags?: { [key: string]: string | undefined };
+  RegistryArn?: string | undefined;
+  RegistryName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfRegistrySummary = RegistrySummary[];
 const __listOfRegistrySummary = /*@__PURE__*/ __L.at(__c25, 2);
 export interface ListRegistriesResponse {
-  NextToken?: string;
-  Registries?: RegistrySummary[];
+  NextToken?: string | undefined;
+  Registries?: RegistrySummary[] | undefined;
 }
 export interface ListSchemasRequest {
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
   RegistryName: string;
-  SchemaNamePrefix?: string;
+  SchemaNamePrefix?: string | undefined;
 }
 export interface SchemaSummary {
-  LastModified?: Date;
-  SchemaArn?: string;
-  SchemaName?: string;
-  Tags?: { [key: string]: string | undefined };
-  VersionCount?: number;
+  LastModified?: Date | undefined;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  VersionCount?: number | undefined;
 }
 export type __listOfSchemaSummary = SchemaSummary[];
 const __listOfSchemaSummary = /*@__PURE__*/ __L.at(__c26, 2);
 export interface ListSchemasResponse {
-  NextToken?: string;
-  Schemas?: SchemaSummary[];
+  NextToken?: string | undefined;
+  Schemas?: SchemaSummary[] | undefined;
 }
 export interface ListSchemaVersionsRequest {
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
   RegistryName: string;
   SchemaName: string;
 }
 export interface SchemaVersionSummary {
-  SchemaArn?: string;
-  SchemaName?: string;
-  SchemaVersion?: string;
-  Type?: Type;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  SchemaVersion?: string | undefined;
+  Type?: Type | undefined;
 }
 export type __listOfSchemaVersionSummary = SchemaVersionSummary[];
 const __listOfSchemaVersionSummary = /*@__PURE__*/ __L.at(__c27, 2);
 export interface ListSchemaVersionsResponse {
-  NextToken?: string;
-  SchemaVersions?: SchemaVersionSummary[];
+  NextToken?: string | undefined;
+  SchemaVersions?: SchemaVersionSummary[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutCodeBindingRequest {
   Language: string;
   RegistryName: string;
   SchemaName: string;
-  SchemaVersion?: string;
+  SchemaVersion?: string | undefined;
 }
 export interface PutCodeBindingResponse {
-  CreationDate?: Date;
-  LastModified?: Date;
-  SchemaVersion?: string;
-  Status?: CodeGenerationStatus;
+  CreationDate?: Date | undefined;
+  LastModified?: Date | undefined;
+  SchemaVersion?: string | undefined;
+  Status?: CodeGenerationStatus | undefined;
 }
 export interface PutResourcePolicyRequest {
-  Policy?: string;
-  RegistryName?: string;
-  RevisionId?: string;
+  Policy?: string | undefined;
+  RegistryName?: string | undefined;
+  RevisionId?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
-  Policy?: string;
-  RevisionId?: string;
+  Policy?: string | undefined;
+  RevisionId?: string | undefined;
 }
 export interface SearchSchemasRequest {
-  Keywords?: string;
-  Limit?: number;
-  NextToken?: string;
+  Keywords?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
   RegistryName: string;
 }
 export interface SearchSchemaVersionSummary {
-  CreatedDate?: Date;
-  SchemaVersion?: string;
-  Type?: Type;
+  CreatedDate?: Date | undefined;
+  SchemaVersion?: string | undefined;
+  Type?: Type | undefined;
 }
 export type __listOfSearchSchemaVersionSummary = SearchSchemaVersionSummary[];
 const __listOfSearchSchemaVersionSummary = /*@__PURE__*/ __L.at(__c31, 2);
 export interface SearchSchemaSummary {
-  RegistryName?: string;
-  SchemaArn?: string;
-  SchemaName?: string;
-  SchemaVersions?: SearchSchemaVersionSummary[];
+  RegistryName?: string | undefined;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  SchemaVersions?: SearchSchemaVersionSummary[] | undefined;
 }
 export type __listOfSearchSchemaSummary = SearchSchemaSummary[];
 const __listOfSearchSchemaSummary = /*@__PURE__*/ __L.at(__c31, 4);
 export interface SearchSchemasResponse {
-  NextToken?: string;
-  Schemas?: SearchSchemaSummary[];
+  NextToken?: string | undefined;
+  Schemas?: SearchSchemaSummary[] | undefined;
 }
 export interface StartDiscovererRequest {
   DiscovererId: string;
 }
 export interface StartDiscovererResponse {
-  DiscovererId?: string;
-  State?: DiscovererState;
+  DiscovererId?: string | undefined;
+  State?: DiscovererState | undefined;
 }
 export interface StopDiscovererRequest {
   DiscovererId: string;
 }
 export interface StopDiscovererResponse {
-  DiscovererId?: string;
-  State?: DiscovererState;
+  DiscovererId?: string | undefined;
+  State?: DiscovererState | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export type __listOf__string = string[];
@@ -495,51 +495,51 @@ const __listOf__string =
   __listOfGetDiscoveredSchemaVersionItemInput as any as S.Schema<__listOf__string>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateDiscovererRequest {
-  Description?: string;
+  Description?: string | undefined;
   DiscovererId: string;
-  CrossAccount?: boolean;
+  CrossAccount?: boolean | undefined;
 }
 export interface UpdateDiscovererResponse {
-  Description?: string;
-  DiscovererArn?: string;
-  DiscovererId?: string;
-  SourceArn?: string;
-  State?: DiscovererState;
-  CrossAccount?: boolean;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  DiscovererArn?: string | undefined;
+  DiscovererId?: string | undefined;
+  SourceArn?: string | undefined;
+  State?: DiscovererState | undefined;
+  CrossAccount?: boolean | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateRegistryRequest {
-  Description?: string;
+  Description?: string | undefined;
   RegistryName: string;
 }
 export interface UpdateRegistryResponse {
-  Description?: string;
-  RegistryArn?: string;
-  RegistryName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  RegistryArn?: string | undefined;
+  RegistryName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __stringMin0Max36 = string;
 export interface UpdateSchemaRequest {
-  ClientTokenId?: string;
-  Content?: string;
-  Description?: string;
+  ClientTokenId?: string | undefined;
+  Content?: string | undefined;
+  Description?: string | undefined;
   RegistryName: string;
   SchemaName: string;
-  Type?: Type;
+  Type?: Type | undefined;
 }
 export interface UpdateSchemaResponse {
-  Description?: string;
-  LastModified?: Date;
-  SchemaArn?: string;
-  SchemaName?: string;
-  SchemaVersion?: string;
-  Tags?: { [key: string]: string | undefined };
-  Type?: string;
-  VersionCreatedDate?: Date;
+  Description?: string | undefined;
+  LastModified?: Date | undefined;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  SchemaVersion?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Type?: string | undefined;
+  VersionCreatedDate?: Date | undefined;
 }
 export type CreateDiscovererError =
   | BadRequestException

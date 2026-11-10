@@ -172,9 +172,9 @@ export type OwnerId = string;
 export type DomainName = string;
 export type Region = string;
 export interface DomainInformation {
-  OwnerId?: string;
+  OwnerId?: string | undefined;
   DomainName: string;
-  Region?: string;
+  Region?: string | undefined;
 }
 export type InboundCrossClusterSearchConnectionStatusCode =
   | "PENDING_ACCEPTANCE"
@@ -186,17 +186,17 @@ export type InboundCrossClusterSearchConnectionStatusCode =
   | (string & {});
 export type CrossClusterSearchConnectionStatusMessage = string;
 export interface InboundCrossClusterSearchConnectionStatus {
-  StatusCode?: InboundCrossClusterSearchConnectionStatusCode;
-  Message?: string;
+  StatusCode?: InboundCrossClusterSearchConnectionStatusCode | undefined;
+  Message?: string | undefined;
 }
 export interface InboundCrossClusterSearchConnection {
-  SourceDomainInfo?: DomainInformation;
-  DestinationDomainInfo?: DomainInformation;
-  CrossClusterSearchConnectionId?: string;
-  ConnectionStatus?: InboundCrossClusterSearchConnectionStatus;
+  SourceDomainInfo?: DomainInformation | undefined;
+  DestinationDomainInfo?: DomainInformation | undefined;
+  CrossClusterSearchConnectionId?: string | undefined;
+  ConnectionStatus?: InboundCrossClusterSearchConnectionStatus | undefined;
 }
 export interface AcceptInboundCrossClusterSearchConnectionResponse {
-  CrossClusterSearchConnection?: InboundCrossClusterSearchConnection;
+  CrossClusterSearchConnection?: InboundCrossClusterSearchConnection | undefined;
 }
 export type ARN = string;
 export type TagKey = string;
@@ -231,22 +231,22 @@ export type ReferencePath = string;
 export type ErrorType = string;
 export type ErrorMessage = string;
 export interface ErrorDetails {
-  ErrorType?: string;
-  ErrorMessage?: string;
+  ErrorType?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface DomainPackageDetails {
-  PackageID?: string;
-  PackageName?: string;
-  PackageType?: PackageType;
-  LastUpdated?: Date;
-  DomainName?: string;
-  DomainPackageStatus?: DomainPackageStatus;
-  PackageVersion?: string;
-  ReferencePath?: string;
-  ErrorDetails?: ErrorDetails;
+  PackageID?: string | undefined;
+  PackageName?: string | undefined;
+  PackageType?: PackageType | undefined;
+  LastUpdated?: Date | undefined;
+  DomainName?: string | undefined;
+  DomainPackageStatus?: DomainPackageStatus | undefined;
+  PackageVersion?: string | undefined;
+  ReferencePath?: string | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
 }
 export interface AssociatePackageResponse {
-  DomainPackageDetails?: DomainPackageDetails;
+  DomainPackageDetails?: DomainPackageDetails | undefined;
 }
 export type AWSAccount = string;
 export interface AuthorizeVpcEndpointAccessRequest {
@@ -255,8 +255,8 @@ export interface AuthorizeVpcEndpointAccessRequest {
 }
 export type PrincipalType = "AWS_ACCOUNT" | "AWS_SERVICE" | (string & {});
 export interface AuthorizedPrincipal {
-  PrincipalType?: PrincipalType;
-  Principal?: string;
+  PrincipalType?: PrincipalType | undefined;
+  Principal?: string | undefined;
 }
 export interface AuthorizeVpcEndpointAccessResponse {
   AuthorizedPrincipal: AuthorizedPrincipal;
@@ -264,20 +264,20 @@ export interface AuthorizeVpcEndpointAccessResponse {
 export type DryRun = boolean;
 export interface CancelDomainConfigChangeRequest {
   DomainName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export type GUID = string;
 export type GUIDList = string[];
 export interface CancelledChangeProperty {
-  PropertyName?: string;
-  CancelledValue?: string;
-  ActiveValue?: string;
+  PropertyName?: string | undefined;
+  CancelledValue?: string | undefined;
+  ActiveValue?: string | undefined;
 }
 export type CancelledChangePropertyList = CancelledChangeProperty[];
 export interface CancelDomainConfigChangeResponse {
-  DryRun?: boolean;
-  CancelledChangeIds?: string[];
-  CancelledChangeProperties?: CancelledChangeProperty[];
+  DryRun?: boolean | undefined;
+  CancelledChangeIds?: string[] | undefined;
+  CancelledChangeProperties?: CancelledChangeProperty[] | undefined;
 }
 export interface CancelElasticsearchServiceSoftwareUpdateRequest {
   DomainName: string;
@@ -291,17 +291,17 @@ export type DeploymentStatus =
   | (string & {});
 export type DeploymentCloseDateTimeStamp = Date;
 export interface ServiceSoftwareOptions {
-  CurrentVersion?: string;
-  NewVersion?: string;
-  UpdateAvailable?: boolean;
-  Cancellable?: boolean;
-  UpdateStatus?: DeploymentStatus;
-  Description?: string;
-  AutomatedUpdateDate?: Date;
-  OptionalDeployment?: boolean;
+  CurrentVersion?: string | undefined;
+  NewVersion?: string | undefined;
+  UpdateAvailable?: boolean | undefined;
+  Cancellable?: boolean | undefined;
+  UpdateStatus?: DeploymentStatus | undefined;
+  Description?: string | undefined;
+  AutomatedUpdateDate?: Date | undefined;
+  OptionalDeployment?: boolean | undefined;
 }
 export interface CancelElasticsearchServiceSoftwareUpdateResponse {
-  ServiceSoftwareOptions?: ServiceSoftwareOptions;
+  ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
 }
 export type ElasticsearchVersionString = string;
 export type ESPartitionInstanceType =
@@ -366,7 +366,7 @@ export type ESPartitionInstanceType =
   | (string & {});
 export type IntegerClass = number;
 export interface ZoneAwarenessConfig {
-  AvailabilityZoneCount?: number;
+  AvailabilityZoneCount?: number | undefined;
 }
 export type ESWarmPartitionInstanceType =
   | "ultrawarm1.medium.elasticsearch"
@@ -376,51 +376,51 @@ export interface ColdStorageOptions {
   Enabled: boolean;
 }
 export interface ElasticsearchClusterConfig {
-  InstanceType?: ESPartitionInstanceType;
-  InstanceCount?: number;
-  DedicatedMasterEnabled?: boolean;
-  ZoneAwarenessEnabled?: boolean;
-  ZoneAwarenessConfig?: ZoneAwarenessConfig;
-  DedicatedMasterType?: ESPartitionInstanceType;
-  DedicatedMasterCount?: number;
-  WarmEnabled?: boolean;
-  WarmType?: ESWarmPartitionInstanceType;
-  WarmCount?: number;
-  ColdStorageOptions?: ColdStorageOptions;
+  InstanceType?: ESPartitionInstanceType | undefined;
+  InstanceCount?: number | undefined;
+  DedicatedMasterEnabled?: boolean | undefined;
+  ZoneAwarenessEnabled?: boolean | undefined;
+  ZoneAwarenessConfig?: ZoneAwarenessConfig | undefined;
+  DedicatedMasterType?: ESPartitionInstanceType | undefined;
+  DedicatedMasterCount?: number | undefined;
+  WarmEnabled?: boolean | undefined;
+  WarmType?: ESWarmPartitionInstanceType | undefined;
+  WarmCount?: number | undefined;
+  ColdStorageOptions?: ColdStorageOptions | undefined;
 }
 export type VolumeType = "standard" | "gp2" | "io1" | "gp3" | (string & {});
 export interface EBSOptions {
-  EBSEnabled?: boolean;
-  VolumeType?: VolumeType;
-  VolumeSize?: number;
-  Iops?: number;
-  Throughput?: number;
+  EBSEnabled?: boolean | undefined;
+  VolumeType?: VolumeType | undefined;
+  VolumeSize?: number | undefined;
+  Iops?: number | undefined;
+  Throughput?: number | undefined;
 }
 export type PolicyDocument = string;
 export interface SnapshotOptions {
-  AutomatedSnapshotStartHour?: number;
+  AutomatedSnapshotStartHour?: number | undefined;
 }
 export type StringList = string[];
 export interface VPCOptions {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export type UserPoolId = string;
 export type IdentityPoolId = string;
 export type RoleArn = string;
 export interface CognitoOptions {
-  Enabled?: boolean;
-  UserPoolId?: string;
-  IdentityPoolId?: string;
-  RoleArn?: string;
+  Enabled?: boolean | undefined;
+  UserPoolId?: string | undefined;
+  IdentityPoolId?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export type KmsKeyId = string;
 export interface EncryptionAtRestOptions {
-  Enabled?: boolean;
-  KmsKeyId?: string;
+  Enabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
 }
 export interface NodeToNodeEncryptionOptions {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export type AdvancedOptions = { [key: string]: string | undefined };
 export type LogType =
@@ -431,10 +431,10 @@ export type LogType =
   | (string & {});
 export type CloudWatchLogsLogGroupArn = string;
 export interface LogPublishingOption {
-  CloudWatchLogsLogGroupArn?: string;
-  Enabled?: boolean;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  Enabled?: boolean | undefined;
 }
-export type LogPublishingOptions = { [key in LogType]?: LogPublishingOption };
+export type LogPublishingOptions = { [key in LogType]?: LogPublishingOption | undefined };
 export type TLSSecurityPolicy =
   | "Policy-Min-TLS-1-0-2019-07"
   | "Policy-Min-TLS-1-2-2019-07"
@@ -443,18 +443,18 @@ export type TLSSecurityPolicy =
   | (string & {});
 export type DomainNameFqdn = string;
 export interface DomainEndpointOptions {
-  EnforceHTTPS?: boolean;
-  TLSSecurityPolicy?: TLSSecurityPolicy;
-  CustomEndpointEnabled?: boolean;
-  CustomEndpoint?: string;
-  CustomEndpointCertificateArn?: string;
+  EnforceHTTPS?: boolean | undefined;
+  TLSSecurityPolicy?: TLSSecurityPolicy | undefined;
+  CustomEndpointEnabled?: boolean | undefined;
+  CustomEndpoint?: string | undefined;
+  CustomEndpointCertificateArn?: string | undefined;
 }
 export type Username = string | redacted.Redacted<string>;
 export type Password = string | redacted.Redacted<string>;
 export interface MasterUserOptions {
-  MasterUserARN?: string;
-  MasterUserName?: string | redacted.Redacted<string>;
-  MasterUserPassword?: string | redacted.Redacted<string>;
+  MasterUserARN?: string | undefined;
+  MasterUserName?: string | redacted.Redacted<string> | undefined;
+  MasterUserPassword?: string | redacted.Redacted<string> | undefined;
 }
 export type SAMLMetadata = string;
 export type SAMLEntityId = string;
@@ -464,38 +464,38 @@ export interface SAMLIdp {
 }
 export type BackendRole = string;
 export interface SAMLOptionsInput {
-  Enabled?: boolean;
-  Idp?: SAMLIdp;
-  MasterUserName?: string | redacted.Redacted<string>;
-  MasterBackendRole?: string;
-  SubjectKey?: string;
-  RolesKey?: string;
-  SessionTimeoutMinutes?: number;
+  Enabled?: boolean | undefined;
+  Idp?: SAMLIdp | undefined;
+  MasterUserName?: string | redacted.Redacted<string> | undefined;
+  MasterBackendRole?: string | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
+  SessionTimeoutMinutes?: number | undefined;
 }
 export interface AdvancedSecurityOptionsInput {
-  Enabled?: boolean;
-  InternalUserDatabaseEnabled?: boolean;
-  MasterUserOptions?: MasterUserOptions;
-  SAMLOptions?: SAMLOptionsInput;
-  AnonymousAuthEnabled?: boolean;
+  Enabled?: boolean | undefined;
+  InternalUserDatabaseEnabled?: boolean | undefined;
+  MasterUserOptions?: MasterUserOptions | undefined;
+  SAMLOptions?: SAMLOptionsInput | undefined;
+  AnonymousAuthEnabled?: boolean | undefined;
 }
 export type AutoTuneDesiredState = "ENABLED" | "DISABLED" | (string & {});
 export type StartAt = Date;
 export type DurationValue = number;
 export type TimeUnit = "HOURS" | (string & {});
 export interface Duration {
-  Value?: number;
-  Unit?: TimeUnit;
+  Value?: number | undefined;
+  Unit?: TimeUnit | undefined;
 }
 export interface AutoTuneMaintenanceSchedule {
-  StartAt?: Date;
-  Duration?: Duration;
-  CronExpressionForRecurrence?: string;
+  StartAt?: Date | undefined;
+  Duration?: Duration | undefined;
+  CronExpressionForRecurrence?: string | undefined;
 }
 export type AutoTuneMaintenanceScheduleList = AutoTuneMaintenanceSchedule[];
 export interface AutoTuneOptionsInput {
-  DesiredState?: AutoTuneDesiredState;
-  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[];
+  DesiredState?: AutoTuneDesiredState | undefined;
+  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[] | undefined;
 }
 export type DeploymentStrategy = "Default" | "CapacityOptimized" | (string & {});
 export interface DeploymentStrategyOptions {
@@ -504,56 +504,56 @@ export interface DeploymentStrategyOptions {
 export type UpdateTimestamp = Date;
 export interface AutomatedSnapshotPauseRequestOptions {
   Enabled: boolean;
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type DomainUseCase = "SEARCH" | "VECTOR" | "OBSERVABILITY" | "MIXED" | (string & {});
 export type DomainEngineMode = "GENERAL" | "OPTIMIZED" | (string & {});
 export interface CreateElasticsearchDomainRequest {
   DomainName: string;
-  ElasticsearchVersion?: string;
-  ElasticsearchClusterConfig?: ElasticsearchClusterConfig;
-  EBSOptions?: EBSOptions;
-  AccessPolicies?: string;
-  SnapshotOptions?: SnapshotOptions;
-  VPCOptions?: VPCOptions;
-  CognitoOptions?: CognitoOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
-  DomainEndpointOptions?: DomainEndpointOptions;
-  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput;
-  AutoTuneOptions?: AutoTuneOptionsInput;
-  TagList?: Tag[];
-  DeploymentStrategyOptions?: DeploymentStrategyOptions;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions;
-  UseCase?: DomainUseCase;
-  EngineMode?: DomainEngineMode;
+  ElasticsearchVersion?: string | undefined;
+  ElasticsearchClusterConfig?: ElasticsearchClusterConfig | undefined;
+  EBSOptions?: EBSOptions | undefined;
+  AccessPolicies?: string | undefined;
+  SnapshotOptions?: SnapshotOptions | undefined;
+  VPCOptions?: VPCOptions | undefined;
+  CognitoOptions?: CognitoOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  DomainEndpointOptions?: DomainEndpointOptions | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput | undefined;
+  AutoTuneOptions?: AutoTuneOptionsInput | undefined;
+  TagList?: Tag[] | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptions | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions | undefined;
+  UseCase?: DomainUseCase | undefined;
+  EngineMode?: DomainEngineMode | undefined;
 }
 export type DomainId = string;
 export type ServiceUrl = string;
 export type EndpointsMap = { [key: string]: string | undefined };
 export interface VPCDerivedInfo {
-  VPCId?: string;
-  SubnetIds?: string[];
-  AvailabilityZones?: string[];
-  SecurityGroupIds?: string[];
+  VPCId?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  AvailabilityZones?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export interface SAMLOptionsOutput {
-  Enabled?: boolean;
-  Idp?: SAMLIdp;
-  SubjectKey?: string;
-  RolesKey?: string;
-  SessionTimeoutMinutes?: number;
+  Enabled?: boolean | undefined;
+  Idp?: SAMLIdp | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
+  SessionTimeoutMinutes?: number | undefined;
 }
 export type DisableTimestamp = Date;
 export interface AdvancedSecurityOptions {
-  Enabled?: boolean;
-  InternalUserDatabaseEnabled?: boolean;
-  SAMLOptions?: SAMLOptionsOutput;
-  AnonymousAuthDisableDate?: Date;
-  AnonymousAuthEnabled?: boolean;
+  Enabled?: boolean | undefined;
+  InternalUserDatabaseEnabled?: boolean | undefined;
+  SAMLOptions?: SAMLOptionsOutput | undefined;
+  AnonymousAuthDisableDate?: Date | undefined;
+  AnonymousAuthEnabled?: boolean | undefined;
 }
 export type AutoTuneState =
   | "ENABLED"
@@ -567,8 +567,8 @@ export type AutoTuneState =
   | "ERROR"
   | (string & {});
 export interface AutoTuneOptionsOutput {
-  State?: AutoTuneState;
-  ErrorMessage?: string;
+  State?: AutoTuneState | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type Message = string;
 export type ConfigChangeStatus =
@@ -583,12 +583,12 @@ export type ConfigChangeStatus =
   | (string & {});
 export type InitiatedBy = "CUSTOMER" | "SERVICE" | (string & {});
 export interface ChangeProgressDetails {
-  ChangeId?: string;
-  Message?: string;
-  ConfigChangeStatus?: ConfigChangeStatus;
-  StartTime?: Date;
-  LastUpdatedTime?: Date;
-  InitiatedBy?: InitiatedBy;
+  ChangeId?: string | undefined;
+  Message?: string | undefined;
+  ConfigChangeStatus?: ConfigChangeStatus | undefined;
+  StartTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  InitiatedBy?: InitiatedBy | undefined;
 }
 export type DomainProcessingStatusType =
   | "Creating"
@@ -601,54 +601,54 @@ export type DomainProcessingStatusType =
   | (string & {});
 export type PropertyValueType = "PLAIN_TEXT" | "STRINGIFIED_JSON" | (string & {});
 export interface ModifyingProperties {
-  Name?: string;
-  ActiveValue?: string;
-  PendingValue?: string;
-  ValueType?: PropertyValueType;
+  Name?: string | undefined;
+  ActiveValue?: string | undefined;
+  PendingValue?: string | undefined;
+  ValueType?: PropertyValueType | undefined;
 }
 export type ModifyingPropertiesList = ModifyingProperties[];
 export type PauseState = "Active" | "Completed" | "Scheduled" | "Disabled" | (string & {});
 export interface AutomatedSnapshotPauseOptions {
   Enabled: boolean;
-  StartTime?: Date;
-  EndTime?: Date;
-  State?: PauseState;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  State?: PauseState | undefined;
 }
 export interface ElasticsearchDomainStatus {
   DomainId: string;
   DomainName: string;
   ARN: string;
-  Created?: boolean;
-  Deleted?: boolean;
-  Endpoint?: string;
-  Endpoints?: { [key: string]: string | undefined };
-  Processing?: boolean;
-  UpgradeProcessing?: boolean;
-  ElasticsearchVersion?: string;
+  Created?: boolean | undefined;
+  Deleted?: boolean | undefined;
+  Endpoint?: string | undefined;
+  Endpoints?: { [key: string]: string | undefined } | undefined;
+  Processing?: boolean | undefined;
+  UpgradeProcessing?: boolean | undefined;
+  ElasticsearchVersion?: string | undefined;
   ElasticsearchClusterConfig: ElasticsearchClusterConfig;
-  EBSOptions?: EBSOptions;
-  AccessPolicies?: string;
-  SnapshotOptions?: SnapshotOptions;
-  VPCOptions?: VPCDerivedInfo;
-  CognitoOptions?: CognitoOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
-  ServiceSoftwareOptions?: ServiceSoftwareOptions;
-  DomainEndpointOptions?: DomainEndpointOptions;
-  AdvancedSecurityOptions?: AdvancedSecurityOptions;
-  AutoTuneOptions?: AutoTuneOptionsOutput;
-  ChangeProgressDetails?: ChangeProgressDetails;
-  DomainProcessingStatus?: DomainProcessingStatusType;
-  ModifyingProperties?: ModifyingProperties[];
-  DeploymentStrategyOptions?: DeploymentStrategyOptions;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptions;
-  UseCase?: DomainUseCase;
-  EngineMode?: DomainEngineMode;
+  EBSOptions?: EBSOptions | undefined;
+  AccessPolicies?: string | undefined;
+  SnapshotOptions?: SnapshotOptions | undefined;
+  VPCOptions?: VPCDerivedInfo | undefined;
+  CognitoOptions?: CognitoOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
+  DomainEndpointOptions?: DomainEndpointOptions | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptions | undefined;
+  AutoTuneOptions?: AutoTuneOptionsOutput | undefined;
+  ChangeProgressDetails?: ChangeProgressDetails | undefined;
+  DomainProcessingStatus?: DomainProcessingStatusType | undefined;
+  ModifyingProperties?: ModifyingProperties[] | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptions | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptions | undefined;
+  UseCase?: DomainUseCase | undefined;
+  EngineMode?: DomainEngineMode | undefined;
 }
 export interface CreateElasticsearchDomainResponse {
-  DomainStatus?: ElasticsearchDomainStatus;
+  DomainStatus?: ElasticsearchDomainStatus | undefined;
 }
 export type ConnectionAlias = string;
 export interface CreateOutboundCrossClusterSearchConnectionRequest {
@@ -667,27 +667,27 @@ export type OutboundCrossClusterSearchConnectionStatusCode =
   | "DELETED"
   | (string & {});
 export interface OutboundCrossClusterSearchConnectionStatus {
-  StatusCode?: OutboundCrossClusterSearchConnectionStatusCode;
-  Message?: string;
+  StatusCode?: OutboundCrossClusterSearchConnectionStatusCode | undefined;
+  Message?: string | undefined;
 }
 export interface CreateOutboundCrossClusterSearchConnectionResponse {
-  SourceDomainInfo?: DomainInformation;
-  DestinationDomainInfo?: DomainInformation;
-  ConnectionAlias?: string;
-  ConnectionStatus?: OutboundCrossClusterSearchConnectionStatus;
-  CrossClusterSearchConnectionId?: string;
+  SourceDomainInfo?: DomainInformation | undefined;
+  DestinationDomainInfo?: DomainInformation | undefined;
+  ConnectionAlias?: string | undefined;
+  ConnectionStatus?: OutboundCrossClusterSearchConnectionStatus | undefined;
+  CrossClusterSearchConnectionId?: string | undefined;
 }
 export type PackageDescription = string;
 export type S3BucketName = string;
 export type S3Key = string;
 export interface PackageSource {
-  S3BucketName?: string;
-  S3Key?: string;
+  S3BucketName?: string | undefined;
+  S3Key?: string | undefined;
 }
 export interface CreatePackageRequest {
   PackageName: string;
   PackageType: PackageType;
-  PackageDescription?: string;
+  PackageDescription?: string | undefined;
   PackageSource: PackageSource;
 }
 export type PackageStatus =
@@ -702,25 +702,25 @@ export type PackageStatus =
   | (string & {});
 export type CreatedAt = Date;
 export interface PackageDetails {
-  PackageID?: string;
-  PackageName?: string;
-  PackageType?: PackageType;
-  PackageDescription?: string;
-  PackageStatus?: PackageStatus;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  AvailablePackageVersion?: string;
-  ErrorDetails?: ErrorDetails;
+  PackageID?: string | undefined;
+  PackageName?: string | undefined;
+  PackageType?: PackageType | undefined;
+  PackageDescription?: string | undefined;
+  PackageStatus?: PackageStatus | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  AvailablePackageVersion?: string | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
 }
 export interface CreatePackageResponse {
-  PackageDetails?: PackageDetails;
+  PackageDetails?: PackageDetails | undefined;
 }
 export type DomainArn = string;
 export type ClientToken = string;
 export interface CreateVpcEndpointRequest {
   DomainArn: string;
   VpcOptions: VPCOptions;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export type VpcEndpointId = string;
 export type VpcEndpointStatus =
@@ -734,12 +734,12 @@ export type VpcEndpointStatus =
   | (string & {});
 export type Endpoint = string;
 export interface VpcEndpoint {
-  VpcEndpointId?: string;
-  VpcEndpointOwner?: string;
-  DomainArn?: string;
-  VpcOptions?: VPCDerivedInfo;
-  Status?: VpcEndpointStatus;
-  Endpoint?: string;
+  VpcEndpointId?: string | undefined;
+  VpcEndpointOwner?: string | undefined;
+  DomainArn?: string | undefined;
+  VpcOptions?: VPCDerivedInfo | undefined;
+  Status?: VpcEndpointStatus | undefined;
+  Endpoint?: string | undefined;
 }
 export interface CreateVpcEndpointResponse {
   VpcEndpoint: VpcEndpoint;
@@ -748,7 +748,7 @@ export interface DeleteElasticsearchDomainRequest {
   DomainName: string;
 }
 export interface DeleteElasticsearchDomainResponse {
-  DomainStatus?: ElasticsearchDomainStatus;
+  DomainStatus?: ElasticsearchDomainStatus | undefined;
 }
 export interface DeleteElasticsearchServiceRoleRequest {}
 export interface DeleteElasticsearchServiceRoleResponse {}
@@ -756,35 +756,35 @@ export interface DeleteInboundCrossClusterSearchConnectionRequest {
   CrossClusterSearchConnectionId: string;
 }
 export interface DeleteInboundCrossClusterSearchConnectionResponse {
-  CrossClusterSearchConnection?: InboundCrossClusterSearchConnection;
+  CrossClusterSearchConnection?: InboundCrossClusterSearchConnection | undefined;
 }
 export interface DeleteOutboundCrossClusterSearchConnectionRequest {
   CrossClusterSearchConnectionId: string;
 }
 export interface OutboundCrossClusterSearchConnection {
-  SourceDomainInfo?: DomainInformation;
-  DestinationDomainInfo?: DomainInformation;
-  CrossClusterSearchConnectionId?: string;
-  ConnectionAlias?: string;
-  ConnectionStatus?: OutboundCrossClusterSearchConnectionStatus;
+  SourceDomainInfo?: DomainInformation | undefined;
+  DestinationDomainInfo?: DomainInformation | undefined;
+  CrossClusterSearchConnectionId?: string | undefined;
+  ConnectionAlias?: string | undefined;
+  ConnectionStatus?: OutboundCrossClusterSearchConnectionStatus | undefined;
 }
 export interface DeleteOutboundCrossClusterSearchConnectionResponse {
-  CrossClusterSearchConnection?: OutboundCrossClusterSearchConnection;
+  CrossClusterSearchConnection?: OutboundCrossClusterSearchConnection | undefined;
 }
 export interface DeletePackageRequest {
   PackageID: string;
 }
 export interface DeletePackageResponse {
-  PackageDetails?: PackageDetails;
+  PackageDetails?: PackageDetails | undefined;
 }
 export interface DeleteVpcEndpointRequest {
   VpcEndpointId: string;
 }
 export interface VpcEndpointSummary {
-  VpcEndpointId?: string;
-  VpcEndpointOwner?: string;
-  DomainArn?: string;
-  Status?: VpcEndpointStatus;
+  VpcEndpointId?: string | undefined;
+  VpcEndpointOwner?: string | undefined;
+  DomainArn?: string | undefined;
+  Status?: VpcEndpointStatus | undefined;
 }
 export interface DeleteVpcEndpointResponse {
   VpcEndpointSummary: VpcEndpointSummary;
@@ -793,8 +793,8 @@ export type MaxResults = number;
 export type NextToken = string;
 export interface DescribeDomainAutoTunesRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AutoTuneType = "SCHEDULED_ACTION" | (string & {});
 export type AutoTuneDate = Date;
@@ -805,26 +805,26 @@ export type ScheduledAutoTuneActionType =
 export type ScheduledAutoTuneDescription = string;
 export type ScheduledAutoTuneSeverityType = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export interface ScheduledAutoTuneDetails {
-  Date?: Date;
-  ActionType?: ScheduledAutoTuneActionType;
-  Action?: string;
-  Severity?: ScheduledAutoTuneSeverityType;
+  Date?: Date | undefined;
+  ActionType?: ScheduledAutoTuneActionType | undefined;
+  Action?: string | undefined;
+  Severity?: ScheduledAutoTuneSeverityType | undefined;
 }
 export interface AutoTuneDetails {
-  ScheduledAutoTuneDetails?: ScheduledAutoTuneDetails;
+  ScheduledAutoTuneDetails?: ScheduledAutoTuneDetails | undefined;
 }
 export interface AutoTune {
-  AutoTuneType?: AutoTuneType;
-  AutoTuneDetails?: AutoTuneDetails;
+  AutoTuneType?: AutoTuneType | undefined;
+  AutoTuneDetails?: AutoTuneDetails | undefined;
 }
 export type AutoTuneList = AutoTune[];
 export interface DescribeDomainAutoTunesResponse {
-  AutoTunes?: AutoTune[];
-  NextToken?: string;
+  AutoTunes?: AutoTune[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeDomainChangeProgressRequest {
   DomainName: string;
-  ChangeId?: string;
+  ChangeId?: string | undefined;
 }
 export type OverallChangeStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED" | (string & {});
 export type TotalNumberOfStages = number;
@@ -832,26 +832,45 @@ export type ChangeProgressStageName = string;
 export type ChangeProgressStageStatus = string;
 export type Description = string;
 export interface ChangeProgressStage {
-  Name?: string;
-  Status?: string;
-  Description?: string;
-  LastUpdated?: Date;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  Description?: string | undefined;
+  LastUpdated?: Date | undefined;
 }
 export type ChangeProgressStageList = ChangeProgressStage[];
+export type TrafficPercent = number;
+export interface TrafficPercents {
+  PrimaryReadTrafficPercent: number;
+  CloneReadTrafficPercent: number;
+}
+export type ClonedBlueGreenScheduledActionType =
+  | "AutomaticCutoverToPrimaryCluster"
+  | "DeletePrimaryCluster"
+  | (string & {});
+export interface ClonedBlueGreenScheduledAction {
+  Action?: ClonedBlueGreenScheduledActionType | undefined;
+  ScheduledTime?: Date | undefined;
+}
+export interface ClonedBlueGreenUpgradeDetails {
+  TrafficSplit?: TrafficPercents | undefined;
+  ScheduledAction?: ClonedBlueGreenScheduledAction | undefined;
+  RetentionInHours?: number | undefined;
+}
 export interface ChangeProgressStatusDetails {
-  ChangeId?: string;
-  StartTime?: Date;
-  Status?: OverallChangeStatus;
-  PendingProperties?: string[];
-  CompletedProperties?: string[];
-  TotalNumberOfStages?: number;
-  ChangeProgressStages?: ChangeProgressStage[];
-  ConfigChangeStatus?: ConfigChangeStatus;
-  LastUpdatedTime?: Date;
-  InitiatedBy?: InitiatedBy;
+  ChangeId?: string | undefined;
+  StartTime?: Date | undefined;
+  Status?: OverallChangeStatus | undefined;
+  PendingProperties?: string[] | undefined;
+  CompletedProperties?: string[] | undefined;
+  TotalNumberOfStages?: number | undefined;
+  ChangeProgressStages?: ChangeProgressStage[] | undefined;
+  ConfigChangeStatus?: ConfigChangeStatus | undefined;
+  LastUpdatedTime?: Date | undefined;
+  InitiatedBy?: InitiatedBy | undefined;
+  ClonedBlueGreenUpgradeDetails?: ClonedBlueGreenUpgradeDetails | undefined;
 }
 export interface DescribeDomainChangeProgressResponse {
-  ChangeProgressStatus?: ChangeProgressStatusDetails;
+  ChangeProgressStatus?: ChangeProgressStatusDetails | undefined;
 }
 export interface DescribeElasticsearchDomainRequest {
   DomainName: string;
@@ -867,9 +886,9 @@ export type OptionState = "RequiresIndexDocuments" | "Processing" | "Active" | (
 export interface OptionStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number;
+  UpdateVersion?: number | undefined;
   State: OptionState;
-  PendingDeletion?: boolean;
+  PendingDeletion?: boolean | undefined;
 }
 export interface ElasticsearchVersionStatus {
   Options: string;
@@ -912,8 +931,8 @@ export interface AdvancedOptionsStatus {
   Status: OptionStatus;
 }
 export interface LogPublishingOptionsStatus {
-  Options?: { [key: string]: LogPublishingOption | undefined };
-  Status?: OptionStatus;
+  Options?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  Status?: OptionStatus | undefined;
 }
 export interface DomainEndpointOptionsStatus {
   Options: DomainEndpointOptions;
@@ -925,21 +944,21 @@ export interface AdvancedSecurityOptionsStatus {
 }
 export type RollbackOnDisable = "NO_ROLLBACK" | "DEFAULT_ROLLBACK" | (string & {});
 export interface AutoTuneOptions {
-  DesiredState?: AutoTuneDesiredState;
-  RollbackOnDisable?: RollbackOnDisable;
-  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[];
+  DesiredState?: AutoTuneDesiredState | undefined;
+  RollbackOnDisable?: RollbackOnDisable | undefined;
+  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[] | undefined;
 }
 export interface AutoTuneStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number;
+  UpdateVersion?: number | undefined;
   State: AutoTuneState;
-  ErrorMessage?: string;
-  PendingDeletion?: boolean;
+  ErrorMessage?: string | undefined;
+  PendingDeletion?: boolean | undefined;
 }
 export interface AutoTuneOptionsStatus {
-  Options?: AutoTuneOptions;
-  Status?: AutoTuneStatus;
+  Options?: AutoTuneOptions | undefined;
+  Status?: AutoTuneStatus | undefined;
 }
 export interface DeploymentStrategyOptionsStatus {
   Options: DeploymentStrategyOptions;
@@ -958,26 +977,26 @@ export interface EngineModeStatus {
   Status: OptionStatus;
 }
 export interface ElasticsearchDomainConfig {
-  ElasticsearchVersion?: ElasticsearchVersionStatus;
-  ElasticsearchClusterConfig?: ElasticsearchClusterConfigStatus;
-  EBSOptions?: EBSOptionsStatus;
-  AccessPolicies?: AccessPoliciesStatus;
-  SnapshotOptions?: SnapshotOptionsStatus;
-  VPCOptions?: VPCDerivedInfoStatus;
-  CognitoOptions?: CognitoOptionsStatus;
-  EncryptionAtRestOptions?: EncryptionAtRestOptionsStatus;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptionsStatus;
-  AdvancedOptions?: AdvancedOptionsStatus;
-  LogPublishingOptions?: LogPublishingOptionsStatus;
-  DomainEndpointOptions?: DomainEndpointOptionsStatus;
-  AdvancedSecurityOptions?: AdvancedSecurityOptionsStatus;
-  AutoTuneOptions?: AutoTuneOptionsStatus;
-  ChangeProgressDetails?: ChangeProgressDetails;
-  ModifyingProperties?: ModifyingProperties[];
-  DeploymentStrategyOptions?: DeploymentStrategyOptionsStatus;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptionsStatus;
-  UseCase?: UseCaseStatus;
-  EngineMode?: EngineModeStatus;
+  ElasticsearchVersion?: ElasticsearchVersionStatus | undefined;
+  ElasticsearchClusterConfig?: ElasticsearchClusterConfigStatus | undefined;
+  EBSOptions?: EBSOptionsStatus | undefined;
+  AccessPolicies?: AccessPoliciesStatus | undefined;
+  SnapshotOptions?: SnapshotOptionsStatus | undefined;
+  VPCOptions?: VPCDerivedInfoStatus | undefined;
+  CognitoOptions?: CognitoOptionsStatus | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptionsStatus | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptionsStatus | undefined;
+  AdvancedOptions?: AdvancedOptionsStatus | undefined;
+  LogPublishingOptions?: LogPublishingOptionsStatus | undefined;
+  DomainEndpointOptions?: DomainEndpointOptionsStatus | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptionsStatus | undefined;
+  AutoTuneOptions?: AutoTuneOptionsStatus | undefined;
+  ChangeProgressDetails?: ChangeProgressDetails | undefined;
+  ModifyingProperties?: ModifyingProperties[] | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptionsStatus | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptionsStatus | undefined;
+  UseCase?: UseCaseStatus | undefined;
+  EngineMode?: EngineModeStatus | undefined;
 }
 export interface DescribeElasticsearchDomainConfigResponse {
   DomainConfig: ElasticsearchDomainConfig;
@@ -991,7 +1010,7 @@ export interface DescribeElasticsearchDomainsResponse {
   DomainStatusList: ElasticsearchDomainStatus[];
 }
 export interface DescribeElasticsearchInstanceTypeLimitsRequest {
-  DomainName?: string;
+  DomainName?: string | undefined;
   InstanceType: ESPartitionInstanceType;
   ElasticsearchVersion: string;
 }
@@ -1002,65 +1021,65 @@ export type LimitName = string;
 export type LimitValue = string;
 export type LimitValueList = string[];
 export interface StorageTypeLimit {
-  LimitName?: string;
-  LimitValues?: string[];
+  LimitName?: string | undefined;
+  LimitValues?: string[] | undefined;
 }
 export type StorageTypeLimitList = StorageTypeLimit[];
 export interface StorageType {
-  StorageTypeName?: string;
-  StorageSubTypeName?: string;
-  StorageTypeLimits?: StorageTypeLimit[];
+  StorageTypeName?: string | undefined;
+  StorageSubTypeName?: string | undefined;
+  StorageTypeLimits?: StorageTypeLimit[] | undefined;
 }
 export type StorageTypeList = StorageType[];
 export type MinimumInstanceCount = number;
 export type MaximumInstanceCount = number;
 export interface InstanceCountLimits {
-  MinimumInstanceCount?: number;
-  MaximumInstanceCount?: number;
+  MinimumInstanceCount?: number | undefined;
+  MaximumInstanceCount?: number | undefined;
 }
 export interface InstanceLimits {
-  InstanceCountLimits?: InstanceCountLimits;
+  InstanceCountLimits?: InstanceCountLimits | undefined;
 }
 export interface AdditionalLimit {
-  LimitName?: string;
-  LimitValues?: string[];
+  LimitName?: string | undefined;
+  LimitValues?: string[] | undefined;
 }
 export type AdditionalLimitList = AdditionalLimit[];
 export interface Limits {
-  StorageTypes?: StorageType[];
-  InstanceLimits?: InstanceLimits;
-  AdditionalLimits?: AdditionalLimit[];
+  StorageTypes?: StorageType[] | undefined;
+  InstanceLimits?: InstanceLimits | undefined;
+  AdditionalLimits?: AdditionalLimit[] | undefined;
 }
 export type LimitsByRole = { [key: string]: Limits | undefined };
 export interface DescribeElasticsearchInstanceTypeLimitsResponse {
-  LimitsByRole?: { [key: string]: Limits | undefined };
+  LimitsByRole?: { [key: string]: Limits | undefined } | undefined;
 }
 export type NonEmptyString = string;
 export type ValueStringList = string[];
 export interface Filter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type FilterList = Filter[];
 export interface DescribeInboundCrossClusterSearchConnectionsRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type InboundCrossClusterSearchConnections = InboundCrossClusterSearchConnection[];
 export interface DescribeInboundCrossClusterSearchConnectionsResponse {
-  CrossClusterSearchConnections?: InboundCrossClusterSearchConnection[];
-  NextToken?: string;
+  CrossClusterSearchConnections?: InboundCrossClusterSearchConnection[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeOutboundCrossClusterSearchConnectionsRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type OutboundCrossClusterSearchConnections = OutboundCrossClusterSearchConnection[];
 export interface DescribeOutboundCrossClusterSearchConnectionsResponse {
-  CrossClusterSearchConnections?: OutboundCrossClusterSearchConnection[];
-  NextToken?: string;
+  CrossClusterSearchConnections?: OutboundCrossClusterSearchConnection[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DescribePackagesFilterName =
   | "PackageID"
@@ -1070,24 +1089,24 @@ export type DescribePackagesFilterName =
 export type DescribePackagesFilterValue = string;
 export type DescribePackagesFilterValues = string[];
 export interface DescribePackagesFilter {
-  Name?: DescribePackagesFilterName;
-  Value?: string[];
+  Name?: DescribePackagesFilterName | undefined;
+  Value?: string[] | undefined;
 }
 export type DescribePackagesFilterList = DescribePackagesFilter[];
 export interface DescribePackagesRequest {
-  Filters?: DescribePackagesFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: DescribePackagesFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PackageDetailsList = PackageDetails[];
 export interface DescribePackagesResponse {
-  PackageDetailsList?: PackageDetails[];
-  NextToken?: string;
+  PackageDetailsList?: PackageDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeReservedElasticsearchInstanceOfferingsRequest {
-  ReservedElasticsearchInstanceOfferingId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ReservedElasticsearchInstanceOfferingId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ReservedElasticsearchInstancePaymentOption =
   | "ALL_UPFRONT"
@@ -1095,50 +1114,50 @@ export type ReservedElasticsearchInstancePaymentOption =
   | "NO_UPFRONT"
   | (string & {});
 export interface RecurringCharge {
-  RecurringChargeAmount?: number;
-  RecurringChargeFrequency?: string;
+  RecurringChargeAmount?: number | undefined;
+  RecurringChargeFrequency?: string | undefined;
 }
 export type RecurringChargeList = RecurringCharge[];
 export interface ReservedElasticsearchInstanceOffering {
-  ReservedElasticsearchInstanceOfferingId?: string;
-  ElasticsearchInstanceType?: ESPartitionInstanceType;
-  Duration?: number;
-  FixedPrice?: number;
-  UsagePrice?: number;
-  CurrencyCode?: string;
-  PaymentOption?: ReservedElasticsearchInstancePaymentOption;
-  RecurringCharges?: RecurringCharge[];
+  ReservedElasticsearchInstanceOfferingId?: string | undefined;
+  ElasticsearchInstanceType?: ESPartitionInstanceType | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  UsagePrice?: number | undefined;
+  CurrencyCode?: string | undefined;
+  PaymentOption?: ReservedElasticsearchInstancePaymentOption | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
 }
 export type ReservedElasticsearchInstanceOfferingList = ReservedElasticsearchInstanceOffering[];
 export interface DescribeReservedElasticsearchInstanceOfferingsResponse {
-  NextToken?: string;
-  ReservedElasticsearchInstanceOfferings?: ReservedElasticsearchInstanceOffering[];
+  NextToken?: string | undefined;
+  ReservedElasticsearchInstanceOfferings?: ReservedElasticsearchInstanceOffering[] | undefined;
 }
 export interface DescribeReservedElasticsearchInstancesRequest {
-  ReservedElasticsearchInstanceId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ReservedElasticsearchInstanceId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ReservationToken = string;
 export interface ReservedElasticsearchInstance {
-  ReservationName?: string;
-  ReservedElasticsearchInstanceId?: string;
-  ReservedElasticsearchInstanceOfferingId?: string;
-  ElasticsearchInstanceType?: ESPartitionInstanceType;
-  StartTime?: Date;
-  Duration?: number;
-  FixedPrice?: number;
-  UsagePrice?: number;
-  CurrencyCode?: string;
-  ElasticsearchInstanceCount?: number;
-  State?: string;
-  PaymentOption?: ReservedElasticsearchInstancePaymentOption;
-  RecurringCharges?: RecurringCharge[];
+  ReservationName?: string | undefined;
+  ReservedElasticsearchInstanceId?: string | undefined;
+  ReservedElasticsearchInstanceOfferingId?: string | undefined;
+  ElasticsearchInstanceType?: ESPartitionInstanceType | undefined;
+  StartTime?: Date | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  UsagePrice?: number | undefined;
+  CurrencyCode?: string | undefined;
+  ElasticsearchInstanceCount?: number | undefined;
+  State?: string | undefined;
+  PaymentOption?: ReservedElasticsearchInstancePaymentOption | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
 }
 export type ReservedElasticsearchInstanceList = ReservedElasticsearchInstance[];
 export interface DescribeReservedElasticsearchInstancesResponse {
-  NextToken?: string;
-  ReservedElasticsearchInstances?: ReservedElasticsearchInstance[];
+  NextToken?: string | undefined;
+  ReservedElasticsearchInstances?: ReservedElasticsearchInstance[] | undefined;
 }
 export type VpcEndpointIdList = string[];
 export interface DescribeVpcEndpointsRequest {
@@ -1147,9 +1166,9 @@ export interface DescribeVpcEndpointsRequest {
 export type VpcEndpoints = VpcEndpoint[];
 export type VpcEndpointErrorCode = "ENDPOINT_NOT_FOUND" | "SERVER_ERROR" | (string & {});
 export interface VpcEndpointError {
-  VpcEndpointId?: string;
-  ErrorCode?: VpcEndpointErrorCode;
-  ErrorMessage?: string;
+  VpcEndpointId?: string | undefined;
+  ErrorCode?: VpcEndpointErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type VpcEndpointErrorList = VpcEndpointError[];
 export interface DescribeVpcEndpointsResponse {
@@ -1161,41 +1180,41 @@ export interface DissociatePackageRequest {
   DomainName: string;
 }
 export interface DissociatePackageResponse {
-  DomainPackageDetails?: DomainPackageDetails;
+  DomainPackageDetails?: DomainPackageDetails | undefined;
 }
 export interface GetCompatibleElasticsearchVersionsRequest {
-  DomainName?: string;
+  DomainName?: string | undefined;
 }
 export type ElasticsearchVersionList = string[];
 export interface CompatibleVersionsMap {
-  SourceVersion?: string;
-  TargetVersions?: string[];
+  SourceVersion?: string | undefined;
+  TargetVersions?: string[] | undefined;
 }
 export type CompatibleElasticsearchVersionsList = CompatibleVersionsMap[];
 export interface GetCompatibleElasticsearchVersionsResponse {
-  CompatibleElasticsearchVersions?: CompatibleVersionsMap[];
+  CompatibleElasticsearchVersions?: CompatibleVersionsMap[] | undefined;
 }
 export interface GetPackageVersionHistoryRequest {
   PackageID: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type CommitMessage = string;
 export interface PackageVersionHistory {
-  PackageVersion?: string;
-  CommitMessage?: string;
-  CreatedAt?: Date;
+  PackageVersion?: string | undefined;
+  CommitMessage?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type PackageVersionHistoryList = PackageVersionHistory[];
 export interface GetPackageVersionHistoryResponse {
-  PackageID?: string;
-  PackageVersionHistoryList?: PackageVersionHistory[];
-  NextToken?: string;
+  PackageID?: string | undefined;
+  PackageVersionHistoryList?: PackageVersionHistory[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetUpgradeHistoryRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type UpgradeName = string;
 export type StartTimestamp = Date;
@@ -1209,90 +1228,90 @@ export type UpgradeStep = "PRE_UPGRADE_CHECK" | "SNAPSHOT" | "UPGRADE" | (string
 export type Issue = string;
 export type Issues = string[];
 export interface UpgradeStepItem {
-  UpgradeStep?: UpgradeStep;
-  UpgradeStepStatus?: UpgradeStatus;
-  Issues?: string[];
-  ProgressPercent?: number;
+  UpgradeStep?: UpgradeStep | undefined;
+  UpgradeStepStatus?: UpgradeStatus | undefined;
+  Issues?: string[] | undefined;
+  ProgressPercent?: number | undefined;
 }
 export type UpgradeStepsList = UpgradeStepItem[];
 export interface UpgradeHistory {
-  UpgradeName?: string;
-  StartTimestamp?: Date;
-  UpgradeStatus?: UpgradeStatus;
-  StepsList?: UpgradeStepItem[];
+  UpgradeName?: string | undefined;
+  StartTimestamp?: Date | undefined;
+  UpgradeStatus?: UpgradeStatus | undefined;
+  StepsList?: UpgradeStepItem[] | undefined;
 }
 export type UpgradeHistoryList = UpgradeHistory[];
 export interface GetUpgradeHistoryResponse {
-  UpgradeHistories?: UpgradeHistory[];
-  NextToken?: string;
+  UpgradeHistories?: UpgradeHistory[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetUpgradeStatusRequest {
   DomainName: string;
 }
 export interface GetUpgradeStatusResponse {
-  UpgradeStep?: UpgradeStep;
-  StepStatus?: UpgradeStatus;
-  UpgradeName?: string;
+  UpgradeStep?: UpgradeStep | undefined;
+  StepStatus?: UpgradeStatus | undefined;
+  UpgradeName?: string | undefined;
 }
 export type EngineType = "OpenSearch" | "Elasticsearch" | (string & {});
 export interface ListDomainNamesRequest {
-  EngineType?: EngineType;
+  EngineType?: EngineType | undefined;
 }
 export interface DomainInfo {
-  DomainName?: string;
-  EngineType?: EngineType;
+  DomainName?: string | undefined;
+  EngineType?: EngineType | undefined;
 }
 export type DomainInfoList = DomainInfo[];
 export interface ListDomainNamesResponse {
-  DomainNames?: DomainInfo[];
+  DomainNames?: DomainInfo[] | undefined;
 }
 export interface ListDomainsForPackageRequest {
   PackageID: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DomainPackageDetailsList = DomainPackageDetails[];
 export interface ListDomainsForPackageResponse {
-  DomainPackageDetailsList?: DomainPackageDetails[];
-  NextToken?: string;
+  DomainPackageDetailsList?: DomainPackageDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListElasticsearchInstanceTypesRequest {
   ElasticsearchVersion: string;
-  DomainName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  DomainName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ElasticsearchInstanceTypeList = ESPartitionInstanceType[];
 export interface ListElasticsearchInstanceTypesResponse {
-  ElasticsearchInstanceTypes?: ESPartitionInstanceType[];
-  NextToken?: string;
+  ElasticsearchInstanceTypes?: ESPartitionInstanceType[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListElasticsearchVersionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListElasticsearchVersionsResponse {
-  ElasticsearchVersions?: string[];
-  NextToken?: string;
+  ElasticsearchVersions?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPackagesForDomainRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPackagesForDomainResponse {
-  DomainPackageDetailsList?: DomainPackageDetails[];
-  NextToken?: string;
+  DomainPackageDetailsList?: DomainPackageDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsRequest {
   ARN: string;
 }
 export interface ListTagsResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface ListVpcEndpointAccessRequest {
   DomainName: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type AuthorizedPrincipalList = AuthorizedPrincipal[];
 export interface ListVpcEndpointAccessResponse {
@@ -1300,7 +1319,7 @@ export interface ListVpcEndpointAccessResponse {
   NextToken: string;
 }
 export interface ListVpcEndpointsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type VpcEndpointSummaryList = VpcEndpointSummary[];
 export interface ListVpcEndpointsResponse {
@@ -1309,7 +1328,7 @@ export interface ListVpcEndpointsResponse {
 }
 export interface ListVpcEndpointsForDomainRequest {
   DomainName: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListVpcEndpointsForDomainResponse {
   VpcEndpointSummaryList: VpcEndpointSummary[];
@@ -1319,17 +1338,17 @@ export type InstanceCount = number;
 export interface PurchaseReservedElasticsearchInstanceOfferingRequest {
   ReservedElasticsearchInstanceOfferingId: string;
   ReservationName: string;
-  InstanceCount?: number;
+  InstanceCount?: number | undefined;
 }
 export interface PurchaseReservedElasticsearchInstanceOfferingResponse {
-  ReservedElasticsearchInstanceId?: string;
-  ReservationName?: string;
+  ReservedElasticsearchInstanceId?: string | undefined;
+  ReservationName?: string | undefined;
 }
 export interface RejectInboundCrossClusterSearchConnectionRequest {
   CrossClusterSearchConnectionId: string;
 }
 export interface RejectInboundCrossClusterSearchConnectionResponse {
-  CrossClusterSearchConnection?: InboundCrossClusterSearchConnection;
+  CrossClusterSearchConnection?: InboundCrossClusterSearchConnection | undefined;
 }
 export interface RemoveTagsRequest {
   ARN: string;
@@ -1345,46 +1364,83 @@ export interface StartElasticsearchServiceSoftwareUpdateRequest {
   DomainName: string;
 }
 export interface StartElasticsearchServiceSoftwareUpdateResponse {
-  ServiceSoftwareOptions?: ServiceSoftwareOptions;
+  ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
+}
+export type TrafficStrategy = "ShiftReadTrafficPercent" | (string & {});
+export interface TrafficSplitRequestOptions {
+  Strategy: TrafficStrategy;
+  CloneReadTrafficPercent: number;
+}
+export type CutoverTarget = "ClonedCluster" | "PrimaryCluster" | (string & {});
+export interface CutoverRequestOptions {
+  Target: CutoverTarget;
+}
+export type RetentionAction = "RollbackToPrimaryCluster" | "DeletePrimaryCluster" | (string & {});
+export type RetentionOptions =
+  | { RetentionInHours: number; RetentionAction?: undefined }
+  | { RetentionInHours?: undefined; RetentionAction: RetentionAction };
+export interface UpdateCloneRequest {
+  DomainName: string;
+  TrafficSplitOptions?: TrafficSplitRequestOptions | undefined;
+  CutoverOptions?: CutoverRequestOptions | undefined;
+  RetentionOptions?: RetentionOptions | undefined;
+}
+export type CutoverStatus = "InProgress" | "Completed" | "Failed" | (string & {});
+export interface CutoverOptions {
+  Target: CutoverTarget;
+  Status: CutoverStatus;
+}
+export type TrafficSplitStatus = "InProgress" | "Completed" | "Failed" | (string & {});
+export interface TrafficSplitOptions {
+  Current: TrafficPercents;
+  Target: TrafficPercents;
+  Status: TrafficSplitStatus;
+}
+export interface UpdateCloneResponse {
+  DomainName: string;
+  ChangeId: string;
+  CutoverOptions?: CutoverOptions | undefined;
+  TrafficSplitOptions?: TrafficSplitOptions | undefined;
+  RetentionOptions?: RetentionOptions | undefined;
 }
 export interface UpdateElasticsearchDomainConfigRequest {
   DomainName: string;
-  ElasticsearchClusterConfig?: ElasticsearchClusterConfig;
-  EBSOptions?: EBSOptions;
-  SnapshotOptions?: SnapshotOptions;
-  VPCOptions?: VPCOptions;
-  CognitoOptions?: CognitoOptions;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  AccessPolicies?: string;
-  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
-  DomainEndpointOptions?: DomainEndpointOptions;
-  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  AutoTuneOptions?: AutoTuneOptions;
-  DryRun?: boolean;
-  DeploymentStrategyOptions?: DeploymentStrategyOptions;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions;
-  UseCase?: DomainUseCase;
-  EngineMode?: DomainEngineMode;
+  ElasticsearchClusterConfig?: ElasticsearchClusterConfig | undefined;
+  EBSOptions?: EBSOptions | undefined;
+  SnapshotOptions?: SnapshotOptions | undefined;
+  VPCOptions?: VPCOptions | undefined;
+  CognitoOptions?: CognitoOptions | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  AccessPolicies?: string | undefined;
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  DomainEndpointOptions?: DomainEndpointOptions | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  AutoTuneOptions?: AutoTuneOptions | undefined;
+  DryRun?: boolean | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptions | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions | undefined;
+  UseCase?: DomainUseCase | undefined;
+  EngineMode?: DomainEngineMode | undefined;
 }
 export type DeploymentType = string;
 export interface DryRunResults {
-  DeploymentType?: string;
-  Message?: string;
+  DeploymentType?: string | undefined;
+  Message?: string | undefined;
 }
 export interface UpdateElasticsearchDomainConfigResponse {
   DomainConfig: ElasticsearchDomainConfig;
-  DryRunResults?: DryRunResults;
+  DryRunResults?: DryRunResults | undefined;
 }
 export interface UpdatePackageRequest {
   PackageID: string;
   PackageSource: PackageSource;
-  PackageDescription?: string;
-  CommitMessage?: string;
+  PackageDescription?: string | undefined;
+  CommitMessage?: string | undefined;
 }
 export interface UpdatePackageResponse {
-  PackageDetails?: PackageDetails;
+  PackageDetails?: PackageDetails | undefined;
 }
 export interface UpdateVpcEndpointRequest {
   VpcEndpointId: string;
@@ -1393,16 +1449,26 @@ export interface UpdateVpcEndpointRequest {
 export interface UpdateVpcEndpointResponse {
   VpcEndpoint: VpcEndpoint;
 }
+export type DeploymentStrategyOverride = "ClonedBlueGreen" | (string & {});
+export interface ClonedBlueGreenOptions {
+  RetentionOptions?: RetentionOptions | undefined;
+}
+export interface DeploymentStrategyOverrideOptions {
+  DeploymentStrategy: DeploymentStrategyOverride;
+  ClonedBlueGreenOptions?: ClonedBlueGreenOptions | undefined;
+}
 export interface UpgradeElasticsearchDomainRequest {
   DomainName: string;
   TargetVersion: string;
-  PerformCheckOnly?: boolean;
+  PerformCheckOnly?: boolean | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOverrideOptions | undefined;
 }
 export interface UpgradeElasticsearchDomainResponse {
-  DomainName?: string;
-  TargetVersion?: string;
-  PerformCheckOnly?: boolean;
-  ChangeProgressDetails?: ChangeProgressDetails;
+  DomainName?: string | undefined;
+  TargetVersion?: string | undefined;
+  PerformCheckOnly?: boolean | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOverrideOptions | undefined;
+  ChangeProgressDetails?: ChangeProgressDetails | undefined;
 }
 export type AcceptInboundCrossClusterSearchConnectionError =
   | DisabledOperationException
@@ -1922,7 +1988,7 @@ export const describeDomainChangeProgress: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<DescribeDomainChangeProgressRequest>,
-  output: __S(1412, __c44, 4) as any as S.Schema<DescribeDomainChangeProgressResponse>,
+  output: __S(1414, __c44, 6) as any as S.Schema<DescribeDomainChangeProgressResponse>,
   errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1946,8 +2012,8 @@ export const describeElasticsearchDomain: API.OperationMethod<
   DescribeElasticsearchDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DescribeElasticsearchDomainRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<DescribeElasticsearchDomainResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<DescribeElasticsearchDomainRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<DescribeElasticsearchDomainResponse>,
   errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1971,8 +2037,8 @@ export const describeElasticsearchDomainConfig: API.OperationMethod<
   DescribeElasticsearchDomainConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<DescribeElasticsearchDomainConfigRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<DescribeElasticsearchDomainConfigResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DescribeElasticsearchDomainConfigRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<DescribeElasticsearchDomainConfigResponse>,
   errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1995,8 +2061,8 @@ export const describeElasticsearchDomains: API.OperationMethod<
   DescribeElasticsearchDomainsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DescribeElasticsearchDomainsRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<DescribeElasticsearchDomainsResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DescribeElasticsearchDomainsRequest>,
+  output: __S(1570, __c49, 2) as any as S.Schema<DescribeElasticsearchDomainsResponse>,
   errors: [BaseException, InternalException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2027,8 +2093,8 @@ export const describeElasticsearchInstanceTypeLimits: API.OperationMethod<
   DescribeElasticsearchInstanceTypeLimitsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DescribeElasticsearchInstanceTypeLimitsRequest>,
-  output: __S(1577, __c49, 9) as any as S.Schema<DescribeElasticsearchInstanceTypeLimitsResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DescribeElasticsearchInstanceTypeLimitsRequest>,
+  output: __S(1609, __c50, 9) as any as S.Schema<DescribeElasticsearchInstanceTypeLimitsResponse>,
   errors: [
     BaseException,
     InternalException,
@@ -2059,13 +2125,13 @@ export const describeInboundCrossClusterSearchConnections: API.PaginatedOperatio
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1600,
-    __c50,
+    1632,
+    __c51,
     0,
   ) as any as S.Schema<DescribeInboundCrossClusterSearchConnectionsRequest>,
   output: __S(
-    1602,
-    __c50,
+    1634,
+    __c51,
     2,
   ) as any as S.Schema<DescribeInboundCrossClusterSearchConnectionsResponse>,
   errors: [DisabledOperationException, InvalidPaginationTokenException],
@@ -2096,13 +2162,13 @@ export const describeOutboundCrossClusterSearchConnections: API.PaginatedOperati
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1664,
-    __c52,
+    1696,
+    __c53,
     0,
   ) as any as S.Schema<DescribeOutboundCrossClusterSearchConnectionsRequest>,
   output: __S(
-    1666,
-    __c52,
+    1698,
+    __c53,
     2,
   ) as any as S.Schema<DescribeOutboundCrossClusterSearchConnectionsResponse>,
   errors: [DisabledOperationException, InvalidPaginationTokenException],
@@ -2135,8 +2201,8 @@ export const describePackages: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1698, __c53, 2) as any as S.Schema<DescribePackagesRequest>,
-  output: __S(1700, __c53, 4) as any as S.Schema<DescribePackagesResponse>,
+  input: __S(1730, __c54, 2) as any as S.Schema<DescribePackagesRequest>,
+  output: __S(1732, __c54, 4) as any as S.Schema<DescribePackagesResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -2173,13 +2239,13 @@ export const describeReservedElasticsearchInstanceOfferings: API.PaginatedOperat
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1728,
-    __c54,
+    1760,
+    __c55,
     0,
   ) as any as S.Schema<DescribeReservedElasticsearchInstanceOfferingsRequest>,
   output: __S(
-    1731,
-    __c54,
+    1763,
+    __c55,
     3,
   ) as any as S.Schema<DescribeReservedElasticsearchInstanceOfferingsResponse>,
   errors: [
@@ -2216,8 +2282,8 @@ export const describeReservedElasticsearchInstances: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<DescribeReservedElasticsearchInstancesRequest>,
-  output: __S(1795, __c56, 3) as any as S.Schema<DescribeReservedElasticsearchInstancesResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DescribeReservedElasticsearchInstancesRequest>,
+  output: __S(1827, __c57, 3) as any as S.Schema<DescribeReservedElasticsearchInstancesResponse>,
   errors: [
     DisabledOperationException,
     InternalException,
@@ -2251,8 +2317,8 @@ export const describeVpcEndpoints: API.OperationMethod<
   DescribeVpcEndpointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<DescribeVpcEndpointsRequest>,
-  output: __S(1828, __c57, 4) as any as S.Schema<DescribeVpcEndpointsResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<DescribeVpcEndpointsRequest>,
+  output: __S(1860, __c58, 4) as any as S.Schema<DescribeVpcEndpointsResponse>,
   errors: [BaseException, DisabledOperationException, InternalException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2278,7 +2344,7 @@ export const dissociatePackage: API.OperationMethod<
   DissociatePackageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<DissociatePackageRequest>,
+  input: __S(1888, __c59, 0) as any as S.Schema<DissociatePackageRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<DissociatePackageResponse>,
   errors: [
     AccessDeniedException,
@@ -2316,8 +2382,8 @@ export const getCompatibleElasticsearchVersions: API.OperationMethod<
   GetCompatibleElasticsearchVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetCompatibleElasticsearchVersionsRequest>,
-  output: __S(1891, __c59, 3) as any as S.Schema<GetCompatibleElasticsearchVersionsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetCompatibleElasticsearchVersionsRequest>,
+  output: __S(1923, __c60, 3) as any as S.Schema<GetCompatibleElasticsearchVersionsResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -2349,8 +2415,8 @@ export const getPackageVersionHistory: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetPackageVersionHistoryRequest>,
-  output: __S(1923, __c60, 3) as any as S.Schema<GetPackageVersionHistoryResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetPackageVersionHistoryRequest>,
+  output: __S(1955, __c61, 3) as any as S.Schema<GetPackageVersionHistoryResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -2387,8 +2453,8 @@ export const getUpgradeHistory: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetUpgradeHistoryRequest>,
-  output: __S(1957, __c61, 5) as any as S.Schema<GetUpgradeHistoryResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<GetUpgradeHistoryRequest>,
+  output: __S(1989, __c62, 5) as any as S.Schema<GetUpgradeHistoryResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -2424,8 +2490,8 @@ export const getUpgradeStatus: API.OperationMethod<
   GetUpgradeStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<GetUpgradeStatusRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<GetUpgradeStatusResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetUpgradeStatusRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<GetUpgradeStatusResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -2450,8 +2516,8 @@ export const listDomainNames: API.OperationMethod<
   ListDomainNamesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListDomainNamesRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<ListDomainNamesResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListDomainNamesRequest>,
+  output: __S(2051, __c64, 3) as any as S.Schema<ListDomainNamesResponse>,
   errors: [BaseException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2477,8 +2543,8 @@ export const listDomainsForPackage: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListDomainsForPackageRequest>,
-  output: __S(2081, __c65, 1) as any as S.Schema<ListDomainsForPackageResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListDomainsForPackageRequest>,
+  output: __S(2113, __c66, 1) as any as S.Schema<ListDomainsForPackageResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -2514,8 +2580,8 @@ export const listElasticsearchInstanceTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListElasticsearchInstanceTypesRequest>,
-  output: __S(2114, __c66, 2) as any as S.Schema<ListElasticsearchInstanceTypesResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListElasticsearchInstanceTypesRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<ListElasticsearchInstanceTypesResponse>,
   errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2545,8 +2611,8 @@ export const listElasticsearchVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListElasticsearchVersionsRequest>,
-  output: __S(2145, __c67, 1) as any as S.Schema<ListElasticsearchVersionsResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListElasticsearchVersionsRequest>,
+  output: __S(2177, __c68, 1) as any as S.Schema<ListElasticsearchVersionsResponse>,
   errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2577,8 +2643,8 @@ export const listPackagesForDomain: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<ListPackagesForDomainRequest>,
-  output: __S(2081, __c65, 1) as any as S.Schema<ListPackagesForDomainResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListPackagesForDomainRequest>,
+  output: __S(2113, __c66, 1) as any as S.Schema<ListPackagesForDomainResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -2613,8 +2679,8 @@ export const listTags: API.OperationMethod<
   ListTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListTagsRequest>,
-  output: __S(2209, __c69, 1) as any as S.Schema<ListTagsResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(2241, __c70, 1) as any as S.Schema<ListTagsResponse>,
   errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2639,8 +2705,8 @@ export const listVpcEndpointAccess: API.OperationMethod<
   ListVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListVpcEndpointAccessRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<ListVpcEndpointAccessResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListVpcEndpointAccessRequest>,
+  output: __S(2274, __c71, 2) as any as S.Schema<ListVpcEndpointAccessResponse>,
   errors: [BaseException, DisabledOperationException, InternalException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2663,8 +2729,8 @@ export const listVpcEndpoints: API.OperationMethod<
   ListVpcEndpointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListVpcEndpointsRequest>,
-  output: __S(2305, __c72, 1) as any as S.Schema<ListVpcEndpointsResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ListVpcEndpointsRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<ListVpcEndpointsResponse>,
   errors: [BaseException, DisabledOperationException, InternalException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2688,8 +2754,8 @@ export const listVpcEndpointsForDomain: API.OperationMethod<
   ListVpcEndpointsForDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListVpcEndpointsForDomainRequest>,
-  output: __S(2305, __c72, 1) as any as S.Schema<ListVpcEndpointsForDomainResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListVpcEndpointsForDomainRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<ListVpcEndpointsForDomainResponse>,
   errors: [BaseException, DisabledOperationException, InternalException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2716,13 +2782,13 @@ export const purchaseReservedElasticsearchInstanceOffering: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2368,
-    __c74,
+    2400,
+    __c75,
     0,
   ) as any as S.Schema<PurchaseReservedElasticsearchInstanceOfferingRequest>,
   output: __S(
-    2369,
-    __c74,
+    2401,
+    __c75,
     1,
   ) as any as S.Schema<PurchaseReservedElasticsearchInstanceOfferingResponse>,
   errors: [
@@ -2753,7 +2819,7 @@ export const rejectInboundCrossClusterSearchConnection: API.OperationMethod<
   RejectInboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<RejectInboundCrossClusterSearchConnectionRequest>,
+  input: __S(2432, __c76, 0) as any as S.Schema<RejectInboundCrossClusterSearchConnectionRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<RejectInboundCrossClusterSearchConnectionResponse>,
   errors: [DisabledOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
@@ -2777,7 +2843,7 @@ export const removeTags: API.OperationMethod<
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<RemoveTagsRequest>,
+  input: __S(2464, __c77, 0) as any as S.Schema<RemoveTagsRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<RemoveTagsResponse>,
   errors: [BaseException, InternalException, ValidationException],
   protocol: AwsProtocol,
@@ -2804,7 +2870,7 @@ export const revokeVpcEndpointAccess: API.OperationMethod<
   RevokeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<RevokeVpcEndpointAccessRequest>,
+  input: __S(2496, __c78, 0) as any as S.Schema<RevokeVpcEndpointAccessRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<RevokeVpcEndpointAccessResponse>,
   errors: [
     BaseException,
@@ -2835,7 +2901,7 @@ export const startElasticsearchServiceSoftwareUpdate: API.OperationMethod<
   StartElasticsearchServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<StartElasticsearchServiceSoftwareUpdateRequest>,
+  input: __S(2528, __c79, 0) as any as S.Schema<StartElasticsearchServiceSoftwareUpdateRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<StartElasticsearchServiceSoftwareUpdateResponse>,
   errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
@@ -2843,6 +2909,38 @@ export const startElasticsearchServiceSoftwareUpdate: API.OperationMethod<
   operationName: "StartElasticsearchServiceSoftwareUpdate",
   telemetry: TELEMETRY,
   span: "StartElasticsearchServiceSoftwareUpdate",
+}));
+
+export type UpdateCloneError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Manages a cloned blue/green upgrade that is in progress on a domain. Use it to shift a percentage of search traffic to the cloned cluster, to cut over to the cloned cluster or back to the primary cluster, or to change the retention period. Specify exactly one of `TrafficSplitOptions`, `CutoverOptions`, or `RetentionOptions` in each request.
+ */
+export const updateClone: API.OperationMethod<
+  UpdateCloneRequest & RegionInput,
+  UpdateCloneResponse,
+  UpdateCloneError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2562, __c80, 2) as any as S.Schema<UpdateCloneRequest>,
+  output: __S(2565, __c80, 5) as any as S.Schema<UpdateCloneResponse>,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateClone",
+  telemetry: TELEMETRY,
+  span: "UpdateClone",
 }));
 
 export type UpdateElasticsearchDomainConfigError =
@@ -2862,8 +2960,8 @@ export const updateElasticsearchDomainConfig: API.OperationMethod<
   UpdateElasticsearchDomainConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<UpdateElasticsearchDomainConfigRequest>,
-  output: __S(2530, __c79, 2) as any as S.Schema<UpdateElasticsearchDomainConfigResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<UpdateElasticsearchDomainConfigRequest>,
+  output: __S(2626, __c82, 2) as any as S.Schema<UpdateElasticsearchDomainConfigResponse>,
   errors: [
     BaseException,
     InternalException,
@@ -2896,7 +2994,7 @@ export const updatePackage: API.OperationMethod<
   UpdatePackageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<UpdatePackageRequest>,
+  input: __S(2656, __c83, 0) as any as S.Schema<UpdatePackageRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<UpdatePackageResponse>,
   errors: [
     AccessDeniedException,
@@ -2930,7 +3028,7 @@ export const updateVpcEndpoint: API.OperationMethod<
   UpdateVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<UpdateVpcEndpointRequest>,
+  input: __S(2688, __c84, 0) as any as S.Schema<UpdateVpcEndpointRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<UpdateVpcEndpointResponse>,
   errors: [
     BaseException,
@@ -2964,8 +3062,8 @@ export const upgradeElasticsearchDomain: API.OperationMethod<
   UpgradeElasticsearchDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<UpgradeElasticsearchDomainRequest>,
-  output: __S(2625, __c82, 1) as any as S.Schema<UpgradeElasticsearchDomainResponse>,
+  input: __S(2722, __c85, 2) as any as S.Schema<UpgradeElasticsearchDomainRequest>,
+  output: __S(2723, __c85, 3) as any as S.Schema<UpgradeElasticsearchDomainResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -3957,6 +4055,21 @@ function __c44(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          Action: S.optional(S.String),
+          ScheduledTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ClonedBlueGreenScheduledAction" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          TrafficSplit: S.optional(__S(1440, __c45, 0)),
+          ScheduledAction: S.optional(__S(1411, __c44, 3)),
+          RetentionInHours: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ClonedBlueGreenUpgradeDetails" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           ChangeId: S.optional(S.String),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Status: S.optional(S.String),
@@ -3967,15 +4080,24 @@ function __c44(j: number): any {
           ConfigChangeStatus: S.optional(S.String),
           LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           InitiatedBy: S.optional(S.String),
+          ClonedBlueGreenUpgradeDetails: S.optional(__S(1412, __c44, 4)),
         }),
       ).annotate({ identifier: "ChangeProgressStatusDetails" });
-    case 4:
+    case 6:
       return S.suspend(() =>
-        S.Struct({ ChangeProgressStatus: S.optional(__S(1411, __c44, 3)) }).pipe(ns),
+        S.Struct({ ChangeProgressStatus: S.optional(__S(1413, __c44, 5)) }).pipe(ns),
       ).annotate({ identifier: "DescribeDomainChangeProgressResponse" });
   }
 }
 function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PrimaryReadTrafficPercent: S.Number, CloneReadTrafficPercent: S.Number }),
+      ).annotate({ identifier: "TrafficPercents" });
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3997,7 +4119,7 @@ function __c45(j: number): any {
       });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4014,12 +4136,12 @@ function __c46(j: number): any {
         ),
       ).annotate({ identifier: "DescribeElasticsearchDomainConfigRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ DomainConfig: __S(1523, __c47, 19) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ DomainConfig: __S(1555, __c48, 19) }).pipe(ns)).annotate({
         identifier: "DescribeElasticsearchDomainConfigResponse",
       });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4032,55 +4154,55 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "OptionStatus" });
     case 1:
-      return S.suspend(() => S.Struct({ Options: S.String, Status: __S(1504, __c47, 0) })).annotate(
+      return S.suspend(() => S.Struct({ Options: S.String, Status: __S(1536, __c48, 0) })).annotate(
         { identifier: "ElasticsearchVersionStatus" },
       );
     case 2:
       return S.suspend(() =>
-        S.Struct({ Options: __S(706, __c22, 2), Status: __S(1504, __c47, 0) }),
+        S.Struct({ Options: __S(706, __c22, 2), Status: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "ElasticsearchClusterConfigStatus" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ Options: __S(707, __c22, 3), Status: __S(1504, __c47, 0) }),
+        S.Struct({ Options: __S(707, __c22, 3), Status: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "EBSOptionsStatus" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ Options: __S(708, __c22, 4), Status: __S(1504, __c47, 0) }),
+        S.Struct({ Options: __S(708, __c22, 4), Status: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "SnapshotOptionsStatus" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ Options: __S(608, __c19, 0), Status: __S(1504, __c47, 0) }),
+        S.Struct({ Options: __S(608, __c19, 0), Status: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "VPCDerivedInfoStatus" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ Options: __S(709, __c22, 5), Status: __S(1504, __c47, 0) }),
+        S.Struct({ Options: __S(709, __c22, 5), Status: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "CognitoOptionsStatus" });
     case 7:
       return S.suspend(() =>
-        S.Struct({ Options: __S(710, __c22, 6), Status: __S(1504, __c47, 0) }),
+        S.Struct({ Options: __S(710, __c22, 6), Status: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "EncryptionAtRestOptionsStatus" });
     case 8:
       return S.suspend(() =>
-        S.Struct({ Options: __S(711, __c22, 7), Status: __S(1504, __c47, 0) }),
+        S.Struct({ Options: __S(711, __c22, 7), Status: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "NodeToNodeEncryptionOptionsStatus" });
     case 9:
       return S.suspend(() =>
-        S.Struct({ Options: __S(712, __c22, 8), Status: __S(1504, __c47, 0) }),
+        S.Struct({ Options: __S(712, __c22, 8), Status: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "AdvancedOptionsStatus" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           Options: S.optional(__S(714, __c22, 10)),
-          Status: S.optional(__S(1504, __c47, 0)),
+          Status: S.optional(__S(1536, __c48, 0)),
         }),
       ).annotate({ identifier: "LogPublishingOptionsStatus" });
     case 11:
       return S.suspend(() =>
-        S.Struct({ Options: __S(715, __c22, 11), Status: __S(1504, __c47, 0) }),
+        S.Struct({ Options: __S(715, __c22, 11), Status: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "DomainEndpointOptionsStatus" });
     case 12:
       return S.suspend(() =>
-        S.Struct({ Options: __S(719, __c22, 15), Status: __S(1504, __c47, 0) }),
+        S.Struct({ Options: __S(719, __c22, 15), Status: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "AdvancedSecurityOptionsStatus" });
     case 13:
       return S.suspend(() =>
@@ -4104,50 +4226,50 @@ function __c47(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          Options: S.optional(__S(1517, __c47, 13)),
-          Status: S.optional(__S(1518, __c47, 14)),
+          Options: S.optional(__S(1549, __c48, 13)),
+          Status: S.optional(__S(1550, __c48, 14)),
         }),
       ).annotate({ identifier: "AutoTuneOptionsStatus" });
     case 16:
       return S.suspend(() =>
-        S.Struct({ Options: __S(717, __c22, 13), Status: __S(1504, __c47, 0) }),
+        S.Struct({ Options: __S(717, __c22, 13), Status: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "DeploymentStrategyOptionsStatus" });
     case 17:
       return S.suspend(() =>
-        S.Struct({ Options: __S(722, __c22, 18), Status: __S(1504, __c47, 0) }),
+        S.Struct({ Options: __S(722, __c22, 18), Status: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "AutomatedSnapshotPauseOptionsStatus" });
     case 18:
-      return S.suspend(() => S.Struct({ Options: S.String, Status: __S(1504, __c47, 0) })).annotate(
+      return S.suspend(() => S.Struct({ Options: S.String, Status: __S(1536, __c48, 0) })).annotate(
         { identifier: "UseCaseStatus" },
       );
     case 19:
       return S.suspend(() =>
         S.Struct({
-          ElasticsearchVersion: S.optional(__S(1505, __c47, 1)),
-          ElasticsearchClusterConfig: S.optional(__S(1506, __c47, 2)),
-          EBSOptions: S.optional(__S(1507, __c47, 3)),
-          AccessPolicies: S.optional(__S(1505, __c47, 1)),
-          SnapshotOptions: S.optional(__S(1508, __c47, 4)),
-          VPCOptions: S.optional(__S(1509, __c47, 5)),
-          CognitoOptions: S.optional(__S(1510, __c47, 6)),
-          EncryptionAtRestOptions: S.optional(__S(1511, __c47, 7)),
-          NodeToNodeEncryptionOptions: S.optional(__S(1512, __c47, 8)),
-          AdvancedOptions: S.optional(__S(1513, __c47, 9)),
-          LogPublishingOptions: S.optional(__S(1514, __c47, 10)),
-          DomainEndpointOptions: S.optional(__S(1515, __c47, 11)),
-          AdvancedSecurityOptions: S.optional(__S(1516, __c47, 12)),
-          AutoTuneOptions: S.optional(__S(1519, __c47, 15)),
+          ElasticsearchVersion: S.optional(__S(1537, __c48, 1)),
+          ElasticsearchClusterConfig: S.optional(__S(1538, __c48, 2)),
+          EBSOptions: S.optional(__S(1539, __c48, 3)),
+          AccessPolicies: S.optional(__S(1537, __c48, 1)),
+          SnapshotOptions: S.optional(__S(1540, __c48, 4)),
+          VPCOptions: S.optional(__S(1541, __c48, 5)),
+          CognitoOptions: S.optional(__S(1542, __c48, 6)),
+          EncryptionAtRestOptions: S.optional(__S(1543, __c48, 7)),
+          NodeToNodeEncryptionOptions: S.optional(__S(1544, __c48, 8)),
+          AdvancedOptions: S.optional(__S(1545, __c48, 9)),
+          LogPublishingOptions: S.optional(__S(1546, __c48, 10)),
+          DomainEndpointOptions: S.optional(__S(1547, __c48, 11)),
+          AdvancedSecurityOptions: S.optional(__S(1548, __c48, 12)),
+          AutoTuneOptions: S.optional(__S(1551, __c48, 15)),
           ChangeProgressDetails: S.optional(__S(736, __c23, 0)),
           ModifyingProperties: S.optional(__S(721, __c22, 17)),
-          DeploymentStrategyOptions: S.optional(__S(1520, __c47, 16)),
-          AutomatedSnapshotPauseOptions: S.optional(__S(1521, __c47, 17)),
-          UseCase: S.optional(__S(1522, __c47, 18)),
-          EngineMode: S.optional(__S(1522, __c47, 18)),
+          DeploymentStrategyOptions: S.optional(__S(1552, __c48, 16)),
+          AutomatedSnapshotPauseOptions: S.optional(__S(1553, __c48, 17)),
+          UseCase: S.optional(__S(1554, __c48, 18)),
+          EngineMode: S.optional(__S(1554, __c48, 18)),
         }),
       ).annotate({ identifier: "ElasticsearchDomainConfig" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4166,12 +4288,12 @@ function __c48(j: number): any {
     case 1:
       return S.Array(__S(769, __c24, 1));
     case 2:
-      return S.suspend(() => S.Struct({ DomainStatusList: __S(1537, __c48, 1) }).pipe(ns)).annotate(
+      return S.suspend(() => S.Struct({ DomainStatusList: __S(1569, __c49, 1) }).pipe(ns)).annotate(
         { identifier: "DescribeElasticsearchDomainsResponse" },
       );
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4199,17 +4321,17 @@ function __c49(j: number): any {
         S.Struct({ LimitName: S.optional(S.String), LimitValues: S.optional(__S(448, __c14, 0)) }),
       ).annotate({ identifier: "StorageTypeLimit" });
     case 2:
-      return S.Array(__S(1569, __c49, 1));
+      return S.Array(__S(1601, __c50, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           StorageTypeName: S.optional(S.String),
           StorageSubTypeName: S.optional(S.String),
-          StorageTypeLimits: S.optional(__S(1570, __c49, 2)),
+          StorageTypeLimits: S.optional(__S(1602, __c50, 2)),
         }),
       ).annotate({ identifier: "StorageType" });
     case 4:
-      return S.Array(__S(1571, __c49, 3));
+      return S.Array(__S(1603, __c50, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4219,30 +4341,30 @@ function __c49(j: number): any {
       ).annotate({ identifier: "InstanceCountLimits" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ InstanceCountLimits: S.optional(__S(1573, __c49, 5)) }),
+        S.Struct({ InstanceCountLimits: S.optional(__S(1605, __c50, 5)) }),
       ).annotate({ identifier: "InstanceLimits" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          StorageTypes: S.optional(__S(1572, __c49, 4)),
-          InstanceLimits: S.optional(__S(1574, __c49, 6)),
-          AdditionalLimits: S.optional(__S(1570, __c49, 2)),
+          StorageTypes: S.optional(__S(1604, __c50, 4)),
+          InstanceLimits: S.optional(__S(1606, __c50, 6)),
+          AdditionalLimits: S.optional(__S(1602, __c50, 2)),
         }),
       ).annotate({ identifier: "Limits" });
     case 8:
-      return S.Record(S.String, /*@__PURE__*/ __S(1575, __c49, 7).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1607, __c50, 7).pipe(S.optional));
     case 9:
       return S.suspend(() =>
-        S.Struct({ LimitsByRole: S.optional(__S(1576, __c49, 8)) }).pipe(ns),
+        S.Struct({ LimitsByRole: S.optional(__S(1608, __c50, 8)) }).pipe(ns),
       ).annotate({ identifier: "DescribeElasticsearchInstanceTypeLimitsResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(1633, __c51, 1)),
+          Filters: S.optional(__S(1665, __c52, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(
@@ -4262,28 +4384,28 @@ function __c50(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          CrossClusterSearchConnections: S.optional(__S(1601, __c50, 1)),
+          CrossClusterSearchConnections: S.optional(__S(1633, __c51, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeInboundCrossClusterSearchConnectionsResponse" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(448, __c14, 0)) }),
-      ).annotate({ identifier: "Filter" });
-    case 1:
-      return S.Array(__S(1632, __c51, 0));
   }
 }
 function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(448, __c14, 0)) }),
+      ).annotate({ identifier: "Filter" });
+    case 1:
+      return S.Array(__S(1664, __c52, 0));
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(1633, __c51, 1)),
+          Filters: S.optional(__S(1665, __c52, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(
@@ -4303,24 +4425,24 @@ function __c52(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          CrossClusterSearchConnections: S.optional(__S(1665, __c52, 1)),
+          CrossClusterSearchConnections: S.optional(__S(1697, __c53, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeOutboundCrossClusterSearchConnectionsResponse" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Name: S.optional(S.String), Value: S.optional(__S(448, __c14, 0)) }),
       ).annotate({ identifier: "DescribePackagesFilter" });
     case 1:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(1728, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(1697, __c53, 1)),
+          Filters: S.optional(__S(1729, __c54, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(
@@ -4340,13 +4462,13 @@ function __c53(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          PackageDetailsList: S.optional(__S(1699, __c53, 3)),
+          PackageDetailsList: S.optional(__S(1731, __c54, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribePackagesResponse" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4378,12 +4500,12 @@ function __c54(j: number): any {
           UsagePrice: S.optional(S.Number),
           CurrencyCode: S.optional(S.String),
           PaymentOption: S.optional(S.String),
-          RecurringCharges: S.optional(__S(1761, __c55, 1)),
+          RecurringCharges: S.optional(__S(1793, __c56, 1)),
         }),
       ).annotate({ identifier: "ReservedElasticsearchInstanceOffering" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(1729, __c54, 1)
+        /*@__PURE__*/ __S(1761, __c55, 1)
           .pipe(/*@__PURE__*/ T.XmlName("ReservedElasticsearchInstanceOffering"))
           .annotate({ identifier: "ReservedElasticsearchInstanceOffering" }),
       );
@@ -4391,12 +4513,12 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          ReservedElasticsearchInstanceOfferings: S.optional(__S(1730, __c54, 2)),
+          ReservedElasticsearchInstanceOfferings: S.optional(__S(1762, __c55, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeReservedElasticsearchInstanceOfferingsResponse" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4407,13 +4529,13 @@ function __c55(j: number): any {
       ).annotate({ identifier: "RecurringCharge" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(1760, __c55, 0)
+        /*@__PURE__*/ __S(1792, __c56, 0)
           .pipe(/*@__PURE__*/ T.XmlName("RecurringCharge"))
           .annotate({ identifier: "RecurringCharge" }),
       );
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4448,21 +4570,21 @@ function __c56(j: number): any {
           ElasticsearchInstanceCount: S.optional(S.Number),
           State: S.optional(S.String),
           PaymentOption: S.optional(S.String),
-          RecurringCharges: S.optional(__S(1761, __c55, 1)),
+          RecurringCharges: S.optional(__S(1793, __c56, 1)),
         }),
       ).annotate({ identifier: "ReservedElasticsearchInstance" });
     case 2:
-      return S.Array(__S(1793, __c56, 1));
+      return S.Array(__S(1825, __c57, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          ReservedElasticsearchInstances: S.optional(__S(1794, __c56, 2)),
+          ReservedElasticsearchInstances: S.optional(__S(1826, __c57, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeReservedElasticsearchInstancesResponse" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4489,17 +4611,17 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "VpcEndpointError" });
     case 3:
-      return S.Array(__S(1826, __c57, 2));
+      return S.Array(__S(1858, __c58, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          VpcEndpoints: __S(1825, __c57, 1),
-          VpcEndpointErrors: __S(1827, __c57, 3),
+          VpcEndpoints: __S(1857, __c58, 1),
+          VpcEndpointErrors: __S(1859, __c58, 3),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeVpcEndpointsResponse" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4523,7 +4645,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DissociatePackageRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4547,14 +4669,14 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "CompatibleVersionsMap" });
     case 2:
-      return S.Array(__S(1889, __c59, 1));
+      return S.Array(__S(1921, __c60, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ CompatibleElasticsearchVersions: S.optional(__S(1890, __c59, 2)) }).pipe(ns),
+        S.Struct({ CompatibleElasticsearchVersions: S.optional(__S(1922, __c60, 2)) }).pipe(ns),
       ).annotate({ identifier: "GetCompatibleElasticsearchVersionsResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4583,18 +4705,18 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "PackageVersionHistory" });
     case 2:
-      return S.Array(__S(1921, __c60, 1));
+      return S.Array(__S(1953, __c61, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           PackageID: S.optional(S.String),
-          PackageVersionHistoryList: S.optional(__S(1922, __c60, 2)),
+          PackageVersionHistoryList: S.optional(__S(1954, __c61, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetPackageVersionHistoryResponse" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4624,28 +4746,28 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "UpgradeStepItem" });
     case 2:
-      return S.Array(__S(1953, __c61, 1));
+      return S.Array(__S(1985, __c62, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           UpgradeName: S.optional(S.String),
           StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpgradeStatus: S.optional(S.String),
-          StepsList: S.optional(__S(1954, __c61, 2)),
+          StepsList: S.optional(__S(1986, __c62, 2)),
         }),
       ).annotate({ identifier: "UpgradeHistory" });
     case 4:
-      return S.Array(__S(1955, __c61, 3));
+      return S.Array(__S(1987, __c62, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          UpgradeHistories: S.optional(__S(1956, __c61, 4)),
+          UpgradeHistories: S.optional(__S(1988, __c62, 4)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetUpgradeHistoryResponse" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4671,7 +4793,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GetUpgradeStatusResponse" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4692,14 +4814,14 @@ function __c63(j: number): any {
         S.Struct({ DomainName: S.optional(S.String), EngineType: S.optional(S.String) }),
       ).annotate({ identifier: "DomainInfo" });
     case 2:
-      return S.Array(__S(2017, __c63, 1));
+      return S.Array(__S(2049, __c64, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ DomainNames: S.optional(__S(2018, __c63, 2)) }).pipe(ns),
+        S.Struct({ DomainNames: S.optional(__S(2050, __c64, 2)) }).pipe(ns),
       ).annotate({ identifier: "ListDomainNamesResponse" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4721,20 +4843,20 @@ function __c64(j: number): any {
       ).annotate({ identifier: "ListDomainsForPackageRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(320, __c10, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DomainPackageDetailsList: S.optional(__S(2080, __c65, 0)),
+          DomainPackageDetailsList: S.optional(__S(2112, __c66, 0)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListDomainsForPackageResponse" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4760,13 +4882,13 @@ function __c66(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ElasticsearchInstanceTypes: S.optional(__S(2113, __c66, 1)),
+          ElasticsearchInstanceTypes: S.optional(__S(2145, __c67, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListElasticsearchInstanceTypesResponse" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4794,7 +4916,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "ListElasticsearchVersionsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4816,7 +4938,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "ListPackagesForDomainRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4838,7 +4960,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ListTagsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4864,11 +4986,11 @@ function __c70(j: number): any {
       return S.Array(__S(384, __c12, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ AuthorizedPrincipalList: __S(2241, __c70, 1), NextToken: S.String }).pipe(ns),
+        S.Struct({ AuthorizedPrincipalList: __S(2273, __c71, 1), NextToken: S.String }).pipe(ns),
       ).annotate({ identifier: "ListVpcEndpointAccessResponse" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4886,17 +5008,17 @@ function __c71(j: number): any {
       ).annotate({ identifier: "ListVpcEndpointsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1344, __c42, 0));
     case 1:
       return S.suspend(() =>
-        S.Struct({ VpcEndpointSummaryList: __S(2304, __c72, 0), NextToken: S.String }).pipe(ns),
+        S.Struct({ VpcEndpointSummaryList: __S(2336, __c73, 0), NextToken: S.String }).pipe(ns),
       ).annotate({ identifier: "ListVpcEndpointsResponse" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4917,7 +5039,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "ListVpcEndpointsForDomainRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4946,7 +5068,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "PurchaseReservedElasticsearchInstanceOfferingResponse" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4971,7 +5093,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "RejectInboundCrossClusterSearchConnectionRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4989,7 +5111,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "RemoveTagsRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5010,7 +5132,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "RevokeVpcEndpointAccessRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5028,7 +5150,65 @@ function __c78(j: number): any {
       ).annotate({ identifier: "StartElasticsearchServiceSoftwareUpdateRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Strategy: S.String, CloneReadTrafficPercent: S.Number }),
+      ).annotate({ identifier: "TrafficSplitRequestOptions" });
+    case 1:
+      return S.suspend(() => S.Struct({ Target: S.String })).annotate({
+        identifier: "CutoverRequestOptions",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          TrafficSplitOptions: S.optional(__S(2560, __c80, 0)),
+          CutoverOptions: S.optional(__S(2561, __c80, 1)),
+          RetentionOptions: S.optional(__S(2592, __c81, 0)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2015-01-01/es/domain/{DomainName}/clone" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateCloneRequest" });
+    case 3:
+      return S.suspend(() => S.Struct({ Target: S.String, Status: S.String })).annotate({
+        identifier: "CutoverOptions",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ Current: __S(1440, __c45, 0), Target: __S(1440, __c45, 0), Status: S.String }),
+      ).annotate({ identifier: "TrafficSplitOptions" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String,
+          ChangeId: S.String,
+          CutoverOptions: S.optional(__S(2563, __c80, 3)),
+          TrafficSplitOptions: S.optional(__S(2564, __c80, 4)),
+          RetentionOptions: S.optional(__S(2592, __c81, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "UpdateCloneResponse" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ RetentionInHours: S.Number }),
+        /*@__PURE__*/ S.Struct({ RetentionAction: S.String }),
+      ]);
+  }
+}
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5046,7 +5226,7 @@ function __c79(j: number): any {
           AdvancedSecurityOptions: S.optional(__S(834, __c26, 2)),
           NodeToNodeEncryptionOptions: S.optional(__S(711, __c22, 7)),
           EncryptionAtRestOptions: S.optional(__S(710, __c22, 6)),
-          AutoTuneOptions: S.optional(__S(1517, __c47, 13)),
+          AutoTuneOptions: S.optional(__S(1549, __c48, 13)),
           DryRun: S.optional(S.Boolean),
           DeploymentStrategyOptions: S.optional(__S(717, __c22, 13)),
           AutomatedSnapshotPauseOptions: S.optional(__S(835, __c26, 3)),
@@ -5071,13 +5251,13 @@ function __c79(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DomainConfig: __S(1523, __c47, 19),
-          DryRunResults: S.optional(__S(2529, __c79, 1)),
+          DomainConfig: __S(1555, __c48, 19),
+          DryRunResults: S.optional(__S(2625, __c82, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "UpdateElasticsearchDomainConfigResponse" });
   }
 }
-function __c80(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5100,7 +5280,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "UpdatePackageRequest" });
   }
 }
-function __c81(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5118,14 +5298,26 @@ function __c81(j: number): any {
       ).annotate({ identifier: "UpdateVpcEndpointRequest" });
   }
 }
-function __c82(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({ RetentionOptions: S.optional(__S(2592, __c81, 0)) }),
+      ).annotate({ identifier: "ClonedBlueGreenOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DeploymentStrategy: S.String,
+          ClonedBlueGreenOptions: S.optional(__S(2720, __c85, 0)),
+        }),
+      ).annotate({ identifier: "DeploymentStrategyOverrideOptions" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           DomainName: S.String,
           TargetVersion: S.String,
           PerformCheckOnly: S.optional(S.Boolean),
+          DeploymentStrategyOptions: S.optional(__S(2721, __c85, 1)),
         }).pipe(
           T.all(
             ns,
@@ -5138,12 +5330,13 @@ function __c82(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpgradeElasticsearchDomainRequest" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           DomainName: S.optional(S.String),
           TargetVersion: S.optional(S.String),
           PerformCheckOnly: S.optional(S.Boolean),
+          DeploymentStrategyOptions: S.optional(__S(2721, __c85, 1)),
           ChangeProgressDetails: S.optional(__S(736, __c23, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "UpgradeElasticsearchDomainResponse" });

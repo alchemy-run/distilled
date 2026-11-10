@@ -246,7 +246,7 @@ export type MatchFieldType =
 export type MatchFieldData = string;
 export interface FieldToMatch {
   Type: MatchFieldType;
-  Data?: string;
+  Data?: string | undefined;
 }
 export type ByteMatchTargetString = Uint8Array;
 export type TextTransformation =
@@ -273,12 +273,12 @@ export interface ByteMatchTuple {
 export type ByteMatchTuples = ByteMatchTuple[];
 export interface ByteMatchSet {
   ByteMatchSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   ByteMatchTuples: ByteMatchTuple[];
 }
 export interface CreateByteMatchSetResponse {
-  ByteMatchSet?: ByteMatchSet;
-  ChangeToken?: string;
+  ByteMatchSet?: ByteMatchSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateGeoMatchSetRequest {
   Name: string;
@@ -543,12 +543,12 @@ export interface GeoMatchConstraint {
 export type GeoMatchConstraints = GeoMatchConstraint[];
 export interface GeoMatchSet {
   GeoMatchSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   GeoMatchConstraints: GeoMatchConstraint[];
 }
 export interface CreateGeoMatchSetResponse {
-  GeoMatchSet?: GeoMatchSet;
-  ChangeToken?: string;
+  GeoMatchSet?: GeoMatchSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateIPSetRequest {
   Name: string;
@@ -563,12 +563,12 @@ export interface IPSetDescriptor {
 export type IPSetDescriptors = IPSetDescriptor[];
 export interface IPSet {
   IPSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   IPSetDescriptors: IPSetDescriptor[];
 }
 export interface CreateIPSetResponse {
-  IPSet?: IPSet;
-  ChangeToken?: string;
+  IPSet?: IPSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export type MetricName = string;
 export type RateKey = "IP" | (string & {});
@@ -586,7 +586,7 @@ export interface CreateRateBasedRuleRequest {
   RateKey: RateKey;
   RateLimit: number;
   ChangeToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type Negated = boolean;
 export type PredicateType =
@@ -606,15 +606,15 @@ export interface Predicate {
 export type Predicates = Predicate[];
 export interface RateBasedRule {
   RuleId: string;
-  Name?: string;
-  MetricName?: string;
+  Name?: string | undefined;
+  MetricName?: string | undefined;
   MatchPredicates: Predicate[];
   RateKey: RateKey;
   RateLimit: number;
 }
 export interface CreateRateBasedRuleResponse {
-  Rule?: RateBasedRule;
-  ChangeToken?: string;
+  Rule?: RateBasedRule | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateRegexMatchSetRequest {
   Name: string;
@@ -627,13 +627,13 @@ export interface RegexMatchTuple {
 }
 export type RegexMatchTuples = RegexMatchTuple[];
 export interface RegexMatchSet {
-  RegexMatchSetId?: string;
-  Name?: string;
-  RegexMatchTuples?: RegexMatchTuple[];
+  RegexMatchSetId?: string | undefined;
+  Name?: string | undefined;
+  RegexMatchTuples?: RegexMatchTuple[] | undefined;
 }
 export interface CreateRegexMatchSetResponse {
-  RegexMatchSet?: RegexMatchSet;
-  ChangeToken?: string;
+  RegexMatchSet?: RegexMatchSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateRegexPatternSetRequest {
   Name: string;
@@ -643,43 +643,43 @@ export type RegexPatternString = string;
 export type RegexPatternStrings = string[];
 export interface RegexPatternSet {
   RegexPatternSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   RegexPatternStrings: string[];
 }
 export interface CreateRegexPatternSetResponse {
-  RegexPatternSet?: RegexPatternSet;
-  ChangeToken?: string;
+  RegexPatternSet?: RegexPatternSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateRuleRequest {
   Name: string;
   MetricName: string;
   ChangeToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface Rule {
   RuleId: string;
-  Name?: string;
-  MetricName?: string;
+  Name?: string | undefined;
+  MetricName?: string | undefined;
   Predicates: Predicate[];
 }
 export interface CreateRuleResponse {
-  Rule?: Rule;
-  ChangeToken?: string;
+  Rule?: Rule | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateRuleGroupRequest {
   Name: string;
   MetricName: string;
   ChangeToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface RuleGroup {
   RuleGroupId: string;
-  Name?: string;
-  MetricName?: string;
+  Name?: string | undefined;
+  MetricName?: string | undefined;
 }
 export interface CreateRuleGroupResponse {
-  RuleGroup?: RuleGroup;
-  ChangeToken?: string;
+  RuleGroup?: RuleGroup | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateSizeConstraintSetRequest {
   Name: string;
@@ -696,12 +696,12 @@ export interface SizeConstraint {
 export type SizeConstraints = SizeConstraint[];
 export interface SizeConstraintSet {
   SizeConstraintSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   SizeConstraints: SizeConstraint[];
 }
 export interface CreateSizeConstraintSetResponse {
-  SizeConstraintSet?: SizeConstraintSet;
-  ChangeToken?: string;
+  SizeConstraintSet?: SizeConstraintSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateSqlInjectionMatchSetRequest {
   Name: string;
@@ -714,12 +714,12 @@ export interface SqlInjectionMatchTuple {
 export type SqlInjectionMatchTuples = SqlInjectionMatchTuple[];
 export interface SqlInjectionMatchSet {
   SqlInjectionMatchSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   SqlInjectionMatchTuples: SqlInjectionMatchTuple[];
 }
 export interface CreateSqlInjectionMatchSetResponse {
-  SqlInjectionMatchSet?: SqlInjectionMatchSet;
-  ChangeToken?: string;
+  SqlInjectionMatchSet?: SqlInjectionMatchSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export type WafActionType = "BLOCK" | "ALLOW" | "COUNT" | (string & {});
 export interface WafAction {
@@ -730,7 +730,7 @@ export interface CreateWebACLRequest {
   MetricName: string;
   DefaultAction: WafAction;
   ChangeToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type RulePriority = number;
 export type WafOverrideActionType = "NONE" | "COUNT" | (string & {});
@@ -745,24 +745,24 @@ export type ExcludedRules = ExcludedRule[];
 export interface ActivatedRule {
   Priority: number;
   RuleId: string;
-  Action?: WafAction;
-  OverrideAction?: WafOverrideAction;
-  Type?: WafRuleType;
-  ExcludedRules?: ExcludedRule[];
+  Action?: WafAction | undefined;
+  OverrideAction?: WafOverrideAction | undefined;
+  Type?: WafRuleType | undefined;
+  ExcludedRules?: ExcludedRule[] | undefined;
 }
 export type ActivatedRules = ActivatedRule[];
 export type ResourceArn = string;
 export interface WebACL {
   WebACLId: string;
-  Name?: string;
-  MetricName?: string;
+  Name?: string | undefined;
+  MetricName?: string | undefined;
   DefaultAction: WafAction;
   Rules: ActivatedRule[];
-  WebACLArn?: string;
+  WebACLArn?: string | undefined;
 }
 export interface CreateWebACLResponse {
-  WebACL?: WebACL;
-  ChangeToken?: string;
+  WebACL?: WebACL | undefined;
+  ChangeToken?: string | undefined;
 }
 export type S3BucketName = string;
 export type IgnoreUnsupportedType = boolean;
@@ -786,33 +786,33 @@ export interface XssMatchTuple {
 export type XssMatchTuples = XssMatchTuple[];
 export interface XssMatchSet {
   XssMatchSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   XssMatchTuples: XssMatchTuple[];
 }
 export interface CreateXssMatchSetResponse {
-  XssMatchSet?: XssMatchSet;
-  ChangeToken?: string;
+  XssMatchSet?: XssMatchSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteByteMatchSetRequest {
   ByteMatchSetId: string;
   ChangeToken: string;
 }
 export interface DeleteByteMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteGeoMatchSetRequest {
   GeoMatchSetId: string;
   ChangeToken: string;
 }
 export interface DeleteGeoMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteIPSetRequest {
   IPSetId: string;
   ChangeToken: string;
 }
 export interface DeleteIPSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteLoggingConfigurationRequest {
   ResourceArn: string;
@@ -827,92 +827,92 @@ export interface DeleteRateBasedRuleRequest {
   ChangeToken: string;
 }
 export interface DeleteRateBasedRuleResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteRegexMatchSetRequest {
   RegexMatchSetId: string;
   ChangeToken: string;
 }
 export interface DeleteRegexMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteRegexPatternSetRequest {
   RegexPatternSetId: string;
   ChangeToken: string;
 }
 export interface DeleteRegexPatternSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteRuleRequest {
   RuleId: string;
   ChangeToken: string;
 }
 export interface DeleteRuleResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteRuleGroupRequest {
   RuleGroupId: string;
   ChangeToken: string;
 }
 export interface DeleteRuleGroupResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteSizeConstraintSetRequest {
   SizeConstraintSetId: string;
   ChangeToken: string;
 }
 export interface DeleteSizeConstraintSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteSqlInjectionMatchSetRequest {
   SqlInjectionMatchSetId: string;
   ChangeToken: string;
 }
 export interface DeleteSqlInjectionMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteWebACLRequest {
   WebACLId: string;
   ChangeToken: string;
 }
 export interface DeleteWebACLResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteXssMatchSetRequest {
   XssMatchSetId: string;
   ChangeToken: string;
 }
 export interface DeleteXssMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface GetByteMatchSetRequest {
   ByteMatchSetId: string;
 }
 export interface GetByteMatchSetResponse {
-  ByteMatchSet?: ByteMatchSet;
+  ByteMatchSet?: ByteMatchSet | undefined;
 }
 export interface GetChangeTokenRequest {}
 export interface GetChangeTokenResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface GetChangeTokenStatusRequest {
   ChangeToken: string;
 }
 export type ChangeTokenStatus = "PROVISIONED" | "PENDING" | "INSYNC" | (string & {});
 export interface GetChangeTokenStatusResponse {
-  ChangeTokenStatus?: ChangeTokenStatus;
+  ChangeTokenStatus?: ChangeTokenStatus | undefined;
 }
 export interface GetGeoMatchSetRequest {
   GeoMatchSetId: string;
 }
 export interface GetGeoMatchSetResponse {
-  GeoMatchSet?: GeoMatchSet;
+  GeoMatchSet?: GeoMatchSet | undefined;
 }
 export interface GetIPSetRequest {
   IPSetId: string;
 }
 export interface GetIPSetResponse {
-  IPSet?: IPSet;
+  IPSet?: IPSet | undefined;
 }
 export interface GetLoggingConfigurationRequest {
   ResourceArn: string;
@@ -922,58 +922,58 @@ export type RedactedFields = FieldToMatch[];
 export interface LoggingConfiguration {
   ResourceArn: string;
   LogDestinationConfigs: string[];
-  RedactedFields?: FieldToMatch[];
+  RedactedFields?: FieldToMatch[] | undefined;
 }
 export interface GetLoggingConfigurationResponse {
-  LoggingConfiguration?: LoggingConfiguration;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
 }
 export interface GetPermissionPolicyRequest {
   ResourceArn: string;
 }
 export type PolicyString = string;
 export interface GetPermissionPolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface GetRateBasedRuleRequest {
   RuleId: string;
 }
 export interface GetRateBasedRuleResponse {
-  Rule?: RateBasedRule;
+  Rule?: RateBasedRule | undefined;
 }
 export type NextMarker = string;
 export interface GetRateBasedRuleManagedKeysRequest {
   RuleId: string;
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export type ManagedKey = string;
 export type ManagedKeys = string[];
 export interface GetRateBasedRuleManagedKeysResponse {
-  ManagedKeys?: string[];
-  NextMarker?: string;
+  ManagedKeys?: string[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface GetRegexMatchSetRequest {
   RegexMatchSetId: string;
 }
 export interface GetRegexMatchSetResponse {
-  RegexMatchSet?: RegexMatchSet;
+  RegexMatchSet?: RegexMatchSet | undefined;
 }
 export interface GetRegexPatternSetRequest {
   RegexPatternSetId: string;
 }
 export interface GetRegexPatternSetResponse {
-  RegexPatternSet?: RegexPatternSet;
+  RegexPatternSet?: RegexPatternSet | undefined;
 }
 export interface GetRuleRequest {
   RuleId: string;
 }
 export interface GetRuleResponse {
-  Rule?: Rule;
+  Rule?: Rule | undefined;
 }
 export interface GetRuleGroupRequest {
   RuleGroupId: string;
 }
 export interface GetRuleGroupResponse {
-  RuleGroup?: RuleGroup;
+  RuleGroup?: RuleGroup | undefined;
 }
 export interface TimeWindow {
   StartTime: Date;
@@ -994,71 +994,71 @@ export type HTTPVersion = string;
 export type HeaderName = string;
 export type HeaderValue = string;
 export interface HTTPHeader {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type HTTPHeaders = HTTPHeader[];
 export interface HTTPRequest {
-  ClientIP?: string;
-  Country?: string;
-  URI?: string;
-  Method?: string;
-  HTTPVersion?: string;
-  Headers?: HTTPHeader[];
+  ClientIP?: string | undefined;
+  Country?: string | undefined;
+  URI?: string | undefined;
+  Method?: string | undefined;
+  HTTPVersion?: string | undefined;
+  Headers?: HTTPHeader[] | undefined;
 }
 export type SampleWeight = number;
 export type Action = string;
 export interface SampledHTTPRequest {
   Request: HTTPRequest;
   Weight: number;
-  Timestamp?: Date;
-  Action?: string;
-  RuleWithinRuleGroup?: string;
+  Timestamp?: Date | undefined;
+  Action?: string | undefined;
+  RuleWithinRuleGroup?: string | undefined;
 }
 export type SampledHTTPRequests = SampledHTTPRequest[];
 export type PopulationSize = number;
 export interface GetSampledRequestsResponse {
-  SampledRequests?: SampledHTTPRequest[];
-  PopulationSize?: number;
-  TimeWindow?: TimeWindow;
+  SampledRequests?: SampledHTTPRequest[] | undefined;
+  PopulationSize?: number | undefined;
+  TimeWindow?: TimeWindow | undefined;
 }
 export interface GetSizeConstraintSetRequest {
   SizeConstraintSetId: string;
 }
 export interface GetSizeConstraintSetResponse {
-  SizeConstraintSet?: SizeConstraintSet;
+  SizeConstraintSet?: SizeConstraintSet | undefined;
 }
 export interface GetSqlInjectionMatchSetRequest {
   SqlInjectionMatchSetId: string;
 }
 export interface GetSqlInjectionMatchSetResponse {
-  SqlInjectionMatchSet?: SqlInjectionMatchSet;
+  SqlInjectionMatchSet?: SqlInjectionMatchSet | undefined;
 }
 export interface GetWebACLRequest {
   WebACLId: string;
 }
 export interface GetWebACLResponse {
-  WebACL?: WebACL;
+  WebACL?: WebACL | undefined;
 }
 export interface GetXssMatchSetRequest {
   XssMatchSetId: string;
 }
 export interface GetXssMatchSetResponse {
-  XssMatchSet?: XssMatchSet;
+  XssMatchSet?: XssMatchSet | undefined;
 }
 export type PaginationLimit = number;
 export interface ListActivatedRulesInRuleGroupRequest {
-  RuleGroupId?: string;
-  NextMarker?: string;
-  Limit?: number;
+  RuleGroupId?: string | undefined;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ListActivatedRulesInRuleGroupResponse {
-  NextMarker?: string;
-  ActivatedRules?: ActivatedRule[];
+  NextMarker?: string | undefined;
+  ActivatedRules?: ActivatedRule[] | undefined;
 }
 export interface ListByteMatchSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ByteMatchSetSummary {
   ByteMatchSetId: string;
@@ -1066,12 +1066,12 @@ export interface ByteMatchSetSummary {
 }
 export type ByteMatchSetSummaries = ByteMatchSetSummary[];
 export interface ListByteMatchSetsResponse {
-  NextMarker?: string;
-  ByteMatchSets?: ByteMatchSetSummary[];
+  NextMarker?: string | undefined;
+  ByteMatchSets?: ByteMatchSetSummary[] | undefined;
 }
 export interface ListGeoMatchSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface GeoMatchSetSummary {
   GeoMatchSetId: string;
@@ -1079,12 +1079,12 @@ export interface GeoMatchSetSummary {
 }
 export type GeoMatchSetSummaries = GeoMatchSetSummary[];
 export interface ListGeoMatchSetsResponse {
-  NextMarker?: string;
-  GeoMatchSets?: GeoMatchSetSummary[];
+  NextMarker?: string | undefined;
+  GeoMatchSets?: GeoMatchSetSummary[] | undefined;
 }
 export interface ListIPSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface IPSetSummary {
   IPSetId: string;
@@ -1092,21 +1092,21 @@ export interface IPSetSummary {
 }
 export type IPSetSummaries = IPSetSummary[];
 export interface ListIPSetsResponse {
-  NextMarker?: string;
-  IPSets?: IPSetSummary[];
+  NextMarker?: string | undefined;
+  IPSets?: IPSetSummary[] | undefined;
 }
 export interface ListLoggingConfigurationsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type LoggingConfigurations = LoggingConfiguration[];
 export interface ListLoggingConfigurationsResponse {
-  LoggingConfigurations?: LoggingConfiguration[];
-  NextMarker?: string;
+  LoggingConfigurations?: LoggingConfiguration[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface ListRateBasedRulesRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface RuleSummary {
   RuleId: string;
@@ -1114,12 +1114,12 @@ export interface RuleSummary {
 }
 export type RuleSummaries = RuleSummary[];
 export interface ListRateBasedRulesResponse {
-  NextMarker?: string;
-  Rules?: RuleSummary[];
+  NextMarker?: string | undefined;
+  Rules?: RuleSummary[] | undefined;
 }
 export interface ListRegexMatchSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface RegexMatchSetSummary {
   RegexMatchSetId: string;
@@ -1127,12 +1127,12 @@ export interface RegexMatchSetSummary {
 }
 export type RegexMatchSetSummaries = RegexMatchSetSummary[];
 export interface ListRegexMatchSetsResponse {
-  NextMarker?: string;
-  RegexMatchSets?: RegexMatchSetSummary[];
+  NextMarker?: string | undefined;
+  RegexMatchSets?: RegexMatchSetSummary[] | undefined;
 }
 export interface ListRegexPatternSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface RegexPatternSetSummary {
   RegexPatternSetId: string;
@@ -1140,12 +1140,12 @@ export interface RegexPatternSetSummary {
 }
 export type RegexPatternSetSummaries = RegexPatternSetSummary[];
 export interface ListRegexPatternSetsResponse {
-  NextMarker?: string;
-  RegexPatternSets?: RegexPatternSetSummary[];
+  NextMarker?: string | undefined;
+  RegexPatternSets?: RegexPatternSetSummary[] | undefined;
 }
 export interface ListRuleGroupsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface RuleGroupSummary {
   RuleGroupId: string;
@@ -1153,20 +1153,20 @@ export interface RuleGroupSummary {
 }
 export type RuleGroupSummaries = RuleGroupSummary[];
 export interface ListRuleGroupsResponse {
-  NextMarker?: string;
-  RuleGroups?: RuleGroupSummary[];
+  NextMarker?: string | undefined;
+  RuleGroups?: RuleGroupSummary[] | undefined;
 }
 export interface ListRulesRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ListRulesResponse {
-  NextMarker?: string;
-  Rules?: RuleSummary[];
+  NextMarker?: string | undefined;
+  Rules?: RuleSummary[] | undefined;
 }
 export interface ListSizeConstraintSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface SizeConstraintSetSummary {
   SizeConstraintSetId: string;
@@ -1174,12 +1174,12 @@ export interface SizeConstraintSetSummary {
 }
 export type SizeConstraintSetSummaries = SizeConstraintSetSummary[];
 export interface ListSizeConstraintSetsResponse {
-  NextMarker?: string;
-  SizeConstraintSets?: SizeConstraintSetSummary[];
+  NextMarker?: string | undefined;
+  SizeConstraintSets?: SizeConstraintSetSummary[] | undefined;
 }
 export interface ListSqlInjectionMatchSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface SqlInjectionMatchSetSummary {
   SqlInjectionMatchSetId: string;
@@ -1187,12 +1187,12 @@ export interface SqlInjectionMatchSetSummary {
 }
 export type SqlInjectionMatchSetSummaries = SqlInjectionMatchSetSummary[];
 export interface ListSqlInjectionMatchSetsResponse {
-  NextMarker?: string;
-  SqlInjectionMatchSets?: SqlInjectionMatchSetSummary[];
+  NextMarker?: string | undefined;
+  SqlInjectionMatchSets?: SqlInjectionMatchSetSummary[] | undefined;
 }
 export interface ListSubscribedRuleGroupsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface SubscribedRuleGroupSummary {
   RuleGroupId: string;
@@ -1201,25 +1201,25 @@ export interface SubscribedRuleGroupSummary {
 }
 export type SubscribedRuleGroupSummaries = SubscribedRuleGroupSummary[];
 export interface ListSubscribedRuleGroupsResponse {
-  NextMarker?: string;
-  RuleGroups?: SubscribedRuleGroupSummary[];
+  NextMarker?: string | undefined;
+  RuleGroups?: SubscribedRuleGroupSummary[] | undefined;
 }
 export interface ListTagsForResourceRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
   ResourceARN: string;
 }
 export interface TagInfoForResource {
-  ResourceARN?: string;
-  TagList?: Tag[];
+  ResourceARN?: string | undefined;
+  TagList?: Tag[] | undefined;
 }
 export interface ListTagsForResourceResponse {
-  NextMarker?: string;
-  TagInfoForResource?: TagInfoForResource;
+  NextMarker?: string | undefined;
+  TagInfoForResource?: TagInfoForResource | undefined;
 }
 export interface ListWebACLsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface WebACLSummary {
   WebACLId: string;
@@ -1227,12 +1227,12 @@ export interface WebACLSummary {
 }
 export type WebACLSummaries = WebACLSummary[];
 export interface ListWebACLsResponse {
-  NextMarker?: string;
-  WebACLs?: WebACLSummary[];
+  NextMarker?: string | undefined;
+  WebACLs?: WebACLSummary[] | undefined;
 }
 export interface ListXssMatchSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface XssMatchSetSummary {
   XssMatchSetId: string;
@@ -1240,14 +1240,14 @@ export interface XssMatchSetSummary {
 }
 export type XssMatchSetSummaries = XssMatchSetSummary[];
 export interface ListXssMatchSetsResponse {
-  NextMarker?: string;
-  XssMatchSets?: XssMatchSetSummary[];
+  NextMarker?: string | undefined;
+  XssMatchSets?: XssMatchSetSummary[] | undefined;
 }
 export interface PutLoggingConfigurationRequest {
   LoggingConfiguration: LoggingConfiguration;
 }
 export interface PutLoggingConfigurationResponse {
-  LoggingConfiguration?: LoggingConfiguration;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
 }
 export interface PutPermissionPolicyRequest {
   ResourceArn: string;
@@ -1277,7 +1277,7 @@ export interface UpdateByteMatchSetRequest {
   Updates: ByteMatchSetUpdate[];
 }
 export interface UpdateByteMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface GeoMatchSetUpdate {
   Action: ChangeAction;
@@ -1290,7 +1290,7 @@ export interface UpdateGeoMatchSetRequest {
   Updates: GeoMatchSetUpdate[];
 }
 export interface UpdateGeoMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface IPSetUpdate {
   Action: ChangeAction;
@@ -1303,7 +1303,7 @@ export interface UpdateIPSetRequest {
   Updates: IPSetUpdate[];
 }
 export interface UpdateIPSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface RuleUpdate {
   Action: ChangeAction;
@@ -1317,7 +1317,7 @@ export interface UpdateRateBasedRuleRequest {
   RateLimit: number;
 }
 export interface UpdateRateBasedRuleResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface RegexMatchSetUpdate {
   Action: ChangeAction;
@@ -1330,7 +1330,7 @@ export interface UpdateRegexMatchSetRequest {
   ChangeToken: string;
 }
 export interface UpdateRegexMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface RegexPatternSetUpdate {
   Action: ChangeAction;
@@ -1343,7 +1343,7 @@ export interface UpdateRegexPatternSetRequest {
   ChangeToken: string;
 }
 export interface UpdateRegexPatternSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface UpdateRuleRequest {
   RuleId: string;
@@ -1351,7 +1351,7 @@ export interface UpdateRuleRequest {
   Updates: RuleUpdate[];
 }
 export interface UpdateRuleResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface RuleGroupUpdate {
   Action: ChangeAction;
@@ -1364,7 +1364,7 @@ export interface UpdateRuleGroupRequest {
   ChangeToken: string;
 }
 export interface UpdateRuleGroupResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface SizeConstraintSetUpdate {
   Action: ChangeAction;
@@ -1377,7 +1377,7 @@ export interface UpdateSizeConstraintSetRequest {
   Updates: SizeConstraintSetUpdate[];
 }
 export interface UpdateSizeConstraintSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface SqlInjectionMatchSetUpdate {
   Action: ChangeAction;
@@ -1390,7 +1390,7 @@ export interface UpdateSqlInjectionMatchSetRequest {
   Updates: SqlInjectionMatchSetUpdate[];
 }
 export interface UpdateSqlInjectionMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface WebACLUpdate {
   Action: ChangeAction;
@@ -1400,11 +1400,11 @@ export type WebACLUpdates = WebACLUpdate[];
 export interface UpdateWebACLRequest {
   WebACLId: string;
   ChangeToken: string;
-  Updates?: WebACLUpdate[];
-  DefaultAction?: WafAction;
+  Updates?: WebACLUpdate[] | undefined;
+  DefaultAction?: WafAction | undefined;
 }
 export interface UpdateWebACLResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface XssMatchSetUpdate {
   Action: ChangeAction;
@@ -1417,7 +1417,7 @@ export interface UpdateXssMatchSetRequest {
   Updates: XssMatchSetUpdate[];
 }
 export interface UpdateXssMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export type ErrorMessage = string;
 export type ParameterExceptionField =

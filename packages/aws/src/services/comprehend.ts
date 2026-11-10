@@ -211,19 +211,19 @@ export interface BatchDetectDominantLanguageRequest {
   TextList: (string | redacted.Redacted<string>)[];
 }
 export interface DominantLanguage {
-  LanguageCode?: string;
-  Score?: number;
+  LanguageCode?: string | undefined;
+  Score?: number | undefined;
 }
 export type ListOfDominantLanguages = DominantLanguage[];
 export interface BatchDetectDominantLanguageItemResult {
-  Index?: number;
-  Languages?: DominantLanguage[];
+  Index?: number | undefined;
+  Languages?: DominantLanguage[] | undefined;
 }
 export type ListOfDetectDominantLanguageResult = BatchDetectDominantLanguageItemResult[];
 export interface BatchItemError {
-  Index?: number;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  Index?: number | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type BatchItemErrorList = BatchItemError[];
 export interface BatchDetectDominantLanguageResponse {
@@ -260,30 +260,30 @@ export type EntityType =
   | "OTHER"
   | (string & {});
 export interface ChildBlock {
-  ChildBlockId?: string;
-  BeginOffset?: number;
-  EndOffset?: number;
+  ChildBlockId?: string | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
 }
 export type ListOfChildBlocks = ChildBlock[];
 export interface BlockReference {
-  BlockId?: string;
-  BeginOffset?: number;
-  EndOffset?: number;
-  ChildBlocks?: ChildBlock[];
+  BlockId?: string | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
+  ChildBlocks?: ChildBlock[] | undefined;
 }
 export type ListOfBlockReferences = BlockReference[];
 export interface Entity {
-  Score?: number;
-  Type?: EntityType;
-  Text?: string;
-  BeginOffset?: number;
-  EndOffset?: number;
-  BlockReferences?: BlockReference[];
+  Score?: number | undefined;
+  Type?: EntityType | undefined;
+  Text?: string | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
+  BlockReferences?: BlockReference[] | undefined;
 }
 export type ListOfEntities = Entity[];
 export interface BatchDetectEntitiesItemResult {
-  Index?: number;
-  Entities?: Entity[];
+  Index?: number | undefined;
+  Entities?: Entity[] | undefined;
 }
 export type ListOfDetectEntitiesResult = BatchDetectEntitiesItemResult[];
 export interface BatchDetectEntitiesResponse {
@@ -295,15 +295,15 @@ export interface BatchDetectKeyPhrasesRequest {
   LanguageCode: LanguageCode;
 }
 export interface KeyPhrase {
-  Score?: number;
-  Text?: string;
-  BeginOffset?: number;
-  EndOffset?: number;
+  Score?: number | undefined;
+  Text?: string | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
 }
 export type ListOfKeyPhrases = KeyPhrase[];
 export interface BatchDetectKeyPhrasesItemResult {
-  Index?: number;
-  KeyPhrases?: KeyPhrase[];
+  Index?: number | undefined;
+  KeyPhrases?: KeyPhrase[] | undefined;
 }
 export type ListOfDetectKeyPhrasesResult = BatchDetectKeyPhrasesItemResult[];
 export interface BatchDetectKeyPhrasesResponse {
@@ -316,15 +316,15 @@ export interface BatchDetectSentimentRequest {
 }
 export type SentimentType = "POSITIVE" | "NEGATIVE" | "NEUTRAL" | "MIXED" | (string & {});
 export interface SentimentScore {
-  Positive?: number;
-  Negative?: number;
-  Neutral?: number;
-  Mixed?: number;
+  Positive?: number | undefined;
+  Negative?: number | undefined;
+  Neutral?: number | undefined;
+  Mixed?: number | undefined;
 }
 export interface BatchDetectSentimentItemResult {
-  Index?: number;
-  Sentiment?: SentimentType;
-  SentimentScore?: SentimentScore;
+  Index?: number | undefined;
+  Sentiment?: SentimentType | undefined;
+  SentimentScore?: SentimentScore | undefined;
 }
 export type ListOfDetectSentimentResult = BatchDetectSentimentItemResult[];
 export interface BatchDetectSentimentResponse {
@@ -357,20 +357,20 @@ export type PartOfSpeechTagType =
   | "VERB"
   | (string & {});
 export interface PartOfSpeechTag {
-  Tag?: PartOfSpeechTagType;
-  Score?: number;
+  Tag?: PartOfSpeechTagType | undefined;
+  Score?: number | undefined;
 }
 export interface SyntaxToken {
-  TokenId?: number;
-  Text?: string;
-  BeginOffset?: number;
-  EndOffset?: number;
-  PartOfSpeech?: PartOfSpeechTag;
+  TokenId?: number | undefined;
+  Text?: string | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
+  PartOfSpeech?: PartOfSpeechTag | undefined;
 }
 export type ListOfSyntaxTokens = SyntaxToken[];
 export interface BatchDetectSyntaxItemResult {
-  Index?: number;
-  SyntaxTokens?: SyntaxToken[];
+  Index?: number | undefined;
+  SyntaxTokens?: SyntaxToken[] | undefined;
 }
 export type ListOfDetectSyntaxResult = BatchDetectSyntaxItemResult[];
 export interface BatchDetectSyntaxResponse {
@@ -402,27 +402,27 @@ export type TargetedSentimentEntityType =
   | "OTHER"
   | (string & {});
 export interface MentionSentiment {
-  Sentiment?: SentimentType;
-  SentimentScore?: SentimentScore;
+  Sentiment?: SentimentType | undefined;
+  SentimentScore?: SentimentScore | undefined;
 }
 export interface TargetedSentimentMention {
-  Score?: number;
-  GroupScore?: number;
-  Text?: string;
-  Type?: TargetedSentimentEntityType;
-  MentionSentiment?: MentionSentiment;
-  BeginOffset?: number;
-  EndOffset?: number;
+  Score?: number | undefined;
+  GroupScore?: number | undefined;
+  Text?: string | undefined;
+  Type?: TargetedSentimentEntityType | undefined;
+  MentionSentiment?: MentionSentiment | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
 }
 export type ListOfMentions = TargetedSentimentMention[];
 export interface TargetedSentimentEntity {
-  DescriptiveMentionIndex?: number[];
-  Mentions?: TargetedSentimentMention[];
+  DescriptiveMentionIndex?: number[] | undefined;
+  Mentions?: TargetedSentimentMention[] | undefined;
 }
 export type ListOfTargetedSentimentEntities = TargetedSentimentEntity[];
 export interface BatchDetectTargetedSentimentItemResult {
-  Index?: number;
-  Entities?: TargetedSentimentEntity[];
+  Index?: number | undefined;
+  Entities?: TargetedSentimentEntity[] | undefined;
 }
 export type ListOfDetectTargetedSentimentResult = BatchDetectTargetedSentimentItemResult[];
 export interface BatchDetectTargetedSentimentResponse {
@@ -440,35 +440,35 @@ export type DocumentReadFeatureTypes = "TABLES" | "FORMS" | (string & {});
 export type ListOfDocumentReadFeatureTypes = DocumentReadFeatureTypes[];
 export interface DocumentReaderConfig {
   DocumentReadAction: DocumentReadAction;
-  DocumentReadMode?: DocumentReadMode;
-  FeatureTypes?: DocumentReadFeatureTypes[];
+  DocumentReadMode?: DocumentReadMode | undefined;
+  FeatureTypes?: DocumentReadFeatureTypes[] | undefined;
 }
 export interface ClassifyDocumentRequest {
-  Text?: string | redacted.Redacted<string>;
+  Text?: string | redacted.Redacted<string> | undefined;
   EndpointArn: string;
-  Bytes?: Uint8Array;
-  DocumentReaderConfig?: DocumentReaderConfig;
+  Bytes?: Uint8Array | undefined;
+  DocumentReaderConfig?: DocumentReaderConfig | undefined;
 }
 export interface DocumentClass {
-  Name?: string;
-  Score?: number;
-  Page?: number;
+  Name?: string | undefined;
+  Score?: number | undefined;
+  Page?: number | undefined;
 }
 export type ListOfClasses = DocumentClass[];
 export interface DocumentLabel {
-  Name?: string;
-  Score?: number;
-  Page?: number;
+  Name?: string | undefined;
+  Score?: number | undefined;
+  Page?: number | undefined;
 }
 export type ListOfLabels = DocumentLabel[];
 export interface ExtractedCharactersListItem {
-  Page?: number;
-  Count?: number;
+  Page?: number | undefined;
+  Count?: number | undefined;
 }
 export type ListOfExtractedCharacters = ExtractedCharactersListItem[];
 export interface DocumentMetadata {
-  Pages?: number;
-  ExtractedCharacters?: ExtractedCharactersListItem[];
+  Pages?: number | undefined;
+  ExtractedCharacters?: ExtractedCharactersListItem[] | undefined;
 }
 export type DocumentType =
   | "NATIVE_PDF"
@@ -480,8 +480,8 @@ export type DocumentType =
   | "TEXTRACT_ANALYZE_DOCUMENT_JSON"
   | (string & {});
 export interface DocumentTypeListItem {
-  Page?: number;
-  Type?: DocumentType;
+  Page?: number | undefined;
+  Type?: DocumentType | undefined;
 }
 export type ListOfDocumentType = DocumentTypeListItem[];
 export type PageBasedErrorCode =
@@ -492,9 +492,9 @@ export type PageBasedErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface ErrorsListItem {
-  Page?: number;
-  ErrorCode?: PageBasedErrorCode;
-  ErrorMessage?: string;
+  Page?: number | undefined;
+  ErrorCode?: PageBasedErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type ListOfErrors = ErrorsListItem[];
 export type PageBasedWarningCode =
@@ -502,18 +502,18 @@ export type PageBasedWarningCode =
   | "INFERENCING_NATIVE_DOCUMENT_WITH_PLAINTEXT_TRAINED_MODEL"
   | (string & {});
 export interface WarningsListItem {
-  Page?: number;
-  WarnCode?: PageBasedWarningCode;
-  WarnMessage?: string;
+  Page?: number | undefined;
+  WarnCode?: PageBasedWarningCode | undefined;
+  WarnMessage?: string | undefined;
 }
 export type ListOfWarnings = WarningsListItem[];
 export interface ClassifyDocumentResponse {
-  Classes?: DocumentClass[];
-  Labels?: DocumentLabel[];
-  DocumentMetadata?: DocumentMetadata;
-  DocumentType?: DocumentTypeListItem[];
-  Errors?: ErrorsListItem[];
-  Warnings?: WarningsListItem[];
+  Classes?: DocumentClass[] | undefined;
+  Labels?: DocumentLabel[] | undefined;
+  DocumentMetadata?: DocumentMetadata | undefined;
+  DocumentType?: DocumentTypeListItem[] | undefined;
+  Errors?: ErrorsListItem[] | undefined;
+  Warnings?: WarningsListItem[] | undefined;
 }
 export interface ContainsPiiEntitiesRequest {
   Text: string;
@@ -559,12 +559,12 @@ export type PiiEntityType =
   | "IN_VOTER_NUMBER"
   | (string & {});
 export interface EntityLabel {
-  Name?: PiiEntityType;
-  Score?: number;
+  Name?: PiiEntityType | undefined;
+  Score?: number | undefined;
 }
 export type ListOfEntityLabels = EntityLabel[];
 export interface ContainsPiiEntitiesResponse {
-  Labels?: EntityLabel[];
+  Labels?: EntityLabel[] | undefined;
 }
 export type ComprehendFlywheelArn = string;
 export type ComprehendArnName = string;
@@ -580,16 +580,16 @@ export type AugmentedManifestsDocumentTypeFormat =
 export interface DatasetAugmentedManifestsListItem {
   AttributeNames: string[];
   S3Uri: string;
-  AnnotationDataS3Uri?: string;
-  SourceDocumentsS3Uri?: string;
-  DocumentType?: AugmentedManifestsDocumentTypeFormat;
+  AnnotationDataS3Uri?: string | undefined;
+  SourceDocumentsS3Uri?: string | undefined;
+  DocumentType?: AugmentedManifestsDocumentTypeFormat | undefined;
 }
 export type DatasetAugmentedManifestsList = DatasetAugmentedManifestsListItem[];
 export type DatasetDataFormat = "COMPREHEND_CSV" | "AUGMENTED_MANIFEST" | (string & {});
 export type LabelDelimiter = string;
 export interface DatasetDocumentClassifierInputDataConfig {
   S3Uri: string;
-  LabelDelimiter?: string;
+  LabelDelimiter?: string | undefined;
 }
 export interface DatasetEntityRecognizerAnnotations {
   S3Uri: string;
@@ -597,42 +597,42 @@ export interface DatasetEntityRecognizerAnnotations {
 export type InputFormat = "ONE_DOC_PER_FILE" | "ONE_DOC_PER_LINE" | (string & {});
 export interface DatasetEntityRecognizerDocuments {
   S3Uri: string;
-  InputFormat?: InputFormat;
+  InputFormat?: InputFormat | undefined;
 }
 export interface DatasetEntityRecognizerEntityList {
   S3Uri: string;
 }
 export interface DatasetEntityRecognizerInputDataConfig {
-  Annotations?: DatasetEntityRecognizerAnnotations;
+  Annotations?: DatasetEntityRecognizerAnnotations | undefined;
   Documents: DatasetEntityRecognizerDocuments;
-  EntityList?: DatasetEntityRecognizerEntityList;
+  EntityList?: DatasetEntityRecognizerEntityList | undefined;
 }
 export interface DatasetInputDataConfig {
-  AugmentedManifests?: DatasetAugmentedManifestsListItem[];
-  DataFormat?: DatasetDataFormat;
-  DocumentClassifierInputDataConfig?: DatasetDocumentClassifierInputDataConfig;
-  EntityRecognizerInputDataConfig?: DatasetEntityRecognizerInputDataConfig;
+  AugmentedManifests?: DatasetAugmentedManifestsListItem[] | undefined;
+  DataFormat?: DatasetDataFormat | undefined;
+  DocumentClassifierInputDataConfig?: DatasetDocumentClassifierInputDataConfig | undefined;
+  EntityRecognizerInputDataConfig?: DatasetEntityRecognizerInputDataConfig | undefined;
 }
 export type ClientRequestTokenString = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateDatasetRequest {
   FlywheelArn: string;
   DatasetName: string;
-  DatasetType?: DatasetType;
-  Description?: string;
+  DatasetType?: DatasetType | undefined;
+  Description?: string | undefined;
   InputDataConfig: DatasetInputDataConfig;
-  ClientRequestToken?: string;
-  Tags?: Tag[];
+  ClientRequestToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ComprehendDatasetArn = string;
 export interface CreateDatasetResponse {
-  DatasetArn?: string;
+  DatasetArn?: string | undefined;
 }
 export type VersionName = string;
 export type IamRoleArn = string;
@@ -640,11 +640,11 @@ export type DocumentClassifierDataFormat = "COMPREHEND_CSV" | "AUGMENTED_MANIFES
 export type Split = "TRAIN" | "TEST" | (string & {});
 export interface AugmentedManifestsListItem {
   S3Uri: string;
-  Split?: Split;
+  Split?: Split | undefined;
   AttributeNames: string[];
-  AnnotationDataS3Uri?: string;
-  SourceDocumentsS3Uri?: string;
-  DocumentType?: AugmentedManifestsDocumentTypeFormat;
+  AnnotationDataS3Uri?: string | undefined;
+  SourceDocumentsS3Uri?: string | undefined;
+  DocumentType?: AugmentedManifestsDocumentTypeFormat | undefined;
 }
 export type DocumentClassifierAugmentedManifestsList = AugmentedManifestsListItem[];
 export type DocumentClassifierDocumentTypeFormat =
@@ -653,23 +653,23 @@ export type DocumentClassifierDocumentTypeFormat =
   | (string & {});
 export interface DocumentClassifierDocuments {
   S3Uri: string;
-  TestS3Uri?: string;
+  TestS3Uri?: string | undefined;
 }
 export interface DocumentClassifierInputDataConfig {
-  DataFormat?: DocumentClassifierDataFormat;
-  S3Uri?: string;
-  TestS3Uri?: string;
-  LabelDelimiter?: string;
-  AugmentedManifests?: AugmentedManifestsListItem[];
-  DocumentType?: DocumentClassifierDocumentTypeFormat;
-  Documents?: DocumentClassifierDocuments;
-  DocumentReaderConfig?: DocumentReaderConfig;
+  DataFormat?: DocumentClassifierDataFormat | undefined;
+  S3Uri?: string | undefined;
+  TestS3Uri?: string | undefined;
+  LabelDelimiter?: string | undefined;
+  AugmentedManifests?: AugmentedManifestsListItem[] | undefined;
+  DocumentType?: DocumentClassifierDocumentTypeFormat | undefined;
+  Documents?: DocumentClassifierDocuments | undefined;
+  DocumentReaderConfig?: DocumentReaderConfig | undefined;
 }
 export type KmsKeyId = string;
 export interface DocumentClassifierOutputDataConfig {
-  S3Uri?: string;
-  KmsKeyId?: string;
-  FlywheelStatsS3Prefix?: string;
+  S3Uri?: string | undefined;
+  KmsKeyId?: string | undefined;
+  FlywheelStatsS3Prefix?: string | undefined;
 }
 export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
@@ -683,39 +683,39 @@ export type DocumentClassifierMode = "MULTI_CLASS" | "MULTI_LABEL" | (string & {
 export type Policy = string;
 export interface CreateDocumentClassifierRequest {
   DocumentClassifierName: string;
-  VersionName?: string;
+  VersionName?: string | undefined;
   DataAccessRoleArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   InputDataConfig: DocumentClassifierInputDataConfig;
-  OutputDataConfig?: DocumentClassifierOutputDataConfig;
-  ClientRequestToken?: string;
+  OutputDataConfig?: DocumentClassifierOutputDataConfig | undefined;
+  ClientRequestToken?: string | undefined;
   LanguageCode: LanguageCode;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  Mode?: DocumentClassifierMode;
-  ModelKmsKeyId?: string;
-  ModelPolicy?: string;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  Mode?: DocumentClassifierMode | undefined;
+  ModelKmsKeyId?: string | undefined;
+  ModelPolicy?: string | undefined;
 }
 export type DocumentClassifierArn = string;
 export interface CreateDocumentClassifierResponse {
-  DocumentClassifierArn?: string;
+  DocumentClassifierArn?: string | undefined;
 }
 export type ComprehendEndpointName = string;
 export type ComprehendModelArn = string;
 export type InferenceUnitsInteger = number;
 export interface CreateEndpointRequest {
   EndpointName: string;
-  ModelArn?: string;
+  ModelArn?: string | undefined;
   DesiredInferenceUnits: number;
-  ClientRequestToken?: string;
-  Tags?: Tag[];
-  DataAccessRoleArn?: string;
-  FlywheelArn?: string;
+  ClientRequestToken?: string | undefined;
+  Tags?: Tag[] | undefined;
+  DataAccessRoleArn?: string | undefined;
+  FlywheelArn?: string | undefined;
 }
 export type ComprehendEndpointArn = string;
 export interface CreateEndpointResponse {
-  EndpointArn?: string;
-  ModelArn?: string;
+  EndpointArn?: string | undefined;
+  ModelArn?: string | undefined;
 }
 export type EntityRecognizerDataFormat = "COMPREHEND_CSV" | "AUGMENTED_MANIFEST" | (string & {});
 export type EntityTypeName = string;
@@ -725,78 +725,78 @@ export interface EntityTypesListItem {
 export type EntityTypesList = EntityTypesListItem[];
 export interface EntityRecognizerDocuments {
   S3Uri: string;
-  TestS3Uri?: string;
-  InputFormat?: InputFormat;
+  TestS3Uri?: string | undefined;
+  InputFormat?: InputFormat | undefined;
 }
 export interface EntityRecognizerAnnotations {
   S3Uri: string;
-  TestS3Uri?: string;
+  TestS3Uri?: string | undefined;
 }
 export interface EntityRecognizerEntityList {
   S3Uri: string;
 }
 export type EntityRecognizerAugmentedManifestsList = AugmentedManifestsListItem[];
 export interface EntityRecognizerInputDataConfig {
-  DataFormat?: EntityRecognizerDataFormat;
+  DataFormat?: EntityRecognizerDataFormat | undefined;
   EntityTypes: EntityTypesListItem[];
-  Documents?: EntityRecognizerDocuments;
-  Annotations?: EntityRecognizerAnnotations;
-  EntityList?: EntityRecognizerEntityList;
-  AugmentedManifests?: AugmentedManifestsListItem[];
+  Documents?: EntityRecognizerDocuments | undefined;
+  Annotations?: EntityRecognizerAnnotations | undefined;
+  EntityList?: EntityRecognizerEntityList | undefined;
+  AugmentedManifests?: AugmentedManifestsListItem[] | undefined;
 }
 export interface CreateEntityRecognizerRequest {
   RecognizerName: string;
-  VersionName?: string;
+  VersionName?: string | undefined;
   DataAccessRoleArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   InputDataConfig: EntityRecognizerInputDataConfig;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
   LanguageCode: LanguageCode;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  ModelKmsKeyId?: string;
-  ModelPolicy?: string;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  ModelKmsKeyId?: string | undefined;
+  ModelPolicy?: string | undefined;
 }
 export type EntityRecognizerArn = string;
 export interface CreateEntityRecognizerResponse {
-  EntityRecognizerArn?: string;
+  EntityRecognizerArn?: string | undefined;
 }
 export type LabelListItem = string;
 export type LabelsList = string[];
 export interface DocumentClassificationConfig {
   Mode: DocumentClassifierMode;
-  Labels?: string[];
+  Labels?: string[] | undefined;
 }
 export interface EntityRecognitionConfig {
   EntityTypes: EntityTypesListItem[];
 }
 export interface TaskConfig {
   LanguageCode: LanguageCode;
-  DocumentClassificationConfig?: DocumentClassificationConfig;
-  EntityRecognitionConfig?: EntityRecognitionConfig;
+  DocumentClassificationConfig?: DocumentClassificationConfig | undefined;
+  EntityRecognitionConfig?: EntityRecognitionConfig | undefined;
 }
 export type ModelType = "DOCUMENT_CLASSIFIER" | "ENTITY_RECOGNIZER" | (string & {});
 export type FlywheelS3Uri = string;
 export interface DataSecurityConfig {
-  ModelKmsKeyId?: string;
-  VolumeKmsKeyId?: string;
-  DataLakeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
+  ModelKmsKeyId?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  DataLakeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
 }
 export interface CreateFlywheelRequest {
   FlywheelName: string;
-  ActiveModelArn?: string;
+  ActiveModelArn?: string | undefined;
   DataAccessRoleArn: string;
-  TaskConfig?: TaskConfig;
-  ModelType?: ModelType;
+  TaskConfig?: TaskConfig | undefined;
+  ModelType?: ModelType | undefined;
   DataLakeS3Uri: string;
-  DataSecurityConfig?: DataSecurityConfig;
-  ClientRequestToken?: string;
-  Tags?: Tag[];
+  DataSecurityConfig?: DataSecurityConfig | undefined;
+  ClientRequestToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateFlywheelResponse {
-  FlywheelArn?: string;
-  ActiveModelArn?: string;
+  FlywheelArn?: string | undefined;
+  ActiveModelArn?: string | undefined;
 }
 export interface DeleteDocumentClassifierRequest {
   DocumentClassifierArn: string;
@@ -817,7 +817,7 @@ export interface DeleteFlywheelResponse {}
 export type PolicyRevisionId = string;
 export interface DeleteResourcePolicyRequest {
   ResourceArn: string;
-  PolicyRevisionId?: string;
+  PolicyRevisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DescribeDatasetRequest {
@@ -827,19 +827,19 @@ export type DatasetStatus = "CREATING" | "COMPLETED" | "FAILED" | (string & {});
 export type AnyLengthString = string;
 export type NumberOfDocuments = number;
 export interface DatasetProperties {
-  DatasetArn?: string;
-  DatasetName?: string;
-  DatasetType?: DatasetType;
-  DatasetS3Uri?: string;
-  Description?: string;
-  Status?: DatasetStatus;
-  Message?: string;
-  NumberOfDocuments?: number;
-  CreationTime?: Date;
-  EndTime?: Date;
+  DatasetArn?: string | undefined;
+  DatasetName?: string | undefined;
+  DatasetType?: DatasetType | undefined;
+  DatasetS3Uri?: string | undefined;
+  Description?: string | undefined;
+  Status?: DatasetStatus | undefined;
+  Message?: string | undefined;
+  NumberOfDocuments?: number | undefined;
+  CreationTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export interface DescribeDatasetResponse {
-  DatasetProperties?: DatasetProperties;
+  DatasetProperties?: DatasetProperties | undefined;
 }
 export type JobId = string;
 export interface DescribeDocumentClassificationJobRequest {
@@ -857,31 +857,31 @@ export type JobStatus =
   | (string & {});
 export interface InputDataConfig {
   S3Uri: string;
-  InputFormat?: InputFormat;
-  DocumentReaderConfig?: DocumentReaderConfig;
+  InputFormat?: InputFormat | undefined;
+  DocumentReaderConfig?: DocumentReaderConfig | undefined;
 }
 export interface OutputDataConfig {
   S3Uri: string;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface DocumentClassificationJobProperties {
-  JobId?: string;
-  JobArn?: string;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  Message?: string;
-  SubmitTime?: Date;
-  EndTime?: Date;
-  DocumentClassifierArn?: string;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  DataAccessRoleArn?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  FlywheelArn?: string;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  Message?: string | undefined;
+  SubmitTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  DocumentClassifierArn?: string | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  DataAccessRoleArn?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  FlywheelArn?: string | undefined;
 }
 export interface DescribeDocumentClassificationJobResponse {
-  DocumentClassificationJobProperties?: DocumentClassificationJobProperties;
+  DocumentClassificationJobProperties?: DocumentClassificationJobProperties | undefined;
 }
 export interface DescribeDocumentClassifierRequest {
   DocumentClassifierArn: string;
@@ -897,64 +897,64 @@ export type ModelStatus =
   | "TRAINED_WITH_WARNING"
   | (string & {});
 export interface ClassifierEvaluationMetrics {
-  Accuracy?: number;
-  Precision?: number;
-  Recall?: number;
-  F1Score?: number;
-  MicroPrecision?: number;
-  MicroRecall?: number;
-  MicroF1Score?: number;
-  HammingLoss?: number;
+  Accuracy?: number | undefined;
+  Precision?: number | undefined;
+  Recall?: number | undefined;
+  F1Score?: number | undefined;
+  MicroPrecision?: number | undefined;
+  MicroRecall?: number | undefined;
+  MicroF1Score?: number | undefined;
+  HammingLoss?: number | undefined;
 }
 export interface ClassifierMetadata {
-  NumberOfLabels?: number;
-  NumberOfTrainedDocuments?: number;
-  NumberOfTestDocuments?: number;
-  EvaluationMetrics?: ClassifierEvaluationMetrics;
+  NumberOfLabels?: number | undefined;
+  NumberOfTrainedDocuments?: number | undefined;
+  NumberOfTestDocuments?: number | undefined;
+  EvaluationMetrics?: ClassifierEvaluationMetrics | undefined;
 }
 export interface DocumentClassifierProperties {
-  DocumentClassifierArn?: string;
-  LanguageCode?: LanguageCode;
-  Status?: ModelStatus;
-  Message?: string;
-  SubmitTime?: Date;
-  EndTime?: Date;
-  TrainingStartTime?: Date;
-  TrainingEndTime?: Date;
-  InputDataConfig?: DocumentClassifierInputDataConfig;
-  OutputDataConfig?: DocumentClassifierOutputDataConfig;
-  ClassifierMetadata?: ClassifierMetadata;
-  DataAccessRoleArn?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  Mode?: DocumentClassifierMode;
-  ModelKmsKeyId?: string;
-  VersionName?: string;
-  SourceModelArn?: string;
-  FlywheelArn?: string;
+  DocumentClassifierArn?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  Status?: ModelStatus | undefined;
+  Message?: string | undefined;
+  SubmitTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  TrainingStartTime?: Date | undefined;
+  TrainingEndTime?: Date | undefined;
+  InputDataConfig?: DocumentClassifierInputDataConfig | undefined;
+  OutputDataConfig?: DocumentClassifierOutputDataConfig | undefined;
+  ClassifierMetadata?: ClassifierMetadata | undefined;
+  DataAccessRoleArn?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  Mode?: DocumentClassifierMode | undefined;
+  ModelKmsKeyId?: string | undefined;
+  VersionName?: string | undefined;
+  SourceModelArn?: string | undefined;
+  FlywheelArn?: string | undefined;
 }
 export interface DescribeDocumentClassifierResponse {
-  DocumentClassifierProperties?: DocumentClassifierProperties;
+  DocumentClassifierProperties?: DocumentClassifierProperties | undefined;
 }
 export interface DescribeDominantLanguageDetectionJobRequest {
   JobId: string;
 }
 export interface DominantLanguageDetectionJobProperties {
-  JobId?: string;
-  JobArn?: string;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  Message?: string;
-  SubmitTime?: Date;
-  EndTime?: Date;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  DataAccessRoleArn?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  Message?: string | undefined;
+  SubmitTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  DataAccessRoleArn?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
 }
 export interface DescribeDominantLanguageDetectionJobResponse {
-  DominantLanguageDetectionJobProperties?: DominantLanguageDetectionJobProperties;
+  DominantLanguageDetectionJobProperties?: DominantLanguageDetectionJobProperties | undefined;
 }
 export interface DescribeEndpointRequest {
   EndpointArn: string;
@@ -967,95 +967,95 @@ export type EndpointStatus =
   | "UPDATING"
   | (string & {});
 export interface EndpointProperties {
-  EndpointArn?: string;
-  Status?: EndpointStatus;
-  Message?: string;
-  ModelArn?: string;
-  DesiredModelArn?: string;
-  DesiredInferenceUnits?: number;
-  CurrentInferenceUnits?: number;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  DataAccessRoleArn?: string;
-  DesiredDataAccessRoleArn?: string;
-  FlywheelArn?: string;
+  EndpointArn?: string | undefined;
+  Status?: EndpointStatus | undefined;
+  Message?: string | undefined;
+  ModelArn?: string | undefined;
+  DesiredModelArn?: string | undefined;
+  DesiredInferenceUnits?: number | undefined;
+  CurrentInferenceUnits?: number | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  DataAccessRoleArn?: string | undefined;
+  DesiredDataAccessRoleArn?: string | undefined;
+  FlywheelArn?: string | undefined;
 }
 export interface DescribeEndpointResponse {
-  EndpointProperties?: EndpointProperties;
+  EndpointProperties?: EndpointProperties | undefined;
 }
 export interface DescribeEntitiesDetectionJobRequest {
   JobId: string;
 }
 export interface EntitiesDetectionJobProperties {
-  JobId?: string;
-  JobArn?: string;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  Message?: string;
-  SubmitTime?: Date;
-  EndTime?: Date;
-  EntityRecognizerArn?: string;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  LanguageCode?: LanguageCode;
-  DataAccessRoleArn?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  FlywheelArn?: string;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  Message?: string | undefined;
+  SubmitTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  EntityRecognizerArn?: string | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  DataAccessRoleArn?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  FlywheelArn?: string | undefined;
 }
 export interface DescribeEntitiesDetectionJobResponse {
-  EntitiesDetectionJobProperties?: EntitiesDetectionJobProperties;
+  EntitiesDetectionJobProperties?: EntitiesDetectionJobProperties | undefined;
 }
 export interface DescribeEntityRecognizerRequest {
   EntityRecognizerArn: string;
 }
 export interface EntityRecognizerEvaluationMetrics {
-  Precision?: number;
-  Recall?: number;
-  F1Score?: number;
+  Precision?: number | undefined;
+  Recall?: number | undefined;
+  F1Score?: number | undefined;
 }
 export interface EntityTypesEvaluationMetrics {
-  Precision?: number;
-  Recall?: number;
-  F1Score?: number;
+  Precision?: number | undefined;
+  Recall?: number | undefined;
+  F1Score?: number | undefined;
 }
 export interface EntityRecognizerMetadataEntityTypesListItem {
-  Type?: string;
-  EvaluationMetrics?: EntityTypesEvaluationMetrics;
-  NumberOfTrainMentions?: number;
+  Type?: string | undefined;
+  EvaluationMetrics?: EntityTypesEvaluationMetrics | undefined;
+  NumberOfTrainMentions?: number | undefined;
 }
 export type EntityRecognizerMetadataEntityTypesList = EntityRecognizerMetadataEntityTypesListItem[];
 export interface EntityRecognizerMetadata {
-  NumberOfTrainedDocuments?: number;
-  NumberOfTestDocuments?: number;
-  EvaluationMetrics?: EntityRecognizerEvaluationMetrics;
-  EntityTypes?: EntityRecognizerMetadataEntityTypesListItem[];
+  NumberOfTrainedDocuments?: number | undefined;
+  NumberOfTestDocuments?: number | undefined;
+  EvaluationMetrics?: EntityRecognizerEvaluationMetrics | undefined;
+  EntityTypes?: EntityRecognizerMetadataEntityTypesListItem[] | undefined;
 }
 export interface EntityRecognizerOutputDataConfig {
-  FlywheelStatsS3Prefix?: string;
+  FlywheelStatsS3Prefix?: string | undefined;
 }
 export interface EntityRecognizerProperties {
-  EntityRecognizerArn?: string;
-  LanguageCode?: LanguageCode;
-  Status?: ModelStatus;
-  Message?: string;
-  SubmitTime?: Date;
-  EndTime?: Date;
-  TrainingStartTime?: Date;
-  TrainingEndTime?: Date;
-  InputDataConfig?: EntityRecognizerInputDataConfig;
-  RecognizerMetadata?: EntityRecognizerMetadata;
-  DataAccessRoleArn?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  ModelKmsKeyId?: string;
-  VersionName?: string;
-  SourceModelArn?: string;
-  FlywheelArn?: string;
-  OutputDataConfig?: EntityRecognizerOutputDataConfig;
+  EntityRecognizerArn?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  Status?: ModelStatus | undefined;
+  Message?: string | undefined;
+  SubmitTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  TrainingStartTime?: Date | undefined;
+  TrainingEndTime?: Date | undefined;
+  InputDataConfig?: EntityRecognizerInputDataConfig | undefined;
+  RecognizerMetadata?: EntityRecognizerMetadata | undefined;
+  DataAccessRoleArn?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  ModelKmsKeyId?: string | undefined;
+  VersionName?: string | undefined;
+  SourceModelArn?: string | undefined;
+  FlywheelArn?: string | undefined;
+  OutputDataConfig?: EntityRecognizerOutputDataConfig | undefined;
 }
 export interface DescribeEntityRecognizerResponse {
-  EntityRecognizerProperties?: EntityRecognizerProperties;
+  EntityRecognizerProperties?: EntityRecognizerProperties | undefined;
 }
 export interface DescribeEventsDetectionJobRequest {
   JobId: string;
@@ -1063,21 +1063,21 @@ export interface DescribeEventsDetectionJobRequest {
 export type EventTypeString = string;
 export type TargetEventTypes = string[];
 export interface EventsDetectionJobProperties {
-  JobId?: string;
-  JobArn?: string;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  Message?: string;
-  SubmitTime?: Date;
-  EndTime?: Date;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  LanguageCode?: LanguageCode;
-  DataAccessRoleArn?: string;
-  TargetEventTypes?: string[];
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  Message?: string | undefined;
+  SubmitTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  DataAccessRoleArn?: string | undefined;
+  TargetEventTypes?: string[] | undefined;
 }
 export interface DescribeEventsDetectionJobResponse {
-  EventsDetectionJobProperties?: EventsDetectionJobProperties;
+  EventsDetectionJobProperties?: EventsDetectionJobProperties | undefined;
 }
 export interface DescribeFlywheelRequest {
   FlywheelArn: string;
@@ -1091,21 +1091,21 @@ export type FlywheelStatus =
   | (string & {});
 export type FlywheelIterationId = string;
 export interface FlywheelProperties {
-  FlywheelArn?: string;
-  ActiveModelArn?: string;
-  DataAccessRoleArn?: string;
-  TaskConfig?: TaskConfig;
-  DataLakeS3Uri?: string;
-  DataSecurityConfig?: DataSecurityConfig;
-  Status?: FlywheelStatus;
-  ModelType?: ModelType;
-  Message?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  LatestFlywheelIteration?: string;
+  FlywheelArn?: string | undefined;
+  ActiveModelArn?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  TaskConfig?: TaskConfig | undefined;
+  DataLakeS3Uri?: string | undefined;
+  DataSecurityConfig?: DataSecurityConfig | undefined;
+  Status?: FlywheelStatus | undefined;
+  ModelType?: ModelType | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LatestFlywheelIteration?: string | undefined;
 }
 export interface DescribeFlywheelResponse {
-  FlywheelProperties?: FlywheelProperties;
+  FlywheelProperties?: FlywheelProperties | undefined;
 }
 export interface DescribeFlywheelIterationRequest {
   FlywheelArn: string;
@@ -1120,249 +1120,249 @@ export type FlywheelIterationStatus =
   | "STOPPED"
   | (string & {});
 export interface FlywheelModelEvaluationMetrics {
-  AverageF1Score?: number;
-  AveragePrecision?: number;
-  AverageRecall?: number;
-  AverageAccuracy?: number;
+  AverageF1Score?: number | undefined;
+  AveragePrecision?: number | undefined;
+  AverageRecall?: number | undefined;
+  AverageAccuracy?: number | undefined;
 }
 export interface FlywheelIterationProperties {
-  FlywheelArn?: string;
-  FlywheelIterationId?: string;
-  CreationTime?: Date;
-  EndTime?: Date;
-  Status?: FlywheelIterationStatus;
-  Message?: string;
-  EvaluatedModelArn?: string;
-  EvaluatedModelMetrics?: FlywheelModelEvaluationMetrics;
-  TrainedModelArn?: string;
-  TrainedModelMetrics?: FlywheelModelEvaluationMetrics;
-  EvaluationManifestS3Prefix?: string;
+  FlywheelArn?: string | undefined;
+  FlywheelIterationId?: string | undefined;
+  CreationTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Status?: FlywheelIterationStatus | undefined;
+  Message?: string | undefined;
+  EvaluatedModelArn?: string | undefined;
+  EvaluatedModelMetrics?: FlywheelModelEvaluationMetrics | undefined;
+  TrainedModelArn?: string | undefined;
+  TrainedModelMetrics?: FlywheelModelEvaluationMetrics | undefined;
+  EvaluationManifestS3Prefix?: string | undefined;
 }
 export interface DescribeFlywheelIterationResponse {
-  FlywheelIterationProperties?: FlywheelIterationProperties;
+  FlywheelIterationProperties?: FlywheelIterationProperties | undefined;
 }
 export interface DescribeKeyPhrasesDetectionJobRequest {
   JobId: string;
 }
 export interface KeyPhrasesDetectionJobProperties {
-  JobId?: string;
-  JobArn?: string;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  Message?: string;
-  SubmitTime?: Date;
-  EndTime?: Date;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  LanguageCode?: LanguageCode;
-  DataAccessRoleArn?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  Message?: string | undefined;
+  SubmitTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  DataAccessRoleArn?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
 }
 export interface DescribeKeyPhrasesDetectionJobResponse {
-  KeyPhrasesDetectionJobProperties?: KeyPhrasesDetectionJobProperties;
+  KeyPhrasesDetectionJobProperties?: KeyPhrasesDetectionJobProperties | undefined;
 }
 export interface DescribePiiEntitiesDetectionJobRequest {
   JobId: string;
 }
 export interface PiiOutputDataConfig {
   S3Uri: string;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export type ListOfPiiEntityTypes = PiiEntityType[];
 export type PiiEntitiesDetectionMaskMode = "MASK" | "REPLACE_WITH_PII_ENTITY_TYPE" | (string & {});
 export type MaskCharacter = string;
 export interface RedactionConfig {
-  PiiEntityTypes?: PiiEntityType[];
-  MaskMode?: PiiEntitiesDetectionMaskMode;
-  MaskCharacter?: string;
+  PiiEntityTypes?: PiiEntityType[] | undefined;
+  MaskMode?: PiiEntitiesDetectionMaskMode | undefined;
+  MaskCharacter?: string | undefined;
 }
 export type PiiEntitiesDetectionMode = "ONLY_REDACTION" | "ONLY_OFFSETS" | (string & {});
 export interface PiiEntitiesDetectionJobProperties {
-  JobId?: string;
-  JobArn?: string;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  Message?: string;
-  SubmitTime?: Date;
-  EndTime?: Date;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: PiiOutputDataConfig;
-  RedactionConfig?: RedactionConfig;
-  LanguageCode?: LanguageCode;
-  DataAccessRoleArn?: string;
-  Mode?: PiiEntitiesDetectionMode;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  Message?: string | undefined;
+  SubmitTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: PiiOutputDataConfig | undefined;
+  RedactionConfig?: RedactionConfig | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  DataAccessRoleArn?: string | undefined;
+  Mode?: PiiEntitiesDetectionMode | undefined;
 }
 export interface DescribePiiEntitiesDetectionJobResponse {
-  PiiEntitiesDetectionJobProperties?: PiiEntitiesDetectionJobProperties;
+  PiiEntitiesDetectionJobProperties?: PiiEntitiesDetectionJobProperties | undefined;
 }
 export interface DescribeResourcePolicyRequest {
   ResourceArn: string;
 }
 export interface DescribeResourcePolicyResponse {
-  ResourcePolicy?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  PolicyRevisionId?: string;
+  ResourcePolicy?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  PolicyRevisionId?: string | undefined;
 }
 export interface DescribeSentimentDetectionJobRequest {
   JobId: string;
 }
 export interface SentimentDetectionJobProperties {
-  JobId?: string;
-  JobArn?: string;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  Message?: string;
-  SubmitTime?: Date;
-  EndTime?: Date;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  LanguageCode?: LanguageCode;
-  DataAccessRoleArn?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  Message?: string | undefined;
+  SubmitTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  DataAccessRoleArn?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
 }
 export interface DescribeSentimentDetectionJobResponse {
-  SentimentDetectionJobProperties?: SentimentDetectionJobProperties;
+  SentimentDetectionJobProperties?: SentimentDetectionJobProperties | undefined;
 }
 export interface DescribeTargetedSentimentDetectionJobRequest {
   JobId: string;
 }
 export interface TargetedSentimentDetectionJobProperties {
-  JobId?: string;
-  JobArn?: string;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  Message?: string;
-  SubmitTime?: Date;
-  EndTime?: Date;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  LanguageCode?: LanguageCode;
-  DataAccessRoleArn?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  Message?: string | undefined;
+  SubmitTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  DataAccessRoleArn?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
 }
 export interface DescribeTargetedSentimentDetectionJobResponse {
-  TargetedSentimentDetectionJobProperties?: TargetedSentimentDetectionJobProperties;
+  TargetedSentimentDetectionJobProperties?: TargetedSentimentDetectionJobProperties | undefined;
 }
 export interface DescribeTopicsDetectionJobRequest {
   JobId: string;
 }
 export interface TopicsDetectionJobProperties {
-  JobId?: string;
-  JobArn?: string;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  Message?: string;
-  SubmitTime?: Date;
-  EndTime?: Date;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  NumberOfTopics?: number;
-  DataAccessRoleArn?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  Message?: string | undefined;
+  SubmitTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  NumberOfTopics?: number | undefined;
+  DataAccessRoleArn?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
 }
 export interface DescribeTopicsDetectionJobResponse {
-  TopicsDetectionJobProperties?: TopicsDetectionJobProperties;
+  TopicsDetectionJobProperties?: TopicsDetectionJobProperties | undefined;
 }
 export interface DetectDominantLanguageRequest {
   Text: string | redacted.Redacted<string>;
 }
 export interface DetectDominantLanguageResponse {
-  Languages?: DominantLanguage[];
+  Languages?: DominantLanguage[] | undefined;
 }
 export type EntityRecognizerEndpointArn = string;
 export interface DetectEntitiesRequest {
-  Text?: string | redacted.Redacted<string>;
-  LanguageCode?: LanguageCode;
-  EndpointArn?: string;
-  Bytes?: Uint8Array;
-  DocumentReaderConfig?: DocumentReaderConfig;
+  Text?: string | redacted.Redacted<string> | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  EndpointArn?: string | undefined;
+  Bytes?: Uint8Array | undefined;
+  DocumentReaderConfig?: DocumentReaderConfig | undefined;
 }
 export type BlockType = "LINE" | "WORD" | (string & {});
 export interface BoundingBox {
-  Height?: number;
-  Left?: number;
-  Top?: number;
-  Width?: number;
+  Height?: number | undefined;
+  Left?: number | undefined;
+  Top?: number | undefined;
+  Width?: number | undefined;
 }
 export interface Point {
-  X?: number;
-  Y?: number;
+  X?: number | undefined;
+  Y?: number | undefined;
 }
 export type Polygon = Point[];
 export interface Geometry {
-  BoundingBox?: BoundingBox;
-  Polygon?: Point[];
+  BoundingBox?: BoundingBox | undefined;
+  Polygon?: Point[] | undefined;
 }
 export type StringList = string[];
 export type RelationshipType = "CHILD" | (string & {});
 export interface RelationshipsListItem {
-  Ids?: string[];
-  Type?: RelationshipType;
+  Ids?: string[] | undefined;
+  Type?: RelationshipType | undefined;
 }
 export type ListOfRelationships = RelationshipsListItem[];
 export interface Block {
-  Id?: string;
-  BlockType?: BlockType;
-  Text?: string;
-  Page?: number;
-  Geometry?: Geometry;
-  Relationships?: RelationshipsListItem[];
+  Id?: string | undefined;
+  BlockType?: BlockType | undefined;
+  Text?: string | undefined;
+  Page?: number | undefined;
+  Geometry?: Geometry | undefined;
+  Relationships?: RelationshipsListItem[] | undefined;
 }
 export type ListOfBlocks = Block[];
 export interface DetectEntitiesResponse {
-  Entities?: Entity[];
-  DocumentMetadata?: DocumentMetadata;
-  DocumentType?: DocumentTypeListItem[];
-  Blocks?: Block[];
-  Errors?: ErrorsListItem[];
+  Entities?: Entity[] | undefined;
+  DocumentMetadata?: DocumentMetadata | undefined;
+  DocumentType?: DocumentTypeListItem[] | undefined;
+  Blocks?: Block[] | undefined;
+  Errors?: ErrorsListItem[] | undefined;
 }
 export interface DetectKeyPhrasesRequest {
   Text: string | redacted.Redacted<string>;
   LanguageCode: LanguageCode;
 }
 export interface DetectKeyPhrasesResponse {
-  KeyPhrases?: KeyPhrase[];
+  KeyPhrases?: KeyPhrase[] | undefined;
 }
 export interface DetectPiiEntitiesRequest {
   Text: string;
   LanguageCode: LanguageCode;
 }
 export interface PiiEntity {
-  Score?: number;
-  Type?: PiiEntityType;
-  BeginOffset?: number;
-  EndOffset?: number;
+  Score?: number | undefined;
+  Type?: PiiEntityType | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
 }
 export type ListOfPiiEntities = PiiEntity[];
 export interface DetectPiiEntitiesResponse {
-  Entities?: PiiEntity[];
+  Entities?: PiiEntity[] | undefined;
 }
 export interface DetectSentimentRequest {
   Text: string | redacted.Redacted<string>;
   LanguageCode: LanguageCode;
 }
 export interface DetectSentimentResponse {
-  Sentiment?: SentimentType;
-  SentimentScore?: SentimentScore;
+  Sentiment?: SentimentType | undefined;
+  SentimentScore?: SentimentScore | undefined;
 }
 export interface DetectSyntaxRequest {
   Text: string | redacted.Redacted<string>;
   LanguageCode: SyntaxLanguageCode;
 }
 export interface DetectSyntaxResponse {
-  SyntaxTokens?: SyntaxToken[];
+  SyntaxTokens?: SyntaxToken[] | undefined;
 }
 export interface DetectTargetedSentimentRequest {
   Text: string | redacted.Redacted<string>;
   LanguageCode: LanguageCode;
 }
 export interface DetectTargetedSentimentResponse {
-  Entities?: TargetedSentimentEntity[];
+  Entities?: TargetedSentimentEntity[] | undefined;
 }
 export interface TextSegment {
   Text: string | redacted.Redacted<string>;
@@ -1382,531 +1382,533 @@ export type ToxicContentType =
   | "VIOLENCE_OR_THREAT"
   | (string & {});
 export interface ToxicContent {
-  Name?: ToxicContentType;
-  Score?: number;
+  Name?: ToxicContentType | undefined;
+  Score?: number | undefined;
 }
 export type ListOfToxicContent = ToxicContent[];
 export interface ToxicLabels {
-  Labels?: ToxicContent[];
-  Toxicity?: number;
+  Labels?: ToxicContent[] | undefined;
+  Toxicity?: number | undefined;
 }
 export type ListOfToxicLabels = ToxicLabels[];
 export interface DetectToxicContentResponse {
-  ResultList?: ToxicLabels[];
+  ResultList?: ToxicLabels[] | undefined;
 }
 export interface ImportModelRequest {
   SourceModelArn: string;
-  ModelName?: string;
-  VersionName?: string;
-  ModelKmsKeyId?: string;
-  DataAccessRoleArn?: string;
-  Tags?: Tag[];
+  ModelName?: string | undefined;
+  VersionName?: string | undefined;
+  ModelKmsKeyId?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ImportModelResponse {
-  ModelArn?: string;
+  ModelArn?: string | undefined;
 }
 export interface DatasetFilter {
-  Status?: DatasetStatus;
-  DatasetType?: DatasetType;
-  CreationTimeAfter?: Date;
-  CreationTimeBefore?: Date;
+  Status?: DatasetStatus | undefined;
+  DatasetType?: DatasetType | undefined;
+  CreationTimeAfter?: Date | undefined;
+  CreationTimeBefore?: Date | undefined;
 }
 export type MaxResultsInteger = number;
 export interface ListDatasetsRequest {
-  FlywheelArn?: string;
-  Filter?: DatasetFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  FlywheelArn?: string | undefined;
+  Filter?: DatasetFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DatasetPropertiesList = DatasetProperties[];
 export interface ListDatasetsResponse {
-  DatasetPropertiesList?: DatasetProperties[];
-  NextToken?: string;
+  DatasetPropertiesList?: DatasetProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DocumentClassificationJobFilter {
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmitTimeBefore?: Date;
-  SubmitTimeAfter?: Date;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmitTimeBefore?: Date | undefined;
+  SubmitTimeAfter?: Date | undefined;
 }
 export interface ListDocumentClassificationJobsRequest {
-  Filter?: DocumentClassificationJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: DocumentClassificationJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DocumentClassificationJobPropertiesList = DocumentClassificationJobProperties[];
 export interface ListDocumentClassificationJobsResponse {
-  DocumentClassificationJobPropertiesList?: DocumentClassificationJobProperties[];
-  NextToken?: string;
+  DocumentClassificationJobPropertiesList?: DocumentClassificationJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DocumentClassifierFilter {
-  Status?: ModelStatus;
-  DocumentClassifierName?: string;
-  SubmitTimeBefore?: Date;
-  SubmitTimeAfter?: Date;
+  Status?: ModelStatus | undefined;
+  DocumentClassifierName?: string | undefined;
+  SubmitTimeBefore?: Date | undefined;
+  SubmitTimeAfter?: Date | undefined;
 }
 export interface ListDocumentClassifiersRequest {
-  Filter?: DocumentClassifierFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: DocumentClassifierFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DocumentClassifierPropertiesList = DocumentClassifierProperties[];
 export interface ListDocumentClassifiersResponse {
-  DocumentClassifierPropertiesList?: DocumentClassifierProperties[];
-  NextToken?: string;
+  DocumentClassifierPropertiesList?: DocumentClassifierProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDocumentClassifierSummariesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DocumentClassifierSummary {
-  DocumentClassifierName?: string;
-  NumberOfVersions?: number;
-  LatestVersionCreatedAt?: Date;
-  LatestVersionName?: string;
-  LatestVersionStatus?: ModelStatus;
+  DocumentClassifierName?: string | undefined;
+  NumberOfVersions?: number | undefined;
+  LatestVersionCreatedAt?: Date | undefined;
+  LatestVersionName?: string | undefined;
+  LatestVersionStatus?: ModelStatus | undefined;
 }
 export type DocumentClassifierSummariesList = DocumentClassifierSummary[];
 export interface ListDocumentClassifierSummariesResponse {
-  DocumentClassifierSummariesList?: DocumentClassifierSummary[];
-  NextToken?: string;
+  DocumentClassifierSummariesList?: DocumentClassifierSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DominantLanguageDetectionJobFilter {
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmitTimeBefore?: Date;
-  SubmitTimeAfter?: Date;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmitTimeBefore?: Date | undefined;
+  SubmitTimeAfter?: Date | undefined;
 }
 export interface ListDominantLanguageDetectionJobsRequest {
-  Filter?: DominantLanguageDetectionJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: DominantLanguageDetectionJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DominantLanguageDetectionJobPropertiesList = DominantLanguageDetectionJobProperties[];
 export interface ListDominantLanguageDetectionJobsResponse {
-  DominantLanguageDetectionJobPropertiesList?: DominantLanguageDetectionJobProperties[];
-  NextToken?: string;
+  DominantLanguageDetectionJobPropertiesList?: DominantLanguageDetectionJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface EndpointFilter {
-  ModelArn?: string;
-  Status?: EndpointStatus;
-  CreationTimeBefore?: Date;
-  CreationTimeAfter?: Date;
+  ModelArn?: string | undefined;
+  Status?: EndpointStatus | undefined;
+  CreationTimeBefore?: Date | undefined;
+  CreationTimeAfter?: Date | undefined;
 }
 export interface ListEndpointsRequest {
-  Filter?: EndpointFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: EndpointFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type EndpointPropertiesList = EndpointProperties[];
 export interface ListEndpointsResponse {
-  EndpointPropertiesList?: EndpointProperties[];
-  NextToken?: string;
+  EndpointPropertiesList?: EndpointProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface EntitiesDetectionJobFilter {
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmitTimeBefore?: Date;
-  SubmitTimeAfter?: Date;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmitTimeBefore?: Date | undefined;
+  SubmitTimeAfter?: Date | undefined;
 }
 export interface ListEntitiesDetectionJobsRequest {
-  Filter?: EntitiesDetectionJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: EntitiesDetectionJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type EntitiesDetectionJobPropertiesList = EntitiesDetectionJobProperties[];
 export interface ListEntitiesDetectionJobsResponse {
-  EntitiesDetectionJobPropertiesList?: EntitiesDetectionJobProperties[];
-  NextToken?: string;
+  EntitiesDetectionJobPropertiesList?: EntitiesDetectionJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface EntityRecognizerFilter {
-  Status?: ModelStatus;
-  RecognizerName?: string;
-  SubmitTimeBefore?: Date;
-  SubmitTimeAfter?: Date;
+  Status?: ModelStatus | undefined;
+  RecognizerName?: string | undefined;
+  SubmitTimeBefore?: Date | undefined;
+  SubmitTimeAfter?: Date | undefined;
 }
 export interface ListEntityRecognizersRequest {
-  Filter?: EntityRecognizerFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: EntityRecognizerFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type EntityRecognizerPropertiesList = EntityRecognizerProperties[];
 export interface ListEntityRecognizersResponse {
-  EntityRecognizerPropertiesList?: EntityRecognizerProperties[];
-  NextToken?: string;
+  EntityRecognizerPropertiesList?: EntityRecognizerProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEntityRecognizerSummariesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface EntityRecognizerSummary {
-  RecognizerName?: string;
-  NumberOfVersions?: number;
-  LatestVersionCreatedAt?: Date;
-  LatestVersionName?: string;
-  LatestVersionStatus?: ModelStatus;
+  RecognizerName?: string | undefined;
+  NumberOfVersions?: number | undefined;
+  LatestVersionCreatedAt?: Date | undefined;
+  LatestVersionName?: string | undefined;
+  LatestVersionStatus?: ModelStatus | undefined;
 }
 export type EntityRecognizerSummariesList = EntityRecognizerSummary[];
 export interface ListEntityRecognizerSummariesResponse {
-  EntityRecognizerSummariesList?: EntityRecognizerSummary[];
-  NextToken?: string;
+  EntityRecognizerSummariesList?: EntityRecognizerSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface EventsDetectionJobFilter {
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmitTimeBefore?: Date;
-  SubmitTimeAfter?: Date;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmitTimeBefore?: Date | undefined;
+  SubmitTimeAfter?: Date | undefined;
 }
 export interface ListEventsDetectionJobsRequest {
-  Filter?: EventsDetectionJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: EventsDetectionJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type EventsDetectionJobPropertiesList = EventsDetectionJobProperties[];
 export interface ListEventsDetectionJobsResponse {
-  EventsDetectionJobPropertiesList?: EventsDetectionJobProperties[];
-  NextToken?: string;
+  EventsDetectionJobPropertiesList?: EventsDetectionJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface FlywheelIterationFilter {
-  CreationTimeAfter?: Date;
-  CreationTimeBefore?: Date;
+  CreationTimeAfter?: Date | undefined;
+  CreationTimeBefore?: Date | undefined;
 }
 export interface ListFlywheelIterationHistoryRequest {
   FlywheelArn: string;
-  Filter?: FlywheelIterationFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: FlywheelIterationFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type FlywheelIterationPropertiesList = FlywheelIterationProperties[];
 export interface ListFlywheelIterationHistoryResponse {
-  FlywheelIterationPropertiesList?: FlywheelIterationProperties[];
-  NextToken?: string;
+  FlywheelIterationPropertiesList?: FlywheelIterationProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface FlywheelFilter {
-  Status?: FlywheelStatus;
-  CreationTimeAfter?: Date;
-  CreationTimeBefore?: Date;
+  Status?: FlywheelStatus | undefined;
+  CreationTimeAfter?: Date | undefined;
+  CreationTimeBefore?: Date | undefined;
 }
 export interface ListFlywheelsRequest {
-  Filter?: FlywheelFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: FlywheelFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface FlywheelSummary {
-  FlywheelArn?: string;
-  ActiveModelArn?: string;
-  DataLakeS3Uri?: string;
-  Status?: FlywheelStatus;
-  ModelType?: ModelType;
-  Message?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  LatestFlywheelIteration?: string;
+  FlywheelArn?: string | undefined;
+  ActiveModelArn?: string | undefined;
+  DataLakeS3Uri?: string | undefined;
+  Status?: FlywheelStatus | undefined;
+  ModelType?: ModelType | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LatestFlywheelIteration?: string | undefined;
 }
 export type FlywheelSummaryList = FlywheelSummary[];
 export interface ListFlywheelsResponse {
-  FlywheelSummaryList?: FlywheelSummary[];
-  NextToken?: string;
+  FlywheelSummaryList?: FlywheelSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface KeyPhrasesDetectionJobFilter {
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmitTimeBefore?: Date;
-  SubmitTimeAfter?: Date;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmitTimeBefore?: Date | undefined;
+  SubmitTimeAfter?: Date | undefined;
 }
 export interface ListKeyPhrasesDetectionJobsRequest {
-  Filter?: KeyPhrasesDetectionJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: KeyPhrasesDetectionJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type KeyPhrasesDetectionJobPropertiesList = KeyPhrasesDetectionJobProperties[];
 export interface ListKeyPhrasesDetectionJobsResponse {
-  KeyPhrasesDetectionJobPropertiesList?: KeyPhrasesDetectionJobProperties[];
-  NextToken?: string;
+  KeyPhrasesDetectionJobPropertiesList?: KeyPhrasesDetectionJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PiiEntitiesDetectionJobFilter {
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmitTimeBefore?: Date;
-  SubmitTimeAfter?: Date;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmitTimeBefore?: Date | undefined;
+  SubmitTimeAfter?: Date | undefined;
 }
 export interface ListPiiEntitiesDetectionJobsRequest {
-  Filter?: PiiEntitiesDetectionJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: PiiEntitiesDetectionJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type PiiEntitiesDetectionJobPropertiesList = PiiEntitiesDetectionJobProperties[];
 export interface ListPiiEntitiesDetectionJobsResponse {
-  PiiEntitiesDetectionJobPropertiesList?: PiiEntitiesDetectionJobProperties[];
-  NextToken?: string;
+  PiiEntitiesDetectionJobPropertiesList?: PiiEntitiesDetectionJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface SentimentDetectionJobFilter {
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmitTimeBefore?: Date;
-  SubmitTimeAfter?: Date;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmitTimeBefore?: Date | undefined;
+  SubmitTimeAfter?: Date | undefined;
 }
 export interface ListSentimentDetectionJobsRequest {
-  Filter?: SentimentDetectionJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: SentimentDetectionJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type SentimentDetectionJobPropertiesList = SentimentDetectionJobProperties[];
 export interface ListSentimentDetectionJobsResponse {
-  SentimentDetectionJobPropertiesList?: SentimentDetectionJobProperties[];
-  NextToken?: string;
+  SentimentDetectionJobPropertiesList?: SentimentDetectionJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  ResourceArn?: string;
-  Tags?: Tag[];
+  ResourceArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface TargetedSentimentDetectionJobFilter {
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmitTimeBefore?: Date;
-  SubmitTimeAfter?: Date;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmitTimeBefore?: Date | undefined;
+  SubmitTimeAfter?: Date | undefined;
 }
 export interface ListTargetedSentimentDetectionJobsRequest {
-  Filter?: TargetedSentimentDetectionJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: TargetedSentimentDetectionJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TargetedSentimentDetectionJobPropertiesList = TargetedSentimentDetectionJobProperties[];
 export interface ListTargetedSentimentDetectionJobsResponse {
-  TargetedSentimentDetectionJobPropertiesList?: TargetedSentimentDetectionJobProperties[];
-  NextToken?: string;
+  TargetedSentimentDetectionJobPropertiesList?:
+    | TargetedSentimentDetectionJobProperties[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface TopicsDetectionJobFilter {
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmitTimeBefore?: Date;
-  SubmitTimeAfter?: Date;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmitTimeBefore?: Date | undefined;
+  SubmitTimeAfter?: Date | undefined;
 }
 export interface ListTopicsDetectionJobsRequest {
-  Filter?: TopicsDetectionJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: TopicsDetectionJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TopicsDetectionJobPropertiesList = TopicsDetectionJobProperties[];
 export interface ListTopicsDetectionJobsResponse {
-  TopicsDetectionJobPropertiesList?: TopicsDetectionJobProperties[];
-  NextToken?: string;
+  TopicsDetectionJobPropertiesList?: TopicsDetectionJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
   ResourcePolicy: string;
-  PolicyRevisionId?: string;
+  PolicyRevisionId?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
-  PolicyRevisionId?: string;
+  PolicyRevisionId?: string | undefined;
 }
 export interface StartDocumentClassificationJobRequest {
-  JobName?: string;
-  DocumentClassifierArn?: string;
+  JobName?: string | undefined;
+  DocumentClassifierArn?: string | undefined;
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  ClientRequestToken?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  Tags?: Tag[];
-  FlywheelArn?: string;
+  ClientRequestToken?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  Tags?: Tag[] | undefined;
+  FlywheelArn?: string | undefined;
 }
 export interface StartDocumentClassificationJobResponse {
-  JobId?: string;
-  JobArn?: string;
-  JobStatus?: JobStatus;
-  DocumentClassifierArn?: string;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  DocumentClassifierArn?: string | undefined;
 }
 export interface StartDominantLanguageDetectionJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  JobName?: string;
-  ClientRequestToken?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  Tags?: Tag[];
+  JobName?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface StartDominantLanguageDetectionJobResponse {
-  JobId?: string;
-  JobArn?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StartEntitiesDetectionJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  JobName?: string;
-  EntityRecognizerArn?: string;
+  JobName?: string | undefined;
+  EntityRecognizerArn?: string | undefined;
   LanguageCode: LanguageCode;
-  ClientRequestToken?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  Tags?: Tag[];
-  FlywheelArn?: string;
+  ClientRequestToken?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  Tags?: Tag[] | undefined;
+  FlywheelArn?: string | undefined;
 }
 export interface StartEntitiesDetectionJobResponse {
-  JobId?: string;
-  JobArn?: string;
-  JobStatus?: JobStatus;
-  EntityRecognizerArn?: string;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  EntityRecognizerArn?: string | undefined;
 }
 export interface StartEventsDetectionJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  JobName?: string;
+  JobName?: string | undefined;
   LanguageCode: LanguageCode;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
   TargetEventTypes: string[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface StartEventsDetectionJobResponse {
-  JobId?: string;
-  JobArn?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StartFlywheelIterationRequest {
   FlywheelArn: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface StartFlywheelIterationResponse {
-  FlywheelArn?: string;
-  FlywheelIterationId?: string;
+  FlywheelArn?: string | undefined;
+  FlywheelIterationId?: string | undefined;
 }
 export interface StartKeyPhrasesDetectionJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  JobName?: string;
+  JobName?: string | undefined;
   LanguageCode: LanguageCode;
-  ClientRequestToken?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  Tags?: Tag[];
+  ClientRequestToken?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface StartKeyPhrasesDetectionJobResponse {
-  JobId?: string;
-  JobArn?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StartPiiEntitiesDetectionJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   Mode: PiiEntitiesDetectionMode;
-  RedactionConfig?: RedactionConfig;
+  RedactionConfig?: RedactionConfig | undefined;
   DataAccessRoleArn: string;
-  JobName?: string;
+  JobName?: string | undefined;
   LanguageCode: LanguageCode;
-  ClientRequestToken?: string;
-  Tags?: Tag[];
+  ClientRequestToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface StartPiiEntitiesDetectionJobResponse {
-  JobId?: string;
-  JobArn?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StartSentimentDetectionJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  JobName?: string;
+  JobName?: string | undefined;
   LanguageCode: LanguageCode;
-  ClientRequestToken?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  Tags?: Tag[];
+  ClientRequestToken?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface StartSentimentDetectionJobResponse {
-  JobId?: string;
-  JobArn?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StartTargetedSentimentDetectionJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  JobName?: string;
+  JobName?: string | undefined;
   LanguageCode: LanguageCode;
-  ClientRequestToken?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  Tags?: Tag[];
+  ClientRequestToken?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface StartTargetedSentimentDetectionJobResponse {
-  JobId?: string;
-  JobArn?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export type NumberOfTopicsInteger = number;
 export interface StartTopicsDetectionJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  JobName?: string;
-  NumberOfTopics?: number;
-  ClientRequestToken?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
-  Tags?: Tag[];
+  JobName?: string | undefined;
+  NumberOfTopics?: number | undefined;
+  ClientRequestToken?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface StartTopicsDetectionJobResponse {
-  JobId?: string;
-  JobArn?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobArn?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StopDominantLanguageDetectionJobRequest {
   JobId: string;
 }
 export interface StopDominantLanguageDetectionJobResponse {
-  JobId?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StopEntitiesDetectionJobRequest {
   JobId: string;
 }
 export interface StopEntitiesDetectionJobResponse {
-  JobId?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StopEventsDetectionJobRequest {
   JobId: string;
 }
 export interface StopEventsDetectionJobResponse {
-  JobId?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StopKeyPhrasesDetectionJobRequest {
   JobId: string;
 }
 export interface StopKeyPhrasesDetectionJobResponse {
-  JobId?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StopPiiEntitiesDetectionJobRequest {
   JobId: string;
 }
 export interface StopPiiEntitiesDetectionJobResponse {
-  JobId?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StopSentimentDetectionJobRequest {
   JobId: string;
 }
 export interface StopSentimentDetectionJobResponse {
-  JobId?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StopTargetedSentimentDetectionJobRequest {
   JobId: string;
 }
 export interface StopTargetedSentimentDetectionJobResponse {
-  JobId?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StopTrainingDocumentClassifierRequest {
   DocumentClassifierArn: string;
@@ -1929,27 +1931,27 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateEndpointRequest {
   EndpointArn: string;
-  DesiredModelArn?: string;
-  DesiredInferenceUnits?: number;
-  DesiredDataAccessRoleArn?: string;
-  FlywheelArn?: string;
+  DesiredModelArn?: string | undefined;
+  DesiredInferenceUnits?: number | undefined;
+  DesiredDataAccessRoleArn?: string | undefined;
+  FlywheelArn?: string | undefined;
 }
 export interface UpdateEndpointResponse {
-  DesiredModelArn?: string;
+  DesiredModelArn?: string | undefined;
 }
 export interface UpdateDataSecurityConfig {
-  ModelKmsKeyId?: string;
-  VolumeKmsKeyId?: string;
-  VpcConfig?: VpcConfig;
+  ModelKmsKeyId?: string | undefined;
+  VolumeKmsKeyId?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
 }
 export interface UpdateFlywheelRequest {
   FlywheelArn: string;
-  ActiveModelArn?: string;
-  DataAccessRoleArn?: string;
-  DataSecurityConfig?: UpdateDataSecurityConfig;
+  ActiveModelArn?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  DataSecurityConfig?: UpdateDataSecurityConfig | undefined;
 }
 export interface UpdateFlywheelResponse {
-  FlywheelProperties?: FlywheelProperties;
+  FlywheelProperties?: FlywheelProperties | undefined;
 }
 export type InvalidRequestReason = "INVALID_DOCUMENT" | (string & {});
 export type InvalidRequestDetailReason =
@@ -1959,7 +1961,7 @@ export type InvalidRequestDetailReason =
   | "TEXTRACT_ACCESS_DENIED"
   | (string & {});
 export interface InvalidRequestDetail {
-  Reason?: InvalidRequestDetailReason;
+  Reason?: InvalidRequestDetailReason | undefined;
 }
 export type BatchDetectDominantLanguageError =
   | BatchSizeLimitExceededException

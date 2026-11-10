@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * PorkbunProtocol -- hand-written.
  *
@@ -37,7 +38,8 @@ export type PorkbunOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | PorkbunParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Porkbun operation. */
 export type PorkbunOpContext = Credentials | HttpClient.HttpClient;

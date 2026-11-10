@@ -164,39 +164,39 @@ export type ComponentPath = string;
 export type ExternalIdProperty = { [key: string]: string | undefined };
 export type EntityId = string;
 export interface EntityPropertyReference {
-  componentName?: string;
-  componentPath?: string;
-  externalIdProperty?: { [key: string]: string | undefined };
-  entityId?: string;
+  componentName?: string | undefined;
+  componentPath?: string | undefined;
+  externalIdProperty?: { [key: string]: string | undefined } | undefined;
+  entityId?: string | undefined;
   propertyName: string;
 }
 export type DataValueList = DataValue[];
 export type DataValueMap = { [key: string]: DataValue | undefined };
 export interface RelationshipValue {
-  targetEntityId?: string;
-  targetComponentName?: string;
+  targetEntityId?: string | undefined;
+  targetComponentName?: string | undefined;
 }
 export type Expression = string;
 export interface DataValue {
-  booleanValue?: boolean;
-  doubleValue?: number;
-  integerValue?: number;
-  longValue?: number;
-  stringValue?: string;
-  listValue?: DataValue[];
-  mapValue?: { [key: string]: DataValue | undefined };
-  relationshipValue?: RelationshipValue;
-  expression?: string;
+  booleanValue?: boolean | undefined;
+  doubleValue?: number | undefined;
+  integerValue?: number | undefined;
+  longValue?: number | undefined;
+  stringValue?: string | undefined;
+  listValue?: DataValue[] | undefined;
+  mapValue?: { [key: string]: DataValue | undefined } | undefined;
+  relationshipValue?: RelationshipValue | undefined;
+  expression?: string | undefined;
 }
 export interface PropertyValue {
-  timestamp?: Date;
+  timestamp?: Date | undefined;
   value: DataValue;
-  time?: string;
+  time?: string | undefined;
 }
 export type PropertyValues = PropertyValue[];
 export interface PropertyValueEntry {
   entityPropertyReference: EntityPropertyReference;
-  propertyValues?: PropertyValue[];
+  propertyValues?: PropertyValue[] | undefined;
 }
 export type Entries = PropertyValueEntry[];
 export interface BatchPutPropertyValuesRequest {
@@ -224,53 +224,53 @@ export type MetadataTransferJobState = string;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface ErrorDetails {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export interface MetadataTransferJobStatus {
-  state?: string;
-  error?: ErrorDetails;
-  queuedPosition?: number;
+  state?: string | undefined;
+  error?: ErrorDetails | undefined;
+  queuedPosition?: number | undefined;
 }
 export interface MetadataTransferJobProgress {
-  totalCount?: number;
-  succeededCount?: number;
-  skippedCount?: number;
-  failedCount?: number;
+  totalCount?: number | undefined;
+  succeededCount?: number | undefined;
+  skippedCount?: number | undefined;
+  failedCount?: number | undefined;
 }
 export interface CancelMetadataTransferJobResponse {
   metadataTransferJobId: string;
   arn: string;
   updateDateTime: Date;
   status: MetadataTransferJobStatus;
-  progress?: MetadataTransferJobProgress;
+  progress?: MetadataTransferJobProgress | undefined;
 }
 export type ComponentTypeId = string;
 export type Description = string;
 export type Type = string;
 export interface Relationship {
-  targetComponentTypeId?: string;
-  relationshipType?: string;
+  targetComponentTypeId?: string | undefined;
+  relationshipType?: string | undefined;
 }
 export interface DataType {
   type: string;
-  nestedType?: DataType;
-  allowedValues?: DataValue[];
-  unitOfMeasure?: string;
-  relationship?: Relationship;
+  nestedType?: DataType | undefined;
+  allowedValues?: DataValue[] | undefined;
+  unitOfMeasure?: string | undefined;
+  relationship?: Relationship | undefined;
 }
 export type Value = string;
 export type Configuration = { [key: string]: string | undefined };
 export type PropertyDisplayName = string;
 export interface PropertyDefinitionRequest {
-  dataType?: DataType;
-  isRequiredInEntity?: boolean;
-  isExternalId?: boolean;
-  isStoredExternally?: boolean;
-  isTimeSeries?: boolean;
-  defaultValue?: DataValue;
-  configuration?: { [key: string]: string | undefined };
-  displayName?: string;
+  dataType?: DataType | undefined;
+  isRequiredInEntity?: boolean | undefined;
+  isExternalId?: boolean | undefined;
+  isStoredExternally?: boolean | undefined;
+  isTimeSeries?: boolean | undefined;
+  defaultValue?: DataValue | undefined;
+  configuration?: { [key: string]: string | undefined } | undefined;
+  displayName?: string | undefined;
 }
 export type PropertyDefinitionsRequest = { [key: string]: PropertyDefinitionRequest | undefined };
 export type ExtendsFrom = string[];
@@ -281,13 +281,13 @@ export interface LambdaFunction {
   arn: string;
 }
 export interface DataConnector {
-  lambda?: LambdaFunction;
-  isNative?: boolean;
+  lambda?: LambdaFunction | undefined;
+  isNative?: boolean | undefined;
 }
 export interface FunctionRequest {
-  requiredProperties?: string[];
-  scope?: string;
-  implementedBy?: DataConnector;
+  requiredProperties?: string[] | undefined;
+  scope?: string | undefined;
+  implementedBy?: DataConnector | undefined;
 }
 export type FunctionsRequest = { [key: string]: FunctionRequest | undefined };
 export type TagKey = string;
@@ -296,29 +296,31 @@ export type TagMap = { [key: string]: string | undefined };
 export type GroupType = string;
 export type PropertyNames = string[];
 export interface PropertyGroupRequest {
-  groupType?: string;
-  propertyNames?: string[];
+  groupType?: string | undefined;
+  propertyNames?: string[] | undefined;
 }
 export type PropertyGroupsRequest = { [key: string]: PropertyGroupRequest | undefined };
 export type ComponentTypeName = string;
 export interface CompositeComponentTypeRequest {
-  componentTypeId?: string;
+  componentTypeId?: string | undefined;
 }
 export type CompositeComponentTypesRequest = {
   [key: string]: CompositeComponentTypeRequest | undefined;
 };
 export interface CreateComponentTypeRequest {
   workspaceId: string;
-  isSingleton?: boolean;
+  isSingleton?: boolean | undefined;
   componentTypeId: string;
-  description?: string;
-  propertyDefinitions?: { [key: string]: PropertyDefinitionRequest | undefined };
-  extendsFrom?: string[];
-  functions?: { [key: string]: FunctionRequest | undefined };
-  tags?: { [key: string]: string | undefined };
-  propertyGroups?: { [key: string]: PropertyGroupRequest | undefined };
-  componentTypeName?: string;
-  compositeComponentTypes?: { [key: string]: CompositeComponentTypeRequest | undefined };
+  description?: string | undefined;
+  propertyDefinitions?: { [key: string]: PropertyDefinitionRequest | undefined } | undefined;
+  extendsFrom?: string[] | undefined;
+  functions?: { [key: string]: FunctionRequest | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  propertyGroups?: { [key: string]: PropertyGroupRequest | undefined } | undefined;
+  componentTypeName?: string | undefined;
+  compositeComponentTypes?:
+    | { [key: string]: CompositeComponentTypeRequest | undefined }
+    | undefined;
 }
 export type State = string;
 export interface CreateComponentTypeResponse {
@@ -329,31 +331,31 @@ export interface CreateComponentTypeResponse {
 export type EntityName = string;
 export type PropertyUpdateType = string;
 export interface PropertyRequest {
-  definition?: PropertyDefinitionRequest;
-  value?: DataValue;
-  updateType?: string;
+  definition?: PropertyDefinitionRequest | undefined;
+  value?: DataValue | undefined;
+  updateType?: string | undefined;
 }
 export type PropertyRequests = { [key: string]: PropertyRequest | undefined };
 export type PropertyGroupUpdateType = string;
 export interface ComponentPropertyGroupRequest {
-  groupType?: string;
-  propertyNames?: string[];
-  updateType?: string;
+  groupType?: string | undefined;
+  propertyNames?: string[] | undefined;
+  updateType?: string | undefined;
 }
 export type ComponentPropertyGroupRequests = {
   [key: string]: ComponentPropertyGroupRequest | undefined;
 };
 export interface ComponentRequest {
-  description?: string;
-  componentTypeId?: string;
-  properties?: { [key: string]: PropertyRequest | undefined };
-  propertyGroups?: { [key: string]: ComponentPropertyGroupRequest | undefined };
+  description?: string | undefined;
+  componentTypeId?: string | undefined;
+  properties?: { [key: string]: PropertyRequest | undefined } | undefined;
+  propertyGroups?: { [key: string]: ComponentPropertyGroupRequest | undefined } | undefined;
 }
 export type ComponentsMapRequest = { [key: string]: ComponentRequest | undefined };
 export interface CompositeComponentRequest {
-  description?: string;
-  properties?: { [key: string]: PropertyRequest | undefined };
-  propertyGroups?: { [key: string]: ComponentPropertyGroupRequest | undefined };
+  description?: string | undefined;
+  properties?: { [key: string]: PropertyRequest | undefined } | undefined;
+  propertyGroups?: { [key: string]: ComponentPropertyGroupRequest | undefined } | undefined;
 }
 export type CompositeComponentsMapRequest = {
   [key: string]: CompositeComponentRequest | undefined;
@@ -361,13 +363,13 @@ export type CompositeComponentsMapRequest = {
 export type ParentEntityId = string;
 export interface CreateEntityRequest {
   workspaceId: string;
-  entityId?: string;
+  entityId?: string | undefined;
   entityName: string;
-  description?: string;
-  components?: { [key: string]: ComponentRequest | undefined };
-  compositeComponents?: { [key: string]: CompositeComponentRequest | undefined };
-  parentEntityId?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  components?: { [key: string]: ComponentRequest | undefined } | undefined;
+  compositeComponents?: { [key: string]: CompositeComponentRequest | undefined } | undefined;
+  parentEntityId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateEntityResponse {
   entityId: string;
@@ -383,23 +385,23 @@ export interface S3SourceConfiguration {
 export type Uuid = string;
 export type SiteWiseExternalId = string;
 export interface FilterByAssetModel {
-  assetModelId?: string;
-  assetModelExternalId?: string;
-  includeOffspring?: boolean;
-  includeAssets?: boolean;
+  assetModelId?: string | undefined;
+  assetModelExternalId?: string | undefined;
+  includeOffspring?: boolean | undefined;
+  includeAssets?: boolean | undefined;
 }
 export interface FilterByAsset {
-  assetId?: string;
-  assetExternalId?: string;
-  includeOffspring?: boolean;
-  includeAssetModel?: boolean;
+  assetId?: string | undefined;
+  assetExternalId?: string | undefined;
+  includeOffspring?: boolean | undefined;
+  includeAssetModel?: boolean | undefined;
 }
 export type IotSiteWiseSourceConfigurationFilter =
-  | { filterByAssetModel: FilterByAssetModel; filterByAsset?: never }
-  | { filterByAssetModel?: never; filterByAsset: FilterByAsset };
+  | { filterByAssetModel: FilterByAssetModel; filterByAsset?: undefined }
+  | { filterByAssetModel?: undefined; filterByAsset: FilterByAsset };
 export type IotSiteWiseSourceConfigurationFilters = IotSiteWiseSourceConfigurationFilter[];
 export interface IotSiteWiseSourceConfiguration {
-  filters?: IotSiteWiseSourceConfigurationFilter[];
+  filters?: IotSiteWiseSourceConfigurationFilter[] | undefined;
 }
 export interface FilterByComponentType {
   componentTypeId: string;
@@ -408,18 +410,18 @@ export interface FilterByEntity {
   entityId: string;
 }
 export type IotTwinMakerSourceConfigurationFilter =
-  | { filterByComponentType: FilterByComponentType; filterByEntity?: never }
-  | { filterByComponentType?: never; filterByEntity: FilterByEntity };
+  | { filterByComponentType: FilterByComponentType; filterByEntity?: undefined }
+  | { filterByComponentType?: undefined; filterByEntity: FilterByEntity };
 export type IotTwinMakerSourceConfigurationFilters = IotTwinMakerSourceConfigurationFilter[];
 export interface IotTwinMakerSourceConfiguration {
   workspace: string;
-  filters?: IotTwinMakerSourceConfigurationFilter[];
+  filters?: IotTwinMakerSourceConfigurationFilter[] | undefined;
 }
 export interface SourceConfiguration {
   type: string;
-  s3Configuration?: S3SourceConfiguration;
-  iotSiteWiseConfiguration?: IotSiteWiseSourceConfiguration;
-  iotTwinMakerConfiguration?: IotTwinMakerSourceConfiguration;
+  s3Configuration?: S3SourceConfiguration | undefined;
+  iotSiteWiseConfiguration?: IotSiteWiseSourceConfiguration | undefined;
+  iotTwinMakerConfiguration?: IotTwinMakerSourceConfiguration | undefined;
 }
 export type SourceConfigurations = SourceConfiguration[];
 export type DestinationType = string;
@@ -432,12 +434,12 @@ export interface IotTwinMakerDestinationConfiguration {
 }
 export interface DestinationConfiguration {
   type: string;
-  s3Configuration?: S3DestinationConfiguration;
-  iotTwinMakerConfiguration?: IotTwinMakerDestinationConfiguration;
+  s3Configuration?: S3DestinationConfiguration | undefined;
+  iotTwinMakerConfiguration?: IotTwinMakerDestinationConfiguration | undefined;
 }
 export interface CreateMetadataTransferJobRequest {
-  metadataTransferJobId?: string;
-  description?: string;
+  metadataTransferJobId?: string | undefined;
+  description?: string | undefined;
   sources: SourceConfiguration[];
   destination: DestinationConfiguration;
 }
@@ -456,10 +458,10 @@ export interface CreateSceneRequest {
   workspaceId: string;
   sceneId: string;
   contentLocation: string;
-  description?: string;
-  capabilities?: string[];
-  tags?: { [key: string]: string | undefined };
-  sceneMetadata?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  capabilities?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  sceneMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateSceneResponse {
   arn: string;
@@ -471,7 +473,7 @@ export interface CreateSyncJobRequest {
   workspaceId: string;
   syncSource: string;
   syncRole: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SyncJobState = string;
 export interface CreateSyncJobResponse {
@@ -482,10 +484,10 @@ export interface CreateSyncJobResponse {
 export type S3Location = string;
 export interface CreateWorkspaceRequest {
   workspaceId: string;
-  description?: string;
-  s3Location?: string;
-  role?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  s3Location?: string | undefined;
+  role?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateWorkspaceResponse {
   arn: string;
@@ -501,7 +503,7 @@ export interface DeleteComponentTypeResponse {
 export interface DeleteEntityRequest {
   workspaceId: string;
   entityId: string;
-  isRecursive?: boolean;
+  isRecursive?: boolean | undefined;
 }
 export interface DeleteEntityResponse {
   state: string;
@@ -523,7 +525,7 @@ export interface DeleteWorkspaceRequest {
 }
 export type WorkspaceDeleteMessage = string;
 export interface DeleteWorkspaceResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export type QueryStatement = string;
 export type QueryServiceMaxResults = number;
@@ -531,26 +533,26 @@ export type NextToken = string;
 export interface ExecuteQueryRequest {
   workspaceId: string;
   queryStatement: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ColumnName = string;
 export type ColumnType = string;
 export interface ColumnDescription {
-  name?: string;
-  type?: string;
+  name?: string | undefined;
+  type?: string | undefined;
 }
 export type ColumnDescriptions = ColumnDescription[];
 export type QueryResultValue = unknown;
 export type RowData = any[];
 export interface Row {
-  rowData?: any[];
+  rowData?: any[] | undefined;
 }
 export type Rows = Row[];
 export interface ExecuteQueryResponse {
-  columnDescriptions?: ColumnDescription[];
-  rows?: Row[];
-  nextToken?: string;
+  columnDescriptions?: ColumnDescription[] | undefined;
+  rows?: Row[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetComponentTypeRequest {
   workspaceId: string;
@@ -565,21 +567,21 @@ export interface PropertyDefinitionResponse {
   isImported: boolean;
   isFinal: boolean;
   isInherited: boolean;
-  defaultValue?: DataValue;
-  configuration?: { [key: string]: string | undefined };
-  displayName?: string;
+  defaultValue?: DataValue | undefined;
+  configuration?: { [key: string]: string | undefined } | undefined;
+  displayName?: string | undefined;
 }
 export type PropertyDefinitionsResponse = { [key: string]: PropertyDefinitionResponse | undefined };
 export interface FunctionResponse {
-  requiredProperties?: string[];
-  scope?: string;
-  implementedBy?: DataConnector;
-  isInherited?: boolean;
+  requiredProperties?: string[] | undefined;
+  scope?: string | undefined;
+  implementedBy?: DataConnector | undefined;
+  isInherited?: boolean | undefined;
 }
 export type FunctionsResponse = { [key: string]: FunctionResponse | undefined };
 export interface Status {
-  state?: string;
-  error?: ErrorDetails;
+  state?: string | undefined;
+  error?: ErrorDetails | undefined;
 }
 export interface PropertyGroupResponse {
   groupType: string;
@@ -588,39 +590,41 @@ export interface PropertyGroupResponse {
 }
 export type PropertyGroupsResponse = { [key: string]: PropertyGroupResponse | undefined };
 export interface CompositeComponentTypeResponse {
-  componentTypeId?: string;
-  isInherited?: boolean;
+  componentTypeId?: string | undefined;
+  isInherited?: boolean | undefined;
 }
 export type CompositeComponentTypesResponse = {
   [key: string]: CompositeComponentTypeResponse | undefined;
 };
 export interface GetComponentTypeResponse {
   workspaceId: string;
-  isSingleton?: boolean;
+  isSingleton?: boolean | undefined;
   componentTypeId: string;
-  description?: string;
-  propertyDefinitions?: { [key: string]: PropertyDefinitionResponse | undefined };
-  extendsFrom?: string[];
-  functions?: { [key: string]: FunctionResponse | undefined };
+  description?: string | undefined;
+  propertyDefinitions?: { [key: string]: PropertyDefinitionResponse | undefined } | undefined;
+  extendsFrom?: string[] | undefined;
+  functions?: { [key: string]: FunctionResponse | undefined } | undefined;
   creationDateTime: Date;
   updateDateTime: Date;
   arn: string;
-  isAbstract?: boolean;
-  isSchemaInitialized?: boolean;
-  status?: Status;
-  propertyGroups?: { [key: string]: PropertyGroupResponse | undefined };
-  syncSource?: string;
-  componentTypeName?: string;
-  compositeComponentTypes?: { [key: string]: CompositeComponentTypeResponse | undefined };
+  isAbstract?: boolean | undefined;
+  isSchemaInitialized?: boolean | undefined;
+  status?: Status | undefined;
+  propertyGroups?: { [key: string]: PropertyGroupResponse | undefined } | undefined;
+  syncSource?: string | undefined;
+  componentTypeName?: string | undefined;
+  compositeComponentTypes?:
+    | { [key: string]: CompositeComponentTypeResponse | undefined }
+    | undefined;
 }
 export interface GetEntityRequest {
   workspaceId: string;
   entityId: string;
 }
 export interface PropertyResponse {
-  definition?: PropertyDefinitionResponse;
-  value?: DataValue;
-  areAllPropertyValuesReturned?: boolean;
+  definition?: PropertyDefinitionResponse | undefined;
+  value?: DataValue | undefined;
+  areAllPropertyValuesReturned?: boolean | undefined;
 }
 export type PropertyResponses = { [key: string]: PropertyResponse | undefined };
 export interface ComponentPropertyGroupResponse {
@@ -634,26 +638,26 @@ export type ComponentPropertyGroupResponses = {
 export interface ComponentSummary {
   componentName: string;
   componentTypeId: string;
-  definedIn?: string;
-  description?: string;
-  propertyGroups?: { [key: string]: ComponentPropertyGroupResponse | undefined };
+  definedIn?: string | undefined;
+  description?: string | undefined;
+  propertyGroups?: { [key: string]: ComponentPropertyGroupResponse | undefined } | undefined;
   status: Status;
-  syncSource?: string;
-  componentPath?: string;
+  syncSource?: string | undefined;
+  componentPath?: string | undefined;
 }
 export type CompositeComponentResponse = { [key: string]: ComponentSummary | undefined };
 export interface ComponentResponse {
-  componentName?: string;
-  description?: string;
-  componentTypeId?: string;
-  status?: Status;
-  definedIn?: string;
-  properties?: { [key: string]: PropertyResponse | undefined };
-  propertyGroups?: { [key: string]: ComponentPropertyGroupResponse | undefined };
-  syncSource?: string;
-  areAllPropertiesReturned?: boolean;
-  compositeComponents?: { [key: string]: ComponentSummary | undefined };
-  areAllCompositeComponentsReturned?: boolean;
+  componentName?: string | undefined;
+  description?: string | undefined;
+  componentTypeId?: string | undefined;
+  status?: Status | undefined;
+  definedIn?: string | undefined;
+  properties?: { [key: string]: PropertyResponse | undefined } | undefined;
+  propertyGroups?: { [key: string]: ComponentPropertyGroupResponse | undefined } | undefined;
+  syncSource?: string | undefined;
+  areAllPropertiesReturned?: boolean | undefined;
+  compositeComponents?: { [key: string]: ComponentSummary | undefined } | undefined;
+  areAllCompositeComponentsReturned?: boolean | undefined;
 }
 export type ComponentsMap = { [key: string]: ComponentResponse | undefined };
 export interface GetEntityResponse {
@@ -662,14 +666,14 @@ export interface GetEntityResponse {
   arn: string;
   status: Status;
   workspaceId: string;
-  description?: string;
-  components?: { [key: string]: ComponentResponse | undefined };
+  description?: string | undefined;
+  components?: { [key: string]: ComponentResponse | undefined } | undefined;
   parentEntityId: string;
   hasChildEntities: boolean;
   creationDateTime: Date;
   updateDateTime: Date;
-  syncSource?: string;
-  areAllComponentsReturned?: boolean;
+  syncSource?: string | undefined;
+  areAllComponentsReturned?: boolean | undefined;
 }
 export interface GetMetadataTransferJobRequest {
   metadataTransferJobId: string;
@@ -677,15 +681,15 @@ export interface GetMetadataTransferJobRequest {
 export interface GetMetadataTransferJobResponse {
   metadataTransferJobId: string;
   arn: string;
-  description?: string;
+  description?: string | undefined;
   sources: SourceConfiguration[];
   destination: DestinationConfiguration;
   metadataTransferJobRole: string;
-  reportUrl?: string;
+  reportUrl?: string | undefined;
   creationDateTime: Date;
   updateDateTime: Date;
   status: MetadataTransferJobStatus;
-  progress?: MetadataTransferJobProgress;
+  progress?: MetadataTransferJobProgress | undefined;
 }
 export interface GetPricingPlanRequest {}
 export type BundleName = string;
@@ -693,13 +697,13 @@ export type PricingBundles = string[];
 export type PricingTier = string;
 export interface BundleInformation {
   bundleNames: string[];
-  pricingTier?: string;
+  pricingTier?: string | undefined;
 }
 export type PricingMode = string;
 export type UpdateReason = string;
 export interface PricingPlan {
-  billableEntityCount?: number;
-  bundleInformation?: BundleInformation;
+  billableEntityCount?: number | undefined;
+  bundleInformation?: BundleInformation | undefined;
   effectiveDateTime: Date;
   pricingMode: string;
   updateDateTime: Date;
@@ -707,84 +711,84 @@ export interface PricingPlan {
 }
 export interface GetPricingPlanResponse {
   currentPricingPlan: PricingPlan;
-  pendingPricingPlan?: PricingPlan;
+  pendingPricingPlan?: PricingPlan | undefined;
 }
 export type SelectedPropertyList = string[];
 export type MaxResults = number;
 export type Order = string;
 export interface OrderBy {
-  order?: string;
+  order?: string | undefined;
   propertyName: string;
 }
 export type OrderByList = OrderBy[];
 export interface PropertyFilter {
-  propertyName?: string;
-  operator?: string;
-  value?: DataValue;
+  propertyName?: string | undefined;
+  operator?: string | undefined;
+  value?: DataValue | undefined;
 }
 export type PropertyFilters = PropertyFilter[];
 export interface TabularConditions {
-  orderBy?: OrderBy[];
-  propertyFilters?: PropertyFilter[];
+  orderBy?: OrderBy[] | undefined;
+  propertyFilters?: PropertyFilter[] | undefined;
 }
 export interface GetPropertyValueRequest {
-  componentName?: string;
-  componentPath?: string;
-  componentTypeId?: string;
-  entityId?: string;
+  componentName?: string | undefined;
+  componentPath?: string | undefined;
+  componentTypeId?: string | undefined;
+  entityId?: string | undefined;
   selectedProperties: string[];
   workspaceId: string;
-  maxResults?: number;
-  nextToken?: string;
-  propertyGroupName?: string;
-  tabularConditions?: TabularConditions;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  propertyGroupName?: string | undefined;
+  tabularConditions?: TabularConditions | undefined;
 }
 export interface PropertyLatestValue {
   propertyReference: EntityPropertyReference;
-  propertyValue?: DataValue;
+  propertyValue?: DataValue | undefined;
 }
 export type PropertyLatestValueMap = { [key: string]: PropertyLatestValue | undefined };
 export type PropertyTableValue = { [key: string]: DataValue | undefined };
 export type TabularPropertyValue = { [key: string]: DataValue | undefined }[];
 export type TabularPropertyValues = { [key: string]: DataValue | undefined }[][];
 export interface GetPropertyValueResponse {
-  propertyValues?: { [key: string]: PropertyLatestValue | undefined };
-  nextToken?: string;
-  tabularPropertyValues?: { [key: string]: DataValue | undefined }[][];
+  propertyValues?: { [key: string]: PropertyLatestValue | undefined } | undefined;
+  nextToken?: string | undefined;
+  tabularPropertyValues?: { [key: string]: DataValue | undefined }[][] | undefined;
 }
 export type InterpolationType = string;
 export type IntervalInSeconds = number;
 export interface InterpolationParameters {
-  interpolationType?: string;
-  intervalInSeconds?: number;
+  interpolationType?: string | undefined;
+  intervalInSeconds?: number | undefined;
 }
 export type OrderByTime = string;
 export interface GetPropertyValueHistoryRequest {
   workspaceId: string;
-  entityId?: string;
-  componentName?: string;
-  componentPath?: string;
-  componentTypeId?: string;
+  entityId?: string | undefined;
+  componentName?: string | undefined;
+  componentPath?: string | undefined;
+  componentTypeId?: string | undefined;
   selectedProperties: string[];
-  propertyFilters?: PropertyFilter[];
-  startDateTime?: Date;
-  endDateTime?: Date;
-  interpolation?: InterpolationParameters;
-  nextToken?: string;
-  maxResults?: number;
-  orderByTime?: string;
-  startTime?: string;
-  endTime?: string;
+  propertyFilters?: PropertyFilter[] | undefined;
+  startDateTime?: Date | undefined;
+  endDateTime?: Date | undefined;
+  interpolation?: InterpolationParameters | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  orderByTime?: string | undefined;
+  startTime?: string | undefined;
+  endTime?: string | undefined;
 }
 export type Values = PropertyValue[];
 export interface PropertyValueHistory {
   entityPropertyReference: EntityPropertyReference;
-  values?: PropertyValue[];
+  values?: PropertyValue[] | undefined;
 }
 export type PropertyValueList = PropertyValueHistory[];
 export interface GetPropertyValueHistoryResponse {
   propertyValues: PropertyValueHistory[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetSceneRequest {
   workspaceId: string;
@@ -793,8 +797,8 @@ export interface GetSceneRequest {
 export type GeneratedSceneMetadataMap = { [key: string]: string | undefined };
 export type SceneErrorCode = string;
 export interface SceneError {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export interface GetSceneResponse {
   workspaceId: string;
@@ -803,19 +807,19 @@ export interface GetSceneResponse {
   arn: string;
   creationDateTime: Date;
   updateDateTime: Date;
-  description?: string;
-  capabilities?: string[];
-  sceneMetadata?: { [key: string]: string | undefined };
-  generatedSceneMetadata?: { [key: string]: string | undefined };
-  error?: SceneError;
+  description?: string | undefined;
+  capabilities?: string[] | undefined;
+  sceneMetadata?: { [key: string]: string | undefined } | undefined;
+  generatedSceneMetadata?: { [key: string]: string | undefined } | undefined;
+  error?: SceneError | undefined;
 }
 export interface GetSyncJobRequest {
   syncSource: string;
-  workspaceId?: string;
+  workspaceId?: string | undefined;
 }
 export interface SyncJobStatus {
-  state?: string;
-  error?: ErrorDetails;
+  state?: string | undefined;
+  error?: ErrorDetails | undefined;
 }
 export interface GetSyncJobResponse {
   arn: string;
@@ -835,89 +839,89 @@ export type LinkedServices = string[];
 export interface GetWorkspaceResponse {
   workspaceId: string;
   arn: string;
-  description?: string;
-  linkedServices?: string[];
-  s3Location?: string;
-  role?: string;
+  description?: string | undefined;
+  linkedServices?: string[] | undefined;
+  s3Location?: string | undefined;
+  role?: string | undefined;
   creationDateTime: Date;
   updateDateTime: Date;
 }
 export interface ListComponentsRequest {
   workspaceId: string;
   entityId: string;
-  componentPath?: string;
-  maxResults?: number;
-  nextToken?: string;
+  componentPath?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ComponentSummaries = ComponentSummary[];
 export interface ListComponentsResponse {
   componentSummaries: ComponentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListComponentTypesFilter =
-  | { extendsFrom: string; namespace?: never; isAbstract?: never }
-  | { extendsFrom?: never; namespace: string; isAbstract?: never }
-  | { extendsFrom?: never; namespace?: never; isAbstract: boolean };
+  | { extendsFrom: string; namespace?: undefined; isAbstract?: undefined }
+  | { extendsFrom?: undefined; namespace: string; isAbstract?: undefined }
+  | { extendsFrom?: undefined; namespace?: undefined; isAbstract: boolean };
 export type ListComponentTypesFilters = ListComponentTypesFilter[];
 export interface ListComponentTypesRequest {
   workspaceId: string;
-  filters?: ListComponentTypesFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListComponentTypesFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ComponentTypeSummary {
   arn: string;
   componentTypeId: string;
   creationDateTime: Date;
   updateDateTime: Date;
-  description?: string;
-  status?: Status;
-  componentTypeName?: string;
+  description?: string | undefined;
+  status?: Status | undefined;
+  componentTypeName?: string | undefined;
 }
 export type ComponentTypeSummaries = ComponentTypeSummary[];
 export interface ListComponentTypesResponse {
   workspaceId: string;
   componentTypeSummaries: ComponentTypeSummary[];
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ListEntitiesFilter =
-  | { parentEntityId: string; componentTypeId?: never; externalId?: never }
-  | { parentEntityId?: never; componentTypeId: string; externalId?: never }
-  | { parentEntityId?: never; componentTypeId?: never; externalId: string };
+  | { parentEntityId: string; componentTypeId?: undefined; externalId?: undefined }
+  | { parentEntityId?: undefined; componentTypeId: string; externalId?: undefined }
+  | { parentEntityId?: undefined; componentTypeId?: undefined; externalId: string };
 export type ListEntitiesFilters = ListEntitiesFilter[];
 export interface ListEntitiesRequest {
   workspaceId: string;
-  filters?: ListEntitiesFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListEntitiesFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EntitySummary {
   entityId: string;
   entityName: string;
   arn: string;
-  parentEntityId?: string;
+  parentEntityId?: string | undefined;
   status: Status;
-  description?: string;
-  hasChildEntities?: boolean;
+  description?: string | undefined;
+  hasChildEntities?: boolean | undefined;
   creationDateTime: Date;
   updateDateTime: Date;
 }
 export type EntitySummaries = EntitySummary[];
 export interface ListEntitiesResponse {
-  entitySummaries?: EntitySummary[];
-  nextToken?: string;
+  entitySummaries?: EntitySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListMetadataTransferJobsFilter =
-  | { workspaceId: string; state?: never }
-  | { workspaceId?: never; state: string };
+  | { workspaceId: string; state?: undefined }
+  | { workspaceId?: undefined; state: string };
 export type ListMetadataTransferJobsFilters = ListMetadataTransferJobsFilter[];
 export interface ListMetadataTransferJobsRequest {
   sourceType: string;
   destinationType: string;
-  filters?: ListMetadataTransferJobsFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListMetadataTransferJobsFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface MetadataTransferJobSummary {
   metadataTransferJobId: string;
@@ -925,36 +929,36 @@ export interface MetadataTransferJobSummary {
   creationDateTime: Date;
   updateDateTime: Date;
   status: MetadataTransferJobStatus;
-  progress?: MetadataTransferJobProgress;
+  progress?: MetadataTransferJobProgress | undefined;
 }
 export type MetadataTransferJobSummaries = MetadataTransferJobSummary[];
 export interface ListMetadataTransferJobsResponse {
   metadataTransferJobSummaries: MetadataTransferJobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPropertiesRequest {
   workspaceId: string;
-  componentName?: string;
-  componentPath?: string;
+  componentName?: string | undefined;
+  componentPath?: string | undefined;
   entityId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PropertySummary {
-  definition?: PropertyDefinitionResponse;
+  definition?: PropertyDefinitionResponse | undefined;
   propertyName: string;
-  value?: DataValue;
-  areAllPropertyValuesReturned?: boolean;
+  value?: DataValue | undefined;
+  areAllPropertyValuesReturned?: boolean | undefined;
 }
 export type PropertySummaries = PropertySummary[];
 export interface ListPropertiesResponse {
   propertySummaries: PropertySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListScenesRequest {
   workspaceId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SceneSummary {
   sceneId: string;
@@ -962,87 +966,87 @@ export interface SceneSummary {
   arn: string;
   creationDateTime: Date;
   updateDateTime: Date;
-  description?: string;
+  description?: string | undefined;
 }
 export type SceneSummaries = SceneSummary[];
 export interface ListScenesResponse {
-  sceneSummaries?: SceneSummary[];
-  nextToken?: string;
+  sceneSummaries?: SceneSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSyncJobsRequest {
   workspaceId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SyncJobSummary {
-  arn?: string;
-  workspaceId?: string;
-  syncSource?: string;
-  status?: SyncJobStatus;
-  creationDateTime?: Date;
-  updateDateTime?: Date;
+  arn?: string | undefined;
+  workspaceId?: string | undefined;
+  syncSource?: string | undefined;
+  status?: SyncJobStatus | undefined;
+  creationDateTime?: Date | undefined;
+  updateDateTime?: Date | undefined;
 }
 export type SyncJobSummaries = SyncJobSummary[];
 export interface ListSyncJobsResponse {
-  syncJobSummaries?: SyncJobSummary[];
-  nextToken?: string;
+  syncJobSummaries?: SyncJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SyncResourceState = string;
 export type SyncResourceType = string;
 export type SyncResourceFilter =
-  | { state: string; resourceType?: never; resourceId?: never; externalId?: never }
-  | { state?: never; resourceType: string; resourceId?: never; externalId?: never }
-  | { state?: never; resourceType?: never; resourceId: string; externalId?: never }
-  | { state?: never; resourceType?: never; resourceId?: never; externalId: string };
+  | { state: string; resourceType?: undefined; resourceId?: undefined; externalId?: undefined }
+  | { state?: undefined; resourceType: string; resourceId?: undefined; externalId?: undefined }
+  | { state?: undefined; resourceType?: undefined; resourceId: string; externalId?: undefined }
+  | { state?: undefined; resourceType?: undefined; resourceId?: undefined; externalId: string };
 export type SyncResourceFilters = SyncResourceFilter[];
 export interface ListSyncResourcesRequest {
   workspaceId: string;
   syncSource: string;
-  filters?: SyncResourceFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: SyncResourceFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SyncResourceStatus {
-  state?: string;
-  error?: ErrorDetails;
+  state?: string | undefined;
+  error?: ErrorDetails | undefined;
 }
 export interface SyncResourceSummary {
-  resourceType?: string;
-  externalId?: string;
-  resourceId?: string;
-  status?: SyncResourceStatus;
-  updateDateTime?: Date;
+  resourceType?: string | undefined;
+  externalId?: string | undefined;
+  resourceId?: string | undefined;
+  status?: SyncResourceStatus | undefined;
+  updateDateTime?: Date | undefined;
 }
 export type SyncResourceSummaries = SyncResourceSummary[];
 export interface ListSyncResourcesResponse {
-  syncResources?: SyncResourceSummary[];
-  nextToken?: string;
+  syncResources?: SyncResourceSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceARN: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
-  nextToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListWorkspacesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface WorkspaceSummary {
   workspaceId: string;
   arn: string;
-  description?: string;
-  linkedServices?: string[];
+  description?: string | undefined;
+  linkedServices?: string[] | undefined;
   creationDateTime: Date;
   updateDateTime: Date;
 }
 export type WorkspaceSummaries = WorkspaceSummary[];
 export interface ListWorkspacesResponse {
-  workspaceSummaries?: WorkspaceSummary[];
-  nextToken?: string;
+  workspaceSummaries?: WorkspaceSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceARN: string;
@@ -1057,15 +1061,17 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateComponentTypeRequest {
   workspaceId: string;
-  isSingleton?: boolean;
+  isSingleton?: boolean | undefined;
   componentTypeId: string;
-  description?: string;
-  propertyDefinitions?: { [key: string]: PropertyDefinitionRequest | undefined };
-  extendsFrom?: string[];
-  functions?: { [key: string]: FunctionRequest | undefined };
-  propertyGroups?: { [key: string]: PropertyGroupRequest | undefined };
-  componentTypeName?: string;
-  compositeComponentTypes?: { [key: string]: CompositeComponentTypeRequest | undefined };
+  description?: string | undefined;
+  propertyDefinitions?: { [key: string]: PropertyDefinitionRequest | undefined } | undefined;
+  extendsFrom?: string[] | undefined;
+  functions?: { [key: string]: FunctionRequest | undefined } | undefined;
+  propertyGroups?: { [key: string]: PropertyGroupRequest | undefined } | undefined;
+  componentTypeName?: string | undefined;
+  compositeComponentTypes?:
+    | { [key: string]: CompositeComponentTypeRequest | undefined }
+    | undefined;
 }
 export interface UpdateComponentTypeResponse {
   workspaceId: string;
@@ -1075,18 +1081,18 @@ export interface UpdateComponentTypeResponse {
 }
 export type ComponentUpdateType = string;
 export interface ComponentUpdateRequest {
-  updateType?: string;
-  description?: string;
-  componentTypeId?: string;
-  propertyUpdates?: { [key: string]: PropertyRequest | undefined };
-  propertyGroupUpdates?: { [key: string]: ComponentPropertyGroupRequest | undefined };
+  updateType?: string | undefined;
+  description?: string | undefined;
+  componentTypeId?: string | undefined;
+  propertyUpdates?: { [key: string]: PropertyRequest | undefined } | undefined;
+  propertyGroupUpdates?: { [key: string]: ComponentPropertyGroupRequest | undefined } | undefined;
 }
 export type ComponentUpdatesMapRequest = { [key: string]: ComponentUpdateRequest | undefined };
 export interface CompositeComponentUpdateRequest {
-  updateType?: string;
-  description?: string;
-  propertyUpdates?: { [key: string]: PropertyRequest | undefined };
-  propertyGroupUpdates?: { [key: string]: ComponentPropertyGroupRequest | undefined };
+  updateType?: string | undefined;
+  description?: string | undefined;
+  propertyUpdates?: { [key: string]: PropertyRequest | undefined } | undefined;
+  propertyGroupUpdates?: { [key: string]: ComponentPropertyGroupRequest | undefined } | undefined;
 }
 export type CompositeComponentUpdatesMapRequest = {
   [key: string]: CompositeComponentUpdateRequest | undefined;
@@ -1094,16 +1100,18 @@ export type CompositeComponentUpdatesMapRequest = {
 export type ParentEntityUpdateType = string;
 export interface ParentEntityUpdateRequest {
   updateType: string;
-  parentEntityId?: string;
+  parentEntityId?: string | undefined;
 }
 export interface UpdateEntityRequest {
   workspaceId: string;
   entityId: string;
-  entityName?: string;
-  description?: string;
-  componentUpdates?: { [key: string]: ComponentUpdateRequest | undefined };
-  compositeComponentUpdates?: { [key: string]: CompositeComponentUpdateRequest | undefined };
-  parentEntityUpdate?: ParentEntityUpdateRequest;
+  entityName?: string | undefined;
+  description?: string | undefined;
+  componentUpdates?: { [key: string]: ComponentUpdateRequest | undefined } | undefined;
+  compositeComponentUpdates?:
+    | { [key: string]: CompositeComponentUpdateRequest | undefined }
+    | undefined;
+  parentEntityUpdate?: ParentEntityUpdateRequest | undefined;
 }
 export interface UpdateEntityResponse {
   updateDateTime: Date;
@@ -1111,28 +1119,28 @@ export interface UpdateEntityResponse {
 }
 export interface UpdatePricingPlanRequest {
   pricingMode: string;
-  bundleNames?: string[];
+  bundleNames?: string[] | undefined;
 }
 export interface UpdatePricingPlanResponse {
   currentPricingPlan: PricingPlan;
-  pendingPricingPlan?: PricingPlan;
+  pendingPricingPlan?: PricingPlan | undefined;
 }
 export interface UpdateSceneRequest {
   workspaceId: string;
   sceneId: string;
-  contentLocation?: string;
-  description?: string;
-  capabilities?: string[];
-  sceneMetadata?: { [key: string]: string | undefined };
+  contentLocation?: string | undefined;
+  description?: string | undefined;
+  capabilities?: string[] | undefined;
+  sceneMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateSceneResponse {
   updateDateTime: Date;
 }
 export interface UpdateWorkspaceRequest {
   workspaceId: string;
-  description?: string;
-  role?: string;
-  s3Location?: string;
+  description?: string | undefined;
+  role?: string | undefined;
+  s3Location?: string | undefined;
 }
 export interface UpdateWorkspaceResponse {
   updateDateTime: Date;

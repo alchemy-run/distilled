@@ -83,12 +83,12 @@ export interface ConnectIntegrationResourceToProjectRequest {
   integrationConfigurationId: string;
   resourceId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   projectId: string;
-  envVarEnvironments?: ConnectIntegrationResourceToProjectRequestEnvVarEnvironmentsList;
-  makeEnvVarsSensitive?: boolean;
+  envVarEnvironments?: ConnectIntegrationResourceToProjectRequestEnvVarEnvironmentsList | undefined;
+  makeEnvVarsSensitive?: boolean | undefined;
 }
 export interface ConnectIntegrationResourceToProjectResponse {}
 export type CreateIntegrationStoreDirectRequestMetadataValueCase3List = Array<string>;
@@ -118,12 +118,13 @@ export type CreateIntegrationStoreDirectRequestSource =
   | "oauth"
   | "backoffice"
   | "import-recommended-integrations"
+  | "project-overview-recommended-integrations"
   | "organization";
 export interface CreateIntegrationStoreDirectRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Human-readable name for the storage resource */
   name: string;
   /** ID of your integration configuration. Get this from GET /v1/integrations/configurations */
@@ -131,19 +132,19 @@ export interface CreateIntegrationStoreDirectRequest {
   /** ID or slug of the integration product. Get available products from GET /v1/integrations/configuration/{id}/products */
   integrationProductIdOrSlug: unknown;
   /** Optional key-value pairs for resource metadata */
-  metadata?: CreateIntegrationStoreDirectRequestMetadataMap;
+  metadata?: CreateIntegrationStoreDirectRequestMetadataMap | undefined;
   /** Optional external identifier for tracking purposes */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Protocol-specific configuration settings */
-  protocolSettings?: CreateIntegrationStoreDirectRequestProtocolSettingsMap;
+  protocolSettings?: CreateIntegrationStoreDirectRequestProtocolSettingsMap | undefined;
   /** Source of the store creation request */
-  source?: CreateIntegrationStoreDirectRequestSource | (string & {});
+  source?: CreateIntegrationStoreDirectRequestSource | (string & {}) | undefined;
   /** ID of the billing plan for paid resources. Get available plans from GET /integrations/integration/{id}/products/{productId}/plans. If not provided, automatically discovers free billing plans. */
-  billingPlanId?: string;
+  billingPlanId?: string | undefined;
   /** Payment method ID for paid resources. Optional - uses default payment method if not provided. */
-  paymentMethodId?: string;
+  paymentMethodId?: string | undefined;
   /** Amount in cents for prepayment billing plans. Required only for prepayment plans with variable amounts. */
-  prepaymentAmountCents?: number;
+  prepaymentAmountCents?: number | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProjectFilterGitOwnersList = Array<string>;
 export type CreateIntegrationStoreDirectResponseStoreProjectFilterGitProvidersCase0Item =
@@ -158,12 +159,12 @@ export type CreateIntegrationStoreDirectResponseStoreProjectFilterGitProviders =
   | CreateIntegrationStoreDirectResponseStoreProjectFilterGitProvidersCase1;
 export type CreateIntegrationStoreDirectResponseStoreProjectFilterGitReposList = Array<string>;
 export interface CreateIntegrationStoreDirectResponseStoreProjectFilterGit {
-  owners?: CreateIntegrationStoreDirectResponseStoreProjectFilterGitOwnersList;
+  owners?: CreateIntegrationStoreDirectResponseStoreProjectFilterGitOwnersList | undefined;
   providers: CreateIntegrationStoreDirectResponseStoreProjectFilterGitProviders;
-  repos?: CreateIntegrationStoreDirectResponseStoreProjectFilterGitReposList;
+  repos?: CreateIntegrationStoreDirectResponseStoreProjectFilterGitReposList | undefined;
 }
 export interface CreateIntegrationStoreDirectResponseStoreProjectFilter {
-  git?: CreateIntegrationStoreDirectResponseStoreProjectFilterGit;
+  git?: CreateIntegrationStoreDirectResponseStoreProjectFilterGit | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList =
   Array<string>;
@@ -257,16 +258,22 @@ export type CreateIntegrationStoreDirectResponseStoreProjectsMetadataItemFramewo
   | "xmcp"
   | "zola";
 export interface CreateIntegrationStoreDirectResponseStoreProjectsMetadataItem {
-  deployments?: CreateIntegrationStoreDirectResponseStoreProjectsMetadataItemDeployments;
+  deployments?:
+    | CreateIntegrationStoreDirectResponseStoreProjectsMetadataItemDeployments
+    | undefined;
   environments: CreateIntegrationStoreDirectResponseStoreProjectsMetadataItemEnvironmentsList;
   environmentVariables: CreateIntegrationStoreDirectResponseStoreProjectsMetadataItemEnvironmentVariablesList;
   envVarPrefix: string | null;
-  framework?: CreateIntegrationStoreDirectResponseStoreProjectsMetadataItemFramework | null;
+  framework?:
+    | CreateIntegrationStoreDirectResponseStoreProjectsMetadataItemFramework
+    | null
+    | undefined;
   id: string;
-  latestDeployment?: string;
-  makeEnvVarsSensitive?: boolean;
+  latestDeployment?: string | undefined;
+  makeEnvVarsSensitive?: boolean | undefined;
   name: string;
   projectId: string;
+  secretsOutdated?: boolean | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProjectsMetadataList =
   Array<CreateIntegrationStoreDirectResponseStoreProjectsMetadataItem>;
@@ -281,7 +288,7 @@ export type CreateIntegrationStoreDirectResponseStoreStatus =
   | "uninstalled";
 export interface CreateIntegrationStoreDirectResponseStoreBillingPlanDetailsItem {
   label: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreBillingPlanDetailsList =
   Array<CreateIntegrationStoreDirectResponseStoreBillingPlanDetailsItem>;
@@ -300,43 +307,71 @@ export type CreateIntegrationStoreDirectResponseStoreBillingPlanType =
   | "prepayment"
   | "subscription";
 export interface CreateIntegrationStoreDirectResponseStoreBillingPlan {
-  cost?: string;
+  cost?: string | undefined;
   description: string;
-  details?: CreateIntegrationStoreDirectResponseStoreBillingPlanDetailsList;
-  disabled?: boolean;
-  effectiveDate?: string;
-  highlightedDetails?: CreateIntegrationStoreDirectResponseStoreBillingPlanHighlightedDetailsList;
+  details?: CreateIntegrationStoreDirectResponseStoreBillingPlanDetailsList | undefined;
+  disabled?: boolean | undefined;
+  effectiveDate?: string | undefined;
+  highlightedDetails?:
+    | CreateIntegrationStoreDirectResponseStoreBillingPlanHighlightedDetailsList
+    | undefined;
   id: string;
-  initialCharge?: string;
-  maximumAmount?: string;
-  maximumAmountAutoPurchasePerPeriod?: string;
-  minimumAmount?: string;
+  initialCharge?: string | undefined;
+  maximumAmount?: string | undefined;
+  maximumAmountAutoPurchasePerPeriod?: string | undefined;
+  minimumAmount?: string | undefined;
   name: string;
   paymentMethodRequired: boolean;
-  preauthorizationAmount?: number;
-  quote?: CreateIntegrationStoreDirectResponseStoreBillingPlanQuoteList;
+  preauthorizationAmount?: number | undefined;
+  quote?: CreateIntegrationStoreDirectResponseStoreBillingPlanQuoteList | undefined;
   scope: CreateIntegrationStoreDirectResponseStoreBillingPlanScope;
   type: CreateIntegrationStoreDirectResponseStoreBillingPlanType;
 }
+export type CreateIntegrationStoreDirectResponseStoreCapabilitiesCredentialTypesTransitionsItemItem =
+  | "oidc"
+  | "static";
+export type CreateIntegrationStoreDirectResponseStoreCapabilitiesCredentialTypesTransitionsItemList =
+  Array<CreateIntegrationStoreDirectResponseStoreCapabilitiesCredentialTypesTransitionsItemItem>;
+export type CreateIntegrationStoreDirectResponseStoreCapabilitiesCredentialTypesTransitionsList =
+  Array<CreateIntegrationStoreDirectResponseStoreCapabilitiesCredentialTypesTransitionsItemList>;
 export interface CreateIntegrationStoreDirectResponseStoreCapabilitiesSecretRotationCase0 {
-  customRotationWarning?: string;
+  customRotationWarning?: string | undefined;
   maxDelayHours: number;
 }
 export type CreateIntegrationStoreDirectResponseStoreCapabilitiesSecretRotation =
   | CreateIntegrationStoreDirectResponseStoreCapabilitiesSecretRotationCase0
   | boolean;
 export interface CreateIntegrationStoreDirectResponseStoreCapabilities {
-  agentTools?: boolean;
-  autoSensitive?: boolean;
-  billable?: boolean;
-  mcp?: boolean;
-  mcpReadonly?: boolean;
-  projects?: boolean;
-  secretRotation?: CreateIntegrationStoreDirectResponseStoreCapabilitiesSecretRotation;
-  secretsSync?: boolean;
-  sso?: boolean;
-  transferable?: boolean;
-  v0?: boolean;
+  agentTools?: boolean | undefined;
+  autoSensitive?: boolean | undefined;
+  billable?: boolean | undefined;
+  credentialTypesTransitions?:
+    | CreateIntegrationStoreDirectResponseStoreCapabilitiesCredentialTypesTransitionsList
+    | undefined;
+  mcp?: boolean | undefined;
+  mcpReadonly?: boolean | undefined;
+  projects?: boolean | undefined;
+  secretRotation?: CreateIntegrationStoreDirectResponseStoreCapabilitiesSecretRotation | undefined;
+  secretsSync?: boolean | undefined;
+  sso?: boolean | undefined;
+  transferable?: boolean | undefined;
+  v0?: boolean | undefined;
+}
+/** The credential types the resource accepts: `static` for long-lived secrets, `oidc` for resource OIDC tokens. */
+export type CreateIntegrationStoreDirectResponseStoreCredentialTypesItem = "oidc" | "static";
+/** The credential types the resource accepts: `static` for long-lived secrets, `oidc` for resource OIDC tokens. */
+export type CreateIntegrationStoreDirectResponseStoreCredentialTypesList =
+  Array<CreateIntegrationStoreDirectResponseStoreCredentialTypesItem>;
+export type CreateIntegrationStoreDirectResponseStoreCredentialTypesTransitionToItem =
+  | "oidc"
+  | "static";
+export type CreateIntegrationStoreDirectResponseStoreCredentialTypesTransitionToList =
+  Array<CreateIntegrationStoreDirectResponseStoreCredentialTypesTransitionToItem>;
+/** The latest requested change of `credentialTypes`, and when the provider completed it. */
+export interface CreateIntegrationStoreDirectResponseStoreCredentialTypesTransition {
+  completedAt?: number | undefined;
+  requestedAt: number;
+  to: CreateIntegrationStoreDirectResponseStoreCredentialTypesTransitionToList;
 }
 export type CreateIntegrationStoreDirectResponseStoreExternalResourceStatus =
   | "error"
@@ -359,9 +394,9 @@ export type CreateIntegrationStoreDirectResponseStoreMetadataMap = {
 };
 export type CreateIntegrationStoreDirectResponseStoreNotificationLevel = "error" | "info" | "warn";
 export interface CreateIntegrationStoreDirectResponseStoreNotification {
-  href?: string;
+  href?: string | undefined;
   level: CreateIntegrationStoreDirectResponseStoreNotificationLevel;
-  message?: string;
+  message?: string | undefined;
   title: string;
 }
 export type CreateIntegrationStoreDirectResponseStoreOwnership = "linked" | "owned" | "sandbox";
@@ -373,24 +408,26 @@ export type CreateIntegrationStoreDirectResponseStoreProductCapabilitiesSecretRo
   | CreateIntegrationStoreDirectResponseStoreCapabilitiesSecretRotationCase0
   | boolean;
 export interface CreateIntegrationStoreDirectResponseStoreProductCapabilities {
-  agentTools?: boolean;
-  autoSensitive?: boolean;
-  billable?: boolean;
-  connectedImportResource?: boolean;
-  databaseUI?: boolean;
-  importResource?: boolean;
-  linking?: boolean;
-  mcp?: boolean;
-  mcpReadonly?: boolean;
-  nativeImportResource?: boolean;
-  projects?: boolean;
-  sandbox?: boolean;
-  secretRotation?: CreateIntegrationStoreDirectResponseStoreProductCapabilitiesSecretRotation;
-  secretsSync?: boolean;
-  sso?: boolean;
-  transferable?: boolean;
-  v0?: boolean;
-  v0Flavors?: boolean;
+  agentTools?: boolean | undefined;
+  autoSensitive?: boolean | undefined;
+  billable?: boolean | undefined;
+  connectedImportResource?: boolean | undefined;
+  databaseUI?: boolean | undefined;
+  importResource?: boolean | undefined;
+  linking?: boolean | undefined;
+  mcp?: boolean | undefined;
+  mcpReadonly?: boolean | undefined;
+  nativeImportResource?: boolean | undefined;
+  projects?: boolean | undefined;
+  sandbox?: boolean | undefined;
+  secretRotation?:
+    | CreateIntegrationStoreDirectResponseStoreProductCapabilitiesSecretRotation
+    | undefined;
+  secretsSync?: boolean | undefined;
+  sso?: boolean | undefined;
+  transferable?: boolean | undefined;
+  v0?: boolean | undefined;
+  v0Flavors?: boolean | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0EnumList =
   Array<string>;
@@ -434,22 +471,34 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiReadOnlyCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0 {
-  default?: string;
-  description?: string;
-  enum?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0EnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0EnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0Type;
   ui_control: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiControl;
-  ui_description?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescription;
-  ui_disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiHidden;
-  ui_label?: string;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiReadOnly;
+  ui_description?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescription
+    | undefined;
+  ui_disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiHidden
+    | undefined;
+  ui_label?: string | undefined;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiReadOnly
+    | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1Type =
   "number";
@@ -490,22 +539,32 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1UiReadOnlyCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1 {
-  default?: number;
-  description?: string;
-  exclusiveMaximum?: number;
-  exclusiveMinimum?: number;
-  maximum?: number;
-  minimum?: number;
+  default?: number | undefined;
+  description?: string | undefined;
+  exclusiveMaximum?: number | undefined;
+  exclusiveMinimum?: number | undefined;
+  maximum?: number | undefined;
+  minimum?: number | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1Type;
   ui_control: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1UiControl;
-  ui_description?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1UiDescription;
-  ui_disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1UiHidden;
-  ui_label?: string;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1UiReadOnly;
+  ui_description?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1UiDescription
+    | undefined;
+  ui_disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1UiHidden
+    | undefined;
+  ui_label?: string | undefined;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase1UiReadOnly
+    | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2Type =
   "boolean";
@@ -546,29 +605,39 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2UiReadOnlyCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2 {
-  default?: boolean;
-  description?: string;
+  default?: boolean | undefined;
+  description?: string | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2Type;
   ui_control: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2UiControl;
-  ui_description?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2UiDescription;
-  ui_disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2UiHidden;
-  ui_label?: string;
-  ui_paid_only?: boolean;
-  ui_read_only?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2UiReadOnly;
+  ui_description?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2UiDescription
+    | undefined;
+  ui_disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2UiHidden
+    | undefined;
+  ui_label?: string | undefined;
+  ui_paid_only?: boolean | undefined;
+  ui_read_only?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase2UiReadOnly
+    | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3DefaultList =
   Array<number>;
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3ItemsType =
   "number";
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3Items {
-  default?: number;
-  description?: string;
-  exclusiveMaximum?: number;
-  exclusiveMinimum?: number;
-  maximum?: number;
-  minimum?: number;
+  default?: number | undefined;
+  description?: string | undefined;
+  exclusiveMaximum?: number | undefined;
+  exclusiveMinimum?: number | undefined;
+  maximum?: number | undefined;
+  minimum?: number | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3ItemsType;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3Type =
@@ -612,20 +681,32 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3UiStepsList =
   Array<number>;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3 {
-  default?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3DefaultList;
-  description?: string;
+  default?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3DefaultList
+    | undefined;
+  description?: string | undefined;
   items: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3Items;
-  maxItems?: number;
-  minItems?: number;
+  maxItems?: number | undefined;
+  minItems?: number | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3Type;
   ui_control: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3UiControl;
-  ui_description?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3UiDescription;
-  ui_disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3UiHidden;
-  ui_label?: string;
-  ui_paid_only?: boolean;
-  ui_read_only?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3UiReadOnly;
+  ui_description?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3UiDescription
+    | undefined;
+  ui_disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3UiHidden
+    | undefined;
+  ui_label?: string | undefined;
+  ui_paid_only?: boolean | undefined;
+  ui_read_only?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3UiReadOnly
+    | undefined;
   ui_steps: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase3UiStepsList;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4EnumList =
@@ -678,9 +759,13 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiOptionsItemHiddenCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiOptionsItem {
-  description?: string;
-  disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiOptionsItemDisabled;
-  hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiOptionsItemHidden;
+  description?: string | undefined;
+  disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiOptionsItemDisabled
+    | undefined;
+  hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiOptionsItemHidden
+    | undefined;
   label: string;
   value: string;
 }
@@ -696,23 +781,35 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiReadOnlyCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4 {
-  default?: string;
-  description?: string;
-  enum?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4EnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4EnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4Type;
   ui_control: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiControl;
-  ui_description?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiDescription;
-  ui_disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiHidden;
-  ui_label?: string;
+  ui_description?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiDescription
+    | undefined;
+  ui_disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiHidden
+    | undefined;
+  ui_label?: string | undefined;
   ui_options: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiOptionsList;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiReadOnly;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase4UiReadOnly
+    | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5EnumList =
   Array<string>;
@@ -764,9 +861,13 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiOptionsItemHiddenCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiOptionsItem {
-  description?: string;
-  disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiOptionsItemDisabled;
-  hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiOptionsItemHidden;
+  description?: string | undefined;
+  disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiOptionsItemDisabled
+    | undefined;
+  hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiOptionsItemHidden
+    | undefined;
   label: string;
   value: string;
 }
@@ -782,23 +883,35 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiReadOnlyCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5 {
-  default?: string;
-  description?: string;
-  enum?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5EnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5EnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5Type;
   ui_control: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiControl;
-  ui_description?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiDescription;
-  ui_disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiHidden;
-  ui_label?: string;
+  ui_description?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiDescription
+    | undefined;
+  ui_disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiHidden
+    | undefined;
+  ui_label?: string | undefined;
   ui_options: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiOptionsList;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiReadOnly;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase5UiReadOnly
+    | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6DefaultList =
   Array<string>;
@@ -809,12 +922,14 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6ItemsType =
   "string";
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6Items {
-  default?: string;
-  description?: string;
-  enum?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6ItemsEnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6ItemsEnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6ItemsType;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6Type =
@@ -865,9 +980,13 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiOptionsItemHiddenCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiOptionsItem {
-  description?: string;
-  disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiOptionsItemDisabled;
-  hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiOptionsItemHidden;
+  description?: string | undefined;
+  disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiOptionsItemDisabled
+    | undefined;
+  hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiOptionsItemHidden
+    | undefined;
   label: string;
   value: string;
 }
@@ -883,23 +1002,37 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiReadOnlyCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6 {
-  default?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6DefaultList;
-  description?: string;
-  example?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6ExampleList;
+  default?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6DefaultList
+    | undefined;
+  description?: string | undefined;
+  example?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6ExampleList
+    | undefined;
   items: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6Items;
-  maxItems?: number;
-  minItems?: number;
+  maxItems?: number | undefined;
+  minItems?: number | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6Type;
   ui_control: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiControl;
-  ui_description?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiDescription;
-  ui_disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiHidden;
-  ui_label?: string;
+  ui_description?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiDescription
+    | undefined;
+  ui_disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiHidden
+    | undefined;
+  ui_label?: string | undefined;
   ui_options: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiOptionsList;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiReadOnly;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase6UiReadOnly
+    | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7EnumList =
   Array<string>;
@@ -951,9 +1084,13 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItemCase0HiddenCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItemCase0 {
-  description?: string;
-  disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItemCase0Disabled;
-  hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItemCase0Hidden;
+  description?: string | undefined;
+  disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItemCase0Disabled
+    | undefined;
+  hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItemCase0Hidden
+    | undefined;
   label: string;
   value: string;
 }
@@ -976,9 +1113,13 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItemCase2HiddenCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItemCase2 {
-  description?: string;
-  disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItemCase2Disabled;
-  hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItemCase2Hidden;
+  description?: string | undefined;
+  disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItemCase2Disabled
+    | undefined;
+  hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItemCase2Hidden
+    | undefined;
   value: string;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsItem =
@@ -997,23 +1138,35 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiReadOnlyCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7 {
-  default?: string;
-  description?: string;
-  enum?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7EnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7EnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7Type;
   ui_control: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiControl;
-  ui_description?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiDescription;
-  ui_disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiHidden;
-  ui_label?: string;
+  ui_description?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiDescription
+    | undefined;
+  ui_disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiHidden
+    | undefined;
+  ui_label?: string | undefined;
   ui_options: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiOptionsList;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiReadOnly;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase7UiReadOnly
+    | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8DefaultList =
   Array<string>;
@@ -1024,12 +1177,14 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8ItemsType =
   "string";
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8Items {
-  default?: string;
-  description?: string;
-  enum?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8ItemsEnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8ItemsEnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8ItemsType;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8Type =
@@ -1080,9 +1235,13 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItemCase0HiddenCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItemCase0 {
-  description?: string;
-  disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItemCase0Disabled;
-  hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItemCase0Hidden;
+  description?: string | undefined;
+  disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItemCase0Disabled
+    | undefined;
+  hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItemCase0Hidden
+    | undefined;
   label: string;
   value: string;
 }
@@ -1105,9 +1264,13 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItemCase2HiddenCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItemCase2 {
-  description?: string;
-  disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItemCase2Disabled;
-  hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItemCase2Hidden;
+  description?: string | undefined;
+  disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItemCase2Disabled
+    | undefined;
+  hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItemCase2Hidden
+    | undefined;
   value: string;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsItem =
@@ -1126,23 +1289,37 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiReadOnlyCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8 {
-  default?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8DefaultList;
-  description?: string;
-  example?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8ExampleList;
+  default?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8DefaultList
+    | undefined;
+  description?: string | undefined;
+  example?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8ExampleList
+    | undefined;
   items: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8Items;
-  maxItems?: number;
-  minItems?: number;
+  maxItems?: number | undefined;
+  minItems?: number | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8Type;
   ui_control: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiControl;
-  ui_description?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiDescription;
-  ui_disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiHidden;
-  ui_label?: string;
+  ui_description?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiDescription
+    | undefined;
+  ui_disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiHidden
+    | undefined;
+  ui_label?: string | undefined;
   ui_options: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiOptionsList;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiReadOnly;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase8UiReadOnly
+    | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9EnumList =
   Array<string>;
@@ -1194,9 +1371,13 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItemCase0HiddenCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItemCase0 {
-  description?: string;
-  disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItemCase0Disabled;
-  hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItemCase0Hidden;
+  description?: string | undefined;
+  disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItemCase0Disabled
+    | undefined;
+  hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItemCase0Hidden
+    | undefined;
   label: string;
   value: string;
 }
@@ -1219,9 +1400,13 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItemCase2HiddenCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItemCase2 {
-  description?: string;
-  disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItemCase2Disabled;
-  hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItemCase2Hidden;
+  description?: string | undefined;
+  disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItemCase2Disabled
+    | undefined;
+  hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItemCase2Hidden
+    | undefined;
   value: string;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsItem =
@@ -1240,23 +1425,35 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiReadOnlyCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9 {
-  default?: string;
-  description?: string;
-  enum?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9EnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9EnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9Type;
   ui_control: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiControl;
-  ui_description?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiDescription;
-  ui_disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiHidden;
-  ui_label?: string;
+  ui_description?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiDescription
+    | undefined;
+  ui_disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiHidden
+    | undefined;
+  ui_label?: string | undefined;
   ui_options: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiOptionsList;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiReadOnly;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase9UiReadOnly
+    | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10EnumList =
   Array<string>;
@@ -1299,22 +1496,34 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10UiReadOnlyCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10 {
-  default?: string;
-  description?: string;
-  enum?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10EnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10EnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10Type;
   ui_control: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10UiControl;
-  ui_description?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10UiDescription;
-  ui_disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10UiHidden;
-  ui_label?: string;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10UiReadOnly;
+  ui_description?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10UiDescription
+    | undefined;
+  ui_disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10UiHidden
+    | undefined;
+  ui_label?: string | undefined;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase10UiReadOnly
+    | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11GitProvidersItem =
   | "bitbucket"
@@ -1361,18 +1570,30 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaProper
   | boolean
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11UiReadOnlyCase2;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11 {
-  description?: string;
-  git_providers?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11GitProvidersList;
+  description?: string | undefined;
+  git_providers?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11GitProvidersList
+    | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11Type;
   ui_control: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11UiControl;
-  ui_description?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11UiDescription;
-  ui_disabled?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11UiHidden;
-  ui_label?: string;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11UiReadOnly;
+  ui_description?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11UiDescription
+    | undefined;
+  ui_disabled?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11UiHidden
+    | undefined;
+  ui_label?: string | undefined;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase11UiReadOnly
+    | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValue =
   | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0
@@ -1399,9 +1620,9 @@ export type CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaUiOrde
   Array<string>;
 export interface CreateIntegrationStoreDirectResponseStoreProductMetadataSchema {
   properties: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesMap;
-  required?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaRequiredList;
+  required?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaRequiredList | undefined;
   type: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaType;
-  ui_order?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaUiOrderList;
+  ui_order?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaUiOrderList | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductProjectConnectionScopesItem =
   | "read-write:deployment"
@@ -1487,7 +1708,7 @@ export type CreateIntegrationStoreDirectResponseStoreProductTagsList =
 export interface CreateIntegrationStoreDirectResponseStoreProductRepl {
   enabled: boolean;
   supportsReadOnlyMode: boolean;
-  welcomeMessage?: string;
+  welcomeMessage?: string | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductGuidesItemStepsItemActionsItemType =
   | "add_drain"
@@ -1499,7 +1720,9 @@ export interface CreateIntegrationStoreDirectResponseStoreProductGuidesItemSteps
 export type CreateIntegrationStoreDirectResponseStoreProductGuidesItemStepsItemActionsList =
   Array<CreateIntegrationStoreDirectResponseStoreProductGuidesItemStepsItemActionsItem>;
 export interface CreateIntegrationStoreDirectResponseStoreProductGuidesItemStepsItem {
-  actions?: CreateIntegrationStoreDirectResponseStoreProductGuidesItemStepsItemActionsList;
+  actions?:
+    | CreateIntegrationStoreDirectResponseStoreProductGuidesItemStepsItemActionsList
+    | undefined;
   content: string;
   title: string;
 }
@@ -1512,41 +1735,55 @@ export interface CreateIntegrationStoreDirectResponseStoreProductGuidesItem {
 }
 export type CreateIntegrationStoreDirectResponseStoreProductGuidesList =
   Array<CreateIntegrationStoreDirectResponseStoreProductGuidesItem>;
+export type CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesCredentialTypesCreateItemItem =
+  | "oidc"
+  | "static";
+export type CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesCredentialTypesCreateItemList =
+  Array<CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesCredentialTypesCreateItemItem>;
+export type CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesCredentialTypesCreateList =
+  Array<CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesCredentialTypesCreateItemList>;
 export type CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesSecretRotationCase0 =
   CreateIntegrationStoreDirectResponseStoreCapabilitiesSecretRotationCase0;
 export type CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesSecretRotation =
   | CreateIntegrationStoreDirectResponseStoreCapabilitiesSecretRotationCase0
   | boolean;
 export interface CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilities {
-  billable?: boolean;
-  checks?: boolean;
-  connectedImportResource?: boolean;
-  connectedProvisioning?: boolean;
-  flexCommitEligible?: boolean;
-  importResource?: boolean;
-  maxAllowedTeams?: number;
-  mcp?: boolean;
-  mcpConfiguration?: boolean;
-  mcpReadonly?: boolean;
-  nativeImportResource?: boolean;
-  provisioning?: boolean;
-  requiresBrowserInstall?: boolean;
-  secretRotation?: CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesSecretRotation;
-  sso?: boolean;
-  templateCloneOnly?: boolean;
-  transferable?: boolean;
-  updateConfiguration?: boolean;
-  v0Flavors?: boolean;
+  billable?: boolean | undefined;
+  checks?: boolean | undefined;
+  connectedImportResource?: boolean | undefined;
+  connectedProvisioning?: boolean | undefined;
+  credentialTypesCreate?:
+    | CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesCredentialTypesCreateList
+    | undefined;
+  flexCommitEligible?: boolean | undefined;
+  importResource?: boolean | undefined;
+  maxAllowedTeams?: number | undefined;
+  mcp?: boolean | undefined;
+  mcpConfiguration?: boolean | undefined;
+  mcpReadonly?: boolean | undefined;
+  nativeImportResource?: boolean | undefined;
+  provisioning?: boolean | undefined;
+  requiresBrowserInstall?: boolean | undefined;
+  secretRotation?:
+    | CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesSecretRotation
+    | undefined;
+  sso?: boolean | undefined;
+  templateCloneOnly?: boolean | undefined;
+  transferable?: boolean | undefined;
+  updateConfiguration?: boolean | undefined;
+  v0Flavors?: boolean | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductIntegrationFlagsList = Array<string>;
 export interface CreateIntegrationStoreDirectResponseStoreProductIntegration {
-  capabilities?: CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilities;
-  flags?: CreateIntegrationStoreDirectResponseStoreProductIntegrationFlagsList;
+  capabilities?:
+    | CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilities
+    | undefined;
+  flags?: CreateIntegrationStoreDirectResponseStoreProductIntegrationFlagsList | undefined;
   icon: string;
   id: string;
   name: string;
   slug: string;
-  supportsInstallationBillingPlans?: boolean;
+  supportsInstallationBillingPlans?: boolean | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreProductLogDrainStatus = "disabled" | "enabled";
 export type CreateIntegrationStoreDirectResponseStoreProductPrimaryProtocol =
@@ -1579,27 +1816,29 @@ export type CreateIntegrationStoreDirectResponseStoreProductSupportedProtocolsLi
   Array<CreateIntegrationStoreDirectResponseStoreProductSupportedProtocolsItem>;
 export interface CreateIntegrationStoreDirectResponseStoreProduct {
   /** URLs to skills/guides for how AI agents should use this product. Providers can specify these to help agents understand how to interact with their integration. */
-  agentSkills?: CreateIntegrationStoreDirectResponseStoreProductAgentSkillsList;
-  capabilities?: CreateIntegrationStoreDirectResponseStoreProductCapabilities;
-  disableResourceRenaming?: boolean;
-  iconUrl?: string;
-  id?: string;
-  metadataSchema?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchema;
-  name?: string;
-  projectConnectionScopes?: CreateIntegrationStoreDirectResponseStoreProductProjectConnectionScopesList;
-  resourceLinks?: CreateIntegrationStoreDirectResponseStoreProductResourceLinksList;
+  agentSkills?: CreateIntegrationStoreDirectResponseStoreProductAgentSkillsList | undefined;
+  capabilities?: CreateIntegrationStoreDirectResponseStoreProductCapabilities | undefined;
+  disableResourceRenaming?: boolean | undefined;
+  iconUrl?: string | undefined;
+  id?: string | undefined;
+  metadataSchema?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchema | undefined;
+  name?: string | undefined;
+  projectConnectionScopes?:
+    | CreateIntegrationStoreDirectResponseStoreProductProjectConnectionScopesList
+    | undefined;
+  resourceLinks?: CreateIntegrationStoreDirectResponseStoreProductResourceLinksList | undefined;
   /** Custom resource title to display during installation and configuration. If not provided, defaults to protocol-based defaults. */
-  resourceTitle?: string;
-  shortDescription?: string;
-  showSSOLinkOnProjectConnection?: boolean;
-  slug?: string;
-  tags?: CreateIntegrationStoreDirectResponseStoreProductTagsList;
-  repl?: CreateIntegrationStoreDirectResponseStoreProductRepl;
-  guides?: CreateIntegrationStoreDirectResponseStoreProductGuidesList;
+  resourceTitle?: string | undefined;
+  shortDescription?: string | undefined;
+  showSSOLinkOnProjectConnection?: boolean | undefined;
+  slug?: string | undefined;
+  tags?: CreateIntegrationStoreDirectResponseStoreProductTagsList | undefined;
+  repl?: CreateIntegrationStoreDirectResponseStoreProductRepl | undefined;
+  guides?: CreateIntegrationStoreDirectResponseStoreProductGuidesList | undefined;
   integration: CreateIntegrationStoreDirectResponseStoreProductIntegration;
   integrationConfigurationId: string;
-  logDrainStatus?: CreateIntegrationStoreDirectResponseStoreProductLogDrainStatus;
-  primaryProtocol?: CreateIntegrationStoreDirectResponseStoreProductPrimaryProtocol;
+  logDrainStatus?: CreateIntegrationStoreDirectResponseStoreProductLogDrainStatus | undefined;
+  primaryProtocol?: CreateIntegrationStoreDirectResponseStoreProductPrimaryProtocol | undefined;
   supportedProtocols: CreateIntegrationStoreDirectResponseStoreProductSupportedProtocolsList;
 }
 export type CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthenticationAppUrlsItemTarget =
@@ -1613,23 +1852,32 @@ export interface CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthen
 export type CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthenticationAppUrlsList =
   Array<CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthenticationAppUrlsItem>;
 export interface CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthentication {
-  appUrls?: CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthenticationAppUrlsList;
+  appUrls?:
+    | CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthenticationAppUrlsList
+    | undefined;
 }
 export interface CreateIntegrationStoreDirectResponseStoreProtocolSettingsExperimentation {
-  edgeConfigId?: string;
-  edgeConfigSyncingEnabled?: boolean;
-  edgeConfigTokenId?: string;
-  globalConfigId?: string;
-  globalConfigSyncingEnabled?: boolean;
+  edgeConfigId?: string | undefined;
+  edgeConfigSyncingEnabled?: boolean | undefined;
+  edgeConfigTokenId?: string | undefined;
+  globalConfigId?: string | undefined;
+  globalConfigSyncingEnabled?: boolean | undefined;
 }
 export interface CreateIntegrationStoreDirectResponseStoreProtocolSettings {
-  authentication?: CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthentication;
-  experimentation?: CreateIntegrationStoreDirectResponseStoreProtocolSettingsExperimentation;
+  authentication?:
+    | CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthentication
+    | undefined;
+  experimentation?:
+    | CreateIntegrationStoreDirectResponseStoreProtocolSettingsExperimentation
+    | undefined;
 }
 export interface CreateIntegrationStoreDirectResponseStoreSecretsItem {
-  frameworkPublishable?: boolean;
+  frameworkPublishable?: boolean | undefined;
   length: number;
   name: string;
+  nonSensitive?: boolean | undefined;
+  /** The token set key `name` is built from; absent for env vars that are not in the token set. */
+  tokenSetKey?: string | undefined;
 }
 export type CreateIntegrationStoreDirectResponseStoreSecretsList =
   Array<CreateIntegrationStoreDirectResponseStoreSecretsItem>;
@@ -1642,34 +1890,44 @@ export type CreateIntegrationStoreDirectResponseStoreTargetsItem =
 export type CreateIntegrationStoreDirectResponseStoreTargetsList =
   Array<CreateIntegrationStoreDirectResponseStoreTargetsItem>;
 export interface CreateIntegrationStoreDirectResponseStore {
-  projectFilter?: CreateIntegrationStoreDirectResponseStoreProjectFilter;
+  projectFilter?: CreateIntegrationStoreDirectResponseStoreProjectFilter | undefined;
   projectsMetadata: CreateIntegrationStoreDirectResponseStoreProjectsMetadataList;
   status: CreateIntegrationStoreDirectResponseStoreStatus | null;
-  totalConnectedProjects?: number;
+  totalConnectedProjects?: number | undefined;
   usageQuotaExceeded: boolean;
-  billingPlan?: CreateIntegrationStoreDirectResponseStoreBillingPlan;
-  capabilities?: CreateIntegrationStoreDirectResponseStoreCapabilities;
-  directPartnerConsoleUrl?: string;
+  billingPlan?: CreateIntegrationStoreDirectResponseStoreBillingPlan | undefined;
+  capabilities?: CreateIntegrationStoreDirectResponseStoreCapabilities | undefined;
+  /** The credential types the resource accepts: `static` for long-lived secrets, `oidc` for resource OIDC tokens. */
+  credentialTypes?: CreateIntegrationStoreDirectResponseStoreCredentialTypesList | undefined;
+  /** The latest requested change of `credentialTypes`, and when the provider completed it. */
+  credentialTypesTransition?:
+    | CreateIntegrationStoreDirectResponseStoreCredentialTypesTransition
+    | undefined;
+  directPartnerConsoleUrl?: string | undefined;
   externalResourceId: string;
-  externalResourceStatus?: CreateIntegrationStoreDirectResponseStoreExternalResourceStatus | null;
-  metadata?: CreateIntegrationStoreDirectResponseStoreMetadataMap;
-  notification?: CreateIntegrationStoreDirectResponseStoreNotification;
-  ownership?: CreateIntegrationStoreDirectResponseStoreOwnership;
+  externalResourceStatus?:
+    | CreateIntegrationStoreDirectResponseStoreExternalResourceStatus
+    | null
+    | undefined;
+  metadata?: CreateIntegrationStoreDirectResponseStoreMetadataMap | undefined;
+  notification?: CreateIntegrationStoreDirectResponseStoreNotification | undefined;
+  ownership?: CreateIntegrationStoreDirectResponseStoreOwnership | undefined;
   /** The ID of the parent resource. Used to establish a parent-child relationship between resources, such as sandbox resources linking to their owner account resource. */
-  parentId?: string;
+  parentId?: string | undefined;
   product: CreateIntegrationStoreDirectResponseStoreProduct;
-  protocolSettings?: CreateIntegrationStoreDirectResponseStoreProtocolSettings;
+  protocolSettings?: CreateIntegrationStoreDirectResponseStoreProtocolSettings | undefined;
   /** The timestamp when secret rotation was completed. */
-  secretRotationCompletedAt?: number;
+  secretRotationCompletedAt?: number | undefined;
   /** The timestamp when secret rotation was requested. */
-  secretRotationRequestedAt?: number;
+  secretRotationRequestedAt?: number | undefined;
   /** The ID of the user/team who requested the secret rotation. */
-  secretRotationRequestedBy?: string;
+  secretRotationRequestedBy?: string | undefined;
   /** The reason for the secret rotation request. */
-  secretRotationRequestedReason?: string;
+  secretRotationRequestedReason?: string | undefined;
   secrets: CreateIntegrationStoreDirectResponseStoreSecretsList;
+  secretsAppliedAt?: number | undefined;
   /** The deployment targets that this resource is available for. */
-  targets?: CreateIntegrationStoreDirectResponseStoreTargetsList;
+  targets?: CreateIntegrationStoreDirectResponseStoreTargetsList | undefined;
 }
 export interface CreateIntegrationStoreDirectResponse {
   store: CreateIntegrationStoreDirectResponseStore | null;
@@ -1677,9 +1935,9 @@ export interface CreateIntegrationStoreDirectResponse {
 export interface DeleteConfigurationRequest {
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteConfigurationResponse {}
 export type GetBillingPlansRequestSource =
@@ -1692,17 +1950,18 @@ export type GetBillingPlansRequestSource =
   | "oauth"
   | "backoffice"
   | "import-recommended-integrations"
+  | "project-overview-recommended-integrations"
   | "organization";
 export interface GetBillingPlansRequest {
   integrationIdOrSlug: string;
   productIdOrSlug: string;
-  integrationConfigurationId?: string;
-  metadata?: string;
-  source?: GetBillingPlansRequestSource | (string & {});
+  integrationConfigurationId?: string | undefined;
+  metadata?: string | undefined;
+  source?: GetBillingPlansRequestSource | (string & {}) | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetBillingPlansResponsePlansItemDetailsItem =
   CreateIntegrationStoreDirectResponseStoreBillingPlanDetailsItem;
@@ -1719,21 +1978,21 @@ export type GetBillingPlansResponsePlansItemQuoteList =
 export type GetBillingPlansResponsePlansItemScope = "installation" | "resource";
 export type GetBillingPlansResponsePlansItemType = "prepayment" | "subscription";
 export interface GetBillingPlansResponsePlansItem {
-  cost?: string;
+  cost?: string | undefined;
   description: string;
-  details?: GetBillingPlansResponsePlansItemDetailsList;
-  disabled?: boolean;
-  effectiveDate?: string;
-  highlightedDetails?: GetBillingPlansResponsePlansItemHighlightedDetailsList;
+  details?: GetBillingPlansResponsePlansItemDetailsList | undefined;
+  disabled?: boolean | undefined;
+  effectiveDate?: string | undefined;
+  highlightedDetails?: GetBillingPlansResponsePlansItemHighlightedDetailsList | undefined;
   id: string;
-  initialCharge?: string;
-  maximumAmount?: string;
-  maximumAmountAutoPurchasePerPeriod?: string;
-  minimumAmount?: string;
+  initialCharge?: string | undefined;
+  maximumAmount?: string | undefined;
+  maximumAmountAutoPurchasePerPeriod?: string | undefined;
+  minimumAmount?: string | undefined;
   name: string;
   paymentMethodRequired: boolean;
-  preauthorizationAmount?: number;
-  quote?: GetBillingPlansResponsePlansItemQuoteList;
+  preauthorizationAmount?: number | undefined;
+  quote?: GetBillingPlansResponsePlansItemQuoteList | undefined;
   scope: GetBillingPlansResponsePlansItemScope;
   type: GetBillingPlansResponsePlansItemType;
 }
@@ -1745,9 +2004,9 @@ export interface GetConfigurationRequest {
   /** ID of the configuration to check */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetConfigurationResponseBodyCase0DisabledReason =
   | "account-plan-downgrade"
@@ -1760,9 +2019,9 @@ export type GetConfigurationResponseBodyCase0DisabledReason =
 export type GetConfigurationResponseBodyCase0InstallationType = "external" | "marketplace";
 export type GetConfigurationResponseBodyCase0NotificationLevel = "error" | "info" | "warn";
 export interface GetConfigurationResponseBodyCase0Notification {
-  href?: string;
+  href?: string | undefined;
   level: GetConfigurationResponseBodyCase0NotificationLevel;
-  message?: string;
+  message?: string | undefined;
   title: string;
 }
 /** When a configuration is limited to access certain projects, this will contain each of the project ID it is allowed to access. If it is not defined, the configuration has full access. */
@@ -1781,6 +2040,7 @@ export type GetConfigurationResponseBodyCase0Source =
   | "marketplace"
   | "oauth"
   | "organization"
+  | "project-overview-recommended-integrations"
   | "resource-claims"
   | "v0";
 /** The configuration status. Optional. If not defined, assume 'ready'. */
@@ -1792,94 +2052,37 @@ export type GetConfigurationResponseBodyCase0Status =
   | "resumed"
   | "suspended"
   | "uninstalled";
-export type GetConfigurationResponseBodyCase0TransferRequestCase0BillingPlanScope =
-  | "installation"
-  | "resource";
-export type GetConfigurationResponseBodyCase0TransferRequestCase0BillingPlanType =
-  | "prepayment"
-  | "subscription";
-export interface GetConfigurationResponseBodyCase0TransferRequestCase0BillingPlan {
-  description: string;
-  id: string;
-  name: string;
-  paymentMethodRequired?: boolean;
-  preauthorizationAmount?: number;
-  scope?: GetConfigurationResponseBodyCase0TransferRequestCase0BillingPlanScope;
-  type: GetConfigurationResponseBodyCase0TransferRequestCase0BillingPlanType;
-}
-export type GetConfigurationResponseBodyCase0TransferRequestCase0Kind = "transfer-to-marketplace";
-export type GetConfigurationResponseBodyCase0TransferRequestCase0MetadataMap = {
-  [key: string]: unknown | undefined;
-};
-export interface GetConfigurationResponseBodyCase0TransferRequestCase0Requester {
-  email?: string;
-  name: string;
-}
-export interface GetConfigurationResponseBodyCase0TransferRequestCase0 {
-  approvedAt?: number;
-  approvedBy?: string;
-  authorizationId?: string;
-  billingPlan?: GetConfigurationResponseBodyCase0TransferRequestCase0BillingPlan;
-  createdAt: number;
-  discardedAt?: number;
-  discardedBy?: string;
-  expiresAt: number;
-  kind: GetConfigurationResponseBodyCase0TransferRequestCase0Kind;
-  metadata?: GetConfigurationResponseBodyCase0TransferRequestCase0MetadataMap;
-  requester: GetConfigurationResponseBodyCase0TransferRequestCase0Requester;
-  requestId: string;
-  transferId: string;
-}
-export type GetConfigurationResponseBodyCase0TransferRequestCase1Kind = "transfer-from-marketplace";
-export type GetConfigurationResponseBodyCase0TransferRequestCase1Requester =
-  GetConfigurationResponseBodyCase0TransferRequestCase0Requester;
-export interface GetConfigurationResponseBodyCase0TransferRequestCase1 {
-  approvedAt?: number;
-  approvedBy?: string;
-  authorizationId?: string;
-  createdAt: number;
-  discardedAt?: number;
-  discardedBy?: string;
-  expiresAt: number;
-  kind: GetConfigurationResponseBodyCase0TransferRequestCase1Kind;
-  requester: GetConfigurationResponseBodyCase0TransferRequestCase0Requester;
-  requestId: string;
-  transferId: string;
-}
-export type GetConfigurationResponseBodyCase0TransferRequest =
-  | GetConfigurationResponseBodyCase0TransferRequestCase0
-  | GetConfigurationResponseBodyCase0TransferRequestCase1;
 export type GetConfigurationResponseBodyCase0Type = "integration-configuration";
 export interface GetConfigurationResponseBodyCase0 {
   /** Historical parent installation from which acceptedPolicies were inherited. This is immutable provenance, not current authorization or relationship truth. */
-  acceptedPoliciesInheritedFromInstallationId?: string;
-  canConfigureOpenTelemetry?: boolean;
+  acceptedPoliciesInheritedFromInstallationId?: string | undefined;
+  canConfigureOpenTelemetry?: boolean | undefined;
   /** A timestamp that tells you when the configuration was installed successfully */
-  completedAt?: number;
+  completedAt?: number | undefined;
   /** A timestamp that tells you when the configuration was created */
   createdAt: number;
   /** Record when the customer initited deletion, independent of whether `deleteRequestedAt` gets set. */
-  customerDeleteRequestedAt?: number | null;
+  customerDeleteRequestedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration was deleted. */
-  deletedAt?: number | null;
+  deletedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration deletion has been started for cases when the deletion needs to be settled/approved by partners, such as when marketplace invoices have been paid. */
-  deleteRequestedAt?: number | null;
+  deleteRequestedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration was disabled. Note: Configurations can be disabled when the associated user loses access to a team. They do not function during this time until the configuration is 'transferred', meaning the associated user is changed to one with access to the team. */
-  disabledAt?: number;
-  disabledReason?: GetConfigurationResponseBodyCase0DisabledReason;
+  disabledAt?: number | undefined;
+  disabledReason?: GetConfigurationResponseBodyCase0DisabledReason | undefined;
   /** An external identifier defined by the integration vendor. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** The unique identifier of the configuration */
   id: string;
   /** Defines the installation type. - 'external' integrations are installed via the existing integrations flow - 'marketplace' integrations are natively installed: - when accepting the TOS of a partner during the store creation process - if undefined, assume 'external' */
-  installationType?: GetConfigurationResponseBodyCase0InstallationType;
+  installationType?: GetConfigurationResponseBodyCase0InstallationType | undefined;
   /** The unique identifier of the app the configuration was created for */
   integrationId: string;
   notification: GetConfigurationResponseBodyCase0Notification;
   /** The user or team ID that owns the configuration */
   ownerId: string;
   /** When a configuration is limited to access certain projects, this will contain each of the project ID it is allowed to access. If it is not defined, the configuration has full access. */
-  projects?: GetConfigurationResponseBodyCase0ProjectsList;
+  projects?: GetConfigurationResponseBodyCase0ProjectsList | undefined;
   /** A string representing the permission for projects. Possible values are `all` or `selected`. */
   projectSelection: GetConfigurationResponseBodyCase0ProjectSelection;
   /** The resources that are allowed to be accessed by the configuration. */
@@ -1887,12 +2090,11 @@ export interface GetConfigurationResponseBodyCase0 {
   /** The slug of the integration the configuration is created for. */
   slug: string;
   /** Source defines where the configuration was installed from. It is used to analyze user engagement for integration installations in product metrics. */
-  source?: GetConfigurationResponseBodyCase0Source;
+  source?: GetConfigurationResponseBodyCase0Source | undefined;
   /** The configuration status. Optional. If not defined, assume 'ready'. */
-  status?: GetConfigurationResponseBodyCase0Status;
+  status?: GetConfigurationResponseBodyCase0Status | undefined;
   /** When the configuration was created for a team, this will show the ID of the team. */
-  teamId?: string | null;
-  transferRequest: GetConfigurationResponseBodyCase0TransferRequest;
+  teamId?: string | null | undefined;
   type: GetConfigurationResponseBodyCase0Type;
   /** A timestamp that tells you when the configuration was updated. */
   updatedAt: number;
@@ -1922,6 +2124,7 @@ export type GetConfigurationResponseBodyCase1Source =
   | "marketplace"
   | "oauth"
   | "organization"
+  | "project-overview-recommended-integrations"
   | "resource-claims"
   | "v0";
 /** The configuration status. Optional. If not defined, assume 'ready'. */
@@ -1937,42 +2140,42 @@ export type GetConfigurationResponseBodyCase1Type = "integration-configuration";
 /** The configuration with the provided id */
 export interface GetConfigurationResponseBodyCase1 {
   /** Historical parent installation from which acceptedPolicies were inherited. This is immutable provenance, not current authorization or relationship truth. */
-  acceptedPoliciesInheritedFromInstallationId?: string;
+  acceptedPoliciesInheritedFromInstallationId?: string | undefined;
   /** A timestamp that tells you when the configuration was installed successfully */
-  completedAt?: number;
+  completedAt?: number | undefined;
   /** A timestamp that tells you when the configuration was created */
   createdAt: number;
   /** Record when the customer initited deletion, independent of whether `deleteRequestedAt` gets set. */
-  customerDeleteRequestedAt?: number | null;
+  customerDeleteRequestedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration was deleted. */
-  deletedAt?: number | null;
+  deletedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration deletion has been started for cases when the deletion needs to be settled/approved by partners, such as when marketplace invoices have been paid. */
-  deleteRequestedAt?: number | null;
+  deleteRequestedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration was disabled. Note: Configurations can be disabled when the associated user loses access to a team. They do not function during this time until the configuration is 'transferred', meaning the associated user is changed to one with access to the team. */
-  disabledAt?: number;
-  disabledReason?: GetConfigurationResponseBodyCase1DisabledReason;
+  disabledAt?: number | undefined;
+  disabledReason?: GetConfigurationResponseBodyCase1DisabledReason | undefined;
   /** An external identifier defined by the integration vendor. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** The unique identifier of the configuration */
   id: string;
   /** Defines the installation type. - 'external' integrations are installed via the existing integrations flow - 'marketplace' integrations are natively installed: - when accepting the TOS of a partner during the store creation process - if undefined, assume 'external' */
-  installationType?: GetConfigurationResponseBodyCase1InstallationType;
+  installationType?: GetConfigurationResponseBodyCase1InstallationType | undefined;
   /** The unique identifier of the app the configuration was created for */
   integrationId: string;
   /** The user or team ID that owns the configuration */
   ownerId: string;
   /** When a configuration is limited to access certain projects, this will contain each of the project ID it is allowed to access. If it is not defined, the configuration has full access. */
-  projects?: GetConfigurationResponseBodyCase1ProjectsList;
+  projects?: GetConfigurationResponseBodyCase1ProjectsList | undefined;
   /** The resources that are allowed to be accessed by the configuration. */
   scopes: GetConfigurationResponseBodyCase1ScopesList;
   /** The slug of the integration the configuration is created for. */
   slug: string;
   /** Source defines where the configuration was installed from. It is used to analyze user engagement for integration installations in product metrics. */
-  source?: GetConfigurationResponseBodyCase1Source;
+  source?: GetConfigurationResponseBodyCase1Source | undefined;
   /** The configuration status. Optional. If not defined, assume 'ready'. */
-  status?: GetConfigurationResponseBodyCase1Status;
+  status?: GetConfigurationResponseBodyCase1Status | undefined;
   /** When the configuration was created for a team, this will show the ID of the team. */
-  teamId?: string | null;
+  teamId?: string | null | undefined;
   type: GetConfigurationResponseBodyCase1Type;
   /** A timestamp that tells you when the configuration was updated. */
   updatedAt: number;
@@ -2002,6 +2205,7 @@ export type GetConfigurationResponseBodyCase2Source =
   | "marketplace"
   | "oauth"
   | "organization"
+  | "project-overview-recommended-integrations"
   | "resource-claims"
   | "v0";
 /** The configuration status. Optional. If not defined, assume 'ready'. */
@@ -2017,47 +2221,47 @@ export type GetConfigurationResponseBodyCase2Type = "integration-configuration";
 /** A configuration represents information about a single installation of an integration within an individual or team account */
 export interface GetConfigurationResponseBodyCase2 {
   /** Historical parent installation from which acceptedPolicies were inherited. This is immutable provenance, not current authorization or relationship truth. */
-  acceptedPoliciesInheritedFromInstallationId?: string;
+  acceptedPoliciesInheritedFromInstallationId?: string | undefined;
   /** A timestamp that tells you when the configuration was installed successfully */
-  completedAt?: number;
+  completedAt?: number | undefined;
   /** A timestamp that tells you when the configuration was created */
-  createdAt?: number;
+  createdAt?: number | undefined;
   /** Record when the customer initited deletion, independent of whether `deleteRequestedAt` gets set. */
-  customerDeleteRequestedAt?: number | null;
+  customerDeleteRequestedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration was deleted. */
-  deletedAt?: number | null;
+  deletedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration deletion has been started for cases when the deletion needs to be settled/approved by partners, such as when marketplace invoices have been paid. */
-  deleteRequestedAt?: number | null;
+  deleteRequestedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration was disabled. Note: Configurations can be disabled when the associated user loses access to a team. They do not function during this time until the configuration is 'transferred', meaning the associated user is changed to one with access to the team. */
-  disabledAt?: number;
-  disabledReason?: GetConfigurationResponseBodyCase2DisabledReason;
+  disabledAt?: number | undefined;
+  disabledReason?: GetConfigurationResponseBodyCase2DisabledReason | undefined;
   /** An external identifier defined by the integration vendor. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** The unique identifier of the configuration */
-  id?: string;
+  id?: string | undefined;
   /** Defines the installation type. - 'external' integrations are installed via the existing integrations flow - 'marketplace' integrations are natively installed: - when accepting the TOS of a partner during the store creation process - if undefined, assume 'external' */
-  installationType?: GetConfigurationResponseBodyCase2InstallationType;
+  installationType?: GetConfigurationResponseBodyCase2InstallationType | undefined;
   /** The unique identifier of the app the configuration was created for */
-  integrationId?: string;
+  integrationId?: string | undefined;
   /** The user or team ID that owns the configuration */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** When a configuration is limited to access certain projects, this will contain each of the project ID it is allowed to access. If it is not defined, the configuration has full access. */
-  projects?: GetConfigurationResponseBodyCase2ProjectsList;
+  projects?: GetConfigurationResponseBodyCase2ProjectsList | undefined;
   /** The resources that are allowed to be accessed by the configuration. */
-  scopes?: GetConfigurationResponseBodyCase2ScopesList;
+  scopes?: GetConfigurationResponseBodyCase2ScopesList | undefined;
   /** The slug of the integration the configuration is created for. */
-  slug?: string;
+  slug?: string | undefined;
   /** Source defines where the configuration was installed from. It is used to analyze user engagement for integration installations in product metrics. */
-  source?: GetConfigurationResponseBodyCase2Source;
+  source?: GetConfigurationResponseBodyCase2Source | undefined;
   /** The configuration status. Optional. If not defined, assume 'ready'. */
-  status?: GetConfigurationResponseBodyCase2Status;
+  status?: GetConfigurationResponseBodyCase2Status | undefined;
   /** When the configuration was created for a team, this will show the ID of the team. */
-  teamId?: string | null;
-  type?: GetConfigurationResponseBodyCase2Type;
+  teamId?: string | null | undefined;
+  type?: GetConfigurationResponseBodyCase2Type | undefined;
   /** A timestamp that tells you when the configuration was updated. */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
   /** The ID of the user that created the configuration. */
-  userId?: string;
+  userId?: string | undefined;
 }
 export type GetConfigurationResponseBody =
   | GetConfigurationResponseBodyCase0
@@ -2068,9 +2272,9 @@ export interface GetConfigurationProductsRequest {
   /** ID of the integration configuration */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetConfigurationProductsResponseConfiguration {
   id: string;
@@ -2121,22 +2325,34 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0UiReadOnlyCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0 {
-  default?: string;
-  description?: string;
-  enum?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0EnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0EnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0Type;
   ui_control: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0UiControl;
-  ui_description?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0UiDescription;
-  ui_disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0UiHidden;
-  ui_label?: string;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0UiReadOnly;
+  ui_description?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0UiDescription
+    | undefined;
+  ui_disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0UiHidden
+    | undefined;
+  ui_label?: string | undefined;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0UiReadOnly
+    | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1Type =
   "number";
@@ -2177,22 +2393,32 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1UiReadOnlyCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1 {
-  default?: number;
-  description?: string;
-  exclusiveMaximum?: number;
-  exclusiveMinimum?: number;
-  maximum?: number;
-  minimum?: number;
+  default?: number | undefined;
+  description?: string | undefined;
+  exclusiveMaximum?: number | undefined;
+  exclusiveMinimum?: number | undefined;
+  maximum?: number | undefined;
+  minimum?: number | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1Type;
   ui_control: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1UiControl;
-  ui_description?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1UiDescription;
-  ui_disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1UiHidden;
-  ui_label?: string;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1UiReadOnly;
+  ui_description?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1UiDescription
+    | undefined;
+  ui_disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1UiHidden
+    | undefined;
+  ui_label?: string | undefined;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase1UiReadOnly
+    | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2Type =
   "boolean";
@@ -2233,29 +2459,39 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2UiReadOnlyCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2 {
-  default?: boolean;
-  description?: string;
+  default?: boolean | undefined;
+  description?: string | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2Type;
   ui_control: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2UiControl;
-  ui_description?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2UiDescription;
-  ui_disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2UiHidden;
-  ui_label?: string;
-  ui_paid_only?: boolean;
-  ui_read_only?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2UiReadOnly;
+  ui_description?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2UiDescription
+    | undefined;
+  ui_disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2UiHidden
+    | undefined;
+  ui_label?: string | undefined;
+  ui_paid_only?: boolean | undefined;
+  ui_read_only?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase2UiReadOnly
+    | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3DefaultList =
   Array<number>;
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3ItemsType =
   "number";
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3Items {
-  default?: number;
-  description?: string;
-  exclusiveMaximum?: number;
-  exclusiveMinimum?: number;
-  maximum?: number;
-  minimum?: number;
+  default?: number | undefined;
+  description?: string | undefined;
+  exclusiveMaximum?: number | undefined;
+  exclusiveMinimum?: number | undefined;
+  maximum?: number | undefined;
+  minimum?: number | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3ItemsType;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3Type =
@@ -2299,20 +2535,32 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3UiStepsList =
   Array<number>;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3 {
-  default?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3DefaultList;
-  description?: string;
+  default?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3DefaultList
+    | undefined;
+  description?: string | undefined;
   items: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3Items;
-  maxItems?: number;
-  minItems?: number;
+  maxItems?: number | undefined;
+  minItems?: number | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3Type;
   ui_control: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3UiControl;
-  ui_description?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3UiDescription;
-  ui_disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3UiHidden;
-  ui_label?: string;
-  ui_paid_only?: boolean;
-  ui_read_only?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3UiReadOnly;
+  ui_description?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3UiDescription
+    | undefined;
+  ui_disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3UiHidden
+    | undefined;
+  ui_label?: string | undefined;
+  ui_paid_only?: boolean | undefined;
+  ui_read_only?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3UiReadOnly
+    | undefined;
   ui_steps: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3UiStepsList;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4EnumList =
@@ -2365,9 +2613,13 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiOptionsItemHiddenCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiOptionsItem {
-  description?: string;
-  disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiOptionsItemDisabled;
-  hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiOptionsItemHidden;
+  description?: string | undefined;
+  disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiOptionsItemDisabled
+    | undefined;
+  hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiOptionsItemHidden
+    | undefined;
   label: string;
   value: string;
 }
@@ -2383,23 +2635,35 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiReadOnlyCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4 {
-  default?: string;
-  description?: string;
-  enum?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4EnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4EnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4Type;
   ui_control: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiControl;
-  ui_description?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiDescription;
-  ui_disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiHidden;
-  ui_label?: string;
+  ui_description?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiDescription
+    | undefined;
+  ui_disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiHidden
+    | undefined;
+  ui_label?: string | undefined;
   ui_options: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiOptionsList;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiReadOnly;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4UiReadOnly
+    | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5EnumList =
   Array<string>;
@@ -2451,9 +2715,13 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiOptionsItemHiddenCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiOptionsItem {
-  description?: string;
-  disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiOptionsItemDisabled;
-  hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiOptionsItemHidden;
+  description?: string | undefined;
+  disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiOptionsItemDisabled
+    | undefined;
+  hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiOptionsItemHidden
+    | undefined;
   label: string;
   value: string;
 }
@@ -2469,23 +2737,35 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiReadOnlyCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5 {
-  default?: string;
-  description?: string;
-  enum?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5EnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5EnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5Type;
   ui_control: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiControl;
-  ui_description?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiDescription;
-  ui_disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiHidden;
-  ui_label?: string;
+  ui_description?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiDescription
+    | undefined;
+  ui_disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiHidden
+    | undefined;
+  ui_label?: string | undefined;
   ui_options: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiOptionsList;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiReadOnly;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5UiReadOnly
+    | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6DefaultList =
   Array<string>;
@@ -2496,12 +2776,14 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6ItemsType =
   "string";
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6Items {
-  default?: string;
-  description?: string;
-  enum?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6ItemsEnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6ItemsEnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6ItemsType;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6Type =
@@ -2552,9 +2834,13 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiOptionsItemHiddenCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiOptionsItem {
-  description?: string;
-  disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiOptionsItemDisabled;
-  hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiOptionsItemHidden;
+  description?: string | undefined;
+  disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiOptionsItemDisabled
+    | undefined;
+  hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiOptionsItemHidden
+    | undefined;
   label: string;
   value: string;
 }
@@ -2570,23 +2856,37 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiReadOnlyCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6 {
-  default?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6DefaultList;
-  description?: string;
-  example?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6ExampleList;
+  default?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6DefaultList
+    | undefined;
+  description?: string | undefined;
+  example?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6ExampleList
+    | undefined;
   items: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6Items;
-  maxItems?: number;
-  minItems?: number;
+  maxItems?: number | undefined;
+  minItems?: number | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6Type;
   ui_control: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiControl;
-  ui_description?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiDescription;
-  ui_disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiHidden;
-  ui_label?: string;
+  ui_description?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiDescription
+    | undefined;
+  ui_disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiHidden
+    | undefined;
+  ui_label?: string | undefined;
   ui_options: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiOptionsList;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiReadOnly;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6UiReadOnly
+    | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7EnumList =
   Array<string>;
@@ -2638,9 +2938,13 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItemCase0HiddenCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItemCase0 {
-  description?: string;
-  disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItemCase0Disabled;
-  hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItemCase0Hidden;
+  description?: string | undefined;
+  disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItemCase0Disabled
+    | undefined;
+  hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItemCase0Hidden
+    | undefined;
   label: string;
   value: string;
 }
@@ -2663,9 +2967,13 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItemCase2HiddenCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItemCase2 {
-  description?: string;
-  disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItemCase2Disabled;
-  hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItemCase2Hidden;
+  description?: string | undefined;
+  disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItemCase2Disabled
+    | undefined;
+  hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItemCase2Hidden
+    | undefined;
   value: string;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsItem =
@@ -2684,23 +2992,35 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiReadOnlyCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7 {
-  default?: string;
-  description?: string;
-  enum?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7EnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7EnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7Type;
   ui_control: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiControl;
-  ui_description?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiDescription;
-  ui_disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiHidden;
-  ui_label?: string;
+  ui_description?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiDescription
+    | undefined;
+  ui_disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiHidden
+    | undefined;
+  ui_label?: string | undefined;
   ui_options: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiOptionsList;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiReadOnly;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7UiReadOnly
+    | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8DefaultList =
   Array<string>;
@@ -2711,12 +3031,14 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8ItemsType =
   "string";
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8Items {
-  default?: string;
-  description?: string;
-  enum?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8ItemsEnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8ItemsEnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8ItemsType;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8Type =
@@ -2767,9 +3089,13 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItemCase0HiddenCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItemCase0 {
-  description?: string;
-  disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItemCase0Disabled;
-  hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItemCase0Hidden;
+  description?: string | undefined;
+  disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItemCase0Disabled
+    | undefined;
+  hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItemCase0Hidden
+    | undefined;
   label: string;
   value: string;
 }
@@ -2792,9 +3118,13 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItemCase2HiddenCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItemCase2 {
-  description?: string;
-  disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItemCase2Disabled;
-  hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItemCase2Hidden;
+  description?: string | undefined;
+  disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItemCase2Disabled
+    | undefined;
+  hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItemCase2Hidden
+    | undefined;
   value: string;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsItem =
@@ -2813,23 +3143,37 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiReadOnlyCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8 {
-  default?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8DefaultList;
-  description?: string;
-  example?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8ExampleList;
+  default?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8DefaultList
+    | undefined;
+  description?: string | undefined;
+  example?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8ExampleList
+    | undefined;
   items: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8Items;
-  maxItems?: number;
-  minItems?: number;
+  maxItems?: number | undefined;
+  minItems?: number | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8Type;
   ui_control: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiControl;
-  ui_description?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiDescription;
-  ui_disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiHidden;
-  ui_label?: string;
+  ui_description?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiDescription
+    | undefined;
+  ui_disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiHidden
+    | undefined;
+  ui_label?: string | undefined;
   ui_options: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiOptionsList;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiReadOnly;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8UiReadOnly
+    | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9EnumList =
   Array<string>;
@@ -2881,9 +3225,13 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItemCase0HiddenCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItemCase0 {
-  description?: string;
-  disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItemCase0Disabled;
-  hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItemCase0Hidden;
+  description?: string | undefined;
+  disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItemCase0Disabled
+    | undefined;
+  hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItemCase0Hidden
+    | undefined;
   label: string;
   value: string;
 }
@@ -2906,9 +3254,13 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItemCase2HiddenCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItemCase2 {
-  description?: string;
-  disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItemCase2Disabled;
-  hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItemCase2Hidden;
+  description?: string | undefined;
+  disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItemCase2Disabled
+    | undefined;
+  hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItemCase2Hidden
+    | undefined;
   value: string;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsItem =
@@ -2927,23 +3279,35 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiReadOnlyCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9 {
-  default?: string;
-  description?: string;
-  enum?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9EnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9EnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9Type;
   ui_control: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiControl;
-  ui_description?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiDescription;
-  ui_disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiHidden;
-  ui_label?: string;
+  ui_description?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiDescription
+    | undefined;
+  ui_disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiHidden
+    | undefined;
+  ui_label?: string | undefined;
   ui_options: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiOptionsList;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiReadOnly;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9UiReadOnly
+    | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10EnumList =
   Array<string>;
@@ -2986,22 +3350,34 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10UiReadOnlyCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10 {
-  default?: string;
-  description?: string;
-  enum?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10EnumList;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  enum?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10EnumList
+    | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10Type;
   ui_control: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10UiControl;
-  ui_description?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10UiDescription;
-  ui_disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10UiHidden;
-  ui_label?: string;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10UiReadOnly;
+  ui_description?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10UiDescription
+    | undefined;
+  ui_disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10UiHidden
+    | undefined;
+  ui_label?: string | undefined;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10UiReadOnly
+    | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11GitProvidersItem =
   | "bitbucket"
@@ -3048,18 +3424,30 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaProperties
   | boolean
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11UiReadOnlyCase2;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11 {
-  description?: string;
-  git_providers?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11GitProvidersList;
+  description?: string | undefined;
+  git_providers?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11GitProvidersList
+    | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11Type;
   ui_control: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11UiControl;
-  ui_description?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11UiDescription;
-  ui_disabled?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11UiDisabled;
-  ui_formatted_value?: CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1;
-  ui_hidden?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11UiHidden;
-  ui_label?: string;
-  ui_paid_only?: boolean;
-  ui_placeholder?: string;
-  ui_read_only?: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11UiReadOnly;
+  ui_description?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11UiDescription
+    | undefined;
+  ui_disabled?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11UiDisabled
+    | undefined;
+  ui_formatted_value?:
+    | CreateIntegrationStoreDirectResponseStoreProductMetadataSchemaPropertiesValueCase0UiDescriptionCase1
+    | undefined;
+  ui_hidden?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11UiHidden
+    | undefined;
+  ui_label?: string | undefined;
+  ui_paid_only?: boolean | undefined;
+  ui_placeholder?: string | undefined;
+  ui_read_only?:
+    | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase11UiReadOnly
+    | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValue =
   | GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0
@@ -3084,9 +3472,9 @@ export type GetConfigurationProductsResponseProductsItemMetadataSchemaType = "ob
 export type GetConfigurationProductsResponseProductsItemMetadataSchemaUiOrderList = Array<string>;
 export interface GetConfigurationProductsResponseProductsItemMetadataSchema {
   properties: GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesMap;
-  required?: GetConfigurationProductsResponseProductsItemMetadataSchemaRequiredList;
+  required?: GetConfigurationProductsResponseProductsItemMetadataSchemaRequiredList | undefined;
   type: GetConfigurationProductsResponseProductsItemMetadataSchemaType;
-  ui_order?: GetConfigurationProductsResponseProductsItemMetadataSchemaUiOrderList;
+  ui_order?: GetConfigurationProductsResponseProductsItemMetadataSchemaUiOrderList | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemPrimaryProtocol =
   | "ai"
@@ -3111,7 +3499,7 @@ export type GetConfigurationProductsResponseProductsItemProtocolsAuthenticationS
 export interface GetConfigurationProductsResponseProductsItemProtocolsAuthentication {
   status: GetConfigurationProductsResponseProductsItemProtocolsAuthenticationStatus;
   /** The partner accepts Vercel-managed app URLs via `protocolSettings.authentication.appUrls` on provision-resource and update-resource, and reconciles them into its trusted-origin / redirect-URL allowlist. When absent, consumers surface the URL for a one-time manual registration instead. */
-  appUrlRegistrationSupport?: boolean;
+  appUrlRegistrationSupport?: boolean | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemProtocolsChecksStatus =
   | "disabled"
@@ -3124,7 +3512,7 @@ export type GetConfigurationProductsResponseProductsItemProtocolsExperimentation
   | "enabled";
 export interface GetConfigurationProductsResponseProductsItemProtocolsExperimentation {
   status: GetConfigurationProductsResponseProductsItemProtocolsExperimentationStatus;
-  edgeConfigSyncingSupport?: boolean;
+  edgeConfigSyncingSupport?: boolean | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemProtocolsLogDrainStatus =
   | "disabled"
@@ -3136,7 +3524,7 @@ export type GetConfigurationProductsResponseProductsItemProtocolsLogDrainFormat 
 export interface GetConfigurationProductsResponseProductsItemProtocolsLogDrain {
   status: GetConfigurationProductsResponseProductsItemProtocolsLogDrainStatus;
   endpoint: string;
-  headers?: GetConfigurationProductsResponseProductsItemProtocolsLogDrainHeadersMap;
+  headers?: GetConfigurationProductsResponseProductsItemProtocolsLogDrainHeadersMap | undefined;
   format: GetConfigurationProductsResponseProductsItemProtocolsLogDrainFormat;
 }
 export type GetConfigurationProductsResponseProductsItemProtocolsMessagingStatus =
@@ -3164,7 +3552,7 @@ export type GetConfigurationProductsResponseProductsItemProtocolsStorageRepl =
   CreateIntegrationStoreDirectResponseStoreProductRepl;
 export interface GetConfigurationProductsResponseProductsItemProtocolsStorage {
   status: GetConfigurationProductsResponseProductsItemProtocolsStorageStatus;
-  repl?: CreateIntegrationStoreDirectResponseStoreProductRepl;
+  repl?: CreateIntegrationStoreDirectResponseStoreProductRepl | undefined;
 }
 export type GetConfigurationProductsResponseProductsItemProtocolsTraceDrainStatus =
   | "disabled"
@@ -3178,7 +3566,7 @@ export type GetConfigurationProductsResponseProductsItemProtocolsTraceDrainForma
 export interface GetConfigurationProductsResponseProductsItemProtocolsTraceDrain {
   status: GetConfigurationProductsResponseProductsItemProtocolsTraceDrainStatus;
   endpoint: string;
-  headers?: GetConfigurationProductsResponseProductsItemProtocolsTraceDrainHeadersMap;
+  headers?: GetConfigurationProductsResponseProductsItemProtocolsTraceDrainHeadersMap | undefined;
   format: GetConfigurationProductsResponseProductsItemProtocolsTraceDrainFormat;
 }
 export type GetConfigurationProductsResponseProductsItemProtocolsVideoStatus =
@@ -3194,24 +3582,26 @@ export interface GetConfigurationProductsResponseProductsItemProtocolsWorkflow {
   status: GetConfigurationProductsResponseProductsItemProtocolsWorkflowStatus;
 }
 export interface GetConfigurationProductsResponseProductsItemProtocols {
-  ai?: GetConfigurationProductsResponseProductsItemProtocolsAi;
-  authentication?: GetConfigurationProductsResponseProductsItemProtocolsAuthentication;
-  checks?: GetConfigurationProductsResponseProductsItemProtocolsChecks;
-  experimentation?: GetConfigurationProductsResponseProductsItemProtocolsExperimentation;
-  logDrain?: GetConfigurationProductsResponseProductsItemProtocolsLogDrain;
-  messaging?: GetConfigurationProductsResponseProductsItemProtocolsMessaging;
-  observability?: GetConfigurationProductsResponseProductsItemProtocolsObservability;
-  other?: GetConfigurationProductsResponseProductsItemProtocolsOther;
-  storage?: GetConfigurationProductsResponseProductsItemProtocolsStorage;
-  traceDrain?: GetConfigurationProductsResponseProductsItemProtocolsTraceDrain;
-  video?: GetConfigurationProductsResponseProductsItemProtocolsVideo;
-  workflow?: GetConfigurationProductsResponseProductsItemProtocolsWorkflow;
+  ai?: GetConfigurationProductsResponseProductsItemProtocolsAi | undefined;
+  authentication?: GetConfigurationProductsResponseProductsItemProtocolsAuthentication | undefined;
+  checks?: GetConfigurationProductsResponseProductsItemProtocolsChecks | undefined;
+  experimentation?:
+    | GetConfigurationProductsResponseProductsItemProtocolsExperimentation
+    | undefined;
+  logDrain?: GetConfigurationProductsResponseProductsItemProtocolsLogDrain | undefined;
+  messaging?: GetConfigurationProductsResponseProductsItemProtocolsMessaging | undefined;
+  observability?: GetConfigurationProductsResponseProductsItemProtocolsObservability | undefined;
+  other?: GetConfigurationProductsResponseProductsItemProtocolsOther | undefined;
+  storage?: GetConfigurationProductsResponseProductsItemProtocolsStorage | undefined;
+  traceDrain?: GetConfigurationProductsResponseProductsItemProtocolsTraceDrain | undefined;
+  video?: GetConfigurationProductsResponseProductsItemProtocolsVideo | undefined;
+  workflow?: GetConfigurationProductsResponseProductsItemProtocolsWorkflow | undefined;
 }
 export interface GetConfigurationProductsResponseProductsItem {
   id: string;
   metadataSchema: GetConfigurationProductsResponseProductsItemMetadataSchema;
   name: string;
-  primaryProtocol?: GetConfigurationProductsResponseProductsItemPrimaryProtocol;
+  primaryProtocol?: GetConfigurationProductsResponseProductsItemPrimaryProtocol | undefined;
   protocols: GetConfigurationProductsResponseProductsItemProtocols;
   slug: string;
 }
@@ -3226,13 +3616,13 @@ export type GetConfigurationsRequestView = "account" | "project";
 export type GetConfigurationsRequestInstallationType = "marketplace" | "external" | "provisioning";
 export interface GetConfigurationsRequest {
   view: GetConfigurationsRequestView | (string & {});
-  installationType?: GetConfigurationsRequestInstallationType | (string & {});
+  installationType?: GetConfigurationsRequestInstallationType | (string & {}) | undefined;
   /** ID of the integration */
-  integrationIdOrSlug?: string;
+  integrationIdOrSlug?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetConfigurationsResponseBodyCase0ItemDisabledReason =
   | "account-plan-downgrade"
@@ -3257,6 +3647,7 @@ export type GetConfigurationsResponseBodyCase0ItemSource =
   | "marketplace"
   | "oauth"
   | "organization"
+  | "project-overview-recommended-integrations"
   | "resource-claims"
   | "v0";
 /** The configuration status. Optional. If not defined, assume 'ready'. */
@@ -3272,47 +3663,47 @@ export type GetConfigurationsResponseBodyCase0ItemType = "integration-configurat
 /** The list of configurations for the authenticated user */
 export interface GetConfigurationsResponseBodyCase0Item {
   /** Historical parent installation from which acceptedPolicies were inherited. This is immutable provenance, not current authorization or relationship truth. */
-  acceptedPoliciesInheritedFromInstallationId?: string;
+  acceptedPoliciesInheritedFromInstallationId?: string | undefined;
   /** A timestamp that tells you when the configuration was installed successfully */
-  completedAt?: number;
+  completedAt?: number | undefined;
   /** A timestamp that tells you when the configuration was created */
-  createdAt?: number;
+  createdAt?: number | undefined;
   /** Record when the customer initited deletion, independent of whether `deleteRequestedAt` gets set. */
-  customerDeleteRequestedAt?: number | null;
+  customerDeleteRequestedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration was deleted. */
-  deletedAt?: number | null;
+  deletedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration deletion has been started for cases when the deletion needs to be settled/approved by partners, such as when marketplace invoices have been paid. */
-  deleteRequestedAt?: number | null;
+  deleteRequestedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration was disabled. Note: Configurations can be disabled when the associated user loses access to a team. They do not function during this time until the configuration is 'transferred', meaning the associated user is changed to one with access to the team. */
-  disabledAt?: number;
-  disabledReason?: GetConfigurationsResponseBodyCase0ItemDisabledReason;
+  disabledAt?: number | undefined;
+  disabledReason?: GetConfigurationsResponseBodyCase0ItemDisabledReason | undefined;
   /** An external identifier defined by the integration vendor. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** The unique identifier of the configuration */
-  id?: string;
+  id?: string | undefined;
   /** Defines the installation type. - 'external' integrations are installed via the existing integrations flow - 'marketplace' integrations are natively installed: - when accepting the TOS of a partner during the store creation process - if undefined, assume 'external' */
-  installationType?: GetConfigurationsResponseBodyCase0ItemInstallationType;
+  installationType?: GetConfigurationsResponseBodyCase0ItemInstallationType | undefined;
   /** The unique identifier of the app the configuration was created for */
-  integrationId?: string;
+  integrationId?: string | undefined;
   /** The user or team ID that owns the configuration */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** When a configuration is limited to access certain projects, this will contain each of the project ID it is allowed to access. If it is not defined, the configuration has full access. */
-  projects?: GetConfigurationsResponseBodyCase0ItemProjectsList;
+  projects?: GetConfigurationsResponseBodyCase0ItemProjectsList | undefined;
   /** The resources that are allowed to be accessed by the configuration. */
-  scopes?: GetConfigurationsResponseBodyCase0ItemScopesList;
+  scopes?: GetConfigurationsResponseBodyCase0ItemScopesList | undefined;
   /** The slug of the integration the configuration is created for. */
-  slug?: string;
+  slug?: string | undefined;
   /** Source defines where the configuration was installed from. It is used to analyze user engagement for integration installations in product metrics. */
-  source?: GetConfigurationsResponseBodyCase0ItemSource;
+  source?: GetConfigurationsResponseBodyCase0ItemSource | undefined;
   /** The configuration status. Optional. If not defined, assume 'ready'. */
-  status?: GetConfigurationsResponseBodyCase0ItemStatus;
+  status?: GetConfigurationsResponseBodyCase0ItemStatus | undefined;
   /** When the configuration was created for a team, this will show the ID of the team. */
-  teamId?: string | null;
-  type?: GetConfigurationsResponseBodyCase0ItemType;
+  teamId?: string | null | undefined;
+  type?: GetConfigurationsResponseBodyCase0ItemType | undefined;
   /** A timestamp that tells you when the configuration was updated. */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
   /** The ID of the user that created the configuration. */
-  userId?: string;
+  userId?: string | undefined;
 }
 /** The list of configurations for the authenticated user */
 export type GetConfigurationsResponseBodyCase0List = Array<GetConfigurationsResponseBodyCase0Item>;
@@ -3358,12 +3749,12 @@ export type GetConfigurationsResponseBodyCase1ItemIntegrationTagIdsItem =
 export type GetConfigurationsResponseBodyCase1ItemIntegrationTagIdsList =
   Array<GetConfigurationsResponseBodyCase1ItemIntegrationTagIdsItem>;
 export interface GetConfigurationsResponseBodyCase1ItemIntegration {
-  assignedBetaLabelAt?: number;
-  flags?: GetConfigurationsResponseBodyCase1ItemIntegrationFlagsList;
+  assignedBetaLabelAt?: number | undefined;
+  flags?: GetConfigurationsResponseBodyCase1ItemIntegrationFlagsList | undefined;
   icon: string;
   isLegacy: boolean;
   name: string;
-  tagIds?: GetConfigurationsResponseBodyCase1ItemIntegrationTagIdsList;
+  tagIds?: GetConfigurationsResponseBodyCase1ItemIntegrationTagIdsList | undefined;
 }
 /** When a configuration is limited to access certain projects, this will contain each of the project ID it is allowed to access. If it is not defined, the configuration has full access. */
 export type GetConfigurationsResponseBodyCase1ItemProjectsList = Array<string>;
@@ -3379,6 +3770,7 @@ export type GetConfigurationsResponseBodyCase1ItemSource =
   | "marketplace"
   | "oauth"
   | "organization"
+  | "project-overview-recommended-integrations"
   | "resource-claims"
   | "v0";
 /** The configuration status. Optional. If not defined, assume 'ready'. */
@@ -3393,43 +3785,43 @@ export type GetConfigurationsResponseBodyCase1ItemStatus =
 export type GetConfigurationsResponseBodyCase1ItemType = "integration-configuration";
 export interface GetConfigurationsResponseBodyCase1Item {
   /** Historical parent installation from which acceptedPolicies were inherited. This is immutable provenance, not current authorization or relationship truth. */
-  acceptedPoliciesInheritedFromInstallationId?: string;
+  acceptedPoliciesInheritedFromInstallationId?: string | undefined;
   /** A timestamp that tells you when the configuration was installed successfully */
-  completedAt?: number;
+  completedAt?: number | undefined;
   /** A timestamp that tells you when the configuration was created */
   createdAt: number;
   /** Record when the customer initited deletion, independent of whether `deleteRequestedAt` gets set. */
-  customerDeleteRequestedAt?: number | null;
+  customerDeleteRequestedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration was deleted. */
-  deletedAt?: number | null;
+  deletedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration deletion has been started for cases when the deletion needs to be settled/approved by partners, such as when marketplace invoices have been paid. */
-  deleteRequestedAt?: number | null;
+  deleteRequestedAt?: number | null | undefined;
   /** A timestamp that tells you when the configuration was disabled. Note: Configurations can be disabled when the associated user loses access to a team. They do not function during this time until the configuration is 'transferred', meaning the associated user is changed to one with access to the team. */
-  disabledAt?: number;
-  disabledReason?: GetConfigurationsResponseBodyCase1ItemDisabledReason;
+  disabledAt?: number | undefined;
+  disabledReason?: GetConfigurationsResponseBodyCase1ItemDisabledReason | undefined;
   /** An external identifier defined by the integration vendor. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** The unique identifier of the configuration */
   id: string;
   /** Defines the installation type. - 'external' integrations are installed via the existing integrations flow - 'marketplace' integrations are natively installed: - when accepting the TOS of a partner during the store creation process - if undefined, assume 'external' */
-  installationType?: GetConfigurationsResponseBodyCase1ItemInstallationType;
+  installationType?: GetConfigurationsResponseBodyCase1ItemInstallationType | undefined;
   integration: GetConfigurationsResponseBodyCase1ItemIntegration;
   /** The unique identifier of the app the configuration was created for */
   integrationId: string;
   /** The user or team ID that owns the configuration */
   ownerId: string;
   /** When a configuration is limited to access certain projects, this will contain each of the project ID it is allowed to access. If it is not defined, the configuration has full access. */
-  projects?: GetConfigurationsResponseBodyCase1ItemProjectsList;
+  projects?: GetConfigurationsResponseBodyCase1ItemProjectsList | undefined;
   /** The resources that are allowed to be accessed by the configuration. */
   scopes: GetConfigurationsResponseBodyCase1ItemScopesList;
   /** The slug of the integration the configuration is created for. */
   slug: string;
   /** Source defines where the configuration was installed from. It is used to analyze user engagement for integration installations in product metrics. */
-  source?: GetConfigurationsResponseBodyCase1ItemSource;
+  source?: GetConfigurationsResponseBodyCase1ItemSource | undefined;
   /** The configuration status. Optional. If not defined, assume 'ready'. */
-  status?: GetConfigurationsResponseBodyCase1ItemStatus;
+  status?: GetConfigurationsResponseBodyCase1ItemStatus | undefined;
   /** When the configuration was created for a team, this will show the ID of the team. */
-  teamId?: string | null;
+  teamId?: string | null | undefined;
   type: GetConfigurationsResponseBodyCase1ItemType;
   /** A timestamp that tells you when the configuration was updated. */
   updatedAt: number;
@@ -3449,27 +3841,27 @@ export type GitNamespacesRequestProvider =
   | "bitbucket";
 export interface GitNamespacesRequest {
   /** The custom Git host if using a custom Git provider, like GitHub Enterprise Server */
-  host?: string;
-  provider?: GitNamespacesRequestProvider | (string & {});
+  host?: string | undefined;
+  provider?: GitNamespacesRequestProvider | (string & {}) | undefined;
   /** When true, includes the viewer object for each namespace. */
-  viewerMetadata?: boolean;
+  viewerMetadata?: boolean | undefined;
 }
 export type GitNamespacesResponseBodyItemId = string | number;
 export type GitNamespacesResponseBodyItemViewerRole = string | number;
 export interface GitNamespacesResponseBodyItemViewer {
-  canCreateApp?: boolean;
-  role?: GitNamespacesResponseBodyItemViewerRole;
+  canCreateApp?: boolean | undefined;
+  role?: GitNamespacesResponseBodyItemViewerRole | undefined;
 }
 export interface GitNamespacesResponseBodyItem {
   id: GitNamespacesResponseBodyItemId;
-  installationId?: number;
-  isAccessRestricted?: boolean;
-  name?: string;
+  installationId?: number | undefined;
+  isAccessRestricted?: boolean | undefined;
+  name?: string | undefined;
   ownerType: string;
   provider: string;
-  requireReauth?: boolean;
+  requireReauth?: boolean | undefined;
   slug: string;
-  viewer?: GitNamespacesResponseBodyItemViewer;
+  viewer?: GitNamespacesResponseBodyItemViewer | undefined;
 }
 export type GitNamespacesResponseBodyList = Array<GitNamespacesResponseBodyItem>;
 export type GitNamespacesResponse = GitNamespacesResponseBodyList;
@@ -3482,16 +3874,16 @@ export type SearchRepoRequestProvider =
   | "bitbucket"
   | "cursor-origin";
 export interface SearchRepoRequest {
-  query?: string;
-  namespaceId?: SearchRepoRequestNamespaceId;
-  provider?: SearchRepoRequestProvider | (string & {});
-  installationId?: string;
+  query?: string | undefined;
+  namespaceId?: SearchRepoRequestNamespaceId | undefined;
+  provider?: SearchRepoRequestProvider | (string & {}) | undefined;
+  installationId?: string | undefined;
   /** The custom Git host if using a custom Git provider, like GitHub Enterprise Server */
-  host?: string;
+  host?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type SearchRepoResponseBodyCase1ErrorCode = "installation_not_found";
 export interface SearchRepoResponseBodyCase1Error {
@@ -3617,7 +4009,7 @@ export const createIntegrationStoreDirect: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(194, __c6, 2) as any as S.Schema<CreateIntegrationStoreDirectRequest>,
-  output: __S(228, __c7, 4) as any as S.Schema<CreateIntegrationStoreDirectResponse>,
+  output: __S(230, __c7, 6) as any as S.Schema<CreateIntegrationStoreDirectResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -4048,16 +4440,20 @@ function __c6(j: number): any {
           makeEnvVarsSensitive: S.optional(S.Boolean),
           name: S.String,
           projectId: S.String,
+          secretsOutdated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProjectsMetadataItem" });
     case 10:
       return S.Array(__S(201, __c6, 9));
     case 11:
+      return S.Array(__S(195, __c6, 3));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           agentTools: S.optional(S.Boolean),
           autoSensitive: S.optional(S.Boolean),
           billable: S.optional(S.Boolean),
+          credentialTypesTransitions: S.optional(__S(203, __c6, 11)),
           mcp: S.optional(S.Boolean),
           mcpReadonly: S.optional(S.Boolean),
           projects: S.optional(S.Boolean),
@@ -4068,9 +4464,19 @@ function __c6(j: number): any {
           v0: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreCapabilities" });
-    case 12:
-      return S.Record(S.String, S.Unknown);
     case 13:
+      return S.suspend(() =>
+        S.Struct({
+          completedAt: S.optional(S.Number),
+          requestedAt: S.Number,
+          to: __S(195, __c6, 3),
+        }),
+      ).annotate({
+        identifier: "CreateIntegrationStoreDirectResponseStoreCredentialTypesTransition",
+      });
+    case 14:
+      return S.Record(S.String, S.Unknown);
+    case 15:
       return S.suspend(() =>
         S.Struct({
           href: S.optional(S.String),
@@ -4079,7 +4485,7 @@ function __c6(j: number): any {
           title: S.String,
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreNotification" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           agentTools: S.optional(S.Boolean),
@@ -4102,18 +4508,18 @@ function __c6(j: number): any {
           v0Flavors: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProductCapabilities" });
-    case 15:
+    case 17:
       return S.Record(S.String, S.Unknown);
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(207, __c6, 15),
+          properties: __S(209, __c6, 17),
           required: S.optional(__S(256, __c8, 0)),
           type: S.String,
           ui_order: S.optional(__S(256, __c8, 0).pipe(T.Body("ui:order"))),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProductMetadataSchema" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           href: S.String,
@@ -4122,9 +4528,9 @@ function __c6(j: number): any {
       ).annotate({
         identifier: "CreateIntegrationStoreDirectResponseStoreProductResourceLinksItem",
       });
-    case 18:
-      return S.Array(__S(209, __c6, 17));
-    case 19:
+    case 20:
+      return S.Array(__S(211, __c6, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -4133,37 +4539,38 @@ function __c6(j: number): any {
         identifier:
           "CreateIntegrationStoreDirectResponseStoreProductGuidesItemStepsItemActionsItem",
       });
-    case 20:
-      return S.Array(__S(211, __c6, 19));
-    case 21:
+    case 22:
+      return S.Array(__S(213, __c6, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(212, __c6, 20)),
+          actions: S.optional(__S(214, __c6, 22)),
           content: S.String,
           title: S.String,
         }),
       ).annotate({
         identifier: "CreateIntegrationStoreDirectResponseStoreProductGuidesItemStepsItem",
       });
-    case 22:
-      return S.Array(__S(213, __c6, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          framework: S.String,
-          steps: __S(214, __c6, 22),
-          title: S.String,
-        }),
-      ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProductGuidesItem" });
     case 24:
       return S.Array(__S(215, __c6, 23));
     case 25:
+      return S.suspend(() =>
+        S.Struct({
+          framework: S.String,
+          steps: __S(216, __c6, 24),
+          title: S.String,
+        }),
+      ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProductGuidesItem" });
+    case 26:
+      return S.Array(__S(217, __c6, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           billable: S.optional(S.Boolean),
           checks: S.optional(S.Boolean),
           connectedImportResource: S.optional(S.Boolean),
           connectedProvisioning: S.optional(S.Boolean),
+          credentialTypesCreate: S.optional(__S(203, __c6, 11)),
           flexCommitEligible: S.optional(S.Boolean),
           importResource: S.optional(S.Boolean),
           maxAllowedTeams: S.optional(S.Number),
@@ -4183,10 +4590,10 @@ function __c6(j: number): any {
       ).annotate({
         identifier: "CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilities",
       });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          capabilities: S.optional(__S(217, __c6, 25)),
+          capabilities: S.optional(__S(219, __c6, 27)),
           flags: S.optional(__S(256, __c8, 0)),
           icon: S.String,
           id: S.String,
@@ -4195,33 +4602,33 @@ function __c6(j: number): any {
           supportsInstallationBillingPlans: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProductIntegration" });
-    case 27:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           agentSkills: S.optional(__S(256, __c8, 0)),
-          capabilities: S.optional(__S(206, __c6, 14)),
+          capabilities: S.optional(__S(208, __c6, 16)),
           disableResourceRenaming: S.optional(S.Boolean),
           iconUrl: S.optional(S.String),
           id: S.optional(S.String),
-          metadataSchema: S.optional(__S(208, __c6, 16)),
+          metadataSchema: S.optional(__S(210, __c6, 18)),
           name: S.optional(S.String),
           projectConnectionScopes: S.optional(__S(195, __c6, 3)),
-          resourceLinks: S.optional(__S(210, __c6, 18)),
+          resourceLinks: S.optional(__S(212, __c6, 20)),
           resourceTitle: S.optional(S.String),
           shortDescription: S.optional(S.String),
           showSSOLinkOnProjectConnection: S.optional(S.Boolean),
           slug: S.optional(S.String),
           tags: S.optional(__S(195, __c6, 3)),
           repl: S.optional(__S(257, __c8, 1)),
-          guides: S.optional(__S(216, __c6, 24)),
-          integration: __S(218, __c6, 26),
+          guides: S.optional(__S(218, __c6, 26)),
+          integration: __S(220, __c6, 28),
           integrationConfigurationId: S.String,
           logDrainStatus: S.optional(S.String),
           primaryProtocol: S.optional(S.String),
           supportedProtocols: __S(195, __c6, 3),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProduct" });
-    case 28:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           target: S.String,
@@ -4231,17 +4638,21 @@ function __c6(j: number): any {
         identifier:
           "CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthenticationAppUrlsItem",
       });
-    case 29:
-      return S.Array(__S(220, __c6, 28));
-    case 30:
+    case 31:
+      return S.Array(__S(222, __c6, 30));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          appUrls: S.optional(__S(221, __c6, 29)),
+          appUrls: S.optional(__S(223, __c6, 31)),
         }),
       ).annotate({
         identifier: "CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthentication",
       });
-    case 31:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           edgeConfigId: S.optional(S.String),
@@ -4253,28 +4664,26 @@ function __c6(j: number): any {
       ).annotate({
         identifier: "CreateIntegrationStoreDirectResponseStoreProtocolSettingsExperimentation",
       });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          authentication: S.optional(__S(222, __c6, 30)),
-          experimentation: S.optional(__S(223, __c6, 31)),
+          authentication: S.optional(__S(224, __c7, 0)),
+          experimentation: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProtocolSettings" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           frameworkPublishable: S.optional(S.Boolean),
           length: S.Number,
           name: S.String,
+          nonSensitive: S.optional(S.Boolean),
+          tokenSetKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreSecretsItem" });
-    case 2:
-      return S.Array(__S(225, __c7, 1));
-    case 3:
+    case 4:
+      return S.Array(__S(227, __c7, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           projectFilter: S.optional(__S(197, __c6, 5)),
@@ -4283,28 +4692,31 @@ function __c7(j: number): any {
           totalConnectedProjects: S.optional(S.Number),
           usageQuotaExceeded: S.Boolean,
           billingPlan: S.optional(__S(292, __c9, 4)),
-          capabilities: S.optional(__S(203, __c6, 11)),
+          capabilities: S.optional(__S(204, __c6, 12)),
+          credentialTypes: S.optional(__S(195, __c6, 3)),
+          credentialTypesTransition: S.optional(__S(205, __c6, 13)),
           directPartnerConsoleUrl: S.optional(S.String),
           externalResourceId: S.String,
           externalResourceStatus: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(__S(204, __c6, 12)),
-          notification: S.optional(__S(205, __c6, 13)),
+          metadata: S.optional(__S(206, __c6, 14)),
+          notification: S.optional(__S(207, __c6, 15)),
           ownership: S.optional(S.String),
           parentId: S.optional(S.String),
-          product: __S(219, __c6, 27),
-          protocolSettings: S.optional(__S(224, __c7, 0)),
+          product: __S(221, __c6, 29),
+          protocolSettings: S.optional(__S(226, __c7, 2)),
           secretRotationCompletedAt: S.optional(S.Number),
           secretRotationRequestedAt: S.optional(S.Number),
           secretRotationRequestedBy: S.optional(S.String),
           secretRotationRequestedReason: S.optional(S.String),
-          secrets: __S(226, __c7, 2),
+          secrets: __S(228, __c7, 4),
+          secretsAppliedAt: S.optional(S.Number),
           targets: S.optional(__S(195, __c6, 3)),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStore" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          store: S.NullOr(__S(227, __c7, 3)),
+          store: S.NullOr(__S(229, __c7, 5)),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponse" });
   }

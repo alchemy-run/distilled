@@ -36,24 +36,24 @@ export interface WorkloadIdentityConfig {
     | Redacted.Redacted<string>
     | Effect.Effect<Redacted.Redacted<string>, unknown>;
   /** Defaults to `urn:ietf:params:oauth:token-type:jwt` (OIDC). */
-  readonly subjectTokenType?: string;
+  readonly subjectTokenType?: string | undefined;
   /**
    * Service account to impersonate. Without one, the federated token from
    * STS is used directly, so the pool's principal needs the IAM roles.
    */
-  readonly serviceAccountEmail?: string;
+  readonly serviceAccountEmail?: string | undefined;
   /** Defaults to `https://www.googleapis.com/auth/cloud-platform`. */
-  readonly scopes?: ReadonlyArray<string>;
+  readonly scopes?: ReadonlyArray<string> | undefined;
   /**
    * Lifetime of the impersonated service account token. Google allows 600 to
    * 3600 (up to 43200 with an organization policy); defaults to 3600.
    */
-  readonly tokenLifetimeSeconds?: number;
+  readonly tokenLifetimeSeconds?: number | undefined;
   /** Defaults to `https://sts.googleapis.com/v1/token`. */
-  readonly tokenUrl?: string;
-  readonly project?: string;
-  readonly region?: string;
-  readonly quotaProject?: string;
+  readonly tokenUrl?: string | undefined;
+  readonly project?: string | undefined;
+  readonly region?: string | undefined;
+  readonly quotaProject?: string | undefined;
 }
 
 /** RFC 8693 token exchange at Google's Security Token Service. */

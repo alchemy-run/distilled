@@ -110,5 +110,5 @@ export const trailersOf = (
   const entry = trailersByRequest.get(response.request);
   return entry === undefined
     ? Effect.succeed({})
-    : Effect.promise(() => entry.trailers.catch((): Trailers => ({})));
+    : Effect.tryPromise(() => entry.trailers).pipe(Effect.orElseSucceed((): Trailers => ({})));
 };

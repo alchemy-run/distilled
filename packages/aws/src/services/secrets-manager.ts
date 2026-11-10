@@ -174,17 +174,17 @@ export type FilterNameStringType =
 export type FilterValueStringType = string;
 export type FilterValuesStringList = string[];
 export interface Filter {
-  Key?: FilterNameStringType;
-  Values?: string[];
+  Key?: FilterNameStringType | undefined;
+  Values?: string[] | undefined;
 }
 export type FiltersListType = Filter[];
 export type MaxResultsBatchType = number;
 export type NextTokenType = string;
 export interface BatchGetSecretValueRequest {
-  SecretIdList?: string[];
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  SecretIdList?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SecretARNType = string;
 export type SecretNameType = string;
@@ -195,35 +195,35 @@ export type SecretVersionStageType = string;
 export type SecretVersionStagesType = string[];
 export type CreatedDateType = Date;
 export interface SecretValueEntry {
-  ARN?: string;
-  Name?: string;
-  VersionId?: string;
-  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array>;
-  SecretString?: string | redacted.Redacted<string>;
-  VersionStages?: string[];
-  CreatedDate?: Date;
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  VersionId?: string | undefined;
+  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  SecretString?: string | redacted.Redacted<string> | undefined;
+  VersionStages?: string[] | undefined;
+  CreatedDate?: Date | undefined;
 }
 export type SecretValuesType = SecretValueEntry[];
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface APIErrorType {
-  SecretId?: string;
-  ErrorCode?: string;
-  Message?: string;
+  SecretId?: string | undefined;
+  ErrorCode?: string | undefined;
+  Message?: string | undefined;
 }
 export type APIErrorListType = APIErrorType[];
 export interface BatchGetSecretValueResponse {
-  SecretValues?: SecretValueEntry[];
-  NextToken?: string;
-  Errors?: APIErrorType[];
+  SecretValues?: SecretValueEntry[] | undefined;
+  NextToken?: string | undefined;
+  Errors?: APIErrorType[] | undefined;
 }
 export interface CancelRotateSecretRequest {
   SecretId: string;
 }
 export interface CancelRotateSecretResponse {
-  ARN?: string;
-  Name?: string;
-  VersionId?: string;
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  VersionId?: string | undefined;
 }
 export type NameType = string;
 export type ClientRequestTokenType = string;
@@ -232,64 +232,64 @@ export type KmsKeyIdType = string;
 export type TagKeyType = string;
 export type TagValueType = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagListType = Tag[];
 export type RegionType = string;
 export interface ReplicaRegionType {
-  Region?: string;
-  KmsKeyId?: string;
+  Region?: string | undefined;
+  KmsKeyId?: string | undefined;
 }
 export type AddReplicaRegionListType = ReplicaRegionType[];
 export type MedeaTypeType = string;
 export interface CreateSecretRequest {
   Name: string;
-  ClientRequestToken?: string;
-  Description?: string;
-  KmsKeyId?: string;
-  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array>;
-  SecretString?: string | redacted.Redacted<string>;
-  Tags?: Tag[];
-  AddReplicaRegions?: ReplicaRegionType[];
-  ForceOverwriteReplicaSecret?: boolean;
-  Type?: string;
+  ClientRequestToken?: string | undefined;
+  Description?: string | undefined;
+  KmsKeyId?: string | undefined;
+  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  SecretString?: string | redacted.Redacted<string> | undefined;
+  Tags?: Tag[] | undefined;
+  AddReplicaRegions?: ReplicaRegionType[] | undefined;
+  ForceOverwriteReplicaSecret?: boolean | undefined;
+  Type?: string | undefined;
 }
 export type StatusType = "InSync" | "Failed" | "InProgress" | (string & {});
 export type StatusMessageType = string;
 export type LastAccessedDateType = Date;
 export interface ReplicationStatusType {
-  Region?: string;
-  KmsKeyId?: string;
-  Status?: StatusType;
-  StatusMessage?: string;
-  LastAccessedDate?: Date;
+  Region?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Status?: StatusType | undefined;
+  StatusMessage?: string | undefined;
+  LastAccessedDate?: Date | undefined;
 }
 export type ReplicationStatusListType = ReplicationStatusType[];
 export interface CreateSecretResponse {
-  ARN?: string;
-  Name?: string;
-  VersionId?: string;
-  ReplicationStatus?: ReplicationStatusType[];
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  VersionId?: string | undefined;
+  ReplicationStatus?: ReplicationStatusType[] | undefined;
 }
 export interface DeleteResourcePolicyRequest {
   SecretId: string;
 }
 export interface DeleteResourcePolicyResponse {
-  ARN?: string;
-  Name?: string;
+  ARN?: string | undefined;
+  Name?: string | undefined;
 }
 export type RecoveryWindowInDaysType = number;
 export interface DeleteSecretRequest {
   SecretId: string;
-  RecoveryWindowInDays?: number;
-  ForceDeleteWithoutRecovery?: boolean;
+  RecoveryWindowInDays?: number | undefined;
+  ForceDeleteWithoutRecovery?: boolean | undefined;
 }
 export type DeletionDateType = Date;
 export interface DeleteSecretResponse {
-  ARN?: string;
-  Name?: string;
-  DeletionDate?: Date;
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  DeletionDate?: Date | undefined;
 }
 export interface DescribeSecretRequest {
   SecretId: string;
@@ -300,15 +300,15 @@ export type AutomaticallyRotateAfterDaysType = number;
 export type DurationType = string;
 export type ScheduleExpressionType = string;
 export interface RotationRulesType {
-  AutomaticallyAfterDays?: number;
-  Duration?: string;
-  ScheduleExpression?: string;
+  AutomaticallyAfterDays?: number | undefined;
+  Duration?: string | undefined;
+  ScheduleExpression?: string | undefined;
 }
 export type ExternalSecretRotationMetadataItemKeyType = string;
 export type ExternalSecretRotationMetadataItemValueType = string;
 export interface ExternalSecretRotationMetadataItem {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type ExternalSecretRotationMetadataType = ExternalSecretRotationMetadataItem[];
 export type RoleARNType = string;
@@ -319,27 +319,27 @@ export type NextRotationDateType = Date;
 export type SecretVersionsToStagesMapType = { [key: string]: string[] | undefined };
 export type OwningServiceType = string;
 export interface DescribeSecretResponse {
-  ARN?: string;
-  Name?: string;
-  Type?: string;
-  Description?: string;
-  KmsKeyId?: string;
-  RotationEnabled?: boolean;
-  RotationLambdaARN?: string;
-  RotationRules?: RotationRulesType;
-  ExternalSecretRotationMetadata?: ExternalSecretRotationMetadataItem[];
-  ExternalSecretRotationRoleArn?: string;
-  LastRotatedDate?: Date;
-  LastChangedDate?: Date;
-  LastAccessedDate?: Date;
-  DeletedDate?: Date;
-  NextRotationDate?: Date;
-  Tags?: Tag[];
-  VersionIdsToStages?: { [key: string]: string[] | undefined };
-  OwningService?: string;
-  CreatedDate?: Date;
-  PrimaryRegion?: string;
-  ReplicationStatus?: ReplicationStatusType[];
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  Description?: string | undefined;
+  KmsKeyId?: string | undefined;
+  RotationEnabled?: boolean | undefined;
+  RotationLambdaARN?: string | undefined;
+  RotationRules?: RotationRulesType | undefined;
+  ExternalSecretRotationMetadata?: ExternalSecretRotationMetadataItem[] | undefined;
+  ExternalSecretRotationRoleArn?: string | undefined;
+  LastRotatedDate?: Date | undefined;
+  LastChangedDate?: Date | undefined;
+  LastAccessedDate?: Date | undefined;
+  DeletedDate?: Date | undefined;
+  NextRotationDate?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  VersionIdsToStages?: { [key: string]: string[] | undefined } | undefined;
+  OwningService?: string | undefined;
+  CreatedDate?: Date | undefined;
+  PrimaryRegion?: string | undefined;
+  ReplicationStatus?: ReplicationStatusType[] | undefined;
 }
 export type PasswordLengthType = number;
 export type ExcludeCharactersType = string;
@@ -350,41 +350,41 @@ export type ExcludeLowercaseType = boolean;
 export type IncludeSpaceType = boolean;
 export type RequireEachIncludedTypeType = boolean;
 export interface GetRandomPasswordRequest {
-  PasswordLength?: number;
-  ExcludeCharacters?: string;
-  ExcludeNumbers?: boolean;
-  ExcludePunctuation?: boolean;
-  ExcludeUppercase?: boolean;
-  ExcludeLowercase?: boolean;
-  IncludeSpace?: boolean;
-  RequireEachIncludedType?: boolean;
+  PasswordLength?: number | undefined;
+  ExcludeCharacters?: string | undefined;
+  ExcludeNumbers?: boolean | undefined;
+  ExcludePunctuation?: boolean | undefined;
+  ExcludeUppercase?: boolean | undefined;
+  ExcludeLowercase?: boolean | undefined;
+  IncludeSpace?: boolean | undefined;
+  RequireEachIncludedType?: boolean | undefined;
 }
 export type RandomPasswordType = string | redacted.Redacted<string>;
 export interface GetRandomPasswordResponse {
-  RandomPassword?: string | redacted.Redacted<string>;
+  RandomPassword?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetResourcePolicyRequest {
   SecretId: string;
 }
 export type NonEmptyResourcePolicyType = string;
 export interface GetResourcePolicyResponse {
-  ARN?: string;
-  Name?: string;
-  ResourcePolicy?: string;
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  ResourcePolicy?: string | undefined;
 }
 export interface GetSecretValueRequest {
   SecretId: string;
-  VersionId?: string;
-  VersionStage?: string;
+  VersionId?: string | undefined;
+  VersionStage?: string | undefined;
 }
 export interface GetSecretValueResponse {
-  ARN?: string;
-  Name?: string;
-  VersionId?: string;
-  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array>;
-  SecretString?: string | redacted.Redacted<string>;
-  VersionStages?: string[];
-  CreatedDate?: Date;
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  VersionId?: string | undefined;
+  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  SecretString?: string | redacted.Redacted<string> | undefined;
+  VersionStages?: string[] | undefined;
+  CreatedDate?: Date | undefined;
 }
 export type MaxResultsType = number;
 export type SortOrderType = "asc" | "desc" | (string & {});
@@ -395,84 +395,84 @@ export type SortByType =
   | "name"
   | (string & {});
 export interface ListSecretsRequest {
-  IncludePlannedDeletion?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
-  SortOrder?: SortOrderType;
-  SortBy?: SortByType;
+  IncludePlannedDeletion?: boolean | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
+  SortOrder?: SortOrderType | undefined;
+  SortBy?: SortByType | undefined;
 }
 export interface SecretListEntry {
-  ARN?: string;
-  Name?: string;
-  Type?: string;
-  Description?: string;
-  KmsKeyId?: string;
-  RotationEnabled?: boolean;
-  RotationLambdaARN?: string;
-  RotationRules?: RotationRulesType;
-  ExternalSecretRotationMetadata?: ExternalSecretRotationMetadataItem[];
-  ExternalSecretRotationRoleArn?: string;
-  LastRotatedDate?: Date;
-  LastChangedDate?: Date;
-  LastAccessedDate?: Date;
-  DeletedDate?: Date;
-  NextRotationDate?: Date;
-  Tags?: Tag[];
-  SecretVersionsToStages?: { [key: string]: string[] | undefined };
-  OwningService?: string;
-  CreatedDate?: Date;
-  PrimaryRegion?: string;
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  Description?: string | undefined;
+  KmsKeyId?: string | undefined;
+  RotationEnabled?: boolean | undefined;
+  RotationLambdaARN?: string | undefined;
+  RotationRules?: RotationRulesType | undefined;
+  ExternalSecretRotationMetadata?: ExternalSecretRotationMetadataItem[] | undefined;
+  ExternalSecretRotationRoleArn?: string | undefined;
+  LastRotatedDate?: Date | undefined;
+  LastChangedDate?: Date | undefined;
+  LastAccessedDate?: Date | undefined;
+  DeletedDate?: Date | undefined;
+  NextRotationDate?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  SecretVersionsToStages?: { [key: string]: string[] | undefined } | undefined;
+  OwningService?: string | undefined;
+  CreatedDate?: Date | undefined;
+  PrimaryRegion?: string | undefined;
 }
 export type SecretListType = SecretListEntry[];
 export interface ListSecretsResponse {
-  SecretList?: SecretListEntry[];
-  NextToken?: string;
+  SecretList?: SecretListEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSecretVersionIdsRequest {
   SecretId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  IncludeDeprecated?: boolean;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  IncludeDeprecated?: boolean | undefined;
 }
 export type KmsKeyIdListType = string[];
 export interface SecretVersionsListEntry {
-  VersionId?: string;
-  VersionStages?: string[];
-  LastAccessedDate?: Date;
-  CreatedDate?: Date;
-  KmsKeyIds?: string[];
+  VersionId?: string | undefined;
+  VersionStages?: string[] | undefined;
+  LastAccessedDate?: Date | undefined;
+  CreatedDate?: Date | undefined;
+  KmsKeyIds?: string[] | undefined;
 }
 export type SecretVersionsListType = SecretVersionsListEntry[];
 export interface ListSecretVersionIdsResponse {
-  Versions?: SecretVersionsListEntry[];
-  NextToken?: string;
-  ARN?: string;
-  Name?: string;
+  Versions?: SecretVersionsListEntry[] | undefined;
+  NextToken?: string | undefined;
+  ARN?: string | undefined;
+  Name?: string | undefined;
 }
 export interface PutResourcePolicyRequest {
   SecretId: string;
   ResourcePolicy: string;
-  BlockPublicPolicy?: boolean;
+  BlockPublicPolicy?: boolean | undefined;
 }
 export interface PutResourcePolicyResponse {
-  ARN?: string;
-  Name?: string;
+  ARN?: string | undefined;
+  Name?: string | undefined;
 }
 export type RotationTokenType = string | redacted.Redacted<string>;
 export interface PutSecretValueRequest {
   SecretId: string;
-  ClientRequestToken?: string;
-  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array>;
-  SecretString?: string | redacted.Redacted<string>;
-  VersionStages?: string[];
-  RotationToken?: string | redacted.Redacted<string>;
+  ClientRequestToken?: string | undefined;
+  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  SecretString?: string | redacted.Redacted<string> | undefined;
+  VersionStages?: string[] | undefined;
+  RotationToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface PutSecretValueResponse {
-  ARN?: string;
-  Name?: string;
-  VersionId?: string;
-  VersionStages?: string[];
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  VersionId?: string | undefined;
+  VersionStages?: string[] | undefined;
 }
 export type RemoveReplicaRegionListType = string[];
 export interface RemoveRegionsFromReplicationRequest {
@@ -480,44 +480,44 @@ export interface RemoveRegionsFromReplicationRequest {
   RemoveReplicaRegions: string[];
 }
 export interface RemoveRegionsFromReplicationResponse {
-  ARN?: string;
-  ReplicationStatus?: ReplicationStatusType[];
+  ARN?: string | undefined;
+  ReplicationStatus?: ReplicationStatusType[] | undefined;
 }
 export interface ReplicateSecretToRegionsRequest {
   SecretId: string;
   AddReplicaRegions: ReplicaRegionType[];
-  ForceOverwriteReplicaSecret?: boolean;
+  ForceOverwriteReplicaSecret?: boolean | undefined;
 }
 export interface ReplicateSecretToRegionsResponse {
-  ARN?: string;
-  ReplicationStatus?: ReplicationStatusType[];
+  ARN?: string | undefined;
+  ReplicationStatus?: ReplicationStatusType[] | undefined;
 }
 export interface RestoreSecretRequest {
   SecretId: string;
 }
 export interface RestoreSecretResponse {
-  ARN?: string;
-  Name?: string;
+  ARN?: string | undefined;
+  Name?: string | undefined;
 }
 export interface RotateSecretRequest {
   SecretId: string;
-  ClientRequestToken?: string;
-  RotationLambdaARN?: string;
-  RotationRules?: RotationRulesType;
-  ExternalSecretRotationMetadata?: ExternalSecretRotationMetadataItem[];
-  ExternalSecretRotationRoleArn?: string;
-  RotateImmediately?: boolean;
+  ClientRequestToken?: string | undefined;
+  RotationLambdaARN?: string | undefined;
+  RotationRules?: RotationRulesType | undefined;
+  ExternalSecretRotationMetadata?: ExternalSecretRotationMetadataItem[] | undefined;
+  ExternalSecretRotationRoleArn?: string | undefined;
+  RotateImmediately?: boolean | undefined;
 }
 export interface RotateSecretResponse {
-  ARN?: string;
-  Name?: string;
-  VersionId?: string;
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  VersionId?: string | undefined;
 }
 export interface StopReplicationToReplicaRequest {
   SecretId: string;
 }
 export interface StopReplicationToReplicaResponse {
-  ARN?: string;
+  ARN?: string | undefined;
 }
 export interface TagResourceRequest {
   SecretId: string;
@@ -532,40 +532,40 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateSecretRequest {
   SecretId: string;
-  ClientRequestToken?: string;
-  Description?: string;
-  KmsKeyId?: string;
-  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array>;
-  SecretString?: string | redacted.Redacted<string>;
-  Type?: string;
+  ClientRequestToken?: string | undefined;
+  Description?: string | undefined;
+  KmsKeyId?: string | undefined;
+  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  SecretString?: string | redacted.Redacted<string> | undefined;
+  Type?: string | undefined;
 }
 export interface UpdateSecretResponse {
-  ARN?: string;
-  Name?: string;
-  VersionId?: string;
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  VersionId?: string | undefined;
 }
 export interface UpdateSecretVersionStageRequest {
   SecretId: string;
   VersionStage: string;
-  RemoveFromVersionId?: string;
-  MoveToVersionId?: string;
+  RemoveFromVersionId?: string | undefined;
+  MoveToVersionId?: string | undefined;
 }
 export interface UpdateSecretVersionStageResponse {
-  ARN?: string;
-  Name?: string;
+  ARN?: string | undefined;
+  Name?: string | undefined;
 }
 export interface ValidateResourcePolicyRequest {
-  SecretId?: string;
+  SecretId?: string | undefined;
   ResourcePolicy: string;
 }
 export interface ValidationErrorsEntry {
-  CheckName?: string;
-  ErrorMessage?: string;
+  CheckName?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type ValidationErrorsType = ValidationErrorsEntry[];
 export interface ValidateResourcePolicyResponse {
-  PolicyValidationPassed?: boolean;
-  ValidationErrors?: ValidationErrorsEntry[];
+  PolicyValidationPassed?: boolean | undefined;
+  ValidationErrors?: ValidationErrorsEntry[] | undefined;
 }
 export type BatchGetSecretValueError =
   | DecryptionFailure

@@ -47,17 +47,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CancelConditionalCreditResponseTagsMap = { [key: string]: string | undefined };
@@ -79,49 +79,49 @@ export type ConditionalCreditStatus =
 /** Common product detail properties shared across all benefit resources */
 export interface ProductDetailsBase {
   /** SKU title of the product */
-  skuTitle?: string;
+  skuTitle?: string | undefined;
   /** The product family, for example "Azure" or "M365". */
-  productFamily?: string;
+  productFamily?: string | undefined;
   /** The type of the product. */
-  productType?: string;
+  productType?: string | undefined;
 }
 /** List of applied scope types supported for benefit resources. */
 export type BenefitAppliedScopeType = "BillingAccount" | "BillingProfile" | "Customer";
 export interface Price {
   /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
-  currencyCode?: string;
-  amount?: number;
+  currencyCode?: string | undefined;
+  amount?: number | undefined;
 }
 /** Properties belonging to conditional credits. */
 export interface ConditionalCreditProperties {
   /** Type of conditional credit entity */
   entityType: ConditionalCreditEntityType;
   /** Display name for the conditional credit */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The billing account resource ID */
-  billingAccountResourceId?: string;
+  billingAccountResourceId?: string | undefined;
   /** The provisioning state of the resource */
-  provisioningState?: BenefitProvisioningState;
+  provisioningState?: BenefitProvisioningState | undefined;
   /** The status of the conditional credit */
-  status?: ConditionalCreditStatus;
+  status?: ConditionalCreditStatus | undefined;
   /** Start date of the conditional credit */
-  startAt?: string;
+  startAt?: string | undefined;
   /** End date of the conditional credit (derived from last milestone) */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Product code for the conditional credit */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Fully-qualified identifier of the benefit under applicable benefit list. */
-  benefitResourceId?: string;
+  benefitResourceId?: string | undefined;
   /** Fully-qualified resource identifier of the resource. Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/{benefitType}/{benefitName}. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Product details including SKU title, product family, and product type. */
-  productDetails?: ProductDetailsBase;
+  productDetails?: ProductDetailsBase | undefined;
   /** Type of the applied scope for the conditional credit. */
-  appliedScopeType?: BenefitAppliedScopeType;
+  appliedScopeType?: BenefitAppliedScopeType | undefined;
   /** Invitation identifier */
-  invitationId?: string;
+  invitationId?: string | undefined;
   /** Amount of benefit that has been consumed */
-  consumed?: Price;
+  consumed?: Price | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -132,9 +132,9 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CancelConditionalCreditResponseIdentityUserAssignedIdentitiesMap = {
@@ -143,12 +143,14 @@ export type CancelConditionalCreditResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CancelConditionalCreditResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CancelConditionalCreditResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | CancelConditionalCreditResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
@@ -157,13 +159,13 @@ export interface Sku {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
   /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Plan for the resource. */
 export interface Plan {
@@ -174,43 +176,43 @@ export interface Plan {
   /** The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. */
   product: string;
   /** A publisher provided promotion code as provisioned in Data Market for the said product/artifact. */
-  promotionCode?: string;
+  promotionCode?: string | undefined;
   /** The version of the desired product/artifact. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CancelConditionalCreditResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CancelConditionalCreditResponseTagsMap;
+  tags?: CancelConditionalCreditResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Conditional credit properties */
-  properties?: ConditionalCreditProperties;
+  properties?: ConditionalCreditProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CancelConditionalCreditResponseIdentity;
+  identity?: CancelConditionalCreditResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CancelCreditRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -236,19 +238,19 @@ export type CreditStatus =
 /** The reason for the credit. Not required if not applicable. */
 export interface CreditReason {
   /** The reason code for credit. */
-  code?: string;
+  code?: string | undefined;
   /** The free string description of the credit. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Grain. */
 export type CommitmentGrain = "Hourly" | "FullTerm" | "Unknown";
 /** Commitment towards the benefit. */
 export interface Commitment {
   /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
-  currencyCode?: string;
-  amount?: number;
+  currencyCode?: string | undefined;
+  amount?: number | undefined;
   /** The grain of the commitment. */
-  grain?: CommitmentGrain | (string & {});
+  grain?: CommitmentGrain | (string & {}) | undefined;
 }
 /** Redemption policy of the Credit */
 export type CreditRedemptionPolicy = "NotApplicable" | "AutoRedeem" | "ManualRedeem";
@@ -257,9 +259,9 @@ export type CreditExpirationPolicy = "None" | "SuspendBillingProfile";
 /** Credit breakdown item representing a milestone, line-item, or no-charge service */
 export interface CreditPolicies {
   /** Redemption policy of the Credit */
-  redemption?: CreditRedemptionPolicy | (string & {});
+  redemption?: CreditRedemptionPolicy | (string & {}) | undefined;
   /** Expiration policy of the Credit */
-  expiration?: CreditExpirationPolicy | (string & {});
+  expiration?: CreditExpirationPolicy | (string & {}) | undefined;
 }
 /** Key-value pair for additional credit parameters and metadata */
 export interface CreditDimension {
@@ -273,13 +275,13 @@ export type CreditBreakdownItemDimensionsList = Array<CreditDimension>;
 /** Credit breakdown item representing a milestone, line-item, or no-charge service */
 export interface CreditBreakdownItem {
   /** Allocation details including currency and amount for this breakdown item */
-  allocation?: Commitment;
+  allocation?: Commitment | undefined;
   /** Start DateTime. */
-  startAt?: string;
+  startAt?: string | undefined;
   /** End DateTime in UTC. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Key-value pairs for additional parameters and metadata */
-  dimensions?: CreditBreakdownItemDimensionsList;
+  dimensions?: CreditBreakdownItemDimensionsList | undefined;
 }
 /** Credit line-items/milestones/no-charge services breakdown */
 export type CreditPropertiesBreakdownList = Array<CreditBreakdownItem>;
@@ -290,60 +292,60 @@ export type CreditProductDetailsAppliedOnList = Array<AppliedOn>;
 /** Product details for a credit */
 export interface CreditProductDetails {
   /** SKU title of the product */
-  skuTitle?: string;
+  skuTitle?: string | undefined;
   /** The product family, for example "Azure" or "M365". */
-  productFamily?: string;
+  productFamily?: string | undefined;
   /** The type of the product. */
-  productType?: string;
+  productType?: string | undefined;
   /** Indicates where the credit benefit is applied (e.g., consume, invoice, or external application). */
-  appliedOn?: CreditProductDetailsAppliedOnList;
+  appliedOn?: CreditProductDetailsAppliedOnList | undefined;
   /** Specifies which price point is used when applying the credit. Known values include "MarketPrice", "UnitPrice", and "BenefitGroupPrice:<groupId>" where <groupId> identifies the benefit group. */
-  appliedPrice?: string;
+  appliedPrice?: string | undefined;
 }
 /** Properties of a credit */
 export interface CreditProperties {
   /** Status of the credit */
-  status?: CreditStatus;
+  status?: CreditStatus | undefined;
   /** Product UPN for the credit type */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The reason for the credit. Not required if not applicable. */
-  reason?: CreditReason;
+  reason?: CreditReason | undefined;
   /** The entire investment amount for the credit contract, including currency and amount */
-  credit?: Commitment;
+  credit?: Commitment | undefined;
   /** Start DateTime. */
-  startAt?: string;
+  startAt?: string | undefined;
   /** End DateTime in UTC. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Credit breakdown item representing a milestone, line-item, or no-charge service */
-  policies?: CreditPolicies;
+  policies?: CreditPolicies | undefined;
   /** Fully-qualified identifier of the billing account where the benefit is applied. Present only for Enterprise Agreement customers. */
-  billingAccountResourceId?: string;
+  billingAccountResourceId?: string | undefined;
   /** Fully-qualified identifier of the billing profile where the benefit is applied. Present only for Field-led or Customer-led customers. */
-  billingProfileResourceId?: string;
+  billingProfileResourceId?: string | undefined;
   /** Customer resource id where the benefit is scoped to. */
-  customerResourceId?: string;
+  customerResourceId?: string | undefined;
   /** Credit line-items/milestones/no-charge services breakdown */
-  breakdown?: CreditPropertiesBreakdownList;
+  breakdown?: CreditPropertiesBreakdownList | undefined;
   /** Provisioning state */
-  provisioningState?: BenefitProvisioningState;
+  provisioningState?: BenefitProvisioningState | undefined;
   /** System identifier */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Identifier of the $0 transaction created during credit acquisition. */
-  orderId?: string;
+  orderId?: string | undefined;
   /** Unique identifier (UUID) of the funding lot assigned by the benefit publisher. Used in credit transfer scenarios to trace the originating credit lot. */
-  fundingSystemId?: string;
+  fundingSystemId?: string | undefined;
   /** Fully-qualified resource identifier of the resource. Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/{benefitType}/{benefitName}. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Invitation identifier */
-  invitationId?: string;
+  invitationId?: string | undefined;
   /** Amount of benefit that has been consumed */
-  consumed?: Price;
+  consumed?: Price | undefined;
   /** Product details including SKU title, product kind, offer type, and application details */
-  productDetails?: CreditProductDetails;
+  productDetails?: CreditProductDetails | undefined;
   /** Type of the applied scope for the credit. */
-  appliedScopeType?: BenefitAppliedScopeType;
+  appliedScopeType?: BenefitAppliedScopeType | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CancelCreditResponseIdentityUserAssignedIdentitiesMap = {
@@ -352,44 +354,44 @@ export type CancelCreditResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CancelCreditResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CancelCreditResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CancelCreditResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CancelCreditResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CancelCreditResponseTagsMap;
+  tags?: CancelCreditResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Credit properties */
-  properties?: CreditProperties;
+  properties?: CreditProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CancelCreditResponseIdentity;
+  identity?: CancelCreditResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface CancelDiscountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -414,29 +416,29 @@ export interface DiscountProperties {
   /** Start date of the discount. Value is the date the discount started or will start in the future. */
   startAt: string;
   /** End date of the discount. No duration will be supported. Allowed value is any date greater than or equal to startDate. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** This is the globally unique identifier of the Discount which will not change for the lifetime of the Discount. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** The state of the resource. Supported values are Pending, Failed, Succeeded, Canceled. */
-  provisioningState?: BenefitProvisioningState;
+  provisioningState?: BenefitProvisioningState | undefined;
   /** Fully-qualified identifier of the billing account where the benefit is applied. */
-  billingAccountResourceId?: string;
+  billingAccountResourceId?: string | undefined;
   /** Fully-qualified identifier of the billing profile where the benefit is applied. */
-  billingProfileResourceId?: string;
+  billingProfileResourceId?: string | undefined;
   /** Customer resource id where the benefit is scoped to. */
-  customerResourceId?: string;
+  customerResourceId?: string | undefined;
   /** Invitation identifier */
-  invitationId?: string;
+  invitationId?: string | undefined;
   /** This defines a user friendly display name for the discount. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Represents the current status of the discount. */
-  status?: DiscountStatus;
+  status?: DiscountStatus | undefined;
   /** Fully-qualified identifier of the benefit under applicable benefit list. */
-  benefitResourceId?: string;
+  benefitResourceId?: string | undefined;
   /** List of applied scopes supported for discounts. */
-  appliedScopeType?: BenefitAppliedScopeType;
+  appliedScopeType?: BenefitAppliedScopeType | undefined;
   /** Product details including SKU title, product family, and product type. */
-  productDetails?: ProductDetailsBase;
+  productDetails?: ProductDetailsBase | undefined;
 }
 /** User assigned identity properties */
 export type ManagedServiceIdentityUserAssignedIdentitiesValue = UserAssignedIdentity;
@@ -447,47 +449,47 @@ export type ManagedServiceIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ManagedServiceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedServiceIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CancelDiscountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CancelDiscountResponseTagsMap;
+  tags?: CancelDiscountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Discount properties */
-  properties?: DiscountProperties;
+  properties?: DiscountProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CancelMaccRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -519,26 +521,26 @@ export type EnablementMode = "Unknown" | "Enabled" | "Disabled";
 /** Optional field to record suppression reason for automatic shortfall. */
 export interface AutomaticShortfallSuppressReason {
   /** Code for the suppression reason. */
-  code?: string;
+  code?: string | undefined;
   /** Message for suppression reason. */
-  message?: string;
+  message?: string | undefined;
 }
 /** MACC shortfall */
 export interface Shortfall {
   /** Represents catalog UPN. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Shortfall amount with grain. */
-  charge?: Commitment;
+  charge?: Commitment | undefined;
   /** Start DateTime. */
-  startAt?: string;
+  startAt?: string | undefined;
   /** End DateTime in UTC. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Fully-qualified resource identifier of the credits associated with the shortfall. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Points to BalanceVersion document that indicates the remaining commitment balance when the credit was created. */
-  balanceVersion?: number;
+  balanceVersion?: number | undefined;
   /** This is an identifier of the shortfall which will not change for its lifetime. */
-  systemId?: string;
+  systemId?: string | undefined;
 }
 /** Represents the current status of the Milestone. */
 export type MaccMilestoneStatus =
@@ -556,68 +558,68 @@ export type MaccMilestoneStatus =
 /** MACC milestone represents interim targets within the period of MACC. */
 export interface MaccMilestone {
   /** Globally unique identifier for the milestone. Format: {guid} */
-  milestoneId?: string;
+  milestoneId?: string | undefined;
   /** Commitment associated with this milestone. */
-  commitment?: Price;
+  commitment?: Price | undefined;
   /** End date time for the milestone. Timestamp must be in the ISO date format YYYY-MM-DDT23:59:59Z. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Setting this to 'Enable' enables automatic shortfall invoicing when milestone commitment is not met. */
-  automaticShortfall?: EnablementMode | (string & {});
+  automaticShortfall?: EnablementMode | (string & {}) | undefined;
   /** Optional field to record suppression reason for automatic shortfall. */
-  automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason;
+  automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason | undefined;
   /** Represents the current status of the Milestone. */
-  status?: MaccMilestoneStatus | (string & {});
+  status?: MaccMilestoneStatus | (string & {}) | undefined;
   /** Details of the shortfall associated with this milestone. */
-  shortfall?: Shortfall;
+  shortfall?: Shortfall | undefined;
 }
 /** List of milestones associated with this MACC. */
 export type MaccModelPropertiesMilestonesList = Array<MaccMilestone>;
 /** MACC properties */
 export interface MaccModelProperties {
   /** Provisioning state of MACC as assigned by RPaaS. This indicates the last operation's status. For all practical purposes, this can be ignored. For current status of MACC resource, refer to MaccStatus. */
-  provisioningState?: BenefitProvisioningState;
+  provisioningState?: BenefitProvisioningState | undefined;
   /** Represents the current status of the MACC. */
-  status?: MaccStatus;
+  status?: MaccStatus | undefined;
   /** Represents type of the object being operated on. Possible values are primary or contributor. */
   entityType: MaccEntityType;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Represents catalog UPN. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Fully-qualified identifier of the billing account where the MACC is applied. Present only for Enterprise Agreement customers. Format must be Azure Resource ID: /providers/Microsoft.Billing/billingAccounts/{acctId:orgId} */
-  billingAccountResourceId?: string;
+  billingAccountResourceId?: string | undefined;
   /** Commitment towards the benefit. */
-  commitment?: Commitment;
+  commitment?: Commitment | undefined;
   /** Must be start of month. Timestamp must be in the ISO date format YYYY-MM-DDT00:00:00Z. */
-  startAt?: string;
+  startAt?: string | undefined;
   /** Must be end of month. Timestamp must be in the ISO date format YYYY-MM-DDT23:59:59Z. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** This is the globally unique identifier of the MACC which will not change for the lifetime of the MACC. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Setting this to 'Enable' enables automatic shortfall charging when commitment is not met. */
-  automaticShortfall?: EnablementMode;
+  automaticShortfall?: EnablementMode | undefined;
   /** Optional field to record suppression reason for automatic shortfall. */
-  automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason;
+  automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason | undefined;
   /** MACC shortfall */
-  shortfall?: Shortfall;
+  shortfall?: Shortfall | undefined;
   /** List of milestones associated with this MACC. */
-  milestones?: MaccModelPropertiesMilestonesList;
+  milestones?: MaccModelPropertiesMilestonesList | undefined;
   /** This is the resource identifier of either the primary MACC or the contributor. Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/maccs/{maccName}. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Setting this to true means multi-entity. */
-  allowContributors?: boolean;
+  allowContributors?: boolean | undefined;
   /** Fully-qualified resource identifier of the primary MACC. Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/maccs/{maccName}. */
-  primaryResourceId?: string;
+  primaryResourceId?: string | undefined;
   /** Fully-qualified billing account resource identifier of the primary MACC. Format must be Azure Resource ID: /providers/Microsoft.Billing/billingAccounts/{acctId:orgId}. */
-  primaryBillingAccountResourceId?: string;
+  primaryBillingAccountResourceId?: string | undefined;
   /** Product details including SKU title, product family, and product type. */
-  productDetails?: ProductDetailsBase;
+  productDetails?: ProductDetailsBase | undefined;
   /** Type of the applied scope for the MACC. */
-  appliedScopeType?: BenefitAppliedScopeType;
+  appliedScopeType?: BenefitAppliedScopeType | undefined;
   /** Invitation identifier */
-  invitationId?: string;
+  invitationId?: string | undefined;
   /** Amount of benefit that has been consumed */
-  consumed?: Price;
+  consumed?: Price | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CancelMaccResponseIdentityUserAssignedIdentitiesMap = {
@@ -626,46 +628,46 @@ export type CancelMaccResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CancelMaccResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CancelMaccResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CancelMaccResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CancelMaccResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CancelMaccResponseTagsMap;
+  tags?: CancelMaccResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** MACC properties */
-  properties?: MaccModelProperties;
+  properties?: MaccModelProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CancelMaccResponseIdentity;
+  identity?: CancelMaccResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ConditionalCreditsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -674,23 +676,23 @@ export interface ConditionalCreditPropertiesInput {
   /** Type of conditional credit entity */
   entityType: ConditionalCreditEntityType | (string & {});
   /** Display name for the conditional credit */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The billing account resource ID */
-  billingAccountResourceId?: string;
+  billingAccountResourceId?: string | undefined;
   /** The status of the conditional credit */
-  status?: ConditionalCreditStatus | (string & {});
+  status?: ConditionalCreditStatus | (string & {}) | undefined;
   /** Start date of the conditional credit */
-  startAt?: string;
+  startAt?: string | undefined;
   /** End date of the conditional credit (derived from last milestone) */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Product code for the conditional credit */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Fully-qualified resource identifier of the resource. Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/{benefitType}/{benefitName}. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Type of the applied scope for the conditional credit. */
-  appliedScopeType?: BenefitAppliedScopeType | (string & {});
+  appliedScopeType?: BenefitAppliedScopeType | (string & {}) | undefined;
   /** Invitation identifier */
-  invitationId?: string;
+  invitationId?: string | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -702,7 +704,9 @@ export type ConditionalCreditsCreateOrUpdateRequestIdentityUserAssignedIdentitie
 export interface ConditionalCreditsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ConditionalCreditsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | ConditionalCreditsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface ConditionalCreditsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -712,21 +716,21 @@ export interface ConditionalCreditsCreateOrUpdateRequest {
   /** Name of the conditional credit */
   conditionalCreditName: string;
   /** Resource tags. */
-  tags?: ConditionalCreditsCreateOrUpdateRequestTagsMap;
+  tags?: ConditionalCreditsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Conditional credit properties */
-  properties?: ConditionalCreditPropertiesInput;
+  properties?: ConditionalCreditPropertiesInput | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ConditionalCreditsCreateOrUpdateRequestIdentity;
+  identity?: ConditionalCreditsCreateOrUpdateRequestIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** Resource tags. */
 export type ConditionalCreditsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -737,44 +741,46 @@ export type ConditionalCreditsCreateOrUpdateResponseIdentityUserAssignedIdentiti
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ConditionalCreditsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ConditionalCreditsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | ConditionalCreditsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface ConditionalCreditsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConditionalCreditsCreateOrUpdateResponseTagsMap;
+  tags?: ConditionalCreditsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Conditional credit properties */
-  properties?: ConditionalCreditProperties;
+  properties?: ConditionalCreditProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ConditionalCreditsCreateOrUpdateResponseIdentity;
+  identity?: ConditionalCreditsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateCreditRequestTagsMap = { [key: string]: string | undefined };
@@ -783,33 +789,33 @@ export type CreditPropertiesInputBreakdownList = Array<CreditBreakdownItem>;
 /** Properties of a credit */
 export interface CreditPropertiesInput {
   /** Product UPN for the credit type */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The reason for the credit. Not required if not applicable. */
-  reason?: CreditReason;
+  reason?: CreditReason | undefined;
   /** The entire investment amount for the credit contract, including currency and amount */
-  credit?: Commitment;
+  credit?: Commitment | undefined;
   /** Start DateTime. */
-  startAt?: string;
+  startAt?: string | undefined;
   /** End DateTime in UTC. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Credit breakdown item representing a milestone, line-item, or no-charge service */
-  policies?: CreditPolicies;
+  policies?: CreditPolicies | undefined;
   /** Fully-qualified identifier of the billing account where the benefit is applied. Present only for Enterprise Agreement customers. */
-  billingAccountResourceId?: string;
+  billingAccountResourceId?: string | undefined;
   /** Credit line-items/milestones/no-charge services breakdown */
-  breakdown?: CreditPropertiesInputBreakdownList;
+  breakdown?: CreditPropertiesInputBreakdownList | undefined;
   /** System identifier */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Unique identifier (UUID) of the funding lot assigned by the benefit publisher. Used in credit transfer scenarios to trace the originating credit lot. */
-  fundingSystemId?: string;
+  fundingSystemId?: string | undefined;
   /** Fully-qualified resource identifier of the resource. Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/{benefitType}/{benefitName}. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Invitation identifier */
-  invitationId?: string;
+  invitationId?: string | undefined;
   /** Type of the applied scope for the credit. */
-  appliedScopeType?: BenefitAppliedScopeType | (string & {});
+  appliedScopeType?: BenefitAppliedScopeType | (string & {}) | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateCreditRequestIdentityUserAssignedIdentitiesMap = {
@@ -819,7 +825,7 @@ export type CreateCreditRequestIdentityUserAssignedIdentitiesMap = {
 export interface CreateCreditRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateCreditRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateCreditRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateCreditRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -829,21 +835,21 @@ export interface CreateCreditRequest {
   /** Name of the credit */
   creditName: string;
   /** Resource tags. */
-  tags?: CreateCreditRequestTagsMap;
+  tags?: CreateCreditRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Credit properties */
-  properties?: CreditPropertiesInput;
+  properties?: CreditPropertiesInput | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateCreditRequestIdentity;
+  identity?: CreateCreditRequestIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** Resource tags. */
 export type CreateCreditResponseTagsMap = { [key: string]: string | undefined };
@@ -854,46 +860,46 @@ export type CreateCreditResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateCreditResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateCreditResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateCreditResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateCreditResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateCreditResponseTagsMap;
+  tags?: CreateCreditResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Credit properties */
-  properties?: CreditProperties;
+  properties?: CreditProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateCreditResponseIdentity;
+  identity?: CreateCreditResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateDiscountRequestTagsMap = { [key: string]: string | undefined };
@@ -906,15 +912,15 @@ export interface DiscountPropertiesInput {
   /** Start date of the discount. Value is the date the discount started or will start in the future. */
   startAt: string;
   /** End date of the discount. No duration will be supported. Allowed value is any date greater than or equal to startDate. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** This is the globally unique identifier of the Discount which will not change for the lifetime of the Discount. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Invitation identifier */
-  invitationId?: string;
+  invitationId?: string | undefined;
   /** This defines a user friendly display name for the discount. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** List of applied scopes supported for discounts. */
-  appliedScopeType?: BenefitAppliedScopeType | (string & {});
+  appliedScopeType?: BenefitAppliedScopeType | (string & {}) | undefined;
 }
 /** User assigned identity properties */
 export type ManagedServiceIdentityInputUserAssignedIdentitiesValue = UserAssignedIdentityInput;
@@ -927,7 +933,7 @@ export interface ManagedServiceIdentityInput {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ManagedServiceIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedServiceIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateDiscountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -937,55 +943,55 @@ export interface CreateDiscountRequest {
   /** Name of the discount */
   discountName: string;
   /** Resource tags. */
-  tags?: CreateDiscountRequestTagsMap;
+  tags?: CreateDiscountRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Discount properties */
-  properties?: DiscountPropertiesInput;
+  properties?: DiscountPropertiesInput | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentityInput;
+  identity?: ManagedServiceIdentityInput | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** Resource tags. */
 export type CreateDiscountResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateDiscountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateDiscountResponseTagsMap;
+  tags?: CreateDiscountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Discount properties */
-  properties?: DiscountProperties;
+  properties?: DiscountProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateFreeServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -994,19 +1000,19 @@ export type FreeServicesStatus = "Unknown" | "Pending" | "Active" | "Canceled" |
 /** Properties of free services */
 export interface FreeServicesPropertiesInput {
   /** This is the catalog UPN for the product. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Current status of the free services */
-  status?: FreeServicesStatus | (string & {});
+  status?: FreeServicesStatus | (string & {}) | undefined;
   /** Date and time when the free services become active */
-  startAt?: string;
+  startAt?: string | undefined;
   /** Expiration date and time of the free services */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Invitation identifier */
-  invitationId?: string;
+  invitationId?: string | undefined;
   /** This is the globally unique identifier of the free services which will not change for its lifetime. Generated by the benefit publisher. */
-  systemId?: string;
+  systemId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateFreeServiceRequestIdentityUserAssignedIdentitiesMap = {
@@ -1016,7 +1022,7 @@ export type CreateFreeServiceRequestIdentityUserAssignedIdentitiesMap = {
 export interface CreateFreeServiceRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateFreeServiceRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateFreeServiceRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateFreeServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1026,50 +1032,50 @@ export interface CreateFreeServiceRequest {
   /** Name of the free service */
   freeServiceName: string;
   /** Resource tags. */
-  tags?: CreateFreeServiceRequestTagsMap;
+  tags?: CreateFreeServiceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Free services properties */
-  properties?: FreeServicesPropertiesInput;
+  properties?: FreeServicesPropertiesInput | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateFreeServiceRequestIdentity;
+  identity?: CreateFreeServiceRequestIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** Resource tags. */
 export type CreateFreeServiceResponseTagsMap = { [key: string]: string | undefined };
 /** Properties of free services */
 export interface FreeServicesProperties {
   /** This is the catalog UPN for the product. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Current status of the free services */
-  status?: FreeServicesStatus;
+  status?: FreeServicesStatus | undefined;
   /** Date and time when the free services become active */
-  startAt?: string;
+  startAt?: string | undefined;
   /** Expiration date and time of the free services */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Provisioning state of Free Services as assigned by RPaaS. This indicates the last operation's status. For all practical purposes, this can be ignored. For current status of Free Services resource, refer to FreeServicesStatus. */
-  provisioningState?: BenefitProvisioningState;
+  provisioningState?: BenefitProvisioningState | undefined;
   /** Fully-qualified identifier of the billing account where the benefit is applied. */
-  billingAccountResourceId?: string;
+  billingAccountResourceId?: string | undefined;
   /** Fully-qualified identifier of the billing profile where the benefit is applied. */
-  billingProfileResourceId?: string;
+  billingProfileResourceId?: string | undefined;
   /** Customer resource id where the benefit is scoped to. */
-  customerResourceId?: string;
+  customerResourceId?: string | undefined;
   /** Invitation identifier */
-  invitationId?: string;
+  invitationId?: string | undefined;
   /** This is the globally unique identifier of the free services which will not change for its lifetime. Generated by the benefit publisher. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Product details including SKU title, product family, and product type. */
-  productDetails?: ProductDetailsBase;
+  productDetails?: ProductDetailsBase | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateFreeServiceResponseIdentityUserAssignedIdentitiesMap = {
@@ -1078,44 +1084,44 @@ export type CreateFreeServiceResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateFreeServiceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateFreeServiceResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateFreeServiceResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateFreeServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateFreeServiceResponseTagsMap;
+  tags?: CreateFreeServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Free services properties */
-  properties?: FreeServicesProperties;
+  properties?: FreeServicesProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateFreeServiceResponseIdentity;
+  identity?: CreateFreeServiceResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateMaccRequestTagsMap = { [key: string]: string | undefined };
@@ -1124,43 +1130,43 @@ export type MaccModelPropertiesInputMilestonesList = Array<MaccMilestone>;
 /** MACC properties */
 export interface MaccModelPropertiesInput {
   /** Represents the current status of the MACC. */
-  status?: MaccStatus | (string & {});
+  status?: MaccStatus | (string & {}) | undefined;
   /** Represents type of the object being operated on. Possible values are primary or contributor. */
   entityType: MaccEntityType | (string & {});
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Represents catalog UPN. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Fully-qualified identifier of the billing account where the MACC is applied. Present only for Enterprise Agreement customers. Format must be Azure Resource ID: /providers/Microsoft.Billing/billingAccounts/{acctId:orgId} */
-  billingAccountResourceId?: string;
+  billingAccountResourceId?: string | undefined;
   /** Commitment towards the benefit. */
-  commitment?: Commitment;
+  commitment?: Commitment | undefined;
   /** Must be start of month. Timestamp must be in the ISO date format YYYY-MM-DDT00:00:00Z. */
-  startAt?: string;
+  startAt?: string | undefined;
   /** Must be end of month. Timestamp must be in the ISO date format YYYY-MM-DDT23:59:59Z. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** This is the globally unique identifier of the MACC which will not change for the lifetime of the MACC. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Setting this to 'Enable' enables automatic shortfall charging when commitment is not met. */
-  automaticShortfall?: EnablementMode | (string & {});
+  automaticShortfall?: EnablementMode | (string & {}) | undefined;
   /** Optional field to record suppression reason for automatic shortfall. */
-  automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason;
+  automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason | undefined;
   /** MACC shortfall */
-  shortfall?: Shortfall;
+  shortfall?: Shortfall | undefined;
   /** List of milestones associated with this MACC. */
-  milestones?: MaccModelPropertiesInputMilestonesList;
+  milestones?: MaccModelPropertiesInputMilestonesList | undefined;
   /** This is the resource identifier of either the primary MACC or the contributor. Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/maccs/{maccName}. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Setting this to true means multi-entity. */
-  allowContributors?: boolean;
+  allowContributors?: boolean | undefined;
   /** Fully-qualified resource identifier of the primary MACC. Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/maccs/{maccName}. */
-  primaryResourceId?: string;
+  primaryResourceId?: string | undefined;
   /** Fully-qualified billing account resource identifier of the primary MACC. Format must be Azure Resource ID: /providers/Microsoft.Billing/billingAccounts/{acctId:orgId}. */
-  primaryBillingAccountResourceId?: string;
+  primaryBillingAccountResourceId?: string | undefined;
   /** Type of the applied scope for the MACC. */
-  appliedScopeType?: BenefitAppliedScopeType | (string & {});
+  appliedScopeType?: BenefitAppliedScopeType | (string & {}) | undefined;
   /** Invitation identifier */
-  invitationId?: string;
+  invitationId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateMaccRequestIdentityUserAssignedIdentitiesMap = {
@@ -1170,7 +1176,7 @@ export type CreateMaccRequestIdentityUserAssignedIdentitiesMap = {
 export interface CreateMaccRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateMaccRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateMaccRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateMaccRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1180,21 +1186,21 @@ export interface CreateMaccRequest {
   /** Name of primary MACC. */
   maccName: string;
   /** Resource tags. */
-  tags?: CreateMaccRequestTagsMap;
+  tags?: CreateMaccRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** MACC properties */
-  properties?: MaccModelPropertiesInput;
+  properties?: MaccModelPropertiesInput | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateMaccRequestIdentity;
+  identity?: CreateMaccRequestIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** Resource tags. */
 export type CreateMaccResponseTagsMap = { [key: string]: string | undefined };
@@ -1205,47 +1211,47 @@ export type CreateMaccResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateMaccResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateMaccResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateMaccResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateMaccResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateMaccResponseTagsMap;
+  tags?: CreateMaccResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** MACC properties */
-  properties?: MaccModelProperties;
+  properties?: MaccModelProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateMaccResponseIdentity;
+  identity?: CreateMaccResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ResourceSku {
-  name?: string;
+  name?: string | undefined;
 }
 /** Represent benefit term in ISO 8601 format. */
 export type Term = "P1M" | "P1Y" | "P3Y" | "P5Y";
@@ -1256,17 +1262,17 @@ export type AppliedScopeType = "Single" | "Shared" | "ManagementGroup";
 /** Properties specific to applied scope type. Not required if not applicable. */
 export interface AppliedScopeProperties {
   /** Tenant ID where the benefit is applied. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Fully-qualified identifier of the management group where the benefit must be applied. */
-  managementGroupId?: string;
+  managementGroupId?: string | undefined;
   /** Fully-qualified identifier of the subscription. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Fully-qualified identifier of the resource group. */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A filter string passed to downstream services to categorize and apply usage benefits to specific resource models. Expected format: "key/value" (e.g., "contractId/2025 H2CPU"). The value is not validated by BillingBenefits and is forwarded as-is. */
-  benefitFilter?: string;
+  benefitFilter?: string | undefined;
 }
 /** Represents the renewal action for a reservation to be a new purchase or existing renewal. */
 export type RenewAction = "CreateNew" | "RenewExisting";
@@ -1303,36 +1309,38 @@ export type InstanceFlexibility = "On" | "Off";
 /** Properties specific to each reserved resource type. Not required if not applicable. */
 export interface ReservationOrderAliasRequestPropertiesReservedResourceProperties {
   /** Turning this on will apply the reservation discount to other VMs in the same VM size group. */
-  instanceFlexibility?: InstanceFlexibility | (string & {});
+  instanceFlexibility?: InstanceFlexibility | (string & {}) | undefined;
 }
 /** Reservation properties */
 export interface ReservationOrderAliasRequestProperties {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Subscription that will be charged for purchasing the benefit */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Represent benefit term in ISO 8601 format. */
-  term?: Term | (string & {});
+  term?: Term | (string & {}) | undefined;
   /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
-  billingPlan?: BillingPlan | (string & {});
+  billingPlan?: BillingPlan | (string & {}) | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType | (string & {});
+  appliedScopeType?: AppliedScopeType | (string & {}) | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
   /** Total Quantity of the SKUs purchased in the Reservation. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** Represents the renewal action for a reservation to be a new purchase or existing renewal. */
-  renewAction?: RenewAction | (string & {});
+  renewAction?: RenewAction | (string & {}) | undefined;
   /** The type of the resource that is being reserved. */
-  reservedResourceType?: ReservedResourceType | (string & {});
+  reservedResourceType?: ReservedResourceType | (string & {}) | undefined;
   /** This is the date-time when the Azure Hybrid Benefit needs to be reviewed. */
-  reviewDateTime?: string;
+  reviewDateTime?: string | undefined;
   /** This is the DateTime when the reservation benefit started. */
-  benefitStartTime?: string;
+  benefitStartTime?: string | undefined;
   /** Properties specific to each reserved resource type. Not required if not applicable. */
-  reservedResourceProperties?: ReservationOrderAliasRequestPropertiesReservedResourceProperties;
+  reservedResourceProperties?:
+    | ReservationOrderAliasRequestPropertiesReservedResourceProperties
+    | undefined;
 }
 export interface CreateReservationOrderAliasRequest {
   /** Name of the reservation order alias */
@@ -1340,9 +1348,9 @@ export interface CreateReservationOrderAliasRequest {
   /** Reservation order SKU */
   sku: ResourceSku;
   /** The Azure Region where the reservation benefits are applied to. */
-  location?: string;
+  location?: string | undefined;
   /** Reservation order alias request properties */
-  properties?: ReservationOrderAliasRequestProperties;
+  properties?: ReservationOrderAliasRequestProperties | undefined;
 }
 /** Provisioning state */
 export type ProvisioningState =
@@ -1357,145 +1365,147 @@ export type ProvisioningState =
 /** Properties specific to each reserved resource type. Not required if not applicable. */
 export interface ReservationOrderAliasResponsePropertiesReservedResourceProperties {
   /** Turning this on will apply the reservation discount to other VMs in the same VM size group. */
-  instanceFlexibility?: InstanceFlexibility;
+  instanceFlexibility?: InstanceFlexibility | undefined;
 }
 /** Reservation properties */
 export interface ReservationOrderAliasResponseProperties {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifier of the reservation order created */
-  reservationOrderId?: string;
+  reservationOrderId?: string | undefined;
   /** Provisioning state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Subscription that will be charged for purchasing the benefit */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Represent benefit term in ISO 8601 format. */
-  term?: Term;
+  term?: Term | undefined;
   /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
-  billingPlan?: BillingPlan;
+  billingPlan?: BillingPlan | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType;
+  appliedScopeType?: AppliedScopeType | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
   /** Total Quantity of the SKUs purchased in the Reservation. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** Represents the renewal action for a reservation to be a new purchase or existing renewal. */
-  renewAction?: RenewAction;
+  renewAction?: RenewAction | undefined;
   /** This is the date-time when the reservation was renewed. */
-  renewalPurchaseDateTime?: string;
+  renewalPurchaseDateTime?: string | undefined;
   /** The type of the resource that is being reserved. */
-  reservedResourceType?: ReservedResourceType;
+  reservedResourceType?: ReservedResourceType | undefined;
   /** This is the date-time when the Reservation needs to be reviewed. */
-  reviewDateTime?: string;
+  reviewDateTime?: string | undefined;
   /** This is the DateTime when the reservation benefit started. */
-  benefitStartTime?: string;
+  benefitStartTime?: string | undefined;
   /** Properties specific to each reserved resource type. Not required if not applicable. */
-  reservedResourceProperties?: ReservationOrderAliasResponsePropertiesReservedResourceProperties;
+  reservedResourceProperties?:
+    | ReservationOrderAliasResponsePropertiesReservedResourceProperties
+    | undefined;
 }
 export interface CreateReservationOrderAliasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Reservation order alias response properties */
-  properties?: ReservationOrderAliasResponseProperties;
+  properties?: ReservationOrderAliasResponseProperties | undefined;
   /** Reservation order SKU */
   sku: ResourceSku;
   /** The Azure Region where the reserved resource lives. */
-  location?: string;
+  location?: string | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Savings plan properties */
 export interface SavingsPlanOrderAliasPropertiesInput {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Subscription that will be charged for purchasing the benefit */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Represent benefit term in ISO 8601 format. */
-  term?: Term | (string & {});
+  term?: Term | (string & {}) | undefined;
   /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
-  billingPlan?: BillingPlan | (string & {});
+  billingPlan?: BillingPlan | (string & {}) | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType | (string & {});
+  appliedScopeType?: AppliedScopeType | (string & {}) | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
   /** Commitment towards the benefit. */
-  commitment?: Commitment;
+  commitment?: Commitment | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
 }
 export interface CreateSavingsPlanOrderAliasRequest {
   /** Name of the savings plan order alias */
   savingsPlanOrderAliasName: string;
   /** Savings plan order alias properties */
-  properties?: SavingsPlanOrderAliasPropertiesInput;
+  properties?: SavingsPlanOrderAliasPropertiesInput | undefined;
   /** Savings plan SKU */
   sku: ResourceSku;
   /** Resource provider kind */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Savings plan properties */
 export interface SavingsPlanOrderAliasProperties {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifier of the savings plan created */
-  savingsPlanOrderId?: string;
+  savingsPlanOrderId?: string | undefined;
   /** Provisioning state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Subscription that will be charged for purchasing the benefit */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Represent benefit term in ISO 8601 format. */
-  term?: Term;
+  term?: Term | undefined;
   /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
-  billingPlan?: BillingPlan;
+  billingPlan?: BillingPlan | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType;
+  appliedScopeType?: AppliedScopeType | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
   /** Commitment towards the benefit. */
-  commitment?: Commitment;
+  commitment?: Commitment | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
 }
 export interface CreateSavingsPlanOrderAliasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Savings plan order alias properties */
-  properties?: SavingsPlanOrderAliasProperties;
+  properties?: SavingsPlanOrderAliasProperties | undefined;
   /** Savings plan SKU */
   sku: ResourceSku;
   /** Resource provider kind */
-  kind?: string;
+  kind?: string | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateSourceRequestTagsMap = { [key: string]: string | undefined };
 /** Properties of a credit source */
 export interface CreditSourcePropertiesInput {
   /** The uri of the resource impacted which lead to the grant of the credit. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** The billing period of the impact for the resource. Format YYYYMM */
-  impactedBillingPeriod?: string;
+  impactedBillingPeriod?: string | undefined;
   /** Commitment towards the benefit. */
-  credit?: Commitment;
+  credit?: Commitment | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateSourceRequestIdentityUserAssignedIdentitiesMap = {
@@ -1505,7 +1515,7 @@ export type CreateSourceRequestIdentityUserAssignedIdentitiesMap = {
 export interface CreateSourceRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateSourceRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateSourceRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateSourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1517,34 +1527,34 @@ export interface CreateSourceRequest {
   /** Name of the credit source */
   sourceName: string;
   /** Resource tags. */
-  tags?: CreateSourceRequestTagsMap;
+  tags?: CreateSourceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Credit source properties */
-  properties?: CreditSourcePropertiesInput;
+  properties?: CreditSourcePropertiesInput | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateSourceRequestIdentity;
+  identity?: CreateSourceRequestIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** Resource tags. */
 export type CreateSourceResponseTagsMap = { [key: string]: string | undefined };
 /** Properties of a credit source */
 export interface CreditSourceProperties {
   /** Status of the credit */
-  status?: CreditStatus;
+  status?: CreditStatus | undefined;
   /** The uri of the resource impacted which lead to the grant of the credit. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** The billing period of the impact for the resource. Format YYYYMM */
-  impactedBillingPeriod?: string;
+  impactedBillingPeriod?: string | undefined;
   /** Commitment towards the benefit. */
-  credit?: Commitment;
+  credit?: Commitment | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateSourceResponseIdentityUserAssignedIdentitiesMap = {
@@ -1553,40 +1563,40 @@ export type CreateSourceResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateSourceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateSourceResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateSourceResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateSourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSourceResponseTagsMap;
+  tags?: CreateSourceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Credit source properties */
-  properties?: CreditSourceProperties;
+  properties?: CreditSourceProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateSourceResponseIdentity;
+  identity?: CreateSourceResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 export interface CreditsChangeSponsorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1596,13 +1606,13 @@ export interface CreditsChangeSponsorRequest {
   /** Name of the credit */
   creditName: string;
   /** Financial code identifying the new sponsor. This is an alphanumeric identifier assigned by the billing system, for example P20567384. */
-  sponsorId?: string;
+  sponsorId?: string | undefined;
 }
 export interface CreditsChangeSponsorResponse {
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteConditionalCreditRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1614,11 +1624,11 @@ export interface DeleteConditionalCreditRequest {
 }
 export interface DeleteConditionalCreditResponse {
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCreditRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1630,11 +1640,11 @@ export interface DeleteCreditRequest {
 }
 export interface DeleteCreditResponse {
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDiscountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1646,11 +1656,11 @@ export interface DeleteDiscountRequest {
 }
 export interface DeleteDiscountResponse {
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFreeServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1662,11 +1672,11 @@ export interface DeleteFreeServiceRequest {
 }
 export interface DeleteFreeServiceResponse {
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMaccRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1678,11 +1688,11 @@ export interface DeleteMaccRequest {
 }
 export interface DeleteMaccResponse {
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1728,33 +1738,33 @@ export interface CatalogGroupProperties {
   /** The top-level benefit resource type (e.g., maccs, credits, conditionalCredits, discounts, savingsPlans, reservations). */
   benefitResourceType: ResourceType;
   /** Display name for the catalog group. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Short description of the catalog group. */
-  shortDescription?: string;
+  shortDescription?: string | undefined;
   /** Long description of the catalog group. */
-  longDescription?: string;
+  longDescription?: string | undefined;
   /** Link to learn more about this catalog group. Uses the forward-link format https://go.microsoft.com/fwlink/?linkid=<linkId>. */
-  learnMoreLink?: string;
+  learnMoreLink?: string | undefined;
   /** Manifest-sourced array of search terms for this catalog group. Omitted when empty. */
-  keywords?: CatalogGroupPropertiesKeywordsList;
+  keywords?: CatalogGroupPropertiesKeywordsList | undefined;
   /** The benefit type's icon as JSON-escaped SVG markup. After parsing, the value is a complete `<svg>...</svg>` element. */
-  icon?: string;
+  icon?: string | undefined;
   /** Capabilities of the catalog group as key-value pairs. Omitted when a benefit type has no defined capabilities. */
-  capabilities?: CatalogGroupPropertiesCapabilitiesList;
+  capabilities?: CatalogGroupPropertiesCapabilitiesList | undefined;
   /** Optional disclaimers (legal or eligibility caveats) for the catalog group. Included only when caveats apply. */
-  disclaimers?: CatalogGroupPropertiesDisclaimersList;
+  disclaimers?: CatalogGroupPropertiesDisclaimersList | undefined;
 }
 export interface GetBillingAccountCatalogGroupsOpsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CatalogGroupProperties;
+  properties?: CatalogGroupProperties | undefined;
 }
 export interface GetBillingProfileCatalogGroupsOpsRequest {
   /** The name of the billing account. */
@@ -1766,15 +1776,15 @@ export interface GetBillingProfileCatalogGroupsOpsRequest {
 }
 export interface GetBillingProfileCatalogGroupsOpsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CatalogGroupProperties;
+  properties?: CatalogGroupProperties | undefined;
 }
 export interface GetConditionalCreditRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1793,40 +1803,42 @@ export type GetConditionalCreditResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetConditionalCreditResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetConditionalCreditResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | GetConditionalCreditResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface GetConditionalCreditResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetConditionalCreditResponseTagsMap;
+  tags?: GetConditionalCreditResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Conditional credit properties */
-  properties?: ConditionalCreditProperties;
+  properties?: ConditionalCreditProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetConditionalCreditResponseIdentity;
+  identity?: GetConditionalCreditResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 export interface GetConditionalCreditContributorFromPrimaryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1853,34 +1865,34 @@ export type MilestoneStatus =
 /** Award details for milestone completion */
 export interface Award {
   /** Credit amount to be awarded */
-  credit?: Commitment;
+  credit?: Commitment | undefined;
   /** Start date when the credit becomes effective */
-  startAt?: string;
+  startAt?: string | undefined;
   /** End date when the credit expires */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Resource ID for the awarded credit. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** This is the globally unique identifier of the credit which will not change for its lifetime. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Points to BalanceVersion document that indicates the remaining commitment balance when the credit was created. */
-  balanceVersion?: number;
+  balanceVersion?: number | undefined;
   /** Duration for which the benefit is active. Will be in format P{int}M or P{int}Y. Any values representing up to 12 years are valid. Upper limit examples: P144M, P12Y. */
-  duration?: Term;
+  duration?: Term | undefined;
 }
 /** Base milestone definition for conditional credits */
 export interface ConditionalCreditMilestoneBase {
   /** Unique identifier for the milestone */
-  milestoneId?: string;
+  milestoneId?: string | undefined;
   /** Display name for the milestone */
-  name?: string;
+  name?: string | undefined;
   /** Current status of the milestone */
-  status?: MilestoneStatus;
+  status?: MilestoneStatus | undefined;
   /** End date for this milestone */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Spend target for this milestone */
-  spendTarget?: Price;
+  spendTarget?: Price | undefined;
   /** Award details for this milestone (only present for primary conditional credits) */
-  award?: Award;
+  award?: Award | undefined;
 }
 /** List of milestones copied from primary conditional credit (excludes award details) */
 export type ContributorConditionalCreditPropertiesMilestonesList =
@@ -1890,51 +1902,51 @@ export interface ContributorConditionalCreditProperties {
   /** Type of conditional credit entity */
   entityType: ConditionalCreditEntityType;
   /** Display name for the conditional credit */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The billing account resource ID */
-  billingAccountResourceId?: string;
+  billingAccountResourceId?: string | undefined;
   /** The provisioning state of the resource */
-  provisioningState?: BenefitProvisioningState;
+  provisioningState?: BenefitProvisioningState | undefined;
   /** The status of the conditional credit */
-  status?: ConditionalCreditStatus;
+  status?: ConditionalCreditStatus | undefined;
   /** Start date of the conditional credit */
-  startAt?: string;
+  startAt?: string | undefined;
   /** End date of the conditional credit (derived from last milestone) */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Product code for the conditional credit */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Fully-qualified identifier of the benefit under applicable benefit list. */
-  benefitResourceId?: string;
+  benefitResourceId?: string | undefined;
   /** Fully-qualified resource identifier of the resource. Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/{benefitType}/{benefitName}. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Product details including SKU title, product family, and product type. */
-  productDetails?: ProductDetailsBase;
+  productDetails?: ProductDetailsBase | undefined;
   /** Type of the applied scope for the conditional credit. */
-  appliedScopeType?: BenefitAppliedScopeType;
+  appliedScopeType?: BenefitAppliedScopeType | undefined;
   /** Invitation identifier */
-  invitationId?: string;
+  invitationId?: string | undefined;
   /** Amount of benefit that has been consumed */
-  consumed?: Price;
+  consumed?: Price | undefined;
   /** Resource ID of the primary conditional credit (required for contributors) */
-  primaryResourceId?: string;
+  primaryResourceId?: string | undefined;
   /** System identifier shared between primary and contributor conditional credits representing the same conditional credit program */
-  systemId?: string;
+  systemId?: string | undefined;
   /** List of milestones copied from primary conditional credit (excludes award details) */
-  milestones?: ContributorConditionalCreditPropertiesMilestonesList;
+  milestones?: ContributorConditionalCreditPropertiesMilestonesList | undefined;
   /** Fully-qualified billing account resource identifier of the primary CACO. Format must be Azure Resource ID: /providers/Microsoft.Billing/billingAccounts/{acctId:orgId}. */
-  primaryBillingAccountResourceId?: string;
+  primaryBillingAccountResourceId?: string | undefined;
 }
 export interface GetConditionalCreditContributorFromPrimaryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Conditional credit contributor properties */
-  properties?: ContributorConditionalCreditProperties;
+  properties?: ContributorConditionalCreditProperties | undefined;
 }
 export interface GetConditionalCreditTransactionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1953,48 +1965,48 @@ export type TransactionBillingStatus = "Open" | "Closed";
 /** Product details for a transaction */
 export interface TransactionProductDetails {
   /** SKU title of the product */
-  skuTitle?: string;
+  skuTitle?: string | undefined;
   /** The product family, for example "Azure" or "M365". */
-  productFamily?: string;
+  productFamily?: string | undefined;
   /** The type of the product. */
-  productType?: string;
+  productType?: string | undefined;
   /** Grouping of Azure services by core function (e.g., Compute, Databases). */
-  serviceFamily?: string;
+  serviceFamily?: string | undefined;
   /** The publisher type of the product, for example "Microsoft" for first-party or a third-party publisher name. Additional values may be introduced in the future. */
-  publisherType?: string;
+  publisherType?: string | undefined;
 }
 /** Properties of a transaction */
 export interface TransactionProperties {
   /** Provisioning state of the transaction as assigned by RPaaS. This indicates the last operation's status. */
-  provisioningState?: BenefitProvisioningState;
+  provisioningState?: BenefitProvisioningState | undefined;
   /** This is the DateTime when the transaction occurred. */
-  date?: string;
+  date?: string | undefined;
   /** The type of charge for this transaction. */
-  chargeType?: TransactionChargeType;
+  chargeType?: TransactionChargeType | undefined;
   /** Billing lifecycle status of this transaction. */
-  billingStatus?: TransactionBillingStatus;
+  billingStatus?: TransactionBillingStatus | undefined;
   /** Fully-qualified identifier of the invoice. */
-  invoiceResourceId?: string;
+  invoiceResourceId?: string | undefined;
   /** Transaction amount in billing currency. */
-  amountInBillingCurrency?: Price;
+  amountInBillingCurrency?: Price | undefined;
   /** Transaction amount in pricing currency. */
-  amountInPricingCurrency?: Price;
+  amountInPricingCurrency?: Price | undefined;
   /** Catalog UPN for the product associated with this transaction. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Product details including SKU title, SKU properties, product family, type, and publisher type. */
-  productDetails?: TransactionProductDetails;
+  productDetails?: TransactionProductDetails | undefined;
 }
 export interface GetConditionalCreditTransactionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Transaction properties */
-  properties?: TransactionProperties;
+  properties?: TransactionProperties | undefined;
 }
 export interface GetContributorFromPrimaryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2008,15 +2020,15 @@ export interface GetContributorFromPrimaryRequest {
 }
 export interface GetContributorFromPrimaryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** MACC contributor properties */
-  properties?: MaccModelProperties;
+  properties?: MaccModelProperties | undefined;
 }
 export interface GetCreditRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2035,40 +2047,40 @@ export type GetCreditResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetCreditResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetCreditResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetCreditResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetCreditResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCreditResponseTagsMap;
+  tags?: GetCreditResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Credit properties */
-  properties?: CreditProperties;
+  properties?: CreditProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetCreditResponseIdentity;
+  identity?: GetCreditResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 export interface GetCreditTransactionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2082,15 +2094,15 @@ export interface GetCreditTransactionRequest {
 }
 export interface GetCreditTransactionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Transaction properties */
-  properties?: TransactionProperties;
+  properties?: TransactionProperties | undefined;
 }
 export interface GetDiscountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2104,31 +2116,31 @@ export interface GetDiscountRequest {
 export type GetDiscountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDiscountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDiscountResponseTagsMap;
+  tags?: GetDiscountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Discount properties */
-  properties?: DiscountProperties;
+  properties?: DiscountProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 export interface GetFreeServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2147,40 +2159,40 @@ export type GetFreeServiceResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetFreeServiceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetFreeServiceResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetFreeServiceResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetFreeServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetFreeServiceResponseTagsMap;
+  tags?: GetFreeServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Free services properties */
-  properties?: FreeServicesProperties;
+  properties?: FreeServicesProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetFreeServiceResponseIdentity;
+  identity?: GetFreeServiceResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 export interface GetMaccRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2199,40 +2211,40 @@ export type GetMaccResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetMaccResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetMaccResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetMaccResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetMaccResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetMaccResponseTagsMap;
+  tags?: GetMaccResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** MACC properties */
-  properties?: MaccModelProperties;
+  properties?: MaccModelProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetMaccResponseIdentity;
+  identity?: GetMaccResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 export interface GetMaccTransactionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2246,15 +2258,15 @@ export interface GetMaccTransactionRequest {
 }
 export interface GetMaccTransactionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Transaction properties */
-  properties?: TransactionProperties;
+  properties?: TransactionProperties | undefined;
 }
 export interface GetReservationOrderAliasRequest {
   /** Name of the reservation order alias */
@@ -2262,19 +2274,19 @@ export interface GetReservationOrderAliasRequest {
 }
 export interface GetReservationOrderAliasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Reservation order alias response properties */
-  properties?: ReservationOrderAliasResponseProperties;
+  properties?: ReservationOrderAliasResponseProperties | undefined;
   /** Reservation order SKU */
   sku: ResourceSku;
   /** The Azure Region where the reserved resource lives. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetSavingsPlanRequest {
   /** Order ID of the savings plan */
@@ -2282,122 +2294,122 @@ export interface GetSavingsPlanRequest {
   /** ID of the savings plan */
   savingsPlanId: string;
   /** May be used to expand the detail information of some properties. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface ExtendedStatusInfo {
   /** Status code providing additional information. */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** The message giving detailed information about the status code. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The aggregate values of savings plan utilization */
 export interface UtilizationAggregates {
   /** The grain of the aggregate */
-  grain?: number;
+  grain?: number | undefined;
   /** The grain unit of the aggregate */
-  grainUnit?: string;
+  grainUnit?: string | undefined;
   /** The aggregate value */
-  value?: number;
+  value?: number | undefined;
   /** The aggregate value unit */
-  valueUnit?: string;
+  valueUnit?: string | undefined;
 }
 /** The array of aggregates of a savings plan's utilization */
 export type UtilizationAggregatesList = Array<UtilizationAggregates>;
 /** Savings plan utilization */
 export interface Utilization {
   /** The number of days trend for a savings plan */
-  trend?: string;
+  trend?: string | undefined;
   /** The array of aggregates of a savings plan's utilization */
-  aggregates?: UtilizationAggregatesList;
+  aggregates?: UtilizationAggregatesList | undefined;
 }
 export interface PurchaseRequestProperties {
   /** Friendly name of the savings plan */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Subscription that will be charged for purchasing the benefit */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Represent benefit term in ISO 8601 format. */
-  term?: Term;
+  term?: Term | undefined;
   /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
-  billingPlan?: BillingPlan;
+  billingPlan?: BillingPlan | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType;
+  appliedScopeType?: AppliedScopeType | undefined;
   /** Commitment towards the benefit. */
-  commitment?: Commitment;
+  commitment?: Commitment | undefined;
   /** DateTime of the savings plan starts providing benefit from. */
-  effectiveDateTime?: string;
+  effectiveDateTime?: string | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** Represents the renewal action for a reservation to be a new purchase or existing renewal. */
-  renewAction?: RenewAction;
+  renewAction?: RenewAction | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
 }
 export interface PurchaseRequest {
   /** The SKU to be applied for this resource */
-  sku?: ResourceSku;
-  properties?: PurchaseRequestProperties;
+  sku?: ResourceSku | undefined;
+  properties?: PurchaseRequestProperties | undefined;
 }
 export interface RenewProperties {
-  purchaseProperties?: PurchaseRequest;
+  purchaseProperties?: PurchaseRequest | undefined;
 }
 /** Savings plan properties */
 export interface SavingsPlanModelProperties {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Provisioning state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The provisioning state of the savings plan for display, e.g. Succeeded */
-  displayProvisioningState?: string;
+  displayProvisioningState?: string | undefined;
   /** Subscription that will be charged for purchasing the benefit */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Fully-qualified identifier of the billing profile where the benefit is applied. Present only for Field-led or Customer-led customers. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Fully-qualified identifier of the customer where the savings plan is applied. Present only for Partner-led customers. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Fully-qualified identifier of the billing account where the benefit is applied. Present only for Enterprise Agreement customers. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** Represent benefit term in ISO 8601 format. */
-  term?: Term;
+  term?: Term | undefined;
   /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
-  billingPlan?: BillingPlan;
+  billingPlan?: BillingPlan | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType;
+  appliedScopeType?: AppliedScopeType | undefined;
   /** The applied scope type of the savings plan for display, e.g. Shared */
-  userFriendlyAppliedScopeType?: string;
+  userFriendlyAppliedScopeType?: string | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
   /** Commitment towards the benefit. */
-  commitment?: Commitment;
+  commitment?: Commitment | undefined;
   /** DateTime of the savings plan starts providing benefit from. */
-  effectiveDateTime?: string;
+  effectiveDateTime?: string | undefined;
   /** Expiry date time */
-  expiryDateTime?: string;
+  expiryDateTime?: string | undefined;
   /** Date time when the savings plan was purchased */
-  purchaseDateTime?: string;
+  purchaseDateTime?: string | undefined;
   /** This is the DateTime when the savings plan benefit started. */
-  benefitStartTime?: string;
-  extendedStatusInfo?: ExtendedStatusInfo;
+  benefitStartTime?: string | undefined;
+  extendedStatusInfo?: ExtendedStatusInfo | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** Savings plan utilization */
-  utilization?: Utilization;
+  utilization?: Utilization | undefined;
   /** SavingsPlan Id of the SavingsPlan from which this SavingsPlan is renewed. */
-  renewSource?: string;
+  renewSource?: string | undefined;
   /** SavingsPlan Id of the SavingsPlan which is purchased because of renew. */
-  renewDestination?: string;
-  renewProperties?: RenewProperties;
+  renewDestination?: string | undefined;
+  renewProperties?: RenewProperties | undefined;
 }
 export interface GetSavingsPlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Savings plan properties */
-  properties?: SavingsPlanModelProperties;
+  properties?: SavingsPlanModelProperties | undefined;
   /** Savings plan SKU */
   sku: ResourceSku;
 }
@@ -2405,76 +2417,76 @@ export interface GetSavingsPlanOrderRequest {
   /** Order ID of the savings plan */
   savingsPlanOrderId: string;
   /** May be used to expand the detail information of some properties. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Describes whether the payment is completed, failed, cancelled or scheduled in the future. */
 export type PaymentStatus = "Succeeded" | "Failed" | "Scheduled" | "Cancelled";
 /** Information about payment related to a savings plan order. */
 export interface PaymentDetail {
   /** Date when the payment needs to be done. */
-  dueDate?: string;
+  dueDate?: string | undefined;
   /** Date when the transaction is completed. Is null when it is scheduled. */
-  paymentDate?: string;
+  paymentDate?: string | undefined;
   /** Amount in pricing currency. Tax not included. */
-  pricingCurrencyTotal?: Price;
+  pricingCurrencyTotal?: Price | undefined;
   /** Amount charged in Billing currency. Tax not included. Is null for future payments */
-  billingCurrencyTotal?: Price;
+  billingCurrencyTotal?: Price | undefined;
   /** Describes whether the payment is completed, failed, cancelled or scheduled in the future. */
-  status?: PaymentStatus;
-  extendedStatusInfo?: ExtendedStatusInfo;
+  status?: PaymentStatus | undefined;
+  extendedStatusInfo?: ExtendedStatusInfo | undefined;
   /** Billing account */
-  billingAccount?: string;
+  billingAccount?: string | undefined;
 }
 export type BillingPlanInformationTransactionsList = Array<PaymentDetail>;
 /** Information describing the type of billing plan for this savings plan. */
 export interface BillingPlanInformation {
   /** Amount of money to be paid for the Order. Tax is not included. */
-  pricingCurrencyTotal?: Price;
+  pricingCurrencyTotal?: Price | undefined;
   /** Date when the billing plan has started. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** For recurring billing plans, indicates the date when next payment will be processed. Null when total is paid off. */
-  nextPaymentDueDate?: string;
-  transactions?: BillingPlanInformationTransactionsList;
+  nextPaymentDueDate?: string | undefined;
+  transactions?: BillingPlanInformationTransactionsList | undefined;
 }
 export type SavingsPlanOrderModelPropertiesSavingsPlansList = Array<string>;
 /** Savings plan order properties */
 export interface SavingsPlanOrderModelProperties {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Provisioning state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Subscription that will be charged for purchasing the benefit */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Fully-qualified identifier of the billing profile where the benefit is applied. Present only for Field-led or Customer-led customers. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Fully-qualified identifier of the customer where the savings plan is applied. Present only for Partner-led customers. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Fully-qualified identifier of the billing account where the benefit is applied. Present only for Enterprise Agreement customers. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** Represent benefit term in ISO 8601 format. */
-  term?: Term;
+  term?: Term | undefined;
   /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
-  billingPlan?: BillingPlan;
+  billingPlan?: BillingPlan | undefined;
   /** Expiry date time */
-  expiryDateTime?: string;
+  expiryDateTime?: string | undefined;
   /** This is the DateTime when the savings plan benefit started. */
-  benefitStartTime?: string;
+  benefitStartTime?: string | undefined;
   /** Information describing the type of billing plan for this savings plan. */
-  planInformation?: BillingPlanInformation;
-  savingsPlans?: SavingsPlanOrderModelPropertiesSavingsPlansList;
-  extendedStatusInfo?: ExtendedStatusInfo;
+  planInformation?: BillingPlanInformation | undefined;
+  savingsPlans?: SavingsPlanOrderModelPropertiesSavingsPlansList | undefined;
+  extendedStatusInfo?: ExtendedStatusInfo | undefined;
 }
 export interface GetSavingsPlanOrderResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Savings plan order properties */
-  properties?: SavingsPlanOrderModelProperties;
+  properties?: SavingsPlanOrderModelProperties | undefined;
   /** Savings plan SKU */
   sku: ResourceSku;
 }
@@ -2484,19 +2496,19 @@ export interface GetSavingsPlanOrderAliasRequest {
 }
 export interface GetSavingsPlanOrderAliasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Savings plan order alias properties */
-  properties?: SavingsPlanOrderAliasProperties;
+  properties?: SavingsPlanOrderAliasProperties | undefined;
   /** Savings plan SKU */
   sku: ResourceSku;
   /** Resource provider kind */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetSourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2517,40 +2529,40 @@ export type GetSourceResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetSourceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetSourceResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetSourceResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetSourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSourceResponseTagsMap;
+  tags?: GetSourceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Credit source properties */
-  properties?: CreditSourceProperties;
+  properties?: CreditSourceProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetSourceResponseIdentity;
+  identity?: GetSourceResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 export interface GetSubscriptionCatalogGroupsOpsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2560,15 +2572,15 @@ export interface GetSubscriptionCatalogGroupsOpsRequest {
 }
 export interface GetSubscriptionCatalogGroupsOpsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CatalogGroupProperties;
+  properties?: CatalogGroupProperties | undefined;
 }
 export interface ListApplicableMaccsRequest {
   /** The billing account Id at which the benefits are listed. Accepted format is: {rootId:orgId}. */
@@ -2577,43 +2589,43 @@ export interface ListApplicableMaccsRequest {
 /** Applicable MACC. */
 export interface ApplicableMacc {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Applicable MACC properties */
-  properties?: MaccModelProperties;
+  properties?: MaccModelProperties | undefined;
 }
 /** List Applicable MACCs. */
 export type ApplicableMaccListValueList = Array<ApplicableMacc>;
 /** Applicable MACC list */
 export interface ApplicableMaccList {
   /** List Applicable MACCs. */
-  value?: ApplicableMaccListValueList;
+  value?: ApplicableMaccListValueList | undefined;
   /** Url to get the next page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBillingAccountCatalogGroupsOpsRequest {
   /** The name of the billing account. */
   billingAccountName: string;
   /** OData filter expression to narrow the list of catalog groups. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** A catalog group represents a BenefitResourceType + Namespace grouping used for benefit SKU discovery. */
 export interface CatalogGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CatalogGroupProperties;
+  properties?: CatalogGroupProperties | undefined;
 }
 /** The CatalogGroup items on this page */
 export type CatalogGroupListResultValueList = Array<CatalogGroup>;
@@ -2622,7 +2634,7 @@ export interface CatalogGroupListResult {
   /** The CatalogGroup items on this page */
   value: CatalogGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBillingProfileCatalogGroupsOpsRequest {
   /** The name of the billing account. */
@@ -2630,7 +2642,7 @@ export interface ListBillingProfileCatalogGroupsOpsRequest {
   /** The name of the billing profile. */
   billingProfileName: string;
   /** OData filter expression to narrow the list of catalog groups. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListConditionalCreditByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2647,41 +2659,41 @@ export type ConditionalCreditIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ConditionalCreditIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ConditionalCreditIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ConditionalCreditIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Resource definition for Conditional Credits. */
 export interface ConditionalCredit {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConditionalCreditTagsMap;
+  tags?: ConditionalCreditTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Conditional credit properties */
-  properties?: ConditionalCreditProperties;
+  properties?: ConditionalCreditProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ConditionalCreditIdentity;
+  identity?: ConditionalCreditIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** The ConditionalCredit items on this page */
 export type ConditionalCreditListValueList = Array<ConditionalCredit>;
@@ -2690,7 +2702,7 @@ export interface ConditionalCreditList {
   /** The ConditionalCredit items on this page */
   value: ConditionalCreditListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConditionalCreditBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2705,15 +2717,15 @@ export interface ListConditionalCreditContributorFromApplicableConditionalCredit
 /** Conditional credit contributor */
 export interface ConditionalCreditContributor {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Conditional credit contributor properties */
-  properties?: ContributorConditionalCreditProperties;
+  properties?: ContributorConditionalCreditProperties | undefined;
 }
 /** The ConditionalCreditContributor items on this page */
 export type ConditionalCreditContributorListValueList = Array<ConditionalCreditContributor>;
@@ -2722,7 +2734,7 @@ export interface ConditionalCreditContributorList {
   /** The ConditionalCreditContributor items on this page */
   value: ConditionalCreditContributorListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConditionalCreditContributorFromPrimaryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2747,15 +2759,15 @@ export interface ListConditionalCreditTransactionByParentRequest {
 /** Transaction resource definition for ConditionalCredits */
 export interface ConditionalCreditTransaction {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Transaction properties */
-  properties?: TransactionProperties;
+  properties?: TransactionProperties | undefined;
 }
 /** The ConditionalCreditTransaction items on this page */
 export type ConditionalCreditTransactionsListValueList = Array<ConditionalCreditTransaction>;
@@ -2764,7 +2776,7 @@ export interface ConditionalCreditTransactionsList {
   /** The ConditionalCreditTransaction items on this page */
   value: ConditionalCreditTransactionsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContributorFromApplicableMaccRequest {
   /** The billing account Id at which the benefits are listed. Accepted format is: {rootId:orgId}. */
@@ -2775,15 +2787,15 @@ export interface ListContributorFromApplicableMaccRequest {
 /** MACC contributor */
 export interface Contributor {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** MACC contributor properties */
-  properties?: MaccModelProperties;
+  properties?: MaccModelProperties | undefined;
 }
 /** The Contributor items on this page */
 export type ContributorListValueList = Array<Contributor>;
@@ -2792,7 +2804,7 @@ export interface ContributorList {
   /** The Contributor items on this page */
   value: ContributorListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContributorFromPrimaryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2815,41 +2827,41 @@ export type CreditIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreditIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreditIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreditIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Credit resource definition */
 export interface Credit {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreditTagsMap;
+  tags?: CreditTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Credit properties */
-  properties?: CreditProperties;
+  properties?: CreditProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreditIdentity;
+  identity?: CreditIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** The Credit items on this page */
 export type CreditsListValueList = Array<Credit>;
@@ -2858,7 +2870,7 @@ export interface CreditsList {
   /** The Credit items on this page */
   value: CreditsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCreditByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2887,7 +2899,7 @@ export interface TransactionsList {
   /** The CreditTransaction items on this page */
   value: TransactionsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDiscountsResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2900,31 +2912,31 @@ export type DiscountTagsMap = { [key: string]: string | undefined };
 /** Resource definition for Discounts. */
 export interface Discount {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DiscountTagsMap;
+  tags?: DiscountTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Discount properties */
-  properties?: DiscountProperties;
+  properties?: DiscountProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** The Discount items on this page */
 export type DiscountListValueList = Array<Discount>;
@@ -2933,7 +2945,7 @@ export interface DiscountList {
   /** The Discount items on this page */
   value: DiscountListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDiscountsScopeRequest {
   /** The scope at which the benefits are listed. */
@@ -2958,50 +2970,50 @@ export type FreeServicesIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface FreeServicesIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: FreeServicesIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: FreeServicesIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Free Services resource definition */
 export interface FreeServices {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FreeServicesTagsMap;
+  tags?: FreeServicesTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Free services properties */
-  properties?: FreeServicesProperties;
+  properties?: FreeServicesProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: FreeServicesIdentity;
+  identity?: FreeServicesIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** The list of free services */
 export type FreeServicesListValueList = Array<FreeServices>;
 /** This operation lists the free services that are available under the specified subscription. */
 export interface FreeServicesList {
   /** The list of free services */
-  value?: FreeServicesListValueList;
+  value?: FreeServicesListValueList | undefined;
   /** The URL to get the next set of results */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFreeServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3022,41 +3034,41 @@ export type MaccIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface MaccIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: MaccIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: MaccIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Microsoft Azure Consumption Commitment. */
 export interface Macc {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MaccTagsMap;
+  tags?: MaccTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** MACC properties */
-  properties?: MaccModelProperties;
+  properties?: MaccModelProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: MaccIdentity;
+  identity?: MaccIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** The Macc items on this page */
 export type MaccListValueList = Array<Macc>;
@@ -3065,7 +3077,7 @@ export interface MaccList {
   /** The Macc items on this page */
   value: MaccListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMaccBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3088,19 +3100,19 @@ export interface MaccTransactionsList {
   /** The MaccTransaction items on this page */
   value: MaccTransactionsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -3109,23 +3121,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSavingsPlanRequest {
   /** Order ID of the savings plan */
@@ -3134,15 +3146,15 @@ export interface ListSavingsPlanRequest {
 /** Savings plan */
 export interface SavingsPlanModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Savings plan properties */
-  properties?: SavingsPlanModelProperties;
+  properties?: SavingsPlanModelProperties | undefined;
   /** Savings plan SKU */
   sku: ResourceSku;
 }
@@ -3153,76 +3165,76 @@ export interface SavingsPlanModelList {
   /** The SavingsPlanModel items on this page */
   value: SavingsPlanModelListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSavingsPlanAllRequest {
   /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState} */
-  _filter?: string;
+  _filter?: string | undefined;
   /** May be used to sort order by reservation properties. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** To indicate whether to refresh the roll up counts of the savings plans group by provisioning states */
-  refreshSummary?: string;
+  refreshSummary?: string | undefined;
   /** The number of savings plans to skip from the list before returning results */
-  _skiptoken?: number;
+  _skiptoken?: number | undefined;
   /** The selected provisioning state */
-  selectedState?: string;
+  selectedState?: string | undefined;
   /** To number of savings plans to return */
-  take?: number;
+  take?: number | undefined;
 }
 /** The list of savings plans. */
 export type SavingsPlanModelListResultValueList = Array<SavingsPlanModel>;
 /** The roll up count summary of savings plans in each state */
 export interface SavingsPlanSummaryCount {
   /** The number of savings plans in Succeeded state */
-  succeededCount?: number;
+  succeededCount?: number | undefined;
   /** The number of savings plans in Failed state */
-  failedCount?: number;
+  failedCount?: number | undefined;
   /** The number of savings plans in Expiring state */
-  expiringCount?: number;
+  expiringCount?: number | undefined;
   /** The number of savings plans in Expired state */
-  expiredCount?: number;
+  expiredCount?: number | undefined;
   /** The number of savings plans in Pending state */
-  pendingCount?: number;
+  pendingCount?: number | undefined;
   /** The number of savings plans in Cancelled state */
-  cancelledCount?: number;
+  cancelledCount?: number | undefined;
   /** The number of savings plans in Processing state */
-  processingCount?: number;
+  processingCount?: number | undefined;
   /** The number of savings plans in No Benefit state */
-  noBenefitCount?: number;
+  noBenefitCount?: number | undefined;
   /** The number of savings plans in Warning state */
-  warningCount?: number;
+  warningCount?: number | undefined;
 }
 /** Savings plans list summary */
 export interface SavingsPlanSummary {
   /** This property has value 'summary' */
-  name?: string;
+  name?: string | undefined;
   /** The roll up count summary of savings plans in each state */
-  value?: SavingsPlanSummaryCount;
+  value?: SavingsPlanSummaryCount | undefined;
 }
 /** The roll out count summary of the savings plans */
 export type SavingsPlanModelListResultAdditionalPropertiesList = Array<SavingsPlanSummary>;
 /** Represents the result of listing savings plan models */
 export interface SavingsPlanModelListResult {
   /** The list of savings plans. */
-  value?: SavingsPlanModelListResultValueList;
+  value?: SavingsPlanModelListResultValueList | undefined;
   /** Url to get the next page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The roll out count summary of the savings plans */
-  additionalProperties?: SavingsPlanModelListResultAdditionalPropertiesList;
+  additionalProperties?: SavingsPlanModelListResultAdditionalPropertiesList | undefined;
 }
 export interface ListSavingsPlanOrderRequest {}
 /** Savings plan order */
 export interface SavingsPlanOrderModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Savings plan order properties */
-  properties?: SavingsPlanOrderModelProperties;
+  properties?: SavingsPlanOrderModelProperties | undefined;
   /** Savings plan SKU */
   sku: ResourceSku;
 }
@@ -3233,24 +3245,24 @@ export interface SavingsPlanOrderModelList {
   /** The SavingsPlanOrderModel items on this page */
   value: SavingsPlanOrderModelListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Request properties to list maccs under a billing account */
 export interface SellerResourceListRequestProperties {
   /** Fully-qualified billing account resource identifier where the benefit is applied. Present only for Enterprise Agreement customers. */
   billingAccountResourceId: string;
   /** This is an OData expresssion to filter the list of MACCs based on the properties of MACC passed in the filter. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Setting it to true will return the list of contributors associated with the MACC. */
-  contributors?: boolean;
+  contributors?: boolean | undefined;
   /** Setting it to true will return the list of milestones associated with the MACC. */
-  milestones?: boolean;
+  milestones?: boolean | undefined;
   /** Fully-qualified resource identifier of the primary MACC. Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/maccs/{maccName}. */
-  primaryResourceId?: string;
+  primaryResourceId?: string | undefined;
 }
 export interface ListSellerResourceRequest {
   /** Request properties to list maccs under a billing account */
-  properties?: SellerResourceListRequestProperties;
+  properties?: SellerResourceListRequestProperties | undefined;
 }
 export type ListSellerResourceResponseBodyList = Array<Macc>;
 export type ListSellerResourceResponse = ListSellerResourceResponseBodyList;
@@ -3271,41 +3283,41 @@ export type CreditSourceIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreditSourceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreditSourceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreditSourceIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Credit source resource definition */
 export interface CreditSource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreditSourceTagsMap;
+  tags?: CreditSourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Credit source properties */
-  properties?: CreditSourceProperties;
+  properties?: CreditSourceProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreditSourceIdentity;
+  identity?: CreditSourceIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** The CreditSource items on this page */
 export type CreditSourcesListValueList = Array<CreditSource>;
@@ -3314,13 +3326,13 @@ export interface CreditSourcesList {
   /** The CreditSource items on this page */
   value: CreditSourcesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSubscriptionCatalogGroupsOpsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** OData filter expression to narrow the list of catalog groups. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface MaccsChargeShortfallRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3330,7 +3342,7 @@ export interface MaccsChargeShortfallRequest {
   /** Name of primary MACC. */
   maccName: string;
   /** Charge shortfall request properties */
-  properties?: Shortfall;
+  properties?: Shortfall | undefined;
 }
 /** Resource tags. */
 export type MaccsChargeShortfallResponseTagsMap = { [key: string]: string | undefined };
@@ -3341,46 +3353,48 @@ export type MaccsChargeShortfallResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface MaccsChargeShortfallResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: MaccsChargeShortfallResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | MaccsChargeShortfallResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface MaccsChargeShortfallResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MaccsChargeShortfallResponseTagsMap;
+  tags?: MaccsChargeShortfallResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** MACC properties */
-  properties?: MaccModelProperties;
+  properties?: MaccModelProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: MaccsChargeShortfallResponseIdentity;
+  identity?: MaccsChargeShortfallResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MaccsWriteOffRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3399,46 +3413,46 @@ export type MaccsWriteOffResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface MaccsWriteOffResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: MaccsWriteOffResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: MaccsWriteOffResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface MaccsWriteOffResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MaccsWriteOffResponseTagsMap;
+  tags?: MaccsWriteOffResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** MACC properties */
-  properties?: MaccModelProperties;
+  properties?: MaccModelProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: MaccsWriteOffResponseIdentity;
+  identity?: MaccsWriteOffResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SavingsPlanOrderElevateRequest {
   /** Order ID of the savings plan */
@@ -3447,60 +3461,60 @@ export interface SavingsPlanOrderElevateRequest {
 /** Role assignment entity properties */
 export interface RoleAssignmentEntityProperties {
   /** Principal Id */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Role definition id */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
   /** Scope of the role assignment entity */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** Role assignment entity */
 export interface RoleAssignmentEntity {
   /** Role assignment entity id */
-  id?: string;
+  id?: string | undefined;
   /** Role assignment entity name */
-  name?: string;
+  name?: string | undefined;
   /** Role assignment entity properties */
-  properties?: RoleAssignmentEntityProperties;
+  properties?: RoleAssignmentEntityProperties | undefined;
 }
 export interface PurchaseRequestPropertiesInput {
   /** Friendly name of the savings plan */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Subscription that will be charged for purchasing the benefit */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Represent benefit term in ISO 8601 format. */
-  term?: Term | (string & {});
+  term?: Term | (string & {}) | undefined;
   /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
-  billingPlan?: BillingPlan | (string & {});
+  billingPlan?: BillingPlan | (string & {}) | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType | (string & {});
+  appliedScopeType?: AppliedScopeType | (string & {}) | undefined;
   /** Commitment towards the benefit. */
-  commitment?: Commitment;
+  commitment?: Commitment | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** Represents the renewal action for a reservation to be a new purchase or existing renewal. */
-  renewAction?: RenewAction | (string & {});
+  renewAction?: RenewAction | (string & {}) | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
 }
 export interface PurchaseRequestInput {
   /** The SKU to be applied for this resource */
-  sku?: ResourceSku;
-  properties?: PurchaseRequestPropertiesInput;
+  sku?: ResourceSku | undefined;
+  properties?: PurchaseRequestPropertiesInput | undefined;
 }
 export interface RenewPropertiesInput {
-  purchaseProperties?: PurchaseRequestInput;
+  purchaseProperties?: PurchaseRequestInput | undefined;
 }
 /** Savings plan patch request */
 export interface SavingsPlanUpdateRequestPropertiesInput {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType | (string & {});
+  appliedScopeType?: AppliedScopeType | (string & {}) | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
-  renewProperties?: RenewPropertiesInput;
+  renew?: boolean | undefined;
+  renewProperties?: RenewPropertiesInput | undefined;
 }
 export type SavingsPlanValidateUpdateRequestBenefitsList =
   Array<SavingsPlanUpdateRequestPropertiesInput>;
@@ -3509,48 +3523,48 @@ export interface SavingsPlanValidateUpdateRequest {
   savingsPlanOrderId: string;
   /** ID of the savings plan */
   savingsPlanId: string;
-  benefits?: SavingsPlanValidateUpdateRequestBenefitsList;
+  benefits?: SavingsPlanValidateUpdateRequestBenefitsList | undefined;
 }
 /** Benefit scope response property */
 export interface SavingsPlanValidResponseProperty {
   /** Indicates if the provided input was valid */
-  valid?: boolean;
+  valid?: boolean | undefined;
   /** Failure reason code if the provided input was invalid */
-  reasonCode?: string;
+  reasonCode?: string | undefined;
   /** Failure reason if the provided input was invalid */
-  reason?: string;
+  reason?: string | undefined;
 }
 export type SavingsPlanValidateResponseBenefitsList = Array<SavingsPlanValidResponseProperty>;
 export interface SavingsPlanValidateResponse {
-  benefits?: SavingsPlanValidateResponseBenefitsList;
+  benefits?: SavingsPlanValidateResponseBenefitsList | undefined;
   /** Url to get the next page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Award details for milestone completion */
 export interface AwardInput {
   /** Credit amount to be awarded */
-  credit?: Commitment;
+  credit?: Commitment | undefined;
   /** Start date when the credit becomes effective */
-  startAt?: string;
+  startAt?: string | undefined;
   /** End date when the credit expires */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Duration for which the benefit is active. Will be in format P{int}M or P{int}Y. Any values representing up to 12 years are valid. Upper limit examples: P144M, P12Y. */
-  duration?: Term | (string & {});
+  duration?: Term | (string & {}) | undefined;
 }
 /** Milestone definition within a conditional credit */
 export interface ConditionalCreditMilestoneInput {
   /** Unique identifier for the milestone */
-  milestoneId?: string;
+  milestoneId?: string | undefined;
   /** Display name for the milestone */
-  name?: string;
+  name?: string | undefined;
   /** Current status of the milestone */
-  status?: MilestoneStatus | (string & {});
+  status?: MilestoneStatus | (string & {}) | undefined;
   /** End date for this milestone */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Spend target for this milestone */
-  spendTarget?: Price;
+  spendTarget?: Price | undefined;
   /** Award details for this milestone (only present for primary conditional credits) */
-  award?: AwardInput;
+  award?: AwardInput | undefined;
 }
 /** Updated milestones list (only applicable for primary conditional credits) */
 export type ConditionalCreditPatchRequestPropertiesInputMilestonesList =
@@ -3558,13 +3572,13 @@ export type ConditionalCreditPatchRequestPropertiesInputMilestonesList =
 /** Conditional credit patch request properties */
 export interface ConditionalCreditPatchRequestPropertiesInput {
   /** Display name for the conditional credit */
-  displayName?: string;
+  displayName?: string | undefined;
   /** End DateTime in UTC. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Whether this conditional credit allows contributor billing accounts */
-  allowContributors?: EnablementMode | (string & {});
+  allowContributors?: EnablementMode | (string & {}) | undefined;
   /** Updated milestones list (only applicable for primary conditional credits) */
-  milestones?: ConditionalCreditPatchRequestPropertiesInputMilestonesList;
+  milestones?: ConditionalCreditPatchRequestPropertiesInputMilestonesList | undefined;
 }
 /** Resource tags. */
 export type UpdateConditionalCreditRequestTagsMap = { [key: string]: string | undefined };
@@ -3576,9 +3590,9 @@ export interface UpdateConditionalCreditRequest {
   /** Name of the conditional credit */
   conditionalCreditName: string;
   /** Conditional credit patch request properties */
-  properties?: ConditionalCreditPatchRequestPropertiesInput;
+  properties?: ConditionalCreditPatchRequestPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateConditionalCreditRequestTagsMap;
+  tags?: UpdateConditionalCreditRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateConditionalCreditResponseTagsMap = { [key: string]: string | undefined };
@@ -3589,46 +3603,48 @@ export type UpdateConditionalCreditResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateConditionalCreditResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateConditionalCreditResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | UpdateConditionalCreditResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateConditionalCreditResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateConditionalCreditResponseTagsMap;
+  tags?: UpdateConditionalCreditResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Conditional credit properties */
-  properties?: ConditionalCreditProperties;
+  properties?: ConditionalCreditProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateConditionalCreditResponseIdentity;
+  identity?: UpdateConditionalCreditResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateCreditRequestTagsMap = { [key: string]: string | undefined };
@@ -3637,11 +3653,11 @@ export type CreditPatchPropertiesBreakdownList = Array<CreditBreakdownItem>;
 /** Credit patch properties */
 export interface CreditPatchProperties {
   /** The entire investment amount for the credit contract, including currency and amount. Only amount can be modified. */
-  credit?: Commitment;
+  credit?: Commitment | undefined;
   /** End DateTime in UTC. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Credit line-items/milestones/no-charge services breakdown. Entire breakdown will be replaced in a PATCH operation. */
-  breakdown?: CreditPatchPropertiesBreakdownList;
+  breakdown?: CreditPatchPropertiesBreakdownList | undefined;
 }
 export interface UpdateCreditRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3651,9 +3667,9 @@ export interface UpdateCreditRequest {
   /** Name of the credit */
   creditName: string;
   /** Resource tags */
-  tags?: UpdateCreditRequestTagsMap;
+  tags?: UpdateCreditRequestTagsMap | undefined;
   /** Credit patch properties */
-  properties?: CreditPatchProperties;
+  properties?: CreditPatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateCreditResponseTagsMap = { [key: string]: string | undefined };
@@ -3664,53 +3680,53 @@ export type UpdateCreditResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateCreditResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateCreditResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateCreditResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateCreditResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCreditResponseTagsMap;
+  tags?: UpdateCreditResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Credit properties */
-  properties?: CreditProperties;
+  properties?: CreditProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateCreditResponseIdentity;
+  identity?: UpdateCreditResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Discounts patch request properties */
 export interface DiscountPatchRequestProperties {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** End date of the discount. No duration will be supported. Allowed value is any date greater than or equal to startDate. */
-  endAt?: string;
+  endAt?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateDiscountRequestTagsMap = { [key: string]: string | undefined };
@@ -3722,50 +3738,50 @@ export interface UpdateDiscountRequest {
   /** Name of the discount */
   discountName: string;
   /** Discounts patch request properties */
-  properties?: DiscountPatchRequestProperties;
+  properties?: DiscountPatchRequestProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateDiscountRequestTagsMap;
+  tags?: UpdateDiscountRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDiscountResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDiscountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDiscountResponseTagsMap;
+  tags?: UpdateDiscountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Discount properties */
-  properties?: DiscountProperties;
+  properties?: DiscountProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity;
+  identity?: ManagedServiceIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Free services patch request properties */
 export interface FreeServicesPatchRequestProperties {
   /** Updated expiration date and time of the free services */
-  endAt?: string;
+  endAt?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateFreeServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -3777,9 +3793,9 @@ export interface UpdateFreeServiceRequest {
   /** Name of the free service */
   freeServiceName: string;
   /** Free services patch request properties */
-  properties?: FreeServicesPatchRequestProperties;
+  properties?: FreeServicesPatchRequestProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateFreeServiceRequestTagsMap;
+  tags?: UpdateFreeServiceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateFreeServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -3790,71 +3806,71 @@ export type UpdateFreeServiceResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateFreeServiceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateFreeServiceResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateFreeServiceResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateFreeServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateFreeServiceResponseTagsMap;
+  tags?: UpdateFreeServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Free services properties */
-  properties?: FreeServicesProperties;
+  properties?: FreeServicesProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateFreeServiceResponseIdentity;
+  identity?: UpdateFreeServiceResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of milestones to update or add. */
 export type MaccPatchRequestPropertiesMilestonesList = Array<MaccMilestone>;
 /** Macc patch request properties */
 export interface MaccPatchRequestProperties {
   /** Commitment towards the benefit. */
-  commitment?: Commitment;
+  commitment?: Commitment | undefined;
   /** End DateTime in UTC. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Setting this to true means multi-entity. */
-  allowContributors?: boolean;
+  allowContributors?: boolean | undefined;
   /** Represents the enablement status of a feature or settings. */
-  automaticShortfall?: EnablementMode | (string & {});
+  automaticShortfall?: EnablementMode | (string & {}) | undefined;
   /** Optional field to record suppression reason for automatic shortfall. */
-  automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason;
+  automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Represents the current status of the Milestone. */
-  status?: MaccMilestoneStatus | (string & {});
+  status?: MaccMilestoneStatus | (string & {}) | undefined;
   /** List of milestones to update or add. */
-  milestones?: MaccPatchRequestPropertiesMilestonesList;
+  milestones?: MaccPatchRequestPropertiesMilestonesList | undefined;
   /** Fully-qualified resource identifier of the primary MACC. Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/maccs/{maccName}. */
-  primaryResourceId?: string;
+  primaryResourceId?: string | undefined;
   /** Fully-qualified billing account resource identifier of the primary MACC. Format must be Azure Resource ID: /providers/Microsoft.Billing/billingAccounts/{acctId:orgId}. */
-  primaryBillingAccountResourceId?: string;
+  primaryBillingAccountResourceId?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateMaccRequestTagsMap = { [key: string]: string | undefined };
@@ -3866,9 +3882,9 @@ export interface UpdateMaccRequest {
   /** Name of primary MACC. */
   maccName: string;
   /** Macc patch request properties */
-  properties?: MaccPatchRequestProperties;
+  properties?: MaccPatchRequestProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateMaccRequestTagsMap;
+  tags?: UpdateMaccRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateMaccResponseTagsMap = { [key: string]: string | undefined };
@@ -3879,46 +3895,46 @@ export type UpdateMaccResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateMaccResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateMaccResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateMaccResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateMaccResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateMaccResponseTagsMap;
+  tags?: UpdateMaccResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** MACC properties */
-  properties?: MaccModelProperties;
+  properties?: MaccModelProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateMaccResponseIdentity;
+  identity?: UpdateMaccResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** Location URI to poll for result. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateSavingsPlanRequest {
   /** Order ID of the savings plan */
@@ -3926,23 +3942,23 @@ export interface UpdateSavingsPlanRequest {
   /** ID of the savings plan */
   savingsPlanId: string;
   /** Savings plan patch request */
-  properties?: SavingsPlanUpdateRequestPropertiesInput;
+  properties?: SavingsPlanUpdateRequestPropertiesInput | undefined;
 }
 export interface UpdateSavingsPlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Savings plan properties */
-  properties?: SavingsPlanModelProperties;
+  properties?: SavingsPlanModelProperties | undefined;
   /** Savings plan SKU */
   sku: ResourceSku;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource Tags */
 export type UpdateSourceRequestTagsMap = { [key: string]: string | undefined };
@@ -3956,7 +3972,7 @@ export interface UpdateSourceRequest {
   /** Name of the credit source */
   sourceName: string;
   /** Resource Tags */
-  tags?: UpdateSourceRequestTagsMap;
+  tags?: UpdateSourceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSourceResponseTagsMap = { [key: string]: string | undefined };
@@ -3967,40 +3983,40 @@ export type UpdateSourceResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateSourceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateSourceResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateSourceResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateSourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSourceResponseTagsMap;
+  tags?: UpdateSourceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Credit source properties */
-  properties?: CreditSourceProperties;
+  properties?: CreditSourceProperties | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateSourceResponseIdentity;
+  identity?: UpdateSourceResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Plan for the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 /** Represents benefit model type for validation. Includes all resource types plus legacy singular-form values used by the validate API. */
 export type BenefitType =
@@ -4022,27 +4038,27 @@ export interface BenefitValidateModel {
 export type ValidateBenefitRequestBenefitsList = Array<BenefitValidateModel>;
 export interface ValidateBenefitRequest {
   /** Defines benefits for validation. */
-  benefits?: ValidateBenefitRequestBenefitsList;
+  benefits?: ValidateBenefitRequestBenefitsList | undefined;
 }
 /** Benefit validate response property */
 export interface BenefitValidateResponseProperty {
   /** Indicates if the provided input was valid */
-  valid?: boolean;
+  valid?: boolean | undefined;
   /** Failure reason code if the provided input was invalid */
-  reasonCode?: string;
+  reasonCode?: string | undefined;
   /** Failure reason if the provided input was invalid */
-  reason?: string;
+  reason?: string | undefined;
   /** Resource identifier of the benefit that was validated. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** Defines benefit validation response for benefits. */
 export type BenefitValidateResponseBenefitsList = Array<BenefitValidateResponseProperty>;
 /** Benefit validate response. */
 export interface BenefitValidateResponse {
   /** Defines benefit validation response for benefits. */
-  benefits?: BenefitValidateResponseBenefitsList;
+  benefits?: BenefitValidateResponseBenefitsList | undefined;
   /** Url to get the next page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type CancelConditionalCreditError = AzureOpError;
 /** Cancel conditional credit. Stops applying the benefit. */

@@ -47,17 +47,17 @@ export interface CreatePrimaryIpRequest {
   /** Name of the Resource. Must be unique per Project. */
   name: string;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreatePrimaryIpRequestLabelsMap;
+  labels?: CreatePrimaryIpRequestLabelsMap | undefined;
   /** [Primary IP](#tag/primary-ips) type. */
   type: CreatePrimaryIpRequestType | (string & {});
   /** [Location](#tag/locations) ID or name the [Primary IP](#tag/primary-ips) will be bound to. Omit if `assignee_id`/`assignee_type` or `datacenter` are provided. */
-  location?: CreatePrimaryIpRequestLocation;
+  location?: CreatePrimaryIpRequestLocation | undefined;
   /** Type of resource to assign the [Primary IP](#tag/primary-ips) to. Omitted if the [Primary IP](#tag/primary-ips) should not get assigned. */
-  assignee_type?: CreatePrimaryIpRequestAssigneeType | (string & {});
+  assignee_type?: CreatePrimaryIpRequestAssigneeType | (string & {}) | undefined;
   /** ID of resource to assign the [Primary IP](#tag/primary-ips) to. Omitted if the [Primary IP](#tag/primary-ips) should not get assigned. */
-  assignee_id?: number | null;
+  assignee_id?: number | null | undefined;
   /** Auto deletion state. If enabled the [Primary IP](#tag/primary-ips) will be deleted once the assigned resource gets deleted. */
-  auto_delete?: boolean;
+  auto_delete?: boolean | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type CreatePrimaryIpResponsePrimaryIpLabelsMap = { [key: string]: string | undefined };
@@ -166,7 +166,7 @@ export interface CreatePrimaryIpResponseAction {
 export interface CreatePrimaryIpResponse {
   primary_ip: CreatePrimaryIpResponsePrimaryIp;
   /** Action will only be returned if the [Primary IP](#tag/primary-ips) is getting assigned. */
-  action?: CreatePrimaryIpResponseAction | null;
+  action?: CreatePrimaryIpResponseAction | null | undefined;
 }
 export interface DeletePrimaryIpRequest {
   /** ID of the Primary IP. */
@@ -232,17 +232,17 @@ export type ListPrimaryIpsRequestSortItem =
 export type ListPrimaryIpsRequestSortList = Array<ListPrimaryIpsRequestSortItem | (string & {})>;
 export interface ListPrimaryIpsRequest {
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Filter results by IP address. */
-  ip?: string;
+  ip?: string | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListPrimaryIpsRequestSortList;
+  sort?: ListPrimaryIpsRequestSortList | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type ListPrimaryIpsResponsePrimaryIpsItemLabelsMap = { [key: string]: string | undefined };
@@ -318,11 +318,11 @@ export interface UpdatePrimaryIpRequest {
   /** ID of the Primary IP. */
   id: number;
   /** Name of the Resource. Must be unique per Project. */
-  name?: string;
+  name?: string | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdatePrimaryIpRequestLabelsMap;
+  labels?: UpdatePrimaryIpRequestLabelsMap | undefined;
   /** Auto deletion state. If enabled the [Primary IP](#tag/primary-ips) will be deleted once the assigned resource gets deleted. */
-  auto_delete?: boolean;
+  auto_delete?: boolean | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type UpdatePrimaryIpResponsePrimaryIpLabelsMap = { [key: string]: string | undefined };

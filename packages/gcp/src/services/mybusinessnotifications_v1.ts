@@ -105,20 +105,20 @@ export type NotificationSettingNotificationTypesItemEnumList = Array<
 >;
 /** A Google Pub/Sub topic where notifications can be published when a location is updated or has a new review. There will be only one notification setting resource per-account. */
 export interface NotificationSetting {
-  /** Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`. */
-  name?: string;
-  /** Optional. The Google Pub/Sub topic that will receive notifications when locations managed by this account are updated. If unset, no notifications will be posted. The account mybusiness-api-pubsub@system.gserviceaccount.com must have at least Publish permissions on the Pub/Sub topic. */
-  pubsubTopic?: string;
   /** The types of notifications that will be sent to the Pub/Sub topic. To stop receiving notifications entirely, use NotificationSettings.UpdateNotificationSetting with an empty notification_types or set the pubsub_topic to an empty string. */
-  notificationTypes?: NotificationSettingNotificationTypesItemEnumList;
+  notificationTypes?: NotificationSettingNotificationTypesItemEnumList | undefined;
+  /** Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`. */
+  name?: string | undefined;
+  /** Optional. The Google Pub/Sub topic that will receive notifications when locations managed by this account are updated. If unset, no notifications will be posted. The account mybusiness-api-pubsub@system.gserviceaccount.com must have at least Publish permissions on the Pub/Sub topic. */
+  pubsubTopic?: string | undefined;
 }
 export interface UpdateNotificationSettingAccountsRequest {
   /** Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`. */
   name: string;
   /** Required. The specific fields that should be updated. The only editable field is notification_setting. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: NotificationSetting;
+  body?: NotificationSetting | undefined;
 }
 export type GetNotificationSettingAccountsError = NotFound | Forbidden | GcpOpError;
 /** Returns the pubsub notification settings for the account. */
@@ -183,9 +183,9 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          notificationTypes: S.optional(__S(2, __c1, 0)),
           name: S.optional(S.String),
           pubsubTopic: S.optional(S.String),
-          notificationTypes: S.optional(__S(2, __c1, 0)),
         }),
       ).annotate({ identifier: "NotificationSetting" });
   }

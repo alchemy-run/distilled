@@ -55,13 +55,13 @@ export interface AddMembersRequest {
 }
 export type MembersResponseMembersList = Array<Member>;
 export interface Zookie {
-  zookie?: string;
+  zookie?: string | undefined;
 }
 export interface MembersResponse {
   members: MembersResponseMembersList;
   resourceId: string;
   resourceType: string;
-  writtenAt?: Zookie;
+  writtenAt?: Zookie | undefined;
 }
 export interface PermissionRequest {
   name: string;
@@ -81,8 +81,8 @@ export interface Permission {
 export type RolePermissionsList = Array<Permission>;
 export interface Role {
   description: string;
-  etag?: string;
-  id?: string;
+  etag?: string | undefined;
+  id?: string | undefined;
   name: string;
   permissions: RolePermissionsList;
 }
@@ -95,7 +95,7 @@ export interface DeleteRoleRequest {
   resourceType: string;
   resourceId: string;
   roleId: string;
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteRoleResponse {
   writtenAt: Zookie;
@@ -113,7 +113,7 @@ export interface GetRoleResponse {
 export interface ListMembersRequest {
   resourceType: string;
   resourceId: string;
-  subject?: string;
+  subject?: string | undefined;
 }
 export type ListMembersResponseMembersList = Array<Member>;
 export interface ListMembersResponse {
@@ -122,7 +122,7 @@ export interface ListMembersResponse {
   resourceType: string;
 }
 export interface ListPermissionsRequest {
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 export type ListPermissionsResponsePermissionsList = Array<Permission>;
 export interface ListPermissionsResponse {
@@ -140,9 +140,9 @@ export interface RolesResponse {
 }
 export interface ListUserMembershipsRequest {
   email: string;
-  resourceType?: string;
-  resourceId?: string;
-  parentResourceId?: string;
+  resourceType?: string | undefined;
+  resourceId?: string | undefined;
+  parentResourceId?: string | undefined;
 }
 export interface UserMembership {
   resourceId: string;
@@ -157,9 +157,9 @@ export interface ListUserMembershipsResponse {
 export type ListUserPermissionsRequestPermissionsList = Array<string>;
 export interface ListUserPermissionsRequest {
   email: string;
-  resource?: string;
-  resourceType?: string;
-  permissions?: ListUserPermissionsRequestPermissionsList;
+  resource?: string | undefined;
+  resourceType?: string | undefined;
+  permissions?: ListUserPermissionsRequestPermissionsList | undefined;
 }
 export type ExistingPermission = Permission;
 export type UserPermissionPermissionsList = Array<Permission>;
@@ -175,7 +175,7 @@ export interface ListUserPermissionsResponse {
 export type RemoveMembersRequestMembersList = Array<Member>;
 export interface RemoveMembersRequest {
   resourceId: string;
-  forceRemove?: boolean;
+  forceRemove?: boolean | undefined;
   members: RemoveMembersRequestMembersList;
   resourceType: string;
 }
@@ -185,7 +185,7 @@ export interface UpdateRoleRequest {
   resourceId: string;
   roleId: string;
   description: string;
-  etag?: string;
+  etag?: string | undefined;
   name: string;
   permissions: UpdateRoleRequestPermissionsList;
 }

@@ -44,9 +44,9 @@ export interface DeleteEnterpriseMccCacheNodesOperationRequest {
 }
 export interface DeleteEnterpriseMccCacheNodesOperationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteEnterpriseMccCustomerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -58,9 +58,9 @@ export interface DeleteEnterpriseMccCustomerRequest {
 }
 export interface DeleteEnterpriseMccCustomerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteIspCacheNodesOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -74,9 +74,9 @@ export interface DeleteIspCacheNodesOperationRequest {
 }
 export interface DeleteIspCacheNodesOperationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteIspCustomerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -88,9 +88,9 @@ export interface DeleteIspCustomerRequest {
 }
 export interface DeleteIspCustomerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type EnterpriseMccCacheNodesOperationsCreateOrUpdateRequestTagsMap = {
@@ -103,53 +103,53 @@ export type AutoUpdateRingType = "Preview" | "Slow" | "Fast" | "Stable" | "Beta"
 /** Model representing Cache Node for ConnectedCache resource */
 export interface CacheNodeEntityInput {
   /** Cache node resource Azure fully qualified resource Id. */
-  fullyQualifiedResourceId?: string;
+  fullyQualifiedResourceId?: string | undefined;
   /** Cache node resource customer resource name. */
-  customerName?: string;
+  customerName?: string | undefined;
   /** Cache node resource Ip address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Cache node resource customer index as string. */
-  customerIndex?: string;
+  customerIndex?: string | undefined;
   /** Cache node resource identifier of the cache node */
-  cacheNodeId?: string;
+  cacheNodeId?: string | undefined;
   /** Cache node resource name. */
-  cacheNodeName?: string;
+  cacheNodeName?: string | undefined;
   /** Cache node resource customer resource Asn (autonomous system number) */
-  customerAsn?: number;
+  customerAsn?: number | undefined;
   /** Cache node resource flag for indicating if cache node is enabled. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Cache node resource maximum allowed egress in Mbps. */
-  maxAllowableEgressInMbps?: number;
+  maxAllowableEgressInMbps?: number | undefined;
   /** Cache node resource flag for determining if managed by enterprise as boolean. */
-  isEnterpriseManaged?: boolean;
+  isEnterpriseManaged?: boolean | undefined;
   /** Cache node resource comma separated values of Cidrs. */
-  cidrCsv?: CacheNodeEntityInputCidrCsvList;
+  cidrCsv?: CacheNodeEntityInputCidrCsvList | undefined;
   /** Cache node resource Bgp network interface. */
-  bgpNetworkInterface?: string;
+  bgpNetworkInterface?: string | undefined;
   /** Cache node resource flag for determining if customer will be migrated. */
-  shouldMigrate?: boolean;
+  shouldMigrate?: boolean | undefined;
   /** Cache node resource current Cidr range precedence selection type. */
-  cidrSelectionType?: number;
+  cidrSelectionType?: number | undefined;
   /** FQDN(fully qualified domain name) value of the mcc cache node */
-  fullyQualifiedDomainName?: string;
+  fullyQualifiedDomainName?: string | undefined;
   /** Auto Update Ring Type which is stable or beta as new values. slow or fast are legacy from version 2026-06-01. */
-  autoUpdateRingType?: AutoUpdateRingType | (string & {});
+  autoUpdateRingType?: AutoUpdateRingType | (string & {}) | undefined;
   /** Customer requested week of month for mcc install of auto update cycle. 0 is default no selection. 1-5 are valid weeks of month, 1 is first week, 2 is second week, etc. */
-  autoUpdateRequestedWeek?: number;
+  autoUpdateRequestedWeek?: number | undefined;
   /** Customer requested day of week for mcc install of auto update cycle. 0 is default no selection. 1-7 are days of week, 1 is Sunday, 2 is Monday, etc. */
-  autoUpdateRequestedDay?: number;
+  autoUpdateRequestedDay?: number | undefined;
   /** Customer requested time of the day for mcc install of auto update cycle, should be hh:mm */
-  autoUpdateRequestedTime?: string;
+  autoUpdateRequestedTime?: string | undefined;
   /** Cache node port firewall rule creation opt-in for port 80 property */
-  openFirewallPort80?: boolean;
+  openFirewallPort80?: boolean | undefined;
   /** Cache node port firewall rule creation opt-in for port 443 property */
-  openFirewallPort443?: boolean;
+  openFirewallPort443?: boolean | undefined;
   /** Cache node port firewall rule creation opt-in for port 5000 property */
-  openFirewallPort5000?: boolean;
+  openFirewallPort5000?: boolean | undefined;
   /** Cache node port firewall rule creation opt-in for port 5001 property */
-  openFirewallPort5001?: boolean;
+  openFirewallPort5001?: boolean | undefined;
   /** Connected Cache runtime account type */
-  runtimeAccountType?: string;
+  runtimeAccountType?: string | undefined;
 }
 /** issues list to return the issues as part of the additional cache node properties */
 export type AdditionalCacheNodePropertiesInputCacheNodePropertiesDetailsIssuesListList =
@@ -157,13 +157,13 @@ export type AdditionalCacheNodePropertiesInputCacheNodePropertiesDetailsIssuesLi
 /** Drive configuration for cache node */
 export interface CacheNodeDriveConfiguration {
   /** physical path location of the folder used for caching content */
-  physicalPath?: string;
+  physicalPath?: string | undefined;
   /** physical size of the drive used for caching content */
-  sizeInGb?: number;
+  sizeInGb?: number | undefined;
   /** corresponding nginx cache number. Valid cache numbers are 1 - 20 */
-  cacheNumber?: number;
+  cacheNumber?: number | undefined;
   /** full binding for corresponding nginx cache drive */
-  nginxMapping?: string;
+  nginxMapping?: string | undefined;
 }
 /** Cache node resource drive configurations. */
 export type AdditionalCacheNodePropertiesInputDriveConfigurationList =
@@ -171,12 +171,12 @@ export type AdditionalCacheNodePropertiesInputDriveConfigurationList =
 /** Bgp configuration of cache node */
 export interface BgpConfiguration {
   /** Asn to ip address mapping */
-  asnToIpAddressMapping?: string;
+  asnToIpAddressMapping?: string | undefined;
 }
 /** ProxyUrl configuration of cache node */
 export interface ProxyUrlConfiguration {
   /** Host Proxy Address configuration along with port number. This can be a proxy or ip address. ex: xx.xx.xx.xxxx:80 or host name http://exampleproxy.com:80 */
-  proxyUrl?: string;
+  proxyUrl?: string | undefined;
 }
 /** Proxy details enum */
 export type ProxyRequired = "None" | "Required";
@@ -185,52 +185,54 @@ export type OsType = "Windows" | "Linux" | "Eflow";
 /** Model representing cache node for connected cache resource */
 export interface AdditionalCacheNodePropertiesInput {
   /** issues list to return the issues as part of the additional cache node properties */
-  cacheNodePropertiesDetailsIssuesList?: AdditionalCacheNodePropertiesInputCacheNodePropertiesDetailsIssuesListList;
+  cacheNodePropertiesDetailsIssuesList?:
+    | AdditionalCacheNodePropertiesInputCacheNodePropertiesDetailsIssuesListList
+    | undefined;
   /** Cache node resource drive configurations. */
-  driveConfiguration?: AdditionalCacheNodePropertiesInputDriveConfigurationList;
+  driveConfiguration?: AdditionalCacheNodePropertiesInputDriveConfigurationList | undefined;
   /** Cache node resource Bgp configuration. */
-  bgpConfiguration?: BgpConfiguration;
+  bgpConfiguration?: BgpConfiguration | undefined;
   /** proxyUrl configuration of the cache node */
-  proxyUrlConfiguration?: ProxyUrlConfiguration;
+  proxyUrlConfiguration?: ProxyUrlConfiguration | undefined;
   /** Cache node resource requires a proxy */
-  isProxyRequired?: ProxyRequired | (string & {});
+  isProxyRequired?: ProxyRequired | (string & {}) | undefined;
   /** Operating system of the cache node */
-  osType?: OsType | (string & {});
+  osType?: OsType | (string & {}) | undefined;
   /** Auto update or fast update version */
-  autoUpdateVersion?: string;
+  autoUpdateVersion?: string | undefined;
   /** Update related information details */
-  updateInfoDetails?: string;
+  updateInfoDetails?: string | undefined;
   /** customer requested date time for mcc install of update cycle */
-  updateRequestedDateTime?: string;
+  updateRequestedDateTime?: string | undefined;
   /** Resource creation method of mcc cache node resource, cli or portal */
-  creationMethod?: number;
+  creationMethod?: number | undefined;
   /** Optional property #1 of Mcc response object */
-  optionalProperty1?: string;
+  optionalProperty1?: string | undefined;
   /** Optional property #2 of Mcc response object */
-  optionalProperty2?: string;
+  optionalProperty2?: string | undefined;
   /** Optional property #3 of Mcc response object */
-  optionalProperty3?: string;
+  optionalProperty3?: string | undefined;
   /** Optional property #4 of Mcc response object */
-  optionalProperty4?: string;
+  optionalProperty4?: string | undefined;
   /** Optional property #5 of Mcc response object */
-  optionalProperty5?: string;
+  optionalProperty5?: string | undefined;
 }
 /** The error detail. */
 export interface CacheNodePropertyInputError {}
 /** Model representing an Mcc cache node connectedCache resource */
 export interface CacheNodePropertyInput {
   /** Mcc cache node resource (cache node entity). */
-  cacheNode?: CacheNodeEntityInput;
+  cacheNode?: CacheNodeEntityInput | undefined;
   /** Mcc cache node resource additional properties. */
-  additionalCacheNodeProperties?: AdditionalCacheNodePropertiesInput;
+  additionalCacheNodeProperties?: AdditionalCacheNodePropertiesInput | undefined;
   /** Mcc response status code. */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** Mcc response status text as string for retrieving status details. */
-  statusText?: string;
+  statusText?: string | undefined;
   /** Mcc response status details for retrieving response inner details. */
-  statusDetails?: string;
+  statusDetails?: string | undefined;
   /** The error detail. */
-  error?: CacheNodePropertyInputError;
+  error?: CacheNodePropertyInputError | undefined;
 }
 export interface EnterpriseMccCacheNodesOperationsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -242,11 +244,11 @@ export interface EnterpriseMccCacheNodesOperationsCreateOrUpdateRequest {
   /** Name of the ConnectedCache resource */
   cacheNodeResourceName: string;
   /** Resource tags. */
-  tags?: EnterpriseMccCacheNodesOperationsCreateOrUpdateRequestTagsMap;
+  tags?: EnterpriseMccCacheNodesOperationsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CacheNodePropertyInput;
+  properties?: CacheNodePropertyInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -255,17 +257,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type EnterpriseMccCacheNodesOperationsCreateOrUpdateResponseTagsMap = {
@@ -289,121 +291,121 @@ export type ConfigurationState = "Configured" | "NotConfigured_Ip";
 /** Model representing Cache Node for ConnectedCache resource */
 export interface CacheNodeEntity {
   /** Cache node resource Azure fully qualified resource Id. */
-  fullyQualifiedResourceId?: string;
+  fullyQualifiedResourceId?: string | undefined;
   /** Cache node resource customer resource GUID Id. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Cache node resource customer resource name. */
-  customerName?: string;
+  customerName?: string | undefined;
   /** Cache node resource Ip address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Cache node resource customer index as string. */
-  customerIndex?: string;
+  customerIndex?: string | undefined;
   /** Cache node resource identifier of the cache node */
-  cacheNodeId?: string;
+  cacheNodeId?: string | undefined;
   /** Cache node resource name. */
-  cacheNodeName?: string;
+  cacheNodeName?: string | undefined;
   /** Cache node resource customer resource Asn (autonomous system number) */
-  customerAsn?: number;
+  customerAsn?: number | undefined;
   /** Cache node resource flag for indicating if cache node is enabled. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Cache node resource maximum allowed egress in Mbps. */
-  maxAllowableEgressInMbps?: number;
+  maxAllowableEgressInMbps?: number | undefined;
   /** Cache node resource maximum allowed probability of egress. */
-  maxAllowableProbability?: number;
+  maxAllowableProbability?: number | undefined;
   /** Cache node resource Azure XCid. */
-  xCid?: string;
+  xCid?: string | undefined;
   /** Cache node resource flag for determining if managed by enterprise as boolean. */
-  isEnterpriseManaged?: boolean;
+  isEnterpriseManaged?: boolean | undefined;
   /** Cache node resource create async operation Id. */
-  createAsyncOperationId?: string;
+  createAsyncOperationId?: string | undefined;
   /** Cache node resource deletion async operation Id. */
-  deleteAsyncOperationId?: string;
+  deleteAsyncOperationId?: string | undefined;
   /** Cache node resource customer resource client tenant Id of subscription. */
-  clientTenantId?: string;
+  clientTenantId?: string | undefined;
   /** Cache node resource category. */
-  category?: string;
+  category?: string | undefined;
   /** Cache node resource release version. */
-  releaseVersion?: number;
+  releaseVersion?: number | undefined;
   /** Cache node resource last sync timestamp. */
-  lastSyncWithAzureTimestamp?: string;
+  lastSyncWithAzureTimestamp?: string | undefined;
   /** Cache node resource last backend updated timestamp. */
-  lastUpdatedTimestamp?: string;
+  lastUpdatedTimestamp?: string | undefined;
   /** Cache node resource attempts to sync with Azure. */
-  synchWithAzureAttemptsCount?: number;
+  synchWithAzureAttemptsCount?: number | undefined;
   /** Cache node resource container configuration details. */
-  containerConfigurations?: string;
+  containerConfigurations?: string | undefined;
   /** Cache node resource comma separated values of Cidrs. */
-  cidrCsv?: CacheNodeEntityCidrCsvList;
+  cidrCsv?: CacheNodeEntityCidrCsvList | undefined;
   /** Cache node resource last Cidr Csv update timestamp */
-  cidrCsvLastUpdateTime?: string;
+  cidrCsvLastUpdateTime?: string | undefined;
   /** Cache node resource Bgp network interface. */
-  bgpNetworkInterface?: string;
+  bgpNetworkInterface?: string | undefined;
   /** Cache node resource last Bgp Cidr Csv update timestamp */
-  bgpCidrCsvLastUpdateTime?: string;
+  bgpCidrCsvLastUpdateTime?: string | undefined;
   /** Cache node resource last Bgp report timestamp. */
-  bgpLastReportedTime?: string;
+  bgpLastReportedTime?: string | undefined;
   /** Cache node resource Bgp review state string text in detail. */
-  bgpReviewStateText?: string;
+  bgpReviewStateText?: string | undefined;
   /** Cache node resource Bgp review state string text. */
-  bgpReviewState?: BgpReviewStateEnum;
+  bgpReviewState?: BgpReviewStateEnum | undefined;
   /** Cache node resource Bgp review feedback text. */
-  bgpReviewFeedback?: string;
+  bgpReviewFeedback?: string | undefined;
   /** Cache node resource Bgp update count. */
-  bgpNumberOfTimesUpdated?: number;
+  bgpNumberOfTimesUpdated?: number | undefined;
   /** Cache node resource Bgp record count. */
-  bgpNumberOfRecords?: number;
+  bgpNumberOfRecords?: number | undefined;
   /** Cache node resource Bgp block count. */
-  bgpCidrBlocksCount?: number;
+  bgpCidrBlocksCount?: number | undefined;
   /** Cache node resource total addressable space defined by Bgp and Cidr Csv blocks. */
-  bgpAddressSpace?: number;
+  bgpAddressSpace?: number | undefined;
   /** Cache node resource flag for determining if customer will be migrated. */
-  shouldMigrate?: boolean;
+  shouldMigrate?: boolean | undefined;
   /** Cache node resource bytes truncated from Bgp output file. */
-  bgpFileBytesTruncated?: number;
+  bgpFileBytesTruncated?: number | undefined;
   /** Cache node resource current Cidr range precedence selection type. */
-  cidrSelectionType?: number;
+  cidrSelectionType?: number | undefined;
   /** Cache node resource flag for indicating the cache node resource is frozen (not selectable, not editable in UI). */
-  isFrozen?: boolean;
+  isFrozen?: boolean | undefined;
   /** Cache node resource review process state as integer */
-  reviewState?: number;
+  reviewState?: number | undefined;
   /** Cache node resource review state text. */
-  reviewStateText?: string;
+  reviewStateText?: string | undefined;
   /** Cache node resource review feedback text. */
-  reviewFeedback?: string;
+  reviewFeedback?: string | undefined;
   /** Cache node resource configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Cache node resource configuration state text. */
-  configurationStateText?: string;
+  configurationStateText?: string | undefined;
   /** Cache node resource total addressable space defined by the Cidr Csv block. */
-  addressSpace?: number;
+  addressSpace?: number | undefined;
   /** Cache node resource Mcc container deployment worker connection count. */
-  workerConnections?: number;
+  workerConnections?: number | undefined;
   /** Cache node resource last updated Mcc container deployment worker connection count timestamp. */
-  workerConnectionsLastUpdatedDateTime?: string;
+  workerConnectionsLastUpdatedDateTime?: string | undefined;
   /** Cache node resource Mcc container configuration details re-sync trigger. */
-  containerResyncTrigger?: number;
+  containerResyncTrigger?: number | undefined;
   /** Cache node resource Mcc Container Id Uri. */
-  imageUri?: string;
+  imageUri?: string | undefined;
   /** FQDN(fully qualified domain name) value of the mcc cache node */
-  fullyQualifiedDomainName?: string;
+  fullyQualifiedDomainName?: string | undefined;
   /** Auto Update Ring Type which is stable or beta as new values. slow or fast are legacy from version 2026-06-01. */
-  autoUpdateRingType?: AutoUpdateRingType;
+  autoUpdateRingType?: AutoUpdateRingType | undefined;
   /** Customer requested week of month for mcc install of auto update cycle. 0 is default no selection. 1-5 are valid weeks of month, 1 is first week, 2 is second week, etc. */
-  autoUpdateRequestedWeek?: number;
+  autoUpdateRequestedWeek?: number | undefined;
   /** Customer requested day of week for mcc install of auto update cycle. 0 is default no selection. 1-7 are days of week, 1 is Sunday, 2 is Monday, etc. */
-  autoUpdateRequestedDay?: number;
+  autoUpdateRequestedDay?: number | undefined;
   /** Customer requested time of the day for mcc install of auto update cycle, should be hh:mm */
-  autoUpdateRequestedTime?: string;
+  autoUpdateRequestedTime?: string | undefined;
   /** Cache node port firewall rule creation opt-in for port 80 property */
-  openFirewallPort80?: boolean;
+  openFirewallPort80?: boolean | undefined;
   /** Cache node port firewall rule creation opt-in for port 443 property */
-  openFirewallPort443?: boolean;
+  openFirewallPort443?: boolean | undefined;
   /** Cache node port firewall rule creation opt-in for port 5000 property */
-  openFirewallPort5000?: boolean;
+  openFirewallPort5000?: boolean | undefined;
   /** Cache node port firewall rule creation opt-in for port 5001 property */
-  openFirewallPort5001?: boolean;
+  openFirewallPort5001?: boolean | undefined;
   /** Connected Cache runtime account type */
-  runtimeAccountType?: string;
+  runtimeAccountType?: string | undefined;
 }
 /** issues list to return the issues as part of the additional cache node properties */
 export type AdditionalCacheNodePropertiesCacheNodePropertiesDetailsIssuesListList = Array<string>;
@@ -412,58 +414,58 @@ export type AdditionalCacheNodePropertiesIssuesListList = Array<string>;
 /** Mcc cache node resource Tls certificate details. */
 export interface MccCacheNodeTlsCertificate {
   /** Mcc cache node Tls certificate status. */
-  actionRequired?: string;
+  actionRequired?: string | undefined;
   /** Mcc cache node Tls certificate file name. */
-  certificateFileName?: string;
+  certificateFileName?: string | undefined;
   /** Mcc cache node Tls certificate Type. */
-  certType?: string;
+  certType?: string | undefined;
   /** Mcc cache node Tls certificate thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Mcc cache node Tls certificate expiry date. */
-  expiryDate?: string;
+  expiryDate?: string | undefined;
   /** Mcc cache node Tls certificate not before date. */
-  notBeforeDate?: string;
+  notBeforeDate?: string | undefined;
   /** Mcc cache node Tls certificate subject name. */
-  subject?: string;
+  subject?: string | undefined;
   /** Mcc cache node Tls certificate subject alternate name. */
-  subjectAltName?: string;
+  subjectAltName?: string | undefined;
 }
 /** Mcc cache node resource auto update properties. */
 export interface MccCacheNodeAutoUpdateInfo {
   /** Auto update image uri before update. */
-  imageUriBeforeUpdate?: string;
+  imageUriBeforeUpdate?: string | undefined;
   /** Auto update image uri targetted to update. */
-  imageUriTargeted?: string;
+  imageUriTargeted?: string | undefined;
   /** Auto update image uri at Terminal. */
-  imageUriTerminal?: string;
+  imageUriTerminal?: string | undefined;
   /** Auto update Ring Type. */
-  autoUpdateRingType?: number;
+  autoUpdateRingType?: number | undefined;
   /** Auto update image uri after update. */
-  movedToTerminalStateDateTime?: string;
+  movedToTerminalStateDateTime?: string | undefined;
   /** Auto update image uri before update. */
-  ruleRequestedWeek?: number;
+  ruleRequestedWeek?: number | undefined;
   /** Auto update image uri after update. */
-  ruleRequestedDay?: number;
+  ruleRequestedDay?: number | undefined;
   /** Auto update entity created datetime. */
-  createdDateTimeUtc?: string;
+  createdDateTimeUtc?: string | undefined;
   /** Auto update entity last updated datetime. */
-  updatedRegistryDateTimeUtc?: string;
+  updatedRegistryDateTimeUtc?: string | undefined;
   /** This text describing the purpose of the plan of auto update. */
-  planChangeLogText?: string;
+  planChangeLogText?: string | undefined;
   /** Auto update last applied status. */
-  autoUpdateLastAppliedStatus?: number;
+  autoUpdateLastAppliedStatus?: number | undefined;
   /** Auto update last applied status text. */
-  autoUpdateLastAppliedStatusText?: string;
+  autoUpdateLastAppliedStatusText?: string | undefined;
   /** Auto update last applied detailed status text. */
-  autoUpdateLastAppliedStatusDetailedText?: string;
+  autoUpdateLastAppliedStatusDetailedText?: string | undefined;
   /** Auto update planId. */
-  planId?: number;
+  planId?: number | undefined;
   /** Auto update time to go live date time. */
-  timeToGoLiveDateTime?: string;
+  timeToGoLiveDateTime?: string | undefined;
   /** Auto update rule requested minute. */
-  ruleRequestedMinute?: string;
+  ruleRequestedMinute?: string | undefined;
   /** Auto update rule requested hour. */
-  ruleRequestedHour?: string;
+  ruleRequestedHour?: string | undefined;
 }
 /** Cache node resource drive configurations. */
 export type AdditionalCacheNodePropertiesDriveConfigurationList =
@@ -471,123 +473,125 @@ export type AdditionalCacheNodePropertiesDriveConfigurationList =
 /** Model representing cache node for connected cache resource */
 export interface AdditionalCacheNodeProperties {
   /** issues list to return the issues as part of the additional cache node properties */
-  cacheNodePropertiesDetailsIssuesList?: AdditionalCacheNodePropertiesCacheNodePropertiesDetailsIssuesListList;
+  cacheNodePropertiesDetailsIssuesList?:
+    | AdditionalCacheNodePropertiesCacheNodePropertiesDetailsIssuesListList
+    | undefined;
   /** current cache node issue list. */
-  issuesList?: AdditionalCacheNodePropertiesIssuesListList;
+  issuesList?: AdditionalCacheNodePropertiesIssuesListList | undefined;
   /** Number of cache node issues. */
-  issuesCount?: number;
+  issuesCount?: number | undefined;
   /** cache node current tls certificate. */
-  currentTlsCertificate?: MccCacheNodeTlsCertificate;
+  currentTlsCertificate?: MccCacheNodeTlsCertificate | undefined;
   /** cache node last auto update information. */
-  lastAutoUpdateInfo?: MccCacheNodeAutoUpdateInfo;
+  lastAutoUpdateInfo?: MccCacheNodeAutoUpdateInfo | undefined;
   /** Cache node resource aggregated status details. */
-  aggregatedStatusDetails?: string;
+  aggregatedStatusDetails?: string | undefined;
   /** Cache node resource aggregated status text. */
-  aggregatedStatusText?: string;
+  aggregatedStatusText?: string | undefined;
   /** Cache node resource aggregated status code. */
-  aggregatedStatusCode?: number;
+  aggregatedStatusCode?: number | undefined;
   /** Cache node resource Mcc product version. */
-  productVersion?: string;
+  productVersion?: string | undefined;
   /** Cache node resource flag indicating if cache node has been physically installed or provisioned on their physical lab. */
-  isProvisioned?: boolean;
+  isProvisioned?: boolean | undefined;
   /** Cache node resource detailed state text. */
-  cacheNodeStateDetailedText?: string;
+  cacheNodeStateDetailedText?: string | undefined;
   /** Cache node resource short state text. */
-  cacheNodeStateShortText?: string;
+  cacheNodeStateShortText?: string | undefined;
   /** Cache node resource state as integer. */
-  cacheNodeState?: number;
+  cacheNodeState?: number | undefined;
   /** Cache node resource drive configurations. */
-  driveConfiguration?: AdditionalCacheNodePropertiesDriveConfigurationList;
+  driveConfiguration?: AdditionalCacheNodePropertiesDriveConfigurationList | undefined;
   /** Cache node resource Bgp configuration. */
-  bgpConfiguration?: BgpConfiguration;
+  bgpConfiguration?: BgpConfiguration | undefined;
   /** proxyUrl configuration of the cache node */
-  proxyUrlConfiguration?: ProxyUrlConfiguration;
+  proxyUrlConfiguration?: ProxyUrlConfiguration | undefined;
   /** Cache node resource requires a proxy */
-  isProxyRequired?: ProxyRequired;
+  isProxyRequired?: ProxyRequired | undefined;
   /** Operating system of the cache node */
-  osType?: OsType;
+  osType?: OsType | undefined;
   /** Auto update or fast update version */
-  autoUpdateVersion?: string;
+  autoUpdateVersion?: string | undefined;
   /** Update related information details */
-  updateInfoDetails?: string;
+  updateInfoDetails?: string | undefined;
   /** customer requested date time for mcc install of update cycle */
-  updateRequestedDateTime?: string;
+  updateRequestedDateTime?: string | undefined;
   /** Auto update version that is the Next available version to update on mcc cache node */
-  autoUpdateNextAvailableVersion?: string;
+  autoUpdateNextAvailableVersion?: string | undefined;
   /** Auto update last applied date time of mcc install */
-  autoUpdateNextAvailableDateTime?: string;
+  autoUpdateNextAvailableDateTime?: string | undefined;
   /** Auto update version that is the applied to update on mcc cache node */
-  autoUpdateAppliedVersion?: string;
+  autoUpdateAppliedVersion?: string | undefined;
   /** Auto Update status details from the backend after applying the new version details */
-  autoUpdateLastAppliedDetails?: string;
+  autoUpdateLastAppliedDetails?: string | undefined;
   /** Last applied auto update state for mcc install of auto update cycle */
-  autoUpdateLastAppliedState?: string;
+  autoUpdateLastAppliedState?: string | undefined;
   /** Auto update last applied date time of mcc install */
-  autoUpdateLastAppliedDateTime?: string;
+  autoUpdateLastAppliedDateTime?: string | undefined;
   /** Auto update last triggered date time of mcc install */
-  autoUpdateLastTriggeredDateTime?: string;
+  autoUpdateLastTriggeredDateTime?: string | undefined;
   /** Resource creation method of mcc cache node resource, cli or portal */
-  creationMethod?: number;
+  creationMethod?: number | undefined;
   /** Cache node tls certificate status. */
-  tlsStatus?: string;
+  tlsStatus?: string | undefined;
   /** Operating system edition of the cache node host machine */
-  hostOsEdition?: string;
+  hostOsEdition?: string | undefined;
   /** Operating system version of the cache node host machine */
-  hostOsVersion?: string;
+  hostOsVersion?: string | undefined;
   /** Operating system build of the cache node host machine */
-  hostOsBuild?: string;
+  hostOsBuild?: string | undefined;
   /** Operating system edition of the WSL Linux distribution used to run the cache node on Windows host machines */
-  distroOsEditionWsl?: string;
+  distroOsEditionWsl?: string | undefined;
   /** Operating system version of the WSL Linux distribution used to run the cache node on Windows host machines */
-  distroOsVersionWsl?: string;
+  distroOsVersionWsl?: string | undefined;
   /** Operating system build of the WSL Linux distribution used to run the cache node on Windows host machines */
-  distroOsBuildWsl?: string;
+  distroOsBuildWsl?: string | undefined;
   /** Operating system edition of container used to run the cache node */
-  containerOsEdition?: string;
+  containerOsEdition?: string | undefined;
   /** Operating system version of the container used to run the cache node */
-  containerOsVersion?: string;
+  containerOsVersion?: string | undefined;
   /** Operating system build of the container used to run the cache node */
-  containerOsBuild?: string;
+  containerOsBuild?: string | undefined;
   /** Version of the Windows deployment application used to deploy the cache node */
-  installVersionMsix?: string;
+  installVersionMsix?: string | undefined;
   /** Version of the installation scripts used to deploy the cache node */
-  installVersionScript?: string;
+  installVersionScript?: string | undefined;
   /** Version of the Windows Subsystem for Linux application version used to run the cache node on the Windows host machine */
-  appVersionWsl?: string;
+  appVersionWsl?: string | undefined;
   /** Optional property #1 of Mcc response object */
-  optionalProperty1?: string;
+  optionalProperty1?: string | undefined;
   /** Optional property #2 of Mcc response object */
-  optionalProperty2?: string;
+  optionalProperty2?: string | undefined;
   /** Optional property #3 of Mcc response object */
-  optionalProperty3?: string;
+  optionalProperty3?: string | undefined;
   /** Optional property #4 of Mcc response object */
-  optionalProperty4?: string;
+  optionalProperty4?: string | undefined;
   /** Optional property #5 of Mcc response object */
-  optionalProperty5?: string;
+  optionalProperty5?: string | undefined;
 }
 /** The error details. */
 export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The error details. */
 export type CacheNodePropertyErrorDetailsList = Array<ErrorDetail>;
@@ -596,54 +600,54 @@ export type CacheNodePropertyErrorAdditionalInfoList = Array<ErrorAdditionalInfo
 /** The error detail. */
 export interface CacheNodePropertyError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: CacheNodePropertyErrorDetailsList;
+  details?: CacheNodePropertyErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: CacheNodePropertyErrorAdditionalInfoList;
+  additionalInfo?: CacheNodePropertyErrorAdditionalInfoList | undefined;
 }
 /** Model representing an Mcc cache node connectedCache resource */
 export interface CacheNodeProperty {
   /** The provisioned state of the resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Mcc cache node resource (cache node entity). */
-  cacheNode?: CacheNodeEntity;
+  cacheNode?: CacheNodeEntity | undefined;
   /** Mcc cache node resource additional properties. */
-  additionalCacheNodeProperties?: AdditionalCacheNodeProperties;
+  additionalCacheNodeProperties?: AdditionalCacheNodeProperties | undefined;
   /** Mcc response status code. */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** Mcc response status text as string for retrieving status details. */
-  statusText?: string;
+  statusText?: string | undefined;
   /** Mcc response status details for retrieving response inner details. */
-  statusDetails?: string;
+  statusDetails?: string | undefined;
   /** HTTP error status code. */
-  status?: string;
+  status?: string | undefined;
   /** The error detail. */
-  error?: CacheNodePropertyError;
+  error?: CacheNodePropertyError | undefined;
 }
 export interface EnterpriseMccCacheNodesOperationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EnterpriseMccCacheNodesOperationsCreateOrUpdateResponseTagsMap;
+  tags?: EnterpriseMccCacheNodesOperationsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CacheNodeProperty;
+  properties?: CacheNodeProperty | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -665,27 +669,27 @@ export type MccCacheNodeAutoUpdateHistoryPropertiesAutoUpdateHistoryList =
 /** Mcc cache node resource auto update history properties. */
 export interface MccCacheNodeAutoUpdateHistoryProperties {
   /** Mcc customer resource Id. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Mcc cache node resource Id. */
-  cacheNodeId?: string;
+  cacheNodeId?: string | undefined;
   /** Cache node resource auto update history information. */
-  autoUpdateHistory?: MccCacheNodeAutoUpdateHistoryPropertiesAutoUpdateHistoryList;
+  autoUpdateHistory?: MccCacheNodeAutoUpdateHistoryPropertiesAutoUpdateHistoryList | undefined;
 }
 export interface EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryResponseTagsMap;
+  tags?: EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Mcc cache node resource auto update history properties. */
-  properties?: MccCacheNodeAutoUpdateHistoryProperties;
+  properties?: MccCacheNodeAutoUpdateHistoryProperties | undefined;
 }
 export interface EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -706,37 +710,37 @@ export type CacheNodeInstallPropertiesDriveConfigurationList = Array<CacheNodeDr
 /** Mcc cache node resource install script properties. */
 export interface CacheNodeInstallProperties {
   /** Mcc customer resource Id. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Mcc cache node resource Id. */
-  cacheNodeId?: string;
+  cacheNodeId?: string | undefined;
   /** Mcc primary account key. Internal to Mcc. */
-  primaryAccountKey?: string;
+  primaryAccountKey?: string | undefined;
   /** Mcc secondary account key. Internal to Mcc. */
-  secondaryAccountKey?: string;
+  secondaryAccountKey?: string | undefined;
   /** Mcc Iot Central temporary device registration key, used once. */
-  registrationKey?: string;
+  registrationKey?: string | undefined;
   /** Mcc Tls certificate provisioning key. */
-  tlsCertificateProvisioningKey?: string;
+  tlsCertificateProvisioningKey?: string | undefined;
   /** Cache node resource drive configurations. */
-  driveConfiguration?: CacheNodeInstallPropertiesDriveConfigurationList;
+  driveConfiguration?: CacheNodeInstallPropertiesDriveConfigurationList | undefined;
   /** proxyUrl configuration of the cache node */
-  proxyUrlConfiguration?: ProxyUrlConfiguration;
+  proxyUrlConfiguration?: ProxyUrlConfiguration | undefined;
 }
 export interface EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsResponseTagsMap;
+  tags?: EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Mcc cache node resource install script details. */
-  properties?: CacheNodeInstallProperties;
+  properties?: CacheNodeInstallProperties | undefined;
 }
 /** Resource tags. */
 export type EnterpriseMccCustomersCreateOrUpdateRequestTagsMap = {
@@ -745,73 +749,73 @@ export type EnterpriseMccCustomersCreateOrUpdateRequestTagsMap = {
 /** Model representing Customer resource for ConnectedCache resource */
 export interface CustomerEntityInput {
   /** Customer resource Azure fully qualified resource Id. */
-  fullyQualifiedResourceId?: string;
+  fullyQualifiedResourceId?: string | undefined;
   /** Customer resource name. */
-  customerName?: string;
+  customerName?: string | undefined;
   /** Customer resource contact email. */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** Customer resource contact phone. */
-  contactPhone?: string;
+  contactPhone?: string | undefined;
   /** Customer resource contact full name. */
-  contactName?: string;
+  contactName?: string | undefined;
   /** Customer resource entitlement flag as boolean. */
-  isEntitled?: boolean;
+  isEntitled?: boolean | undefined;
   /** Customer resource Mcc release version. */
-  releaseVersion?: number;
+  releaseVersion?: number | undefined;
   /** Customer resource client tenant Id of subscription. */
-  clientTenantId?: string;
+  clientTenantId?: string | undefined;
   /** Customer resource flag for enterprise management as boolean. */
-  isEnterpriseManaged?: boolean;
+  isEnterpriseManaged?: boolean | undefined;
   /** Customer resource flag for migration. */
-  shouldMigrate?: boolean;
+  shouldMigrate?: boolean | undefined;
   /** Customer resource flag for resending signup code as boolean. */
-  resendSignupCode?: boolean;
+  resendSignupCode?: boolean | undefined;
   /** Customer resource flag for requiring verification of signup code as boolean. */
-  verifySignupCode?: boolean;
+  verifySignupCode?: boolean | undefined;
   /** Customer resource phrase for verifying signup. */
-  verifySignupPhrase?: string;
+  verifySignupPhrase?: string | undefined;
 }
 /** Customer resource transit states */
 export type CustomerTransitState = "NoTransit" | "CombinedTransit" | "TransitOnly";
 /** Model representing customer for connected cache resource */
 export interface AdditionalCustomerPropertiesInput {
   /** Customer resource contact email. */
-  customerEmail?: string;
+  customerEmail?: string | undefined;
   /** Customer resource transit Asn (autonomous system number). */
-  customerTransitAsn?: string;
+  customerTransitAsn?: string | undefined;
   /** Customer resource transit state. */
-  customerTransitState?: CustomerTransitState | (string & {});
+  customerTransitState?: CustomerTransitState | (string & {}) | undefined;
   /** Customer resource Asn (autonomous system number). */
-  customerAsn?: string;
+  customerAsn?: string | undefined;
   /** Customer resource entitlement Sku Id. */
-  customerEntitlementSkuId?: string;
+  customerEntitlementSkuId?: string | undefined;
   /** Customer resource entitlement Sku Guid. */
-  customerEntitlementSkuGuid?: string;
+  customerEntitlementSkuGuid?: string | undefined;
   /** Customer resource entitlement Sku name. */
-  customerEntitlementSkuName?: string;
+  customerEntitlementSkuName?: string | undefined;
   /** Customer resource entitlement expiration date string. */
-  customerEntitlementExpiration?: string;
+  customerEntitlementExpiration?: string | undefined;
   /** Optional property #1 of Mcc response object. */
-  optionalProperty1?: string;
+  optionalProperty1?: string | undefined;
   /** Optional property #2 of Mcc response object. */
-  optionalProperty2?: string;
+  optionalProperty2?: string | undefined;
   /** Optional property #3 of Mcc response object. */
-  optionalProperty3?: string;
+  optionalProperty3?: string | undefined;
   /** Optional property #4 of Mcc response object. */
-  optionalProperty4?: string;
+  optionalProperty4?: string | undefined;
   /** Optional property #5 of Mcc response object. */
-  optionalProperty5?: string;
+  optionalProperty5?: string | undefined;
 }
 /** The error detail. */
 export type CustomerPropertyInputError = CacheNodePropertyInputError;
 /** Model representing customer for connectedCache resource */
 export interface CustomerPropertyInput {
   /** Mcc customer resource (customer entity). */
-  customer?: CustomerEntityInput;
+  customer?: CustomerEntityInput | undefined;
   /** Mcc customer resource additional properties. */
-  additionalCustomerProperties?: AdditionalCustomerPropertiesInput;
+  additionalCustomerProperties?: AdditionalCustomerPropertiesInput | undefined;
   /** The error detail. */
-  error?: CacheNodePropertyInputError;
+  error?: CacheNodePropertyInputError | undefined;
 }
 export interface EnterpriseMccCustomersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -821,11 +825,11 @@ export interface EnterpriseMccCustomersCreateOrUpdateRequest {
   /** Name of the Customer resource */
   customerResourceName: string;
   /** Resource tags. */
-  tags?: EnterpriseMccCustomersCreateOrUpdateRequestTagsMap;
+  tags?: EnterpriseMccCustomersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CustomerPropertyInput;
+  properties?: CustomerPropertyInput | undefined;
 }
 /** Resource tags. */
 export type EnterpriseMccCustomersCreateOrUpdateResponseTagsMap = {
@@ -834,104 +838,104 @@ export type EnterpriseMccCustomersCreateOrUpdateResponseTagsMap = {
 /** Model representing Customer resource for ConnectedCache resource */
 export interface CustomerEntity {
   /** Customer resource Azure fully qualified resource Id. */
-  fullyQualifiedResourceId?: string;
+  fullyQualifiedResourceId?: string | undefined;
   /** Customer resource Guid Id. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Customer resource name. */
-  customerName?: string;
+  customerName?: string | undefined;
   /** Customer resource contact email. */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** Customer resource contact phone. */
-  contactPhone?: string;
+  contactPhone?: string | undefined;
   /** Customer resource contact full name. */
-  contactName?: string;
+  contactName?: string | undefined;
   /** Customer resource entitlement flag as boolean. */
-  isEntitled?: boolean;
+  isEntitled?: boolean | undefined;
   /** Customer resource Mcc release version. */
-  releaseVersion?: number;
+  releaseVersion?: number | undefined;
   /** Customer resource create async operation Id. */
-  createAsyncOperationId?: string;
+  createAsyncOperationId?: string | undefined;
   /** Customer resource deletion async operation Id. */
-  deleteAsyncOperationId?: string;
+  deleteAsyncOperationId?: string | undefined;
   /** Customer resource client tenant Id of subscription. */
-  clientTenantId?: string;
+  clientTenantId?: string | undefined;
   /** Customer resource sync attempts. */
-  synchWithAzureAttemptsCount?: number;
+  synchWithAzureAttemptsCount?: number | undefined;
   /** Customer resource last Azure sync timestamp. */
-  lastSyncWithAzureTimestamp?: string;
+  lastSyncWithAzureTimestamp?: string | undefined;
   /** Customer resource flag for enterprise management as boolean. */
-  isEnterpriseManaged?: boolean;
+  isEnterpriseManaged?: boolean | undefined;
   /** Customer resource flag for migration. */
-  shouldMigrate?: boolean;
+  shouldMigrate?: boolean | undefined;
   /** Customer resource flag for resending signup code as boolean. */
-  resendSignupCode?: boolean;
+  resendSignupCode?: boolean | undefined;
   /** Customer resource flag for requiring verification of signup code as boolean. */
-  verifySignupCode?: boolean;
+  verifySignupCode?: boolean | undefined;
   /** Customer resource phrase for verifying signup. */
-  verifySignupPhrase?: string;
+  verifySignupPhrase?: string | undefined;
 }
 /** Model representing customer for connected cache resource */
 export interface AdditionalCustomerProperties {
   /** Customer resource cache efficiency. */
-  customerPropertiesOverviewCacheEfficiency?: number;
+  customerPropertiesOverviewCacheEfficiency?: number | undefined;
   /** Customer resource average egress in Mbps. */
-  customerPropertiesOverviewAverageEgressMbps?: number;
+  customerPropertiesOverviewAverageEgressMbps?: number | undefined;
   /** Customer resource average cache miss throughput in Mbps. */
-  customerPropertiesOverviewAverageMissMbps?: number;
+  customerPropertiesOverviewAverageMissMbps?: number | undefined;
   /** Customer resource maximum egress in Mbps. */
-  customerPropertiesOverviewEgressMbpsMax?: number;
+  customerPropertiesOverviewEgressMbpsMax?: number | undefined;
   /** Customer resource peak egress timestamp. */
-  customerPropertiesOverviewEgressMbpsMaxDateTime?: string;
+  customerPropertiesOverviewEgressMbpsMaxDateTime?: string | undefined;
   /** Customer resource maximum cache miss throughput in Mbps. */
-  customerPropertiesOverviewMissMbpsMax?: number;
+  customerPropertiesOverviewMissMbpsMax?: number | undefined;
   /** Customer resource peak cache miss throughput timestamp. */
-  customerPropertiesOverviewMissMbpsMaxDateTime?: string;
+  customerPropertiesOverviewMissMbpsMaxDateTime?: string | undefined;
   /** Customer resource total healthy cache nodes. */
-  customerPropertiesOverviewCacheNodesHealthyCount?: number;
+  customerPropertiesOverviewCacheNodesHealthyCount?: number | undefined;
   /** Customer resource total unhealthy cache nodes. */
-  customerPropertiesOverviewCacheNodesUnhealthyCount?: number;
+  customerPropertiesOverviewCacheNodesUnhealthyCount?: number | undefined;
   /** Customer resource signup status as boolean. */
-  signupStatus?: boolean;
+  signupStatus?: boolean | undefined;
   /** Customer resource signup status as integer code. */
-  signupStatusCode?: number;
+  signupStatusCode?: number | undefined;
   /** Customer resource signup status as string text. */
-  signupStatusText?: string;
+  signupStatusText?: string | undefined;
   /** Customer resource signup phase status code as integer. */
-  signupPhaseStatusCode?: number;
+  signupPhaseStatusCode?: number | undefined;
   /** Customer resource signup phase status as string text. */
-  signupPhaseStatusText?: string;
+  signupPhaseStatusText?: string | undefined;
   /** Customer resource last PeeringDB update timestamp. */
-  peeringDbLastUpdateDate?: string;
+  peeringDbLastUpdateDate?: string | undefined;
   /** Customer resource owner organization name. */
-  customerOrgName?: string;
+  customerOrgName?: string | undefined;
   /** Customer resource contact email. */
-  customerEmail?: string;
+  customerEmail?: string | undefined;
   /** Customer resource transit Asn (autonomous system number). */
-  customerTransitAsn?: string;
+  customerTransitAsn?: string | undefined;
   /** Customer resource transit state. */
-  customerTransitState?: CustomerTransitState;
+  customerTransitState?: CustomerTransitState | undefined;
   /** Customer resource Asn (autonomous system number). */
-  customerAsn?: string;
+  customerAsn?: string | undefined;
   /** Customer resource estimated Asn peering peak in Gbps. */
-  customerAsnEstimatedEgressPeekGbps?: number;
+  customerAsnEstimatedEgressPeekGbps?: number | undefined;
   /** Customer resource entitlement Sku Id. */
-  customerEntitlementSkuId?: string;
+  customerEntitlementSkuId?: string | undefined;
   /** Customer resource entitlement Sku Guid. */
-  customerEntitlementSkuGuid?: string;
+  customerEntitlementSkuGuid?: string | undefined;
   /** Customer resource entitlement Sku name. */
-  customerEntitlementSkuName?: string;
+  customerEntitlementSkuName?: string | undefined;
   /** Customer resource entitlement expiration date string. */
-  customerEntitlementExpiration?: string;
+  customerEntitlementExpiration?: string | undefined;
   /** Optional property #1 of Mcc response object. */
-  optionalProperty1?: string;
+  optionalProperty1?: string | undefined;
   /** Optional property #2 of Mcc response object. */
-  optionalProperty2?: string;
+  optionalProperty2?: string | undefined;
   /** Optional property #3 of Mcc response object. */
-  optionalProperty3?: string;
+  optionalProperty3?: string | undefined;
   /** Optional property #4 of Mcc response object. */
-  optionalProperty4?: string;
+  optionalProperty4?: string | undefined;
   /** Optional property #5 of Mcc response object. */
-  optionalProperty5?: string;
+  optionalProperty5?: string | undefined;
 }
 /** The error details. */
 export type CustomerPropertyErrorDetailsList = Array<ErrorDetail>;
@@ -940,54 +944,54 @@ export type CustomerPropertyErrorAdditionalInfoList = Array<ErrorAdditionalInfo>
 /** The error detail. */
 export interface CustomerPropertyError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: CustomerPropertyErrorDetailsList;
+  details?: CustomerPropertyErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: CustomerPropertyErrorAdditionalInfoList;
+  additionalInfo?: CustomerPropertyErrorAdditionalInfoList | undefined;
 }
 /** Model representing customer for connectedCache resource */
 export interface CustomerProperty {
   /** The provisioned state of the resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Mcc customer resource (customer entity). */
-  customer?: CustomerEntity;
+  customer?: CustomerEntity | undefined;
   /** Mcc customer resource additional properties. */
-  additionalCustomerProperties?: AdditionalCustomerProperties;
+  additionalCustomerProperties?: AdditionalCustomerProperties | undefined;
   /** Mcc response status code. */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** Mcc response status text as string for retrieving status details. */
-  statusText?: string;
+  statusText?: string | undefined;
   /** Mcc response status details for retrieving response inner details. */
-  statusDetails?: string;
+  statusDetails?: string | undefined;
   /** HTTP error status code. */
-  status?: string;
+  status?: string | undefined;
   /** The error detail. */
-  error?: CustomerPropertyError;
+  error?: CustomerPropertyError | undefined;
 }
 export interface EnterpriseMccCustomersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EnterpriseMccCustomersCreateOrUpdateResponseTagsMap;
+  tags?: EnterpriseMccCustomersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CustomerProperty;
+  properties?: CustomerProperty | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetEnterpriseMccCacheNodesOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1005,19 +1009,19 @@ export type GetEnterpriseMccCacheNodesOperationResponseTagsMap = {
 };
 export interface GetEnterpriseMccCacheNodesOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetEnterpriseMccCacheNodesOperationResponseTagsMap;
+  tags?: GetEnterpriseMccCacheNodesOperationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CacheNodeProperty;
+  properties?: CacheNodeProperty | undefined;
 }
 export interface GetEnterpriseMccCacheNodesOperationCacheNodeMccIssueDetailsHistoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1036,44 +1040,46 @@ export type GetEnterpriseMccCacheNodesOperationCacheNodeMccIssueDetailsHistoryRe
 /** Mcc cache node resource issue properties. */
 export interface MccIssue {
   /** Mcc cache node issue type. */
-  mccIssueType?: string;
+  mccIssueType?: string | undefined;
   /** Mcc cache node issues toastString. */
-  toastString?: string;
+  toastString?: string | undefined;
   /** Mcc cache node issue detail string. */
-  detailString?: string;
+  detailString?: string | undefined;
   /** Mcc cache node issue related help link. */
-  helpLink?: string;
+  helpLink?: string | undefined;
   /** Mcc cache node issue start date. */
-  issueStartDate?: string;
+  issueStartDate?: string | undefined;
   /** Mcc cache node issue end date. */
-  issueEndDate?: string;
+  issueEndDate?: string | undefined;
 }
 /** Cache node resource issue details history. */
 export type MccCacheNodeIssueHistoryPropertiesMccIssueHistoryList = Array<MccIssue>;
 /** Mcc cache node resource issue history properties. */
 export interface MccCacheNodeIssueHistoryProperties {
   /** Mcc customer resource Id. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Mcc cache node resource Id. */
-  cacheNodeId?: string;
+  cacheNodeId?: string | undefined;
   /** Cache node resource issue details history. */
-  mccIssueHistory?: MccCacheNodeIssueHistoryPropertiesMccIssueHistoryList;
+  mccIssueHistory?: MccCacheNodeIssueHistoryPropertiesMccIssueHistoryList | undefined;
 }
 export interface GetEnterpriseMccCacheNodesOperationCacheNodeMccIssueDetailsHistoryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetEnterpriseMccCacheNodesOperationCacheNodeMccIssueDetailsHistoryResponseTagsMap;
+  tags?:
+    | GetEnterpriseMccCacheNodesOperationCacheNodeMccIssueDetailsHistoryResponseTagsMap
+    | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Mcc cache node resource issue history properties. */
-  properties?: MccCacheNodeIssueHistoryProperties;
+  properties?: MccCacheNodeIssueHistoryProperties | undefined;
 }
 export interface GetEnterpriseMccCacheNodesOperationCacheNodeTlsCertificateHistoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1095,27 +1101,29 @@ export type MccCacheNodeTlsCertificatePropertiesTlsCertificateHistoryList =
 /** Mcc cache node resource auto update properties. */
 export interface MccCacheNodeTlsCertificateProperties {
   /** Mcc customer resource Id. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Mcc cache node resource Id. */
-  cacheNodeId?: string;
+  cacheNodeId?: string | undefined;
   /** Cache node resource tls certificate history details. */
-  tlsCertificateHistory?: MccCacheNodeTlsCertificatePropertiesTlsCertificateHistoryList;
+  tlsCertificateHistory?: MccCacheNodeTlsCertificatePropertiesTlsCertificateHistoryList | undefined;
 }
 export interface GetEnterpriseMccCacheNodesOperationCacheNodeTlsCertificateHistoryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetEnterpriseMccCacheNodesOperationCacheNodeTlsCertificateHistoryResponseTagsMap;
+  tags?:
+    | GetEnterpriseMccCacheNodesOperationCacheNodeTlsCertificateHistoryResponseTagsMap
+    | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Mcc cache node resource Tls certificate details. */
-  properties?: MccCacheNodeTlsCertificateProperties;
+  properties?: MccCacheNodeTlsCertificateProperties | undefined;
 }
 export interface GetEnterpriseMccCustomerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1129,19 +1137,19 @@ export interface GetEnterpriseMccCustomerRequest {
 export type GetEnterpriseMccCustomerResponseTagsMap = { [key: string]: string | undefined };
 export interface GetEnterpriseMccCustomerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetEnterpriseMccCustomerResponseTagsMap;
+  tags?: GetEnterpriseMccCustomerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CustomerProperty;
+  properties?: CustomerProperty | undefined;
 }
 export interface GetIspCacheNodesOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1157,19 +1165,19 @@ export interface GetIspCacheNodesOperationRequest {
 export type GetIspCacheNodesOperationResponseTagsMap = { [key: string]: string | undefined };
 export interface GetIspCacheNodesOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetIspCacheNodesOperationResponseTagsMap;
+  tags?: GetIspCacheNodesOperationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CacheNodeProperty;
+  properties?: CacheNodeProperty | undefined;
 }
 export interface GetIspCacheNodesOperationBgpCidrsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1190,23 +1198,23 @@ export type BgpCidrsConfigurationBgpCidrsList = Array<string>;
 /** Mcc cache node Bgp Cidr details. */
 export interface BgpCidrsConfiguration {
   /** Mcc cache node Bgp Cidr details. */
-  bgpCidrs?: BgpCidrsConfigurationBgpCidrsList;
+  bgpCidrs?: BgpCidrsConfigurationBgpCidrsList | undefined;
 }
 export interface GetIspCacheNodesOperationBgpCidrsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetIspCacheNodesOperationBgpCidrsResponseTagsMap;
+  tags?: GetIspCacheNodesOperationBgpCidrsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Mcc cache node resource Bgp Cidr properties. */
-  properties?: BgpCidrsConfiguration;
+  properties?: BgpCidrsConfiguration | undefined;
 }
 export interface GetIspCacheNodesOperationCacheNodeMccIssueDetailsHistoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1224,19 +1232,19 @@ export type GetIspCacheNodesOperationCacheNodeMccIssueDetailsHistoryResponseTags
 };
 export interface GetIspCacheNodesOperationCacheNodeMccIssueDetailsHistoryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetIspCacheNodesOperationCacheNodeMccIssueDetailsHistoryResponseTagsMap;
+  tags?: GetIspCacheNodesOperationCacheNodeMccIssueDetailsHistoryResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Mcc cache node resource issue history properties. */
-  properties?: MccCacheNodeIssueHistoryProperties;
+  properties?: MccCacheNodeIssueHistoryProperties | undefined;
 }
 export interface GetIspCustomerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1250,19 +1258,19 @@ export interface GetIspCustomerRequest {
 export type GetIspCustomerResponseTagsMap = { [key: string]: string | undefined };
 export interface GetIspCustomerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetIspCustomerResponseTagsMap;
+  tags?: GetIspCustomerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CustomerProperty;
+  properties?: CustomerProperty | undefined;
 }
 /** Resource tags. */
 export type IspCacheNodesOperationsCreateOrUpdateRequestTagsMap = {
@@ -1278,11 +1286,11 @@ export interface IspCacheNodesOperationsCreateOrUpdateRequest {
   /** Name of the ConnectedCache resource */
   cacheNodeResourceName: string;
   /** Resource tags. */
-  tags?: IspCacheNodesOperationsCreateOrUpdateRequestTagsMap;
+  tags?: IspCacheNodesOperationsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CacheNodePropertyInput;
+  properties?: CacheNodePropertyInput | undefined;
 }
 /** Resource tags. */
 export type IspCacheNodesOperationsCreateOrUpdateResponseTagsMap = {
@@ -1290,23 +1298,23 @@ export type IspCacheNodesOperationsCreateOrUpdateResponseTagsMap = {
 };
 export interface IspCacheNodesOperationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IspCacheNodesOperationsCreateOrUpdateResponseTagsMap;
+  tags?: IspCacheNodesOperationsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CacheNodeProperty;
+  properties?: CacheNodeProperty | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface IspCacheNodesOperationsGetCacheNodeAutoUpdateHistoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1324,19 +1332,19 @@ export type IspCacheNodesOperationsGetCacheNodeAutoUpdateHistoryResponseTagsMap 
 };
 export interface IspCacheNodesOperationsGetCacheNodeAutoUpdateHistoryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IspCacheNodesOperationsGetCacheNodeAutoUpdateHistoryResponseTagsMap;
+  tags?: IspCacheNodesOperationsGetCacheNodeAutoUpdateHistoryResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Mcc cache node resource auto update history properties. */
-  properties?: MccCacheNodeAutoUpdateHistoryProperties;
+  properties?: MccCacheNodeAutoUpdateHistoryProperties | undefined;
 }
 export interface IspCacheNodesOperationsGetCacheNodeInstallDetailsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1354,19 +1362,19 @@ export type IspCacheNodesOperationsGetCacheNodeInstallDetailsResponseTagsMap = {
 };
 export interface IspCacheNodesOperationsGetCacheNodeInstallDetailsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IspCacheNodesOperationsGetCacheNodeInstallDetailsResponseTagsMap;
+  tags?: IspCacheNodesOperationsGetCacheNodeInstallDetailsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Mcc cache node resource install script details. */
-  properties?: CacheNodeInstallProperties;
+  properties?: CacheNodeInstallProperties | undefined;
 }
 /** Resource tags. */
 export type IspCustomersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1378,33 +1386,33 @@ export interface IspCustomersCreateOrUpdateRequest {
   /** Name of the Customer resource */
   customerResourceName: string;
   /** Resource tags. */
-  tags?: IspCustomersCreateOrUpdateRequestTagsMap;
+  tags?: IspCustomersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CustomerPropertyInput;
+  properties?: CustomerPropertyInput | undefined;
 }
 /** Resource tags. */
 export type IspCustomersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface IspCustomersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IspCustomersCreateOrUpdateResponseTagsMap;
+  tags?: IspCustomersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CustomerProperty;
+  properties?: CustomerProperty | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListEnterpriseMccCacheNodesOperationByEnterpriseMccCustomerResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1419,19 +1427,19 @@ export type EnterpriseMccCacheNodeResourceTagsMap = { [key: string]: string | un
 /** Represents the high level Nodes needed to provision cache node resources */
 export interface EnterpriseMccCacheNodeResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EnterpriseMccCacheNodeResourceTagsMap;
+  tags?: EnterpriseMccCacheNodeResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CacheNodeProperty;
+  properties?: CacheNodeProperty | undefined;
 }
 /** The EnterpriseMccCacheNodeResource items on this page */
 export type EnterpriseMccCacheNodeResourceListResultValueList =
@@ -1441,7 +1449,7 @@ export interface EnterpriseMccCacheNodeResourceListResult {
   /** The EnterpriseMccCacheNodeResource items on this page */
   value: EnterpriseMccCacheNodeResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEnterpriseMccCustomerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1454,19 +1462,19 @@ export type EnterpriseMccCustomerResourceTagsMap = { [key: string]: string | und
 /** Represents the high level Nodes needed to provision customer resources */
 export interface EnterpriseMccCustomerResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EnterpriseMccCustomerResourceTagsMap;
+  tags?: EnterpriseMccCustomerResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CustomerProperty;
+  properties?: CustomerProperty | undefined;
 }
 /** The EnterpriseMccCustomerResource items on this page */
 export type EnterpriseMccCustomerResourceListResultValueList = Array<EnterpriseMccCustomerResource>;
@@ -1475,7 +1483,7 @@ export interface EnterpriseMccCustomerResourceListResult {
   /** The EnterpriseMccCustomerResource items on this page */
   value: EnterpriseMccCustomerResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEnterpriseMccCustomerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1494,19 +1502,19 @@ export type IspCacheNodeResourceTagsMap = { [key: string]: string | undefined };
 /** Represents the high level Nodes needed to provision cache node resources */
 export interface IspCacheNodeResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IspCacheNodeResourceTagsMap;
+  tags?: IspCacheNodeResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CacheNodeProperty;
+  properties?: CacheNodeProperty | undefined;
 }
 /** The IspCacheNodeResource items on this page */
 export type IspCacheNodeResourceListResultValueList = Array<IspCacheNodeResource>;
@@ -1515,7 +1523,7 @@ export interface IspCacheNodeResourceListResult {
   /** The IspCacheNodeResource items on this page */
   value: IspCacheNodeResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIspCustomerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1528,19 +1536,19 @@ export type IspCustomerResourceTagsMap = { [key: string]: string | undefined };
 /** Represents the high level Nodes needed to provision isp customer resources */
 export interface IspCustomerResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IspCustomerResourceTagsMap;
+  tags?: IspCustomerResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CustomerProperty;
+  properties?: CustomerProperty | undefined;
 }
 /** The IspCustomerResource items on this page */
 export type IspCustomerResourceListResultValueList = Array<IspCustomerResource>;
@@ -1549,7 +1557,7 @@ export interface IspCustomerResourceListResult {
   /** The IspCustomerResource items on this page */
   value: IspCustomerResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIspCustomerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1559,13 +1567,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1574,23 +1582,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateEnterpriseMccCacheNodesOperationRequestTagsMap = {
@@ -1606,7 +1614,7 @@ export interface UpdateEnterpriseMccCacheNodesOperationRequest {
   /** Name of the ConnectedCache resource */
   cacheNodeResourceName: string;
   /** Resource tags. */
-  tags?: UpdateEnterpriseMccCacheNodesOperationRequestTagsMap;
+  tags?: UpdateEnterpriseMccCacheNodesOperationRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateEnterpriseMccCacheNodesOperationResponseTagsMap = {
@@ -1614,19 +1622,19 @@ export type UpdateEnterpriseMccCacheNodesOperationResponseTagsMap = {
 };
 export interface UpdateEnterpriseMccCacheNodesOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateEnterpriseMccCacheNodesOperationResponseTagsMap;
+  tags?: UpdateEnterpriseMccCacheNodesOperationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CacheNodeProperty;
+  properties?: CacheNodeProperty | undefined;
 }
 /** Resource tags. */
 export type UpdateEnterpriseMccCustomerRequestTagsMap = { [key: string]: string | undefined };
@@ -1638,25 +1646,25 @@ export interface UpdateEnterpriseMccCustomerRequest {
   /** Name of the Customer resource */
   customerResourceName: string;
   /** Resource tags. */
-  tags?: UpdateEnterpriseMccCustomerRequestTagsMap;
+  tags?: UpdateEnterpriseMccCustomerRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateEnterpriseMccCustomerResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateEnterpriseMccCustomerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateEnterpriseMccCustomerResponseTagsMap;
+  tags?: UpdateEnterpriseMccCustomerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CustomerProperty;
+  properties?: CustomerProperty | undefined;
 }
 /** Resource tags. */
 export type UpdateIspCacheNodesOperationRequestTagsMap = { [key: string]: string | undefined };
@@ -1670,25 +1678,25 @@ export interface UpdateIspCacheNodesOperationRequest {
   /** Name of the ConnectedCache resource */
   cacheNodeResourceName: string;
   /** Resource tags. */
-  tags?: UpdateIspCacheNodesOperationRequestTagsMap;
+  tags?: UpdateIspCacheNodesOperationRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateIspCacheNodesOperationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateIspCacheNodesOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateIspCacheNodesOperationResponseTagsMap;
+  tags?: UpdateIspCacheNodesOperationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CacheNodeProperty;
+  properties?: CacheNodeProperty | undefined;
 }
 /** Resource tags. */
 export type UpdateIspCustomerRequestTagsMap = { [key: string]: string | undefined };
@@ -1700,25 +1708,25 @@ export interface UpdateIspCustomerRequest {
   /** Name of the Customer resource */
   customerResourceName: string;
   /** Resource tags. */
-  tags?: UpdateIspCustomerRequestTagsMap;
+  tags?: UpdateIspCustomerRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateIspCustomerResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateIspCustomerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateIspCustomerResponseTagsMap;
+  tags?: UpdateIspCustomerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CustomerProperty;
+  properties?: CustomerProperty | undefined;
 }
 export type DeleteEnterpriseMccCacheNodesOperationError = AzureOpError;
 /** This api deletes an existing ispCacheNode resource */

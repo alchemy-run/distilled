@@ -65,25 +65,25 @@ export class VolumeNotFound
 
 export interface CommitVolumeRequest {
   /** NOTE(staffan): Mounting a volume in multiple locations is not supported, so volume_id alone uniquely identifies a volume mount. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Set by the runtime when committing a volume mounted in a sandbox sidecar container (used for runtime-driven commit-on-exit). Unset targets the task's main container. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export interface CommitVolumeResponse {
   skipReload: boolean;
 }
 export interface DeleteVolumeRequest {
-  volumeId?: string;
-  environmentName?: string;
+  volumeId?: string | undefined;
+  environmentName?: string | undefined;
 }
 export interface DeleteVolumeResponse {}
 export interface ListPagination {
-  maxObjects?: number;
-  createdBefore?: number;
+  maxObjects?: number | undefined;
+  createdBefore?: number | undefined;
 }
 export interface ListVolumeRequest {
-  environmentName?: string;
-  pagination?: ListPagination;
+  environmentName?: string | undefined;
+  pagination?: ListPagination | undefined;
 }
 /** HTTP/2 tunnel */
 export type VolumeFsVersion =
@@ -99,7 +99,7 @@ export interface CreationInfo {
 export interface VolumeMetadata {
   version: VolumeFsVersion;
   name: string;
-  creationInfo?: CreationInfo;
+  creationInfo?: CreationInfo | undefined;
 }
 export interface VolumeListItem {
   label: string;
@@ -107,7 +107,7 @@ export interface VolumeListItem {
   volumeId: string;
   createdAt: number;
   /** Superseded by metadata, used by clients up to 1.1.2 */
-  metadata?: VolumeMetadata;
+  metadata?: VolumeMetadata | undefined;
 }
 export type VolumeListItemList = Array<VolumeListItem>;
 export interface ListVolumeResponse {
@@ -115,41 +115,41 @@ export interface ListVolumeResponse {
   environmentName: string;
 }
 export interface RenameVolumeRequest {
-  volumeId?: string;
-  name?: string;
+  volumeId?: string | undefined;
+  name?: string | undefined;
 }
 export interface RenameVolumeResponse {}
 export type StringList = Array<string>;
 export interface VolumeCopyFilesRequest {
-  volumeId?: string;
-  srcPaths?: StringList;
-  dstPath?: string;
-  recursive?: boolean;
+  volumeId?: string | undefined;
+  srcPaths?: StringList | undefined;
+  dstPath?: string | undefined;
+  recursive?: boolean | undefined;
 }
 export interface VolumeCopyFilesResponse {}
 export interface VolumeCopyFiles2Request {
-  volumeId?: string;
-  srcPaths?: StringList;
-  dstPath?: string;
-  recursive?: boolean;
+  volumeId?: string | undefined;
+  srcPaths?: StringList | undefined;
+  dstPath?: string | undefined;
+  recursive?: boolean | undefined;
 }
 export interface VolumeCopyFiles2Response {}
 export interface VolumeGetByIdRequest {
-  volumeId?: string;
+  volumeId?: string | undefined;
 }
 export interface VolumeGetByIdResponse {
   volumeId: string;
-  metadata?: VolumeMetadata;
+  metadata?: VolumeMetadata | undefined;
 }
 export interface VolumeGetFileRequest {
-  volumeId?: string;
-  path?: string;
-  start?: string;
-  len?: string;
+  volumeId?: string | undefined;
+  path?: string | undefined;
+  start?: string | undefined;
+  len?: string | undefined;
 }
 export interface VolumeGetFileResponse {
-  data?: string;
-  dataBlobId?: string;
+  data?: string | undefined;
+  dataBlobId?: string | undefined;
   size: string;
   /** total file size */
   start: string;
@@ -157,12 +157,12 @@ export interface VolumeGetFileResponse {
   len: string;
 }
 export interface VolumeGetFile2Request {
-  volumeId?: string;
-  path?: string;
-  start?: string;
-  len?: string;
+  volumeId?: string | undefined;
+  path?: string | undefined;
+  start?: string | undefined;
+  len?: string | undefined;
   /** 0 is interpreted as 'read to end' The client extends each block body it downloads with zero bytes up to the block's expected length, so responses may omit trailing zero bytes. */
-  clientPadsBlocks?: boolean;
+  clientPadsBlocks?: boolean | undefined;
 }
 export interface VolumeGetFile2Response {
   getUrls: StringList;
@@ -181,33 +181,33 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export type StringMap = { [key: string]: string | undefined };
 export interface VolumeCreateOptions {
-  experimentalOptions?: StringMap;
+  experimentalOptions?: StringMap | undefined;
 }
 export interface VolumeGetOrCreateRequest {
-  deploymentName?: string;
+  deploymentName?: string | undefined;
   /** removed namespace */
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
-  appId?: string;
+  environmentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
+  appId?: string | undefined;
   /** only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP */
-  version?: VolumeFsVersion | (string & {});
-  createOptions?: VolumeCreateOptions;
+  version?: VolumeFsVersion | (string & {}) | undefined;
+  createOptions?: VolumeCreateOptions | undefined;
 }
 export interface VolumeGetOrCreateResponse {
   volumeId: string;
   version: VolumeFsVersion;
   /** Not used directly; version is part of the metadata */
-  metadata?: VolumeMetadata;
+  metadata?: VolumeMetadata | undefined;
 }
 export interface VolumeHeartbeatRequest {
-  volumeId?: string;
+  volumeId?: string | undefined;
 }
 export interface VolumeHeartbeatResponse {}
 export interface VolumeListFilesRequest {
-  volumeId?: string;
-  path?: string;
-  recursive?: boolean;
-  maxEntries?: number;
+  volumeId?: string | undefined;
+  path?: string | undefined;
+  recursive?: boolean | undefined;
+  maxEntries?: number | undefined;
 }
 export type FileEntryFileType =
   | "UNSPECIFIED"
@@ -233,10 +233,10 @@ export interface VolumeListFilesStream {
   items: VolumeListFilesResponseList;
 }
 export interface VolumeListFiles2Request {
-  volumeId?: string;
-  path?: string;
-  recursive?: boolean;
-  maxEntries?: number;
+  volumeId?: string | undefined;
+  path?: string | undefined;
+  recursive?: boolean | undefined;
+  maxEntries?: number | undefined;
 }
 export type VolumeListFiles2Response = VolumeListFilesResponse;
 export type VolumeListFiles2ResponseList = Array<VolumeListFilesResponse>;
@@ -246,49 +246,49 @@ export interface VolumeListFiles2Stream {
 }
 /** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
 export interface MountFile {
-  filename?: string;
-  sha256Hex?: string;
+  filename?: string | undefined;
+  sha256Hex?: string | undefined;
   /** SHA-256 checksum of the file. */
-  size?: string;
+  size?: string | undefined;
   /** Size of the file in bytes -- ignored in MountBuild(). */
-  mode?: number;
+  mode?: number | undefined;
 }
 export type MountFileList = Array<MountFile>;
 export interface VolumePutFilesRequest {
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** TODO(staffan): This is obviously unfortunately named, but provides what we need - consider renaming. */
-  files?: MountFileList;
+  files?: MountFileList | undefined;
   /** If set to true, prevent overwriting existing files. (Note that we don't allow overwriting existing directories with uploaded files regardless.) */
-  disallowOverwriteExistingFiles?: boolean;
+  disallowOverwriteExistingFiles?: boolean | undefined;
   /** Earliest checked_at the client received from the existence checks for these files. Telemetry only. */
-  earliestCheckedAt?: string;
+  earliestCheckedAt?: string | undefined;
 }
 export interface VolumePutFilesResponse {}
 export interface VolumePutFiles2RequestBlock {
   /** The SHA256 digest of the contents of this block, in raw (ie. 32 bytes) form for compactness. */
-  contentsSha256?: string;
+  contentsSha256?: string | undefined;
   /** From a previous call to `VolumePutFiles2`, we might have gotten a response indicating that this block was missing. For such a block, this field contains the raw bytes of the body that was returned from the HTTP PUT request when the client made a request for the `put_url` returned in the previous `VolumePutFiles2Response`. */
-  putResponse?: string;
+  putResponse?: string | undefined;
 }
 export type VolumePutFiles2RequestBlockList = Array<VolumePutFiles2RequestBlock>;
 export interface VolumePutFiles2RequestFile {
   /** Destination path of the file to be uploaded, including any parent dirs etc.; for example "foo/bar/baz.txt" */
-  path?: string;
+  path?: string | undefined;
   /** The total size of the file, in bytes. */
-  size?: string;
+  size?: string | undefined;
   /** The blocks, in units of 8MiB, that this file consists of. */
-  blocks?: VolumePutFiles2RequestBlockList;
+  blocks?: VolumePutFiles2RequestBlockList | undefined;
   /** Unix file permission bits `st_mode`. */
-  mode?: number;
+  mode?: number | undefined;
 }
 export type VolumePutFiles2RequestFileList = Array<VolumePutFiles2RequestFile>;
 export interface VolumePutFiles2Request {
   /** The ID of the volume to put/upload files into. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** List of files to put/upload. */
-  files?: VolumePutFiles2RequestFileList;
+  files?: VolumePutFiles2RequestFileList | undefined;
   /** If set to true, prevent overwriting existing files. (Note that we don't allow overwriting existing directories with uploaded files regardless.) */
-  disallowOverwriteExistingFiles?: boolean;
+  disallowOverwriteExistingFiles?: boolean | undefined;
 }
 export interface VolumePutFiles2ResponseMissingBlock {
   /** Index of the file in the original `files` field of the request. */
@@ -305,19 +305,19 @@ export interface VolumePutFiles2Response {
 }
 export interface VolumeReloadRequest {
   /** NOTE(staffan): Mounting a volume in multiple locations is not supported, so volume_id alone uniquely identifies a volume mount. */
-  volumeId?: string;
+  volumeId?: string | undefined;
 }
 export interface VolumeReloadResponse {}
 export interface VolumeRemoveFileRequest {
-  volumeId?: string;
-  path?: string;
-  recursive?: boolean;
+  volumeId?: string | undefined;
+  path?: string | undefined;
+  recursive?: boolean | undefined;
 }
 export interface VolumeRemoveFileResponse {}
 export interface VolumeRemoveFile2Request {
-  volumeId?: string;
-  path?: string;
-  recursive?: boolean;
+  volumeId?: string | undefined;
+  path?: string | undefined;
+  recursive?: boolean | undefined;
 }
 export interface VolumeRemoveFile2Response {}
 export type CommitVolumeError = VolumeNotFound | ModalOpError;

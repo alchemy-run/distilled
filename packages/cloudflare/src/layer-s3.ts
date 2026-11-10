@@ -27,6 +27,7 @@
  * ```
  */
 import * as CoreCrypto from "@distilled.cloud/core/crypto";
+import { loadModule, type SdkError } from "@distilled.cloud/core/sdk-error";
 import type * as S3Credentials from "@distilled.cloud/s3/Credentials";
 import type * as S3Endpoint from "@distilled.cloud/s3/Endpoint";
 import * as Context from "effect/Context";
@@ -52,6 +53,9 @@ declare module "@distilled.cloud/s3/Credentials" {
   }
 }
 
+const loadFailure = (e: SdkError) =>
+  new S3CredentialsError({ message: `the R2 S3 layer could not load: ${e.message}`, cause: e });
+
 interface Resolved {
   readonly keys: S3Credentials.ResolvedCredentials;
   readonly endpoint: string;
@@ -63,19 +67,19 @@ interface Resolved {
  */
 export const layerS3 = (): Layer.Layer<
   S3Credentials.Credentials | S3Endpoint.Endpoint,
-  never,
+  S3CredentialsError,
   Credentials | HttpClient.HttpClient
 > =>
   // The S3 runtime and the account APIs load when the layer is built, so
   // importing `r2` costs neither.
   Layer.unwrap(
     Effect.gen(function* () {
-      const [{ Credentials: S3Keys }, { Endpoint }] = yield* Effect.promise(() =>
+      const [{ Credentials: S3Keys }, { Endpoint }] = yield* loadModule(() =>
         Promise.all([
           import("@distilled.cloud/s3/Credentials"),
           import("@distilled.cloud/s3/Endpoint"),
         ]),
-      );
+      ).pipe(Effect.mapError(loadFailure));
       const context = yield* Effect.context<Credentials | HttpClient.HttpClient>();
       const resolve = Effect.gen(function* () {
         const credentials = yield* yield* Credentials;
@@ -83,9 +87,9 @@ export const layerS3 = (): Layer.Layer<
           return yield* new S3CredentialsError({
             message: `R2's S3 API signs with an API token; the Cloudflare credentials are ${credentials.type === "apiKey" ? "a global API key" : "an OAuth token"}.`,
           });
-        const [Accounts, User] = yield* Effect.promise(() =>
+        const [Accounts, User] = yield* loadModule(() =>
           Promise.all([import("./services/accounts.ts"), import("./services/user.ts")]),
-        );
+        ).pipe(Effect.mapError(loadFailure));
         const accountId = credentials.accountId ?? (yield* onlyAccount(Accounts.listAccounts({})));
         const token = yield* User.verifyToken({}).pipe(
           Effect.catch(() => Accounts.verifyToken({ accountId })),

@@ -160,19 +160,19 @@ export type CreateWebhookRequestEventsItem =
 export type CreateWebhookRequestEventsList = Array<CreateWebhookRequestEventsItem | (string & {})>;
 export interface CreateWebhookRequest {
   /** The dated API version (Api-Version-Date) to pin this webhook's payloads to. Omit to leave the webhook unpinned, tracking the current payload shape. */
-  api_version_date?: string | null;
+  api_version_date?: string | null | undefined;
   /** Whether to send events for child resources. For example, if the webhook is created for an account, enabling this sends events only from its connected accounts. */
-  child_resource_events?: boolean;
+  child_resource_events?: boolean | undefined;
   /** Whether or not the webhook is enabled. Defaults to `true`. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The events to send the webhook for, in dot form (for example `payment.succeeded`). */
-  events?: CreateWebhookRequestEventsList;
+  events?: CreateWebhookRequestEventsList | undefined;
   /** The account or app to create the webhook for. Defaults to the current account. */
-  resource_id?: string | null;
+  resource_id?: string | null | undefined;
   /** The URL to send the webhook to. */
   url: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** The API version used to format payloads sent to this webhook endpoint. */
 export type WebhookApiVersion = "v1" | "v2" | "v5";
@@ -435,10 +435,10 @@ export interface DeleteWebhookResponse {
 export interface DeliveriesWebhookRequest {
   /** The unique identifier of the webhook to list deliveries for. */
   webhook_id: string;
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
 }
 /** The request body sent to the webhook endpoint */
 export type DeliveriesWebhookResponseDataItemRequestBodyMap = {
@@ -486,9 +486,9 @@ export interface ListWebhookDeliveriesRequest {
   /** Webhook ID, prefixed `hook_`. */
   id: string;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 export interface WebhookDelivery {
   /** The event type this delivery carried, for example `payment.succeeded`. */
@@ -527,19 +527,19 @@ export interface ListWebhooksRequest {
   /** The unique identifier of the account to list webhooks for. */
   account_id: string;
   /** Only return webhooks attached to this app. Omit to list the account's own webhooks. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** Also return webhooks attached to the account's apps, not just the account's own. Cannot be combined with `app_id`. */
-  include_app_webhooks?: boolean;
+  include_app_webhooks?: boolean | undefined;
   /** Only return webhooks whose endpoint is currently failing -- every delivery since the current failure streak began has been rejected. Clears as soon as a delivery succeeds. */
-  has_failures?: boolean;
+  has_failures?: boolean | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The API version used to format payloads sent to this webhook endpoint. */
 export type WebhookListItemApiVersion = "v1" | "v2" | "v5";
@@ -694,17 +694,17 @@ export interface ReplayWebhookRequest {
   /** Webhook ID, prefixed `hook_`. */
   id: string;
   /** Only replay these event types, in dot form (for example `payment.succeeded`). Omit to include every event. */
-  events?: ReplayWebhookRequestEventsList;
+  events?: ReplayWebhookRequestEventsList | undefined;
   /** Only replay messages whose most recent delivery attempt in the window failed. Defaults to false. Best-effort: a message whose attempts span processing batches can still be re-sent -- replays keep the original `webhook-id` by default, so consumers that deduplicate are unaffected. */
-  failed_only?: boolean;
+  failed_only?: boolean | undefined;
   /** Re-send each replayed message under a freshly generated `webhook-id` (in both the envelope and the signed headers) instead of its original one. Defaults to false. Use this when your endpoint deduplicates on `webhook-id` and you want it to process the replays as new messages. */
-  regenerate_ids?: boolean;
+  regenerate_ids?: boolean | undefined;
   /** Start of the delivery window to replay, as an ISO 8601 timestamp. Clamped to the 30-day delivery retention. */
   sent_after: string;
   /** End of the delivery window to replay, as an ISO 8601 timestamp. Defaults to now. */
-  sent_before?: string;
+  sent_before?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface ReplayWebhookResponse {
   /** Whether the replay was accepted. Watch the webhook's delivery log for the re-sends. */
@@ -716,9 +716,9 @@ export interface ReplayWebhookDeliveryRequest {
   /** Delivery ID, prefixed `whdel_`, from the List Deliveries endpoint. */
   delivery_id: string;
   /** Re-send the delivery under a freshly generated `webhook-id` (in both the envelope and the signed headers) instead of the original one. Defaults to false. Use this when your endpoint deduplicates on `webhook-id` and you want it to process the replay as a new message. */
-  regenerate_id?: boolean;
+  regenerate_id?: boolean | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface ReplayWebhookDeliveryResponse {
   /** The body your endpoint returned for the replayed request, as raw text. Empty when the endpoint could not be reached. */
@@ -734,7 +734,7 @@ export interface TestWebhookRequest {
   /** The event to test the webhook for, in dot form (for example `payment.succeeded`). */
   event: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface TestWebhookResponse {
   /** The body of the webhook response. */
@@ -835,15 +835,15 @@ export interface UpdateWebhookRequest {
   /** Webhook ID, prefixed `hook_`. */
   id: string;
   /** The dated API version (Api-Version-Date) to pin this webhook's payloads to. Only valid for `v1` webhooks. Omit to leave the current pin unchanged, or pass `null` to unpin and track the current payload shape. */
-  api_version_date?: string | null;
+  api_version_date?: string | null | undefined;
   /** Whether or not to send events for child resources. */
-  child_resource_events?: boolean;
+  child_resource_events?: boolean | undefined;
   /** Whether or not the webhook is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The events to send the webhook for, in dot form (for example `payment.succeeded`). */
-  events?: UpdateWebhookRequestEventsList;
+  events?: UpdateWebhookRequestEventsList | undefined;
   /** The URL to send the webhook to. */
-  url?: string;
+  url?: string | undefined;
 }
 export type CreateWebhookError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Create Webhook Creates a webhook endpoint that receives event notifications via HTTP POST. */

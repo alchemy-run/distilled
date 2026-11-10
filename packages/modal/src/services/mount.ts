@@ -35,11 +35,11 @@ export class MountNotFound
 
 export type StringList = Array<string>;
 export interface MountBatchedCheckExistenceRequest {
-  sha256HexHashes?: StringList;
+  sha256HexHashes?: StringList | undefined;
 }
 export interface MountBatchedCheckExistenceResponse {
   missingSha256HexHashes: StringList;
-  checkedAt?: string;
+  checkedAt?: string | undefined;
 }
 export type DeploymentNamespace =
   | "DEPLOYMENT_NAMESPACE_UNSPECIFIED"
@@ -54,39 +54,39 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 /** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
 export interface MountFile {
-  filename?: string;
-  sha256Hex?: string;
+  filename?: string | undefined;
+  sha256Hex?: string | undefined;
   /** SHA-256 checksum of the file. */
-  size?: string;
+  size?: string | undefined;
   /** Size of the file in bytes -- ignored in MountBuild(). */
-  mode?: number;
+  mode?: number | undefined;
 }
 export type MountFileList = Array<MountFile>;
 export interface MountGetOrCreateRequest {
-  deploymentName?: string;
-  namespace?: DeploymentNamespace | (string & {});
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
-  files?: MountFileList;
-  appId?: string;
+  deploymentName?: string | undefined;
+  namespace?: DeploymentNamespace | (string & {}) | undefined;
+  environmentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
+  files?: MountFileList | undefined;
+  appId?: string | undefined;
   /** only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP Earliest checked_at the client received from the existence checks for these files. Telemetry only. */
-  earliestCheckedAt?: string;
+  earliestCheckedAt?: string | undefined;
 }
 export interface MountHandleMetadata {
   contentChecksumSha256Hex: string;
 }
 export interface MountGetOrCreateResponse {
   mountId: string;
-  handleMetadata?: MountHandleMetadata;
+  handleMetadata?: MountHandleMetadata | undefined;
 }
 export interface MountPutFileRequest {
-  sha256Hex?: string;
-  data?: string;
-  dataBlobId?: string;
+  sha256Hex?: string | undefined;
+  data?: string | undefined;
+  dataBlobId?: string | undefined;
 }
 export interface MountPutFileResponse {
   exists: boolean;
-  checkedAt?: string;
+  checkedAt?: string | undefined;
 }
 export type MountBatchedCheckExistenceError = ModalOpError;
 /** Mounts */

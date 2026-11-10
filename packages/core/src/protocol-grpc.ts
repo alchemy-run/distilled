@@ -56,6 +56,7 @@ import {
 } from "./protobuf.ts";
 import { InvalidInput, matchTypedError } from "./protocol-http.ts";
 import { makeRestProtocol, type RestProtocolOptions } from "./protocol-rest.ts";
+import { SdkError } from "./sdk-error.ts";
 import * as Telemetry from "./telemetry.ts";
 
 /** gRPC status code -> name. */
@@ -181,6 +182,14 @@ type Headers = Readonly<Record<string, string | undefined>>;
 
 const textDecoder = /*@__PURE__*/ new TextDecoder();
 
+/**
+ * The SDK can't make the call (a broken descriptor table, or a REST
+ * encode/decode result gRPC can't use). Protocol effects are typed
+ * `never`; SdkError is part of every operation's declared error channel.
+ */
+const sdkFailure = (message: string): Effect.Effect<never> =>
+  Effect.fail(new SdkError({ message })) as Effect.Effect<never>;
+
 const methodPath = (url: string): string => {
   try {
     return new URL(url).pathname;
@@ -229,15 +238,17 @@ const plainHeaders = (headers: Headers) => {
 const statusOf = (value: string | undefined): number | undefined =>
   value === undefined || value === "" ? undefined : Number(value);
 
-const messageOf = (raw: string | undefined, status: number): string => {
-  let message = raw ?? "";
+/** `text` percent-decoded, or as sent when it is not percent-encoded. */
+const percentDecoded = (text: string): string => {
   try {
-    message = decodeURIComponent(message);
+    return decodeURIComponent(text);
   } catch {
-    // Not percent-encoded: keep it as sent.
+    return text;
   }
-  return message || GRPC_STATUS_NAMES[status] || `gRPC status ${status}`;
 };
+
+const messageOf = (raw: string | undefined, status: number): string =>
+  percentDecoded(raw ?? "") || GRPC_STATUS_NAMES[status] || `gRPC status ${status}`;
 
 /** A `grpc-timeout` value for `ms` (at most 8 digits per the spec). */
 const grpcTimeout = (ms: number): string => {
@@ -264,10 +275,10 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
       const encode: API.ProtocolShape["encode"] = (args) =>
         Effect.flatMap(rest.encode(args), (request) => {
           const method = methodOf(request.url);
-          if (!method) return Effect.die(new Error(`no gRPC descriptor for ${request.url}`));
+          if (!method) return sdkFailure(`no gRPC descriptor for ${request.url}`);
           const body = request.body;
           if (body._tag !== "Empty" && body._tag !== "Uint8Array" && body._tag !== "Raw") {
-            return Effect.die(new Error(`gRPC requests need a JSON body, got ${body._tag}`));
+            return sdkFailure(`gRPC requests need a JSON body, got ${body._tag}`);
           }
           let payload: Uint8Array;
           try {
@@ -324,7 +335,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
             ...args,
             response: jsonResponse(request, httpStatus, plainHeaders(headers), body),
           }),
-          () => Effect.die(new Error(`gRPC status ${status} decoded as a success`)),
+          () => sdkFailure(`gRPC status ${status} decoded as a success`),
         );
       };
 
@@ -477,7 +488,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
         const headers = response.headers as Headers;
         const request = response.request;
         const method = methodOf(request.url);
-        if (!method) return Effect.die(new Error(`no gRPC descriptor for ${request.url}`));
+        if (!method) return sdkFailure(`no gRPC descriptor for ${request.url}`);
         // Protocol effects carry no error type: callers see the operation's.
         return Effect.flatMap(response.arrayBuffer as Effect.Effect<ArrayBuffer>, (buffer) =>
           Effect.flatMap(trailersOf(response), (trailers) => {
@@ -589,7 +600,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
         const failed = notGrpc(args, response);
         if (failed) return Stream.fromEffect(failed);
         const method = methodOf(request.url);
-        if (!method) return Stream.die(new Error(`no gRPC descriptor for ${request.url}`));
+        if (!method) return Stream.fromEffect(sdkFailure(`no gRPC descriptor for ${request.url}`));
         const [, responseType] = method;
         const reader = new FrameReader();
         const item = (payload: Uint8Array) => {

@@ -26,6 +26,7 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import { checkSuccess, unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * StripeProtocol -- hand-written.
@@ -178,7 +179,8 @@ export type StripeOpError =
   | CoreDefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Stripe operation. */
 export type StripeOpContext = Credentials | HttpClient.HttpClient;
@@ -297,12 +299,12 @@ interface RequestPlan {
 }
 
 const requestPlans = /*@__PURE__*/ new WeakMap<AST.AST, RequestPlan>();
-const requestPlanFor = (inputAst: AST.AST): RequestPlan => {
+const requestPlanFor = (inputAst: AST.AST): RequestPlan | SdkError => {
   let plan = requestPlans.get(inputAst);
   if (plan !== undefined) return plan;
   const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
   if (!http) {
-    throw new Error("operation input is missing the Http() trait");
+    return new SdkError({ message: "operation input is missing the Http() trait" });
   }
   const members = getProps(inputAst).map((prop): MemberPlan => {
     const key = String(prop.name);
@@ -346,8 +348,10 @@ const requestFor = (
   options: StripeRequestOptions | undefined,
   input: unknown,
   inputAst: AST.AST,
-): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
-  const { http, members, known } = requestPlanFor(inputAst);
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> => {
+  const plan = requestPlanFor(inputAst);
+  if (plan instanceof SdkError) return Effect.fail(plan);
+  const { http, members, known } = plan;
 
   const baseHeaders: Record<string, string> = {
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,

@@ -45,11 +45,11 @@ export type ServicesNameAvailabilityInfoReason = "Invalid" | "AlreadyExists";
 /** The properties indicating whether a given service name is available. */
 export interface ServicesNameAvailabilityInfo {
   /** The value which indicates whether the provided name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason for unavailability. */
-  reason?: ServicesNameAvailabilityInfoReason;
+  reason?: ServicesNameAvailabilityInfoReason | undefined;
   /** The detailed reason message. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDicomServiceRequest {
   /** The ID of the target subscription. */
@@ -153,7 +153,7 @@ export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityI
 export interface DicomServicesCreateOrUpdateRequestIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: DicomServicesCreateOrUpdateRequestIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 /** Authentication configuration information */
 export type DicomServiceAuthenticationConfigurationInput = UserAssignedIdentityInput;
@@ -166,45 +166,45 @@ export type CorsConfigurationMethodsList = Array<string>;
 /** The settings for the CORS configuration of the service instance. */
 export interface CorsConfiguration {
   /** The origins to be allowed via CORS. */
-  origins?: CorsConfigurationOriginsList;
+  origins?: CorsConfigurationOriginsList | undefined;
   /** The headers to be allowed via CORS. */
-  headers?: CorsConfigurationHeadersList;
+  headers?: CorsConfigurationHeadersList | undefined;
   /** The methods to be allowed via CORS. */
-  methods?: CorsConfigurationMethodsList;
+  methods?: CorsConfigurationMethodsList | undefined;
   /** The max age to be allowed via CORS. */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** If credentials are allowed via CORS. */
-  allowCredentials?: boolean;
+  allowCredentials?: boolean | undefined;
 }
 /** The encryption settings for the customer-managed key */
 export interface EncryptionCustomerManagedKeyEncryption {
   /** The URL of the key to use for encryption */
-  keyEncryptionKeyUrl?: string;
+  keyEncryptionKeyUrl?: string | undefined;
 }
 /** Settings to encrypt a service */
 export interface Encryption {
   /** The encryption settings for the customer-managed key */
-  customerManagedKeyEncryption?: EncryptionCustomerManagedKeyEncryption;
+  customerManagedKeyEncryption?: EncryptionCustomerManagedKeyEncryption | undefined;
 }
 /** The configuration of connected storage */
 export interface StorageConfiguration {
   /** The resource id of connected storage account. */
-  storageResourceId?: string;
+  storageResourceId?: string | undefined;
   /** The filesystem name of connected storage account. */
-  fileSystemName?: string;
+  fileSystemName?: string | undefined;
 }
 /** Dicom Service properties. */
 export interface DicomServicePropertiesInput {
   /** Dicom Service authentication configuration. */
-  authenticationConfiguration?: UserAssignedIdentityInput;
+  authenticationConfiguration?: UserAssignedIdentityInput | undefined;
   /** Dicom Service Cors configuration. */
-  corsConfiguration?: CorsConfiguration;
+  corsConfiguration?: CorsConfiguration | undefined;
   /** The encryption settings of the DICOM service */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** The configuration of external storage account */
-  storageConfiguration?: StorageConfiguration;
+  storageConfiguration?: StorageConfiguration | undefined;
   /** If data partitions is enabled or not. */
-  enableDataPartitions?: boolean;
+  enableDataPartitions?: boolean | undefined;
 }
 export interface DicomServicesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -216,15 +216,15 @@ export interface DicomServicesCreateOrUpdateRequest {
   /** The name of DICOM Service resource. */
   dicomServiceName: string;
   /** Resource tags. */
-  tags?: DicomServicesCreateOrUpdateRequestTagsMap;
+  tags?: DicomServicesCreateOrUpdateRequestTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: DicomServicesCreateOrUpdateRequestIdentity;
+  identity?: DicomServicesCreateOrUpdateRequestIdentity | undefined;
   /** Dicom Service configuration. */
-  properties?: DicomServicePropertiesInput;
+  properties?: DicomServicePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type DicomServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -237,9 +237,9 @@ export type DicomServicesCreateOrUpdateResponseIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
@@ -248,10 +248,10 @@ export interface DicomServicesCreateOrUpdateResponseIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: DicomServicesCreateOrUpdateResponseIdentityType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  userAssignedIdentities?: UserAssignedIdentities;
+  tenantId?: string | undefined;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** The provisioning state. */
 export type ProvisioningState =
@@ -273,25 +273,25 @@ export type DicomServiceAuthenticationConfigurationAudiencesList = Array<string>
 /** Authentication configuration information */
 export interface DicomServiceAuthenticationConfiguration {
   /** The authority url for the service */
-  authority?: string;
+  authority?: string | undefined;
   /** The audiences for the service */
-  audiences?: DicomServiceAuthenticationConfigurationAudiencesList;
+  audiences?: DicomServiceAuthenticationConfigurationAudiencesList | undefined;
 }
 /** The Private Endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -302,22 +302,22 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionProperties {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface DicomServicePropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The list of private endpoint connections that are set up for this resource. */
 export type DicomServicePropertiesPrivateEndpointConnectionsList =
@@ -329,25 +329,25 @@ export type ResourceEventState = "Disabled" | "Enabled" | "Updating";
 /** Dicom Service properties. */
 export interface DicomServiceProperties {
   /** The provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Dicom Service authentication configuration. */
-  authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+  authenticationConfiguration?: DicomServiceAuthenticationConfiguration | undefined;
   /** Dicom Service Cors configuration. */
-  corsConfiguration?: CorsConfiguration;
+  corsConfiguration?: CorsConfiguration | undefined;
   /** The url of the Dicom Services. */
-  serviceUrl?: string;
+  serviceUrl?: string | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: DicomServicePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: DicomServicePropertiesPrivateEndpointConnectionsList | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: ResourcePublicNetworkAccess;
+  publicNetworkAccess?: ResourcePublicNetworkAccess | undefined;
   /** DICOM Service event support status. */
-  eventState?: ResourceEventState;
+  eventState?: ResourceEventState | undefined;
   /** The encryption settings of the DICOM service */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** The configuration of external storage account */
-  storageConfiguration?: StorageConfiguration;
+  storageConfiguration?: StorageConfiguration | undefined;
   /** If data partitions is enabled or not. */
-  enableDataPartitions?: boolean;
+  enableDataPartitions?: boolean | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -356,37 +356,37 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DicomServicesCreateOrUpdateResponse {
   /** Resource tags. */
-  tags?: DicomServicesCreateOrUpdateResponseTagsMap;
+  tags?: DicomServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: DicomServicesCreateOrUpdateResponseIdentity;
+  identity?: DicomServicesCreateOrUpdateResponseIdentity | undefined;
   /** Dicom Service configuration. */
-  properties?: DicomServiceProperties;
+  properties?: DicomServiceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** Resource tags. */
 export type FhirServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -400,7 +400,7 @@ export type FhirServicesCreateOrUpdateRequestIdentityType =
 export interface FhirServicesCreateOrUpdateRequestIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: FhirServicesCreateOrUpdateRequestIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 /** The kind of the service. */
 export type FhirServicesCreateOrUpdateRequestKind = "fhir-Stu3" | "fhir-R4";
@@ -409,20 +409,20 @@ export type FhirServiceAcrConfigurationLoginServersList = Array<string>;
 /** An Open Container Initiative (OCI) artifact. */
 export interface ServiceOciArtifactEntry {
   /** The Azure Container Registry login server. */
-  loginServer?: string;
+  loginServer?: string | undefined;
   /** The artifact name. */
-  imageName?: string;
+  imageName?: string | undefined;
   /** The artifact digest. */
-  digest?: string;
+  digest?: string | undefined;
 }
 /** The list of Open Container Initiative (OCI) artifacts. */
 export type FhirServiceAcrConfigurationOciArtifactsList = Array<ServiceOciArtifactEntry>;
 /** Azure container registry configuration information */
 export interface FhirServiceAcrConfiguration {
   /** The list of the Azure container registry login servers. */
-  loginServers?: FhirServiceAcrConfigurationLoginServersList;
+  loginServers?: FhirServiceAcrConfigurationLoginServersList | undefined;
   /** The list of Open Container Initiative (OCI) artifacts. */
-  ociArtifacts?: FhirServiceAcrConfigurationOciArtifactsList;
+  ociArtifacts?: FhirServiceAcrConfigurationOciArtifactsList | undefined;
 }
 /** The Data Actions that can be enabled for a Smart Identity Provider Application. */
 export type SmartDataActions = "Read";
@@ -433,11 +433,11 @@ export type SmartIdentityProviderApplicationAllowedDataActionsList = Array<
 /** An Application configured in the Identity Provider used to access FHIR resources. */
 export interface SmartIdentityProviderApplication {
   /** The application client id defined in the identity provider. This value will be used to validate bearer tokens against the given authority. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The audience that will be used to validate bearer tokens against the given authority. */
-  audience?: string;
+  audience?: string | undefined;
   /** The actions that are permitted to be performed on FHIR resources for the application. */
-  allowedDataActions?: SmartIdentityProviderApplicationAllowedDataActionsList;
+  allowedDataActions?: SmartIdentityProviderApplicationAllowedDataActionsList | undefined;
 }
 /** The array of identity provider applications for SMART on FHIR authentication. */
 export type SmartIdentityProviderConfigurationApplicationsList =
@@ -445,9 +445,9 @@ export type SmartIdentityProviderConfigurationApplicationsList =
 /** An object to configure an identity provider for use with SMART on FHIR authentication. */
 export interface SmartIdentityProviderConfiguration {
   /** The identity provider token authority also known as the token issuing authority. */
-  authority?: string;
+  authority?: string | undefined;
   /** The array of identity provider applications for SMART on FHIR authentication. */
-  applications?: SmartIdentityProviderConfigurationApplicationsList;
+  applications?: SmartIdentityProviderConfigurationApplicationsList | undefined;
 }
 /** The array of identity provider configurations for SMART on FHIR authentication. */
 export type FhirServiceAuthenticationConfigurationSmartIdentityProvidersList =
@@ -455,13 +455,15 @@ export type FhirServiceAuthenticationConfigurationSmartIdentityProvidersList =
 /** Authentication configuration information */
 export interface FhirServiceAuthenticationConfiguration {
   /** The authority url for the service */
-  authority?: string;
+  authority?: string | undefined;
   /** The audience url for the service */
-  audience?: string;
+  audience?: string | undefined;
   /** If the SMART on FHIR proxy is enabled */
-  smartProxyEnabled?: boolean;
+  smartProxyEnabled?: boolean | undefined;
   /** The array of identity provider configurations for SMART on FHIR authentication. */
-  smartIdentityProviders?: FhirServiceAuthenticationConfigurationSmartIdentityProvidersList;
+  smartIdentityProviders?:
+    | FhirServiceAuthenticationConfigurationSmartIdentityProvidersList
+    | undefined;
 }
 /** The origins to be allowed via CORS. */
 export type FhirServiceCorsConfigurationOriginsList = Array<string>;
@@ -472,20 +474,20 @@ export type FhirServiceCorsConfigurationMethodsList = Array<string>;
 /** The settings for the CORS configuration of the service instance. */
 export interface FhirServiceCorsConfiguration {
   /** The origins to be allowed via CORS. */
-  origins?: FhirServiceCorsConfigurationOriginsList;
+  origins?: FhirServiceCorsConfigurationOriginsList | undefined;
   /** The headers to be allowed via CORS. */
-  headers?: FhirServiceCorsConfigurationHeadersList;
+  headers?: FhirServiceCorsConfigurationHeadersList | undefined;
   /** The methods to be allowed via CORS. */
-  methods?: FhirServiceCorsConfigurationMethodsList;
+  methods?: FhirServiceCorsConfigurationMethodsList | undefined;
   /** The max age to be allowed via CORS. */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** If credentials are allowed via CORS. */
-  allowCredentials?: boolean;
+  allowCredentials?: boolean | undefined;
 }
 /** Export operation configuration information */
 export interface FhirServiceExportConfiguration {
   /** The name of the default export storage account. */
-  storageAccountName?: string;
+  storageAccountName?: string | undefined;
 }
 /** Controls how resources are versioned on the FHIR service */
 export type FhirResourceVersionPolicy = "no-version" | "versioned" | "versioned-update";
@@ -496,42 +498,42 @@ export type ResourceVersionPolicyConfigurationResourceTypeOverridesMap = {
 /** The settings for history tracking for FHIR resources. */
 export interface ResourceVersionPolicyConfiguration {
   /** The default value for tracking history across all resources. */
-  default?: FhirResourceVersionPolicy | (string & {});
+  default?: FhirResourceVersionPolicy | (string & {}) | undefined;
   /** A list of FHIR Resources and their version policy overrides. */
-  resourceTypeOverrides?: ResourceVersionPolicyConfigurationResourceTypeOverridesMap;
+  resourceTypeOverrides?: ResourceVersionPolicyConfigurationResourceTypeOverridesMap | undefined;
 }
 /** Import operation configuration information */
 export interface FhirServiceImportConfiguration {
   /** The name of the default integration storage account. */
-  integrationDataStore?: string;
+  integrationDataStore?: string | undefined;
   /** If the FHIR service is in InitialImportMode. */
-  initialImportMode?: boolean;
+  initialImportMode?: boolean | undefined;
   /** If the import operation is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The settings for Implementation Guides - defining capabilities for national standards, vendor consortiums, clinical societies, etc. */
 export interface ImplementationGuidesConfiguration {
   /** If US Core Missing Data requirement is enabled. */
-  usCoreMissingData?: boolean;
+  usCoreMissingData?: boolean | undefined;
 }
 /** Fhir Service properties. */
 export interface FhirServicePropertiesInput {
   /** Fhir Service Azure container registry configuration. */
-  acrConfiguration?: FhirServiceAcrConfiguration;
+  acrConfiguration?: FhirServiceAcrConfiguration | undefined;
   /** Fhir Service authentication configuration. */
-  authenticationConfiguration?: FhirServiceAuthenticationConfiguration;
+  authenticationConfiguration?: FhirServiceAuthenticationConfiguration | undefined;
   /** Fhir Service Cors configuration. */
-  corsConfiguration?: FhirServiceCorsConfiguration;
+  corsConfiguration?: FhirServiceCorsConfiguration | undefined;
   /** Fhir Service export configuration. */
-  exportConfiguration?: FhirServiceExportConfiguration;
+  exportConfiguration?: FhirServiceExportConfiguration | undefined;
   /** Determines tracking of history for resources. */
-  resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
+  resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration | undefined;
   /** Fhir Service import configuration. */
-  importConfiguration?: FhirServiceImportConfiguration;
+  importConfiguration?: FhirServiceImportConfiguration | undefined;
   /** Implementation Guides configuration. */
-  implementationGuidesConfiguration?: ImplementationGuidesConfiguration;
+  implementationGuidesConfiguration?: ImplementationGuidesConfiguration | undefined;
   /** The encryption settings of the FHIR service */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
 }
 export interface FhirServicesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -543,17 +545,17 @@ export interface FhirServicesCreateOrUpdateRequest {
   /** The name of FHIR Service resource. */
   fhirServiceName: string;
   /** Resource tags. */
-  tags?: FhirServicesCreateOrUpdateRequestTagsMap;
+  tags?: FhirServicesCreateOrUpdateRequestTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: FhirServicesCreateOrUpdateRequestIdentity;
+  identity?: FhirServicesCreateOrUpdateRequestIdentity | undefined;
   /** The kind of the service. */
-  kind?: FhirServicesCreateOrUpdateRequestKind | (string & {});
+  kind?: FhirServicesCreateOrUpdateRequestKind | (string & {}) | undefined;
   /** Fhir Service configuration. */
-  properties?: FhirServicePropertiesInput;
+  properties?: FhirServicePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type FhirServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -568,10 +570,10 @@ export interface FhirServicesCreateOrUpdateResponseIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: FhirServicesCreateOrUpdateResponseIdentityType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  userAssignedIdentities?: UserAssignedIdentities;
+  tenantId?: string | undefined;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** The kind of the service. */
 export type FhirServicesCreateOrUpdateResponseKind = "fhir-Stu3" | "fhir-R4";
@@ -584,51 +586,51 @@ export type FhirServicePropertiesPrivateEndpointConnectionsList =
 /** Fhir Service properties. */
 export interface FhirServiceProperties {
   /** The provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Fhir Service Azure container registry configuration. */
-  acrConfiguration?: FhirServiceAcrConfiguration;
+  acrConfiguration?: FhirServiceAcrConfiguration | undefined;
   /** Fhir Service authentication configuration. */
-  authenticationConfiguration?: FhirServiceAuthenticationConfiguration;
+  authenticationConfiguration?: FhirServiceAuthenticationConfiguration | undefined;
   /** Fhir Service Cors configuration. */
-  corsConfiguration?: FhirServiceCorsConfiguration;
+  corsConfiguration?: FhirServiceCorsConfiguration | undefined;
   /** Fhir Service export configuration. */
-  exportConfiguration?: FhirServiceExportConfiguration;
+  exportConfiguration?: FhirServiceExportConfiguration | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: FhirServicePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: FhirServicePropertiesPrivateEndpointConnectionsList | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: ResourcePublicNetworkAccess;
+  publicNetworkAccess?: ResourcePublicNetworkAccess | undefined;
   /** Fhir Service event support status. */
-  eventState?: ResourceEventState;
+  eventState?: ResourceEventState | undefined;
   /** Determines tracking of history for resources. */
-  resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
+  resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration | undefined;
   /** Fhir Service import configuration. */
-  importConfiguration?: FhirServiceImportConfiguration;
+  importConfiguration?: FhirServiceImportConfiguration | undefined;
   /** Implementation Guides configuration. */
-  implementationGuidesConfiguration?: ImplementationGuidesConfiguration;
+  implementationGuidesConfiguration?: ImplementationGuidesConfiguration | undefined;
   /** The encryption settings of the FHIR service */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
 }
 export interface FhirServicesCreateOrUpdateResponse {
   /** Resource tags. */
-  tags?: FhirServicesCreateOrUpdateResponseTagsMap;
+  tags?: FhirServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: FhirServicesCreateOrUpdateResponseIdentity;
+  identity?: FhirServicesCreateOrUpdateResponseIdentity | undefined;
   /** The kind of the service. */
-  kind?: FhirServicesCreateOrUpdateResponseKind;
+  kind?: FhirServicesCreateOrUpdateResponseKind | undefined;
   /** Fhir Service configuration. */
-  properties?: FhirServiceProperties;
+  properties?: FhirServiceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface GetDicomServiceRequest {
   /** The ID of the target subscription. */
@@ -653,30 +655,30 @@ export interface GetDicomServiceResponseIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: GetDicomServiceResponseIdentityType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  userAssignedIdentities?: UserAssignedIdentities;
+  tenantId?: string | undefined;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface GetDicomServiceResponse {
   /** Resource tags. */
-  tags?: GetDicomServiceResponseTagsMap;
+  tags?: GetDicomServiceResponseTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: GetDicomServiceResponseIdentity;
+  identity?: GetDicomServiceResponseIdentity | undefined;
   /** Dicom Service configuration. */
-  properties?: DicomServiceProperties;
+  properties?: DicomServiceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface GetFhirServiceRequest {
   /** The ID of the target subscription. */
@@ -701,34 +703,34 @@ export interface GetFhirServiceResponseIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: GetFhirServiceResponseIdentityType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  userAssignedIdentities?: UserAssignedIdentities;
+  tenantId?: string | undefined;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** The kind of the service. */
 export type GetFhirServiceResponseKind = "fhir-Stu3" | "fhir-R4";
 export interface GetFhirServiceResponse {
   /** Resource tags. */
-  tags?: GetFhirServiceResponseTagsMap;
+  tags?: GetFhirServiceResponseTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: GetFhirServiceResponseIdentity;
+  identity?: GetFhirServiceResponseIdentity | undefined;
   /** The kind of the service. */
-  kind?: GetFhirServiceResponseKind;
+  kind?: GetFhirServiceResponseKind | undefined;
   /** Fhir Service configuration. */
-  properties?: FhirServiceProperties;
+  properties?: FhirServiceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface GetIotConnectorRequest {
   /** The ID of the target subscription. */
@@ -753,53 +755,53 @@ export interface GetIotConnectorResponseIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: GetIotConnectorResponseIdentityType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  userAssignedIdentities?: UserAssignedIdentities;
+  tenantId?: string | undefined;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** Event Hub ingestion endpoint configuration */
 export interface IotEventHubIngestionEndpointConfiguration {
   /** Event Hub name to connect to. */
-  eventHubName?: string;
+  eventHubName?: string | undefined;
   /** Consumer group of the event hub to connected to. */
-  consumerGroup?: string;
+  consumerGroup?: string | undefined;
   /** Fully qualified namespace of the Event Hub to connect to. */
-  fullyQualifiedEventHubNamespace?: string;
+  fullyQualifiedEventHubNamespace?: string | undefined;
 }
 /** The mapping content. */
 export interface IotMappingProperties {
   /** The mapping. */
-  content?: unknown;
+  content?: unknown | undefined;
 }
 /** IoT Connector properties. */
 export interface IotConnectorProperties {
   /** The provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Source configuration. */
-  ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
+  ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration | undefined;
   /** Device Mappings. */
-  deviceMapping?: IotMappingProperties;
+  deviceMapping?: IotMappingProperties | undefined;
 }
 export interface GetIotConnectorResponse {
   /** Resource tags. */
-  tags?: GetIotConnectorResponseTagsMap;
+  tags?: GetIotConnectorResponseTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: GetIotConnectorResponseIdentity;
+  identity?: GetIotConnectorResponseIdentity | undefined;
   /** IoT Connector configuration. */
-  properties?: IotConnectorProperties;
+  properties?: IotConnectorProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface GetIotConnectorFhirDestinationRequest {
   /** The ID of the target subscription. */
@@ -818,7 +820,7 @@ export type IotIdentityResolutionType = "Create" | "Lookup";
 /** IoT Connector destination properties for an Azure FHIR service. */
 export interface IotFhirDestinationProperties {
   /** The provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Determines how resource identity is resolved on the destination. */
   resourceIdentityResolutionType: IotIdentityResolutionType;
   /** Fully qualified resource id of the FHIR service to connect to. */
@@ -828,19 +830,19 @@ export interface IotFhirDestinationProperties {
 }
 export interface GetIotConnectorFhirDestinationResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** IoT FHIR Destination settings. */
   properties: IotFhirDestinationProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface GetOperationResultRequest {
   /** The ID of the target subscription. */
@@ -860,17 +862,17 @@ export type OperationResultsDescriptionStatus =
 /** The properties indicating the operation result of an operation on a service. */
 export interface OperationResultsDescription {
   /** The ID of the operation returned. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the operation result. */
-  name?: string;
+  name?: string | undefined;
   /** The status of the operation being performed. */
-  status?: OperationResultsDescriptionStatus;
+  status?: OperationResultsDescriptionStatus | undefined;
   /** The time that the operation was started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The time that the operation finished. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Additional properties of the operation result. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -897,29 +899,29 @@ export type GetPrivateEndpointConnectionResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateEndpointConnectionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateEndpointConnectionResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateEndpointConnectionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateEndpointConnectionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetPrivateEndpointConnectionResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateEndpointConnectionResponseSystemData;
+  systemData?: GetPrivateEndpointConnectionResponseSystemData | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. */
@@ -938,11 +940,11 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetPrivateLinkResourceResponseSystemDataCreatedByType =
@@ -959,29 +961,29 @@ export type GetPrivateLinkResourceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPrivateLinkResourceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPrivateLinkResourceResponseSystemDataCreatedByType;
+  createdByType?: GetPrivateLinkResourceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPrivateLinkResourceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetPrivateLinkResourceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPrivateLinkResourceResponseSystemData;
+  systemData?: GetPrivateLinkResourceResponseSystemData | undefined;
 }
 export interface GetServiceRequest {
   /** The ID of the target subscription. */
@@ -1000,11 +1002,11 @@ export type GetServiceResponseIdentityType = "SystemAssigned" | "None";
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface GetServiceResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: GetServiceResponseIdentityType;
+  type?: GetServiceResponseIdentityType | undefined;
 }
 /** An access policy entry. */
 export interface ServiceAccessPolicyEntry {
@@ -1016,20 +1018,20 @@ export type ServiceAccessPoliciesInfo = Array<ServiceAccessPolicyEntry>;
 /** The settings for the Cosmos DB database backing the service. */
 export interface ServiceCosmosDbConfigurationInfo {
   /** The provisioned throughput for the backing database. */
-  offerThroughput?: number;
+  offerThroughput?: number | undefined;
   /** The URI of the customer-managed key for the backing database. */
-  keyVaultKeyUri?: string;
+  keyVaultKeyUri?: string | undefined;
   /** The multi-tenant application id used to enable CMK access for services in a data sovereign region. */
-  crossTenantCmkApplicationId?: string;
+  crossTenantCmkApplicationId?: string | undefined;
 }
 /** Authentication configuration information */
 export interface ServiceAuthenticationConfigurationInfo {
   /** The authority url for the service */
-  authority?: string;
+  authority?: string | undefined;
   /** The audience url for the service */
-  audience?: string;
+  audience?: string | undefined;
   /** If the SMART on FHIR proxy is enabled */
-  smartProxyEnabled?: boolean;
+  smartProxyEnabled?: boolean | undefined;
 }
 /** The origins to be allowed via CORS. */
 export type ServiceCorsConfigurationInfoOriginsList = Array<string>;
@@ -1040,15 +1042,15 @@ export type ServiceCorsConfigurationInfoMethodsList = Array<string>;
 /** The settings for the CORS configuration of the service instance. */
 export interface ServiceCorsConfigurationInfo {
   /** The origins to be allowed via CORS. */
-  origins?: ServiceCorsConfigurationInfoOriginsList;
+  origins?: ServiceCorsConfigurationInfoOriginsList | undefined;
   /** The headers to be allowed via CORS. */
-  headers?: ServiceCorsConfigurationInfoHeadersList;
+  headers?: ServiceCorsConfigurationInfoHeadersList | undefined;
   /** The methods to be allowed via CORS. */
-  methods?: ServiceCorsConfigurationInfoMethodsList;
+  methods?: ServiceCorsConfigurationInfoMethodsList | undefined;
   /** The max age to be allowed via CORS. */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** If credentials are allowed via CORS. */
-  allowCredentials?: boolean;
+  allowCredentials?: boolean | undefined;
 }
 /** Export operation configuration information */
 export type ServiceExportConfigurationInfo = FhirServiceExportConfiguration;
@@ -1067,56 +1069,56 @@ export type ServiceAcrConfigurationInfoOciArtifactsList = Array<ServiceOciArtifa
 /** Azure container registry configuration information */
 export interface ServiceAcrConfigurationInfo {
   /** The list of the ACR login servers. */
-  loginServers?: ServiceAcrConfigurationInfoLoginServersList;
+  loginServers?: ServiceAcrConfigurationInfoLoginServersList | undefined;
   /** The list of Open Container Initiative (OCI) artifacts. */
-  ociArtifacts?: ServiceAcrConfigurationInfoOciArtifactsList;
+  ociArtifacts?: ServiceAcrConfigurationInfoOciArtifactsList | undefined;
 }
 /** Import operation configuration information */
 export type ServiceImportConfigurationInfo = FhirServiceImportConfiguration;
 /** The properties of a service instance. */
 export interface ServicesProperties {
   /** The provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: FhirServiceExportConfiguration;
+  exportConfiguration?: FhirServiceExportConfiguration | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: ServicesPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: ServicesPropertiesPrivateEndpointConnectionsList | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: ServicesPropertiesPublicNetworkAccess;
+  publicNetworkAccess?: ServicesPropertiesPublicNetworkAccess | undefined;
   /** The azure container registry settings used for convert data operation of the service instance. */
-  acrConfiguration?: ServiceAcrConfigurationInfo;
+  acrConfiguration?: ServiceAcrConfigurationInfo | undefined;
   /** The settings for the import operation of the service instance. */
-  importConfiguration?: FhirServiceImportConfiguration;
+  importConfiguration?: FhirServiceImportConfiguration | undefined;
 }
 export interface GetServiceResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The kind of the service. */
   kind: GetServiceResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: GetServiceResponseTagsMap;
+  tags?: GetServiceResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: GetServiceResponseIdentity;
+  identity?: GetServiceResponseIdentity | undefined;
   /** The common properties of a service. */
-  properties?: ServicesProperties;
+  properties?: ServicesProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -1137,29 +1139,31 @@ export type GetWorkspaceResponsePropertiesPrivateEndpointConnectionsList =
 /** Workspaces resource specific properties. */
 export interface GetWorkspaceResponseProperties {
   /** The provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: GetWorkspaceResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | GetWorkspaceResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: ResourcePublicNetworkAccess;
+  publicNetworkAccess?: ResourcePublicNetworkAccess | undefined;
 }
 export interface GetWorkspaceResponse {
   /** Resource tags. */
-  tags?: GetWorkspaceResponseTagsMap;
+  tags?: GetWorkspaceResponseTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Workspaces resource specific properties. */
-  properties?: GetWorkspaceResponseProperties;
+  properties?: GetWorkspaceResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface GetWorkspacePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -1186,29 +1190,31 @@ export type GetWorkspacePrivateEndpointConnectionResponseSystemDataLastModifiedB
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetWorkspacePrivateEndpointConnectionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetWorkspacePrivateEndpointConnectionResponseSystemDataCreatedByType;
+  createdByType?: GetWorkspacePrivateEndpointConnectionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetWorkspacePrivateEndpointConnectionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetWorkspacePrivateEndpointConnectionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetWorkspacePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetWorkspacePrivateEndpointConnectionResponseSystemData;
+  systemData?: GetWorkspacePrivateEndpointConnectionResponseSystemData | undefined;
 }
 export interface GetWorkspacePrivateLinkResourceRequest {
   /** The ID of the target subscription. */
@@ -1235,29 +1241,31 @@ export type GetWorkspacePrivateLinkResourceResponseSystemDataLastModifiedByType 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetWorkspacePrivateLinkResourceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetWorkspacePrivateLinkResourceResponseSystemDataCreatedByType;
+  createdByType?: GetWorkspacePrivateLinkResourceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetWorkspacePrivateLinkResourceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetWorkspacePrivateLinkResourceResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetWorkspacePrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetWorkspacePrivateLinkResourceResponseSystemData;
+  systemData?: GetWorkspacePrivateLinkResourceResponseSystemData | undefined;
 }
 /** IoT Connector destination properties for an Azure FHIR service. */
 export interface IotFhirDestinationPropertiesInput {
@@ -1280,27 +1288,27 @@ export interface IotConnectorFhirDestinationCreateOrUpdateRequest {
   /** The name of IoT Connector FHIR destination resource. */
   fhirDestinationName: string;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** IoT FHIR Destination settings. */
   properties: IotFhirDestinationPropertiesInput;
 }
 export interface IotConnectorFhirDestinationCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** IoT FHIR Destination settings. */
   properties: IotFhirDestinationProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** Resource tags. */
 export type IotConnectorsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1314,14 +1322,14 @@ export type IotConnectorsCreateOrUpdateRequestIdentityType =
 export interface IotConnectorsCreateOrUpdateRequestIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: IotConnectorsCreateOrUpdateRequestIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 /** IoT Connector properties. */
 export interface IotConnectorPropertiesInput {
   /** Source configuration. */
-  ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
+  ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration | undefined;
   /** Device Mappings. */
-  deviceMapping?: IotMappingProperties;
+  deviceMapping?: IotMappingProperties | undefined;
 }
 export interface IotConnectorsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1333,15 +1341,15 @@ export interface IotConnectorsCreateOrUpdateRequest {
   /** The name of IoT Connector resource. */
   iotConnectorName: string;
   /** Resource tags. */
-  tags?: IotConnectorsCreateOrUpdateRequestTagsMap;
+  tags?: IotConnectorsCreateOrUpdateRequestTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: IotConnectorsCreateOrUpdateRequestIdentity;
+  identity?: IotConnectorsCreateOrUpdateRequestIdentity | undefined;
   /** IoT Connector configuration. */
-  properties?: IotConnectorPropertiesInput;
+  properties?: IotConnectorPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type IotConnectorsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1356,30 +1364,30 @@ export interface IotConnectorsCreateOrUpdateResponseIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: IotConnectorsCreateOrUpdateResponseIdentityType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  userAssignedIdentities?: UserAssignedIdentities;
+  tenantId?: string | undefined;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface IotConnectorsCreateOrUpdateResponse {
   /** Resource tags. */
-  tags?: IotConnectorsCreateOrUpdateResponseTagsMap;
+  tags?: IotConnectorsCreateOrUpdateResponseTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: IotConnectorsCreateOrUpdateResponseIdentity;
+  identity?: IotConnectorsCreateOrUpdateResponseIdentity | undefined;
   /** IoT Connector configuration. */
-  properties?: IotConnectorProperties;
+  properties?: IotConnectorProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface ListDicomServiceByWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -1402,40 +1410,40 @@ export interface DicomServiceIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: DicomServiceIdentityType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  userAssignedIdentities?: UserAssignedIdentities;
+  tenantId?: string | undefined;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** The description of Dicom Service */
 export interface DicomService {
   /** Resource tags. */
-  tags?: DicomServiceTagsMap;
+  tags?: DicomServiceTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: DicomServiceIdentity;
+  identity?: DicomServiceIdentity | undefined;
   /** Dicom Service configuration. */
-  properties?: DicomServiceProperties;
+  properties?: DicomServiceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** The list of Dicom Services. */
 export type DicomServiceCollectionValueList = Array<DicomService>;
 /** The collection of Dicom Services. */
 export interface DicomServiceCollection {
   /** The link used to get the next page of Dicom Services. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of Dicom Services. */
-  value?: DicomServiceCollectionValueList;
+  value?: DicomServiceCollectionValueList | undefined;
 }
 export interface ListFhirDestinationByIotConnectorRequest {
   /** The ID of the target subscription. */
@@ -1450,28 +1458,28 @@ export interface ListFhirDestinationByIotConnectorRequest {
 /** IoT Connector FHIR destination definition. */
 export interface IotFhirDestination {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** IoT FHIR Destination settings. */
   properties: IotFhirDestinationProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** The list of IoT Connector FHIR destinations. */
 export type IotFhirDestinationCollectionValueList = Array<IotFhirDestination>;
 /** A collection of IoT Connector FHIR destinations. */
 export interface IotFhirDestinationCollection {
   /** The link used to get the next page of IoT FHIR destinations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of IoT Connector FHIR destinations. */
-  value?: IotFhirDestinationCollectionValueList;
+  value?: IotFhirDestinationCollectionValueList | undefined;
 }
 export interface ListFhirServiceByWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -1494,44 +1502,44 @@ export interface FhirServiceIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: FhirServiceIdentityType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  userAssignedIdentities?: UserAssignedIdentities;
+  tenantId?: string | undefined;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** The kind of the service. */
 export type FhirServiceKind = "fhir-Stu3" | "fhir-R4";
 /** The description of Fhir Service */
 export interface FhirService {
   /** Resource tags. */
-  tags?: FhirServiceTagsMap;
+  tags?: FhirServiceTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: FhirServiceIdentity;
+  identity?: FhirServiceIdentity | undefined;
   /** The kind of the service. */
-  kind?: FhirServiceKind;
+  kind?: FhirServiceKind | undefined;
   /** Fhir Service configuration. */
-  properties?: FhirServiceProperties;
+  properties?: FhirServiceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** The list of Fhir Services. */
 export type FhirServiceCollectionValueList = Array<FhirService>;
 /** A collection of Fhir services. */
 export interface FhirServiceCollection {
   /** The link used to get the next page of Fhir Services. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of Fhir Services. */
-  value?: FhirServiceCollectionValueList;
+  value?: FhirServiceCollectionValueList | undefined;
 }
 export interface ListIotConnectorByWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -1554,63 +1562,63 @@ export interface IotConnectorIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: IotConnectorIdentityType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  userAssignedIdentities?: UserAssignedIdentities;
+  tenantId?: string | undefined;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** IoT Connector definition. */
 export interface IotConnector {
   /** Resource tags. */
-  tags?: IotConnectorTagsMap;
+  tags?: IotConnectorTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: IotConnectorIdentity;
+  identity?: IotConnectorIdentity | undefined;
   /** IoT Connector configuration. */
-  properties?: IotConnectorProperties;
+  properties?: IotConnectorProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** The list of IoT Connectors. */
 export type IotConnectorCollectionValueList = Array<IotConnector>;
 /** A collection of IoT Connectors. */
 export interface IotConnectorCollection {
   /** The link used to get the next page of IoT Connectors. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of IoT Connectors. */
-  value?: IotConnectorCollectionValueList;
+  value?: IotConnectorCollectionValueList | undefined;
 }
 export interface ListOperations2Request {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.HealthcareApis */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource Type: Services */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Friendly description for the operation, */
-  description?: string;
+  description?: string | undefined;
 }
 /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export type OperationDetailActionType = "Internal";
 /** Specifications of the Log for Azure Monitoring */
 export interface LogSpecification {
   /** Name of the log */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the log */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Blob duration of the log */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** Specifications of the Log for Azure Monitoring */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -1621,86 +1629,86 @@ export type MetricSpecificationSupportedTimeGrainTypesList = Array<string>;
 /** Specifications of the Dimension of metrics */
 export interface MetricDimension {
   /** Name of the dimension */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the dimension */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Whether this dimension should be included for the Shoebox export scenario */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** Dimensions of the metric */
 export type MetricSpecificationDimensionsList = Array<MetricDimension>;
 /** Specifications of the Metrics for Azure Monitoring */
 export interface MetricSpecification {
   /** Name of the metric */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the metric */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Localized friendly description of the metric */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Unit that makes sense for the metric */
-  unit?: string;
+  unit?: string | undefined;
   /** Name of the metric category that the metric belongs to. A metric can only belong to a single category. */
-  category?: string;
+  category?: string | undefined;
   /** Only provide one value for this field. Valid values: Average, Minimum, Maximum, Total, Count. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Supported aggregation types */
-  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList;
+  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList | undefined;
   /** Supported time grain types */
-  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList;
+  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList | undefined;
   /** Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
   /** Pattern for the filter of the metric. */
-  metricFilterPattern?: string;
+  metricFilterPattern?: string | undefined;
   /** Dimensions of the metric */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
   /** Whether the metric is internal. */
-  isInternal?: boolean;
+  isInternal?: boolean | undefined;
   /** The source MDM account. */
-  sourceMdmAccount?: string;
+  sourceMdmAccount?: string | undefined;
   /** The source MDM namespace. */
-  sourceMdmNamespace?: string;
+  sourceMdmNamespace?: string | undefined;
   /** Whether regional MDM account enabled. */
-  enableRegionalMdmAccount?: boolean;
+  enableRegionalMdmAccount?: boolean | undefined;
   /** The resource Id dimension name override. */
-  resourceIdDimensionNameOverride?: string;
+  resourceIdDimensionNameOverride?: string | undefined;
 }
 /** Specifications of the Metrics for Azure Monitoring */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** Service specification payload */
 export interface ServiceSpecification {
   /** Specifications of the Log for Azure Monitoring */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
   /** Specifications of the Metrics for Azure Monitoring */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** Extra Operation properties */
 export interface OperationProperties {
   /** Service specifications of the operation */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Service REST API operation. */
 export interface OperationDetail {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Display of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Default value is 'user,system'. */
-  origin?: string;
+  origin?: string | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationDetailActionType;
+  actionType?: OperationDetailActionType | undefined;
   /** Properties of the operation */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** Collection of available operation details */
 export type ListOperationsValueList = Array<OperationDetail>;
 /** Available operations of the service */
 export interface ListOperations {
   /** Collection of available operation details */
-  value?: ListOperationsValueList;
+  value?: ListOperationsValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByServiceRequest {
   /** The ID of the target subscription. */
@@ -1725,30 +1733,30 @@ export type PrivateEndpointConnectionDescriptionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateEndpointConnectionDescriptionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionDescriptionSystemDataCreatedByType;
+  createdByType?: PrivateEndpointConnectionDescriptionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionDescriptionSystemDataLastModifiedByType;
+  lastModifiedByType?: PrivateEndpointConnectionDescriptionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnectionDescription {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionDescriptionSystemData;
+  systemData?: PrivateEndpointConnectionDescriptionSystemData | undefined;
 }
 /** Array of private endpoint connections */
 export type PrivateEndpointConnectionListResultDescriptionValueList =
@@ -1756,7 +1764,7 @@ export type PrivateEndpointConnectionListResultDescriptionValueList =
 /** List of private endpoint connection associated with the specified storage account */
 export interface PrivateEndpointConnectionListResultDescription {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionListResultDescriptionValueList;
+  value?: PrivateEndpointConnectionListResultDescriptionValueList | undefined;
 }
 export interface ListPrivateLinkResourceByServiceRequest {
   /** The ID of the target subscription. */
@@ -1781,30 +1789,30 @@ export type PrivateLinkResourceDescriptionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateLinkResourceDescriptionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateLinkResourceDescriptionSystemDataCreatedByType;
+  createdByType?: PrivateLinkResourceDescriptionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateLinkResourceDescriptionSystemDataLastModifiedByType;
+  lastModifiedByType?: PrivateLinkResourceDescriptionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface PrivateLinkResourceDescription {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateLinkResourceDescriptionSystemData;
+  systemData?: PrivateLinkResourceDescriptionSystemData | undefined;
 }
 /** Array of private link resources */
 export type PrivateLinkResourceListResultDescriptionValueList =
@@ -1812,7 +1820,7 @@ export type PrivateLinkResourceListResultDescriptionValueList =
 /** A list of private link resources */
 export interface PrivateLinkResourceListResultDescription {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultDescriptionValueList;
+  value?: PrivateLinkResourceListResultDescriptionValueList | undefined;
 }
 export interface ListServiceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1829,43 +1837,43 @@ export type ServicesDescriptionIdentityType = "SystemAssigned" | "None";
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface ServicesDescriptionIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: ServicesDescriptionIdentityType;
+  type?: ServicesDescriptionIdentityType | undefined;
 }
 /** The description of the service. */
 export interface ServicesDescription {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The kind of the service. */
   kind: ServicesDescriptionKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: ServicesDescriptionTagsMap;
+  tags?: ServicesDescriptionTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: ServicesDescriptionIdentity;
+  identity?: ServicesDescriptionIdentity | undefined;
   /** The common properties of a service. */
-  properties?: ServicesProperties;
+  properties?: ServicesProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** A list of service description objects. */
 export type ServicesDescriptionListResultValueList = Array<ServicesDescription>;
 /** A list of service description objects with a next link. */
 export interface ServicesDescriptionListResult {
   /** The link used to get the next page of service description objects. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** A list of service description objects. */
-  value?: ServicesDescriptionListResultValueList;
+  value?: ServicesDescriptionListResultValueList | undefined;
 }
 export interface ListServicesRequest {
   /** The ID of the target subscription. */
@@ -1888,39 +1896,39 @@ export type WorkspacePropertiesPrivateEndpointConnectionsList =
 /** Workspaces resource specific properties. */
 export interface WorkspaceProperties {
   /** The provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: ResourcePublicNetworkAccess;
+  publicNetworkAccess?: ResourcePublicNetworkAccess | undefined;
 }
 /** Workspace resource. */
 export interface Workspace {
   /** Resource tags. */
-  tags?: WorkspaceTagsMap;
+  tags?: WorkspaceTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Workspaces resource specific properties. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** Collection of resources. */
 export type WorkspaceListValueList = Array<Workspace>;
 /** Collection of workspace object with a next link */
 export interface WorkspaceList {
   /** The link used to get the next page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of resources. */
-  value?: WorkspaceListValueList;
+  value?: WorkspaceListValueList | undefined;
 }
 export interface ListWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1947,7 +1955,7 @@ export type PrivateEndpointInput = UserAssignedIdentityInput;
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The resource of private end point. */
-  privateEndpoint?: UserAssignedIdentityInput;
+  privateEndpoint?: UserAssignedIdentityInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -1961,7 +1969,7 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection associated with the Azure resource */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateEndpointConnectionsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -1978,29 +1986,33 @@ export type PrivateEndpointConnectionsCreateOrUpdateResponseSystemDataLastModifi
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateEndpointConnectionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PrivateEndpointConnectionsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PrivateEndpointConnectionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionsCreateOrUpdateResponseSystemData;
+  systemData?: PrivateEndpointConnectionsCreateOrUpdateResponseSystemData | undefined;
 }
 /** The kind of the service. */
 export type ServicesCreateOrUpdateRequestKind = "fhir" | "fhir-Stu3" | "fhir-R4";
@@ -2011,12 +2023,12 @@ export type ServicesCreateOrUpdateRequestIdentityType = "SystemAssigned" | "None
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface ServicesCreateOrUpdateRequestIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: ServicesCreateOrUpdateRequestIdentityType | (string & {});
+  type?: ServicesCreateOrUpdateRequestIdentityType | (string & {}) | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface ServicesPropertiesInputPrivateEndpointConnectionsItem {
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The list of private endpoint connections that are set up for this resource. */
 export type ServicesPropertiesInputPrivateEndpointConnectionsList =
@@ -2026,23 +2038,23 @@ export type ServicesPropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
 /** The properties of a service instance. */
 export interface ServicesPropertiesInput {
   /** The access policies of the service instance. */
-  accessPolicies?: ServiceAccessPoliciesInfo;
+  accessPolicies?: ServiceAccessPoliciesInfo | undefined;
   /** The settings for the Cosmos DB database backing the service. */
-  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
+  cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo | undefined;
   /** The authentication configuration for the service instance. */
-  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo;
+  authenticationConfiguration?: ServiceAuthenticationConfigurationInfo | undefined;
   /** The settings for the CORS configuration of the service instance. */
-  corsConfiguration?: ServiceCorsConfigurationInfo;
+  corsConfiguration?: ServiceCorsConfigurationInfo | undefined;
   /** The settings for the export operation of the service instance. */
-  exportConfiguration?: FhirServiceExportConfiguration;
+  exportConfiguration?: FhirServiceExportConfiguration | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: ServicesPropertiesInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?: ServicesPropertiesInputPrivateEndpointConnectionsList | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: ServicesPropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: ServicesPropertiesInputPublicNetworkAccess | (string & {}) | undefined;
   /** The azure container registry settings used for convert data operation of the service instance. */
-  acrConfiguration?: ServiceAcrConfigurationInfo;
+  acrConfiguration?: ServiceAcrConfigurationInfo | undefined;
   /** The settings for the import operation of the service instance. */
-  importConfiguration?: FhirServiceImportConfiguration;
+  importConfiguration?: FhirServiceImportConfiguration | undefined;
 }
 export interface ServicesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2056,13 +2068,13 @@ export interface ServicesCreateOrUpdateRequest {
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: ServicesCreateOrUpdateRequestTagsMap;
+  tags?: ServicesCreateOrUpdateRequestTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: ServicesCreateOrUpdateRequestIdentity;
+  identity?: ServicesCreateOrUpdateRequestIdentity | undefined;
   /** The common properties of a service. */
-  properties?: ServicesPropertiesInput;
+  properties?: ServicesPropertiesInput | undefined;
 }
 /** The kind of the service. */
 export type ServicesCreateOrUpdateResponseKind = "fhir" | "fhir-Stu3" | "fhir-R4";
@@ -2073,33 +2085,33 @@ export type ServicesCreateOrUpdateResponseIdentityType = "SystemAssigned" | "Non
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface ServicesCreateOrUpdateResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: ServicesCreateOrUpdateResponseIdentityType;
+  type?: ServicesCreateOrUpdateResponseIdentityType | undefined;
 }
 export interface ServicesCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The kind of the service. */
   kind: ServicesCreateOrUpdateResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: ServicesCreateOrUpdateResponseTagsMap;
+  tags?: ServicesCreateOrUpdateResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: ServicesCreateOrUpdateResponseIdentity;
+  identity?: ServicesCreateOrUpdateResponseIdentity | undefined;
   /** The common properties of a service. */
-  properties?: ServicesProperties;
+  properties?: ServicesProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** Resource tags. */
 export type UpdateDicomServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -2113,7 +2125,7 @@ export type UpdateDicomServiceRequestIdentityType =
 export interface UpdateDicomServiceRequestIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: UpdateDicomServiceRequestIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface UpdateDicomServiceRequest {
   /** The ID of the target subscription. */
@@ -2125,9 +2137,9 @@ export interface UpdateDicomServiceRequest {
   /** The name of DICOM Service resource. */
   dicomServiceName: string;
   /** Resource tags. */
-  tags?: UpdateDicomServiceRequestTagsMap;
+  tags?: UpdateDicomServiceRequestTagsMap | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdateDicomServiceRequestIdentity;
+  identity?: UpdateDicomServiceRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateDicomServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -2142,30 +2154,30 @@ export interface UpdateDicomServiceResponseIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: UpdateDicomServiceResponseIdentityType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  userAssignedIdentities?: UserAssignedIdentities;
+  tenantId?: string | undefined;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface UpdateDicomServiceResponse {
   /** Resource tags. */
-  tags?: UpdateDicomServiceResponseTagsMap;
+  tags?: UpdateDicomServiceResponseTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdateDicomServiceResponseIdentity;
+  identity?: UpdateDicomServiceResponseIdentity | undefined;
   /** Dicom Service configuration. */
-  properties?: DicomServiceProperties;
+  properties?: DicomServiceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** Resource tags. */
 export type UpdateFhirServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -2179,7 +2191,7 @@ export type UpdateFhirServiceRequestIdentityType =
 export interface UpdateFhirServiceRequestIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: UpdateFhirServiceRequestIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface UpdateFhirServiceRequest {
   /** The ID of the target subscription. */
@@ -2191,9 +2203,9 @@ export interface UpdateFhirServiceRequest {
   /** The name of FHIR Service resource. */
   fhirServiceName: string;
   /** Resource tags. */
-  tags?: UpdateFhirServiceRequestTagsMap;
+  tags?: UpdateFhirServiceRequestTagsMap | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdateFhirServiceRequestIdentity;
+  identity?: UpdateFhirServiceRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateFhirServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -2208,34 +2220,34 @@ export interface UpdateFhirServiceResponseIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: UpdateFhirServiceResponseIdentityType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  userAssignedIdentities?: UserAssignedIdentities;
+  tenantId?: string | undefined;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** The kind of the service. */
 export type UpdateFhirServiceResponseKind = "fhir-Stu3" | "fhir-R4";
 export interface UpdateFhirServiceResponse {
   /** Resource tags. */
-  tags?: UpdateFhirServiceResponseTagsMap;
+  tags?: UpdateFhirServiceResponseTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdateFhirServiceResponseIdentity;
+  identity?: UpdateFhirServiceResponseIdentity | undefined;
   /** The kind of the service. */
-  kind?: UpdateFhirServiceResponseKind;
+  kind?: UpdateFhirServiceResponseKind | undefined;
   /** Fhir Service configuration. */
-  properties?: FhirServiceProperties;
+  properties?: FhirServiceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** Resource tags. */
 export type UpdateIotConnectorRequestTagsMap = { [key: string]: string | undefined };
@@ -2249,7 +2261,7 @@ export type UpdateIotConnectorRequestIdentityType =
 export interface UpdateIotConnectorRequestIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: UpdateIotConnectorRequestIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface UpdateIotConnectorRequest {
   /** The ID of the target subscription. */
@@ -2261,9 +2273,9 @@ export interface UpdateIotConnectorRequest {
   /** The name of IoT Connector resource. */
   iotConnectorName: string;
   /** Resource tags. */
-  tags?: UpdateIotConnectorRequestTagsMap;
+  tags?: UpdateIotConnectorRequestTagsMap | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdateIotConnectorRequestIdentity;
+  identity?: UpdateIotConnectorRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateIotConnectorResponseTagsMap = { [key: string]: string | undefined };
@@ -2278,30 +2290,30 @@ export interface UpdateIotConnectorResponseIdentity {
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
   type: UpdateIotConnectorResponseIdentityType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  userAssignedIdentities?: UserAssignedIdentities;
+  tenantId?: string | undefined;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface UpdateIotConnectorResponse {
   /** Resource tags. */
-  tags?: UpdateIotConnectorResponseTagsMap;
+  tags?: UpdateIotConnectorResponseTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdateIotConnectorResponseIdentity;
+  identity?: UpdateIotConnectorResponseIdentity | undefined;
   /** IoT Connector configuration. */
-  properties?: IotConnectorProperties;
+  properties?: IotConnectorProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** Instance tags */
 export type UpdateServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -2310,7 +2322,10 @@ export type ServicesPropertiesUpdateParametersPublicNetworkAccess = "Enabled" | 
 /** The properties for updating a service instance. */
 export interface ServicesPropertiesUpdateParameters {
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: ServicesPropertiesUpdateParametersPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | ServicesPropertiesUpdateParametersPublicNetworkAccess
+    | (string & {})
+    | undefined;
 }
 export interface UpdateServiceRequest {
   /** The ID of the target subscription. */
@@ -2320,9 +2335,9 @@ export interface UpdateServiceRequest {
   /** The name of the service instance. */
   resourceName: string;
   /** Instance tags */
-  tags?: UpdateServiceRequestTagsMap;
+  tags?: UpdateServiceRequestTagsMap | undefined;
   /** The properties for updating a service instance. */
-  properties?: ServicesPropertiesUpdateParameters;
+  properties?: ServicesPropertiesUpdateParameters | undefined;
 }
 /** The kind of the service. */
 export type UpdateServiceResponseKind = "fhir" | "fhir-Stu3" | "fhir-R4";
@@ -2333,33 +2348,33 @@ export type UpdateServiceResponseIdentityType = "SystemAssigned" | "None";
 /** Setting indicating whether the service has a managed identity associated with it. */
 export interface UpdateServiceResponseIdentity {
   /** The principal ID of the resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of identity being specified, currently SystemAssigned and None are allowed. */
-  type?: UpdateServiceResponseIdentityType;
+  type?: UpdateServiceResponseIdentityType | undefined;
 }
 export interface UpdateServiceResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The kind of the service. */
   kind: UpdateServiceResponseKind;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: UpdateServiceResponseTagsMap;
+  tags?: UpdateServiceResponseTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** Setting indicating whether the service has a managed identity associated with it. */
-  identity?: UpdateServiceResponseIdentity;
+  identity?: UpdateServiceResponseIdentity | undefined;
   /** The common properties of a service. */
-  properties?: ServicesProperties;
+  properties?: ServicesProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
@@ -2371,7 +2386,7 @@ export interface UpdateWorkspaceRequest {
   /** The name of workspace resource. */
   workspaceName: string;
   /** Resource tags. */
-  tags?: UpdateWorkspaceRequestTagsMap;
+  tags?: UpdateWorkspaceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
@@ -2384,29 +2399,31 @@ export type UpdateWorkspaceResponsePropertiesPrivateEndpointConnectionsList =
 /** Workspaces resource specific properties. */
 export interface UpdateWorkspaceResponseProperties {
   /** The provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: UpdateWorkspaceResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | UpdateWorkspaceResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: ResourcePublicNetworkAccess;
+  publicNetworkAccess?: ResourcePublicNetworkAccess | undefined;
 }
 export interface UpdateWorkspaceResponse {
   /** Resource tags. */
-  tags?: UpdateWorkspaceResponseTagsMap;
+  tags?: UpdateWorkspaceResponseTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Workspaces resource specific properties. */
-  properties?: UpdateWorkspaceResponseProperties;
+  properties?: UpdateWorkspaceResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2418,7 +2435,7 @@ export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection associated with the Azure resource */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type WorkspacePrivateEndpointConnectionsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -2435,29 +2452,33 @@ export type WorkspacePrivateEndpointConnectionsCreateOrUpdateResponseSystemDataL
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: WorkspacePrivateEndpointConnectionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | WorkspacePrivateEndpointConnectionsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: WorkspacePrivateEndpointConnectionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | WorkspacePrivateEndpointConnectionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: WorkspacePrivateEndpointConnectionsCreateOrUpdateResponseSystemData;
+  systemData?: WorkspacePrivateEndpointConnectionsCreateOrUpdateResponseSystemData | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2471,13 +2492,13 @@ export interface WorkspacesCreateOrUpdateRequest {
   /** The name of workspace resource. */
   workspaceName: string;
   /** Resource tags. */
-  tags?: WorkspacesCreateOrUpdateRequestTagsMap;
+  tags?: WorkspacesCreateOrUpdateRequestTagsMap | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Workspaces resource specific properties. */
-  properties?: UserAssignedIdentityInput;
+  properties?: UserAssignedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -2490,29 +2511,31 @@ export type WorkspacesCreateOrUpdateResponsePropertiesPrivateEndpointConnections
 /** Workspaces resource specific properties. */
 export interface WorkspacesCreateOrUpdateResponseProperties {
   /** The provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: WorkspacesCreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | WorkspacesCreateOrUpdateResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: ResourcePublicNetworkAccess;
+  publicNetworkAccess?: ResourcePublicNetworkAccess | undefined;
 }
 export interface WorkspacesCreateOrUpdateResponse {
   /** Resource tags. */
-  tags?: WorkspacesCreateOrUpdateResponseTagsMap;
+  tags?: WorkspacesCreateOrUpdateResponseTagsMap | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An etag associated with the resource, used for optimistic concurrency when editing it. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Workspaces resource specific properties. */
-  properties?: WorkspacesCreateOrUpdateResponseProperties;
+  properties?: WorkspacesCreateOrUpdateResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export type CheckServiceNameAvailabilityError = AzureOpError;
 /** Check if a service instance name is available. */

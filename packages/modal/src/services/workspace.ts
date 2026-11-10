@@ -24,7 +24,7 @@ const TELEMETRY = {
 } as const;
 
 export interface GetWorkspaceDashboardUrlRequest {
-  environmentName?: string;
+  environmentName?: string | undefined;
 }
 export interface GetWorkspaceDashboardUrlResponse {
   url: string;
@@ -74,19 +74,19 @@ export interface WorkspaceBillingRatesResponse {
 export type StringList = Array<string>;
 export interface WorkspaceBillingReportRequest {
   /** Workspace ID will be implicit in the request metadata */
-  startTimestamp?: string;
-  endTimestamp?: string;
-  resolution?: string;
+  startTimestamp?: string | undefined;
+  endTimestamp?: string | undefined;
+  resolution?: string | undefined;
   /** e.g. 'd' or 'h'; server defines what we accept */
-  tagNames?: StringList;
-  environmentIds?: StringList;
-  appIds?: StringList;
+  tagNames?: StringList | undefined;
+  environmentIds?: StringList | undefined;
+  appIds?: StringList | undefined;
 }
 export interface WorkspaceBillingReportItem {
   objectId: string;
   description: string;
   environmentName: string;
-  interval?: string;
+  interval?: string | undefined;
   cost: string;
   tags: StringMap;
   costByResource: StringMap;
@@ -98,11 +98,11 @@ export interface WorkspaceBillingReportStream {
 }
 export interface WorkspaceBillingSummaryRequest {
   /** all query intervals are implicitly one month long (to line up with billing cycles) */
-  startTimestamp?: string;
+  startTimestamp?: string | undefined;
 }
 export interface WorkspaceBillingSummaryResponse {
-  startTimestamp?: string;
-  endTimestamp?: string;
+  startTimestamp?: string | undefined;
+  endTimestamp?: string | undefined;
   meteredCost: string;
   billedCost: string;
   /** keyed by deployed, ephemeral, volume, notebook, tokens */
@@ -111,7 +111,7 @@ export interface WorkspaceBillingSummaryResponse {
   adjustments: StringMap;
 }
 export interface WorkspaceSetDefaultEnvironmentRequest {
-  environmentName?: string;
+  environmentName?: string | undefined;
 }
 export interface WorkspaceSetDefaultEnvironmentResponse {}
 /** Partial-update signal for EnvironmentUpdateRequest. Omitted means no-op. INHERIT clears the environment override so the workspace default applies. */
@@ -122,22 +122,25 @@ export type EnvironmentBlockUnauthenticatedResources =
   | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW";
 export interface WorkspaceSetDefaultEnvironmentSettingsRequest {
   /** Omitted = no-op. INHERIT clears the workspace default so environments with no override have no block. Rejects UNSPECIFIED. */
-  blockUnauthenticatedResources?: EnvironmentBlockUnauthenticatedResources | (string & {});
+  blockUnauthenticatedResources?:
+    | EnvironmentBlockUnauthenticatedResources
+    | (string & {})
+    | undefined;
 }
 /** Environment-scoped settings, with workspace-level defaults. Note that we use MergeFrom to combine workspace / environment settings, which will *append* any `repeated` fields! */
 export interface EnvironmentSettings {
   imageBuilderVersion: string;
   webhookSuffix: string;
-  maxConcurrentGpus?: number;
-  maxConcurrentTasks?: number;
+  maxConcurrentGpus?: number | undefined;
+  maxConcurrentTasks?: number | undefined;
   /** When true, new unauthenticated web functions, Servers, tunnels, and Endpoints in this environment are rejected. Unset inherits the workspace default. */
-  blockUnauthenticatedResources?: boolean;
+  blockUnauthenticatedResources?: boolean | undefined;
 }
 export interface WorkspaceSetDefaultEnvironmentSettingsResponse {
-  defaultEnvironmentSettings?: EnvironmentSettings;
+  defaultEnvironmentSettings?: EnvironmentSettings | undefined;
 }
 export interface WorkspaceSetImageBuilderVersionRequest {
-  newImageBuilderVersion?: string;
+  newImageBuilderVersion?: string | undefined;
 }
 export interface WorkspaceSetImageBuilderVersionResponse {
   imageBuilderVersion: string;

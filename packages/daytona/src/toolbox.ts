@@ -706,18 +706,20 @@ const indexOf = (haystack: Uint8Array, needle: Uint8Array, from: number) => {
 
 const dispositionParam = (disposition: string, name: string) => {
   // RFC 5987 `name*=utf-8''...` wins over the plain parameter.
+  const plainParam = () => {
+    const plain = new RegExp(`(?:^|;)\\s*${name}="([^"]*)"|(?:^|;)\\s*${name}=([^;]+)`, "i").exec(
+      disposition,
+    );
+    return plain ? (plain[1] ?? plain[2]?.trim()) : undefined;
+  };
   const extended = new RegExp(`(?:^|;)\\s*${name}\\*=([^']*)'[^']*'([^;]+)`, "i").exec(disposition);
-  if (extended) {
-    try {
-      return decodeURIComponent(extended[2]!.trim());
-    } catch {
-      // fall through to the plain parameter
-    }
+  if (!extended) return plainParam();
+  try {
+    return decodeURIComponent(extended[2]!.trim());
+  } catch {
+    // Not percent-encoded: the plain parameter instead.
+    return plainParam();
   }
-  const plain = new RegExp(`(?:^|;)\\s*${name}="([^"]*)"|(?:^|;)\\s*${name}=([^;]+)`, "i").exec(
-    disposition,
-  );
-  return plain ? (plain[1] ?? plain[2]?.trim()) : undefined;
 };
 
 /** Split a multipart body into its parts. */

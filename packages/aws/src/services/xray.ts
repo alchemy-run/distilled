@@ -184,27 +184,27 @@ export type TraceId = string;
 export type TraceIdList = string[];
 export interface BatchGetTracesRequest {
   TraceIds: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type SegmentId = string;
 export type SegmentDocument = string;
 export interface Segment {
-  Id?: string;
-  Document?: string;
+  Id?: string | undefined;
+  Document?: string | undefined;
 }
 export type SegmentList = Segment[];
 export interface Trace {
-  Id?: string;
-  Duration?: number;
-  LimitExceeded?: boolean;
-  Segments?: Segment[];
+  Id?: string | undefined;
+  Duration?: number | undefined;
+  LimitExceeded?: boolean | undefined;
+  Segments?: Segment[] | undefined;
 }
 export type TraceList = Trace[];
 export type UnprocessedTraceIdList = string[];
 export interface BatchGetTracesResult {
-  Traces?: Trace[];
-  UnprocessedTraceIds?: string[];
-  NextToken?: string;
+  Traces?: Trace[] | undefined;
+  UnprocessedTraceIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RetrievalToken = string;
 export interface CancelTraceRetrievalRequest {
@@ -214,8 +214,8 @@ export interface CancelTraceRetrievalResult {}
 export type GroupName = string;
 export type FilterExpression = string;
 export interface InsightsConfiguration {
-  InsightsEnabled?: boolean;
-  NotificationsEnabled?: boolean;
+  InsightsEnabled?: boolean | undefined;
+  NotificationsEnabled?: boolean | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -226,18 +226,18 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateGroupRequest {
   GroupName: string;
-  FilterExpression?: string;
-  InsightsConfiguration?: InsightsConfiguration;
-  Tags?: Tag[];
+  FilterExpression?: string | undefined;
+  InsightsConfiguration?: InsightsConfiguration | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface Group {
-  GroupName?: string;
-  GroupARN?: string;
-  FilterExpression?: string;
-  InsightsConfiguration?: InsightsConfiguration;
+  GroupName?: string | undefined;
+  GroupARN?: string | undefined;
+  FilterExpression?: string | undefined;
+  InsightsConfiguration?: InsightsConfiguration | undefined;
 }
 export interface CreateGroupResult {
-  Group?: Group;
+  Group?: Group | undefined;
 }
 export type RuleName = string;
 export type ResourceARN = string;
@@ -260,8 +260,8 @@ export interface SamplingRateBoost {
   CooldownWindowMinutes: number;
 }
 export interface SamplingRule {
-  RuleName?: string;
-  RuleARN?: string;
+  RuleName?: string | undefined;
+  RuleARN?: string | undefined;
   ResourceARN: string;
   Priority: number;
   FixedRate: number;
@@ -272,91 +272,91 @@ export interface SamplingRule {
   HTTPMethod: string;
   URLPath: string;
   Version: number;
-  Attributes?: { [key: string]: string | undefined };
-  SamplingRateBoost?: SamplingRateBoost;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  SamplingRateBoost?: SamplingRateBoost | undefined;
 }
 export interface CreateSamplingRuleRequest {
   SamplingRule: SamplingRule;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface SamplingRuleRecord {
-  SamplingRule?: SamplingRule;
-  CreatedAt?: Date;
-  ModifiedAt?: Date;
+  SamplingRule?: SamplingRule | undefined;
+  CreatedAt?: Date | undefined;
+  ModifiedAt?: Date | undefined;
 }
 export interface CreateSamplingRuleResult {
-  SamplingRuleRecord?: SamplingRuleRecord;
+  SamplingRuleRecord?: SamplingRuleRecord | undefined;
 }
 export type GroupARN = string;
 export interface DeleteGroupRequest {
-  GroupName?: string;
-  GroupARN?: string;
+  GroupName?: string | undefined;
+  GroupARN?: string | undefined;
 }
 export interface DeleteGroupResult {}
 export type PolicyName = string;
 export type PolicyRevisionId = string;
 export interface DeleteResourcePolicyRequest {
   PolicyName: string;
-  PolicyRevisionId?: string;
+  PolicyRevisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyResult {}
 export interface DeleteSamplingRuleRequest {
-  RuleName?: string;
-  RuleARN?: string;
+  RuleName?: string | undefined;
+  RuleARN?: string | undefined;
 }
 export interface DeleteSamplingRuleResult {
-  SamplingRuleRecord?: SamplingRuleRecord;
+  SamplingRuleRecord?: SamplingRuleRecord | undefined;
 }
 export interface GetEncryptionConfigRequest {}
 export type EncryptionStatus = "UPDATING" | "ACTIVE" | (string & {});
 export type EncryptionType = "NONE" | "KMS" | (string & {});
 export interface EncryptionConfig {
-  KeyId?: string;
-  Status?: EncryptionStatus;
-  Type?: EncryptionType;
+  KeyId?: string | undefined;
+  Status?: EncryptionStatus | undefined;
+  Type?: EncryptionType | undefined;
 }
 export interface GetEncryptionConfigResult {
-  EncryptionConfig?: EncryptionConfig;
+  EncryptionConfig?: EncryptionConfig | undefined;
 }
 export interface GetGroupRequest {
-  GroupName?: string;
-  GroupARN?: string;
+  GroupName?: string | undefined;
+  GroupARN?: string | undefined;
 }
 export interface GetGroupResult {
-  Group?: Group;
+  Group?: Group | undefined;
 }
 export type GetGroupsNextToken = string;
 export interface GetGroupsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GroupSummary {
-  GroupName?: string;
-  GroupARN?: string;
-  FilterExpression?: string;
-  InsightsConfiguration?: InsightsConfiguration;
+  GroupName?: string | undefined;
+  GroupARN?: string | undefined;
+  FilterExpression?: string | undefined;
+  InsightsConfiguration?: InsightsConfiguration | undefined;
 }
 export type GroupSummaryList = GroupSummary[];
 export interface GetGroupsResult {
-  Groups?: GroupSummary[];
-  NextToken?: string;
+  Groups?: GroupSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetIndexingRulesRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ProbabilisticRuleValue {
   DesiredSamplingPercentage: number;
-  ActualSamplingPercentage?: number;
+  ActualSamplingPercentage?: number | undefined;
 }
 export type IndexingRuleValue = { Probabilistic: ProbabilisticRuleValue };
 export interface IndexingRule {
-  Name?: string;
-  ModifiedAt?: Date;
-  Rule?: IndexingRuleValue;
+  Name?: string | undefined;
+  ModifiedAt?: Date | undefined;
+  Rule?: IndexingRuleValue | undefined;
 }
 export type IndexingRuleList = IndexingRule[];
 export interface GetIndexingRulesResult {
-  IndexingRules?: IndexingRule[];
-  NextToken?: string;
+  IndexingRules?: IndexingRule[] | undefined;
+  NextToken?: string | undefined;
 }
 export type InsightId = string;
 export interface GetInsightRequest {
@@ -364,123 +364,123 @@ export interface GetInsightRequest {
 }
 export type ServiceNames = string[];
 export interface ServiceId {
-  Name?: string;
-  Names?: string[];
-  AccountId?: string;
-  Type?: string;
+  Name?: string | undefined;
+  Names?: string[] | undefined;
+  AccountId?: string | undefined;
+  Type?: string | undefined;
 }
 export type InsightCategory = "FAULT" | (string & {});
 export type InsightCategoryList = InsightCategory[];
 export type InsightState = "ACTIVE" | "CLOSED" | (string & {});
 export type InsightSummaryText = string;
 export interface RequestImpactStatistics {
-  FaultCount?: number;
-  OkCount?: number;
-  TotalCount?: number;
+  FaultCount?: number | undefined;
+  OkCount?: number | undefined;
+  TotalCount?: number | undefined;
 }
 export interface AnomalousService {
-  ServiceId?: ServiceId;
+  ServiceId?: ServiceId | undefined;
 }
 export type AnomalousServiceList = AnomalousService[];
 export interface Insight {
-  InsightId?: string;
-  GroupARN?: string;
-  GroupName?: string;
-  RootCauseServiceId?: ServiceId;
-  Categories?: InsightCategory[];
-  State?: InsightState;
-  StartTime?: Date;
-  EndTime?: Date;
-  Summary?: string;
-  ClientRequestImpactStatistics?: RequestImpactStatistics;
-  RootCauseServiceRequestImpactStatistics?: RequestImpactStatistics;
-  TopAnomalousServices?: AnomalousService[];
+  InsightId?: string | undefined;
+  GroupARN?: string | undefined;
+  GroupName?: string | undefined;
+  RootCauseServiceId?: ServiceId | undefined;
+  Categories?: InsightCategory[] | undefined;
+  State?: InsightState | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Summary?: string | undefined;
+  ClientRequestImpactStatistics?: RequestImpactStatistics | undefined;
+  RootCauseServiceRequestImpactStatistics?: RequestImpactStatistics | undefined;
+  TopAnomalousServices?: AnomalousService[] | undefined;
 }
 export interface GetInsightResult {
-  Insight?: Insight;
+  Insight?: Insight | undefined;
 }
 export type GetInsightEventsMaxResults = number;
 export type Token = string;
 export interface GetInsightEventsRequest {
   InsightId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type EventSummaryText = string;
 export interface InsightEvent {
-  Summary?: string;
-  EventTime?: Date;
-  ClientRequestImpactStatistics?: RequestImpactStatistics;
-  RootCauseServiceRequestImpactStatistics?: RequestImpactStatistics;
-  TopAnomalousServices?: AnomalousService[];
+  Summary?: string | undefined;
+  EventTime?: Date | undefined;
+  ClientRequestImpactStatistics?: RequestImpactStatistics | undefined;
+  RootCauseServiceRequestImpactStatistics?: RequestImpactStatistics | undefined;
+  TopAnomalousServices?: AnomalousService[] | undefined;
 }
 export type InsightEventList = InsightEvent[];
 export interface GetInsightEventsResult {
-  InsightEvents?: InsightEvent[];
-  NextToken?: string;
+  InsightEvents?: InsightEvent[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetInsightImpactGraphRequest {
   InsightId: string;
   StartTime: Date;
   EndTime: Date;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface InsightImpactGraphEdge {
-  ReferenceId?: number;
+  ReferenceId?: number | undefined;
 }
 export type InsightImpactGraphEdgeList = InsightImpactGraphEdge[];
 export interface InsightImpactGraphService {
-  ReferenceId?: number;
-  Type?: string;
-  Name?: string;
-  Names?: string[];
-  AccountId?: string;
-  Edges?: InsightImpactGraphEdge[];
+  ReferenceId?: number | undefined;
+  Type?: string | undefined;
+  Name?: string | undefined;
+  Names?: string[] | undefined;
+  AccountId?: string | undefined;
+  Edges?: InsightImpactGraphEdge[] | undefined;
 }
 export type InsightImpactGraphServiceList = InsightImpactGraphService[];
 export interface GetInsightImpactGraphResult {
-  InsightId?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  ServiceGraphStartTime?: Date;
-  ServiceGraphEndTime?: Date;
-  Services?: InsightImpactGraphService[];
-  NextToken?: string;
+  InsightId?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ServiceGraphStartTime?: Date | undefined;
+  ServiceGraphEndTime?: Date | undefined;
+  Services?: InsightImpactGraphService[] | undefined;
+  NextToken?: string | undefined;
 }
 export type InsightStateList = InsightState[];
 export type GetInsightSummariesMaxResults = number;
 export interface GetInsightSummariesRequest {
-  States?: InsightState[];
-  GroupARN?: string;
-  GroupName?: string;
+  States?: InsightState[] | undefined;
+  GroupARN?: string | undefined;
+  GroupName?: string | undefined;
   StartTime: Date;
   EndTime: Date;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface InsightSummary {
-  InsightId?: string;
-  GroupARN?: string;
-  GroupName?: string;
-  RootCauseServiceId?: ServiceId;
-  Categories?: InsightCategory[];
-  State?: InsightState;
-  StartTime?: Date;
-  EndTime?: Date;
-  Summary?: string;
-  ClientRequestImpactStatistics?: RequestImpactStatistics;
-  RootCauseServiceRequestImpactStatistics?: RequestImpactStatistics;
-  TopAnomalousServices?: AnomalousService[];
-  LastUpdateTime?: Date;
+  InsightId?: string | undefined;
+  GroupARN?: string | undefined;
+  GroupName?: string | undefined;
+  RootCauseServiceId?: ServiceId | undefined;
+  Categories?: InsightCategory[] | undefined;
+  State?: InsightState | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Summary?: string | undefined;
+  ClientRequestImpactStatistics?: RequestImpactStatistics | undefined;
+  RootCauseServiceRequestImpactStatistics?: RequestImpactStatistics | undefined;
+  TopAnomalousServices?: AnomalousService[] | undefined;
+  LastUpdateTime?: Date | undefined;
 }
 export type InsightSummaryList = InsightSummary[];
 export interface GetInsightSummariesResult {
-  InsightSummaries?: InsightSummary[];
-  NextToken?: string;
+  InsightSummaries?: InsightSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetRetrievedTracesGraphRequest {
   RetrievalToken: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type RetrievalStatus =
   | "SCHEDULED"
@@ -491,104 +491,104 @@ export type RetrievalStatus =
   | "TIMEOUT"
   | (string & {});
 export interface ErrorStatistics {
-  ThrottleCount?: number;
-  OtherCount?: number;
-  TotalCount?: number;
+  ThrottleCount?: number | undefined;
+  OtherCount?: number | undefined;
+  TotalCount?: number | undefined;
 }
 export interface FaultStatistics {
-  OtherCount?: number;
-  TotalCount?: number;
+  OtherCount?: number | undefined;
+  TotalCount?: number | undefined;
 }
 export interface EdgeStatistics {
-  OkCount?: number;
-  ErrorStatistics?: ErrorStatistics;
-  FaultStatistics?: FaultStatistics;
-  TotalCount?: number;
-  TotalResponseTime?: number;
+  OkCount?: number | undefined;
+  ErrorStatistics?: ErrorStatistics | undefined;
+  FaultStatistics?: FaultStatistics | undefined;
+  TotalCount?: number | undefined;
+  TotalResponseTime?: number | undefined;
 }
 export interface HistogramEntry {
-  Value?: number;
-  Count?: number;
+  Value?: number | undefined;
+  Count?: number | undefined;
 }
 export type Histogram = HistogramEntry[];
 export type AliasNames = string[];
 export interface Alias {
-  Name?: string;
-  Names?: string[];
-  Type?: string;
+  Name?: string | undefined;
+  Names?: string[] | undefined;
+  Type?: string | undefined;
 }
 export type AliasList = Alias[];
 export interface Edge {
-  ReferenceId?: number;
-  StartTime?: Date;
-  EndTime?: Date;
-  SummaryStatistics?: EdgeStatistics;
-  ResponseTimeHistogram?: HistogramEntry[];
-  Aliases?: Alias[];
-  EdgeType?: string;
-  ReceivedEventAgeHistogram?: HistogramEntry[];
+  ReferenceId?: number | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  SummaryStatistics?: EdgeStatistics | undefined;
+  ResponseTimeHistogram?: HistogramEntry[] | undefined;
+  Aliases?: Alias[] | undefined;
+  EdgeType?: string | undefined;
+  ReceivedEventAgeHistogram?: HistogramEntry[] | undefined;
 }
 export type EdgeList = Edge[];
 export interface ServiceStatistics {
-  OkCount?: number;
-  ErrorStatistics?: ErrorStatistics;
-  FaultStatistics?: FaultStatistics;
-  TotalCount?: number;
-  TotalResponseTime?: number;
+  OkCount?: number | undefined;
+  ErrorStatistics?: ErrorStatistics | undefined;
+  FaultStatistics?: FaultStatistics | undefined;
+  TotalCount?: number | undefined;
+  TotalResponseTime?: number | undefined;
 }
 export interface Service {
-  ReferenceId?: number;
-  Name?: string;
-  Names?: string[];
-  Root?: boolean;
-  AccountId?: string;
-  Type?: string;
-  State?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Edges?: Edge[];
-  SummaryStatistics?: ServiceStatistics;
-  DurationHistogram?: HistogramEntry[];
-  ResponseTimeHistogram?: HistogramEntry[];
+  ReferenceId?: number | undefined;
+  Name?: string | undefined;
+  Names?: string[] | undefined;
+  Root?: boolean | undefined;
+  AccountId?: string | undefined;
+  Type?: string | undefined;
+  State?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Edges?: Edge[] | undefined;
+  SummaryStatistics?: ServiceStatistics | undefined;
+  DurationHistogram?: HistogramEntry[] | undefined;
+  ResponseTimeHistogram?: HistogramEntry[] | undefined;
 }
 export interface GraphLink {
-  ReferenceType?: string;
-  SourceTraceId?: string;
-  DestinationTraceIds?: string[];
+  ReferenceType?: string | undefined;
+  SourceTraceId?: string | undefined;
+  DestinationTraceIds?: string[] | undefined;
 }
 export type LinksList = GraphLink[];
 export interface RetrievedService {
-  Service?: Service;
-  Links?: GraphLink[];
+  Service?: Service | undefined;
+  Links?: GraphLink[] | undefined;
 }
 export type RetrievedServicesList = RetrievedService[];
 export interface GetRetrievedTracesGraphResult {
-  RetrievalStatus?: RetrievalStatus;
-  Services?: RetrievedService[];
-  NextToken?: string;
+  RetrievalStatus?: RetrievalStatus | undefined;
+  Services?: RetrievedService[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetSamplingRulesRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type SamplingRuleRecordList = SamplingRuleRecord[];
 export interface GetSamplingRulesResult {
-  SamplingRuleRecords?: SamplingRuleRecord[];
-  NextToken?: string;
+  SamplingRuleRecords?: SamplingRuleRecord[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetSamplingStatisticSummariesRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface SamplingStatisticSummary {
-  RuleName?: string;
-  Timestamp?: Date;
-  RequestCount?: number;
-  BorrowCount?: number;
-  SampledCount?: number;
+  RuleName?: string | undefined;
+  Timestamp?: Date | undefined;
+  RequestCount?: number | undefined;
+  BorrowCount?: number | undefined;
+  SampledCount?: number | undefined;
 }
 export type SamplingStatisticSummaryList = SamplingStatisticSummary[];
 export interface GetSamplingStatisticSummariesResult {
-  SamplingStatisticSummaries?: SamplingStatisticSummary[];
-  NextToken?: string;
+  SamplingStatisticSummaries?: SamplingStatisticSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ClientID = string;
 export type RequestCount = number;
@@ -600,7 +600,7 @@ export interface SamplingStatisticsDocument {
   Timestamp: Date;
   RequestCount: number;
   SampledCount: number;
-  BorrowCount?: number;
+  BorrowCount?: number | undefined;
 }
 export type SamplingStatisticsDocumentList = SamplingStatisticsDocument[];
 export type AnomalyCount = number;
@@ -617,328 +617,328 @@ export interface SamplingBoostStatisticsDocument {
 export type SamplingBoostStatisticsDocumentList = SamplingBoostStatisticsDocument[];
 export interface GetSamplingTargetsRequest {
   SamplingStatisticsDocuments: SamplingStatisticsDocument[];
-  SamplingBoostStatisticsDocuments?: SamplingBoostStatisticsDocument[];
+  SamplingBoostStatisticsDocuments?: SamplingBoostStatisticsDocument[] | undefined;
 }
 export interface SamplingBoost {
   BoostRate: number;
   BoostRateTTL: Date;
 }
 export interface SamplingTargetDocument {
-  RuleName?: string;
-  FixedRate?: number;
-  ReservoirQuota?: number;
-  ReservoirQuotaTTL?: Date;
-  Interval?: number;
-  SamplingBoost?: SamplingBoost;
+  RuleName?: string | undefined;
+  FixedRate?: number | undefined;
+  ReservoirQuota?: number | undefined;
+  ReservoirQuotaTTL?: Date | undefined;
+  Interval?: number | undefined;
+  SamplingBoost?: SamplingBoost | undefined;
 }
 export type SamplingTargetDocumentList = SamplingTargetDocument[];
 export interface UnprocessedStatistics {
-  RuleName?: string;
-  ErrorCode?: string;
-  Message?: string;
+  RuleName?: string | undefined;
+  ErrorCode?: string | undefined;
+  Message?: string | undefined;
 }
 export type UnprocessedStatisticsList = UnprocessedStatistics[];
 export interface GetSamplingTargetsResult {
-  SamplingTargetDocuments?: SamplingTargetDocument[];
-  LastRuleModification?: Date;
-  UnprocessedStatistics?: UnprocessedStatistics[];
-  UnprocessedBoostStatistics?: UnprocessedStatistics[];
+  SamplingTargetDocuments?: SamplingTargetDocument[] | undefined;
+  LastRuleModification?: Date | undefined;
+  UnprocessedStatistics?: UnprocessedStatistics[] | undefined;
+  UnprocessedBoostStatistics?: UnprocessedStatistics[] | undefined;
 }
 export interface GetServiceGraphRequest {
   StartTime: Date;
   EndTime: Date;
-  GroupName?: string;
-  GroupARN?: string;
-  NextToken?: string;
+  GroupName?: string | undefined;
+  GroupARN?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type ServiceList = Service[];
 export interface GetServiceGraphResult {
-  StartTime?: Date;
-  EndTime?: Date;
-  Services?: Service[];
-  ContainsOldGroupVersions?: boolean;
-  NextToken?: string;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Services?: Service[] | undefined;
+  ContainsOldGroupVersions?: boolean | undefined;
+  NextToken?: string | undefined;
 }
 export type EntitySelectorExpression = string;
 export interface GetTimeSeriesServiceStatisticsRequest {
   StartTime: Date;
   EndTime: Date;
-  GroupName?: string;
-  GroupARN?: string;
-  EntitySelectorExpression?: string;
-  Period?: number;
-  ForecastStatistics?: boolean;
-  NextToken?: string;
+  GroupName?: string | undefined;
+  GroupARN?: string | undefined;
+  EntitySelectorExpression?: string | undefined;
+  Period?: number | undefined;
+  ForecastStatistics?: boolean | undefined;
+  NextToken?: string | undefined;
 }
 export interface ForecastStatistics {
-  FaultCountHigh?: number;
-  FaultCountLow?: number;
+  FaultCountHigh?: number | undefined;
+  FaultCountLow?: number | undefined;
 }
 export interface TimeSeriesServiceStatistics {
-  Timestamp?: Date;
-  EdgeSummaryStatistics?: EdgeStatistics;
-  ServiceSummaryStatistics?: ServiceStatistics;
-  ServiceForecastStatistics?: ForecastStatistics;
-  ResponseTimeHistogram?: HistogramEntry[];
+  Timestamp?: Date | undefined;
+  EdgeSummaryStatistics?: EdgeStatistics | undefined;
+  ServiceSummaryStatistics?: ServiceStatistics | undefined;
+  ServiceForecastStatistics?: ForecastStatistics | undefined;
+  ResponseTimeHistogram?: HistogramEntry[] | undefined;
 }
 export type TimeSeriesServiceStatisticsList = TimeSeriesServiceStatistics[];
 export interface GetTimeSeriesServiceStatisticsResult {
-  TimeSeriesServiceStatistics?: TimeSeriesServiceStatistics[];
-  ContainsOldGroupVersions?: boolean;
-  NextToken?: string;
+  TimeSeriesServiceStatistics?: TimeSeriesServiceStatistics[] | undefined;
+  ContainsOldGroupVersions?: boolean | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetTraceGraphRequest {
   TraceIds: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetTraceGraphResult {
-  Services?: Service[];
-  NextToken?: string;
+  Services?: Service[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetTraceSegmentDestinationRequest {}
 export type TraceSegmentDestination = "XRay" | "CloudWatchLogs" | (string & {});
 export type TraceSegmentDestinationStatus = "PENDING" | "ACTIVE" | (string & {});
 export interface GetTraceSegmentDestinationResult {
-  Destination?: TraceSegmentDestination;
-  Status?: TraceSegmentDestinationStatus;
+  Destination?: TraceSegmentDestination | undefined;
+  Status?: TraceSegmentDestinationStatus | undefined;
 }
 export type TimeRangeType = "TraceId" | "Event" | "Service" | (string & {});
 export type SamplingStrategyName = "PartialScan" | "FixedRate" | (string & {});
 export interface SamplingStrategy {
-  Name?: SamplingStrategyName;
-  Value?: number;
+  Name?: SamplingStrategyName | undefined;
+  Value?: number | undefined;
 }
 export interface GetTraceSummariesRequest {
   StartTime: Date;
   EndTime: Date;
-  TimeRangeType?: TimeRangeType;
-  Sampling?: boolean;
-  SamplingStrategy?: SamplingStrategy;
-  FilterExpression?: string;
-  NextToken?: string;
+  TimeRangeType?: TimeRangeType | undefined;
+  Sampling?: boolean | undefined;
+  SamplingStrategy?: SamplingStrategy | undefined;
+  FilterExpression?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface Http {
-  HttpURL?: string;
-  HttpStatus?: number;
-  HttpMethod?: string;
-  UserAgent?: string;
-  ClientIp?: string;
+  HttpURL?: string | undefined;
+  HttpStatus?: number | undefined;
+  HttpMethod?: string | undefined;
+  UserAgent?: string | undefined;
+  ClientIp?: string | undefined;
 }
 export type AnnotationKey = string;
 export type AnnotationValue =
-  | { NumberValue: number; BooleanValue?: never; StringValue?: never }
-  | { NumberValue?: never; BooleanValue: boolean; StringValue?: never }
-  | { NumberValue?: never; BooleanValue?: never; StringValue: string };
+  | { NumberValue: number; BooleanValue?: undefined; StringValue?: undefined }
+  | { NumberValue?: undefined; BooleanValue: boolean; StringValue?: undefined }
+  | { NumberValue?: undefined; BooleanValue?: undefined; StringValue: string };
 export type ServiceIds = ServiceId[];
 export interface ValueWithServiceIds {
-  AnnotationValue?: AnnotationValue;
-  ServiceIds?: ServiceId[];
+  AnnotationValue?: AnnotationValue | undefined;
+  ServiceIds?: ServiceId[] | undefined;
 }
 export type ValuesWithServiceIds = ValueWithServiceIds[];
 export type Annotations = { [key: string]: ValueWithServiceIds[] | undefined };
 export interface TraceUser {
-  UserName?: string;
-  ServiceIds?: ServiceId[];
+  UserName?: string | undefined;
+  ServiceIds?: ServiceId[] | undefined;
 }
 export type TraceUsers = TraceUser[];
 export interface ResourceARNDetail {
-  ARN?: string;
+  ARN?: string | undefined;
 }
 export type TraceResourceARNs = ResourceARNDetail[];
 export interface InstanceIdDetail {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type TraceInstanceIds = InstanceIdDetail[];
 export interface AvailabilityZoneDetail {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type TraceAvailabilityZones = AvailabilityZoneDetail[];
 export interface RootCauseException {
-  Name?: string;
-  Message?: string;
+  Name?: string | undefined;
+  Message?: string | undefined;
 }
 export type RootCauseExceptions = RootCauseException[];
 export interface FaultRootCauseEntity {
-  Name?: string;
-  Exceptions?: RootCauseException[];
-  Remote?: boolean;
+  Name?: string | undefined;
+  Exceptions?: RootCauseException[] | undefined;
+  Remote?: boolean | undefined;
 }
 export type FaultRootCauseEntityPath = FaultRootCauseEntity[];
 export interface FaultRootCauseService {
-  Name?: string;
-  Names?: string[];
-  Type?: string;
-  AccountId?: string;
-  EntityPath?: FaultRootCauseEntity[];
-  Inferred?: boolean;
+  Name?: string | undefined;
+  Names?: string[] | undefined;
+  Type?: string | undefined;
+  AccountId?: string | undefined;
+  EntityPath?: FaultRootCauseEntity[] | undefined;
+  Inferred?: boolean | undefined;
 }
 export type FaultRootCauseServices = FaultRootCauseService[];
 export interface FaultRootCause {
-  Services?: FaultRootCauseService[];
-  ClientImpacting?: boolean;
+  Services?: FaultRootCauseService[] | undefined;
+  ClientImpacting?: boolean | undefined;
 }
 export type FaultRootCauses = FaultRootCause[];
 export interface ErrorRootCauseEntity {
-  Name?: string;
-  Exceptions?: RootCauseException[];
-  Remote?: boolean;
+  Name?: string | undefined;
+  Exceptions?: RootCauseException[] | undefined;
+  Remote?: boolean | undefined;
 }
 export type ErrorRootCauseEntityPath = ErrorRootCauseEntity[];
 export interface ErrorRootCauseService {
-  Name?: string;
-  Names?: string[];
-  Type?: string;
-  AccountId?: string;
-  EntityPath?: ErrorRootCauseEntity[];
-  Inferred?: boolean;
+  Name?: string | undefined;
+  Names?: string[] | undefined;
+  Type?: string | undefined;
+  AccountId?: string | undefined;
+  EntityPath?: ErrorRootCauseEntity[] | undefined;
+  Inferred?: boolean | undefined;
 }
 export type ErrorRootCauseServices = ErrorRootCauseService[];
 export interface ErrorRootCause {
-  Services?: ErrorRootCauseService[];
-  ClientImpacting?: boolean;
+  Services?: ErrorRootCauseService[] | undefined;
+  ClientImpacting?: boolean | undefined;
 }
 export type ErrorRootCauses = ErrorRootCause[];
 export interface ResponseTimeRootCauseEntity {
-  Name?: string;
-  Coverage?: number;
-  Remote?: boolean;
+  Name?: string | undefined;
+  Coverage?: number | undefined;
+  Remote?: boolean | undefined;
 }
 export type ResponseTimeRootCauseEntityPath = ResponseTimeRootCauseEntity[];
 export interface ResponseTimeRootCauseService {
-  Name?: string;
-  Names?: string[];
-  Type?: string;
-  AccountId?: string;
-  EntityPath?: ResponseTimeRootCauseEntity[];
-  Inferred?: boolean;
+  Name?: string | undefined;
+  Names?: string[] | undefined;
+  Type?: string | undefined;
+  AccountId?: string | undefined;
+  EntityPath?: ResponseTimeRootCauseEntity[] | undefined;
+  Inferred?: boolean | undefined;
 }
 export type ResponseTimeRootCauseServices = ResponseTimeRootCauseService[];
 export interface ResponseTimeRootCause {
-  Services?: ResponseTimeRootCauseService[];
-  ClientImpacting?: boolean;
+  Services?: ResponseTimeRootCauseService[] | undefined;
+  ClientImpacting?: boolean | undefined;
 }
 export type ResponseTimeRootCauses = ResponseTimeRootCause[];
 export interface TraceSummary {
-  Id?: string;
-  StartTime?: Date;
-  Duration?: number;
-  ResponseTime?: number;
-  HasFault?: boolean;
-  HasError?: boolean;
-  HasThrottle?: boolean;
-  IsPartial?: boolean;
-  Http?: Http;
-  Annotations?: { [key: string]: ValueWithServiceIds[] | undefined };
-  Users?: TraceUser[];
-  ServiceIds?: ServiceId[];
-  ResourceARNs?: ResourceARNDetail[];
-  InstanceIds?: InstanceIdDetail[];
-  AvailabilityZones?: AvailabilityZoneDetail[];
-  EntryPoint?: ServiceId;
-  FaultRootCauses?: FaultRootCause[];
-  ErrorRootCauses?: ErrorRootCause[];
-  ResponseTimeRootCauses?: ResponseTimeRootCause[];
-  Revision?: number;
-  MatchedEventTime?: Date;
+  Id?: string | undefined;
+  StartTime?: Date | undefined;
+  Duration?: number | undefined;
+  ResponseTime?: number | undefined;
+  HasFault?: boolean | undefined;
+  HasError?: boolean | undefined;
+  HasThrottle?: boolean | undefined;
+  IsPartial?: boolean | undefined;
+  Http?: Http | undefined;
+  Annotations?: { [key: string]: ValueWithServiceIds[] | undefined } | undefined;
+  Users?: TraceUser[] | undefined;
+  ServiceIds?: ServiceId[] | undefined;
+  ResourceARNs?: ResourceARNDetail[] | undefined;
+  InstanceIds?: InstanceIdDetail[] | undefined;
+  AvailabilityZones?: AvailabilityZoneDetail[] | undefined;
+  EntryPoint?: ServiceId | undefined;
+  FaultRootCauses?: FaultRootCause[] | undefined;
+  ErrorRootCauses?: ErrorRootCause[] | undefined;
+  ResponseTimeRootCauses?: ResponseTimeRootCause[] | undefined;
+  Revision?: number | undefined;
+  MatchedEventTime?: Date | undefined;
 }
 export type TraceSummaryList = TraceSummary[];
 export interface GetTraceSummariesResult {
-  TraceSummaries?: TraceSummary[];
-  ApproximateTime?: Date;
-  TracesProcessedCount?: number;
-  NextToken?: string;
+  TraceSummaries?: TraceSummary[] | undefined;
+  ApproximateTime?: Date | undefined;
+  TracesProcessedCount?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourcePolicyNextToken = string;
 export interface ListResourcePoliciesRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type PolicyDocument = string;
 export interface ResourcePolicy {
-  PolicyName?: string;
-  PolicyDocument?: string;
-  PolicyRevisionId?: string;
-  LastUpdatedTime?: Date;
+  PolicyName?: string | undefined;
+  PolicyDocument?: string | undefined;
+  PolicyRevisionId?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type ResourcePolicyList = ResourcePolicy[];
 export interface ListResourcePoliciesResult {
-  ResourcePolicies?: ResourcePolicy[];
-  NextToken?: string;
+  ResourcePolicies?: ResourcePolicy[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TraceFormatType = "XRAY" | "OTEL" | (string & {});
 export interface ListRetrievedTracesRequest {
   RetrievalToken: string;
-  TraceFormat?: TraceFormatType;
-  NextToken?: string;
+  TraceFormat?: TraceFormatType | undefined;
+  NextToken?: string | undefined;
 }
 export type SpanId = string;
 export type SpanDocument = string;
 export interface Span {
-  Id?: string;
-  Document?: string;
+  Id?: string | undefined;
+  Document?: string | undefined;
 }
 export type SpanList = Span[];
 export interface RetrievedTrace {
-  Id?: string;
-  Duration?: number;
-  Spans?: Span[];
+  Id?: string | undefined;
+  Duration?: number | undefined;
+  Spans?: Span[] | undefined;
 }
 export type TraceSpanList = RetrievedTrace[];
 export interface ListRetrievedTracesResult {
-  RetrievalStatus?: RetrievalStatus;
-  TraceFormat?: TraceFormatType;
-  Traces?: RetrievedTrace[];
-  NextToken?: string;
+  RetrievalStatus?: RetrievalStatus | undefined;
+  TraceFormat?: TraceFormatType | undefined;
+  Traces?: RetrievedTrace[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export type EncryptionKeyId = string;
 export interface PutEncryptionConfigRequest {
-  KeyId?: string;
+  KeyId?: string | undefined;
   Type: EncryptionType;
 }
 export interface PutEncryptionConfigResult {
-  EncryptionConfig?: EncryptionConfig;
+  EncryptionConfig?: EncryptionConfig | undefined;
 }
 export interface PutResourcePolicyRequest {
   PolicyName: string;
   PolicyDocument: string;
-  PolicyRevisionId?: string;
-  BypassPolicyLockoutCheck?: boolean;
+  PolicyRevisionId?: string | undefined;
+  BypassPolicyLockoutCheck?: boolean | undefined;
 }
 export interface PutResourcePolicyResult {
-  ResourcePolicy?: ResourcePolicy;
+  ResourcePolicy?: ResourcePolicy | undefined;
 }
 export interface BackendConnectionErrors {
-  TimeoutCount?: number;
-  ConnectionRefusedCount?: number;
-  HTTPCode4XXCount?: number;
-  HTTPCode5XXCount?: number;
-  UnknownHostCount?: number;
-  OtherCount?: number;
+  TimeoutCount?: number | undefined;
+  ConnectionRefusedCount?: number | undefined;
+  HTTPCode4XXCount?: number | undefined;
+  HTTPCode5XXCount?: number | undefined;
+  UnknownHostCount?: number | undefined;
+  OtherCount?: number | undefined;
 }
 export interface TelemetryRecord {
   Timestamp: Date;
-  SegmentsReceivedCount?: number;
-  SegmentsSentCount?: number;
-  SegmentsSpilloverCount?: number;
-  SegmentsRejectedCount?: number;
-  BackendConnectionErrors?: BackendConnectionErrors;
+  SegmentsReceivedCount?: number | undefined;
+  SegmentsSentCount?: number | undefined;
+  SegmentsSpilloverCount?: number | undefined;
+  SegmentsRejectedCount?: number | undefined;
+  BackendConnectionErrors?: BackendConnectionErrors | undefined;
 }
 export type TelemetryRecordList = TelemetryRecord[];
 export type EC2InstanceId = string;
 export type Hostname = string;
 export interface PutTelemetryRecordsRequest {
   TelemetryRecords: TelemetryRecord[];
-  EC2InstanceId?: string;
-  Hostname?: string;
-  ResourceARN?: string;
+  EC2InstanceId?: string | undefined;
+  Hostname?: string | undefined;
+  ResourceARN?: string | undefined;
 }
 export interface PutTelemetryRecordsResult {}
 export type TraceSegmentDocument = string;
@@ -947,13 +947,13 @@ export interface PutTraceSegmentsRequest {
   TraceSegmentDocuments: string[];
 }
 export interface UnprocessedTraceSegment {
-  Id?: string;
-  ErrorCode?: string;
-  Message?: string;
+  Id?: string | undefined;
+  ErrorCode?: string | undefined;
+  Message?: string | undefined;
 }
 export type UnprocessedTraceSegmentList = UnprocessedTraceSegment[];
 export interface PutTraceSegmentsResult {
-  UnprocessedTraceSegments?: UnprocessedTraceSegment[];
+  UnprocessedTraceSegments?: UnprocessedTraceSegment[] | undefined;
 }
 export type TraceIdListForRetrieval = string[];
 export interface StartTraceRetrievalRequest {
@@ -962,7 +962,7 @@ export interface StartTraceRetrievalRequest {
   EndTime: Date;
 }
 export interface StartTraceRetrievalResult {
-  RetrievalToken?: string;
+  RetrievalToken?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -976,13 +976,13 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateGroupRequest {
-  GroupName?: string;
-  GroupARN?: string;
-  FilterExpression?: string;
-  InsightsConfiguration?: InsightsConfiguration;
+  GroupName?: string | undefined;
+  GroupARN?: string | undefined;
+  FilterExpression?: string | undefined;
+  InsightsConfiguration?: InsightsConfiguration | undefined;
 }
 export interface UpdateGroupResult {
-  Group?: Group;
+  Group?: Group | undefined;
 }
 export interface ProbabilisticRuleValueUpdate {
   DesiredSamplingPercentage: number;
@@ -993,35 +993,40 @@ export interface UpdateIndexingRuleRequest {
   Rule: IndexingRuleValueUpdate;
 }
 export interface UpdateIndexingRuleResult {
-  IndexingRule?: IndexingRule;
+  IndexingRule?: IndexingRule | undefined;
 }
 export interface SamplingRuleUpdate {
-  RuleName?: string;
-  RuleARN?: string;
-  ResourceARN?: string;
-  Priority?: number;
-  FixedRate?: number;
-  ReservoirSize?: number;
-  Host?: string;
-  ServiceName?: string;
-  ServiceType?: string;
-  HTTPMethod?: string;
-  URLPath?: string;
-  Attributes?: { [key: string]: string | undefined };
-  SamplingRateBoost?: SamplingRateBoost;
+  RuleName?: string | undefined;
+  RuleARN?: string | undefined;
+  ResourceARN?: string | undefined;
+  Priority?: number | undefined;
+  FixedRate?: number | undefined;
+  ReservoirSize?: number | undefined;
+  Host?: string | undefined;
+  ServiceName?: string | undefined;
+  ServiceType?: string | undefined;
+  HTTPMethod?: string | undefined;
+  URLPath?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  SamplingRateBoost?: SamplingRateBoost | undefined;
 }
 export interface UpdateSamplingRuleRequest {
   SamplingRuleUpdate: SamplingRuleUpdate;
 }
 export interface UpdateSamplingRuleResult {
-  SamplingRuleRecord?: SamplingRuleRecord;
+  SamplingRuleRecord?: SamplingRuleRecord | undefined;
+}
+export type KmsKeyId = string;
+export interface CloudWatchLogsConfiguration {
+  SpansLogGroupKmsKeyId?: string | undefined;
 }
 export interface UpdateTraceSegmentDestinationRequest {
-  Destination?: TraceSegmentDestination;
+  Destination?: TraceSegmentDestination | undefined;
+  CloudWatchLogsConfiguration?: CloudWatchLogsConfiguration | undefined;
 }
 export interface UpdateTraceSegmentDestinationResult {
-  Destination?: TraceSegmentDestination;
-  Status?: TraceSegmentDestinationStatus;
+  Destination?: TraceSegmentDestination | undefined;
+  Status?: TraceSegmentDestinationStatus | undefined;
 }
 export type ErrorMessage = string;
 export type BatchGetTracesError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -2049,7 +2054,7 @@ export const updateTraceSegmentDestination: API.OperationMethod<
   UpdateTraceSegmentDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<UpdateTraceSegmentDestinationRequest>,
+  input: __S(1793, __c56, 1) as any as S.Schema<UpdateTraceSegmentDestinationRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<UpdateTraceSegmentDestinationResult>,
   errors: [InvalidRequestException, ThrottledException],
   protocol: AwsProtocol,
@@ -3472,8 +3477,15 @@ function __c55(j: number): any {
 function __c56(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ SpansLogGroupKmsKeyId: S.optional(S.String) })).annotate({
+        identifier: "CloudWatchLogsConfiguration",
+      });
+    case 1:
       return S.suspend(() =>
-        S.Struct({ Destination: S.optional(S.String) }).pipe(
+        S.Struct({
+          Destination: S.optional(S.String),
+          CloudWatchLogsConfiguration: S.optional(__S(1792, __c56, 0)),
+        }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/UpdateTraceSegmentDestination" }),
             svc,

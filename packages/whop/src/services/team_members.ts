@@ -74,13 +74,13 @@ export interface CreateTeamMemberRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** Email address to invite. Mutually exclusive with `user_id`. If the email already belongs to a Whop account it is treated the same as passing that account's `user_id`; otherwise a pending invite is created for the email. */
-  email?: string;
+  email?: string | undefined;
   /** The system role to grant. The Partner role can only be granted to the account's attached, verified partner. */
   role: CreateTeamMemberRequestRole | (string & {});
   /** The user to add to the team, prefixed `user_`. Mutually exclusive with `email`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface TeamMemberAuthorizedRole {
   /** Custom role ID, prefixed `aurl_`. */
@@ -169,27 +169,27 @@ export interface ListTeamMembersRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** Only return members with this status: `joined` (accepted members) or `pending` (pending invites). Both are returned by default. */
-  status?: ListTeamMembersRequestStatus | (string & {});
+  status?: ListTeamMembersRequestStatus | (string & {}) | undefined;
   /** Only return the membership for this user ID, prefixed `user_`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Only return members with this role. `custom` matches members on a dashboard-managed custom role. */
-  role?: ListTeamMembersRequestRole | (string & {});
+  role?: ListTeamMembersRequestRole | (string & {}) | undefined;
   /** Only return members added before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only return members added after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Field used to sort members. */
-  order?: ListTeamMembersRequestOrder | (string & {});
+  order?: ListTeamMembersRequestOrder | (string & {}) | undefined;
   /** Sort direction. Defaults to `desc`. */
-  direction?: ListTeamMembersRequestDirection | (string & {});
+  direction?: ListTeamMembersRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListTeamMembersResponseDataList = Array<TeamMember>;
 export interface ListTeamMembersResponsePageInfo {

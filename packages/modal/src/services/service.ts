@@ -55,19 +55,19 @@ export class ServiceUsersNotAvailable
   ) {}
 
 export interface CreateServiceUserRequest {
-  name?: string;
-  scoped?: boolean;
-  expiresInSeconds?: number;
+  name?: string | undefined;
+  scoped?: boolean | undefined;
+  expiresInSeconds?: number | undefined;
 }
 export interface CreateServiceUserResponse {
   tokenId: string;
   tokenSecret: string | Redacted.Redacted<string>;
   serviceUserId: string;
-  expiresAt?: string;
+  expiresAt?: string | undefined;
 }
 export interface DeleteServiceUserRequest {
-  serviceUserId?: string;
-  serviceUserName?: string;
+  serviceUserId?: string | undefined;
+  serviceUserName?: string | undefined;
 }
 export interface DeleteServiceUserResponse {}
 export interface ListServiceUserRequest {}
@@ -94,7 +94,7 @@ export interface ServiceUserEnvironmentRoleEntry {
   /** Built-in token, or the custom definition's name. */
   roleStr: string;
   /** environment_role_definition_id Set on reads when `role` is ENVIRONMENT_ROLE_CUSTOM. */
-  environmentRoleDefinition?: EnvironmentRoleDefinition;
+  environmentRoleDefinition?: EnvironmentRoleDefinition | undefined;
 }
 export type ServiceUserEnvironmentRoleEntryList = Array<ServiceUserEnvironmentRoleEntry>;
 export interface ServiceUser {
@@ -109,17 +109,17 @@ export interface ServiceUser {
   scoped: boolean;
   environmentRoles: ServiceUserEnvironmentRoleEntryList;
   /** This should be a TImestamp type, but keeping as a double for compatibility with public_api.proto */
-  expiresAt?: number;
+  expiresAt?: number | undefined;
 }
 export type ServiceUserList2 = Array<ServiceUser>;
 export interface ListServiceUserResponse {
   serviceUsers: ServiceUserList2;
 }
 export interface ServiceUserInfoRequest {
-  serviceUserName?: string;
+  serviceUserName?: string | undefined;
 }
 export interface ServiceUserInfoResponse {
-  serviceUser?: ServiceUser;
+  serviceUser?: ServiceUser | undefined;
 }
 export type CreateServiceUserError =
   | ServiceUserAlreadyExists

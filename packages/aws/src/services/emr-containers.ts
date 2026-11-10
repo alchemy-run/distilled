@@ -158,8 +158,8 @@ export interface CancelJobRunRequest {
   virtualClusterId: string;
 }
 export interface CancelJobRunResponse {
-  id?: string;
-  virtualClusterId?: string;
+  id?: string | undefined;
+  virtualClusterId?: string | undefined;
 }
 export type ResourceNameString = string;
 export type ClientToken = string;
@@ -169,28 +169,28 @@ export type String1024 = string;
 export type SensitivePropertiesMap = { [key: string]: string | undefined };
 export interface Configuration {
   classification: string;
-  properties?: { [key: string]: string | undefined };
-  configurations?: Configuration[];
+  properties?: { [key: string]: string | undefined } | undefined;
+  configurations?: Configuration[] | undefined;
 }
 export type ConfigurationList = Configuration[];
 export type TemplateParameter = string;
 export type String256 = string;
 export interface ParametricCloudWatchMonitoringConfiguration {
-  logGroupName?: string;
-  logStreamNamePrefix?: string;
+  logGroupName?: string | undefined;
+  logStreamNamePrefix?: string | undefined;
 }
 export type UriString = string;
 export interface ParametricS3MonitoringConfiguration {
-  logUri?: string;
+  logUri?: string | undefined;
 }
 export interface ParametricMonitoringConfiguration {
-  persistentAppUI?: string;
-  cloudWatchMonitoringConfiguration?: ParametricCloudWatchMonitoringConfiguration;
-  s3MonitoringConfiguration?: ParametricS3MonitoringConfiguration;
+  persistentAppUI?: string | undefined;
+  cloudWatchMonitoringConfiguration?: ParametricCloudWatchMonitoringConfiguration | undefined;
+  s3MonitoringConfiguration?: ParametricS3MonitoringConfiguration | undefined;
 }
 export interface ParametricConfigurationOverrides {
-  applicationConfiguration?: Configuration[];
-  monitoringConfiguration?: ParametricMonitoringConfiguration;
+  applicationConfiguration?: Configuration[] | undefined;
+  monitoringConfiguration?: ParametricMonitoringConfiguration | undefined;
 }
 export type EntryPointPath = string | redacted.Redacted<string>;
 export type EntryPointArgument = string | redacted.Redacted<string>;
@@ -198,23 +198,23 @@ export type EntryPointArguments = (string | redacted.Redacted<string>)[];
 export type SparkSubmitParameters = string | redacted.Redacted<string>;
 export interface SparkSubmitJobDriver {
   entryPoint: string | redacted.Redacted<string>;
-  entryPointArguments?: (string | redacted.Redacted<string>)[];
-  sparkSubmitParameters?: string | redacted.Redacted<string>;
+  entryPointArguments?: (string | redacted.Redacted<string>)[] | undefined;
+  sparkSubmitParameters?: string | redacted.Redacted<string> | undefined;
 }
 export type SparkSqlParameters = string | redacted.Redacted<string>;
 export interface SparkSqlJobDriver {
-  entryPoint?: string | redacted.Redacted<string>;
-  sparkSqlParameters?: string | redacted.Redacted<string>;
+  entryPoint?: string | redacted.Redacted<string> | undefined;
+  sparkSqlParameters?: string | redacted.Redacted<string> | undefined;
 }
 export interface JobDriver {
-  sparkSubmitJobDriver?: SparkSubmitJobDriver;
-  sparkSqlJobDriver?: SparkSqlJobDriver;
+  sparkSubmitJobDriver?: SparkSubmitJobDriver | undefined;
+  sparkSqlJobDriver?: SparkSqlJobDriver | undefined;
 }
 export type TemplateParameterName = string;
 export type TemplateParameterDataType = "NUMBER" | "STRING" | (string & {});
 export interface TemplateParameterConfiguration {
-  type?: TemplateParameterDataType;
-  defaultValue?: string;
+  type?: TemplateParameterDataType | undefined;
+  defaultValue?: string | undefined;
 }
 export type TemplateParameterConfigurationMap = {
   [key: string]: TemplateParameterConfiguration | undefined;
@@ -225,25 +225,27 @@ export type TagMap = { [key: string]: string | undefined };
 export interface JobTemplateData {
   executionRoleArn: string;
   releaseLabel: string;
-  configurationOverrides?: ParametricConfigurationOverrides;
+  configurationOverrides?: ParametricConfigurationOverrides | undefined;
   jobDriver: JobDriver;
-  parameterConfiguration?: { [key: string]: TemplateParameterConfiguration | undefined };
-  jobTags?: { [key: string]: string | undefined };
+  parameterConfiguration?:
+    | { [key: string]: TemplateParameterConfiguration | undefined }
+    | undefined;
+  jobTags?: { [key: string]: string | undefined } | undefined;
 }
 export type KmsKeyArn = string;
 export interface CreateJobTemplateRequest {
   name: string;
   clientToken: string;
   jobTemplateData: JobTemplateData;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type JobTemplateArn = string;
 export interface CreateJobTemplateResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export type EndpointType = string;
 export type ReleaseLabel = string;
@@ -251,18 +253,18 @@ export type IAMRoleArn = string;
 export type ACMCertArn = string;
 export type AllowAWSToRetainLogs = "ENABLED" | "DISABLED" | (string & {});
 export interface ManagedLogs {
-  allowAWSToRetainLogs?: AllowAWSToRetainLogs;
-  encryptionKeyArn?: string;
+  allowAWSToRetainLogs?: AllowAWSToRetainLogs | undefined;
+  encryptionKeyArn?: string | undefined;
 }
 export type PersistentAppUI = "ENABLED" | "DISABLED" | (string & {});
 export type LogGroupName = string;
 export interface CloudWatchMonitoringConfiguration {
   logGroupName: string;
-  logStreamNamePrefix?: string;
+  logStreamNamePrefix?: string | undefined;
 }
 export interface S3MonitoringConfiguration {
   logUri: string;
-  encryptionKeyArn?: string;
+  encryptionKeyArn?: string | undefined;
 }
 export type RotationSize = string;
 export type MaxFilesToKeep = number;
@@ -271,15 +273,15 @@ export interface ContainerLogRotationConfiguration {
   maxFilesToKeep: number;
 }
 export interface MonitoringConfiguration {
-  managedLogs?: ManagedLogs;
-  persistentAppUI?: PersistentAppUI;
-  cloudWatchMonitoringConfiguration?: CloudWatchMonitoringConfiguration;
-  s3MonitoringConfiguration?: S3MonitoringConfiguration;
-  containerLogRotationConfiguration?: ContainerLogRotationConfiguration;
+  managedLogs?: ManagedLogs | undefined;
+  persistentAppUI?: PersistentAppUI | undefined;
+  cloudWatchMonitoringConfiguration?: CloudWatchMonitoringConfiguration | undefined;
+  s3MonitoringConfiguration?: S3MonitoringConfiguration | undefined;
+  containerLogRotationConfiguration?: ContainerLogRotationConfiguration | undefined;
 }
 export interface ConfigurationOverrides {
-  applicationConfiguration?: Configuration[];
-  monitoringConfiguration?: MonitoringConfiguration;
+  applicationConfiguration?: Configuration[] | undefined;
+  monitoringConfiguration?: MonitoringConfiguration | undefined;
 }
 export type SessionIdleTimeoutInMinutes = number;
 export interface CreateManagedEndpointRequest {
@@ -288,138 +290,138 @@ export interface CreateManagedEndpointRequest {
   type: string;
   releaseLabel: string;
   executionRoleArn: string;
-  certificateArn?: string;
-  configurationOverrides?: ConfigurationOverrides;
+  certificateArn?: string | undefined;
+  configurationOverrides?: ConfigurationOverrides | undefined;
   clientToken: string;
-  tags?: { [key: string]: string | undefined };
-  sessionIdleTimeoutInMinutes?: number;
+  tags?: { [key: string]: string | undefined } | undefined;
+  sessionIdleTimeoutInMinutes?: number | undefined;
 }
 export type EndpointArn = string;
 export interface CreateManagedEndpointResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  virtualClusterId?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  virtualClusterId?: string | undefined;
 }
 export type ContainerProviderType = "EKS" | (string & {});
 export type ClusterId = string;
 export type KubernetesNamespace = string;
 export type NodeLabelString = string;
 export interface EksInfo {
-  namespace?: string;
-  nodeLabel?: string;
+  namespace?: string | undefined;
+  nodeLabel?: string | undefined;
 }
 export type ContainerInfo = { eksInfo: EksInfo };
 export interface ContainerProvider {
   type: ContainerProviderType;
   id: string;
-  info?: ContainerInfo;
+  info?: ContainerInfo | undefined;
 }
 export type SessionTagValue = string;
 export interface SecureNamespaceInfo {
-  clusterId?: string;
-  namespace?: string;
+  clusterId?: string | undefined;
+  namespace?: string | undefined;
 }
 export interface LakeFormationConfiguration {
-  authorizedSessionTagValue?: string;
-  secureNamespaceInfo?: SecureNamespaceInfo;
-  queryEngineRoleArn?: string;
+  authorizedSessionTagValue?: string | undefined;
+  secureNamespaceInfo?: SecureNamespaceInfo | undefined;
+  queryEngineRoleArn?: string | undefined;
 }
 export type CertificateProviderType = "PEM" | (string & {});
 export type SecretsManagerArn = string;
 export interface TLSCertificateConfiguration {
-  certificateProviderType?: CertificateProviderType;
-  publicCertificateSecretArn?: string;
-  privateCertificateSecretArn?: string;
+  certificateProviderType?: CertificateProviderType | undefined;
+  publicCertificateSecretArn?: string | undefined;
+  privateCertificateSecretArn?: string | undefined;
 }
 export interface InTransitEncryptionConfiguration {
-  tlsCertificateConfiguration?: TLSCertificateConfiguration;
+  tlsCertificateConfiguration?: TLSCertificateConfiguration | undefined;
 }
 export interface EncryptionConfiguration {
-  inTransitEncryptionConfiguration?: InTransitEncryptionConfiguration;
+  inTransitEncryptionConfiguration?: InTransitEncryptionConfiguration | undefined;
 }
 export interface AuthorizationConfiguration {
-  lakeFormationConfiguration?: LakeFormationConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
+  lakeFormationConfiguration?: LakeFormationConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export type IdentityCenterInstanceARN = string;
 export type EmrIdentityCenterApplicationARN = string;
 export interface IdentityCenterConfiguration {
-  enableIdentityCenter?: boolean;
-  identityCenterApplicationAssignmentRequired?: boolean;
-  identityCenterInstanceARN?: string;
-  emrIdentityCenterApplicationARN?: string;
+  enableIdentityCenter?: boolean | undefined;
+  identityCenterApplicationAssignmentRequired?: boolean | undefined;
+  identityCenterInstanceARN?: string | undefined;
+  emrIdentityCenterApplicationARN?: string | undefined;
 }
 export interface IAMConfiguration {
-  systemRole?: string;
+  systemRole?: string | undefined;
 }
 export interface AuthenticationConfiguration {
-  identityCenterConfiguration?: IdentityCenterConfiguration;
-  iamConfiguration?: IAMConfiguration;
+  identityCenterConfiguration?: IdentityCenterConfiguration | undefined;
+  iamConfiguration?: IAMConfiguration | undefined;
 }
 export interface SecurityConfigurationData {
-  authorizationConfiguration?: AuthorizationConfiguration;
-  authenticationConfiguration?: AuthenticationConfiguration;
+  authorizationConfiguration?: AuthorizationConfiguration | undefined;
+  authenticationConfiguration?: AuthenticationConfiguration | undefined;
 }
 export interface CreateSecurityConfigurationRequest {
   clientToken: string;
   name: string;
-  containerProvider?: ContainerProvider;
+  containerProvider?: ContainerProvider | undefined;
   securityConfigurationData: SecurityConfigurationData;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SecurityConfigurationArn = string;
 export interface CreateSecurityConfigurationResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
 }
 export type InQueueJobLimitInteger = number;
 export type JobLimitInteger = number;
 export interface SchedulerConfiguration {
-  maxInQueueJobRuns?: number;
-  maxConcurrentJobRuns?: number;
+  maxInQueueJobRuns?: number | undefined;
+  maxConcurrentJobRuns?: number | undefined;
 }
 export interface CreateVirtualClusterRequest {
   name: string;
   containerProvider: ContainerProvider;
   clientToken: string;
-  tags?: { [key: string]: string | undefined };
-  securityConfigurationId?: string;
-  sessionEnabled?: boolean;
-  schedulerConfiguration?: SchedulerConfiguration;
+  tags?: { [key: string]: string | undefined } | undefined;
+  securityConfigurationId?: string | undefined;
+  sessionEnabled?: boolean | undefined;
+  schedulerConfiguration?: SchedulerConfiguration | undefined;
 }
 export type VirtualClusterArn = string;
 export interface CreateVirtualClusterResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
 }
 export interface DeleteJobTemplateRequest {
   id: string;
 }
 export interface DeleteJobTemplateResponse {
-  id?: string;
+  id?: string | undefined;
 }
 export interface DeleteManagedEndpointRequest {
   id: string;
   virtualClusterId: string;
 }
 export interface DeleteManagedEndpointResponse {
-  id?: string;
-  virtualClusterId?: string;
+  id?: string | undefined;
+  virtualClusterId?: string | undefined;
 }
 export interface DeleteSecurityConfigurationRequest {
   id: string;
 }
 export interface DeleteSecurityConfigurationResponse {
-  id?: string;
+  id?: string | undefined;
 }
 export interface DeleteVirtualClusterRequest {
   id: string;
 }
 export interface DeleteVirtualClusterResponse {
-  id?: string;
+  id?: string | undefined;
 }
 export interface DescribeJobRunRequest {
   id: string;
@@ -450,45 +452,45 @@ export interface RetryPolicyExecution {
   currentAttemptCount: number;
 }
 export interface JobRun {
-  id?: string;
-  name?: string;
-  virtualClusterId?: string;
-  arn?: string;
-  state?: JobRunState;
-  clientToken?: string;
-  executionRoleArn?: string;
-  releaseLabel?: string;
-  configurationOverrides?: ConfigurationOverrides;
-  jobDriver?: JobDriver;
-  createdAt?: Date;
-  createdBy?: string;
-  finishedAt?: Date;
-  stateDetails?: string;
-  failureReason?: FailureReason;
-  tags?: { [key: string]: string | undefined };
-  retryPolicyConfiguration?: RetryPolicyConfiguration;
-  retryPolicyExecution?: RetryPolicyExecution;
+  id?: string | undefined;
+  name?: string | undefined;
+  virtualClusterId?: string | undefined;
+  arn?: string | undefined;
+  state?: JobRunState | undefined;
+  clientToken?: string | undefined;
+  executionRoleArn?: string | undefined;
+  releaseLabel?: string | undefined;
+  configurationOverrides?: ConfigurationOverrides | undefined;
+  jobDriver?: JobDriver | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  finishedAt?: Date | undefined;
+  stateDetails?: string | undefined;
+  failureReason?: FailureReason | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  retryPolicyConfiguration?: RetryPolicyConfiguration | undefined;
+  retryPolicyExecution?: RetryPolicyExecution | undefined;
 }
 export interface DescribeJobRunResponse {
-  jobRun?: JobRun;
+  jobRun?: JobRun | undefined;
 }
 export interface DescribeJobTemplateRequest {
   id: string;
 }
 export type String2048 = string;
 export interface JobTemplate {
-  name?: string;
-  id?: string;
-  arn?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  id?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   jobTemplateData: JobTemplateData;
-  kmsKeyArn?: string;
-  decryptionError?: string;
+  kmsKeyArn?: string | undefined;
+  decryptionError?: string | undefined;
 }
 export interface DescribeJobTemplateResponse {
-  jobTemplate?: JobTemplate;
+  jobTemplate?: JobTemplate | undefined;
 }
 export interface DescribeManagedEndpointRequest {
   id: string;
@@ -503,49 +505,49 @@ export type EndpointState =
   | (string & {});
 export type Base64Encoded = string;
 export interface Certificate {
-  certificateArn?: string;
-  certificateData?: string;
+  certificateArn?: string | undefined;
+  certificateData?: string | undefined;
 }
 export type SubnetIds = string[];
 export interface Endpoint {
-  id?: string;
-  name?: string;
-  arn?: string;
-  virtualClusterId?: string;
-  type?: string;
-  state?: EndpointState;
-  releaseLabel?: string;
-  executionRoleArn?: string;
-  certificateArn?: string;
-  certificateAuthority?: Certificate;
-  configurationOverrides?: ConfigurationOverrides;
-  serverUrl?: string;
-  authProxyUrl?: string;
-  createdAt?: Date;
-  securityGroup?: string;
-  subnetIds?: string[];
-  stateDetails?: string;
-  failureReason?: FailureReason;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  virtualClusterId?: string | undefined;
+  type?: string | undefined;
+  state?: EndpointState | undefined;
+  releaseLabel?: string | undefined;
+  executionRoleArn?: string | undefined;
+  certificateArn?: string | undefined;
+  certificateAuthority?: Certificate | undefined;
+  configurationOverrides?: ConfigurationOverrides | undefined;
+  serverUrl?: string | undefined;
+  authProxyUrl?: string | undefined;
+  createdAt?: Date | undefined;
+  securityGroup?: string | undefined;
+  subnetIds?: string[] | undefined;
+  stateDetails?: string | undefined;
+  failureReason?: FailureReason | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c39, 11) as any as S.Schema<Endpoint>;
 export interface DescribeManagedEndpointResponse {
-  endpoint?: Endpoint;
+  endpoint?: Endpoint | undefined;
 }
 export interface DescribeSecurityConfigurationRequest {
   id: string;
 }
 export interface SecurityConfiguration {
-  id?: string;
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  securityConfigurationData?: SecurityConfigurationData;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  securityConfigurationData?: SecurityConfigurationData | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeSecurityConfigurationResponse {
-  securityConfiguration?: SecurityConfiguration;
+  securityConfiguration?: SecurityConfiguration | undefined;
 }
 export interface DescribeVirtualClusterRequest {
   id: string;
@@ -558,24 +560,24 @@ export type VirtualClusterState =
   | (string & {});
 export type NonNegativeInteger = number;
 export interface SchedulerStatus {
-  currentInQueueJobRuns?: number;
-  currentConcurrentJobRuns?: number;
+  currentInQueueJobRuns?: number | undefined;
+  currentConcurrentJobRuns?: number | undefined;
 }
 export interface VirtualCluster {
-  id?: string;
-  name?: string;
-  arn?: string;
-  state?: VirtualClusterState;
-  containerProvider?: ContainerProvider;
-  createdAt?: Date;
-  tags?: { [key: string]: string | undefined };
-  securityConfigurationId?: string;
-  sessionEnabled?: boolean;
-  schedulerConfiguration?: SchedulerConfiguration;
-  schedulerStatus?: SchedulerStatus;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  state?: VirtualClusterState | undefined;
+  containerProvider?: ContainerProvider | undefined;
+  createdAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  securityConfigurationId?: string | undefined;
+  sessionEnabled?: boolean | undefined;
+  schedulerConfiguration?: SchedulerConfiguration | undefined;
+  schedulerStatus?: SchedulerStatus | undefined;
 }
 export interface DescribeVirtualClusterResponse {
-  virtualCluster?: VirtualCluster;
+  virtualCluster?: VirtualCluster | undefined;
 }
 export type CredentialType = string;
 export type LogContext = string;
@@ -584,114 +586,114 @@ export interface GetManagedEndpointSessionCredentialsRequest {
   virtualClusterIdentifier: string;
   executionRoleArn: string;
   credentialType: string;
-  durationInSeconds?: number;
-  logContext?: string;
-  clientToken?: string;
+  durationInSeconds?: number | undefined;
+  logContext?: string | undefined;
+  clientToken?: string | undefined;
 }
 export type Token = string | redacted.Redacted<string>;
 export type Credentials = { token: string | redacted.Redacted<string> };
 export interface GetManagedEndpointSessionCredentialsResponse {
-  id?: string;
-  credentials?: Credentials;
-  endpointCredentials?: Credentials;
-  expiresAt?: Date;
+  id?: string | undefined;
+  credentials?: Credentials | undefined;
+  endpointCredentials?: Credentials | undefined;
+  expiresAt?: Date | undefined;
 }
 export type JobRunStates = JobRunState[];
 export type NextToken = string;
 export interface ListJobRunsRequest {
   virtualClusterId: string;
-  createdBefore?: Date;
-  createdAfter?: Date;
-  name?: string;
-  states?: JobRunState[];
-  maxResults?: number;
-  nextToken?: string;
+  createdBefore?: Date | undefined;
+  createdAfter?: Date | undefined;
+  name?: string | undefined;
+  states?: JobRunState[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type JobRuns = JobRun[];
 export interface ListJobRunsResponse {
-  jobRuns?: JobRun[];
-  nextToken?: string;
+  jobRuns?: JobRun[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListJobTemplatesRequest {
-  createdAfter?: Date;
-  createdBefore?: Date;
-  maxResults?: number;
-  nextToken?: string;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type JobTemplates = JobTemplate[];
 export interface ListJobTemplatesResponse {
-  templates?: JobTemplate[];
-  nextToken?: string;
+  templates?: JobTemplate[] | undefined;
+  nextToken?: string | undefined;
 }
 export type EndpointTypes = string[];
 export type EndpointStates = EndpointState[];
 export interface ListManagedEndpointsRequest {
   virtualClusterId: string;
-  createdBefore?: Date;
-  createdAfter?: Date;
-  types?: string[];
-  states?: EndpointState[];
-  maxResults?: number;
-  nextToken?: string;
+  createdBefore?: Date | undefined;
+  createdAfter?: Date | undefined;
+  types?: string[] | undefined;
+  states?: EndpointState[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type Endpoints = Endpoint[];
 export interface ListManagedEndpointsResponse {
-  endpoints?: Endpoint[];
-  nextToken?: string;
+  endpoints?: Endpoint[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityConfigurationsRequest {
-  createdAfter?: Date;
-  createdBefore?: Date;
-  maxResults?: number;
-  nextToken?: string;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type SecurityConfigurations = SecurityConfiguration[];
 export interface ListSecurityConfigurationsResponse {
-  securityConfigurations?: SecurityConfiguration[];
-  nextToken?: string;
+  securityConfigurations?: SecurityConfiguration[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RsiArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type VirtualClusterStates = VirtualClusterState[];
 export interface ListVirtualClustersRequest {
-  containerProviderId?: string;
-  containerProviderType?: ContainerProviderType;
-  createdAfter?: Date;
-  createdBefore?: Date;
-  states?: VirtualClusterState[];
-  maxResults?: number;
-  nextToken?: string;
-  eksAccessEntryIntegrated?: boolean;
+  containerProviderId?: string | undefined;
+  containerProviderType?: ContainerProviderType | undefined;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
+  states?: VirtualClusterState[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  eksAccessEntryIntegrated?: boolean | undefined;
 }
 export type VirtualClusters = VirtualCluster[];
 export interface ListVirtualClustersResponse {
-  virtualClusters?: VirtualCluster[];
-  nextToken?: string;
+  virtualClusters?: VirtualCluster[] | undefined;
+  nextToken?: string | undefined;
 }
 export type TemplateParameterInputMap = { [key: string]: string | undefined };
 export interface StartJobRunRequest {
-  name?: string;
+  name?: string | undefined;
   virtualClusterId: string;
   clientToken: string;
-  executionRoleArn?: string;
-  releaseLabel?: string;
-  jobDriver?: JobDriver;
-  configurationOverrides?: ConfigurationOverrides;
-  tags?: { [key: string]: string | undefined };
-  jobTemplateId?: string;
-  jobTemplateParameters?: { [key: string]: string | undefined };
-  retryPolicyConfiguration?: RetryPolicyConfiguration;
+  executionRoleArn?: string | undefined;
+  releaseLabel?: string | undefined;
+  jobDriver?: JobDriver | undefined;
+  configurationOverrides?: ConfigurationOverrides | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  jobTemplateId?: string | undefined;
+  jobTemplateParameters?: { [key: string]: string | undefined } | undefined;
+  retryPolicyConfiguration?: RetryPolicyConfiguration | undefined;
 }
 export interface StartJobRunResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  virtualClusterId?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  virtualClusterId?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -706,11 +708,11 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateVirtualClusterRequest {
   id: string;
-  schedulerConfiguration?: SchedulerConfiguration;
+  schedulerConfiguration?: SchedulerConfiguration | undefined;
   clientToken: string;
 }
 export interface UpdateVirtualClusterResponse {
-  virtualCluster?: VirtualCluster;
+  virtualCluster?: VirtualCluster | undefined;
 }
 export type CancelJobRunError =
   | InternalServerException

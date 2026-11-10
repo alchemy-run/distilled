@@ -33,7 +33,7 @@ export interface CreateSecretRequest {
   name: string;
   /** Runtime marker stored as the secret's first version. The runtime resolves it to a value at sandbox egress. */
   value: string | Redacted.Redacted<string>;
-  metadata?: SecretMetadata;
+  metadata?: SecretMetadata | undefined;
 }
 /** Metadata of a secret. It never carries the secret value. */
 export interface Secret {
@@ -58,20 +58,20 @@ export interface GetSecretRequest {
 }
 export interface ListSecretsRequest {
   /** Cursor to start the list from */
-  nextToken?: string;
+  nextToken?: string | undefined;
   /** Maximum number of items to return per page */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListSecretsResponseBodyList = Array<Secret>;
 export interface ListSecretsResponse {
   items: ListSecretsResponseBodyList;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface UpdateSecretRequest {
   secretID: string;
   /** Runtime marker stored as the secret's new version. The runtime resolves it to a value at sandbox egress. */
   value: string | Redacted.Redacted<string>;
-  metadata?: SecretMetadata;
+  metadata?: SecretMetadata | undefined;
 }
 export type CreateSecretError = E2BOpError;
 /** Create a secret Create a secret by storing a runtime marker as its first version. The response carries metadata only. */

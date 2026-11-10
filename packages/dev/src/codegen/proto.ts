@@ -1274,3 +1274,24 @@ export const protoDescriptors = (
   }
   return table;
 };
+
+/**
+ * Throws when an operation of `models` has no method in `table`: the gRPC
+ * protocol finds an operation's message types by its path, so a call to
+ * one without a method could never be encoded.
+ */
+export const assertDescriptorsCover = (
+  models: ReadonlyArray<ProtoConvertResult["model"]>,
+  table: ProtoDescriptorTable,
+): void => {
+  const missing: string[] = [];
+  for (const model of models) {
+    for (const [id, shape] of Object.entries(model.shapes)) {
+      const uri = shape?.type === "operation" ? shape.traits?.["smithy.api#http"]?.uri : undefined;
+      if (typeof uri === "string" && !(uri in table.methods)) missing.push(`${id} (${uri})`);
+    }
+  }
+  if (missing.length > 0) {
+    throw new Error(`no gRPC descriptor method for: ${missing.join(", ")}`);
+  }
+};

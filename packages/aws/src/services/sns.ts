@@ -445,18 +445,18 @@ export interface CheckIfPhoneNumberIsOptedOutInput {
   phoneNumber: string | redacted.Redacted<string>;
 }
 export interface CheckIfPhoneNumberIsOptedOutResponse {
-  isOptedOut?: boolean;
+  isOptedOut?: boolean | undefined;
 }
 export type Token = string;
 export type AuthenticateOnUnsubscribe = string;
 export interface ConfirmSubscriptionInput {
   TopicArn: string;
   Token: string;
-  AuthenticateOnUnsubscribe?: string;
+  AuthenticateOnUnsubscribe?: string | undefined;
 }
 export type SubscriptionARN = string;
 export interface ConfirmSubscriptionResponse {
-  SubscriptionArn?: string;
+  SubscriptionArn?: string | undefined;
 }
 export type MapStringToString = { [key: string]: string | undefined };
 export interface CreatePlatformApplicationInput {
@@ -465,16 +465,16 @@ export interface CreatePlatformApplicationInput {
   Attributes: { [key: string]: string | undefined };
 }
 export interface CreatePlatformApplicationResponse {
-  PlatformApplicationArn?: string;
+  PlatformApplicationArn?: string | undefined;
 }
 export interface CreatePlatformEndpointInput {
   PlatformApplicationArn: string;
   Token: string;
-  CustomUserData?: string;
-  Attributes?: { [key: string]: string | undefined };
+  CustomUserData?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateEndpointResponse {
-  EndpointArn?: string;
+  EndpointArn?: string | undefined;
 }
 export type PhoneNumberString = string | redacted.Redacted<string>;
 export type LanguageCodeString =
@@ -494,7 +494,7 @@ export type LanguageCodeString =
   | (string & {});
 export interface CreateSMSSandboxPhoneNumberInput {
   PhoneNumber: string | redacted.Redacted<string>;
-  LanguageCode?: LanguageCodeString;
+  LanguageCode?: LanguageCodeString | undefined;
 }
 export interface CreateSMSSandboxPhoneNumberResult {}
 export type TopicName = string;
@@ -510,12 +510,12 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateTopicInput {
   Name: string;
-  Attributes?: { [key: string]: string | undefined };
-  Tags?: Tag[];
-  DataProtectionPolicy?: string;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
+  DataProtectionPolicy?: string | undefined;
 }
 export interface CreateTopicResponse {
-  TopicArn?: string;
+  TopicArn?: string | undefined;
 }
 export interface DeleteEndpointInput {
   EndpointArn: string;
@@ -537,26 +537,26 @@ export interface GetDataProtectionPolicyInput {
   ResourceArn: string;
 }
 export interface GetDataProtectionPolicyResponse {
-  DataProtectionPolicy?: string;
+  DataProtectionPolicy?: string | undefined;
 }
 export interface GetEndpointAttributesInput {
   EndpointArn: string;
 }
 export interface GetEndpointAttributesResponse {
-  Attributes?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetPlatformApplicationAttributesInput {
   PlatformApplicationArn: string;
 }
 export interface GetPlatformApplicationAttributesResponse {
-  Attributes?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type ListString = string[];
 export interface GetSMSAttributesInput {
-  attributes?: string[];
+  attributes?: string[] | undefined;
 }
 export interface GetSMSAttributesResponse {
-  attributes?: { [key: string]: string | undefined };
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetSMSSandboxAccountStatusInput {}
 export interface GetSMSSandboxAccountStatusResult {
@@ -567,129 +567,129 @@ export interface GetSubscriptionAttributesInput {
 }
 export type SubscriptionAttributesMap = { [key: string]: string | undefined };
 export interface GetSubscriptionAttributesResponse {
-  Attributes?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTopicAttributesInput {
   TopicArn: string;
 }
 export interface GetTopicAttributesResponse {
-  Attributes?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListEndpointsByPlatformApplicationInput {
   PlatformApplicationArn: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface Endpoint {
-  EndpointArn?: string;
-  Attributes?: { [key: string]: string | undefined };
+  EndpointArn?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c1, 1) as any as S.Schema<Endpoint>;
 export type ListOfEndpoints = Endpoint[];
 export interface ListEndpointsByPlatformApplicationResponse {
-  Endpoints?: Endpoint[];
-  NextToken?: string;
+  Endpoints?: Endpoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export type NextToken = string;
 export type MaxItemsListOriginationNumbers = number;
 export interface ListOriginationNumbersRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Iso2CountryCode = string;
 export type RouteType = "Transactional" | "Promotional" | "Premium" | (string & {});
 export type NumberCapability = "SMS" | "MMS" | "VOICE" | (string & {});
 export type NumberCapabilityList = NumberCapability[];
 export interface PhoneNumberInformation {
-  CreatedAt?: Date;
-  PhoneNumber?: string | redacted.Redacted<string>;
-  Status?: string;
-  Iso2CountryCode?: string;
-  RouteType?: RouteType;
-  NumberCapabilities?: NumberCapability[];
+  CreatedAt?: Date | undefined;
+  PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  Status?: string | undefined;
+  Iso2CountryCode?: string | undefined;
+  RouteType?: RouteType | undefined;
+  NumberCapabilities?: NumberCapability[] | undefined;
 }
 export type PhoneNumberInformationList = PhoneNumberInformation[];
 export interface ListOriginationNumbersResult {
-  NextToken?: string;
-  PhoneNumbers?: PhoneNumberInformation[];
+  NextToken?: string | undefined;
+  PhoneNumbers?: PhoneNumberInformation[] | undefined;
 }
 export interface ListPhoneNumbersOptedOutInput {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type PhoneNumberList = (string | redacted.Redacted<string>)[];
 export interface ListPhoneNumbersOptedOutResponse {
-  phoneNumbers?: (string | redacted.Redacted<string>)[];
-  nextToken?: string;
+  phoneNumbers?: (string | redacted.Redacted<string>)[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPlatformApplicationsInput {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface PlatformApplication {
-  PlatformApplicationArn?: string;
-  Attributes?: { [key: string]: string | undefined };
+  PlatformApplicationArn?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type ListOfPlatformApplications = PlatformApplication[];
 export interface ListPlatformApplicationsResponse {
-  PlatformApplications?: PlatformApplication[];
-  NextToken?: string;
+  PlatformApplications?: PlatformApplication[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxItems = number;
 export interface ListSMSSandboxPhoneNumbersInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type SMSSandboxPhoneNumberVerificationStatus = "Pending" | "Verified" | (string & {});
 export interface SMSSandboxPhoneNumber {
-  PhoneNumber?: string | redacted.Redacted<string>;
-  Status?: SMSSandboxPhoneNumberVerificationStatus;
+  PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  Status?: SMSSandboxPhoneNumberVerificationStatus | undefined;
 }
 export type SMSSandboxPhoneNumberList = SMSSandboxPhoneNumber[];
 export interface ListSMSSandboxPhoneNumbersResult {
   PhoneNumbers: SMSSandboxPhoneNumber[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListSubscriptionsInput {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type Account = string;
 export type Protocol = string;
 export type Endpoint2 = string;
 export interface Subscription {
-  SubscriptionArn?: string;
-  Owner?: string;
-  Protocol?: string;
-  Endpoint?: string;
-  TopicArn?: string;
+  SubscriptionArn?: string | undefined;
+  Owner?: string | undefined;
+  Protocol?: string | undefined;
+  Endpoint?: string | undefined;
+  TopicArn?: string | undefined;
 }
 export type SubscriptionsList = Subscription[];
 export interface ListSubscriptionsResponse {
-  Subscriptions?: Subscription[];
-  NextToken?: string;
+  Subscriptions?: Subscription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSubscriptionsByTopicInput {
   TopicArn: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListSubscriptionsByTopicResponse {
-  Subscriptions?: Subscription[];
-  NextToken?: string;
+  Subscriptions?: Subscription[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListTopicsInput {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface Topic {
-  TopicArn?: string;
+  TopicArn?: string | undefined;
 }
 export type TopicsList = Topic[];
 export interface ListTopicsResponse {
-  Topics?: Topic[];
-  NextToken?: string;
+  Topics?: Topic[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface OptInPhoneNumberInput {
   phoneNumber: string | redacted.Redacted<string>;
@@ -701,34 +701,34 @@ export type MessageStructure = string;
 export type Binary = Uint8Array;
 export interface MessageAttributeValue {
   DataType: string;
-  StringValue?: string;
-  BinaryValue?: Uint8Array;
+  StringValue?: string | undefined;
+  BinaryValue?: Uint8Array | undefined;
 }
 export type MessageAttributeMap = { [key: string]: MessageAttributeValue | undefined };
 export interface PublishInput {
-  TopicArn?: string;
-  TargetArn?: string;
-  PhoneNumber?: string | redacted.Redacted<string>;
+  TopicArn?: string | undefined;
+  TargetArn?: string | undefined;
+  PhoneNumber?: string | redacted.Redacted<string> | undefined;
   Message: string;
-  Subject?: string;
-  MessageStructure?: string;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  MessageDeduplicationId?: string;
-  MessageGroupId?: string;
+  Subject?: string | undefined;
+  MessageStructure?: string | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  MessageDeduplicationId?: string | undefined;
+  MessageGroupId?: string | undefined;
 }
 export type MessageId = string;
 export interface PublishResponse {
-  MessageId?: string;
-  SequenceNumber?: string;
+  MessageId?: string | undefined;
+  SequenceNumber?: string | undefined;
 }
 export interface PublishBatchRequestEntry {
   Id: string;
   Message: string;
-  Subject?: string;
-  MessageStructure?: string;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  MessageDeduplicationId?: string;
-  MessageGroupId?: string;
+  Subject?: string | undefined;
+  MessageStructure?: string | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  MessageDeduplicationId?: string | undefined;
+  MessageGroupId?: string | undefined;
 }
 export type PublishBatchRequestEntryList = PublishBatchRequestEntry[];
 export interface PublishBatchInput {
@@ -736,21 +736,21 @@ export interface PublishBatchInput {
   PublishBatchRequestEntries: PublishBatchRequestEntry[];
 }
 export interface PublishBatchResultEntry {
-  Id?: string;
-  MessageId?: string;
-  SequenceNumber?: string;
+  Id?: string | undefined;
+  MessageId?: string | undefined;
+  SequenceNumber?: string | undefined;
 }
 export type PublishBatchResultEntryList = PublishBatchResultEntry[];
 export interface BatchResultErrorEntry {
   Id: string;
   Code: string;
-  Message?: string;
+  Message?: string | undefined;
   SenderFault: boolean;
 }
 export type BatchResultErrorEntryList = BatchResultErrorEntry[];
 export interface PublishBatchResponse {
-  Successful?: PublishBatchResultEntry[];
-  Failed?: BatchResultErrorEntry[];
+  Successful?: PublishBatchResultEntry[] | undefined;
+  Failed?: BatchResultErrorEntry[] | undefined;
 }
 export interface PutDataProtectionPolicyInput {
   ResourceArn: string;
@@ -779,24 +779,24 @@ export interface SetSMSAttributesResponse {}
 export interface SetSubscriptionAttributesInput {
   SubscriptionArn: string;
   AttributeName: string;
-  AttributeValue?: string;
+  AttributeValue?: string | undefined;
 }
 export interface SetSubscriptionAttributesResponse {}
 export interface SetTopicAttributesInput {
   TopicArn: string;
   AttributeName: string;
-  AttributeValue?: string;
+  AttributeValue?: string | undefined;
 }
 export interface SetTopicAttributesResponse {}
 export interface SubscribeInput {
   TopicArn: string;
   Protocol: string;
-  Endpoint?: string;
-  Attributes?: { [key: string]: string | undefined };
-  ReturnSubscriptionArn?: boolean;
+  Endpoint?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  ReturnSubscriptionArn?: boolean | undefined;
 }
 export interface SubscribeResponse {
-  SubscriptionArn?: string;
+  SubscriptionArn?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;

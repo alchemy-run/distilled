@@ -720,8 +720,8 @@ export interface ReplacementValueEntry {
 export type MapStringReplacementValueEntry = { [key: string]: ReplacementValueEntry | undefined };
 export interface AcquireRoleRequest {
   TemplateArn: string;
-  TemplateMinorVersion?: number;
-  ReplacementValues?: { [key: string]: ReplacementValueEntry | undefined };
+  TemplateMinorVersion?: number | undefined;
+  ReplacementValues?: { [key: string]: ReplacementValueEntry | undefined } | undefined;
 }
 export type PathType = string;
 export type RoleNameType = string;
@@ -731,8 +731,8 @@ export type RoleDescriptionType = string;
 export type RoleMaxSessionDurationType = number;
 export type PermissionsBoundaryAttachmentType = "PermissionsBoundaryPolicy" | (string & {});
 export interface AttachedPermissionsBoundary {
-  PermissionsBoundaryType?: PermissionsBoundaryAttachmentType;
-  PermissionsBoundaryArn?: string;
+  PermissionsBoundaryType?: PermissionsBoundaryAttachmentType | undefined;
+  PermissionsBoundaryArn?: string | undefined;
 }
 export type TagKeyType = string;
 export type TagValueType = string;
@@ -742,8 +742,8 @@ export interface Tag {
 }
 export type TagListType = Tag[];
 export interface RoleLastUsed {
-  LastUsedDate?: Date;
-  Region?: string;
+  LastUsedDate?: Date | undefined;
+  Region?: string | undefined;
 }
 export interface SourceRoleTemplate {
   TemplateArn: string;
@@ -755,13 +755,13 @@ export interface Role {
   RoleId: string;
   Arn: string;
   CreateDate: Date;
-  AssumeRolePolicyDocument?: string;
-  Description?: string;
-  MaxSessionDuration?: number;
-  PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: Tag[];
-  RoleLastUsed?: RoleLastUsed;
-  SourceRoleTemplate?: SourceRoleTemplate;
+  AssumeRolePolicyDocument?: string | undefined;
+  Description?: string | undefined;
+  MaxSessionDuration?: number | undefined;
+  PermissionsBoundary?: AttachedPermissionsBoundary | undefined;
+  Tags?: Tag[] | undefined;
+  RoleLastUsed?: RoleLastUsed | undefined;
+  SourceRoleTemplate?: SourceRoleTemplate | undefined;
 }
 export interface AcquireRoleResponse {
   Role: Role;
@@ -812,7 +812,7 @@ export interface ChangePasswordRequest {
 }
 export interface ChangePasswordResponse {}
 export interface CreateAccessKeyRequest {
-  UserName?: string;
+  UserName?: string | undefined;
 }
 export type AccessKeyIdType = string;
 export type StatusType = "Active" | "Inactive" | "Expired" | (string & {});
@@ -822,7 +822,7 @@ export interface AccessKey {
   AccessKeyId: string;
   Status: StatusType;
   SecretAccessKey: string | redacted.Redacted<string>;
-  CreateDate?: Date;
+  CreateDate?: Date | undefined;
 }
 export interface CreateAccessKeyResponse {
   AccessKey: AccessKey;
@@ -839,14 +839,14 @@ export type PolicyParameterValueType = string;
 export type PolicyParameterValuesListType = string[];
 export type PolicyParameterTypeEnum = "string" | "stringList" | (string & {});
 export interface PolicyParameter {
-  Name?: string;
-  Values?: string[];
-  Type?: PolicyParameterTypeEnum;
+  Name?: string | undefined;
+  Values?: string[] | undefined;
+  Type?: PolicyParameterTypeEnum | undefined;
 }
 export type PolicyParameterListType = PolicyParameter[];
 export interface DelegationPermission {
-  PolicyTemplateArn?: string;
-  Parameters?: PolicyParameter[];
+  PolicyTemplateArn?: string | undefined;
+  Parameters?: PolicyParameter[] | undefined;
 }
 export type RequestMessageType = string;
 export type RequestorWorkflowIdType = string;
@@ -854,23 +854,23 @@ export type RedirectUrlType = string;
 export type NotificationChannelType = string;
 export type SessionDurationType = number;
 export interface CreateDelegationRequestRequest {
-  OwnerAccountId?: string;
+  OwnerAccountId?: string | undefined;
   Description: string;
   Permissions: DelegationPermission;
-  RequestMessage?: string;
+  RequestMessage?: string | undefined;
   RequestorWorkflowId: string;
-  RedirectUrl?: string;
+  RedirectUrl?: string | undefined;
   NotificationChannel: string;
   SessionDuration: number;
-  OnlySendByOwner?: boolean;
+  OnlySendByOwner?: boolean | undefined;
 }
 export type ConsoleDeepLinkType = string;
 export interface CreateDelegationRequestResponse {
-  ConsoleDeepLink?: string;
-  DelegationRequestId?: string;
+  ConsoleDeepLink?: string | undefined;
+  DelegationRequestId?: string | undefined;
 }
 export interface CreateGroupRequest {
-  Path?: string;
+  Path?: string | undefined;
   GroupName: string;
 }
 export interface Group {
@@ -885,8 +885,8 @@ export interface CreateGroupResponse {
 }
 export interface CreateInstanceProfileRequest {
   InstanceProfileName: string;
-  Path?: string;
-  Tags?: Tag[];
+  Path?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type RoleListType = Role[];
 export interface InstanceProfile {
@@ -896,20 +896,20 @@ export interface InstanceProfile {
   Arn: string;
   CreateDate: Date;
   Roles: Role[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateInstanceProfileResponse {
   InstanceProfile: InstanceProfile;
 }
 export interface CreateLoginProfileRequest {
-  UserName?: string;
-  Password?: string | redacted.Redacted<string>;
-  PasswordResetRequired?: boolean;
+  UserName?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  PasswordResetRequired?: boolean | undefined;
 }
 export interface LoginProfile {
   UserName: string;
   CreateDate: Date;
-  PasswordResetRequired?: boolean;
+  PasswordResetRequired?: boolean | undefined;
 }
 export interface CreateLoginProfileResponse {
   LoginProfile: LoginProfile;
@@ -920,65 +920,65 @@ export type ThumbprintType = string;
 export type ThumbprintListType = string[];
 export interface CreateOpenIDConnectProviderRequest {
   Url: string;
-  ClientIDList?: string[];
-  ThumbprintList?: string[];
-  Tags?: Tag[];
+  ClientIDList?: string[] | undefined;
+  ThumbprintList?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateOpenIDConnectProviderResponse {
-  OpenIDConnectProviderArn?: string;
-  Tags?: Tag[];
+  OpenIDConnectProviderArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type PolicyNameType = string;
 export type PolicyPathType = string;
 export type PolicyDescriptionType = string;
 export interface CreatePolicyRequest {
   PolicyName: string;
-  Path?: string;
+  Path?: string | undefined;
   PolicyDocument: string;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type PolicyVersionIdType = string;
 export type AttachmentCountType = number;
 export interface Policy {
-  PolicyName?: string;
-  PolicyId?: string;
-  Arn?: string;
-  Path?: string;
-  DefaultVersionId?: string;
-  AttachmentCount?: number;
-  PermissionsBoundaryUsageCount?: number;
-  IsAttachable?: boolean;
-  Description?: string;
-  CreateDate?: Date;
-  UpdateDate?: Date;
-  Tags?: Tag[];
+  PolicyName?: string | undefined;
+  PolicyId?: string | undefined;
+  Arn?: string | undefined;
+  Path?: string | undefined;
+  DefaultVersionId?: string | undefined;
+  AttachmentCount?: number | undefined;
+  PermissionsBoundaryUsageCount?: number | undefined;
+  IsAttachable?: boolean | undefined;
+  Description?: string | undefined;
+  CreateDate?: Date | undefined;
+  UpdateDate?: Date | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreatePolicyResponse {
-  Policy?: Policy;
+  Policy?: Policy | undefined;
 }
 export interface CreatePolicyVersionRequest {
   PolicyArn: string;
   PolicyDocument: string;
-  SetAsDefault?: boolean;
+  SetAsDefault?: boolean | undefined;
 }
 export interface PolicyVersion {
-  Document?: string;
-  VersionId?: string;
-  IsDefaultVersion?: boolean;
-  CreateDate?: Date;
+  Document?: string | undefined;
+  VersionId?: string | undefined;
+  IsDefaultVersion?: boolean | undefined;
+  CreateDate?: Date | undefined;
 }
 export interface CreatePolicyVersionResponse {
-  PolicyVersion?: PolicyVersion;
+  PolicyVersion?: PolicyVersion | undefined;
 }
 export interface CreateRoleRequest {
-  Path?: string;
+  Path?: string | undefined;
   RoleName: string;
   AssumeRolePolicyDocument: string;
-  Description?: string;
-  MaxSessionDuration?: number;
-  PermissionsBoundary?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  MaxSessionDuration?: number | undefined;
+  PermissionsBoundary?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateRoleResponse {
   Role: Role;
@@ -990,29 +990,29 @@ export type PrivateKeyType = string | redacted.Redacted<string>;
 export interface CreateSAMLProviderRequest {
   SAMLMetadataDocument: string;
   Name: string;
-  Tags?: Tag[];
-  AssertionEncryptionMode?: AssertionEncryptionModeType;
-  AddPrivateKey?: string | redacted.Redacted<string>;
+  Tags?: Tag[] | undefined;
+  AssertionEncryptionMode?: AssertionEncryptionModeType | undefined;
+  AddPrivateKey?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateSAMLProviderResponse {
-  SAMLProviderArn?: string;
-  Tags?: Tag[];
+  SAMLProviderArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type CustomSuffixType = string;
 export interface CreateServiceLinkedRoleRequest {
   AWSServiceName: string;
-  Description?: string;
-  CustomSuffix?: string;
+  Description?: string | undefined;
+  CustomSuffix?: string | undefined;
 }
 export interface CreateServiceLinkedRoleResponse {
-  Role?: Role;
+  Role?: Role | undefined;
 }
 export type ServiceName = string;
 export type CredentialAgeDays = number;
 export interface CreateServiceSpecificCredentialRequest {
   UserName: string;
   ServiceName: string;
-  CredentialAgeDays?: number;
+  CredentialAgeDays?: number | undefined;
 }
 export type ServiceUserName = string;
 export type ServicePassword = string | redacted.Redacted<string>;
@@ -1021,24 +1021,24 @@ export type ServiceCredentialSecret = string | redacted.Redacted<string>;
 export type ServiceSpecificCredentialId = string;
 export interface ServiceSpecificCredential {
   CreateDate: Date;
-  ExpirationDate?: Date;
+  ExpirationDate?: Date | undefined;
   ServiceName: string;
-  ServiceUserName?: string;
-  ServicePassword?: string | redacted.Redacted<string>;
-  ServiceCredentialAlias?: string;
-  ServiceCredentialSecret?: string | redacted.Redacted<string>;
+  ServiceUserName?: string | undefined;
+  ServicePassword?: string | redacted.Redacted<string> | undefined;
+  ServiceCredentialAlias?: string | undefined;
+  ServiceCredentialSecret?: string | redacted.Redacted<string> | undefined;
   ServiceSpecificCredentialId: string;
   UserName: string;
   Status: StatusType;
 }
 export interface CreateServiceSpecificCredentialResponse {
-  ServiceSpecificCredential?: ServiceSpecificCredential;
+  ServiceSpecificCredential?: ServiceSpecificCredential | undefined;
 }
 export interface CreateUserRequest {
-  Path?: string;
+  Path?: string | undefined;
   UserName: string;
-  PermissionsBoundary?: string;
-  Tags?: Tag[];
+  PermissionsBoundary?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface User {
   Path: string;
@@ -1046,39 +1046,39 @@ export interface User {
   UserId: string;
   Arn: string;
   CreateDate: Date;
-  PasswordLastUsed?: Date;
-  PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: Tag[];
+  PasswordLastUsed?: Date | undefined;
+  PermissionsBoundary?: AttachedPermissionsBoundary | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export type VirtualMFADeviceName = string;
 export interface CreateVirtualMFADeviceRequest {
-  Path?: string;
+  Path?: string | undefined;
   VirtualMFADeviceName: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type SerialNumberType = string;
 export type BootstrapDatum = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface VirtualMFADevice {
   SerialNumber: string;
-  Base32StringSeed?: Uint8Array | redacted.Redacted<Uint8Array>;
-  QRCodePNG?: Uint8Array | redacted.Redacted<Uint8Array>;
-  User?: User;
-  EnableDate?: Date;
-  Tags?: Tag[];
+  Base32StringSeed?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  QRCodePNG?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  User?: User | undefined;
+  EnableDate?: Date | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateVirtualMFADeviceResponse {
   VirtualMFADevice: VirtualMFADevice;
 }
 export interface DeactivateMFADeviceRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   SerialNumber: string;
 }
 export interface DeactivateMFADeviceResponse {}
 export interface DeleteAccessKeyRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   AccessKeyId: string;
 }
 export interface DeleteAccessKeyResponse {}
@@ -1102,7 +1102,7 @@ export interface DeleteInstanceProfileRequest {
 }
 export interface DeleteInstanceProfileResponse {}
 export interface DeleteLoginProfileRequest {
-  UserName?: string;
+  UserName?: string | undefined;
 }
 export interface DeleteLoginProfileResponse {}
 export interface DeleteOpenIDConnectProviderRequest {
@@ -1148,13 +1148,13 @@ export interface DeleteServiceLinkedRoleResponse {
   DeletionTaskId: string;
 }
 export interface DeleteServiceSpecificCredentialRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   ServiceSpecificCredentialId: string;
 }
 export interface DeleteServiceSpecificCredentialResponse {}
 export type CertificateIdType = string;
 export interface DeleteSigningCertificateRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   CertificateId: string;
 }
 export interface DeleteSigningCertificateResponse {}
@@ -1201,13 +1201,13 @@ export type OrganizationIdType = string;
 export type FeatureType = "RootCredentialsManagement" | "RootSessions" | (string & {});
 export type FeaturesListType = FeatureType[];
 export interface DisableOrganizationsRootCredentialsManagementResponse {
-  OrganizationId?: string;
-  EnabledFeatures?: FeatureType[];
+  OrganizationId?: string | undefined;
+  EnabledFeatures?: FeatureType[] | undefined;
 }
 export interface DisableOrganizationsRootSessionsRequest {}
 export interface DisableOrganizationsRootSessionsResponse {
-  OrganizationId?: string;
-  EnabledFeatures?: FeatureType[];
+  OrganizationId?: string | undefined;
+  EnabledFeatures?: FeatureType[] | undefined;
 }
 export interface DisableOutboundWebIdentityFederationRequest {}
 export interface DisableOutboundWebIdentityFederationResponse {}
@@ -1221,54 +1221,54 @@ export interface EnableMFADeviceRequest {
 export interface EnableMFADeviceResponse {}
 export interface EnableOrganizationsRootCredentialsManagementRequest {}
 export interface EnableOrganizationsRootCredentialsManagementResponse {
-  OrganizationId?: string;
-  EnabledFeatures?: FeatureType[];
+  OrganizationId?: string | undefined;
+  EnabledFeatures?: FeatureType[] | undefined;
 }
 export interface EnableOrganizationsRootSessionsRequest {}
 export interface EnableOrganizationsRootSessionsResponse {
-  OrganizationId?: string;
-  EnabledFeatures?: FeatureType[];
+  OrganizationId?: string | undefined;
+  EnabledFeatures?: FeatureType[] | undefined;
 }
 export interface EnableOutboundWebIdentityFederationRequest {}
 export interface EnableOutboundWebIdentityFederationResponse {
-  IssuerIdentifier?: string;
+  IssuerIdentifier?: string | undefined;
 }
 export interface GenerateCredentialReportRequest {}
 export type ReportStateType = "STARTED" | "INPROGRESS" | "COMPLETE" | (string & {});
 export type ReportStateDescriptionType = string;
 export interface GenerateCredentialReportResponse {
-  State?: ReportStateType;
-  Description?: string;
+  State?: ReportStateType | undefined;
+  Description?: string | undefined;
 }
 export type OrganizationsEntityPathType = string;
 export type OrganizationsPolicyIdType = string;
 export interface GenerateOrganizationsAccessReportRequest {
   EntityPath: string;
-  OrganizationsPolicyId?: string;
+  OrganizationsPolicyId?: string | undefined;
 }
 export type JobIDType = string;
 export interface GenerateOrganizationsAccessReportResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export type AccessAdvisorUsageGranularityType = "SERVICE_LEVEL" | "ACTION_LEVEL" | (string & {});
 export interface GenerateServiceLastAccessedDetailsRequest {
   Arn: string;
-  Granularity?: AccessAdvisorUsageGranularityType;
+  Granularity?: AccessAdvisorUsageGranularityType | undefined;
 }
 export interface GenerateServiceLastAccessedDetailsResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface GetAccessKeyLastUsedRequest {
   AccessKeyId: string;
 }
 export interface AccessKeyLastUsed {
-  LastUsedDate?: Date;
+  LastUsedDate?: Date | undefined;
   ServiceName: string;
   Region: string;
 }
 export interface GetAccessKeyLastUsedResponse {
-  UserName?: string;
-  AccessKeyLastUsed?: AccessKeyLastUsed;
+  UserName?: string | undefined;
+  AccessKeyLastUsed?: AccessKeyLastUsed | undefined;
 }
 export type EntityType =
   | "User"
@@ -1281,84 +1281,84 @@ export type EntityListType = EntityType[];
 export type MaxItemsType = number;
 export type MarkerType = string;
 export interface GetAccountAuthorizationDetailsRequest {
-  Filter?: EntityType[];
-  MaxItems?: number;
-  Marker?: string;
+  Filter?: EntityType[] | undefined;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface PolicyDetail {
-  PolicyName?: string;
-  PolicyDocument?: string;
+  PolicyName?: string | undefined;
+  PolicyDocument?: string | undefined;
 }
 export type PolicyDetailListType = PolicyDetail[];
 export type GroupNameListType = string[];
 export interface AttachedPolicy {
-  PolicyName?: string;
-  PolicyArn?: string;
+  PolicyName?: string | undefined;
+  PolicyArn?: string | undefined;
 }
 export type AttachedPoliciesListType = AttachedPolicy[];
 export interface UserDetail {
-  Path?: string;
-  UserName?: string;
-  UserId?: string;
-  Arn?: string;
-  CreateDate?: Date;
-  UserPolicyList?: PolicyDetail[];
-  GroupList?: string[];
-  AttachedManagedPolicies?: AttachedPolicy[];
-  PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: Tag[];
+  Path?: string | undefined;
+  UserName?: string | undefined;
+  UserId?: string | undefined;
+  Arn?: string | undefined;
+  CreateDate?: Date | undefined;
+  UserPolicyList?: PolicyDetail[] | undefined;
+  GroupList?: string[] | undefined;
+  AttachedManagedPolicies?: AttachedPolicy[] | undefined;
+  PermissionsBoundary?: AttachedPermissionsBoundary | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type UserDetailListType = UserDetail[];
 export interface GroupDetail {
-  Path?: string;
-  GroupName?: string;
-  GroupId?: string;
-  Arn?: string;
-  CreateDate?: Date;
-  GroupPolicyList?: PolicyDetail[];
-  AttachedManagedPolicies?: AttachedPolicy[];
+  Path?: string | undefined;
+  GroupName?: string | undefined;
+  GroupId?: string | undefined;
+  Arn?: string | undefined;
+  CreateDate?: Date | undefined;
+  GroupPolicyList?: PolicyDetail[] | undefined;
+  AttachedManagedPolicies?: AttachedPolicy[] | undefined;
 }
 export type GroupDetailListType = GroupDetail[];
 export type InstanceProfileListType = InstanceProfile[];
 export interface RoleDetail {
-  Path?: string;
-  RoleName?: string;
-  RoleId?: string;
-  Arn?: string;
-  CreateDate?: Date;
-  AssumeRolePolicyDocument?: string;
-  InstanceProfileList?: InstanceProfile[];
-  RolePolicyList?: PolicyDetail[];
-  AttachedManagedPolicies?: AttachedPolicy[];
-  PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: Tag[];
-  RoleLastUsed?: RoleLastUsed;
+  Path?: string | undefined;
+  RoleName?: string | undefined;
+  RoleId?: string | undefined;
+  Arn?: string | undefined;
+  CreateDate?: Date | undefined;
+  AssumeRolePolicyDocument?: string | undefined;
+  InstanceProfileList?: InstanceProfile[] | undefined;
+  RolePolicyList?: PolicyDetail[] | undefined;
+  AttachedManagedPolicies?: AttachedPolicy[] | undefined;
+  PermissionsBoundary?: AttachedPermissionsBoundary | undefined;
+  Tags?: Tag[] | undefined;
+  RoleLastUsed?: RoleLastUsed | undefined;
 }
 export type RoleDetailListType = RoleDetail[];
 export type PolicyDocumentVersionListType = PolicyVersion[];
 export interface ManagedPolicyDetail {
-  PolicyName?: string;
-  PolicyId?: string;
-  Arn?: string;
-  Path?: string;
-  DefaultVersionId?: string;
-  AttachmentCount?: number;
-  PermissionsBoundaryUsageCount?: number;
-  IsAttachable?: boolean;
-  Description?: string;
-  CreateDate?: Date;
-  UpdateDate?: Date;
-  PolicyVersionList?: PolicyVersion[];
+  PolicyName?: string | undefined;
+  PolicyId?: string | undefined;
+  Arn?: string | undefined;
+  Path?: string | undefined;
+  DefaultVersionId?: string | undefined;
+  AttachmentCount?: number | undefined;
+  PermissionsBoundaryUsageCount?: number | undefined;
+  IsAttachable?: boolean | undefined;
+  Description?: string | undefined;
+  CreateDate?: Date | undefined;
+  UpdateDate?: Date | undefined;
+  PolicyVersionList?: PolicyVersion[] | undefined;
 }
 export type ManagedPolicyDetailListType = ManagedPolicyDetail[];
 export type ResponseMarkerType = string;
 export interface GetAccountAuthorizationDetailsResponse {
-  UserDetailList?: UserDetail[];
-  GroupDetailList?: GroupDetail[];
-  RoleDetailList?: RoleDetail[];
-  Policies?: ManagedPolicyDetail[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  UserDetailList?: UserDetail[] | undefined;
+  GroupDetailList?: GroupDetail[] | undefined;
+  RoleDetailList?: RoleDetail[] | undefined;
+  Policies?: ManagedPolicyDetail[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface GetAccountPasswordPolicyRequest {}
 export type MinimumPasswordLengthType = number;
@@ -1366,16 +1366,16 @@ export type MaxPasswordAgeType = number;
 export type PasswordReusePreventionType = number;
 export type BooleanObjectType = boolean;
 export interface PasswordPolicy {
-  MinimumPasswordLength?: number;
-  RequireSymbols?: boolean;
-  RequireNumbers?: boolean;
-  RequireUppercaseCharacters?: boolean;
-  RequireLowercaseCharacters?: boolean;
-  AllowUsersToChangePassword?: boolean;
-  ExpirePasswords?: boolean;
-  MaxPasswordAge?: number;
-  PasswordReusePrevention?: number;
-  HardExpiry?: boolean;
+  MinimumPasswordLength?: number | undefined;
+  RequireSymbols?: boolean | undefined;
+  RequireNumbers?: boolean | undefined;
+  RequireUppercaseCharacters?: boolean | undefined;
+  RequireLowercaseCharacters?: boolean | undefined;
+  AllowUsersToChangePassword?: boolean | undefined;
+  ExpirePasswords?: boolean | undefined;
+  MaxPasswordAge?: number | undefined;
+  PasswordReusePrevention?: number | undefined;
+  HardExpiry?: boolean | undefined;
 }
 export interface GetAccountPasswordPolicyResponse {
   PasswordPolicy: PasswordPolicy;
@@ -1385,7 +1385,7 @@ export type AccountPropertyKeyType = string;
 export type AccountPropertyValueType = string;
 export type AccountPropertiesMapType = { [key: string]: string | undefined };
 export interface GetAccountPropertiesResponse {
-  Properties?: { [key: string]: string | undefined };
+  Properties?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetAccountSummaryRequest {}
 export type SummaryKeyType =
@@ -1425,9 +1425,9 @@ export type SummaryKeyType =
   | "RolesQuota"
   | (string & {});
 export type SummaryValueType = number;
-export type SummaryMapType = { [key in SummaryKeyType]?: number };
+export type SummaryMapType = { [key in SummaryKeyType]?: number | undefined };
 export interface GetAccountSummaryResponse {
-  SummaryMap?: { [key: string]: number | undefined };
+  SummaryMap?: { [key: string]: number | undefined } | undefined;
 }
 export type SimulationPolicyListType = string[];
 export interface GetContextKeysForCustomPolicyRequest {
@@ -1436,23 +1436,23 @@ export interface GetContextKeysForCustomPolicyRequest {
 export type ContextKeyNameType = string;
 export type ContextKeyNamesResultListType = string[];
 export interface GetContextKeysForPolicyResponse {
-  ContextKeyNames?: string[];
+  ContextKeyNames?: string[] | undefined;
 }
 export interface GetContextKeysForPrincipalPolicyRequest {
   PolicySourceArn: string;
-  PolicyInputList?: string[];
+  PolicyInputList?: string[] | undefined;
 }
 export interface GetCredentialReportRequest {}
 export type ReportContentType = Uint8Array;
 export type ReportFormatType = "text/csv" | (string & {});
 export interface GetCredentialReportResponse {
-  Content?: Uint8Array;
-  ReportFormat?: ReportFormatType;
-  GeneratedTime?: Date;
+  Content?: Uint8Array | undefined;
+  ReportFormat?: ReportFormatType | undefined;
+  GeneratedTime?: Date | undefined;
 }
 export interface GetDelegationRequestRequest {
   DelegationRequestId: string;
-  DelegationPermissionCheck?: boolean;
+  DelegationPermissionCheck?: boolean | undefined;
 }
 export type PermissionType = string;
 export type RolePermissionRestrictionArnListType = string[];
@@ -1469,45 +1469,45 @@ export type StateType =
 export type RequestorNameType = string;
 export type NotesType = string;
 export interface DelegationRequest {
-  DelegationRequestId?: string;
-  OwnerAccountId?: string;
-  Description?: string;
-  RequestMessage?: string;
-  Permissions?: DelegationPermission;
-  PermissionPolicy?: string;
-  RolePermissionRestrictionArns?: string[];
-  OwnerId?: string;
-  ApproverId?: string;
-  State?: StateType;
-  ExpirationTime?: Date;
-  RequestorId?: string;
-  RequestorName?: string;
-  CreateDate?: Date;
-  SessionDuration?: number;
-  RedirectUrl?: string;
-  Notes?: string;
-  RejectionReason?: string;
-  OnlySendByOwner?: boolean;
-  UpdatedTime?: Date;
+  DelegationRequestId?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  Description?: string | undefined;
+  RequestMessage?: string | undefined;
+  Permissions?: DelegationPermission | undefined;
+  PermissionPolicy?: string | undefined;
+  RolePermissionRestrictionArns?: string[] | undefined;
+  OwnerId?: string | undefined;
+  ApproverId?: string | undefined;
+  State?: StateType | undefined;
+  ExpirationTime?: Date | undefined;
+  RequestorId?: string | undefined;
+  RequestorName?: string | undefined;
+  CreateDate?: Date | undefined;
+  SessionDuration?: number | undefined;
+  RedirectUrl?: string | undefined;
+  Notes?: string | undefined;
+  RejectionReason?: string | undefined;
+  OnlySendByOwner?: boolean | undefined;
+  UpdatedTime?: Date | undefined;
 }
 export type PermissionCheckStatusType = "COMPLETE" | "IN_PROGRESS" | "FAILED" | (string & {});
 export type PermissionCheckResultType = "ALLOWED" | "DENIED" | "UNSURE" | (string & {});
 export interface GetDelegationRequestResponse {
-  DelegationRequest?: DelegationRequest;
-  PermissionCheckStatus?: PermissionCheckStatusType;
-  PermissionCheckResult?: PermissionCheckResultType;
+  DelegationRequest?: DelegationRequest | undefined;
+  PermissionCheckStatus?: PermissionCheckStatusType | undefined;
+  PermissionCheckResult?: PermissionCheckResultType | undefined;
 }
 export interface GetGroupRequest {
   GroupName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type UserListType = User[];
 export interface GetGroupResponse {
   Group: Group;
   Users: User[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface GetGroupPolicyRequest {
   GroupName: string;
@@ -1521,7 +1521,7 @@ export interface GetGroupPolicyResponse {
 export type LocaleType = string;
 export interface GetHumanReadableSummaryRequest {
   EntityArn: string;
-  Locale?: string;
+  Locale?: string | undefined;
 }
 export type SummaryContentType = string;
 export type SummaryStateType =
@@ -1531,9 +1531,9 @@ export type SummaryStateType =
   | "FAILED"
   | (string & {});
 export interface GetHumanReadableSummaryResponse {
-  SummaryContent?: string;
-  Locale?: string;
-  SummaryState?: SummaryStateType;
+  SummaryContent?: string | undefined;
+  Locale?: string | undefined;
+  SummaryState?: SummaryStateType | undefined;
 }
 export interface GetInstanceProfileRequest {
   InstanceProfileName: string;
@@ -1542,33 +1542,33 @@ export interface GetInstanceProfileResponse {
   InstanceProfile: InstanceProfile;
 }
 export interface GetLoginProfileRequest {
-  UserName?: string;
+  UserName?: string | undefined;
 }
 export interface GetLoginProfileResponse {
   LoginProfile: LoginProfile;
 }
 export interface GetMFADeviceRequest {
   SerialNumber: string;
-  UserName?: string;
+  UserName?: string | undefined;
 }
 export type CertificationKeyType = string;
 export type CertificationValueType = string;
 export type CertificationMapType = { [key: string]: string | undefined };
 export interface GetMFADeviceResponse {
-  UserName?: string;
+  UserName?: string | undefined;
   SerialNumber: string;
-  EnableDate?: Date;
-  Certifications?: { [key: string]: string | undefined };
+  EnableDate?: Date | undefined;
+  Certifications?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetOpenIDConnectProviderRequest {
   OpenIDConnectProviderArn: string;
 }
 export interface GetOpenIDConnectProviderResponse {
-  Url?: string;
-  ClientIDList?: string[];
-  ThumbprintList?: string[];
-  CreateDate?: Date;
-  Tags?: Tag[];
+  Url?: string | undefined;
+  ClientIDList?: string[] | undefined;
+  ThumbprintList?: string[] | undefined;
+  CreateDate?: Date | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type SortKeyType =
   | "SERVICE_NAMESPACE_ASCENDING"
@@ -1578,9 +1578,9 @@ export type SortKeyType =
   | (string & {});
 export interface GetOrganizationsAccessReportRequest {
   JobId: string;
-  MaxItems?: number;
-  Marker?: string;
-  SortKey?: SortKeyType;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
+  SortKey?: SortKeyType | undefined;
 }
 export type JobStatusType = "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export type ServiceNameType = string;
@@ -1588,10 +1588,10 @@ export type ServiceNamespaceType = string;
 export interface AccessDetail {
   ServiceName: string;
   ServiceNamespace: string;
-  Region?: string;
-  EntityPath?: string;
-  LastAuthenticatedTime?: Date;
-  TotalAuthenticatedEntities?: number;
+  Region?: string | undefined;
+  EntityPath?: string | undefined;
+  LastAuthenticatedTime?: Date | undefined;
+  TotalAuthenticatedEntities?: number | undefined;
 }
 export type AccessDetails = AccessDetail[];
 export interface ErrorDetails {
@@ -1601,31 +1601,31 @@ export interface ErrorDetails {
 export interface GetOrganizationsAccessReportResponse {
   JobStatus: JobStatusType;
   JobCreationDate: Date;
-  JobCompletionDate?: Date;
-  NumberOfServicesAccessible?: number;
-  NumberOfServicesNotAccessed?: number;
-  AccessDetails?: AccessDetail[];
-  IsTruncated?: boolean;
-  Marker?: string;
-  ErrorDetails?: ErrorDetails;
+  JobCompletionDate?: Date | undefined;
+  NumberOfServicesAccessible?: number | undefined;
+  NumberOfServicesNotAccessed?: number | undefined;
+  AccessDetails?: AccessDetail[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
 }
 export interface GetOutboundWebIdentityFederationInfoRequest {}
 export interface GetOutboundWebIdentityFederationInfoResponse {
-  IssuerIdentifier?: string;
-  JwtVendingEnabled?: boolean;
+  IssuerIdentifier?: string | undefined;
+  JwtVendingEnabled?: boolean | undefined;
 }
 export interface GetPolicyRequest {
   PolicyArn: string;
 }
 export interface GetPolicyResponse {
-  Policy?: Policy;
+  Policy?: Policy | undefined;
 }
 export interface GetPolicyVersionRequest {
   PolicyArn: string;
   VersionId: string;
 }
 export interface GetPolicyVersionResponse {
-  PolicyVersion?: PolicyVersion;
+  PolicyVersion?: PolicyVersion | undefined;
 }
 export interface GetRoleRequest {
   RoleName: string;
@@ -1645,7 +1645,7 @@ export interface GetRolePolicyResponse {
 export type MinorVersionType = number;
 export interface GetRoleTemplateVersionRequest {
   TemplateArn: string;
-  MinorVersion?: number;
+  MinorVersion?: number | undefined;
 }
 export type RoleTemplateNameType = string;
 export type RoleTemplateDescriptionType = string;
@@ -1675,11 +1675,11 @@ export type ParameterDefaultValueType = string;
 export interface ParameterDefinition {
   Name: string;
   Type: ParameterTypeType;
-  SubType?: string;
-  Description?: string;
-  IsRequired?: boolean;
-  DefaultValue?: string;
-  Immutable?: boolean;
+  SubType?: string | undefined;
+  Description?: string | undefined;
+  IsRequired?: boolean | undefined;
+  DefaultValue?: string | undefined;
+  Immutable?: boolean | undefined;
 }
 export type ParametersDefinitionListType = ParameterDefinition[];
 export type TagTemplateKeyType = string;
@@ -1690,29 +1690,29 @@ export interface TagTemplate {
 }
 export type TagTemplateListType = TagTemplate[];
 export interface RoleTemplateVersion {
-  TemplateArn?: string;
-  TemplateName?: string;
-  TemplateVersionId?: string;
-  Description?: string;
-  MajorVersion?: number;
-  DefaultMinorVersion?: number;
-  ManagedByType?: ManagedByTypeType;
-  ManagedByValue?: string;
-  Enabled?: boolean;
-  MinorVersion?: number;
-  RoleNamePattern?: string;
-  RolePathPattern?: string;
-  RoleDescriptionPattern?: string;
-  AssumeRolePolicyDocumentTemplate?: string;
-  InlinePolicyTemplates?: InlinePolicy[];
-  ManagedPolicyArns?: string[];
-  PermissionBoundaryArn?: string;
-  ParametersDefinition?: ParameterDefinition[];
-  RoleTagsTemplate?: TagTemplate[];
-  MaxSessionDuration?: number;
-  VersionEnabled?: boolean;
-  CreateTimestamp?: Date;
-  UpdateTimestamp?: Date;
+  TemplateArn?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateVersionId?: string | undefined;
+  Description?: string | undefined;
+  MajorVersion?: number | undefined;
+  DefaultMinorVersion?: number | undefined;
+  ManagedByType?: ManagedByTypeType | undefined;
+  ManagedByValue?: string | undefined;
+  Enabled?: boolean | undefined;
+  MinorVersion?: number | undefined;
+  RoleNamePattern?: string | undefined;
+  RolePathPattern?: string | undefined;
+  RoleDescriptionPattern?: string | undefined;
+  AssumeRolePolicyDocumentTemplate?: string | undefined;
+  InlinePolicyTemplates?: InlinePolicy[] | undefined;
+  ManagedPolicyArns?: string[] | undefined;
+  PermissionBoundaryArn?: string | undefined;
+  ParametersDefinition?: ParameterDefinition[] | undefined;
+  RoleTagsTemplate?: TagTemplate[] | undefined;
+  MaxSessionDuration?: number | undefined;
+  VersionEnabled?: boolean | undefined;
+  CreateTimestamp?: Date | undefined;
+  UpdateTimestamp?: Date | undefined;
 }
 export interface GetRoleTemplateVersionResponse {
   RoleTemplateVersion: RoleTemplateVersion;
@@ -1722,18 +1722,18 @@ export interface GetSAMLProviderRequest {
 }
 export type PrivateKeyIdType = string;
 export interface SAMLPrivateKey {
-  KeyId?: string;
-  Timestamp?: Date;
+  KeyId?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export type PrivateKeyList = SAMLPrivateKey[];
 export interface GetSAMLProviderResponse {
-  SAMLProviderUUID?: string;
-  SAMLMetadataDocument?: string;
-  CreateDate?: Date;
-  ValidUntil?: Date;
-  Tags?: Tag[];
-  AssertionEncryptionMode?: AssertionEncryptionModeType;
-  PrivateKeyList?: SAMLPrivateKey[];
+  SAMLProviderUUID?: string | undefined;
+  SAMLMetadataDocument?: string | undefined;
+  CreateDate?: Date | undefined;
+  ValidUntil?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  AssertionEncryptionMode?: AssertionEncryptionModeType | undefined;
+  PrivateKeyList?: SAMLPrivateKey[] | undefined;
 }
 export interface GetServerCertificateRequest {
   ServerCertificateName: string;
@@ -1743,57 +1743,57 @@ export interface ServerCertificateMetadata {
   ServerCertificateName: string;
   ServerCertificateId: string;
   Arn: string;
-  UploadDate?: Date;
-  Expiration?: Date;
+  UploadDate?: Date | undefined;
+  Expiration?: Date | undefined;
 }
 export type CertificateBodyType = string;
 export type CertificateChainType = string;
 export interface ServerCertificate {
   ServerCertificateMetadata: ServerCertificateMetadata;
   CertificateBody: string;
-  CertificateChain?: string;
-  Tags?: Tag[];
+  CertificateChain?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface GetServerCertificateResponse {
   ServerCertificate: ServerCertificate;
 }
 export interface GetServiceLastAccessedDetailsRequest {
   JobId: string;
-  MaxItems?: number;
-  Marker?: string;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface TrackedActionLastAccessed {
-  ActionName?: string;
-  LastAccessedEntity?: string;
-  LastAccessedTime?: Date;
-  LastAccessedRegion?: string;
+  ActionName?: string | undefined;
+  LastAccessedEntity?: string | undefined;
+  LastAccessedTime?: Date | undefined;
+  LastAccessedRegion?: string | undefined;
 }
 export type TrackedActionsLastAccessed = TrackedActionLastAccessed[];
 export interface ServiceLastAccessed {
   ServiceName: string;
-  LastAuthenticated?: Date;
+  LastAuthenticated?: Date | undefined;
   ServiceNamespace: string;
-  LastAuthenticatedEntity?: string;
-  LastAuthenticatedRegion?: string;
-  TotalAuthenticatedEntities?: number;
-  TrackedActionsLastAccessed?: TrackedActionLastAccessed[];
+  LastAuthenticatedEntity?: string | undefined;
+  LastAuthenticatedRegion?: string | undefined;
+  TotalAuthenticatedEntities?: number | undefined;
+  TrackedActionsLastAccessed?: TrackedActionLastAccessed[] | undefined;
 }
 export type ServicesLastAccessed = ServiceLastAccessed[];
 export interface GetServiceLastAccessedDetailsResponse {
   JobStatus: JobStatusType;
-  JobType?: AccessAdvisorUsageGranularityType;
+  JobType?: AccessAdvisorUsageGranularityType | undefined;
   JobCreationDate: Date;
   ServicesLastAccessed: ServiceLastAccessed[];
   JobCompletionDate: Date;
-  IsTruncated?: boolean;
-  Marker?: string;
-  Error?: ErrorDetails;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
+  Error?: ErrorDetails | undefined;
 }
 export interface GetServiceLastAccessedDetailsWithEntitiesRequest {
   JobId: string;
   ServiceNamespace: string;
-  MaxItems?: number;
-  Marker?: string;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
 }
 export type PolicyOwnerEntityType = "USER" | "ROLE" | "GROUP" | (string & {});
 export interface EntityInfo {
@@ -1801,11 +1801,11 @@ export interface EntityInfo {
   Name: string;
   Type: PolicyOwnerEntityType;
   Id: string;
-  Path?: string;
+  Path?: string | undefined;
 }
 export interface EntityDetails {
   EntityInfo: EntityInfo;
-  LastAuthenticated?: Date;
+  LastAuthenticated?: Date | undefined;
 }
 export type EntityDetailsListType = EntityDetails[];
 export interface GetServiceLastAccessedDetailsWithEntitiesResponse {
@@ -1813,9 +1813,9 @@ export interface GetServiceLastAccessedDetailsWithEntitiesResponse {
   JobCreationDate: Date;
   JobCompletionDate: Date;
   EntityDetailsList: EntityDetails[];
-  IsTruncated?: boolean;
-  Marker?: string;
-  Error?: ErrorDetails;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
+  Error?: ErrorDetails | undefined;
 }
 export interface GetServiceLinkedRoleDeletionStatusRequest {
   DeletionTaskId: string;
@@ -1830,17 +1830,17 @@ export type ReasonType = string;
 export type RegionNameType = string;
 export type ArnListType = string[];
 export interface RoleUsageType {
-  Region?: string;
-  Resources?: string[];
+  Region?: string | undefined;
+  Resources?: string[] | undefined;
 }
 export type RoleUsageListType = RoleUsageType[];
 export interface DeletionTaskFailureReasonType {
-  Reason?: string;
-  RoleUsageList?: RoleUsageType[];
+  Reason?: string | undefined;
+  RoleUsageList?: RoleUsageType[] | undefined;
 }
 export interface GetServiceLinkedRoleDeletionStatusResponse {
   Status: DeletionTaskStatusType;
-  Reason?: DeletionTaskFailureReasonType;
+  Reason?: DeletionTaskFailureReasonType | undefined;
 }
 export type EncodingType = "SSH" | "PEM" | (string & {});
 export interface GetSSHPublicKeyRequest {
@@ -1856,13 +1856,13 @@ export interface SSHPublicKey {
   Fingerprint: string;
   SSHPublicKeyBody: string;
   Status: StatusType;
-  UploadDate?: Date;
+  UploadDate?: Date | undefined;
 }
 export interface GetSSHPublicKeyResponse {
-  SSHPublicKey?: SSHPublicKey;
+  SSHPublicKey?: SSHPublicKey | undefined;
 }
 export interface GetUserRequest {
-  UserName?: string;
+  UserName?: string | undefined;
 }
 export interface GetUserResponse {
   User: User;
@@ -1877,174 +1877,174 @@ export interface GetUserPolicyResponse {
   PolicyDocument: string;
 }
 export interface ListAccessKeysRequest {
-  UserName?: string;
-  Marker?: string;
-  MaxItems?: number;
+  UserName?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface AccessKeyMetadata {
-  UserName?: string;
-  AccessKeyId?: string;
-  Status?: StatusType;
-  CreateDate?: Date;
+  UserName?: string | undefined;
+  AccessKeyId?: string | undefined;
+  Status?: StatusType | undefined;
+  CreateDate?: Date | undefined;
 }
 export type AccessKeyMetadataListType = AccessKeyMetadata[];
 export interface ListAccessKeysResponse {
   AccessKeyMetadata: AccessKeyMetadata[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListAccountAliasesRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type AccountAliasListType = string[];
 export interface ListAccountAliasesResponse {
   AccountAliases: string[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListAttachedGroupPoliciesRequest {
   GroupName: string;
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListAttachedGroupPoliciesResponse {
-  AttachedPolicies?: AttachedPolicy[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  AttachedPolicies?: AttachedPolicy[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListAttachedRolePoliciesRequest {
   RoleName: string;
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListAttachedRolePoliciesResponse {
-  AttachedPolicies?: AttachedPolicy[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  AttachedPolicies?: AttachedPolicy[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListAttachedUserPoliciesRequest {
   UserName: string;
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListAttachedUserPoliciesResponse {
-  AttachedPolicies?: AttachedPolicy[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  AttachedPolicies?: AttachedPolicy[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListDelegationRequestsRequest {
-  OwnerId?: string;
-  Marker?: string;
-  MaxItems?: number;
+  OwnerId?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type DelegationRequestsListType = DelegationRequest[];
 export interface ListDelegationRequestsResponse {
-  DelegationRequests?: DelegationRequest[];
-  Marker?: string;
-  isTruncated?: boolean;
+  DelegationRequests?: DelegationRequest[] | undefined;
+  Marker?: string | undefined;
+  isTruncated?: boolean | undefined;
 }
 export type PolicyUsageType = "PermissionsPolicy" | "PermissionsBoundary" | (string & {});
 export interface ListEntitiesForPolicyRequest {
   PolicyArn: string;
-  EntityFilter?: EntityType;
-  PathPrefix?: string;
-  PolicyUsageFilter?: PolicyUsageType;
-  Marker?: string;
-  MaxItems?: number;
+  EntityFilter?: EntityType | undefined;
+  PathPrefix?: string | undefined;
+  PolicyUsageFilter?: PolicyUsageType | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface PolicyGroup {
-  GroupName?: string;
-  GroupId?: string;
+  GroupName?: string | undefined;
+  GroupId?: string | undefined;
 }
 export type PolicyGroupListType = PolicyGroup[];
 export interface PolicyUser {
-  UserName?: string;
-  UserId?: string;
+  UserName?: string | undefined;
+  UserId?: string | undefined;
 }
 export type PolicyUserListType = PolicyUser[];
 export interface PolicyRole {
-  RoleName?: string;
-  RoleId?: string;
+  RoleName?: string | undefined;
+  RoleId?: string | undefined;
 }
 export type PolicyRoleListType = PolicyRole[];
 export interface ListEntitiesForPolicyResponse {
-  PolicyGroups?: PolicyGroup[];
-  PolicyUsers?: PolicyUser[];
-  PolicyRoles?: PolicyRole[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  PolicyGroups?: PolicyGroup[] | undefined;
+  PolicyUsers?: PolicyUser[] | undefined;
+  PolicyRoles?: PolicyRole[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListGroupPoliciesRequest {
   GroupName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type PolicyNameListType = string[];
 export interface ListGroupPoliciesResponse {
   PolicyNames: string[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export type PathPrefixType = string;
 export interface ListGroupsRequest {
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type GroupListType = Group[];
 export interface ListGroupsResponse {
   Groups: Group[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListGroupsForUserRequest {
   UserName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListGroupsForUserResponse {
   Groups: Group[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListInstanceProfilesRequest {
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListInstanceProfilesResponse {
   InstanceProfiles: InstanceProfile[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListInstanceProfilesForRoleRequest {
   RoleName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListInstanceProfilesForRoleResponse {
   InstanceProfiles: InstanceProfile[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListInstanceProfileTagsRequest {
   InstanceProfileName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListInstanceProfileTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListMFADevicesRequest {
-  UserName?: string;
-  Marker?: string;
-  MaxItems?: number;
+  UserName?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface MFADevice {
   UserName: string;
@@ -2054,60 +2054,60 @@ export interface MFADevice {
 export type MfaDeviceListType = MFADevice[];
 export interface ListMFADevicesResponse {
   MFADevices: MFADevice[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListMFADeviceTagsRequest {
   SerialNumber: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListMFADeviceTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListOpenIDConnectProvidersRequest {}
 export interface OpenIDConnectProviderListEntry {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type OpenIDConnectProviderListType = OpenIDConnectProviderListEntry[];
 export interface ListOpenIDConnectProvidersResponse {
-  OpenIDConnectProviderList?: OpenIDConnectProviderListEntry[];
+  OpenIDConnectProviderList?: OpenIDConnectProviderListEntry[] | undefined;
 }
 export interface ListOpenIDConnectProviderTagsRequest {
   OpenIDConnectProviderArn: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListOpenIDConnectProviderTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListOrganizationsFeaturesRequest {}
 export interface ListOrganizationsFeaturesResponse {
-  OrganizationId?: string;
-  EnabledFeatures?: FeatureType[];
+  OrganizationId?: string | undefined;
+  EnabledFeatures?: FeatureType[] | undefined;
 }
 export type PolicyScopeType = "All" | "AWS" | "Local" | (string & {});
 export interface ListPoliciesRequest {
-  Scope?: PolicyScopeType;
-  OnlyAttached?: boolean;
-  PathPrefix?: string;
-  PolicyUsageFilter?: PolicyUsageType;
-  Marker?: string;
-  MaxItems?: number;
+  Scope?: PolicyScopeType | undefined;
+  OnlyAttached?: boolean | undefined;
+  PathPrefix?: string | undefined;
+  PolicyUsageFilter?: PolicyUsageType | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type PolicyListType = Policy[];
 export interface ListPoliciesResponse {
-  Policies?: Policy[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  Policies?: Policy[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export type ServiceNamespaceListType = string[];
 export interface ListPoliciesGrantingServiceAccessRequest {
-  Marker?: string;
+  Marker?: string | undefined;
   Arn: string;
   ServiceNamespaces: string[];
 }
@@ -2116,159 +2116,159 @@ export type EntityNameType = string;
 export interface PolicyGrantingServiceAccess {
   PolicyName: string;
   PolicyType: PolicyType;
-  PolicyArn?: string;
-  EntityType?: PolicyOwnerEntityType;
-  EntityName?: string;
+  PolicyArn?: string | undefined;
+  EntityType?: PolicyOwnerEntityType | undefined;
+  EntityName?: string | undefined;
 }
 export type PolicyGrantingServiceAccessListType = PolicyGrantingServiceAccess[];
 export interface ListPoliciesGrantingServiceAccessEntry {
-  ServiceNamespace?: string;
-  Policies?: PolicyGrantingServiceAccess[];
+  ServiceNamespace?: string | undefined;
+  Policies?: PolicyGrantingServiceAccess[] | undefined;
 }
 export type ListPolicyGrantingServiceAccessResponseListType =
   ListPoliciesGrantingServiceAccessEntry[];
 export interface ListPoliciesGrantingServiceAccessResponse {
   PoliciesGrantingServiceAccess: ListPoliciesGrantingServiceAccessEntry[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListPolicyTagsRequest {
   PolicyArn: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListPolicyTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListPolicyVersionsRequest {
   PolicyArn: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListPolicyVersionsResponse {
-  Versions?: PolicyVersion[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  Versions?: PolicyVersion[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListRolePoliciesRequest {
   RoleName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListRolePoliciesResponse {
   PolicyNames: string[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListRolesRequest {
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListRolesResponse {
   Roles: Role[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListRoleTagsRequest {
   RoleName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListRoleTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListSAMLProvidersRequest {}
 export interface SAMLProviderListEntry {
-  Arn?: string;
-  ValidUntil?: Date;
-  CreateDate?: Date;
+  Arn?: string | undefined;
+  ValidUntil?: Date | undefined;
+  CreateDate?: Date | undefined;
 }
 export type SAMLProviderListType = SAMLProviderListEntry[];
 export interface ListSAMLProvidersResponse {
-  SAMLProviderList?: SAMLProviderListEntry[];
+  SAMLProviderList?: SAMLProviderListEntry[] | undefined;
 }
 export interface ListSAMLProviderTagsRequest {
   SAMLProviderArn: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListSAMLProviderTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListServerCertificatesRequest {
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type ServerCertificateMetadataListType = ServerCertificateMetadata[];
 export interface ListServerCertificatesResponse {
   ServerCertificateMetadataList: ServerCertificateMetadata[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListServerCertificateTagsRequest {
   ServerCertificateName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListServerCertificateTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export type AllUsers = boolean;
 export interface ListServiceSpecificCredentialsRequest {
-  UserName?: string;
-  ServiceName?: string;
-  AllUsers?: boolean;
-  Marker?: string;
-  MaxItems?: number;
+  UserName?: string | undefined;
+  ServiceName?: string | undefined;
+  AllUsers?: boolean | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ServiceSpecificCredentialMetadata {
   UserName: string;
   Status: StatusType;
-  ServiceUserName?: string;
-  ServiceCredentialAlias?: string;
+  ServiceUserName?: string | undefined;
+  ServiceCredentialAlias?: string | undefined;
   CreateDate: Date;
-  ExpirationDate?: Date;
+  ExpirationDate?: Date | undefined;
   ServiceSpecificCredentialId: string;
   ServiceName: string;
 }
 export type ServiceSpecificCredentialsListType = ServiceSpecificCredentialMetadata[];
 export interface ListServiceSpecificCredentialsResponse {
-  ServiceSpecificCredentials?: ServiceSpecificCredentialMetadata[];
-  Marker?: string;
-  IsTruncated?: boolean;
+  ServiceSpecificCredentials?: ServiceSpecificCredentialMetadata[] | undefined;
+  Marker?: string | undefined;
+  IsTruncated?: boolean | undefined;
 }
 export interface ListSigningCertificatesRequest {
-  UserName?: string;
-  Marker?: string;
-  MaxItems?: number;
+  UserName?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface SigningCertificate {
   UserName: string;
   CertificateId: string;
   CertificateBody: string;
   Status: StatusType;
-  UploadDate?: Date;
+  UploadDate?: Date | undefined;
 }
 export type CertificateListType = SigningCertificate[];
 export interface ListSigningCertificatesResponse {
   Certificates: SigningCertificate[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListSSHPublicKeysRequest {
-  UserName?: string;
-  Marker?: string;
-  MaxItems?: number;
+  UserName?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface SSHPublicKeyMetadata {
   UserName: string;
@@ -2278,51 +2278,51 @@ export interface SSHPublicKeyMetadata {
 }
 export type SSHPublicKeyListType = SSHPublicKeyMetadata[];
 export interface ListSSHPublicKeysResponse {
-  SSHPublicKeys?: SSHPublicKeyMetadata[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  SSHPublicKeys?: SSHPublicKeyMetadata[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListUserPoliciesRequest {
   UserName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListUserPoliciesResponse {
   PolicyNames: string[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListUsersRequest {
-  PathPrefix?: string;
-  Marker?: string;
-  MaxItems?: number;
+  PathPrefix?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListUsersResponse {
   Users: User[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface ListUserTagsRequest {
   UserName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListUserTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export type AssignmentStatusType = "Assigned" | "Unassigned" | "Any" | (string & {});
 export interface ListVirtualMFADevicesRequest {
-  AssignmentStatus?: AssignmentStatusType;
-  Marker?: string;
-  MaxItems?: number;
+  AssignmentStatus?: AssignmentStatusType | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type VirtualMFADeviceListType = VirtualMFADevice[];
 export interface ListVirtualMFADevicesResponse {
   VirtualMFADevices: VirtualMFADevice[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export interface PutAccountPropertiesRequest {
   Properties: { [key: string]: string | undefined };
@@ -2358,7 +2358,7 @@ export interface PutUserPolicyRequest {
 export interface PutUserPolicyResponse {}
 export interface RejectDelegationRequestRequest {
   DelegationRequestId: string;
-  Notes?: string;
+  Notes?: string | undefined;
 }
 export interface RejectDelegationRequestResponse {}
 export interface RemoveClientIDFromOpenIDConnectProviderRequest {
@@ -2377,11 +2377,11 @@ export interface RemoveUserFromGroupRequest {
 }
 export interface RemoveUserFromGroupResponse {}
 export interface ResetServiceSpecificCredentialRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   ServiceSpecificCredentialId: string;
 }
 export interface ResetServiceSpecificCredentialResponse {
-  ServiceSpecificCredential?: ServiceSpecificCredential;
+  ServiceSpecificCredential?: ServiceSpecificCredential | undefined;
 }
 export interface ResyncMFADeviceRequest {
   UserName: string;
@@ -2405,7 +2405,7 @@ export interface SetSecurityTokenServicePreferencesRequest {
 }
 export interface SetSecurityTokenServicePreferencesResponse {}
 export interface OrderedOrganizationPolicyType {
-  ServiceControlPolicyInputList?: string[];
+  ServiceControlPolicyInputList?: string[] | undefined;
 }
 export type OrganizationPolicyListType = OrderedOrganizationPolicyType[];
 export type ActionNameType = string;
@@ -2429,25 +2429,25 @@ export type ContextKeyTypeEnum =
   | "dateList"
   | (string & {});
 export interface ContextEntry {
-  ContextKeyName?: string;
-  ContextKeyValues?: string[];
-  ContextKeyType?: ContextKeyTypeEnum;
+  ContextKeyName?: string | undefined;
+  ContextKeyValues?: string[] | undefined;
+  ContextKeyType?: ContextKeyTypeEnum | undefined;
 }
 export type ContextEntryListType = ContextEntry[];
 export type ResourceHandlingOptionType = string;
 export interface SimulateCustomPolicyRequest {
   PolicyInputList: string[];
-  PermissionsBoundaryPolicyInputList?: string[];
-  OrderedOrganizationPolicyInputList?: OrderedOrganizationPolicyType[];
+  PermissionsBoundaryPolicyInputList?: string[] | undefined;
+  OrderedOrganizationPolicyInputList?: OrderedOrganizationPolicyType[] | undefined;
   ActionNames: string[];
-  ResourceArns?: string[];
-  ResourcePolicy?: string;
-  ResourceOwner?: string;
-  CallerArn?: string;
-  ContextEntries?: ContextEntry[];
-  ResourceHandlingOption?: string;
-  MaxItems?: number;
-  Marker?: string;
+  ResourceArns?: string[] | undefined;
+  ResourcePolicy?: string | undefined;
+  ResourceOwner?: string | undefined;
+  CallerArn?: string | undefined;
+  ContextEntries?: ContextEntry[] | undefined;
+  ResourceHandlingOption?: string | undefined;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
 }
 export type PolicyEvaluationDecisionType =
   | "allowed"
@@ -2467,49 +2467,49 @@ export type PolicySourceType =
 export type LineNumber = number;
 export type ColumnNumber = number;
 export interface Position {
-  Line?: number;
-  Column?: number;
+  Line?: number | undefined;
+  Column?: number | undefined;
 }
 export interface Statement {
-  SourcePolicyId?: string;
-  SourcePolicyType?: PolicySourceType;
-  StartPosition?: Position;
-  EndPosition?: Position;
+  SourcePolicyId?: string | undefined;
+  SourcePolicyType?: PolicySourceType | undefined;
+  StartPosition?: Position | undefined;
+  EndPosition?: Position | undefined;
 }
 export type StatementListType = Statement[];
 export interface OrganizationsDecisionDetail {
-  AllowedByOrganizations?: boolean;
+  AllowedByOrganizations?: boolean | undefined;
 }
 export interface PermissionsBoundaryDecisionDetail {
-  AllowedByPermissionsBoundary?: boolean;
+  AllowedByPermissionsBoundary?: boolean | undefined;
 }
 export type EvalDecisionSourceType = string;
 export type EvalDecisionDetailsType = { [key: string]: PolicyEvaluationDecisionType | undefined };
 export interface ResourceSpecificResult {
   EvalResourceName: string;
   EvalResourceDecision: PolicyEvaluationDecisionType;
-  MatchedStatements?: Statement[];
-  MissingContextValues?: string[];
-  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType | undefined };
-  PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail;
+  MatchedStatements?: Statement[] | undefined;
+  MissingContextValues?: string[] | undefined;
+  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType | undefined } | undefined;
+  PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail | undefined;
 }
 export type ResourceSpecificResultListType = ResourceSpecificResult[];
 export interface EvaluationResult {
   EvalActionName: string;
-  EvalResourceName?: string;
+  EvalResourceName?: string | undefined;
   EvalDecision: PolicyEvaluationDecisionType;
-  MatchedStatements?: Statement[];
-  MissingContextValues?: string[];
-  OrganizationsDecisionDetail?: OrganizationsDecisionDetail;
-  PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail;
-  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType | undefined };
-  ResourceSpecificResults?: ResourceSpecificResult[];
+  MatchedStatements?: Statement[] | undefined;
+  MissingContextValues?: string[] | undefined;
+  OrganizationsDecisionDetail?: OrganizationsDecisionDetail | undefined;
+  PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail | undefined;
+  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType | undefined } | undefined;
+  ResourceSpecificResults?: ResourceSpecificResult[] | undefined;
 }
 export type EvaluationResultsListType = EvaluationResult[];
 export interface SimulatePolicyResponse {
-  EvaluationResults?: EvaluationResult[];
-  IsTruncated?: boolean;
-  Marker?: string;
+  EvaluationResults?: EvaluationResult[] | undefined;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
 }
 export type PolicyIdentifierPolicyType =
   | "inline"
@@ -2527,24 +2527,32 @@ export interface InlinePolicyIdentifierType {
   AttachmentName: string;
 }
 export type PolicyIdentifier =
-  | { PolicyType: PolicyIdentifierPolicyType; PolicyArn?: never; InlinePolicyIdentifier?: never }
-  | { PolicyType?: never; PolicyArn: string; InlinePolicyIdentifier?: never }
-  | { PolicyType?: never; PolicyArn?: never; InlinePolicyIdentifier: InlinePolicyIdentifierType };
+  | {
+      PolicyType: PolicyIdentifierPolicyType;
+      PolicyArn?: undefined;
+      InlinePolicyIdentifier?: undefined;
+    }
+  | { PolicyType?: undefined; PolicyArn: string; InlinePolicyIdentifier?: undefined }
+  | {
+      PolicyType?: undefined;
+      PolicyArn?: undefined;
+      InlinePolicyIdentifier: InlinePolicyIdentifierType;
+    };
 export type PolicyExclusionsListType = PolicyIdentifier[];
 export interface SimulatePrincipalPolicyRequest {
   PolicySourceArn: string;
-  PolicyInputList?: string[];
-  PermissionsBoundaryPolicyInputList?: string[];
-  PolicyExclusionList?: PolicyIdentifier[];
+  PolicyInputList?: string[] | undefined;
+  PermissionsBoundaryPolicyInputList?: string[] | undefined;
+  PolicyExclusionList?: PolicyIdentifier[] | undefined;
   ActionNames: string[];
-  ResourceArns?: string[];
-  ResourcePolicy?: string;
-  ResourceOwner?: string;
-  CallerArn?: string;
-  ContextEntries?: ContextEntry[];
-  ResourceHandlingOption?: string;
-  MaxItems?: number;
-  Marker?: string;
+  ResourceArns?: string[] | undefined;
+  ResourcePolicy?: string | undefined;
+  ResourceOwner?: string | undefined;
+  CallerArn?: string | undefined;
+  ContextEntries?: ContextEntry[] | undefined;
+  ResourceHandlingOption?: string | undefined;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface TagInstanceProfileRequest {
   InstanceProfileName: string;
@@ -2628,21 +2636,21 @@ export interface UntagUserRequest {
 }
 export interface UntagUserResponse {}
 export interface UpdateAccessKeyRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   AccessKeyId: string;
   Status: StatusType;
 }
 export interface UpdateAccessKeyResponse {}
 export interface UpdateAccountPasswordPolicyRequest {
-  MinimumPasswordLength?: number;
-  RequireSymbols?: boolean;
-  RequireNumbers?: boolean;
-  RequireUppercaseCharacters?: boolean;
-  RequireLowercaseCharacters?: boolean;
-  AllowUsersToChangePassword?: boolean;
-  MaxPasswordAge?: number;
-  PasswordReusePrevention?: number;
-  HardExpiry?: boolean;
+  MinimumPasswordLength?: number | undefined;
+  RequireSymbols?: boolean | undefined;
+  RequireNumbers?: boolean | undefined;
+  RequireUppercaseCharacters?: boolean | undefined;
+  RequireLowercaseCharacters?: boolean | undefined;
+  AllowUsersToChangePassword?: boolean | undefined;
+  MaxPasswordAge?: number | undefined;
+  PasswordReusePrevention?: number | undefined;
+  HardExpiry?: boolean | undefined;
 }
 export interface UpdateAccountPasswordPolicyResponse {}
 export interface UpdateAssumeRolePolicyRequest {
@@ -2652,19 +2660,19 @@ export interface UpdateAssumeRolePolicyRequest {
 export interface UpdateAssumeRolePolicyResponse {}
 export interface UpdateDelegationRequestRequest {
   DelegationRequestId: string;
-  Notes?: string;
+  Notes?: string | undefined;
 }
 export interface UpdateDelegationRequestResponse {}
 export interface UpdateGroupRequest {
   GroupName: string;
-  NewPath?: string;
-  NewGroupName?: string;
+  NewPath?: string | undefined;
+  NewGroupName?: string | undefined;
 }
 export interface UpdateGroupResponse {}
 export interface UpdateLoginProfileRequest {
   UserName: string;
-  Password?: string | redacted.Redacted<string>;
-  PasswordResetRequired?: boolean;
+  Password?: string | redacted.Redacted<string> | undefined;
+  PasswordResetRequired?: boolean | undefined;
 }
 export interface UpdateLoginProfileResponse {}
 export interface UpdateOpenIDConnectProviderThumbprintRequest {
@@ -2674,8 +2682,8 @@ export interface UpdateOpenIDConnectProviderThumbprintRequest {
 export interface UpdateOpenIDConnectProviderThumbprintResponse {}
 export interface UpdateRoleRequest {
   RoleName: string;
-  Description?: string;
-  MaxSessionDuration?: number;
+  Description?: string | undefined;
+  MaxSessionDuration?: number | undefined;
 }
 export interface UpdateRoleResponse {}
 export interface UpdateRoleDescriptionRequest {
@@ -2683,32 +2691,32 @@ export interface UpdateRoleDescriptionRequest {
   Description: string;
 }
 export interface UpdateRoleDescriptionResponse {
-  Role?: Role;
+  Role?: Role | undefined;
 }
 export interface UpdateSAMLProviderRequest {
-  SAMLMetadataDocument?: string;
+  SAMLMetadataDocument?: string | undefined;
   SAMLProviderArn: string;
-  AssertionEncryptionMode?: AssertionEncryptionModeType;
-  AddPrivateKey?: string | redacted.Redacted<string>;
-  RemovePrivateKey?: string;
+  AssertionEncryptionMode?: AssertionEncryptionModeType | undefined;
+  AddPrivateKey?: string | redacted.Redacted<string> | undefined;
+  RemovePrivateKey?: string | undefined;
 }
 export interface UpdateSAMLProviderResponse {
-  SAMLProviderArn?: string;
+  SAMLProviderArn?: string | undefined;
 }
 export interface UpdateServerCertificateRequest {
   ServerCertificateName: string;
-  NewPath?: string;
-  NewServerCertificateName?: string;
+  NewPath?: string | undefined;
+  NewServerCertificateName?: string | undefined;
 }
 export interface UpdateServerCertificateResponse {}
 export interface UpdateServiceSpecificCredentialRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   ServiceSpecificCredentialId: string;
   Status: StatusType;
 }
 export interface UpdateServiceSpecificCredentialResponse {}
 export interface UpdateSigningCertificateRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   CertificateId: string;
   Status: StatusType;
 }
@@ -2721,24 +2729,24 @@ export interface UpdateSSHPublicKeyRequest {
 export interface UpdateSSHPublicKeyResponse {}
 export interface UpdateUserRequest {
   UserName: string;
-  NewPath?: string;
-  NewUserName?: string;
+  NewPath?: string | undefined;
+  NewUserName?: string | undefined;
 }
 export interface UpdateUserResponse {}
 export interface UploadServerCertificateRequest {
-  Path?: string;
+  Path?: string | undefined;
   ServerCertificateName: string;
   CertificateBody: string;
   PrivateKey: string | redacted.Redacted<string>;
-  CertificateChain?: string;
-  Tags?: Tag[];
+  CertificateChain?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface UploadServerCertificateResponse {
-  ServerCertificateMetadata?: ServerCertificateMetadata;
-  Tags?: Tag[];
+  ServerCertificateMetadata?: ServerCertificateMetadata | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface UploadSigningCertificateRequest {
-  UserName?: string;
+  UserName?: string | undefined;
   CertificateBody: string;
 }
 export interface UploadSigningCertificateResponse {
@@ -2749,7 +2757,7 @@ export interface UploadSSHPublicKeyRequest {
   SSHPublicKeyBody: string;
 }
 export interface UploadSSHPublicKeyResponse {
-  SSHPublicKey?: SSHPublicKey;
+  SSHPublicKey?: SSHPublicKey | undefined;
 }
 export type ConcurrentModificationMessage = string;
 export type NoSuchEntityMessage = string;

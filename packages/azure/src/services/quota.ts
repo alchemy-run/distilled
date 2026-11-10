@@ -39,11 +39,11 @@ export interface DeleteGroupQuotasRequest {
 }
 export interface DeleteGroupQuotasResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteGroupQuotaSubscriptionRequest {
   /** The management group ID. */
@@ -55,11 +55,11 @@ export interface DeleteGroupQuotaSubscriptionRequest {
 }
 export interface DeleteGroupQuotaSubscriptionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetGroupQuotaLimitsRequestRequest {
   /** The management group ID. */
@@ -76,38 +76,38 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
 export interface GroupQuotaRequestBasePropertiesName {
   /** Resource name. */
-  value?: string;
+  value?: string | undefined;
   /** Resource display name. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 export interface GroupQuotaRequestBaseProperties {
   /** The new quota limit for the subscription. The incremental quota will be allocated from pre-approved group quota. */
-  limit?: number;
+  limit?: number | undefined;
   /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
-  name?: GroupQuotaRequestBasePropertiesName;
+  name?: GroupQuotaRequestBasePropertiesName | undefined;
   /** Location/Azure region for the quota requested for resource. */
-  region?: string;
+  region?: string | undefined;
   /** GroupQuota Request comments and details for request. This is optional paramter to provide more details related to the requested resource. */
-  comments?: string;
+  comments?: string | undefined;
 }
 /** The new GroupQuota limit requested. */
 export interface GroupQuotaRequestBase {
-  properties?: GroupQuotaRequestBaseProperties;
+  properties?: GroupQuotaRequestBaseProperties | undefined;
 }
 /** Request status. */
 export type RequestState =
@@ -121,24 +121,24 @@ export type RequestState =
   | "Canceled";
 export interface SubmittedResourceRequestStatusProperties {
   /** Requested Resource. */
-  requestedResource?: GroupQuotaRequestBase;
+  requestedResource?: GroupQuotaRequestBase | undefined;
   /** The request submission time. The date conforms to the following format specified by the ISO 8601 standard: yyyy-MM-ddTHH:mm:ssZ */
-  requestSubmitTime?: string;
+  requestSubmitTime?: string | undefined;
   /** Request status. */
-  provisioningState?: RequestState;
+  provisioningState?: RequestState | undefined;
   /** Details of the failure. */
-  faultCode?: string;
+  faultCode?: string | undefined;
 }
 export interface GetGroupQuotaLimitsRequestResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SubmittedResourceRequestStatusProperties;
+  systemData?: SystemData | undefined;
+  properties?: SubmittedResourceRequestStatusProperties | undefined;
 }
 export interface GetGroupQuotaLocationSettingsRequest {
   /** The management group ID. */
@@ -154,24 +154,24 @@ export interface GetGroupQuotaLocationSettingsRequest {
 export type EnforcementState = "Enabled" | "Disabled" | "NotAvailable";
 export interface GroupQuotasEnforcementStatusProperties {
   /** Is the GroupQuota Enforcement enabled for the Azure region. */
-  enforcementEnabled?: EnforcementState;
+  enforcementEnabled?: EnforcementState | undefined;
   /** The name of the group that is enforced. */
-  enforcedGroupName?: string;
+  enforcedGroupName?: string | undefined;
   /** Request status. */
-  provisioningState?: RequestState;
+  provisioningState?: RequestState | undefined;
   /** Details of the failure. */
-  faultCode?: string;
+  faultCode?: string | undefined;
 }
 export interface GetGroupQuotaLocationSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: GroupQuotasEnforcementStatusProperties;
+  systemData?: SystemData | undefined;
+  properties?: GroupQuotasEnforcementStatusProperties | undefined;
 }
 export interface GetGroupQuotasRequest {
   /** The management group ID. */
@@ -184,23 +184,23 @@ export type GroupType = "AllocationGroup" | "EnforcedGroup";
 /** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
 export interface GroupQuotasEntityBase {
   /** Display name of the GroupQuota entity. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Type of the group. */
-  groupType?: GroupType;
+  groupType?: GroupType | undefined;
   /** Provisioning state of the operation. */
-  provisioningState?: RequestState;
+  provisioningState?: RequestState | undefined;
 }
 export interface GetGroupQuotasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties */
-  properties?: GroupQuotasEntityBase;
+  properties?: GroupQuotasEntityBase | undefined;
 }
 export interface GetGroupQuotaSubscriptionRequest2 {
   /** The management group ID. */
@@ -212,20 +212,20 @@ export interface GetGroupQuotaSubscriptionRequest2 {
 }
 export interface GroupQuotaSubscriptionIdProperties {
   /** An Azure subscriptionId. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Status of this subscriptionId being associated with the GroupQuotasEntity. */
-  provisioningState?: RequestState;
+  provisioningState?: RequestState | undefined;
 }
 export interface GetGroupQuotaSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: GroupQuotaSubscriptionIdProperties;
+  systemData?: SystemData | undefined;
+  properties?: GroupQuotaSubscriptionIdProperties | undefined;
 }
 export interface GetGroupQuotaSubscriptionAllocationRequestRequest {
   /** The management group ID. */
@@ -243,36 +243,36 @@ export interface GetGroupQuotaSubscriptionAllocationRequestRequest {
 export type QuotaAllocationRequestBasePropertiesName = GroupQuotaRequestBasePropertiesName;
 export interface QuotaAllocationRequestBaseProperties {
   /** The new quota limit for the subscription. The incremental quota will be allocated from pre-approved group quota. */
-  limit?: number;
+  limit?: number | undefined;
   /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
-  name?: GroupQuotaRequestBasePropertiesName;
+  name?: GroupQuotaRequestBasePropertiesName | undefined;
   /** The location for which the subscription is allocated */
-  region?: string;
+  region?: string | undefined;
 }
 /** The new quota request allocated to subscription. */
 export interface QuotaAllocationRequestBase {
-  properties?: QuotaAllocationRequestBaseProperties;
+  properties?: QuotaAllocationRequestBaseProperties | undefined;
 }
 export interface QuotaAllocationRequestStatusProperties {
   /** The new quota request allocated to subscription. */
-  requestedResource?: QuotaAllocationRequestBase;
+  requestedResource?: QuotaAllocationRequestBase | undefined;
   /** The request submission time. The date conforms to the following format specified by the ISO 8601 standard: yyyy-MM-ddTHH:mm:ssZ */
-  requestSubmitTime?: string;
+  requestSubmitTime?: string | undefined;
   /** Request status. */
-  provisioningState?: RequestState;
+  provisioningState?: RequestState | undefined;
   /** Details of the failure. */
-  faultCode?: string;
+  faultCode?: string | undefined;
 }
 export interface GetGroupQuotaSubscriptionAllocationRequestResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: QuotaAllocationRequestStatusProperties;
+  systemData?: SystemData | undefined;
+  properties?: QuotaAllocationRequestStatusProperties | undefined;
 }
 export interface GetGroupQuotaSubscriptionRequestRequest {
   /** The management group ID. */
@@ -284,22 +284,22 @@ export interface GetGroupQuotaSubscriptionRequestRequest {
 }
 export interface GroupQuotaSubscriptionRequestStatusProperties {
   /** The subscription Id */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The request submission time. The date conforms to the following format specified by the ISO 8601 standard: yyyy-MM-ddTHH:mm:ssZ */
-  requestSubmitTime?: string;
+  requestSubmitTime?: string | undefined;
   /** Status of this subscriptionId being associated with the GroupQuotasEntity. */
-  provisioningState?: RequestState;
+  provisioningState?: RequestState | undefined;
 }
 export interface GetGroupQuotaSubscriptionRequestResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: GroupQuotaSubscriptionRequestStatusProperties;
+  systemData?: SystemData | undefined;
+  properties?: GroupQuotaSubscriptionRequestStatusProperties | undefined;
 }
 export interface GetQuotaRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -314,40 +314,40 @@ export interface LimitJsonObject {
   /** The limit object type. */
   limitObjectType: LimitType | (string & {});
   /** The quota limit value (`LimitValue` subtype). */
-  value?: number;
+  value?: number | undefined;
   /** The quota limit type, e.g. `Independent` or `Shared` (`LimitValue` subtype). */
-  limitType?: string;
+  limitType?: string | undefined;
 }
 /** Name of the resource provided by the resource Provider. When requesting quota, use this property name. */
 export type ResourceName = GroupQuotaRequestBasePropertiesName;
 /** Quota properties for the specified resource. */
 export interface QuotaProperties {
   /** Resource quota limit properties. */
-  limit?: LimitJsonObject;
+  limit?: LimitJsonObject | undefined;
   /** The quota units, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET response in the request body of your PUT operation. */
-  unit?: string;
+  unit?: string | undefined;
   /** Resource name provided by the resource provider. Use this property name when requesting quota. */
-  name?: GroupQuotaRequestBasePropertiesName;
+  name?: GroupQuotaRequestBasePropertiesName | undefined;
   /** The name of the resource type. Optional field. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The time period over which the quota usage values are summarized. For example: *P1D (per one day) *PT1M (per one minute) *PT1S (per one second). This parameter is optional because, for some resources like compute, the period is irrelevant. */
-  quotaPeriod?: string;
+  quotaPeriod?: string | undefined;
   /** States if quota can be requested for this resource. */
-  isQuotaApplicable?: boolean;
+  isQuotaApplicable?: boolean | undefined;
   /** Additional properties for the specific resource provider. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetQuotaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Quota properties for the specified resource, based on the API called, Quotas or Usages. */
-  properties?: QuotaProperties;
+  properties?: QuotaProperties | undefined;
 }
 export interface GetQuotaRequestStatusRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -360,53 +360,53 @@ export type QuotaRequestState = "Accepted" | "Invalid" | "Succeeded" | "Failed" 
 /** Error details. */
 export interface ServiceErrorDetail {
   /** Error code. */
-  code?: string;
+  code?: string | undefined;
   /** Error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Request property. */
 export interface SubRequest {
   /** Resource name. */
-  name?: GroupQuotaRequestBasePropertiesName;
+  name?: GroupQuotaRequestBasePropertiesName | undefined;
   /** Resource type for which the quota properties were requested. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Quota limit units, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET response in the request body of your PUT operation. */
-  unit?: string;
+  unit?: string | undefined;
   /** The quota request status. */
-  provisioningState?: QuotaRequestState;
+  provisioningState?: QuotaRequestState | undefined;
   /** User-friendly status message. */
-  message?: string;
+  message?: string | undefined;
   /** Quota request ID. */
-  subRequestId?: string;
+  subRequestId?: string | undefined;
   /** Resource quota limit properties. */
-  limit?: LimitJsonObject;
+  limit?: LimitJsonObject | undefined;
 }
 /** Quota request details. */
 export type QuotaRequestPropertiesValueList = Array<SubRequest>;
 /** Quota request properties. */
 export interface QuotaRequestProperties {
   /** The quota request status. */
-  provisioningState?: QuotaRequestState;
+  provisioningState?: QuotaRequestState | undefined;
   /** User-friendly status message. */
-  message?: string;
+  message?: string | undefined;
   /** Error details of the quota request. */
-  error?: ServiceErrorDetail;
+  error?: ServiceErrorDetail | undefined;
   /** The quota request submission time. The date conforms to the following format specified by the ISO 8601 standard: yyyy-MM-ddTHH:mm:ssZ */
-  requestSubmitTime?: string;
+  requestSubmitTime?: string | undefined;
   /** Quota request details. */
-  value?: QuotaRequestPropertiesValueList;
+  value?: QuotaRequestPropertiesValueList | undefined;
 }
 export interface GetQuotaRequestStatusResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Quota request details. */
-  properties?: QuotaRequestProperties;
+  properties?: QuotaRequestProperties | undefined;
 }
 export interface GetUsageRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -421,40 +421,40 @@ export interface UsagesObject {
   /** The usages value. */
   value: number;
   /** The quota or usages limit types. */
-  usagesType?: UsagesTypes;
+  usagesType?: UsagesTypes | undefined;
 }
 /** Usage properties for the specified resource. */
 export interface UsagesProperties {
   /** The quota limit properties for this resource. */
-  usages?: UsagesObject;
+  usages?: UsagesObject | undefined;
   /** The units for the quota usage, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET response in the request body of your PUT operation. */
-  unit?: string;
+  unit?: string | undefined;
   /** Resource name provided by the resource provider. Use this property name when requesting quota. */
-  name?: GroupQuotaRequestBasePropertiesName;
+  name?: GroupQuotaRequestBasePropertiesName | undefined;
   /** The name of the resource type. Optional field. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The time period for the summary of the quota usage values. For example: *P1D (per one day) *PT1M (per one minute) *PT1S (per one second). This parameter is optional because it is not relevant for all resources such as compute. */
-  quotaPeriod?: string;
+  quotaPeriod?: string | undefined;
   /** States if quota can be requested for this resource. */
-  isQuotaApplicable?: boolean;
+  isQuotaApplicable?: boolean | undefined;
   /** Additional properties for the specific resource provider. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetUsageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Usage properties for the specified resource. */
-  properties?: UsagesProperties;
+  properties?: UsagesProperties | undefined;
 }
 export interface GroupQuotasEnforcementStatusPropertiesInput {
   /** Is the GroupQuota Enforcement enabled for the Azure region. */
-  enforcementEnabled?: EnforcementState | (string & {});
+  enforcementEnabled?: EnforcementState | (string & {}) | undefined;
 }
 export interface GroupQuotaLocationSettingsCreateOrUpdateRequest {
   /** The management group ID. */
@@ -465,29 +465,29 @@ export interface GroupQuotaLocationSettingsCreateOrUpdateRequest {
   resourceProviderName: string;
   /** The name of the Azure region. */
   location: string;
-  properties?: GroupQuotasEnforcementStatusPropertiesInput;
+  properties?: GroupQuotasEnforcementStatusPropertiesInput | undefined;
 }
 export interface GroupQuotaLocationSettingsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: GroupQuotasEnforcementStatusProperties;
+  systemData?: SystemData | undefined;
+  properties?: GroupQuotasEnforcementStatusProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
 export interface GroupQuotasEntityBaseInput {
   /** Display name of the GroupQuota entity. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GroupQuotasCreateOrUpdateRequest {
   /** The management group ID. */
@@ -495,25 +495,25 @@ export interface GroupQuotasCreateOrUpdateRequest {
   /** The GroupQuota name. The name should be unique for the provided context tenantId/MgId. */
   groupQuotaName: string;
   /** Properties */
-  properties?: GroupQuotasEntityBaseInput;
+  properties?: GroupQuotasEntityBaseInput | undefined;
 }
 export interface GroupQuotasCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties */
-  properties?: GroupQuotasEntityBase;
+  properties?: GroupQuotasEntityBase | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GroupQuotaSubscriptionsCreateOrUpdateRequest {
   /** Management Group Id. */
@@ -525,20 +525,20 @@ export interface GroupQuotaSubscriptionsCreateOrUpdateRequest {
 }
 export interface GroupQuotaSubscriptionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: GroupQuotaSubscriptionIdProperties;
+  systemData?: SystemData | undefined;
+  properties?: GroupQuotaSubscriptionIdProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListGroupQuotaLimitsRequest {
   /** The management group ID. */
@@ -555,59 +555,59 @@ export type GroupQuotaDetailsName = GroupQuotaRequestBasePropertiesName;
 /** SubscriptionIds and quota allocated to subscriptions from the GroupQuota. */
 export interface AllocatedToSubscription {
   /** An Azure subscriptionId. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The amount of quota allocated to this subscriptionId from the GroupQuotasEntity. */
-  quotaAllocated?: number;
+  quotaAllocated?: number | undefined;
 }
 /** List of Group Quota Limit allocated to subscriptions. */
 export type AllocatedQuotaToSubscriptionListValueList = Array<AllocatedToSubscription>;
 /** Quota allocated to subscriptions */
 export interface AllocatedQuotaToSubscriptionList {
   /** List of Group Quota Limit allocated to subscriptions. */
-  value?: AllocatedQuotaToSubscriptionListValueList;
+  value?: AllocatedQuotaToSubscriptionListValueList | undefined;
 }
 /** Group Quota details. */
 export interface GroupQuotaDetails {
   /** The resource name, such as SKU name. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** The current Group Quota Limit at the parentId level. */
-  limit?: number;
+  limit?: number | undefined;
   /** Any comment related to quota request. */
-  comment?: string;
+  comment?: string | undefined;
   /** The usages units, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET response in the request body of your PUT operation. */
-  unit?: string;
+  unit?: string | undefined;
   /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
-  name?: GroupQuotaRequestBasePropertiesName;
+  name?: GroupQuotaRequestBasePropertiesName | undefined;
   /** The available Group Quota Limit at the MG level. This Group quota can be allocated to subscription(s). */
-  availableLimit?: number;
+  availableLimit?: number | undefined;
   /** Quota allocated to subscriptions */
-  allocatedToSubscriptions?: AllocatedQuotaToSubscriptionList;
+  allocatedToSubscriptions?: AllocatedQuotaToSubscriptionList | undefined;
 }
 /** Group Quota limit. */
 export interface GroupQuotaLimit {
   /** Group Quota properties for the specified resource. */
-  properties?: GroupQuotaDetails;
+  properties?: GroupQuotaDetails | undefined;
 }
 /** List of Group Quota Limit details. */
 export type GroupQuotaLimitListPropertiesValueList = Array<GroupQuotaLimit>;
 export interface GroupQuotaLimitListProperties {
   /** Request status. */
-  provisioningState?: RequestState;
+  provisioningState?: RequestState | undefined;
   /** List of Group Quota Limit details. */
-  value?: GroupQuotaLimitListPropertiesValueList;
+  value?: GroupQuotaLimitListPropertiesValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGroupQuotaLimitsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: GroupQuotaLimitListProperties;
+  systemData?: SystemData | undefined;
+  properties?: GroupQuotaLimitListProperties | undefined;
 }
 export interface ListGroupQuotaLimitsRequestRequest {
   /** The management group ID. */
@@ -622,14 +622,14 @@ export interface ListGroupQuotaLimitsRequestRequest {
 /** Status of a single GroupQuota request. */
 export interface SubmittedResourceRequestStatus {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SubmittedResourceRequestStatusProperties;
+  systemData?: SystemData | undefined;
+  properties?: SubmittedResourceRequestStatusProperties | undefined;
 }
 /** The SubmittedResourceRequestStatus items on this page */
 export type SubmittedResourceRequestStatusListValueList = Array<SubmittedResourceRequestStatus>;
@@ -638,7 +638,7 @@ export interface SubmittedResourceRequestStatusList {
   /** The SubmittedResourceRequestStatus items on this page */
   value: SubmittedResourceRequestStatusListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGroupQuotasRequest {
   /** The management group ID. */
@@ -647,15 +647,15 @@ export interface ListGroupQuotasRequest {
 /** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
 export interface GroupQuotasEntity {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties */
-  properties?: GroupQuotasEntityBase;
+  properties?: GroupQuotasEntityBase | undefined;
 }
 /** The GroupQuotasEntity items on this page */
 export type GroupQuotaListValueList = Array<GroupQuotasEntity>;
@@ -664,7 +664,7 @@ export interface GroupQuotaList {
   /** The GroupQuotasEntity items on this page */
   value: GroupQuotaListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGroupQuotaSubscriptionAllocationRequest2 {
   /** The management group ID. */
@@ -683,40 +683,40 @@ export type SubscriptionQuotaDetailsName = GroupQuotaRequestBasePropertiesName;
 /** Subscription Quota details. */
 export interface SubscriptionQuotaDetails {
   /** The resource name, such as SKU name. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** The total quota limit for the subscription. */
-  limit?: number;
+  limit?: number | undefined;
   /** The shareable quota for the subscription. */
-  shareableQuota?: number;
+  shareableQuota?: number | undefined;
   /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
-  name?: GroupQuotaRequestBasePropertiesName;
+  name?: GroupQuotaRequestBasePropertiesName | undefined;
 }
 /** Quota allocated to a subscription for the specific Resource Provider, Location, ResourceName. This will include the GroupQuota and total quota allocated to the subscription. Only the Group quota allocated to the subscription can be allocated back to the MG Group Quota. */
 export interface SubscriptionQuotaAllocations {
   /** Quota properties for the specified resource. */
-  properties?: SubscriptionQuotaDetails;
+  properties?: SubscriptionQuotaDetails | undefined;
 }
 /** Subscription quota list. */
 export type SubscriptionQuotaAllocationsListPropertiesValueList =
   Array<SubscriptionQuotaAllocations>;
 export interface SubscriptionQuotaAllocationsListProperties {
   /** Request status. */
-  provisioningState?: RequestState;
+  provisioningState?: RequestState | undefined;
   /** Subscription quota list. */
-  value?: SubscriptionQuotaAllocationsListPropertiesValueList;
+  value?: SubscriptionQuotaAllocationsListPropertiesValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGroupQuotaSubscriptionAllocationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SubscriptionQuotaAllocationsListProperties;
+  systemData?: SystemData | undefined;
+  properties?: SubscriptionQuotaAllocationsListProperties | undefined;
 }
 export interface ListGroupQuotaSubscriptionAllocationRequestRequest {
   /** The management group ID. */
@@ -733,14 +733,14 @@ export interface ListGroupQuotaSubscriptionAllocationRequestRequest {
 /** The subscription quota allocation status. */
 export interface QuotaAllocationRequestStatus {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: QuotaAllocationRequestStatusProperties;
+  systemData?: SystemData | undefined;
+  properties?: QuotaAllocationRequestStatusProperties | undefined;
 }
 /** The QuotaAllocationRequestStatus items on this page */
 export type QuotaAllocationRequestStatusListValueList = Array<QuotaAllocationRequestStatus>;
@@ -749,7 +749,7 @@ export interface QuotaAllocationRequestStatusList {
   /** The QuotaAllocationRequestStatus items on this page */
   value: QuotaAllocationRequestStatusListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGroupQuotaSubscriptionRequestsRequest {
   /** The management group ID. */
@@ -760,14 +760,14 @@ export interface ListGroupQuotaSubscriptionRequestsRequest {
 /** The new quota limit request status. */
 export interface GroupQuotaSubscriptionRequestStatus {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: GroupQuotaSubscriptionRequestStatusProperties;
+  systemData?: SystemData | undefined;
+  properties?: GroupQuotaSubscriptionRequestStatusProperties | undefined;
 }
 /** The GroupQuotaSubscriptionRequestStatus items on this page */
 export type GroupQuotaSubscriptionRequestStatusListValueList =
@@ -777,7 +777,7 @@ export interface GroupQuotaSubscriptionRequestStatusList {
   /** The GroupQuotaSubscriptionRequestStatus items on this page */
   value: GroupQuotaSubscriptionRequestStatusListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGroupQuotaSubscriptionsRequest {
   /** The management group ID. */
@@ -788,14 +788,14 @@ export interface ListGroupQuotaSubscriptionsRequest {
 /** This represents a Azure subscriptionId that is associated with a GroupQuotasEntity. */
 export interface GroupQuotaSubscriptionId {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: GroupQuotaSubscriptionIdProperties;
+  systemData?: SystemData | undefined;
+  properties?: GroupQuotaSubscriptionIdProperties | undefined;
 }
 /** The GroupQuotaSubscriptionId items on this page */
 export type GroupQuotaSubscriptionIdListValueList = Array<GroupQuotaSubscriptionId>;
@@ -804,7 +804,7 @@ export interface GroupQuotaSubscriptionIdList {
   /** The GroupQuotaSubscriptionId items on this page */
   value: GroupQuotaSubscriptionIdListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGroupQuotaUsagesRequest {
   /** The management group ID. */
@@ -821,26 +821,26 @@ export type GroupQuotaUsagesBaseName = GroupQuotaRequestBasePropertiesName;
 /** Resource details with usages and GroupQuota. */
 export interface GroupQuotaUsagesBase {
   /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
-  name?: GroupQuotaRequestBasePropertiesName;
+  name?: GroupQuotaRequestBasePropertiesName | undefined;
   /** Quota/limits for the resource. */
-  limit?: number;
+  limit?: number | undefined;
   /** Usages for the resource. */
-  usages?: number;
+  usages?: number | undefined;
   /** Representing the units of the usage quota. Possible values are: Count, Bytes, Seconds, Percent, CountPerSecond, BytesPerSecond. Based on - https://armwiki.azurewebsites.net/api_contracts/UsagesAPIContract.html?q=usages . Different RPs may have different units, Count, type as int64 should work for most of the integer values. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** Resource details with usages and GroupQuota. */
 export interface ResourceUsages {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource details with usages and GroupQuota. */
-  properties?: GroupQuotaUsagesBase;
+  properties?: GroupQuotaUsagesBase | undefined;
 }
 /** The ResourceUsages items on this page */
 export type ResourceUsageListValueList = Array<ResourceUsages>;
@@ -849,7 +849,7 @@ export interface ResourceUsageList {
   /** The ResourceUsages items on this page */
   value: ResourceUsageListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListQuotaRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -858,15 +858,15 @@ export interface ListQuotaRequest {
 /** Quota limit. */
 export interface CurrentQuotaLimitBase {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Quota properties for the specified resource, based on the API called, Quotas or Usages. */
-  properties?: QuotaProperties;
+  properties?: QuotaProperties | undefined;
 }
 /** The CurrentQuotaLimitBase items on this page */
 export type QuotaLimitsValueList = Array<CurrentQuotaLimitBase>;
@@ -875,23 +875,23 @@ export interface QuotaLimits {
   /** The CurrentQuotaLimitBase items on this page */
   value: QuotaLimitsValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListQuotaOperationRequest {}
 export interface OperationDisplay {
   /** Provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource name. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation name. */
-  operation?: string;
+  operation?: string | undefined;
   /** Operation description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface OperationResponse {
-  name?: string;
-  display?: OperationDisplay;
-  origin?: string;
+  name?: string | undefined;
+  display?: OperationDisplay | undefined;
+  origin?: string | undefined;
 }
 /** The list of connected cluster API operations. */
 export type OperationListValueList = Array<OperationResponse>;
@@ -900,30 +900,30 @@ export interface OperationList {
   /** The list of connected cluster API operations. */
   value: OperationListValueList;
   /** The link to fetch the next page of connected cluster API operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListQuotaRequestStatusRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   scope: string;
   /** | Field | Supported operators |---------------------|------------------------ |requestSubmitTime | ge, le, eq, gt, lt |provisioningState eq {QuotaRequestState} |resourceName eq {resourceName} */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The **Skiptoken** parameter is used only if a previous operation returned a partial result. If a previous response contains a **nextLink** element, its value includes a **skiptoken** parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** List of quota requests with details. */
 export interface QuotaRequestDetails {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Quota request details. */
-  properties?: QuotaRequestProperties;
+  properties?: QuotaRequestProperties | undefined;
 }
 /** The QuotaRequestDetails items on this page */
 export type QuotaRequestDetailsListValueList = Array<QuotaRequestDetails>;
@@ -932,7 +932,7 @@ export interface QuotaRequestDetailsList {
   /** The QuotaRequestDetails items on this page */
   value: QuotaRequestDetailsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsagesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -941,15 +941,15 @@ export interface ListUsagesRequest {
 /** Resource usage. */
 export interface CurrentUsagesBase {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Usage properties for the specified resource. */
-  properties?: UsagesProperties;
+  properties?: UsagesProperties | undefined;
 }
 /** The CurrentUsagesBase items on this page */
 export type UsagesLimitsValueList = Array<CurrentUsagesBase>;
@@ -958,23 +958,23 @@ export interface UsagesLimits {
   /** The CurrentUsagesBase items on this page */
   value: UsagesLimitsValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Name of the resource provided by the resource Provider. When requesting quota, use this property name. */
 export interface ResourceNameInput {
   /** Resource name. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Quota properties for the specified resource. */
 export interface QuotaPropertiesInput {
   /** Resource quota limit properties. */
-  limit?: LimitJsonObject;
+  limit?: LimitJsonObject | undefined;
   /** Resource name provided by the resource provider. Use this property name when requesting quota. */
-  name?: ResourceNameInput;
+  name?: ResourceNameInput | undefined;
   /** The name of the resource type. Optional field. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Additional properties for the specific resource provider. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface QuotaCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -982,43 +982,43 @@ export interface QuotaCreateOrUpdateRequest {
   /** Resource name for a given resource provider. For example: - SKU name for Microsoft.Compute - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices For Microsoft.Network PublicIPAddresses. */
   resourceName: string;
   /** Quota properties for the specified resource, based on the API called, Quotas or Usages. */
-  properties?: QuotaPropertiesInput;
+  properties?: QuotaPropertiesInput | undefined;
 }
 export interface QuotaCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Quota properties for the specified resource, based on the API called, Quotas or Usages. */
-  properties?: QuotaProperties;
+  properties?: QuotaProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Group Quota details. */
 export interface GroupQuotaDetailsInput {
   /** The resource name, such as SKU name. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** The current Group Quota Limit at the parentId level. */
-  limit?: number;
+  limit?: number | undefined;
   /** Any comment related to quota request. */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** Group Quota limit. */
 export interface GroupQuotaLimitInput {
   /** Group Quota properties for the specified resource. */
-  properties?: GroupQuotaDetailsInput;
+  properties?: GroupQuotaDetailsInput | undefined;
 }
 /** List of Group Quota Limit details. */
 export type GroupQuotaLimitListPropertiesInputValueList = Array<GroupQuotaLimitInput>;
 export interface GroupQuotaLimitListPropertiesInput {
   /** List of Group Quota Limit details. */
-  value?: GroupQuotaLimitListPropertiesInputValueList;
+  value?: GroupQuotaLimitListPropertiesInputValueList | undefined;
 }
 export interface UpdateGroupQuotaLimitsRequestRequest {
   /** The management group ID. */
@@ -1029,24 +1029,24 @@ export interface UpdateGroupQuotaLimitsRequestRequest {
   resourceProviderName: string;
   /** The name of the Azure region. */
   location: string;
-  properties?: GroupQuotaLimitListPropertiesInput;
+  properties?: GroupQuotaLimitListPropertiesInput | undefined;
 }
 export interface UpdateGroupQuotaLimitsRequestResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: GroupQuotaLimitListProperties;
+  systemData?: SystemData | undefined;
+  properties?: GroupQuotaLimitListProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateGroupQuotaLocationSettingsRequest {
   /** The management group ID. */
@@ -1057,24 +1057,24 @@ export interface UpdateGroupQuotaLocationSettingsRequest {
   resourceProviderName: string;
   /** The name of the Azure region. */
   location: string;
-  properties?: GroupQuotasEnforcementStatusPropertiesInput;
+  properties?: GroupQuotasEnforcementStatusPropertiesInput | undefined;
 }
 export interface UpdateGroupQuotaLocationSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: GroupQuotasEnforcementStatusProperties;
+  systemData?: SystemData | undefined;
+  properties?: GroupQuotasEnforcementStatusProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
 export type GroupQuotasEntityBasePatchInput = GroupQuotasEntityBaseInput;
@@ -1084,25 +1084,25 @@ export interface UpdateGroupQuotasRequest {
   /** The GroupQuota name. The name should be unique for the provided context tenantId/MgId. */
   groupQuotaName: string;
   /** Properties */
-  properties?: GroupQuotasEntityBaseInput;
+  properties?: GroupQuotasEntityBaseInput | undefined;
 }
 export interface UpdateGroupQuotasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties */
-  properties?: GroupQuotasEntityBase;
+  properties?: GroupQuotasEntityBase | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateGroupQuotaSubscriptionRequest {
   /** Management Group Id. */
@@ -1114,39 +1114,39 @@ export interface UpdateGroupQuotaSubscriptionRequest {
 }
 export interface UpdateGroupQuotaSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: GroupQuotaSubscriptionIdProperties;
+  systemData?: SystemData | undefined;
+  properties?: GroupQuotaSubscriptionIdProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Subscription Quota details. */
 export interface SubscriptionQuotaDetailsInput {
   /** The resource name, such as SKU name. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** The total quota limit for the subscription. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Quota allocated to a subscription for the specific Resource Provider, Location, ResourceName. This will include the GroupQuota and total quota allocated to the subscription. Only the Group quota allocated to the subscription can be allocated back to the MG Group Quota. */
 export interface SubscriptionQuotaAllocationsInput {
   /** Quota properties for the specified resource. */
-  properties?: SubscriptionQuotaDetailsInput;
+  properties?: SubscriptionQuotaDetailsInput | undefined;
 }
 /** Subscription quota list. */
 export type SubscriptionQuotaAllocationsListPropertiesInputValueList =
   Array<SubscriptionQuotaAllocationsInput>;
 export interface SubscriptionQuotaAllocationsListPropertiesInput {
   /** Subscription quota list. */
-  value?: SubscriptionQuotaAllocationsListPropertiesInputValueList;
+  value?: SubscriptionQuotaAllocationsListPropertiesInputValueList | undefined;
 }
 export interface UpdateGroupQuotaSubscriptionAllocationRequestRequest {
   /** The management group ID. */
@@ -1159,24 +1159,24 @@ export interface UpdateGroupQuotaSubscriptionAllocationRequestRequest {
   resourceProviderName: string;
   /** The name of the Azure region. */
   location: string;
-  properties?: SubscriptionQuotaAllocationsListPropertiesInput;
+  properties?: SubscriptionQuotaAllocationsListPropertiesInput | undefined;
 }
 export interface UpdateGroupQuotaSubscriptionAllocationRequestResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SubscriptionQuotaAllocationsListProperties;
+  systemData?: SystemData | undefined;
+  properties?: SubscriptionQuotaAllocationsListProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateQuotaRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1184,21 +1184,21 @@ export interface UpdateQuotaRequest {
   /** Resource name for a given resource provider. For example: - SKU name for Microsoft.Compute - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices For Microsoft.Network PublicIPAddresses. */
   resourceName: string;
   /** Quota properties for the specified resource, based on the API called, Quotas or Usages. */
-  properties?: QuotaPropertiesInput;
+  properties?: QuotaPropertiesInput | undefined;
 }
 export interface UpdateQuotaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Quota properties for the specified resource, based on the API called, Quotas or Usages. */
-  properties?: QuotaProperties;
+  properties?: QuotaProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export type DeleteGroupQuotasError = AzureOpError;
 /** Deletes the GroupQuotas for the name passed. All the remaining shareQuota in the GroupQuotas will be lost. */
