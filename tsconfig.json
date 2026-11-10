@@ -150,6 +150,13 @@
       "path": "./packages/polar/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/polymarket/tsconfig.json"
+    },
+    { "path": "./packages/polymarket/tsconfig.test.json" },
+    {
+      "path": "./packages/polymarket/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/posthog/tsconfig.json"
     },
     {
