@@ -8,6 +8,7 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import { GrpcTransport } from "@distilled.cloud/core/grpc-transport";
+import * as CloudflareHttp2 from "@distilled.cloud/core/grpc-transport-cloudflare-http2";
 import * as NodeHttp2 from "@distilled.cloud/core/grpc-transport-node-http2";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -169,8 +170,8 @@ export const anonymous = (apiBaseUrl?: string): Layer.Layer<Credentials> =>
  * filesystem, snapshots, mounts) are served at a per-task URL with a JWT,
  * both returned by `sandboxGetCommandRouterAccess` /
  * `taskGetCommandRouterAccess`. The router speaks only HTTP/2, so `effect`
- * runs with core's HTTP/2 gRPC transport (`node:http2`; not available on
- * Cloudflare Workers).
+ * runs with one of core's HTTP/2 gRPC transports: `node:http2`, or on a
+ * Cloudflare Worker, HTTP/2 over a `cloudflare:sockets` socket.
  *
  * A server-streaming router call follows its output as it arrives with
  * `.stream` (`taskExecStdioRead.stream({ taskId, execId, offset: "0", ... })`);
@@ -191,7 +192,7 @@ export const withTaskCommandRouter =
   ): Effect.Effect<A, E, Exclude<R, Credentials | HttpClient.HttpClient>> =>
     Effect.flatMap(Effect.serviceOption(Credentials), (outer) =>
       effect.pipe(
-        Effect.provideService(GrpcTransport, NodeHttp2.client),
+        Effect.provideService(GrpcTransport, routerTransport()),
         Effect.provide(FetchHttpClient.layer),
         Effect.provideService(Credentials, routerCredentials(outer, access)),
       ),
@@ -216,12 +217,22 @@ export const streamTaskCommandRouter =
     Stream.unwrap(
       Effect.map(Effect.serviceOption(Credentials), (outer) =>
         stream.pipe(
-          Stream.provideService(GrpcTransport, NodeHttp2.client),
+          Stream.provideService(GrpcTransport, routerTransport()),
           Stream.provide(FetchHttpClient.layer),
           Stream.provideService(Credentials, routerCredentials(outer, access)),
         ),
       ),
     ) as Stream.Stream<A, E, Exclude<R, Credentials | HttpClient.HttpClient>>;
+
+/**
+ * A command router serves gRPC over HTTP/2 and nothing else. A Cloudflare
+ * Worker has no working `node:http2`, so there the calls go over HTTP/2 on a
+ * `cloudflare:sockets` socket.
+ */
+const routerTransport = (): HttpClient.HttpClient =>
+  typeof navigator !== "undefined" && navigator.userAgent === "Cloudflare-Workers"
+    ? CloudflareHttp2.client
+    : NodeHttp2.client;
 
 /** Where a task's command router serves, from `sandboxGetCommandRouterAccess`. */
 export interface RouterAccess {

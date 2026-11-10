@@ -18,9 +18,12 @@
  * - `@distilled.cloud/core/grpc-transport-cloudflare-sockets` speaks HTTP/1.1
  *   over a `cloudflare:sockets` TLS socket, for a Cloudflare Worker calling a
  *   gRPC server that is itself behind Cloudflare (a Worker's `fetch` to such
- *   a site takes Cloudflare's internal path, which resets gRPC upstreams).
+ *   a site takes Cloudflare's internal path, which resets gRPC upstreams);
+ * - `@distilled.cloud/core/grpc-transport-cloudflare-http2` speaks HTTP/2
+ *   over a `cloudflare:sockets` socket, for a Cloudflare Worker calling a
+ *   server that offers nothing else (workerd has no working `node:http2`).
  *
- * Neither is imported by this module, so a bundle only carries the one it
+ * None is imported by this module, so a bundle only carries the ones it
  * provides.
  */
 import * as Context from "effect/Context";
